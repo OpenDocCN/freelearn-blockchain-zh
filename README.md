@@ -8,22 +8,22 @@
 > 
 > 如果你能够学会飞翔，何必像其他人一样奔跑？你是要当一辈子懦夫，还是要当英雄，哪怕只有几分钟？
 
-* [在线阅读](https://bc.apachecn.org)
+* [在线阅读](https://bc.flygon.net)
 ## 下载
 
 ### Docker
 
 ```
-docker pull apachecn0/apachecn-blockchain-zh
-docker run -tid -p <port>:80 apachecn0/apachecn-blockchain-zh
+docker pull apachecn0/flygon-blockchain-zh
+docker run -tid -p <port>:80 apachecn0/flygon-blockchain-zh
 # 访问 http://localhost:{port} 查看文档
 ```
 
 ### NPM
 
 ```
-npm install -g apachecn-blockchain-zh
-apachecn-blockchain-zh <port>
+npm install -g flygon-blockchain-zh
+flygon-blockchain-zh <port>
 # 访问 http://localhost:{port} 查看文档
 ```
 
