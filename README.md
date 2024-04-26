@@ -1,4 +1,4 @@
-# 飞龙的区块链译文集
+# FreeLearn 区块链译文集
 
 > 协议：[CC BY-NC-SA 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/)
 > 
@@ -8,22 +8,22 @@
 > 
 > 如果你能够学会飞翔，何必像其他人一样奔跑？你是要当一辈子懦夫，还是要当英雄，哪怕只有几分钟？
 
-* [在线阅读](https://bc.flygon.net)
+* [在线阅读](https://flbc.flygon.net)
 ## 下载
 
 ### Docker
 
 ```
-docker pull apachecn0/flygon-blockchain-zh
-docker run -tid -p <port>:80 apachecn0/flygon-blockchain-zh
+docker pull apachecn0/freelearn-blockchain-zh
+docker run -tid -p <port>:80 apachecn0/freelearn-blockchain-zh
 # 访问 http://localhost:{port} 查看文档
 ```
 
 ### NPM
 
 ```
-npm install -g flygon-blockchain-zh
-flygon-blockchain-zh <port>
+npm install -g freelearn-blockchain-zh
+freelearn-blockchain-zh <port>
 # 访问 http://localhost:{port} 查看文档
 ```
 
