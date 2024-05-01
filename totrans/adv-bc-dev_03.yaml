@@ -1,48 +1,60 @@
 - en: Understanding How Ethereum Works
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: In this chapter, we will learn in depth about how Ethereum works and what we
     can develop using Ethereum. We will also see the important Ethereum clients and
     node implementations.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
 - en: 'In this chapter, we will cover the following topics:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
 - en: Ethereum user accounts
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: What are smart contracts and how do they work?
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Ethereum virtual machine
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: How does mining work in the proof-of-work consensus protocol?
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Learning how to use the geth command
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Setting up the Ethereum Wallet and Mist
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Overview of Whisper and Swarm
+  id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: The future of Ethereum
+  id: totrans-10
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Overview of Ethereum
+  id: totrans-11
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -53,12 +65,14 @@
     or third party interface. In Ethereum, smart contracts can be written in several
     programming languages, including Solidity, LLL, and Serpent. Solidity is the most
     popular of those languages.
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
 - en: Ethereum has an internal currency called ether. To deploy smart contracts or
     to call their methods, we need ether. There can be multiple instances of a smart
     contract just like any other DApp, and each instance is identified by its unique
     address. Both user accounts and smart contracts can hold ether.
+  id: totrans-13
   prefs: []
   type: TYPE_NORMAL
 - en: 'Ethereum uses blockchain data structure and proof-of-work consensus protocol.
@@ -66,9 +80,11 @@
     There are two kinds of nodes in the network: regular nodes and miners. Regular
     nodes are the ones that just have a copy of the blockchain, whereas miners build
     the blockchain by mining blocks.'
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
 - en: Ethereum accounts
+  id: totrans-15
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -79,37 +95,45 @@
     the `secp256k1` parameter. To go in depth about ECC and its parameters will require
     mathematical knowledge, and it's not necessary to understand it in depth for building
     DApps using Ethereum.
+  id: totrans-16
   prefs: []
   type: TYPE_NORMAL
 - en: Ethereum uses 256-bit encryption. An Ethereum private/public key is a 256-bit
     number. As processors cannot represent such big numbers, it's encoded as a hexadecimal
     string of length 64.
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
 - en: 'Every account is represented by an address. Once we have the keys we need to
     generate the address, here is the procedure to generate the address from the public
     key:'
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
 - en: First, generate the `keccak-256` hash of the public key. It will give you a
     256-bit number.
+  id: totrans-19
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Drop the first 96 bits, that is, 12 bytes. You should now have 160 bits of binary
     data, that is, 20 bytes.
+  id: totrans-20
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Now encode the address as a hexadecimal string. So finally, you will have a
     bytestring of 40 characters, which is your account address.
+  id: totrans-21
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Now anyone can send ether to this address.
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
 - en: Transactions
+  id: totrans-23
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -127,14 +151,17 @@
     of gas used and gas price is called transaction fees. To send ether or to execute
     a contract method, you need to broadcast a transaction to the network. The sender
     needs to sign the transaction with its private key.
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
 - en: A transaction is said to be confirmed if we are sure that it will always appear
     in the blockchain. It is recommended to wait for 15 confirmations before assuming
     a transaction to be confirmed.
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
 - en: Consensus
+  id: totrans-26
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -142,6 +169,7 @@
     make sure that nodes cannot tamper with the blockchain, and we also need a mechanism
     to check whether a block is valid or not. And also, if we encounter two different
     valid blockchains, we need to have a way to find out which one to choose.
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
 - en: Ethereum uses the proof-of-work consensus protocol to keep the blockchain tamper-proof.
@@ -153,6 +181,7 @@
     the same set of algorithms. They may differ in terms of what the puzzle miners
     need to solve, how difficult the puzzle is, how much time it takes to solve it,
     and so on. We will learn about proof-of-work with respect to Ethereum.
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
 - en: Anyone can become a miner in the network. Every miner solves the puzzle individually;
@@ -165,15 +194,19 @@
     behaves like a lottery system, and processing power can be thought as the number
     of lottery tickets a person has. Networks security is not measured by total number
     of miners; instead, it's measured by the total processing power of the network.
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 任何人都可以成为网络中的矿工。每个矿工都单独解决谜题；第一个解决谜题的矿工是赢家，并获得五个以太和该区块中所有交易的交易费用。如果您拥有比网络中其他任何节点更强大的处理器，并不意味着您总是会成功，因为各个矿工的谜题参数并不完全相同。但是，相反，如果您拥有比网络中其他任何节点更强大的处理器，这将增加您成功的机会。工作量证明的行为就像是一个抽奖系统，处理能力可以被看作是一个人持有的抽奖券数量。网络安全性不是由矿工的总数来衡量；而是由网络的总处理能力来衡量。
 - en: There is no limit to the number of blocks the blockchain can have, and there
     is no limit to the total ether that can be produced. Once a miner successfully
     mines a block, it broadcasts the block to all other nodes in the network. A block
     has a header and a set of transactions. Every block holds hash of the previous
     block, thereby creating a connected chain.
+  id: totrans-30
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链可以拥有的区块数量没有限制，也没有总以太能够产生的限制。一旦一个矿工成功挖矿，他将向网络中的所有其他节点广播该区块。一个区块包含一个头部和一组交易。每个区块持有上一个区块的哈希，从而创建了一个连接的链。
 - en: 'Let''s see what the puzzle the miners need to solve is and how it''s solved
     at a high level. To mine a block, first of all, a miner collects the new un-mined
     transactions broadcasted to it, and then it filters out the not-valid transactions.
@@ -192,20 +225,27 @@
     to make it easier to deal with. The lower the target, the more time it takes to
     find the nonce, and the higher the target, the less time it takes to find the
     nonce. Here is the formula to calculate the difficulty of the puzzle:'
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们来看看矿工需要解决的谜题是什么，以及在高层次上是如何解决的。为了挖矿，首先，矿工收集新的未挖掘的交易广播到它，然后过滤掉无效的交易。要使交易有效，必须使用私钥正确签名，账户必须有足够的余额进行交易，等等。现在矿工创建一个区块，它包括头部和内容。内容是区块包含的交易列表。头部包含上一个区块的哈希、区块编号、随机数、目标、时间戳、难度、矿工的地址等等。时间戳代表区块初始时刻。然后，随机数是一个无意义的值，它被调整以找到谜题的解决方案。这个谜题基本上就是找到这样的随机数值，当区块被哈希时，哈希值小于或等于目标值。以太坊使用ethash哈希算法。找到随机数的唯一方法是枚举所有可能性。目标值是一个256位数，它基于各种因素计算得出。头部中的难度值是目标的不同表示，使之更容易处理。目标值越低，找到随机数所需的时间越长，目标值越高，则找到随机数所需的时间越短。这里是计算谜题难度的公式：
 - en: '[PRE0]'
+  id: totrans-32
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: Now any node in the network can check whether the blockchain they have is valid
     or not by first checking whether the transactions in the blockchain are valid,
     the timestamp validation, then whether the target and nonce of all the blocks
     are valid, a miner has assigned a valid reward itself, and so on.
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，网络中的任何节点都可以通过首先检查区块链中的交易是否有效、时间戳验证、然后检查所有区块的目标和随机数是否有效、矿工是否分配了有效的奖励，等等来检查他们拥有的区块链是否有效。
 - en: If a node in the network receives two different valid blockchains, then the
     blockchain whose combined difficulty of all blocks is higher is considered to
     be the valid blockchain.
+  id: totrans-34
   prefs: []
   type: TYPE_NORMAL
 - en: Now, for example, if a node in the network alters some transactions in a block,
@@ -213,9 +253,11 @@
     time it re-finds the nonce of the succeeding blocks, the network would have mined
     many more blocks and therefore reject this blockchain as its combined difficulty
     would be lower.
+  id: totrans-35
   prefs: []
   type: TYPE_NORMAL
 - en: Timestamp
+  id: totrans-36
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -237,9 +279,11 @@
     malicious miner will have a lower difficulty than the blockchain the network has.
     Due to these reasons, miners always use accurate timestamps, otherwise they gain
     nothing.
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
 - en: Nonce
+  id: totrans-38
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -247,6 +291,7 @@
     A miner keeps incrementing the nonce until it finds the solution. Now you must
     be wondering if there is a miner who has hash power more than any other miner
     in the network, would the miner always find nonce first? Well, it wouldn't.
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
 - en: The hash of the block that the miners are mining is different for every miner
@@ -255,9 +300,11 @@
     not a race to solve the puzzle; rather, it's a lottery system. But of course,
     a miner is likely to get lucky depending on its hash power, but that doesn't mean
     the miner will always find the next block.
+  id: totrans-40
   prefs: []
   type: TYPE_NORMAL
 - en: Block time
+  id: totrans-41
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -266,6 +313,7 @@
     is between 10-20 seconds. But why is it 10-20 seconds and not some other value?
     And why there such a constant time difference restriction instead of a constant
     difficulty?
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
 - en: Imagine that we have a constant difficulty, and miners just need to find a nonce
@@ -283,6 +331,7 @@
     will have the ability to control the DApp. It is not possible to find a constant
     difficulty value that can make the network stable because the network's computational
     power is not constant.
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
 - en: Now we know why we should always have an average time for how long it should
@@ -292,6 +341,7 @@
     can be achieved by increasing the difficulty. But what are the merits and demerits
     of a lower and higher average time? Before we discuss this, we need to first know
     what stale blocks are.
+  id: totrans-44
   prefs: []
   type: TYPE_NORMAL
 - en: What happens if two miners mine the next block at nearly the same time? Both
@@ -300,6 +350,7 @@
     is a common issue, the solution is simple. In the end, the blockchain with the
     higher difficulty will be the one accepted by the network. So the valid blocks
     that are finally left out are called stale blocks.
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
 - en: The total number of stale blocks produced in the network is inversely proportional
@@ -314,6 +365,7 @@
     block can be propagated and the other miners can stop mining that block and proceed
     towards mining the next block. If stale blocks occur frequently in the network,
     they cause major issues, but if they occur rarely, they do no harm.
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
 - en: But what's the problem with stale blocks? Well, they delay the confirmation
@@ -323,6 +375,7 @@
     appeared may be stale. And we should wait for a few more blocks to be mined. Due
     to stale blocks, the average confirmation time is not equal to average block generation
     time.
+  id: totrans-47
   prefs: []
   type: TYPE_NORMAL
 - en: Do stale blocks impact blockchain security? Yes, they do. We know that the network's
@@ -342,6 +395,7 @@
     as it took more time than the average block time to mine the block. The decrease
     in difficulty impacts the overall blockchain security. If the stale rate is too
     high, it will affect the blockchain security by a huge margin.
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
 - en: Ethereum tackles the security issue caused by stale blocks using something known
@@ -356,16 +410,20 @@
     in the stale blocks are not used for calculating confirmations, and also, the
     stale block miners don't receive the transaction fees of the transactions included
     in the stale blocks. Note that Ethereum calls stale blocks uncle blocks.
+  id: totrans-49
   prefs: []
   type: TYPE_NORMAL
 - en: 'Here is the formula to calculate how much reward a miner of a stale block receives.
     The rest of the reward goes to the nephew block, that is, the block that includes
     the orphan block:'
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE1]'
+  id: totrans-51
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: As not rewarding the miners of stale blocks doesn't harm any security, you must
     be wondering why miners of stale blocks get rewarded? Well, there is another issue
     caused when stale blocks occur frequently in the network, which is solved by rewarding
@@ -382,17 +440,21 @@
     but much more than it should get, we don't award stale block miners the same as
     the nephew block; instead, we award a lesser amount to balance it. The preceding
     formula balances it pretty well.
+  id: totrans-52
   prefs: []
   type: TYPE_NORMAL
 - en: Ghost limits the total number of stale blocks a nephew can reference so that
     miners don't simply mine stale blocks and stall the blockchain.
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
 - en: So wherever a stale block appears in the network, it somewhat affects the network.
     The more the frequency of stale blocks, the more the network is affected by it.
+  id: totrans-54
   prefs: []
   type: TYPE_NORMAL
 - en: Forking
+  id: totrans-55
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -400,11 +462,13 @@
     the validity of a blockchain, that is, more than one blockchain happens to be
     in the network, and every blockchain is validated for some miners. There are three
     kinds of forks: regular forks, soft fork, and hard fork.'
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
 - en: A regular fork is a temporary conflict occurring due to two or more miners finding
     a block at nearly the same time. It's resolved when one of them has more difficulty
     than the other.
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
 - en: A change to the source code could cause conflicts. Depending on the type of
@@ -418,12 +482,15 @@
     have more difficulty and finally get accepted by the whole network. An example
     of a hard fork would be an if update in the source code was to change the rewards
     for miners, then all the miners needs to upgrade to resolve the conflict.
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
 - en: Ethereum has gone through various hard and soft forks since its release.
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
 - en: Genesis block
+  id: totrans-60
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -431,6 +498,7 @@
     number 0\. It's the only block in the blockchain that doesn't reference to a previous
     block because there isn't any. It doesn't hold any transactions because there
     isn't any ether produced yet.
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
 - en: Two nodes in a network will only pair with each other if they both have the
@@ -439,57 +507,71 @@
     genesis block of high difficulty cannot replace a lower difficult one. Every node
     generates its own genesis block. For various networks, the genesis block is hardcoded
     into the client.
+  id: totrans-62
   prefs: []
   type: TYPE_NORMAL
 - en: Ether denominations
+  id: totrans-63
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'Ether has various denominations just like any other currency. Here are the
     denominations:'
+  id: totrans-64
   prefs: []
   type: TYPE_NORMAL
 - en: 1 Ether = 1000000000000000000 Wei
+  id: totrans-65
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 1 Ether = 1000000000000000 Kwei
+  id: totrans-66
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 1 Ether = 1000000000000 Mwei
+  id: totrans-67
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 1 Ether = 1000000000 Gwei
+  id: totrans-68
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 1 Ether = 1000000 Szabo
+  id: totrans-69
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 1 Ether = 1000 Finney
+  id: totrans-70
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 1 Ether = 0.001 Kether
+  id: totrans-71
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 1 Ether = 0.000001 Mether
+  id: totrans-72
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 1 Ether = 0.000000001 Gether
+  id: totrans-73
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 1 Ether = 0.000000000001 Tether
+  id: totrans-74
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Ethereum virtual machine
+  id: totrans-75
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -499,6 +581,7 @@
     the same calculations and stores the same values. Transactions that only transfer
     ether also require some calculation, that is, to find out whether the address
     has a balance or not and deduct the balance accordingly.
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
 - en: Every node executes the transactions and stores the final state due to various
@@ -507,6 +590,7 @@
     is broadcasted to the network. For any node in the network to display details
     of everyone attending the party, they simply need to read the final state of the
     contract.
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
 - en: Every transaction requires some computation and storage in the network. Therefore,
@@ -515,6 +599,7 @@
     no reason to include transactions in blocks, and they will start mining empty
     blocks. Every transaction requires different amount of computation and storage;
     therefore, every transaction has different transaction costs.
+  id: totrans-78
   prefs: []
   type: TYPE_NORMAL
 - en: There are two implementations of EVM, that is, byte-code VM and JIT-VM. At the
@@ -522,9 +607,11 @@
     still not completed. In either case, the Solidity code is compiled to byte code.
     In the case of JIT-VM, the byte code is further compiled. JIT-VM is more efficient
     than it's counterpart.
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
 - en: Gas
+  id: totrans-80
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -536,6 +623,7 @@
     are reverted, except that the transaction is still valid and the fee (that is,
     the product of the maximum gas that can be used and gas price) can still be collected
     by the miner.
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
 - en: The miners decide the gas price (that is, price per computation). If a transaction
@@ -543,23 +631,28 @@
     to mine the transaction. The gas price is an amount in a wei unit. So, a miner
     can refuse to include a transaction in a block if the gas price is lower than
     what it needs.
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
 - en: Each operation in EVM is assigned a number of how much gas it consumes.
+  id: totrans-83
   prefs: []
   type: TYPE_NORMAL
 - en: Transaction costs affect the maximum ether an account can transfer to another
     account. For example, if an account has an ether balance of five, it cannot transfer
     all five ethers to another account because if all ethers are transferred, there
     would be no balance in the account to deduct transaction fees from.
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
 - en: If a transaction invokes a contract method and the method sends some ether or
     invokes some other contract method, the transaction fee is deducted from the account
     that invoked the contract method.
+  id: totrans-85
   prefs: []
   type: TYPE_NORMAL
 - en: Peer discovery
+  id: totrans-86
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -568,6 +661,7 @@
     transactions/blocks. A node doesn't need to connect to every node in the network;
     instead, a node connects to a few other nodes. And these nodes connect to a few
     other nodes. In this way, the whole network is connected to each other.
+  id: totrans-87
   prefs: []
   type: TYPE_NORMAL
 - en: But how does a node find some other nodes in the network as there is no central
@@ -580,6 +674,7 @@
     nodes ,which share the lists of peers that have connected to them in the last
     predefined time period. The connecting peers then connect and synchronize with
     the peers.
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
 - en: There can be various Ethereum instances, that is, various networks, each having
@@ -587,25 +682,30 @@
     mainnet one is the one whose ether is traded on exchanges, whereas testnet is
     used by developers to test. Until now, we have learned everything with regards
     to the mainnet blockchain.
+  id: totrans-89
   prefs: []
   type: TYPE_NORMAL
 - en: Bootnode is the most popular implementation of an Ethereum Bootstrap node. If
     you want to host your own Bootstrap node, you can use bootnode.
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
 - en: Whisper and Swarm
+  id: totrans-91
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Whisper and Swarm are a decentralized communication protocol and a decentralized
     storage platform respectively, being developed by Ethereum developers. Whisper
     is a decentralized communication protocol, whereas Swarm is a decentralized filesystem.
+  id: totrans-92
   prefs: []
   type: TYPE_NORMAL
 - en: Whisper lets nodes in the network communicate with each other. It supports broadcasting,
     user-to-user, encrypted messages, and so on. It's not designed to transfer bulk
     data. You can learn more about Whisper at [https://github.com/ethereum/wiki/wiki/Whisper](https://github.com/ethereum/wiki/wiki/Whisper),
     and you can see a code example overview at [https://github.com/ethereum/wiki/wiki/Whisper-Overview](https://github.com/ethereum/wiki/wiki/Whisper-Overview).
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
 - en: Swarm is similar to Filecoin, that is, it differs mostly in terms of technicalities
@@ -621,32 +721,51 @@
     stores. You can learn more about the difference between Swarm and IPFS/Filecoin
     at [https://github.com/ethersphere/go-ethereum/wiki/IPFS-&-SWARM](https://github.com/ethersphere/go-ethereum/wiki/IPFS-&-SWARM) 
     and see the smart contract code at [https://github.com/ethersphere/go-ethereum/blob/bzz-config/bzz/bzzcontract/swarm.sol](https://github.com/ethersphere/go-ethereum/blob/bzz-config/bzz/bzzcontract/swarm.sol).
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: Swarm 类似于 Filecoin，主要在技术和激励方面有所不同。Filecoin 不惩罚存储，而 Swarm 则会惩罚存储；因此，这会进一步增加文件的可用性。你可能想知道激励在
+    Swarm 中是如何运作的。它是否有内部货币？实际上，Swarm 没有内部货币，而是使用以太坊作为激励。以太坊中有一个智能合约，用于跟踪激励。显然，智能合约无法与
+    Swarm 通信；取而代之的是，Swarm 与智能合约通信。因此，你通过智能合约向存储支付费用，并且在到期日期后，支付会释放给存储。你还可以向智能合约报告文件丢失的情况，这样智能合约可以惩罚相应的存储。你可以在
+    [https://github.com/ethersphere/go-ethereum/wiki/IPFS-&-SWARM](https://github.com/ethersphere/go-ethereum/wiki/IPFS-&-SWARM)
+    了解更多关于 Swarm 和 IPFS/Filecoin 的区别，并在 [https://github.com/ethersphere/go-ethereum/blob/bzz-config/bzz/bzzcontract/swarm.sol](https://github.com/ethersphere/go-ethereum/blob/bzz-config/bzz/bzzcontract/swarm.sol)
+    查看智能合约代码。
 - en: At the time of writing this book, Whisper and Swarm are still under development;
     so, many things are still not clear.
+  id: totrans-95
   prefs: []
   type: TYPE_NORMAL
+  zh: 在撰写本书时，Whisper 和 Swarm 仍在开发中；因此，还有许多事情不明朗。
 - en: Geth
+  id: totrans-96
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Geth
 - en: Geth (or called as go-ethereum) is an implementation of Ethereum, Whisper, and
     Swarm nodes. Geth can be used to be part of all of these or only selected ones.
     The reason for combining them is to make them look like a single DApp and also
     so that via one node, a client can access all three DApps.
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth（也称为 go-ethereum）是以太坊、Whisper 和 Swarm 节点的实现。Geth 可用于成为它们中的所有部分，也可以只选择其中的某些部分。将它们合并的原因是使它们看起来像一个单一的
+    DApp，还可以通过一个节点，客户端就可以访问这三个 DApp。
 - en: Geth is a CLI application. It's written in the go programming language. It's
     available for all the major operating systems. The current version of geth doesn't
     yet support Swarm and supports whisper a some of the features of Whisper. At the
     time of writing this book, the latest version of geth was 1.3.5.
+  id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth 是一个 CLI 应用程序。它是用 go 编程语言编写的。它适用于所有主要操作系统。当前版本的 geth 尚不支持 Swarm，仅支持 Whisper
+    的一些功能。在撰写本书时，最新版本的 geth 是 1.3.5。
 - en: Installing geth
+  id: totrans-99
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 安装 Geth
 - en: 'Geth is available for OS X, Linux, and Windows. It supports two types of installation:
     binary and scripted installation. At the time of writing this book, the latest
     stable version of geth is 1.4.13\. Let''s see how to install it in various operating
@@ -654,143 +773,207 @@
     you have to modify something in the geth source code and install it. We don''t
     want to make any changes to the source code, therefore, we will go with binary
     installation.'
+  id: totrans-100
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth 适用于 OS X、Linux 和 Windows。它支持两种安装类型：二进制安装和脚本安装。在撰写本书时，geth 的最新稳定版本是 1.4.13\.
+    让我们看看如何在各种操作系统中使用二进制安装方法安装它。当需要修改 geth 源代码并安装它时，使用脚本安装。由于我们不想对源代码做任何更改，因此我们将选择二进制安装。
 - en: OS X
+  id: totrans-101
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: OS X
 - en: 'The recommended way of installing geth in OS X is using brew. Run these two
     commands in the terminal to install geth:'
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 OS X 中安装 geth 的推荐方法是使用 brew。在终端中运行以下两个命令来安装 geth：
 - en: '[PRE2]'
+  id: totrans-103
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: Ubuntu
+  id: totrans-104
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Ubuntu
 - en: 'The recommended way to install geth in Ubuntu is to use `apt-get`. Run these
     commands in Ubuntu terminal to install geth:'
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Ubuntu 中安装 geth 的推荐方法是使用 `apt-get`。在 Ubuntu 终端中运行以下命令来安装 geth：
 - en: '[PRE3]'
+  id: totrans-106
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: Windows
+  id: totrans-107
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Windows
 - en: Geth comes as an executable file for Windows. Download the zip file from [https://github.com/ethereum/go-ethereum/wiki/Installation-instructions-for-Windows](https://github.com/ethereum/go-ethereum/wiki/Installation-instructions-for-Windows),
     and extract it. Inside it, you will find the `geth.exe` file.
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth作为Windows的可执行文件提供。从[https://github.com/ethereum/go-ethereum/wiki/Installation-instructions-for-Windows](https://github.com/ethereum/go-ethereum/wiki/Installation-instructions-for-Windows)下载zip文件，并解压缩。在其中，您将找到`geth.exe`文件。
 - en: To find more about installing geth on various operating systems, visit [https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum](https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum).
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 要了解有关在各种操作系统上安装geth的更多信息，请访问[https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum](https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum)。
 - en: JSON-RPC and JavaScript console
+  id: totrans-110
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: JSON-RPC 和 JavaScript 控制台
 - en: 'Geth provides JSON-RPC APIs for other applications to communicate with it.
     Geth serves JSON-RPC APIs using HTTP, WebSocket, and other protocols. The APIs
     provided by JSON-RPC are divided into these categories: admin, debug, eth, miner,
     net, personal, shh, txpool, and web3\. You can find more information about it
     these [https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console](https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console).'
+  id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth为其他应用程序提供了使用JSON-RPC与其通信的JSON-RPC API。Geth使用HTTP、WebSocket和其他协议提供JSON-RPC
+    API。JSON-RPC提供的API分为以下类别：admin、debug、eth、miner、net、personal、shh、txpool和web3。您可以在这里找到更多关于它的信息 [https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console](https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console)。
 - en: Geth also provides an interactive JavaScript console to interact with it programmatically
     using JavaScript APIs. This interactive console uses JSON-RPC over IPC to communicate
     with geth. We will learn more about the JSON-RPC and the JavaScript APIs in later
     chapters.
+  id: totrans-112
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth还提供了一个交互式JavaScript控制台，使用JavaScript API以编程方式与其交互。此交互式控制台使用IPC上的JSON-RPC与geth进行通信。我们将在后续章节中更多地了解有关JSON-RPC和JavaScript
+    API的内容。
 - en: Sub-commands and options
+  id: totrans-113
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 子命令和选项
 - en: Let's learn some of the important sub-commands and options of the geth command
     using examples. You can find the list of all sub-commands and options by using
     the help sub-command. We will see a lot more about geth and its commands throughout
     the following chapters.
+  id: totrans-114
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们使用示例学习geth命令的一些重要子命令和选项。您可以使用帮助子命令找到所有子命令和选项的列表。我们将在接下来的章节中了解更多关于geth及其命令的内容。
 - en: Connecting to the mainnet network
+  id: totrans-115
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 连接到主网网络
 - en: Nodes in the Ethereum network, by default, communicate using `30303` port. But
     nodes are also free to listen on some other port numbers.
+  id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊网络中的节点默认使用`30303`端口进行通信。但是节点也可以自由监听其他端口号。
 - en: 'To connect to the mainnet network, you just need to run the `geth` command.
     Here is an example of how to specify the network ID explicitly and specify a custom
     directory where geth will store the downloaded blockchain:'
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 要连接到主网网络，只需运行`geth`命令。以下是如何明确指定网络ID并指定geth将存储下载的区块链的自定义目录的示例：
 - en: '[PRE4]'
+  id: totrans-118
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: The `--datadir` option is used to specify where to store the blockchain. If
     it's not provided, the default path is `$HOME/.ethereum`.
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: '`--datadir`选项用于指定存储区块链的位置。如果未提供， 默认路径为`$HOME/.ethereum`。'
 - en: '`--networkid` is used to specify the network ID. 1 is the ID of the mainnet
     network. If it''s not provided, the default value is 1\. The network ID of testnet
     is 2.'
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: '`--networkid`用于指定网络ID。1是主网网络的ID。如果未提供，默认值为1。测试网的网络ID为2。'
 - en: Creating a private network
+  id: totrans-121
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建私有网络
 - en: To create a private network, you just need to give a random network ID. Private
     networks are usually created for development purposes. Geth also provide various
     flags related to logging and debugging, which are useful during development. So,
     instead of giving a random network ID and putting the various logging and debugging
     flags, we can simply use the `--dev` flag, which runs a private network with various
     debugging and logging flags enabled.
+  id: totrans-122
   prefs: []
   type: TYPE_NORMAL
+  zh: 要创建私有网络，只需提供一个随机网络ID。私有网络通常是为开发目的创建的。Geth还提供了与日志记录和调试相关的各种标志，在开发过程中非常有用。因此，我们可以使用`--dev`标志，而不是提供一个随机网络ID和放置各种日志记录和调试标志，它会启动一个私有网络并启用各种调试和日志记录标志。
 - en: Creating accounts
+  id: totrans-123
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建账户
 - en: 'Geth also lets us create accounts, that is, generate keys and addresses associated
     with them. To create an account, use the following command:'
+  id: totrans-124
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth还可以让我们创建账户，即生成与其关联的密钥和地址。要创建账户，请使用以下命令：
 - en: '[PRE5]'
+  id: totrans-125
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: When you run this command, you will be asked to enter a password to encrypt
     your account. If you forget your password, there is no way to access your account.
+  id: totrans-126
   prefs: []
   type: TYPE_NORMAL
 - en: 'To get a list of all accounts in your local Wallet, use the following command:'
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE6]'
+  id: totrans-128
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: The preceding command will print a list of all the addresses of the accounts.
     Keys are, by default, stored in the `--datadir` path, but you can use the `--keystore`
     option to specify a different directory.
+  id: totrans-129
   prefs: []
   type: TYPE_NORMAL
 - en: Mining
+  id: totrans-130
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'By default, geth doesn''t start mining. To instruct geth to start mining, you
     just need to provide the `--mine` option. There are a few other options related
     to mining:'
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE7]'
+  id: totrans-132
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: Here, along with the `--mine` option, we have provided various other options.
     The `--minerthreads` option specifies the total number of threads to use while
     hashing. By default, eight threads are used. Etherbase is the address to which
@@ -801,14 +984,17 @@
     is required to deposit the mining rewards. One or more accounts can be unlocked
     using the -unlock option. Multiple addresses can be provided by separating the
     addresses using comma.
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
 - en: '`--minergpus` is used to specify the GPUs to use for mining. To get the list
     of GPUs, use the `geth gpuinfo` command. For each GPU, you need to have 1-2 GB
     of RAM. By default, it doesn''t use GPUs, instead only CPU.'
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
 - en: Fast synchronization
+  id: totrans-135
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -816,6 +1002,7 @@
     it may take several hours or days if you have a slow Internet connection. Ethereum
     implements a fast synchronization algorithm, which can download the blockchain
     faster.
+  id: totrans-136
   prefs: []
   type: TYPE_NORMAL
 - en: Fast synchronization doesn't download the entire blocks; instead, it only downloads
@@ -823,10 +1010,12 @@
     don't have to download and replay all transactions. To check blockchain integrity,
     the algorithm downloads a full block after every defined number of blocks. To
     learn more about fast synchronization algorithm, visit [https://github.com/ethereum/go-ethereum/pull/1889](https://github.com/ethereum/go-ethereum/pull/1889).
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
 - en: To use fast sync while downloading the blockchain, you need to use the `--fast`
     flag while running geth.
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
 - en: Due to security reasons, fast sync will only run during an initial sync (that
@@ -835,22 +1024,29 @@
     feature, if a fast sync fails close to or after the random pivot point, it is
     disabled as a safety precaution, and the node reverts to full, block-processing-based
     synchronization.
+  id: totrans-139
   prefs: []
   type: TYPE_NORMAL
 - en: Ethereum Wallet
+  id: totrans-140
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Ethereum Wallet is an Ethereum UI client that lets you create account, send
     ether, deploy contracts, invoke methods of contracts, and much more.
+  id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊钱包是一个以太坊 UI 客户端，它让你创建账户、发送以太币、部署合约、调用合约方法等。
 - en: Ethereum Wallet comes with geth bundled. When you run Ethereum, it tries to
     find a local geth instance and connects to it, and if it cannot find geth running,
     it launches its own geth node. Ethereum Wallet communicates with geth using IPC.
     Geth supports file-based IPC.
+  id: totrans-142
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊钱包已捆绑了 geth。当你运行以太坊时，它会尝试找到本地的 geth 实例并连接到它，如果找不到正在运行的 geth，则启动自己的 geth 节点。以太坊钱包使用
+    IPC 与 geth 通信。Geth 支持基于文件的 IPC。
 - en: If you change the data directory while running geth, you are also changing the
     IPC file path. So for Ethereum Wallet to find and connect to your geth instance,
     you need to use the `--ipcpath` option to specify the IPC file location to its
@@ -858,86 +1054,126 @@
     won't be able to find it and will start its own geth instance. To find the default
     IPC file path, run geth help, and it will show the default path next to the `--ipcpath`
     option.
+  id: totrans-143
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果在运行 geth 时更改数据目录，则也会更改 IPC 文件路径。因此，为了让以太坊钱包找到并连接到你的 geth 实例，你需要使用 `--ipcpath`
+    选项来指定 IPC 文件的位置到其默认位置，这样以太坊钱包才能找到它；否则以太坊钱包将无法找到它并将启动自己的 geth 实例。要找到默认的 IPC 文件路径，请运行
+    geth 帮助命令，它将在 `--ipcpath` 选项旁边显示默认路径。
 - en: 'Visit [https://github.com/ethereum/mist/releases](https://github.com/ethereum/mist/releases) 
     to download Ethereum Wallet. It''s available for Linux, OS X, and Windows. Just
     like geth, it has two installation modes: binary and scripted installation.'
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: 访问[https://github.com/ethereum/mist/releases](https://github.com/ethereum/mist/releases)下载以太坊钱包。它适用于
+    Linux、OS X 和 Windows。就像 geth 一样，它有两种安装模式：二进制和脚本安装。
 - en: 'Here is an image that shows what Ethereum Wallet looks like:'
+  id: totrans-145
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里有一张显示以太坊钱包外观的图片：
 - en: '![](img/d4bac8f9-e102-48f9-ada1-1d635a23eef0.png)'
+  id: totrans-146
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/d4bac8f9-e102-48f9-ada1-1d635a23eef0.png)'
 - en: Mist
+  id: totrans-147
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Mist
 - en: Mist is a client for Ethereum, Whisper, and Swarm. It lets us send transactions,
     send Whisper messages, inspect blockchains, and so on.
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: Mist 是以太坊、Whisper 和 Swarm 的客户端。它让我们发送交易、发送 Whisper 消息、检查区块链等。
 - en: The relation between Mist and geth is similar to the relation between Ethereum
     Wallet and geth.
+  id: totrans-149
   prefs: []
   type: TYPE_NORMAL
+  zh: Mist 和 geth 之间的关系类似于以太坊钱包和 geth 之间的关系。
 - en: The most popular feature of Mist is that it comes with a browser. Currently,
     the frontend JavaScript running in the browser can access the web3 APIs of the
     geth node using the `web3.js` library (a library that provides Ethereum console's
     JavaScript APIs for other applications to communicate with geth).
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
+  zh: Mist 最受欢迎的特点是它带有一个浏览器。目前，运行在浏览器中的前端 JavaScript 可以使用 `web3.js` 库（一种为其他应用程序与 geth
+    通信提供以太坊控制台 JavaScript API 的库）访问 geth 节点的 web3 API。
 - en: The basic idea of Mist is to build the third generation web (Web 3.0), which
     would wipe out the need to have servers by using Ethereum, Whisper, and Swarm
     as replacements for centralized servers.
+  id: totrans-151
   prefs: []
   type: TYPE_NORMAL
+  zh: Mist 的基本思想是构建第三代互联网（Web 3.0），它将通过使用以太坊、Whisper 和 Swarm 作为替代中心化服务器来消除对服务器的需求。
 - en: 'Here is an image, showing what Mist looks like:'
+  id: totrans-152
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里有一张显示 Mist 外观的图片：
 - en: '![](img/fc8d479c-df07-47f1-b062-5e7437e9736c.png)'
+  id: totrans-153
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/fc8d479c-df07-47f1-b062-5e7437e9736c.png)'
 - en: Weaknesses
+  id: totrans-154
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 弱点
 - en: Every system has some weaknesses. Similarly, Ethereum also has some weaknesses.
     Obviously, just like any other application, Ethereum source code can have bugs.
     And also just like any other network-based application, Ethereum is also exposed
     to DoS attacks. But let's see the unique and most important weaknesses of Ethereum.
+  id: totrans-155
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个系统都有一些弱点。同样，以太坊也有一些弱点。显然，就像任何其他应用程序一样，以太坊源代码可能会有漏洞。而且就像任何其他基于网络的应用程序一样，以太坊也容易受到
+    DoS 攻击。但让我们来看看以太坊的独特和最重要的弱点。
 - en: Sybil attack
+  id: totrans-156
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Sybil 攻击
 - en: An attacker can attempt to fill the network with regular nodes controlled by
     him; you would then be very likely to connect only to the attacker nodes. Once
     you have connected to the attacker nodes, the attacker can refuse to relay blocks
     and transactions from everyone, thereby disconnecting you from the network. The
     attacker can relay only blocks that he creates, thereby putting you on a separate
     network, and so on.
+  id: totrans-157
   prefs: []
   type: TYPE_NORMAL
+  zh: 攻击者可以尝试用自己控制的常规节点填满网络；然后你很可能只会连接到攻击者节点。一旦你连接到攻击者节点，攻击者可以拒绝中继来自所有人的区块和交易，从而将你与网络断开。攻击者只能中继他自己创建的区块，从而将你置于一个单独的网络中，依此类推。
 - en: 51% attack
+  id: totrans-158
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 51% 攻击
 - en: If the attacker controls more than half of the network hashrate, the attacker
     can generate blocks faster than the rest of the network. The attacker can simply
     preserve his private fork until it becomes longer than the branch built by the
     honest network and then broadcast it.
+  id: totrans-159
   prefs: []
   type: TYPE_NORMAL
 - en: With more than 50% of hash power, the miner can reverse transactions, prevent
     all/some transactions from getting mined, and prevent other miners' mined blocks
     from getting inserted to the blockchain.
+  id: totrans-160
   prefs: []
   type: TYPE_NORMAL
 - en: Serenity
+  id: totrans-161
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -946,9 +1182,11 @@
     fork. Serenity will change the consensus protocol to casper, and will integrate
     state channels and sharding. Complete details of how these will work is still
     unclear at this point of time. Let's see a high level overview of what these are.
+  id: totrans-162
   prefs: []
   type: TYPE_NORMAL
 - en: Payment and state channels
+  id: totrans-163
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -971,18 +1209,22 @@
     broadcast the final signed record to the network to withdraw funds to his account.
     If X fails to withdraw in 24 hours, the complete refund is made to Y. So in the
     blockchain, we will see only two transactions: lock and unlock.'
+  id: totrans-164
   prefs: []
   type: TYPE_NORMAL
 - en: Payment channel is for transactions related to sending ether. Similarly, a state
     channel allows us to combine transactions related to smart contracts.
+  id: totrans-165
   prefs: []
   type: TYPE_NORMAL
 - en: Proof-of-stake and casper
+  id: totrans-166
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Before we get into what the casper consensus protocol is, we need to understand
     how the proof-of-stake consensus protocol works.
+  id: totrans-167
   prefs: []
   type: TYPE_NORMAL
 - en: Proof-of-stake is the most common alternative to proof-of-work. Proof-of-work
@@ -992,43 +1234,63 @@
     accounts is treated as a stake, and the probability of a miner mining the block
     is directly proportional to the stake the miner holds. So if the miner holds 10%
     of the stake in the network, it will mine 10% of the blocks.
+  id: totrans-168
   prefs: []
   type: TYPE_NORMAL
+  zh: 股权证明是工作量证明的最常见替代方案。工作量证明浪费了太多的计算资源。 POW 和 POS 的区别在于，在 POS 中，矿工不需要解决难题；相反，矿工需要证明对股份的所有权来挖掘区块。在
+    POS 系统中，账户中的以太被视为股份，矿工挖掘区块的概率与其持有的股份成正比。因此，如果矿工持有网络中 10% 的股份，那么它将挖掘 10% 的区块。
 - en: But the question is how will we know who will mine the next block? We cannot
     simply let the miner with the highest stake always mine the next block because
     this will create centralization. There are various algorithms for next block selection,
     such as randomized block selection, and coin-age-based selection.
+  id: totrans-169
   prefs: []
   type: TYPE_NORMAL
+  zh: 但问题是，我们如何知道谁将挖掘下一个区块？我们不能简单地让持有最高股份的矿工总是挖掘下一个区块，因为这会导致集中化。有各种算法用于选择下一个区块，例如随机区块选择和基于币龄的选择。
 - en: Casper is a modified version of POS that tackles various problems of POS.
+  id: totrans-170
   prefs: []
   type: TYPE_NORMAL
+  zh: Casper 是 POS 的一种修改版本，用于解决 POS 的各种问题。
 - en: Sharding
+  id: totrans-171
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 分片
 - en: At present, every node needs to download all transactions, which is huge. At
     the rate at which blockchain size is increasing, in the next few years, it will
     be very difficult to download the whole blockchain and keep it in sync.
+  id: totrans-172
   prefs: []
   type: TYPE_NORMAL
+  zh: 目前，每个节点都需要下载所有交易，这是巨大的。随着区块链大小增长的速度，未来几年，将很难下载整个区块链并保持同步。
 - en: If you are familiar with distributed database architecture, you must be familiar
     with sharding. If not, then sharding is a method of distributing data across multiple
     computers. Ethereum will implement sharding to partition and distribute the blockchain
     across nodes.
+  id: totrans-173
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你熟悉分布式数据库架构，你一定很熟悉分片。如果不熟悉，那么分片是一种将数据分布到多台计算机上的方法。以太坊将实现分片以将区块链分割并分发到节点上。
 - en: You can learn more about sharding a blockchain at [https://github.com/ethereum/wiki/wiki/Sharding-FAQ](https://github.com/ethereum/wiki/wiki/Sharding-FAQ).
+  id: totrans-174
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以在[https://github.com/ethereum/wiki/wiki/Sharding-FAQ](https://github.com/ethereum/wiki/wiki/Sharding-FAQ)了解更多关于分片区块链的信息。
 - en: Summary
+  id: totrans-175
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 总结
 - en: In this chapter, we learned in detail about how Ethereum works. We learned how
     block time affects security and about the weaknesses of Ethereum. We also saw
     what Mist and Ethereum Wallet are and how to install them. We also saw some of
     the important commands of geth. Finally, we learned what is going to be new in
     Serenity updates for Ethereum.
+  id: totrans-176
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们详细了解了以太坊的工作原理。我们了解了区块时间如何影响安全性以及以太坊的弱点。我们还了解了 Mist 和以太坊钱包是什么以及如何安装它们。我们还看到了
+    geth 的一些重要命令。最后，我们了解了以太坊的Serenity更新中将会有什么新内容。
