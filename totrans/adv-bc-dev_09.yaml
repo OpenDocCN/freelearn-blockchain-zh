@@ -3,6 +3,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 构建钱包服务
 - en: A wallet service is used to send and receive funds. Major challenges for building
     a wallet service are security and trust. Users must feel that their funds are
     secure and the administrator of the wallet service doesn't steal their funds.
@@ -10,46 +11,55 @@
   id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 钱包服务用于发送和接收资金。构建钱包服务的主要挑战是安全性和信任。用户必须确信他们的资金是安全的，钱包服务的管理员不会窃取他们的资金。本章中我们将构建的钱包服务将解决这两个问题。
 - en: 'In this chapter, we''ll cover the following topics:'
   id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: Difference between online and offline wallets
   id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在线钱包和离线钱包的区别
 - en: Using hooked-web3-provider and ethereumjs-tx to make it easier to create and
     sign transactions using accounts not managed by an Ethereum node
   id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用 hooked-web3-provider 和 ethereumjs-tx 来更容易地创建和签名使用由以太坊节点管理的账户的交易
 - en: Understanding what a HD wallet is and also its uses
   id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 了解什么是 HD 钱包以及它的用途
 - en: Creating an HD wallet and a transaction signer using `lightwallet.js`
   id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用 `lightwallet.js` 创建 HD 钱包和交易签名者
 - en: Building a wallet service
   id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 构建钱包服务
 - en: Difference between online and offline wallets
   id: totrans-8
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在线钱包和离线钱包的区别
 - en: A wallet is a collection of accounts, and an account is a combination of an
     address and its associated private key.
   id: totrans-9
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个钱包是一组账户，而账户是地址和其关联私钥的组合。
 - en: A wallet is said to be an online wallet when it is connected to the Internet.
     For example, wallets stored in geth, any website/database, and so on are called
     online wallets. Online wallets are also called hot wallets, web wallets, hosted
@@ -59,6 +69,7 @@
   id: totrans-10
   prefs: []
   type: TYPE_NORMAL
+  zh: 当钱包连接到互联网时，称为在线钱包。例如，存储在 geth、任何网站/数据库等中的钱包称为在线钱包。在线钱包也称为热钱包、网络钱包、托管钱包等。至少在存储大量以太币或长时间存储以太币时，不建议使用在线钱包，因为它们很危险。此外，取决于钱包存储的位置，可能需要信任第三方。
 - en: For example, most of the popular wallet services store the private keys of the
     wallets with themselves and allow you to access the wallet via an e-mail and password,
     so basically, you don't have actual access to the wallet, and if they want, they
@@ -66,6 +77,7 @@
   id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 例如，大多数流行的钱包服务都将钱包的私钥存储在自己身上，并允许您通过电子邮件和密码访问钱包，所以基本上，您没有实际访问钱包的权限，如果他们想，他们可以窃取钱包中的资金。
 - en: A wallet is said to be an offline wallet when it is not connected to the Internet.
     For example, wallets stored in pen drives, papers, text files, and so on. Offline
     wallets are also called cold wallets. Offline wallets are more secure than online
@@ -83,11 +95,13 @@
   id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 当钱包未连接到互联网时，称为离线钱包。例如，存储在U盘、纸张、文本文件等中的钱包。离线钱包也称为冷钱包。离线钱包比在线钱包更安全，因为要窃取资金，需要有人对存储设备进行物理访问。离线存储的挑战在于需要找到一个不会意外删除或遗忘的位置，或者没有其他人可以访问。许多人将钱包存储在纸上，并将纸放在保险柜中，以便安全地保存一些资金很长一段时间。如果您想经常从您的账户中发送资金，那么您可以将其存储在受密码保护的U盘中，也可以存储在保险柜中。将钱包仅存储在数字设备中风险略高，因为数字设备随时可能损坏，您可能会无法访问您的钱包；因此，除了存储在U盘中，您还应该将其放在保险柜中。您也可以根据自己的需求找到更好的解决方案，但请确保它是安全的，并且您不会意外丢失对它的访问权限。
 - en: hooked-web3-provider and ethereumjs-tx libraries
   id: totrans-13
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: hooked-web3-provider 和 ethereumjs-tx 库
 - en: Until now, all the examples of Web3.js library's `sendTransaction()` method
     we saw were using the `from` address that's present in the Ethereum node; therefore,
     the Ethereum node was able to sign the transactions before broadcasting. But if
@@ -97,6 +111,7 @@
   id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: 到目前为止，我们看到的Web3.js库的`sendTransaction()`方法的所有示例都在使用以太坊节点中存在的`from`地址；因此，在广播之前以太坊节点能够对交易进行签名。但是，如果您将钱包的私钥存储在其他地方，则geth无法找到它。因此，在这种情况下，您需要使用`web3.eth.sendRawTransaction()`方法来广播交易。
 - en: '`web3.eth.sendRawTransaction()` is used to broadcast raw transactions, that
     is, you will have to write code to create and sign raw transactions. The Ethereum
     node will directly broadcast it without doing anything else to the transaction.
@@ -106,6 +121,7 @@
   id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: '`web3.eth.sendRawTransaction()`用于广播原始交易，也就是说，您将不得不编写代码来创建和签署原始交易。以太坊节点将直接广播它，而不对交易进行其他任何处理。但是，编写使用`web3.eth.sendRawTransaction()`广播交易的代码很困难，因为它需要生成数据部分、创建原始交易，以及签署交易。'
 - en: The Hooked-Web3-Provider library provides us with a custom provider, which communicates
     with geth using HTTP; but the uniqueness of this provider is that it lets us sign
     the `sendTransaction()` calls of contract instances using our keys. Therefore,
@@ -118,6 +134,7 @@
   id: totrans-16
   prefs: []
   type: TYPE_NORMAL
+  zh: Hooked-Web3-Provider库为我们提供了一个自定义提供程序，它使用HTTP与geth进行通信；但是该提供程序的独特之处在于，它允许我们使用我们的密钥对合约实例的`sendTransaction()`调用进行签名。因此，我们不再需要创建交易的数据部分。自定义提供程序实际上覆盖了`web3.eth.sendTransaction()`方法的实现。因此，基本上它允许我们对合约实例的`sendTransaction()`调用以及`web3.eth.sendTransaction()`调用进行签名。合约实例的`sendTransaction()`方法在内部生成交易数据并调用`web3.eth.sendTransaction()`来广播交易。
 - en: EthereumJS is a collection of those libraries related to Ethereum. ethereumjs-tx
     is one of those that provide various APIs related to transactions. For example,
     it lets us create raw transactions, sign the raw transactions, check whether transactions
@@ -125,22 +142,26 @@
   id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: EthereumJS是与以太坊相关的那些库的集合。ethereumjs-tx是其中之一，它提供了与交易相关的各种API。例如，它允许我们创建原始交易、签署原始交易、检查是否使用正确的密钥签署了交易等。
 - en: Both of these libraries are available for Node.js and client-side JavaScript.
     Download the Hooked-Web3-Provider from [https://www.npmjs.com/package/hooked-web3-provider](https://www.npmjs.com/package/hooked-web3-provider),
     and download ethereumjs-tx from [https://www.npmjs.com/package/ethereumjs-tx](https://www.npmjs.com/package/ethereumjs-tx).
   id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: 这两个库都适用于Node.js和客户端JavaScript。从[https://www.npmjs.com/package/hooked-web3-provider](https://www.npmjs.com/package/hooked-web3-provider)下载Hooked-Web3-Provider，并从[https://www.npmjs.com/package/ethereumjs-tx](https://www.npmjs.com/package/ethereumjs-tx)下载ethereumjs-tx。
 - en: At the time of writing this book, the latest version of Hooked-Web3-Provider
     is 1.0.0 and the latest version of ethereumjs-tx is 1.1.4.
   id: totrans-19
   prefs: []
   type: TYPE_NORMAL
+  zh: 在撰写本书时，Hooked-Web3-Provider的最新版本是1.0.0，ethereumjs-tx的最新版本是1.1.4。
 - en: Let's see how to use these libraries together to send a transaction from an
     account that's not managed by geth.
   id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看看如何将这些库一起使用，以从未由geth管理的帐户发送交易。
 - en: '[PRE0]'
   id: totrans-21
   prefs: []
@@ -150,6 +171,7 @@
   id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: 代码的工作原理如下：
 - en: At first, we created a `HookedWeb3Provider` instance. This is provided by the
     Hooked-Web3-Provider library. This constructor takes an object that has two properties,
     which must be provided. `host` is the HTTP URL of the node and `transaction_signer`
@@ -159,6 +181,8 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 首先，我们创建了一个`HookedWeb3Provider`实例。这是由Hooked-Web3-Provider库提供的。该构造函数接受一个具有两个属性的对象，这两个属性必须提供。`host`是节点的HTTP
+    URL，`transaction_signer`是与自定义提供程序通信以获取交易签名的对象。
 - en: 'The `transaction_signer` object has two properties: `hasAddress` and `signTransaction`.
     `hasAddress` is invoked to check whether the transaction can be signed, that is,
     to check whether the transaction signer has the private key of the `from` address
@@ -171,6 +195,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '`transaction_signer`对象有两个属性：`hasAddress`和`signTransaction`。调用`hasAddress`来检查是否可以对交易进行签名，即检查交易签名者是否具有`from`地址账户的私钥。此方法接收地址和一个回调函数。如果找不到地址的私钥，则应调用回调，并将第一个参数作为错误消息，第二个参数为`false`。如果找到私钥，则第一个参数应为`null`，第二个参数应为`true`。'
 - en: If the private key for the address is found, then the custom provider invokes
     the `signTransaction` method to get the transaction signed. This method has two
     parameters, that is, the transactions parameters and a callback. Inside the method,
@@ -188,11 +213,13 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 如果找到地址的私钥，则自定义提供程序调用`signTransaction`方法来获取交易的签名。此方法有两个参数，即交易参数和一个回调函数。在方法内部，首先我们将交易参数转换为原始交易参数，即原始交易参数值被编码为十六进制字符串。然后我们创建一个缓冲区来保存私钥。缓冲区是使用`EthJS.Util.toBuffer()`方法创建的，该方法是`ethereumjs-util`库的一部分。`ethereumjs-util`库被`ethereumjs-tx`库导入。然后我们创建一个原始交易并对其进行签名，之后我们对其进行序列化并转换为十六进制字符串。最后，我们需要使用回调将签名的原始交易的十六进制字符串提供给自定义提供程序。如果方法内部存在错误，则回调的第一个参数应为错误消息。
 - en: Now the custom provider takes the raw transactions and broadcasts it using `web3.eth.sendRawTransaction()`.
   id: totrans-26
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在自定义提供程序获取原始交易并使用`web3.eth.sendRawTransaction()`进行广播。
 - en: Finally, we call the `web3.eth.sendTransaction` function to send some ether
     to another account. Here, we need to provide all the transaction parameters except
     `nonce` because the custom provider can calculate nonce. Earlier, many of these
@@ -203,10 +230,12 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 最后，我们调用`web3.eth.sendTransaction`函数向另一个账户发送一些以太币。在这里，我们需要提供除了`nonce`以外的所有交易参数，因为自定义提供程序可以计算nonce。以前，这些参数中的许多是可选的，因为我们让以太坊节点来计算它们，但是现在，因为我们自己签名，所以需要提供所有这些参数。当交易没有与之关联的任何数据时，`gas`永远是21,000。
 - en: '**What about the public key?**'
   id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: '**公钥呢？**'
 - en: In the preceding code, nowhere did we mention anything about the public key
     of the signing address. You must be wondering how a miner will verify the authenticity
     of a transaction without the public key. Miners use a unique property of ECDSA,
@@ -218,11 +247,13 @@
   id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 在上述代码中，我们从未提及签名地址的公钥。你一定会想知道矿工如何在没有公钥的情况下验证交易的真实性。矿工使用ECDSA的一个独特属性，它允许你从消息和签名计算出公钥。在交易中，消息指示交易的意图，签名用于确定消息是否使用正确的私钥进行了签名。这就是使ECDSA如此特殊的地方。ethereumjs-tx提供了一个API来验证交易。
 - en: What is a hierarchical deterministic wallet?
   id: totrans-30
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 什么是分层确定性钱包？
 - en: A hierarchical deterministic wallet is a system of deriving addresses and keys
     from a single starting point called a seed. Deterministic indicates that for the
     same seed, the same addresses and keys will be generated, and hierarchical indicates
@@ -317,6 +348,8 @@
   id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 基于密码的密钥派生函数接受一个密码并生成一个对称密钥。由于用户通常使用弱密码，基于密码的密钥派生函数被设计得更慢，需要大量内存，以使启动暴力破解攻击和其他类型的攻击变得困难。基于密码的密钥派生函数被广泛使用，因为很难记住秘密密钥，并且将其存储在某处是有风险的，因为它可能会被盗取。PBKDF2
+    是基于密码的密钥派生函数的一个例子。
 - en: A master key or passphrase is difficult to be cracked using a brute force attack;
     therefore, in case you want to generate a symmetric key from a master key or passphrase,
     you can use a non-password-based key derivation function, such as HKDF. HKDF is
@@ -324,10 +357,13 @@
   id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: 主密钥或密码短语很难被暴力破解；因此，如果您想从主密钥或密码短语生成对称密钥，可以使用非基于密码的密钥派生函数，例如 HKDF。与 PBKDF2 相比，HKDF
+    要快得多。
 - en: '**Why not just use a hash function instead of KDFs?**'
   id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: '**为什么不直接使用哈希函数而不是 KDFs？**'
 - en: The output of hash functions can be used as symmetric keys. So you must be wondering
     what is the need for KDFs. Well, if you are using a master key, passphrase, or
     a strong password, you can simply use a hash function. For example, HKDF simply
@@ -336,17 +372,22 @@
   id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 哈希函数的输出可以用作对称密钥。所以你可能会想，KDFs 是为什么需要呢？嗯，如果您使用主密钥、密码短语或强密码，您可以简单地使用哈希函数。例如，HKDF
+    简单地使用哈希函数生成密钥。但是如果不能保证用户会使用强密码，最好使用基于密码的哈希函数。
 - en: Introduction to LightWallet
   id: totrans-46
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: LightWallet 简介
 - en: LightWallet is an HD wallet that implements BIP32, BIP39, and BIP44\. LightWallet
     provides APIs to create and sign transactions or encrypt and decrypt data using
     the addresses and keys generated using it.
   id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: LightWallet 是一个实现了 BIP32、BIP39 和 BIP44 的 HD 钱包。LightWallet 提供了使用其生成的地址和密钥创建和签署交易，或者加密和解密数据的
+    API。
 - en: LightWallet API is divided into four namespaces, that is, `keystore`, `signing`,
     `encryption`, and `txutils`. `signing`, `encrpytion,` and `txutils` provide APIs
     to sign transactions, asymmetric cryptography, and create transactions respectively,
@@ -360,12 +401,19 @@
   id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: LightWallet API 被分为四个命名空间，即 `keystore`、`signing`、`encryption` 和 `txutils`。`signing`、`encryption`
+    和 `txutils` 分别提供了用于签名交易、非对称加密和创建交易的 API，而 `keystore` 命名空间用于创建 `keystore`、生成种子等。`keystore`
+    是一个保存了种子和加密密钥的对象。如果我们使用 Hooked-Web3-Provider，`keystore` 命名空间会实现交易签名方法，用于签署 `web3.eth.sendTransaction()`
+    的调用。因此，`keystore` 命名空间可以自动为其内找到的地址创建和签署交易。实际上，LightWallet 主要用作 Hooked-Web3-Provider
+    的签名提供者。
 - en: A `keystore` instance can be configured to either create and sign transactions
     or encrypt and decrypt data. For signing transactions, it uses the `secp256k1`
     parameter, and for encryption and decryption, it uses the `curve25519` parameter.
   id: totrans-49
   prefs: []
   type: TYPE_NORMAL
+  zh: '`keystore` 实例可以配置为创建和签署交易，也可以用于加密和解密数据。对于签署交易，它使用 `secp256k1` 参数，对于加密和解密，它使用
+    `curve25519` 参数。'
 - en: The seed of LightWallet is a 12-word mnemonic, which is easy to remember yet
     difficult to hack. It cannot be any 12 words; instead, it should be a seed generated
     by LightWallet. A seed generated by LightWallet has certain properties in terms
@@ -373,11 +421,14 @@
   id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: LightWallet 的种子是一个包含 12 个单词的助记词，易于记忆但难以破解。它不能是任意的 12 个单词；相反，它应该是由 LightWallet
+    生成的种子。LightWallet 生成的种子在单词选择和其他方面具有特定的属性。
 - en: HD derivation path
   id: totrans-51
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: HD 派生路径
 - en: The HD derivation path is a string that makes it easy to handle multiple crypto
     currencies (assuming they all use the same signature algorithms), multiple blockchains,
     multiple accounts, and so on.
@@ -725,6 +776,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后我们使用`createVault`方法创建一个`keystore`实例。`createVault`接受一个对象和一个回调函数。对象可以有四个属性：`password`、`seedPharse`、`salt`和`hdPathString`。`password`是必须的，其他都是可选的。如果我们不提供`seedPharse`，它会生成并使用一个随机种子。`salt`被连接到密码以增加对称密钥的安全性，因为攻击者还必须找到盐以及密码。如果未提供盐，则会随机生成。`keystore`命名空间保存未加密的盐。`hdPathString`用于为`keystore`命名空间提供默认派生路径，即在生成地址、签署交易等过程中使用的派生路径。如果我们不提供派生路径，则使用此派生路径。如果不提供`hdPathString`，则默认值为`m/0'/0'/0'`。此派生路径的默认目的是`sign`。您可以使用`keystore`实例的`addHdDerivationPath()`方法创建新的派生路径或覆盖已有派生路径的目的。您还可以使用`keystore`实例的`setDefaultHdDerivationPath()`方法更改默认派生路径。最后，一旦创建了`keystore`命名空间，通过回调返回实例。因此，在这里，我们仅使用密码和种子创建了一个`keystore`。
 - en: Now we need to generate the number of addresses and their associated keys the
     user needs. As we can generate millions of addresses from a seed, `keystore` doesn't
     generate any address until we want it to because it doesn't know how many addresses
@@ -735,6 +787,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在，我们需要生成用户需要的地址数量及其关联的密钥。由于我们可以从种子生成数百万个地址，`keystore`不会生成任何地址，直到我们要求它这样做，因为它不知道我们要生成多少个地址。创建了`keystore`之后，我们使用`keyFromPassword`方法从密码生成对称密钥。然后我们调用`generateNewAddress()`方法生成地址及其关联的密钥。
 - en: '`generateNewAddress()` takes three arguments: password derived key, number
     of addresses to generate, and derivation path. As we haven''t provided a derivation
     path, it uses the default derivation path of the keystore. If you call `generateNewAddress()`
@@ -745,37 +798,44 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '`generateNewAddress()`接受三个参数：从密码派生的密钥、要生成的地址数量和派生路径。由于我们没有提供派生路径，它使用`keystore`的默认派生路径。如果多次调用`generateNewAddress()`方法，则会从上次调用中创建的地址继续。例如，如果两次调用此方法，每次生成两个地址，则会有前四个地址。'
 - en: Then we use `getAddresses()` to get all the addresses stored in the `keystore`.
   id: totrans-100
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后我们使用`getAddresses()`获取存储在`keystore`中的所有地址。
 - en: We decrypt and retrieve private keys of the addresses using the `exportPrivateKey`
     method.
   id: totrans-101
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 我们使用`exportPrivateKey`方法解密和检索地址的私钥。
 - en: We use `web3.eth.getBalance()` to get balances of the address.
   id: totrans-102
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 我们使用`web3.eth.getBalance()`获取地址的余额。
 - en: And finally, we display all the information inside the unordered list.
   id: totrans-103
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 最后，我们在无序列表中显示所有信息。
 - en: Now we know how to generate the address and their private keys from a seed.
     Now let's write the implementation of the `send_ether()` method, which is used
     to send ether from one of the addresses generated from the seed.
   id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们知道如何从种子生成地址及其私钥。现在让我们编写`send_ether()`方法的实现，该方法用于从种子生成的地址之一发送以太币。
 - en: 'Here is the code for this. Place this code in the `main.js` file:'
   id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是此操作的代码。将此代码放在`main.js`文件中：
 - en: '[PRE6]'
   id: totrans-106
   prefs: []
@@ -794,11 +854,13 @@
   id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，直到从种子生成地址的代码是自说明的。之后，我们将回调分配给了`ks`的`passwordProvider`属性。此回调在事务签名期间调用以获取解密私钥的密码。如果我们不提供此信息，LightWallet将提示用户输入密码。然后，我们通过将`keystore`作为事务签名者传递来创建一个`HookedWeb3Provider`实例。现在，当自定义提供程序需要对事务进行签名时，它调用`ks`的`hasAddress`和`signTransactions`方法。如果要签名的地址不在生成的地址之间，`ks`将向自定义提供程序返回错误。最后，我们使用`web3.eth.sendTransaction`方法发送一些以太币。
 - en: Testing
   id: totrans-108
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测试
 - en: 'Now that we have finished building our wallet service, let''s test it to make
     sure it works as expected. First, run `node app.js` inside the initial directory,
     and then visit `http://localhost:8080` in your favorite browser. You will see
@@ -806,10 +868,12 @@
   id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们已经完成了构建我们的钱包服务，让我们测试一下，确保它按预期工作。首先，在初始目录中运行`node app.js`，然后在您喜欢的浏览器中访问`http://localhost:8080`。您将看到这个屏幕：
 - en: '![](img/cbe83a3a-20d0-4452-b520-3563938f0469.png)'
   id: totrans-110
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/cbe83a3a-20d0-4452-b520-3563938f0469.png)'
 - en: 'Now click on the Generate New Seed button to generate a new seed. You will
     be prompted to enter a number indicating the number of addresses to generate.
     You can provide any number, but for testing purposes, provide a number greater
@@ -817,10 +881,12 @@
   id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在点击生成新种子按钮以生成新的种子。您将被提示输入一个数字，指示要生成的地址数量。您可以提供任何数字，但出于测试目的，提供一个大于1的数字。现在屏幕会显示如下内容：
 - en: '![](img/6a45c767-bf9c-44ef-99ba-0ecc2b32ffa7.png)'
   id: totrans-112
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/6a45c767-bf9c-44ef-99ba-0ecc2b32ffa7.png)'
 - en: 'Now to test sending ether, you need to send some ether to one of the generated
     addresses from the coinbase account. Once you have sent some ether to one of the
     generated addresses, click on the Generate Details button to refresh the UI, although
@@ -829,10 +895,12 @@
   id: totrans-113
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，要测试发送以太币，您需要将一些以太币发送到从coinbase账户生成的地址之一。一旦您向生成的地址之一发送了一些以太币，请点击生成详细信息按钮以刷新UI，尽管不必要使用钱包服务测试发送以太币。确保再次生成相同的地址。现在屏幕会显示如下内容：
 - en: '![](img/bb3e5fc0-247f-4fe3-bef1-4b322347fa8d.png)'
   id: totrans-114
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/bb3e5fc0-247f-4fe3-bef1-4b322347fa8d.png)'
 - en: 'Now in the from address field, enter the account address from the list that
     has the balance in the `from` address field. Then enter another address in the
     to address field. For testing purposes, you can enter any of the other addresses
@@ -842,10 +910,12 @@
   id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在在“来自地址”字段中输入列表中具有“来自”地址字段中余额的帐户地址。然后在“到地址”字段中输入另一个地址。出于测试目的，您可以输入显示的其他地址之一。然后输入小于或等于来自地址帐户的以太币余额的一些以太币数量。现在您的屏幕将显示如下内容：
 - en: '![](img/901b84cc-07a1-4344-9970-f69722910b56.png)'
   id: totrans-116
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/901b84cc-07a1-4344-9970-f69722910b56.png)'
 - en: 'Now click on the Send Ether button, and you will see the transaction hash in
     the information box. Wait for sometime for it to get mined. Meanwhile, you can
     check whether the transactions got mined or not by clicking on the Generate Details
@@ -854,21 +924,25 @@
   id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在点击发送以太币按钮，您将在信息框中看到交易哈希。等待一段时间让它被挖掘。与此同时，您可以通过在非常短的时间内点击生成详细信息按钮来检查交易是否被挖掘。一旦交易被挖掘，您的屏幕将显示如下内容：
 - en: '![](img/a5bce142-96b6-4d3d-ac31-d0141ccc1fd0.png)'
   id: totrans-118
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a5bce142-96b6-4d3d-ac31-d0141ccc1fd0.png)'
 - en: If everything goes the same way as explained, your wallet service is ready.
     You can actually deploy this service to a custom domain and make it available
     for use publicly. It's completely secure, and users will trust it.
   id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果一切都按照说明进行，您的钱包服务已经准备就绪。您实际上可以将此服务部署到自定义域，并使其可公开使用。它完全安全，用户将信任它。
 - en: Summary
   id: totrans-120
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 概要
 - en: 'In this chapter, you learned about three important Ethereum libraries: Hooked-Web3-Provider,
     ethereumjs-tx, and LightWallet. These libraries can be used to manage accounts
     and sign transactions outside of the Ethereum node. While developing clients for
