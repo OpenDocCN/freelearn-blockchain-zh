@@ -1,0 +1,796 @@
+- en: Deploying Blockchain-Based DDoS Protection
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The internet is growing dramatically in both the number of users and applications,
+    and their respective bandwidth. Over the past few years, a new variant of user
+    has entered the world of the internet, commonly known as a **smart device**. In
+    its simplest form, it can be a refrigerator, an AC unit, or a microwave, while
+    it can be as complex as a drone or automated vehicle. These smart devices are
+    also referred to as **Internet of Things** (**I****oT**) devices, monitoring the
+    functionality and operations of connected utilities. Despite of enough use cases,
+    attackers are making use of them to launch some massive cyber attacks called **distributed
+    denial-of-service** (**DDoS**) attacks. In this chapter, you will learn about
+    DDoS attacks and how blockchain can be more effective at defending organizations from
+    such massive attack operations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: DDoS attacks
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Types of DDoS attack
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Challenges with current DDoS protection  solutions
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How blockchain can transform existing DDoS protection platform
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Lab
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: DDoS attacks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A DDoS attack is a malicious attempt to disrupt legitimate traffic to a server
+    by overwhelming the target with a flood of requests from geographically dispersed
+    systems. Now, let's first understand how a **denial-of-service** (**DoS**) attack
+    works. During DoS attacks, the attackers bombard the target machine with a massive
+    amount of requests that lead to the exhaustion of server resources and, as a result,
+    it fails requests from legitimate users. In a DoS attack, a threat actor uses
+    a single machine to exhaust the target server; however, a DDoS attack is much
+    more powerful as millions of machines can be used to exhaust a target server.
+  prefs: []
+  type: TYPE_NORMAL
+- en: What is a DDoS attack?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: More and more organizations are moving to the cloud with massive infrastructure
+    to fulfill their immersive customer demands. Organizations either build their
+    own heavy server infrastructure, or they move to cloud providers to host their
+    servers. Today, attackers prefer the DDoS attack method to disrupt target services
+    as they can generate GBs to TBs of random data to overwhelm the target, and also
+    it becomes difficult for a target security team to identify and block each individual
+    attacking machine, as they are millions in number.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Furthermore, attackers never legitimately control their attacking machines,
+    but rather they infect millions of computers worldwide with some tailored malware
+    and then get complete access to launch a massive DDoS attack. This collection
+    of millions of infected computers is named a **botnet** and the individual infected
+    computers are named **bots**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The first instance of DDoS is a bit hard to recall exactly, but the first noticeable
+    and significant attack occurred in 1999, and it targeted the University of Minnesota.
+    It impacted more than 220 systems and brought down the entire infrastructure for
+    several days.
+  prefs: []
+  type: TYPE_NORMAL
+- en: On Friday, October 21, 2016, the entire world witnessed one of the most complex
+    and sophisticated DDoS attacks on Dyn (a managed DNS provider). Dyn confirmed
+    the Mirai botnet as a primary source of malicious attack traffic. The attack opened
+    up an important concern on internet security and threats.
+  prefs: []
+  type: TYPE_NORMAL
+- en: How does it work?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To launch a DDoS attack, a threat actor can either build the entire botnet network
+    or rent it from a dark web marketplace. Once the attacker is ready with their
+    weapons, they need to discover vulnerable sites or hosts, or maybe an entire network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A computer scientist at Lockheed-Martin Corporation coined a term called **cyber
+    kill chain** that lays out the stages of a cyber attack, starting from  reconnaissance
+    to final goal of attack. These stages are:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Reconnaissance**: The attacker identify its target device and starts searching
+    for vulnerabilities in it.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Weaponization**: The attacker uses a remote tool kit and malware such as
+    virus or worm to address the vulnerability.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Delivery**: The threat actor inject the cyber weapons to the victim network
+    through several methods such as phishing email, drive-by download, USB drives,
+    insiders  and so on'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Exploitation**: The malware code is used to trigger the attack, taking action
+    on target network to exploit vulnerabilities'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Installation**: Malware is now  installed in the victim machine'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Command and control**: This malware allows the remote threat actor to gain
+    access to victim machine'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In order to understand each of these stages from DDoS perspective, it is important
+    to understand the botnet infrastructure and how it is built.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building up the botnet
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As mentioned, the distributed nature of a DDoS attack requires millions of infected
+    machines globally. Today, attackers leverage the dark web marketplace and either
+    rent readily available botnets or buy them. There are several tools, such as Jumper,
+    Dirt, and Pandore, that eliminate the technical barrier in creating these botnets.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following graphic outlines the botnet life cycle:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/93e2738d-71ac-43ca-b7c1-ae1a6ab77d02.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Reconnaissance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The targeted system can be as large as a data center and as small as a computer.
+    In both cases, the development of a botnet involves identifying hosts with vulnerabilities
+    that can be exploited with some malware families. Attackers look for information
+    directly or indirectly related to their target to gain unauthorized access to
+    their protected assets. The threat actor tries all possible ways to bypass the
+    existing security systems, such as firewalls, **intrusion prevention system**
+    (**IPS**), web application firewalls, and endpoint protection.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Weaponization
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The wide range of open source software has removed the technical barrier for
+    creating malicious code. If a programmer has malicious intent and develops the
+    code, a new breed of malware can be developed that would be difficult for security
+    systems to detect.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following is a list of some of the popular tools for developing DDoS:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Low Orbit Ion Cannon (LOIC)**: This is one of the favorite tools, used by
+    the popular hacktivist group *anonymous*. It is a simple flooding tool that can
+    generate a massive volume of TCP, UDP, or HTTP traffic to overload the target
+    server. It was originally developed to test the throughput of server performance;
+    however, the anonymous group used this open source tool to launch sophisticated
+    DDoS attacks. The tool was later enhanced with IRC features, which allow users
+    to control the connected machines over IRC.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**High Orbit Ion Cannon (HOIC)**: A couple of years after effectively using
+    LOIC, the anonymous group dropped it and used the HOIC tool to first target the
+    US **Department of Justice** (**DOJ**) in response to its decision to take down
+    website `megaupload.com`. HOIC is again a simple application built to support
+    cross-platform basic scripts for sending HTTP POST and GET requests with an easy
+    and simplified GUI. It was later powered with *booster* scripts, which are text
+    files that contain additional basic code, called **booster script**.  This booster
+    script also allows the attacker to specify the list of target URLs to attack.
+    HOIC is still in use by the anonymous group to launch DDoS attacks globally.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**hping**: Just like the anonymous group, there are several different hacktivist
+    groups actively targeting businesses and government institutions. A tool called
+    *hping* was developed to overcome anonymity challenges with Ion Cannon tools.
+    It is again used to generate a massive volume of TCP traffic at the target, and
+    it can remain anonymous by spoofing the source IP address. It is one of the most
+    powerful and well-rounded tools for several groups of hacktivists.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Slowloris: **Slowloris is one of the most advanced tools used to make attackers
+    difficult to detect and track. This tool was developed by a gray hat hacker who
+    is known as **RSnake** and is able to initiate DDoS for servers by creating very
+    slow HTTP requests. It generates a bulk of tiny HTTP headers that target the server
+    and make it wait for the rest of the headers to arrive.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Delivery
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Once the malicious code is developed or software purchased from the dark web
+    marketplace, this software can either be delivered through spear phishing emails
+    or can also be sent through spam email campaigns. The selection of either depends
+    on the target and also the sophistication of the operation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We can classify the process into the following three groups of methods for
+    propagating malicious code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Central source propagation**: In this method, the vulnerable system that
+    an attacker is planning to make into one more bot will be given to a central system
+    so that the copy of the attacking system is transferred from centrally hosted
+    infrastructure to the newly compromised system. After the entire toolkit is moved,
+    a script automatically initiates a fresh attack cycle. This entire mechanism uses
+    HTTP, FTP, and **remote procedure** **call** (**RPC**) protocols. In this method,
+    threat actor exploit the victim machine, compromised system get connected to central
+    repository of attacker and finally, central source pushes the code. Take a look
+    at the following diagram:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/4a1b69d3-faa6-4f91-a773-c4cdd2614c4a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: '**Back-chaining propagation**: In this method, the attacker''s toolkit is relocated
+    to the newly compromised host by the attacker. The attacker''s toolkit is specially
+    designed to accept a file request from a compromised system. The back-channel
+    file copy can be done by a port listener using **Trivial File Transfer Protocol**
+    (**TFTP).** Unlike central source propagation method, attacker transmit both exploit
+    and code together into the victim machine:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/8c4125f2-8d9a-440f-99e8-4a33cbab03c8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: '**Autonomous propagation**: In this mechanism, the moment an attacker breaks
+    into a system, their toolkit is transferred to the compromised host. This mechanism
+    differs in terms of method of transfer, as attack toolkits are first planted into
+    the compromised host by the attackers only. In this method, attacker transmit
+    the exploit first and then the code from himself but not from any central repository.
+    Take a look at the following diagram:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/a407c6ef-2de6-4a8a-88a0-ae8067a975c6.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Exploitation
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Once the malware is delivered to the network, it will initiate the process of
+    exploiting unpatched software vulnerabilities, weak software coding practices,
+    and lack of user attention. Usually, there are numerous vulnerabilities present
+    in the network; however, the availability of exploits makes the vulnerability
+    much more critical in nature.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installation
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the installation stage, the malware is installed in the targeted system and
+    allows the remote attacker to gain access to it. During the installation process,
+    the malware may be installed in the user space or kernel space of a system. Malware
+    installed in the user space has a high possibility of detection; however, malware
+    installed in the kernel space has a low chance of being detected by security systems,
+    such as endpoint protection, endpoint detection, and response platforms.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Command and control (C2)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: After the weapon has been successfully installed, the target is now completely
+    under the control of a remote central system, named the system. The network  of
+    compromised devices are called botnet, completely under control with threat actor;
+    however, the botnet remains silent until it get activated from attacker. There
+    are even several types of encrypted bot-to-bot communication present over public
+    peer-to-peer networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Action on objectives
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Once the C2 channel has been established, the attacker can launch the DDoS attack
+    on the target. At this stage, the attacker runs the script to activate all the
+    bots in the entire botnet. The attacker also configures the botnet regarding what
+    type of traffic needs to be generated.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Types of DDoS attack
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'DDoS attacks are carried out in several ways. However, attackers select one
+    of them based on different factors, such as target difficulty, financial capability,
+    anonymity, priority, and other factors. It does not take much technical expertise
+    to run the DDoS attack program and launch it. There are mainly three types of
+    attack, categorized as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Attacks targeting network resources
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Attacks targeting server resources
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Attacks targeting application resources
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Attacks targeting network resources
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: These are attack campaigns in which it is planned to consume the network resources
+    of the target system. In this attack, network bandwidth gets completely consumed
+    by flooding. The following are several types of flooding attacks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: User datagram protocol (UDP) flood
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'UDP is a protocol embedded in the IP packet for socket-level communication
+    between two devices. A UDP flood attack does not exploit any specific vulnerability
+    of the target system, but rather it simply disrupts the normal traffic of the
+    target system by overwhelming it with a high level of flooding. It points to random
+    ports on the target server and consumes all the traffic bandwidth for the target
+    system. This UDP flood doesn''t even allow the system to send **Internet Control
+    Message Protocol** (**ICMP**) destination unreachable packets. Usually, this kind
+    of attack is considered in the class of a small-to-medium-level flood attack and
+    measured in Mbps and PPS, as shown in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/05c8808f-f736-411f-977b-f89bc5d60c95.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: ICMP flood
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: ICMP is another connectionless protocol used for IP-level reachability and management
+    operations. Again it doesn't rely on any vulnerabilities to work. An ICMP flood
+    can be performed with any type of ICMP message, such as echo requests and echo
+    replies. Being one of the oldest flooding techniques, organizations have practices
+    to deploy control-plane policies over network devices to restrict the amount of
+    ICMP packets that can processed by the control planes of devices.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Internet Group Management Protocol (IGMP) flood
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: IGMP is a multicast protocol, connectionless in nature. It is non-vulnerability
+    based, involving the sending of a large amount of IGMP message reports to networks
+    or routers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Amplification attacks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'An amplification attack takes the opportunity of a disparity between a request
+    and a reply in a communication channel. An attacker can compromise a router and
+    force the router to send broadcast messages on multicast addresses by spoofing
+    the source address. It can even be used with DNS amplification, in which the attacker
+    can compromise a recursive DNS name server to cache large files. Take a look at
+    the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d983e5b5-f391-482d-a68e-f96e10a937cf.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Attacks targeting server resources
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Attacks that target server resources of the victim and exhaust the entire server
+    processing and memory eventually cause disruption for legitimate traffic. In this
+    category, attackers identify the vulnerabilities of the target server and weaponized
+    the malware to exploit those vulnerabilities. You will learn about some of the
+    most common techniques used to perform these attacks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: TCP SYN Flood
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This attack makes use of the TCP three-way handshake mechanism and consumes
+    most server resources with TCP sync messages. In the TCP three-way handshake,
+    a client first sends the TCP packet with the sync flag set that requests a server
+    to allocate a resource and establish a communication channel. In a TCP SYN attack,
+    attacking systems send a series of TCP requests with TCP flags set to SYN. To
+    manage each of these requests, the server has to open and allocate certain CPU
+    resources, and also buffer to prepare further communication. Now, the server sends
+    a TCP message with a flag set to SYN-ACK, and expects the client to acknowledge
+    that with a TCP message with the ACK flag. The attacking systems receive that
+    but never respond, and as a result, the server keeps the socket open and resources
+    allocated for the same client machines. Server resources are limited, but the
+    attackers can keep multiplying the request to the server to finally exhaust the
+    server and make it unavailable for legitimate user traffic. TCP has a specific
+    timeout for the request and response process, but the attacker gains the advantage
+    of the same period to send massive TCP requests. Take a look at the following
+    diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7f380049-62a1-4346-9995-59c50ec9c0c1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: TCP RST attack
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the TCP/IP stack, **Reset** (**RST**) flag in TCP is used to notify a server
+    to reset its ongoing TCP connection. In a TCP RST attack, the attacker intercepts
+    an active TCP connection between the client and the server by trying a random
+    sequence of numbers. After successfully identifying the sequence of numbers, the
+    attacker then spoofs the TCP RST message to the client's source IP address. For
+    humans to perform such an activity, this would be very difficult. Hence, bots
+    are used to intercept and identify the active sequence number.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Secure sockets layer (SSL) based attack
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: SSL is standard security protocol for establishing encrypted channels between
+    a web server and a browser. This ensures that all transmitted data is encrypted
+    between web server and browser, and hence provides a better privacy and integrity
+    solution for internet users. SSL runs over TCP/IP and sends the SSL *hello* only
+    once the TCP three-way handshake is completed. SSL-based DDoS attacks can be performed
+    in a variety of ways, such as targeting the SSL handshake mechanism, sending random
+    and garbage data to the SSL server, or exploiting certain function-related SSL
+    encryption key mechanisms.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Encrypted HTTP attacks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: With the growing use of SSL/TLS-encrypted web applications, attackers are also
+    moving toward encrypted HTTP-based attacks. Most organizations don't have a security
+    solution that can inspect SSL traffic and hence fail to protect it from malicious
+    traffic. Attackers make use of this weakness and adopt more and more capabilities
+    to compromise networks through encrypted HTTP.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Attacks targeting application resources
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: DDoS attacks are on the rise; threat actors are moving from traditional methods
+    to more advanced and sophisticated application-based attacks. These are not just
+    limited to HTTP-based attacks but are even adapting to HTTPS, DNS, FTP, SMTP,
+    and VOIP. Applications are built with several independent components and hence
+    are vulnerable. Therefore, application-based attacks become more attractive for
+    threat actors. We will cover some of the most widely used attacks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: DNS flooding
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: DNS is used everywhere, and every organization network has to have the DNS port
+    open for name resolution. It is easy to launch DNS-based flooding and also difficult
+    for the security system to detect it. DNS uses the UDP protocol for faster request
+    and response times, without establishing a new connection (like in the TCP handshake).
+    In this kind of attack, the DNS server can be overwhelmed with a massive amount
+    of DNS requests, making the victim server unable to process legitimate requests.
+    This technique was used in the recent Mirai attack on the Dyn network that left
+    users unable to access YouTube, Twitter, Netflix, and several other applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Regular expression DoS attacks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: These use the *low and slow* methodology to attack the victim server. The attacker
+    leverages vulnerabilities in the library files deployed in the server. Whenever
+    a client sends a request with regular expressions, a server has to spend a large
+    amount of resources to process the regular expression. Attackers use this to exploit
+    the server and send regular expressions periodically that security systems fail
+    to detect.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hash collision DoS attacks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: With this kind of attack, makes attackers spend days to months identifying vulnerabilities
+    in the web application frameworks. Hash tables are used to index POST sessions
+    in most of the application servers. The server has to manage hash collisions when
+    similar hash values are returned. Collision resolutions consume a lot of processing
+    resources as the attacker keeps sending POST messages with a multitude of parameters.
+    Attackers build the parameters in such a way that they cause hash collisions on
+    the server side and as a result keep the server busy processing them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Challenges with current DDoS solutions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the past few years, a rise in DDoS attacks has been observed. As per the
+    recent report by Radware, 43% of organizations experienced burst attacks, but
+    the rest were unaware of whether they were attacked. Attackers are adapting several
+    emerging techniques and complex tactics to compromise the target network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: On February 28, 2018, GitHub, the code hosting website, was hit with the largest-ever
+    DDoS attack, recorded at 1.35 Tbps. As DDoS attack falls under cyber threat category
+    that makes it unfeasible to deploy any security prevention mechanism as system
+    vulnerabilities are under control of organizations but threats cant be controlled. The
+    frontend of web application remains centralized for all users; hence, it leaves
+    a single point of failure situation for organizations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: How blockchain can transform  DDoS protection?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'By definition, blockchain is a decentralized network that allow independent
+    parties to communicate without any third party involvement. In order to protect
+    networks from DDoS attacks, organizations can be made distributed between multiple
+    server nodes that provide high resilience and remove the single point of failure.
+    There are two main advantages to using blockchain, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain technology can be used to deploy a decentralized ledger to store
+    blacklisted IPs
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Blockchain technology eliminates the risk of a single point of failure
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Lab
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In order to deploy the blockchain based DDoS protection platform, we must prepare
+    the test environment with Node.js and Truffle with ethereum blockchain. We will
+    be using an existing blockchain project to defend network from DDoS attack. The
+    project link can be found at link [https://github.com/gladiusio/gladius-contracts](https://github.com/gladiusio/gladius-contracts).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Furthermore, we need to follow the steps to prepare the infrastructure for
+    Gladius project:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, we will install Node.js in our environment at [https://nodejs.org/uk/download/package-manager/#arch-linux](https://nodejs.org/uk/download/package-manager/#arch-linux).
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'We need to install `truffle` to test the environment:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Run the following command in the Terminal:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, we can start the test network with this command in the Terminal:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following screenshot shows the output of running the preceding command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e78c5c9d-60d8-4708-88b1-f40df34a214b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: In this Terminal window, we can see all transactions in the test blockchain
+    network. Now, we have to open a new Terminal window and need to jump into the
+    working directory.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'To set up the project, follow these instructions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Go to [https://github.com/gladiusio/gladius-contracts](https://github.com/gladiusio/gladius-contracts)
+    and download the `.zip` file. Next, unzip this file to the folder you want.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Replace the code in the `truffle.js` file with the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We will go to the folder name `gladius-contracts-master` through the Terminal
+    and compile contracts with the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following screenshot shows the output of running the preceding command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c7109564-65eb-42a3-9920-aa6a9bca14c5.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now, we will deploy our contracts to the `ganache-cli` local blockchain with
+    the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following screenshot shows the output of running the preceding command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/39039e2e-ea89-4d62-9216-51bbfa436479.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now, we have to launch the unit test with the `truffle test` command to make
+    sure that smart contracts are functional:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/0e60f5c6-bdb0-48fd-96b4-04f1f62a893b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Go to  [https://github.com/gladiusio/gladius-control-daemon](https://github.com/gladiusio/gladius-control-daemon),
+    download the `.zip`, and unzip it to the same folder as `gladius-contracts`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Next, we locate the `gladius-control-daemon-master` folder in the Terminal
+    and link contract **Application Binary Interface** (**ABI**).  ABI is the interface
+    between two program modules, one of which is at the level of machine code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following screenshot shows the output of running the preceding command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0f91547f-e854-4ebf-a2a0-f651fc35e01f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Next, we will install dependencies with the `npm install` command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/9395bc6c-18a7-47aa-9290-0c261abda4a4.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Next, we will start the script with the `node index.js` command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/21e836aa-9b53-4568-8ab8-9a3b462501f8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Let''s open a new Terminal window and run the `gladius-networkd` command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/606c5a25-7580-4013-b323-a5e1635209d4.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Next, we need to open a new Terminal window and run the `gladius-controld`
+    command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/6ff28ca1-7232-4f84-b01b-79dc4faf9987.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'To start your node, you need to run the following in the new Terminal window:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The next screenshot shows the output of running the preceding command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ebddf5a7-9abb-4e1d-bd5f-4a12a16cee95.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'We can submit the data to a specific pool, allowing it to accept or reject
+    you becoming a part of the pool:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/b3d1e593-93e1-45d7-81f7-805fe4310912.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'After we are done creating a node, we can check the status of it with our manager
+    app. This displays your node information from the blockchain:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/cfb17baa-3d47-4e91-86c7-898589a54161.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: You simply have to download the Gladius client to your computer and access the
+    system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once Gladius has been activated, all the nodes handle the continuous stream
+    of requests to validate website connections and block malicious activity. Gladius
+    is proactively working to fix several challenges in the system and achieve a stable
+    system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, you learned about DDoS attacks and how they operate. We understood
+    the challenges with the current DDoS solutions and also learned how the use of
+    blockchain can help us with better solutions to effectively defend our network
+    from malicious bursts of traffic.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Questions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Readers should understand that this is only one of multiple ways to defend
+    against DDoS attacks. Readers are expected to check out some of the following
+    questions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Why are DDoS attacks becoming more frequent?
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Can we use blockchain to prepare threat intelligence about upcoming DDoS attacks?
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Further reading
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To further explore blockchain technology for DDoS protection, the following
+    links can be useful:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*A Blockchain-Based Architecture for Collaborative DDoS Mitigation with Smart
+    Contracts* at [https://www.springer.com/cda/content/document/cda_downloaddocument/9783319607733-c2.pdf?SGWID=0-0-45-1609389-p180909480](https://www.springer.com/cda/content/document/cda_downloaddocument/9783319607733-c2.pdf?SGWID=0-0-45-1609389-p180909480).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*Collaborative DDoS Mitigation Based on Blockchains* at [https://files.ifi.uzh.ch/CSG/staff/Rafati/Jonathan%20Burger-BA.pdf](https://files.ifi.uzh.ch/CSG/staff/Rafati/Jonathan%20Burger-BA.pdf).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
