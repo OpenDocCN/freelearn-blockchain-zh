@@ -3,6 +3,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建您的第一个物联网解决方案
 - en: In the previous chapter, we explored the **Internet of Things** (**IoT**) as
     well as the IBM Watson IoT Platform. We also created our first simple solution.
     In this chapter, we will put this into practice by creating a simple end-to-end
@@ -11,76 +12,93 @@
   id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 在上一章中，我们探讨了**物联网**（**IoT**）以及 IBM Watson IoT 平台。我们还创建了我们的第一个简单解决方案。在本章中，我们将通过创建一个简单的端到端解决方案来实践这一点，从选择设备到创建设备固件和一个用于控制简单花园浇水系统的应用程序。
 - en: 'The following topics will be covered in this chapter:'
   id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章将涵盖以下主题：
 - en: Understanding how to set up a solution
   id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 了解如何设置解决方案
 - en: Creating a connected device
   id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 创建连接设备
 - en: Creating a simple application connected to the platform
   id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 创建连接到平台的简单应用程序
 - en: Publishing and processing device events
   id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 发布和处理设备事件
 - en: Publishing actions to devices
   id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将动作发布到设备
 - en: How to get help when you're in trouble
   id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在遇到问题时如何获取帮助
 - en: Technical requirements
   id: totrans-9
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 技术要求
 - en: The complete solution code is available in the `ch2` folder, available at the [https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain.git](https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain.git)
     repository.
   id: totrans-10
   prefs: []
   type: TYPE_NORMAL
+  zh: 完整的解决方案代码可在 `ch2` 文件夹中找到，位于 [https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain.git](https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain.git)
+    存储库中。
 - en: Make sure that you have also installed Cloud Foundry CLI and Bluemix CLI; the
     installation process for these command-line interfaces is described at [https://console.bluemix.net/docs/cli/index.html#overview](https://console.bluemix.net/docs/cli/index.html#overview).
   id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 确保您还安装了 Cloud Foundry CLI 和 Bluemix CLI；这些命令行界面的安装过程在 [https://console.bluemix.net/docs/cli/index.html#overview](https://console.bluemix.net/docs/cli/index.html#overview)
+    中有描述。
 - en: The first IoT solution – the gardening solution
   id: totrans-12
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 第一个物联网解决方案 - 花园解决方案
 - en: Watering systems are common first projects for using IoT in the DIY community.
     We too will use it as an example project to get started on the IBM Watson IoT
     Platform.
   id: totrans-13
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 DIY 社区中，浇水系统是使用物联网的常见第一个项目。我们也将使用它作为一个示例项目，开始使用 IBM Watson IoT 平台。
 - en: Requirements overview
   id: totrans-14
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 需求概述
 - en: 'Good solutions are based on problems that really matter to people. So let''s
     start our solution with an introduction to the actual problem:'
   id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 好的解决方案是基于真正对人们重要的问题。所以让我们从介绍实际问题开始我们的解决方案：
 - en: John lives alone in an apartment in the city. He is a businessman who has to
     travel for work for 3-4 days in a week. When not travelling or working, John likes
     to take care of his plants. However, since he is not home for half the week, John
@@ -88,31 +106,37 @@
   id: totrans-16
   prefs: []
   type: TYPE_NORMAL
+  zh: 约翰独自一人住在城市的公寓里。他是一个商人，每周必须出差 3-4 天。在不出差或工作时，约翰喜欢照顾他的植物。然而，由于他一周有一半时间不在家，约翰正在努力保持他的花园健康和美丽。
 - en: 'John has faced several challenging experiences with automated watering systems:
     either the system did not water the plants enough (on hot or dry days, for example),
     or it watered them too much when the weather was okay.'
   id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 约翰曾经在自动浇水系统中遇到过几次挑战性的经历：要么系统没有足够地给植物浇水（例如在炎热或干燥的日子），要么在天气好的时候给它们浇水太多。
 - en: John is looking for a solution that only waters his garden when a plant has
     reached a certain soil moisture condition, or whenever he feels it is necessary.
   id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: 约翰正在寻找一个解决方案，只有当植物达到一定的土壤湿度条件时，或者他觉得有必要时才给花园浇水。
 - en: Solution overview
   id: totrans-19
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 解决方案概述
 - en: 'The following diagram shows an overview of the solution components that will
     be developed to solve John''s problem:'
   id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: 下图显示了将开发的解决约翰问题的解决方案组件的概述：
 - en: '![](img/d9e49f99-00e8-4543-8afb-3791edb4ae7e.png)'
   id: totrans-21
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/d9e49f99-00e8-4543-8afb-3791edb4ae7e.png)'
 - en: A connected device will be attached to John's plant, and on a scheduled basis
     will retrieve measurements from the plant and environment (soil moisture and temperature)
     and publish the event to the IBM Watson IoT Platform. The device will also subscribe
@@ -120,6 +144,7 @@
   id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个连接的设备将连接到约翰的植物上，并定期从植物和环境（土壤湿度和温度）中检索测量值，并将事件发布到 IBM Watson IoT 平台。该设备还将订阅触发命令（动作）。
 - en: An application deployed to the IBM Cloud (Bluemix) will subscribe to John's
     events, and whenever a configured minimum level of soil moisture or a high temperature
     threshold is reached, the application will send an action command to water the
@@ -127,54 +152,64 @@
   id: totrans-23
   prefs: []
   type: TYPE_NORMAL
+  zh: 部署到 IBM 云（Bluemix）的应用将订阅约翰的事件，并在达到配置的最低土壤湿度或高温阈值时，应用将发送动作命令以进行一定时间的浇水。
 - en: Selecting the equipment
   id: totrans-24
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 选择设备
 - en: 'Given the requirements described in the previous section, the device that needs
     to be created must have the following capabilities:'
   id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 鉴于前一节描述的要求，需要创建的设备必须具备以下功能：
 - en: Be able to measure the soil's moisture level (an analog probe has a good fit
     for this solution)
   id: totrans-26
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 能够测量土壤湿度水平（模拟探针非常适合这种解决方案）
 - en: Have bidirectional communication capability (so that the user can water the
     garden whenever he feels it is necessary)
   id: totrans-27
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 具有双向通信能力（以便用户在觉得有必要时为花园浇水）
 - en: Be able to configure the soil's moisture limit (a configurable rule)
   id: totrans-28
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 能够配置土壤湿度的限制（可配置规则）
 - en: 'The following assumptions are also true about the solution:'
   id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 关于解决方案，还有以下假设是成立的：
 - en: The user will prov
   id: totrans-30
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 用户将提
 - en: ide a Wi-Fi internet connection
   id: totrans-31
   prefs:
   - PREF_UL
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 供 Wi-Fi 互联网连接
 - en: The user will provide an energy supply for the system
   id: totrans-32
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 用户将为系统提供能源供应
 - en: The system will be used in an apartment, so there is no need for long-distance
     connections
   id: totrans-33
@@ -182,17 +217,20 @@
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 该系统将用于公寓，因此不需要远距离连接
 - en: Payload size is irr
   id: totrans-34
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 负载大小是不确定的
 - en: elevant as a Wi-Fi connection will be provided
   id: totrans-35
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 当提供了 Wi-Fi 连接时，相关性变得更高
 - en: 'Since we are prototyping before creating the actual device, there are a number
     of prototyping platforms that can make it easier to wire and test the solution quickly.
     To do this, we will use one of the most powerful and modular platforms: Intel
@@ -200,65 +238,81 @@
   id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于我们在创建实际设备之前进行原型设计，有许多原型设计平台可以使布线和测试解决方案更加容易快速。为此，我们将使用其中一种最强大和模块化的平台：英特尔 Edison
+    和 Grove。
 - en: We will look for a device (or a composition) that has Wi-Fi connectivity and
     an analog sensor connection. We will also need a soil moisture analog sensor probe,
     a temperature and humidity sensor, and a water solenoid valve.
   id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将寻找具有 Wi-Fi 连接和模拟传感器连接的设备（或组合）。我们还需要一个土壤湿度模拟传感器探针、一个温湿度传感器和一个水电磁阀。
 - en: 'Consequently, the solution will require a list of parts, which will look something
     like this:'
   id: totrans-38
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，解决方案将需要一个零件列表，其形式将类似于以下内容：
 - en: '| **Quantity** | **Component** |'
   id: totrans-39
   prefs: []
   type: TYPE_TB
+  zh: '| **数量** | **组件** |'
 - en: '| 1 | Intel Edison module |'
   id: totrans-40
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | 英特尔 Edison 模块 |'
 - en: '| 1 | Intel Edison Arduino breakout board |'
   id: totrans-41
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | 英特尔 Edison Arduino 扩展板 |'
 - en: '| 1 | Grove base shield v2 |'
   id: totrans-42
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | Grove 基座 v2 |'
 - en: '| 1 | Grove soil moisture sensor |'
   id: totrans-43
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | Grove 土壤湿度传感器 |'
 - en: '| 1 | Groove temperature sensor v1.2 |'
   id: totrans-44
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | Groove 温度传感器 v1.2 |'
 - en: '| 1 | Grove relay module |'
   id: totrans-45
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | Grove 继电器模块 |'
 - en: '| 1 | Grove button module |'
   id: totrans-46
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | Grove 按钮模块 |'
 - en: '| 4 | Grove universal 4-pin cable |'
   id: totrans-47
   prefs: []
   type: TYPE_TB
+  zh: '| 4 | Grove 通用 4 脚电缆 |'
 - en: '| 1 | 12V water solenoid valve |'
   id: totrans-48
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | 12V 水电磁阀 |'
 - en: '| 1 | 12V 2A power supply |'
   id: totrans-49
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | 12V 2A 电源适配器 |'
 - en: '| 2 | Jumper cables (male to male) |'
   id: totrans-50
   prefs: []
   type: TYPE_TB
+  zh: '| 2 | 杜邦线（公对公） |'
 - en: 'The following diagram provides an overview of the parts that are specified
     in the parts list table. Please note that the shape and color of the devices are
     just for illustration purposes and might be different depending on the vendor,
@@ -266,24 +320,29 @@
   id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: 下图提供了部件列表表中指定的部件的概览。请注意，设备的形状和颜色仅用于说明目的，可能会因供应商、版本或其他特性而有所不同：
 - en: '![](img/b558ff3e-2696-417a-b8a6-9fe930be9c9a.png)'
   id: totrans-52
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/b558ff3e-2696-417a-b8a6-9fe930be9c9a.png)'
 - en: The image was created with Fritzing and is licensed under CC BY-SA 3.0; see
     https://creativecommons.org/licenses/by-sa/3.0/
   id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: 该图像是用 Fritzing 创建的，并在 CC BY-SA 3.0 下获得许可；请参阅 https://creativecommons.org/licenses/by-sa/3.0/
 - en: Let's quickly review the parts from this list.
   id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们快速查看一下此列表中的零件。
 - en: Intel Edison
   id: totrans-55
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 英特尔 Edison
 - en: Edison is a **system-on-a-chip** (**SoC**), based on Intel x86 architecture
     with embedded Bluetooth 4.0 and Wi-Fi designed for IoT applications. Edison runs
     a Linux distribution named Yocto; has support for many platforms, such as Python,
@@ -292,11 +351,15 @@
   id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: Edison 是一款**片上系统**（**SoC**），基于英特尔 x86 架构，内置蓝牙 4.0 和 Wi-Fi，专为物联网应用设计。Edison 运行名为
+    Yocto 的 Linux 发行版；支持许多平台，如 Python、Node.js、C 和 C++；并具有用于使用 Arduino IDE、Eclipse
+    和英特尔 XDK 开发解决方案的插件。
 - en: Arduino breakout board
   id: totrans-57
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Arduino 扩展板
 - en: The Arduino breakout board for Edison was also released by Intel, which provides
     the same standard pin interface used by Arduino modules and is compatible with
     Arduino shields. Since you can use the standard Arduino IDE, compatible libraries,
@@ -421,36 +484,43 @@
   id: totrans-75
   prefs: []
   type: TYPE_NORMAL
+  zh: 其他执行器模块，如 LED、显示器、电机驱动器和蜂鸣器，用于执行动作而不是读取状态。继电器模块也有两种状态，断路或闭路，这意味着继电器的输入连接没有连接到输出。
 - en: This concludes our review of the parts. Let's move on to the next step in the
     solution development process.
   id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 这结束了我们对零件的审查。让我们继续进行解决方案开发过程中的下一步。
 - en: Wiring the device
   id: totrans-77
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 接线装置
 - en: To assemble the hardware, we need to correctly connect the sensor probes to
     the processing unit—in this case, the Intel Edison module.
   id: totrans-78
   prefs: []
   type: TYPE_NORMAL
+  zh: 要组装硬件，我们需要正确连接传感器探针到处理单元——在本例中，是英特尔 Edison 模块。
 - en: 'Grove modules make the connections very simple, as the following steps show:'
   id: totrans-79
   prefs: []
   type: TYPE_NORMAL
+  zh: Grove 模块使连接变得非常简单，如下面的步骤所示：
 - en: 'Using the Grove universal cables:'
   id: totrans-80
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 使用 Grove 通用电缆：
 - en: Attach the Grove moisture sensor to the `A0` connection jack in the base shield
   id: totrans-81
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将 Grove 湿度传感器连接到基础盾牌的`A0`连接插孔
 - en: Attach the Grove temperature sensor to the `A3` connection jack in the base
     shield
   id: totrans-82
@@ -458,64 +528,76 @@
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将 Grove 温度传感器连接到基础盾牌的`A3`连接插孔
 - en: Attach the Grove relay module to the `D2` connection jack in the base shield
   id: totrans-83
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将 Grove 继电器模块连接到基础盾牌的`D2`连接插孔
 - en: Attach the Grove button module to the `D3` connection jack in the base shield
   id: totrans-84
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将 Grove 按钮模块连接到基础盾牌的`D3`连接插孔
 - en: 'Using the jumpers:'
   id: totrans-85
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 使用跳线：
 - en: Attach the solenoid valve's `V+` end to an external 12V power supply
   id: totrans-86
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将电磁阀的`V+`端连接到外部 12V 电源
 - en: Attach the external `GND` pin to a `GND` pin in the base shield
   id: totrans-87
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将外部`GND`引脚连接到基础盾牌的一个`GND`引脚
 - en: Attach a relay connection to a `GND` pin
   id: totrans-88
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将继电器连接到一个`GND`引脚
 - en: Attach the solenoid valve `GND` terminal to the other relay module connection
   id: totrans-89
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将电磁阀`GND`端连接到另一个继电器模块连接处
 - en: 'The following diagram shows the correct connections:'
   id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下图表显示了正确的连接方式：
 - en: '![](img/85334211-c94f-4f98-97b6-424d93f791ff.png)'
   id: totrans-91
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/85334211-c94f-4f98-97b6-424d93f791ff.png)'
 - en: Image was created with Fritzing and it is licensed under CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0/
   id: totrans-92
   prefs: []
   type: TYPE_NORMAL
+  zh: 图像是使用 Fritzing 创建的，并且受 CC BY-SA 3.0 许可证的保护 https://creativecommons.org/licenses/by-sa/3.0/
 - en: Coding the device firmware
   id: totrans-93
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 编写设备固件
 - en: Next, we will create a device application (firmware) that reads the sensor data
     and sends it to the backing application. In the previous chapter, we used Node.js
     to publish events from a device simulator, and now we're going to use this method
@@ -525,16 +607,19 @@
   id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来，我们将创建一个设备应用程序（固件），该应用程序读取传感器数据并将其发送到后备应用程序。在上一章中，我们使用 Node.js 从设备模拟器发布事件，现在我们将使用此方法来利用前一章的代码。请记住，此解决方案的目标是在温度过高或土壤湿度过低时浇水。
 - en: The next section shows the code needed in order to create the firmware that
     reads all the sensor data and publishes events to the IBM Watson IoT Platform.
   id: totrans-95
   prefs: []
   type: TYPE_NORMAL
+  zh: 下一节显示了创建读取所有传感器数据并将事件发布到 IBM Watson IoT 平台的固件所需的代码。
 - en: Measuring soil moisture
   id: totrans-96
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测量土壤湿度
 - en: The sensor probe used in this project is a resistive sensor, which measures
     the current that is passed through the probes of the sensor. It has two probes
     that are physically separated; one probe is attached to a positive end and the
@@ -543,12 +628,14 @@
   id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 此项目中使用的传感器探针是一个电阻性传感器，它测量通过传感器探针的电流。它有两个物理分离的探针；一个探针连接到正极，另一个连接到`GND`端。当两个探针通过一个共同的表面连接时，它将测量通过该表面传递的电流并给我们一个读数。
 - en: In our case, when the probes touch the soil, it will measure the current that
     passes through. When soil gets wet, it becomes more conductive, meaning that more
     current will pass through the probes.
   id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们的情况下，当探针接触土壤时，它将测量通过的电流。当土壤变湿时，它变得更加导电，这意味着更多的电流将通过探针。
 - en: 'The Intel Edison ADC (analog-to-digital) converter that is in the Arduino breakout
     board has a 12-bit resolution, but this is limited through software to a 10-bit
     resolution. If we use this as the basis for our measurement, we will get the following
@@ -556,10 +643,12 @@
   id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 位于 Arduino 扩展板上的英特尔 Edison ADC（模拟到数字）转换器具有 12 位分辨率，但通过软件限制为 10 位分辨率。如果我们将此作为测量的基础，我们将获得以下读数的理解：
 - en: 2^(10) = 1024
   id: totrans-100
   prefs: []
   type: TYPE_NORMAL
+  zh: 2^(10) = 1024
 - en: This means that our readings will be a value from 0 to 1,023, where 0 means
     no water at all and 1,023 means 100% of the water. This will vary because of other
     impurities that are present in the soil, such as minerals. However, in this case,
@@ -569,10 +658,13 @@
   id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 这意味着我们的读数将是从 0 到 1,023 的值，其中 0 表示没有水，1,023 表示水的 100%。这将因土壤中存在的其他杂质而变化，例如矿物质。然而，在这种情况下，我们将假设土壤被完美地测量。当它完全干燥时，它会给我们一个
+    0% 的测量值，如果是一杯没有任何土壤的水，它会给我们一个 100% 的读数。
 - en: 'The following code will read the soil moisture sensor every two seconds:'
   id: totrans-102
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下代码将每两秒读取一次土壤湿度传感器：
 - en: '[PRE0]'
   id: totrans-103
   prefs: []
@@ -582,87 +674,107 @@
   id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: 要运行代码，请在 Edison 的 SSH 控制台中键入 `npm start`。
 - en: 'For testing purposes, let''s take a look at the measurement readings of the
     sensors that are printed to the console and gain some understanding of the values:'
   id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了测试目的，让我们查看打印到控制台的传感器测量读数并对这些值有所了解：
 - en: '![](img/f169dcf4-c85c-478b-9bc3-401bfe0ae43f.png)'
   id: totrans-106
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/f169dcf4-c85c-478b-9bc3-401bfe0ae43f.png)'
 - en: 'We already know that 0 means 0% water and 1,023 is 100, which means that the
     sample measurement readings in the program are as follows:'
   id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们已经知道，0 表示 0% 的水分，1,023 表示 100%，这意味着程序中的样本测量读数如下：
 - en: '![](img/1b506e9d-1094-4a43-8a3c-6becd22ea4b3.png)'
   id: totrans-108
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/1b506e9d-1094-4a43-8a3c-6becd22ea4b3.png)'
 - en: 'Applying the reading values to the preceding formula will transform them into
     percentage values as follows:'
   id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 将读数值应用于前面的公式将使它们转换为百分比值，如下所示：
 - en: '| **Reading values** | **Moisture percentage** |'
   id: totrans-110
   prefs: []
   type: TYPE_TB
+  zh: '| **读数数值** | **湿度百分比** |'
 - en: '| 256 | 25.02% |'
   id: totrans-111
   prefs: []
   type: TYPE_TB
+  zh: '| 256 | 25.02% |'
 - en: '| 307 | 30.00% |'
   id: totrans-112
   prefs: []
   type: TYPE_TB
+  zh: '| 307 | 30.00% |'
 - en: '| 302 | 29.52% |'
   id: totrans-113
   prefs: []
   type: TYPE_TB
+  zh: '| 302 | 29.52% |'
 - en: '| 303 | 29.61% |'
   id: totrans-114
   prefs: []
   type: TYPE_TB
+  zh: '| 303 | 29.61% |'
 - en: '| 299 | 29.22% |'
   id: totrans-115
   prefs: []
   type: TYPE_TB
+  zh: '| 299 | 29.22% |'
 - en: '| 298 | 29.13% |'
   id: totrans-116
   prefs: []
   type: TYPE_TB
+  zh: '| 298 | 29.13% |'
 - en: Measuring environmental temperature
   id: totrans-117
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测量环境温度
 - en: Similar to the previous code block (but slightly more mathematically complicated),
     the temperature sensor returns an analog reading of the sensor.
   id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 与上一个代码块类似（但稍微更加数学上复杂），温度传感器返回传感器的模拟读数。
 - en: If we look at the manufacturer's explanation ([http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/](http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/))
     on how to read the sensor, we will discover that the sensor's v1.2 is shipped
     with a thermistor with the value of 4,250 as well as a 100k resistor.
   id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果我们查看制造商的说明 ([http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/](http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/))
+    关于如何读取传感器，我们将发现传感器的 v1.2 配有一个热敏电阻，其值为 4,250，以及一个 100k 电阻。
 - en: 'Consequently, the formula for calculating the temperature value using this
     sensor is as follows:'
   id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，使用该传感器计算温度值的公式如下：
 - en: '![](img/1e626537-0760-43de-8717-0e14e451a067.png)'
   id: totrans-121
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/1e626537-0760-43de-8717-0e14e451a067.png)'
 - en: 'The following code will give the temperature based on the sensor readings every
     two seconds:'
   id: totrans-122
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下代码将基于传感器读数每两秒给出一次温度：
 - en: '[PRE1]'
   id: totrans-123
   prefs: []
@@ -672,25 +784,30 @@
   id: totrans-124
   prefs: []
   type: TYPE_NORMAL
+  zh: 此代码的输出将类似于以下内容：
 - en: '![](img/fa1f254b-f63d-4171-960c-4eff6d1f306d.png)'
   id: totrans-125
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/fa1f254b-f63d-4171-960c-4eff6d1f306d.png)'
 - en: Using the SSH console, these readings will be logged.
   id: totrans-126
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用 SSH 控制台，这些读数将被记录。
 - en: Turning on the relay
   id: totrans-127
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 打开继电器
 - en: 'Last but not least, since we want to turn on a relay that will let water flow
     and then turn it off, the code for turning the water on after one second and off
     after two seconds is as follows:'
   id: totrans-128
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后但同样重要的是，因为我们想要打开一个继电器，让水流出然后关闭，所以打开水的代码在一秒后关闭两秒后如下所示：
 - en: '[PRE2]'
   id: totrans-129
   prefs: []
@@ -702,27 +819,32 @@
   id: totrans-130
   prefs: []
   type: TYPE_NORMAL
+  zh: 延迟一秒后，你将看到 `D3` 继电器模块的 LED 灯亮起，并且会听到一声点击。这意味着继电器连接已关闭，两秒后它将关闭并打开连接。
 - en: Publishing events
   id: totrans-131
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 发布事件
 - en: At this point in the chapter, we have explored Node.js scripts that are capable
     of reading both soil moisture and temperatures, and we have also looked at the
     code that can turn on and turn off the relay that lets the water flow to the plant.
   id: totrans-132
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章的这一点上，我们已经探讨了能够读取土壤湿度和温度的 Node.js 脚本，并且我们还查看了能够打开和关闭让水流到植物的继电器的代码。
 - en: The goal is now to publish both of these values to the IBM Watson IoT Platform.
   id: totrans-133
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在的目标是将这两个值发布到 IBM Watson IoT 平台。
 - en: 'As shown in the previous chapter, it''s necessary to create a device and note
     the credentials, so that we can use them to connect the device to the platform. The
     following code performs the regular publishing of the events:'
   id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 如前一章所示，需要创建一个设备并记录凭据，以便我们可以使用它们将设备连接到平台。下面的代码执行事件的定期发布：
 - en: '[PRE3]'
   id: totrans-135
   prefs: []
@@ -734,27 +856,32 @@
   id: totrans-136
   prefs: []
   type: TYPE_NORMAL
+  zh: 当脚本启动时，它们将从 `device.json` 文件加载配置，连接到 IBM Watson IoT 平台，然后每五分钟发布一次当前土壤湿度和温度的事件。
 - en: Monitoring the events
   id: totrans-137
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 监测事件
 - en: The easiest way to view the data published by the device is by using boards
     and cards. If you keep the device script running when creating the card, it will
     get the values from the data structure published by the device.
   id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 查看设备发布的数据最简单的方法是使用看板和卡片。如果在创建卡片时保持设备脚本运行，它将从设备发布的数据结构中获取值。
 - en: 'To create a card, access the IBM Watson IoT Platform console and select boards in
     the left menu:'
   id: totrans-139
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 要创建卡片，请访问 IBM Watson IoT 平台控制台，并在左侧菜单中选择看板：
 - en: '![](img/cb898b2d-8bbb-47ab-90e1-4e771d574991.png)'
   id: totrans-140
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/cb898b2d-8bbb-47ab-90e1-4e771d574991.png)'
 - en: 'At the top right of the page, select + Create New Board, complete the information
     required, and create the board. Most information that must be provided is miscellaneous,
     but make sure it is meaningful to the target user. The board created here is supposed
@@ -763,29 +890,35 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在页面右上角，选择+ 创建新看板，填写所需信息，并创建看板。大多数必须提供的信息都是杂项，但确保对目标用户有意义。这里创建的看板应该显示所监测到的植物读数：
 - en: '![](img/da127d13-85f7-4507-ae5b-e4325959228a.png)![](img/5146a0d2-0730-4074-be74-cd7f9d00965a.png)'
   id: totrans-142
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/da127d13-85f7-4507-ae5b-e4325959228a.png)![](img/5146a0d2-0730-4074-be74-cd7f9d00965a.png)'
 - en: A board is a set of related cards, and a card is a set of related values that
     were published by devices to the platform.
   id: totrans-143
   prefs: []
   type: TYPE_NORMAL
+  zh: 看板是一组相关的卡片，卡片是设备发布到平台的相关值的集合。
 - en: Select the created board and create the card by selecting + Add New Card.
   id: totrans-144
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 选择已创建的看板，并通过选择+ 添加新卡片创建卡片。
 - en: 'Select the Line chart device visualization and the device created:'
   id: totrans-145
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 选择 折线图 设备可视化和已创建的设备：
 - en: '![](img/95ad08d5-7420-4223-909d-3f1a9ec02799.png)'
   id: totrans-146
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/95ad08d5-7420-4223-909d-3f1a9ec02799.png)'
 - en: 'After selecting Line chart card, you need to select a data source for the event.
     Select the device created as the data source for this card. The data source, as
     the name says, is the source of information that will be used to populate the
@@ -794,10 +927,12 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 选择折线图卡后，需要选择事件的数据源。将已创建的设备作为此卡的数据源。数据源，顾名思义，是将用于从设备收集的度量值填充图表的信息源：
 - en: '![](img/6f36d579-57f0-4f32-a64e-a227fd96dcbc.png)'
   id: totrans-148
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/6f36d579-57f0-4f32-a64e-a227fd96dcbc.png)'
 - en: After selecting the data source, it's necessary to select the metrics that will
     be plotted on the chart. If the device has already published some events to the
     IBM Watson IoT Platform, the metric names will be available to be selected. On
@@ -808,6 +943,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 选择数据源后，需要选择将在图表上绘制的度量。如果设备已经向 IBM Watson IoT 平台发布了一些事件，那么度量名称将可供选择。另一方面，如果设备代码以前从未运行过，则需要提供度量名称。建议（但不是必须）在创建图表之前至少测试设备代码，以避免错误。
 - en: 'In the solution that is being developed, we want the card to have both metrics
     plotted in the line chart and tracked. Add each metric with its corresponding
     unit and maximum and minimum possible values. For the soil moisture, we use percentage,
@@ -816,40 +952,48 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在正在开发的解决方案中，我们希望卡片在折线图中具有两个度量值，并进行跟踪。使用相应的单位和最小和最大可能值添加每个度量值。对于土壤湿度，我们使用百分比，因此单位应为`%`，最小和最大值分别为`0`和`100`：
 - en: '![](img/06ed102f-b3c1-4e02-a2c8-0c6df50d445f.png)'
   id: totrans-151
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/06ed102f-b3c1-4e02-a2c8-0c6df50d445f.png)'
 - en: 'For temperature, measured in degrees Celsius (°C), the minimum and maximum
     possible values are `0` and `100`:'
   id: totrans-152
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 对于以摄氏度（°C）测量的温度，最小和最大可能值分别为`0`和`100`：
 - en: '![](img/edf3de4c-9e73-4bbc-877a-824c7e748668.png)'
   id: totrans-153
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/edf3de4c-9e73-4bbc-877a-824c7e748668.png)'
 - en: 'Select the size of the card you prefer to display, name the card, and create
     it. You will now be able to visualize the published data:'
   id: totrans-154
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 选择您喜欢显示的卡片大小，命名卡片，并创建它。您现在可以可视化发布的数据了：
 - en: '![](img/bfc97b61-a85e-4f17-a3a9-0fd3dff1843f.png)'
   id: totrans-155
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/bfc97b61-a85e-4f17-a3a9-0fd3dff1843f.png)'
 - en: It's possible to verify the measurements sent by the plant device, plotted in
     the timeline. It's also possible to change the time frame for the chart.
   id: totrans-156
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以验证植物设备发送的测量值，在时间线上绘制出来。还可以更改图表的时间范围。
 - en: Subscribing to actions
   id: totrans-157
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 订阅操作
 - en: After publishing events for the device, it's time to define actions that need
     to be handled by the device. In our case, John, the user of the solution, wants
     to be able to water his plants whenever a defined soil moisture threshold is detected,
@@ -858,6 +1002,7 @@
   id: totrans-158
   prefs: []
   type: TYPE_NORMAL
+  zh: 在为设备发布事件之后，现在是定义需要由设备处理的操作的时候了。在我们的情况下，解决方案的用户John希望能够在检测到定义的土壤湿度阈值时给植物浇水，当温度达到可配置值时，或者当他触发浇水植物的事件时。
 - en: The water flow is controlled by the solenoid valve, which is opened and closed
     by the relay module. The following code is an update of the previous one, including
     the subscription for the water-the-plant action, which will open the valve for
@@ -865,6 +1010,7 @@
   id: totrans-159
   prefs: []
   type: TYPE_NORMAL
+  zh: 水流由电磁阀控制，该阀由继电器模块打开和关闭。以下代码是先前代码的更新，包括订阅浇水植物动作，该动作将打开阀门一分钟。
 - en: 'The starting point is to import all package dependencies, define the `RESISTOR`
     and `THERMISTOR` constants with predefined values, and load the configuration
     from `device.json`:'
@@ -872,6 +1018,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 起点是导入所有包依赖项，使用预定义值定义`RESISTOR`和`THERMISTOR`常量，并从`device.json`中加载配置：
 - en: '[PRE4]'
   id: totrans-161
   prefs: []
@@ -884,6 +1031,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后，创建辅助函数将传感器读数转换为可用值。以下函数负责从实际设备检索传感器值并将其转换为人类可理解的值：
 - en: '[PRE5]'
   id: totrans-163
   prefs: []
@@ -896,6 +1044,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 下一步是创建一个辅助函数来激活电磁阀，等待请求的时间量（`secondsToWater`变量的值），然后停止激活阀门以停止浇水：
 - en: '[PRE6]'
   id: totrans-165
   prefs: []
@@ -907,6 +1056,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 连接到IBM Watson IoT平台并创建一个发布函数，该函数将每五分钟向平台发布事件：
 - en: '[PRE7]'
   id: totrans-167
   prefs: []
@@ -918,6 +1068,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 创建一个订阅`water`事件的函数，触发`waterPlant`函数：
 - en: '[PRE8]'
   id: totrans-169
   prefs: []
@@ -928,28 +1079,33 @@
   id: totrans-170
   prefs: []
   type: TYPE_NORMAL
+  zh: 这完成了我们的设备固件的编码，以便它可以执行我们的用户John所期望的操作。
 - en: Creating the backend application
   id: totrans-171
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建后端应用程序
 - en: With the device firmware setup completed, it's now time to focus on developing
     the application that will process the device events and send commands so that
     John's plant will get watered when he's not home.
   id: totrans-172
   prefs: []
   type: TYPE_NORMAL
+  zh: 设备固件设置完成后，现在是专注于开发将处理设备事件并发送命令以便在John不在家时给他的植物浇水的应用程序的时候了。
 - en: The code for the application will run on the IBM Cloud Platform (Bluemix). Since
     this is just an example application, we're going to use environment variables
     to store parameters (temperature and soil moisture thresholds).
   id: totrans-173
   prefs: []
   type: TYPE_NORMAL
+  zh: 应用程序的代码将在IBM Cloud平台（Bluemix）上运行。由于这只是一个示例应用程序，我们将使用环境变量来存储参数（温度和土壤湿度阈值）。
 - en: Creating a Cloud Foundry application in the IBM Cloud Platform
   id: totrans-174
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在IBM Cloud平台上创建一个Cloud Foundry应用程序
 - en: 'To create an application in IBM Cloud, access [https://console.bluemix.net](https://console.bluemix.net),
     select the Create Resource option, and select Cloud Foundry Apps in the left menu, followed
     by SDK for Node.js. After doing this, name the application and create the runtime:'
@@ -957,20 +1113,25 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 要在IBM Cloud中创建一个应用程序，请访问[https://console.bluemix.net](https://console.bluemix.net)，选择创建资源选项，并在左侧菜单中选择Cloud
+    Foundry Apps，然后选择SDK for Node.js。做完这些之后，给应用程序命名并创建运行时：
 - en: '![](img/99311d15-d0f2-4a55-88fd-d82d61f2a49f.png)'
   id: totrans-176
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/99311d15-d0f2-4a55-88fd-d82d61f2a49f.png)'
 - en: 'When application creation is complete, select Connections in the left menu and
     create a connection to the IoT service:'
   id: totrans-177
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 当应用程序创建完成后，在左侧菜单中选择 Connections，并创建到IoT服务的连接：
 - en: '![](img/763dec81-cade-4877-8383-59b8434f5423.png)'
   id: totrans-178
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/763dec81-cade-4877-8383-59b8434f5423.png)'
 - en: 'After creating the connection to the IBM Watson IoT Platform organization,
     select the Runtime option in the left menu followed by Environment Variables.
     At the bottom of the screen, add two User defined variables, `MINIMUM_MOISTURE`
@@ -979,10 +1140,13 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在创建到 IBM Watson IoT Platform 组织的连接之后，选择左侧菜单中的 Runtime 选项，然后选择 Environment Variables。在屏幕底部，添加两个用户定义变量，`MINIMUM_MOISTURE`
+    的值为 `300`，`MAXIMUM_TEMPERATURE` 的值为 `50`：
 - en: '![](img/a7a2b6b3-15af-4de7-8b43-1b5b5d55ab40.png)'
   id: totrans-180
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a7a2b6b3-15af-4de7-8b43-1b5b5d55ab40.png)'
 - en: Instead of using a JSON file for storing the configuration as we did in the
     previous chapter, the only configuration needed now is in `VCAP_SERVICES` and
     environment variables. These variables can be accessed from code using default
@@ -992,11 +1156,14 @@
   id: totrans-181
   prefs: []
   type: TYPE_NORMAL
+  zh: 与之前章节中使用 JSON 文件存储配置不同，现在唯一需要的配置是在 `VCAP_SERVICES` 和环境变量中。可以使用默认库包从代码中访问这些变量，并且在
+    Node.js 中有用于访问 Cloud Foundry 环境相关设施的加速器，比如在下一节中介绍的代码中使用的 `cfenv` 模块。
 - en: Uploading the code
   id: totrans-182
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 上传代码
 - en: Since we are deploying the application to a Cloud Foundry environment, it's
     important to know that Cloud Foundry containers expect to have an HTTP port to
     be published by the container, so even though we are not using the container to
@@ -1004,17 +1171,21 @@
   id: totrans-183
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于我们正在将应用程序部署到 Cloud Foundry 环境中，重要的是要知道 Cloud Foundry 容器期望容器发布一个 HTTP 端口，所以即使我们不使用容器来公开
+    HTTP 资源，我们仍然会启动 Express JS 服务器。
 - en: The following code handles the events received from devices and publishes actions
     if any conditions are met.
   id: totrans-184
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下代码处理从设备接收到的事件，并在满足任何条件时发布动作。
 - en: 'Again, the entry point of the code is to load module dependencies and gather
     the required configuration from the Cloud Foundry environment variables:'
   id: totrans-185
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 再次，代码的入口是加载模块依赖项并从 Cloud Foundry 环境变量中收集所需配置：
 - en: '[PRE9]'
   id: totrans-186
   prefs: []
@@ -1026,6 +1197,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后，从 Cloud Foundry 环境加载配置数据并生成连接配置数据：
 - en: '[PRE10]'
   id: totrans-188
   prefs: []
@@ -1037,6 +1209,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 下一步是连接到 IBM Watson IoT Platform 并订阅目标设备事件：
 - en: '[PRE11]'
   id: totrans-190
   prefs: []
@@ -1050,6 +1223,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 每当从订阅接收到事件时，应用程序都会检查设备报告的温度是否更高或土壤湿度是否低于定义的阈值。如果是，则发布带有指定持续时间（以秒为单位）的浇水事件到设备，以激活浇水阀：
 - en: '[PRE12]'
   id: totrans-192
   prefs: []
@@ -1061,6 +1235,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 最后，启动 Express 服务器，以便 IBM Cloud SDK for Node.js 容器在 Cloud Foundry 环境中启动并受监控：
 - en: '[PRE13]'
   id: totrans-194
   prefs: []
@@ -1073,6 +1248,8 @@
   id: totrans-195
   prefs: []
   type: TYPE_NORMAL
+  zh: 要部署应用程序，请打开 `manifest.yml` 文件并更改应用程序的 `name` 属性。然后，打开命令行终端，切换到应用程序基目录（即 `manifest.yml`
+    所在的位置），并使用 `bluemix` CLI 部署应用程序：
 - en: '[PRE14]'
   id: totrans-196
   prefs: []
@@ -1082,11 +1259,13 @@
   id: totrans-197
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/61977231-41ec-4263-a9dc-cd3498d11217.png)'
 - en: 'After getting the successful deployment message, check the application logs
     using the `bluemix` CLI:'
   id: totrans-198
   prefs: []
   type: TYPE_NORMAL
+  zh: 获取成功部署消息后，使用 `bluemix` CLI 检查应用程序日志：
 - en: '[PRE15]'
   id: totrans-199
   prefs: []
@@ -1098,33 +1277,41 @@
   id: totrans-200
   prefs: []
   type: TYPE_NORMAL
+  zh: 该命令将从 Cloud Foundry 应用程序检索并显示日志文件，如下所示。为确保您能检索这些日志，请确保所有应用程序跟踪都发送到 `stdout`
+    和 `stderr`：
 - en: '![](img/0fe96c2d-d112-4655-89da-5cb262779827.png)'
   id: totrans-201
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/0fe96c2d-d112-4655-89da-5cb262779827.png)'
 - en: Log files from the Cloud Foundry application
   id: totrans-202
   prefs: []
   type: TYPE_NORMAL
+  zh: 从 Cloud Foundry 应用程序的日志文件
 - en: 'Looking at the device logs, you can see that whenever any of the conditions
     were met, they got an action request to water the plants:'
   id: totrans-203
   prefs: []
   type: TYPE_NORMAL
+  zh: 查看设备日志，可以看到每当满足条件时，它们都会收到浇水的操作请求：
 - en: '![](img/8500ecd5-a346-4505-9c4f-73e0c8a1b1e8.png)'
   id: totrans-204
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/8500ecd5-a346-4505-9c4f-73e0c8a1b1e8.png)'
 - en: At this point, you already have an IoT application and device connected and
     working properly in the IBM Cloud environment.
   id: totrans-205
   prefs: []
   type: TYPE_NORMAL
+  zh: 此时，您已经在 IBM Cloud 环境中拥有一个 IoT 应用程序和设备，并且已连接并正常工作。
 - en: Summary
   id: totrans-206
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 摘要
 - en: In this chapter, we developed a solution running on a real device that supports
     Node.js. We also used the low-level mraa library, which interacts with the device
     GPIO (General Purpose IO), reads analog sensors (temperature and soil moisture
@@ -1134,6 +1321,7 @@
   id: totrans-207
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们开发了在支持 Node.js 的真实设备上运行的解决方案。我们还使用了低级别的 mraa 库，该库与设备的 GPIO（通用输入/输出）进行交互，读取模拟传感器（温度和土壤湿度传感器），并使用数字引脚开关继电器的开关。这看起来非常简单，但大多数设备都具有传感器和执行器，这可能会改变它们的使用方式。但是，它们基本上遵循相同的概念。
 - en: We created a dashboard in the IBM Watson IoT Platform that is helpful for looking
     at what real-time data devices are publishing. We also created an application
     in the IBM Cloud Platform (Bluemix) and attached backing services (the IBM Watson
@@ -1143,17 +1331,21 @@
   id: totrans-208
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们在 IBM Watson IoT 平台中创建了一个仪表板，有助于查看设备发布的实时数据。我们还在 IBM Cloud 平台（Bluemix）中创建了一个应用程序，并将后台服务（IBM
+    Watson IoT 平台组织）附加到了应用程序上，以利用配置数据连接到服务，并使用 Bluemix 命令行界面部署应用程序。
 - en: The next chapters will introduce blockchain as a platform for interconnected
     businesses and explain its value and the common use cases in which it adds value
     to the business chain.
   id: totrans-209
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来的章节将介绍区块链作为互连业务平台，并解释其价值以及它增加业务链价值的常见用例。
 - en: Further reading
   id: totrans-210
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 进一步阅读
 - en: 'Most of the resources needed to complete solutions using the IBM Watson IoT
     Platform can be found in the official documentation at the following link: [https://console.bluemix.net/docs/services/IoT/index.html#gettingstartedtemplate](https://console.bluemix.net/docs/services/IoT/index.html#gettingstartedtemplate).
     There are also many recipes published by the community that uses IBM Watson IoT,
@@ -1161,6 +1353,8 @@
   id: totrans-211
   prefs: []
   type: TYPE_NORMAL
+  zh: 完成使用 IBM Watson IoT 平台的解决方案所需的大多数资源都可以在官方文档中找到，链接如下：[https://console.bluemix.net/docs/services/IoT/index.html#gettingstartedtemplate](https://console.bluemix.net/docs/services/IoT/index.html#gettingstartedtemplate)。社区还发布了许多使用
+    IBM Watson IoT 的配方，并可在 developerWorks 配方网站上找到，链接如下：[https://developer.ibm.com/recipes/tutorials/category/internet-of-things-iot/](https://developer.ibm.com/recipes/tutorials/category/internet-of-things-iot/)。
 - en: It's also very helpful to understand how to upload a project to a GitHub repository
     and how to create a delivery pipeline to automatically build, test, and deploy
     an application whenever a new change is pushed to the repository. Doing this is
@@ -1168,8 +1362,10 @@
   id: totrans-212
   prefs: []
   type: TYPE_NORMAL
+  zh: 了解如何将项目上传到 GitHub 存储库以及如何创建交付流水线以在推送新更改到存储库时自动构建、测试和部署应用程序也非常有帮助。尽管这不在本书的范围之内，但这仍然是一个非常好的实践。
 - en: Further information on Grove system platforms, modules, bundles, and component
     specifications can be found on the manufacturer's website: [http://wiki.seeedstudio.com/Grove/](http://wiki.seeedstudio.com/Grove/).
   id: totrans-213
   prefs: []
   type: TYPE_NORMAL
+  zh: 关于 Grove 系统平台、模块、套件和组件规格的更多信息可以在制造商的网站上找到：[http://wiki.seeedstudio.com/Grove/](http://wiki.seeedstudio.com/Grove/)。
