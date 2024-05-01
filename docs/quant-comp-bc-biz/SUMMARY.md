@@ -6,7 +6,7 @@
 +   [第四章：对金融服务的影响](quant-comp-bc-biz_04.md)
 +   [第五章：戴夫·斯内林博士，富士通研究员的采访](quant-comp-bc-biz_05.md)
 +   [第六章：对医疗保健和制药的影响](quant-comp-bc-biz_06.md)
-+   [第七章：Amrita Vishwa Vidyapeetham人工智能研究主任**B. Rajathilagam 博士**的采访](quant-comp-bc-biz_07.md)
++   [第七章：AVVP 人工智能研究主任**B. Rajathilagam 博士**的采访](quant-comp-bc-biz_07.md)
 +   [第八章：对治理的影响](quant-comp-bc-biz_08.md)
 +   [第九章：马克斯·亨德森，Rigetti 和 QxBranch 高级数据科学家的采访](quant-comp-bc-biz_09.md)
 +   [第十章：对智慧城市和环境的影响](quant-comp-bc-biz_10.md)
