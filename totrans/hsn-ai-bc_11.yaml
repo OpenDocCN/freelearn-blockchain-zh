@@ -2227,17 +2227,20 @@
   id: totrans-283
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本节中，我们将讨论接触追踪后端 API 的设计和结构。后端 API 负责通过读取钱包地址并返回任何其他潜在受感染传感器的钱包地址来执行接触追踪。
 - en: Similar to sensor application code, I will be implementing the contact tracing
     backend API in the Python language as it is easier to bridge the language gaps
     between the AI, IoT, and blockchain communities.
   id: totrans-284
   prefs: []
   type: TYPE_NORMAL
+  zh: 与传感器应用代码类似，我将使用 Python 语言实现接触追踪后端 API，因为它更容易弥合 AI、物联网和区块链社区之间的语言差距。
 - en: 'As usual, we start by noting down all the `import` statements that are necessary
     for proceeding with the API''s development:'
   id: totrans-285
   prefs: []
   type: TYPE_NORMAL
+  zh: 像往常一样，我们首先记录下所有必要的 `import` 语句，以便继续进行 API 的开发：
 - en: '[PRE20]'
   id: totrans-286
   prefs: []
@@ -2248,15 +2251,18 @@
   id: totrans-287
   prefs: []
   type: TYPE_NORMAL
+  zh: 请确保您通过 `pip install` 命令安装了所有外部软件包。
 - en: 'To develop the contact tracing backend API, I will be using the Flask framework.
     You can read more about the Flask web application framework here: [https://flask.palletsprojects.com/en/1.1.x/](https://flask.palletsprojects.com/en/1.1.x/).'
   id: totrans-288
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了开发接触追踪后端 API，我将使用 Flask 框架。您可以在此处阅读有关 Flask Web 应用程序框架的更多信息：[https://flask.palletsprojects.com/en/1.1.x/](https://flask.palletsprojects.com/en/1.1.x/)。
 - en: 'We initiate the API by defining the `flask` web app, as follows:'
   id: totrans-289
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们通过定义 `flask` Web 应用程序来初始化 API，如下所示：
 - en: '[PRE21]'
   id: totrans-290
   prefs: []
@@ -2268,11 +2274,14 @@
   id: totrans-291
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如您所见，API 允许互联网上的任何来源查询该 API。这是通过使用 `CORS(app)` 实现的。另外，我已经将应用设置为调试模式，以帮助您在按照这些说明操作时更多地接触到
+    API。
 - en: 'The entry point to this API script is made by using the following instruction
     in the script:'
   id: totrans-292
   prefs: []
   type: TYPE_NORMAL
+  zh: 通过以下脚本指令来制作此 API 脚本的入口点：
 - en: '[PRE22]'
   id: totrans-293
   prefs: []
@@ -2284,15 +2293,18 @@
   id: totrans-294
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于那些不熟悉 Flask 框架的人来说，这相当于我们在讨论传感器的 IoT 客户端代码时所讨论的 `main` 函数。
 - en: Similar to other programs, this API is also manifested in a single-file Python
     script. As such, we will have to use a few variables.
   id: totrans-295
   prefs: []
   type: TYPE_NORMAL
+  zh: 与其他程序类似，此 API 也以单个 Python 脚本的形式表现。因此，我们将不得不使用一些变量。
 - en: 'Let''s look at them in the following code block:'
   id: totrans-296
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们在以下代码块中查看它们：
 - en: '[PRE23]'
   id: totrans-297
   prefs: []
@@ -2304,10 +2316,12 @@
   id: totrans-298
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如您从前面的代码块中可以观察到的，我们正在使用与传感器应用相同的技术来访问区块链网络，并通过 ABI 访问智能合约。
 - en: 'Similarly, we also reuse the variables needed for interacting with MóiBit:'
   id: totrans-299
   prefs: []
   type: TYPE_NORMAL
+  zh: 同样，我们还重用了与 MóiBit 交互所需的变量：
 - en: '[PRE24]'
   id: totrans-300
   prefs: []
@@ -2321,11 +2335,13 @@
   id: totrans-301
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如您从前面的代码块中可以观察到的，相同的变量用于从 MóiBit 访问资源。与传感器应用不同，这些变量将用于此脚本中读取每个传感器的位置历史记录并构建数据集以进行进一步分析。总而言之，所有这些变量都用于只读目的。
 - en: 'When the script is run, it procedurally falls back to the home function defined,
     as follows:'
   id: totrans-302
   prefs: []
   type: TYPE_NORMAL
+  zh: 当运行脚本时，它按照以下方式逐步回退到定义的主页函数：
 - en: '[PRE25]'
   id: totrans-303
   prefs: []
@@ -2337,11 +2353,14 @@
   id: totrans-304
   prefs: []
   type: TYPE_NORMAL
+  zh: 如名称所示，`home` 函数是用于响应发送到 API 根的基于 `GET` 的 API 请求的处理程序函数。在这种情况下，我正在返回简单的 HTML
+    内容。
 - en: 'To make sure that we send a proper response for any illicit request or invalid
     requests, we have defined the `page_not_found` handler function, as follows:'
   id: totrans-305
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了确保我们对任何非法请求或无效请求发送正确的响应，我们已经定义了 `page_not_found` 处理程序函数，如下所示：
 - en: '[PRE26]'
   id: totrans-306
   prefs: []
@@ -2353,12 +2372,14 @@
   id: totrans-307
   prefs: []
   type: TYPE_NORMAL
+  zh: 如前面的代码块所示，此函数返回一个字符串响应和一个 HTTP 响应代码 404，表示**文件/资源未找到**。
 - en: 'Apart from illicit or invalid client requests, we also need to cover some of
     the internal errors that may occur. This can be achieved by defining the `internal_server_error`
     function, as follows:'
   id: totrans-308
   prefs: []
   type: TYPE_NORMAL
+  zh: 除了非法或无效的客户端请求，我们还需要涵盖可能发生的一些内部错误。这可以通过定义`internal_server_error`函数来实现，如下所示：
 - en: '[PRE27]'
   id: totrans-309
   prefs: []
@@ -2371,6 +2392,7 @@
   id: totrans-310
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如前面的代码块所示，当API程序调用`internal_server_error`函数时，除了错误或异常之外，还将将其返回给客户端，同时返回HTTP响应代码500，这意味着服务器上发生了内部错误。
 - en: Now that we have covered the API by designing the contingent communications,
     let's focus on the main logic of the API program. Our API will respond to requests
     made by web clients at the `/api/v0/get_infections` endpoint. For example, if
@@ -2379,11 +2401,13 @@
   id: totrans-311
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们已经通过设计相关通信来涵盖了API，让我们专注于API程序的主要逻辑。我们的API将响应在`/api/v0/get_infections`端点向Web客户端发出的请求。例如，如果API托管在`example.com`上，则API调用必须发送到以下URL：[https://example.com/api/v0/get_infections](https://example.com/api/v0/get_infections)。
 - en: 'Now, let''s continue with the logic that supports such API calls. Here is the
     code link [https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/backend-contact-tracing/server.py](https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/backend-contact-tracing/server.py):'
   id: totrans-312
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，让我们继续支持此类API调用的逻辑。以下是代码链接[https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/backend-contact-tracing/server.py](https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/backend-contact-tracing/server.py)：
 - en: A new app router is now set up for the `/api/v0/get_infections` endpoint. The
     type of API calls accepted by this router has been set to `GET`. This means that
     there is a response from the server being waited on by the web client. `get_infections`
@@ -2393,11 +2417,14 @@
   id: totrans-313
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在为`/api/v0/get_infections`端点设置了新的应用程序路由器。此路由器接受的API调用类型已设置为`GET`。这意味着服务器正在等待Web客户端的响应。
+    `get_infections`是处理抵达该端点的API调用的处理程序函数。正如您可能从代码中预测的那样，`get_infections`正在将潜在感染的钱包地址列表返回给Web客户端。
 - en: A wallet address is communicated as `ID` in this section as it aligns with the
     design of the backend and that of the dataset.
   id: totrans-314
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本节中，钱包地址被表示为`ID`，因为它与后端和数据集的设计相一致。
 - en: When the API receives the wallet address from the web client, it is checked
     for any possible corruption or loss of data. If the received ID is not an empty
     string, then the API makes the next move by retrieving all the wallet addresses
@@ -2408,10 +2435,12 @@
   id: totrans-315
   prefs: []
   type: TYPE_NORMAL
+  zh: 当API从Web客户端接收到钱包地址时，会检查是否存在任何可能的数据损坏或丢失。如果收到的ID不是空字符串，则API通过检索智能合约上注册的所有钱包地址来进行下一步操作。对于在智能合约中注册的每个钱包地址，都会从区块链中检索到每个钱包的最新位置历史CID。此外，每个CID都用于从MóiBit检索每个已注册传感器的位置历史数据。
 - en: 'The corresponding code can be seen in the following code block:'
   id: totrans-316
   prefs: []
   type: TYPE_NORMAL
+  zh: 相应的代码可以在以下代码块中看到：
 - en: '[PRE28]'
   id: totrans-317
   prefs: []
@@ -2425,12 +2454,14 @@
   id: totrans-318
   prefs: []
   type: TYPE_NORMAL
+  zh: 从上述代码块中，您可以观察到`getLatestCID`函数用于获取传感器的相应钱包地址的最新CID，一旦`get_infections`函数检索到每个钱包地址。从智能合约中读取的CID值将返回给调用方函数`get_infections`。
 - en: 'Now that the `get_infections` handle function contains the CID hashes of the
     corresponding wallet addresses of each and every registered sensor, it is used
     to retrieve the location history data from MóiBit, as follows:'
   id: totrans-319
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在`get_infections`处理函数包含了每个已注册传感器对应的钱包地址的 CID 哈希，它被用于从 MóiBit 检索位置历史数据，如下所示：
 - en: '[PRE29]'
   id: totrans-320
   prefs: []
@@ -2443,15 +2474,19 @@
   id: totrans-321
   prefs: []
   type: TYPE_NORMAL
+  zh: 从前面的代码块中，你可以看到从`getLatestCID`函数检索到的`cid`被传递到`getJsonDataFromMoiBit`函数中。这个 CID
+    被用于检索相应传感器的最新位置历史数据。
 - en: Now that the data is available for analysis, the AI-based contact tracing algorithm
     we designed in the previous section comes into the picture.
   id: totrans-322
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在数据可供分析后，我们在前一节中设计的基于 AI 的接触追踪算法就会出现。
 - en: 'The AI model is incorporated in the following function:'
   id: totrans-323
   prefs: []
   type: TYPE_NORMAL
+  zh: AI 模型被纳入以下功能中：
 - en: '[PRE30]'
   id: totrans-324
   prefs: []
@@ -2468,11 +2503,15 @@
   id: totrans-325
   prefs: []
   type: TYPE_NORMAL
+  zh: 如你所见，`get_infected_ids`函数可以被调用来获取所有潜在感染的 ID。当调用时，该函数基本上会对在运行时生成的实时数据集进行聚类，并检查给定的
+    ID 是否存在于任何一个聚类中。如果 ID 存在于聚类中，则认为所有相邻的 ID 受到冠状病毒感染的影响。同一聚类中的每个相邻 ID 都会被附加到一个数组中，并且对潜在感染的
+    ID 的搜索会继续，直到函数达到最后一个聚类。一旦识别出潜在感染的 ID，它们就会被返回给调用方函数`get_infections`。
 - en: '**Developing the frontend**'
   id: totrans-326
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: '**开发前端**'
 - en: In this section, we will discuss the design and structure of the contact tracing
     dashboard web application. In short, let's call it the dashboard. The purpose
     of the dashboard is to help us identify all the potentially infected IDs by entering
@@ -2481,6 +2520,8 @@
   id: totrans-327
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本节中，我们将讨论接触追踪仪表板 Web 应用程序的设计和结构。简而言之，我们称之为仪表板。仪表板的目的是帮助我们通过输入疑似与动物或物体相关联的传感器的
+    ID 或钱包地址来识别所有潜在感染的 ID。
 - en: 'The dashboard application is simply composed of two components: an Express
     server that hosts the static files and an `index.html` HTML file that reads the
     input from a user, calls the contact tracing API, and prints all IDs returned
@@ -2488,10 +2529,13 @@
   id: totrans-328
   prefs: []
   type: TYPE_NORMAL
+  zh: 仪表板应用程序仅由两个组件组成：托管静态文件的 Express 服务器和一个`index.html` HTML 文件，该文件从用户那里读取输入，调用接触追踪
+    API，并打印后端 API 返回的所有 ID。
 - en: 'The dashboard web server code is as follows:'
   id: totrans-329
   prefs: []
   type: TYPE_NORMAL
+  zh: 仪表板 Web 服务器代码如下：
 - en: '[PRE31]'
   id: totrans-330
   prefs: []
@@ -2504,10 +2548,13 @@
   id: totrans-331
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如你从前面的代码块中所观察到的那样，这是一个简单的基于 Express 的 Node.js 应用程序，它在本地端口 3000 上启动一个 Web 服务器，并开始为访问服务器根目录的用户托管`index.html`文件。Web
+    服务器还记录客户端发出的所有请求。
 - en: 'You can visit the markup code for the dashboard at [https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/frontend-tracking-dashboard/public/index.html](https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/frontend-tracking-dashboard/public/index.html):'
   id: totrans-332
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可以访问仪表板的标记代码[https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/frontend-tracking-dashboard/public/index.html](https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/frontend-tracking-dashboard/public/index.html)：
 - en: From the preceding code block, we can observe that the markup code, `index.html`,
     is hosting a simple form to take the wallet address of the suspected sensor as
     input from the user. The input is confirmed when the user clicks the submit button.
@@ -2585,6 +2632,8 @@
   id: totrans-340
   prefs: []
   type: TYPE_NORMAL
+  zh: 然而，还有一些隐藏的资源。我建议你阅读 [https://www.cs.kent.edu/~jin/DM08/ClusterValidation.pdf](https://www.cs.kent.edu/~jin/DM08/ClusterValidation.pdf)
+    以了解更多关于通过各种方法测量聚类算法准确度的内容。您还可以访问 scikit-learn 文档，其中强调了一些聚类性能方面：[https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation)。
 - en: '**Testing the contact tracing backend API**: Since we have written our API
     using the Flask framework, I highly recommend that you visit the official testing
     documentation of Flask for more information on testing Flask web applications:
@@ -2595,6 +2644,8 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 测试接触追踪后端 API：由于我们使用 Flask 框架编写了我们的 API，我强烈建议你访问 Flask 官方测试文档以获取有关测试 Flask Web
+    应用程序的更多信息：[https://flask.palletsprojects.com/en/1.1.x/testing/](https://flask.palletsprojects.com/en/1.1.x/testing/)。我建议你为脚本中定义的每个路由和处理程序函数测试每个路由，使用超过一个测试用例进行测试。
 - en: '**Testing the web dashboard frontend app**: Finally, the frontend web application
     is a simple piece of implementation. As there isn''t much to test on the Node.js
     side, I suggest that you test the inline JavaScript function in `index.html` to
@@ -2604,16 +2655,20 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 测试 Web 仪表板前端应用程序：最后，前端 Web 应用程序是一个简单的实现。由于 Node.js 端没有太多需要测试的内容，我建议你在 `index.html`
+    中测试内联 JavaScript 函数，以获得更好的表单验证、分页和其他可以改善用户体验的边缘情况。
 - en: Now that you have a basic understanding of testing tools and techniques, let's
     deploy the sample DIApp solution.
   id: totrans-343
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在你已经基本了解了测试工具和技术，让我们部署样本 DIApp 解决方案。
 - en: '**Deploying the sample DIApp**'
   id: totrans-344
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 部署样本 DIApp
 - en: So far in this chapter, we have been able to explain the problem statement,
     design a solution for addressing the problem, build the solution, and also make
     some recommendations regarding testing. The whole effort will be fruitful if you
@@ -2625,11 +2680,14 @@
   id: totrans-345
   prefs: []
   type: TYPE_NORMAL
+  zh: 到目前为止，在本章中，我们已经能够解释问题陈述，设计解决问题的方案，构建解决方案，并就测试提出了一些建议。如果你自己部署此应用程序，整个努力将会是有意义的。因此，在接下来的几节中，我将建议你注册所需的适当服务，以部署此样本
+    DIApp。我还会指导你使用另一个重要的特殊配置管理软件在本地系统上设置运行这些程序所需的内容。
 - en: '**Signing up for the Google Maps API**'
   id: totrans-346
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: 注册 Google 地图 API
 - en: 'As you know, we use the Google Maps Geolocation API to get the current lat-long
     coordinates of the sensor. Hence, please follow the instructions in the following
     documentation and get yourself an API key: [https://developers.google.com/maps/premium/apikey/geolocation-apikey](https://developers.google.com/maps/premium/apikey/geolocation-apikey).
@@ -2642,11 +2700,15 @@
   id: totrans-347
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如你所知，我们使用 Google 地图地理位置 API 获取传感器的当前纬度和经度坐标。因此，请按照以下文档中的说明操作，并获取自己的 API 密钥：[https://developers.google.com/maps/premium/apikey/geolocation-apikey](https://developers.google.com/maps/premium/apikey/geolocation-apikey)。确保不要与任何人共享您的
+    API 密钥。重要的是，您不要在开源代码托管平台上传播 API 密钥。如果您的 API 密钥被暴露且仍然有效，有人可能会利用此凭据，并且这将给您带来一张昂贵的发票。如果您认为您的
+    API 密钥可能已经暴露，您可以删除或禁用它，并为我们的样本 DIApp 重新生成一个新的 API 密钥。
 - en: '**Signing up for MóiBit**'
   id: totrans-348
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: 注册 MóiBit
 - en: 'As you know, we use the MóiBit decentralized file storage API to store the
     location history data of each sensor. Hence, you are required to sign up for the
     MóiBit API. The signup process for MóiBit is very straightforward. You can sign
@@ -2656,6 +2718,9 @@
   id: totrans-349
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如你所知，我们使用 MóiBit 分布式文件存储 API 来存储每个传感器的位置历史数据。因此，你需要注册 MóiBit API。MóiBit 的注册流程非常简单。你可以在以下链接注册
+    MóiBit：[https://account.moibit.io/#/signup](https://account.moibit.io/#/signup)。一旦你验证了你的电子邮件地址和密码，将为你生成一个新的
+    API 密钥。
 - en: Using these credentials, you are expected to create a new folder under the root
     folder. Please create a new folder there and name it `dictao`, as it is hardcoded
     into our current implementation. This makes sure that all the files will be persisted
@@ -2665,11 +2730,14 @@
   id: totrans-350
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用这些凭据，你应该在根文件夹下创建一个新文件夹。请在那里创建一个新文件夹，并将其命名为 `dictao`，因为它已经硬编码到我们当前的实现中。这样可以确保所有文件都将被保存在一个专用文件夹中。这也将帮助你在不烦乱或混乱的情况下使用
+    MóiBit 用于其他应用程序。再次确保你的 API 密钥不可见或对公共可访问。
 - en: '**Signing up for Infura**'
   id: totrans-351
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: '**注册 Infura**'
 - en: 'We use Infura to connect to the Ethereum Kovan blockchain. You need to create
     a new Infura account and create a new project. Once you''ve created a new project,
     you will need to copy the credentials for the project and use them to get dedicated
@@ -2679,11 +2747,14 @@
   id: totrans-352
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们使用 Infura 连接到以太坊 Kovan 区块链。你需要创建一个新的 Infura 账户并创建一个新项目。一旦你创建了一个新项目，你将需要复制项目的凭据，并使用它们来获得使用
+    Infura 基础设施的专用访问权限连接到区块链。Infura 的注册流程也非常简单。你可以在这里注册 Infura 账户：[https://infura.io/register](https://infura.io/register)。
 - en: '**Updating your local justfile**'
   id: totrans-353
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: '**更新你的本地 justfile**'
 - en: 'As you may have already observed, we use a lot of credentials in our sample
     DIApp. To ensure that these credentials are safely managed, I suggest that you
     manage an isolated file on the host that can privately share these credentials
@@ -2696,11 +2767,15 @@
   id: totrans-354
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如你可能已经观察到的，我们在样本 DIApp 中使用了很多凭据。为了确保这些凭据得到安全管理，我建议你在主机上管理一个隔离的文件，可以将这些凭据私下共享给相应的进程。为了实现这一点，我们将使用
+    `just` 命令。你可以通过遵循 GitHub 上提供的说明安装 `just` 命令：[https://github.com/casey/just#installation](https://github.com/casey/just#installation)。请按照最适合你系统的安装说明操作，并确保你创建一个
+    `justfile`，该文件不受 `git` 协议跟踪。这可以通过将名称 justfile 添加到 `.gitignore` 文件中实现。
 - en: 'Fill in the necessary fields by replacing the question marks with the appropriate
     credentials for the services you have now signed up for:'
   id: totrans-355
   prefs: []
   type: TYPE_NORMAL
+  zh: 通过用适当的凭据替换问号填写必要的字段，填写你现在已经注册的服务的凭据：
 - en: '[PRE32]'
   id: totrans-356
   prefs: []
@@ -2712,16 +2787,19 @@
   id: totrans-357
   prefs: []
   type: TYPE_NORMAL
+  zh: 根据你编写源代码的位置，你可能还需要更改源代码文件的相对路径。只需确保 justfile 在项目文件夹的根目录中，你可以在该目录中管理本章的所有源代码。
 - en: Now, your **justfile** is ready to launch the necessary applications, along
     with your credentials.
   id: totrans-358
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，你的 **justfile** 已经准备好启动必要的应用程序，以及你的凭据。
 - en: '**Deploying smart contracts**'
   id: totrans-359
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: '**部署智能合约**'
 - en: 'Paste the final smart contract code into [https://remix.ethereum.org/](https://remix.ethereum.org/)
     and deploy the contract on the Ethereum Kovan testnet blockchain. If you are not
     very familiar with the Remix IDE or smart contract development, I recommend that
@@ -2874,12 +2952,14 @@
   id: totrans-383
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是我们提出的示例DIApp解决方案的一些局限性：
 - en: The AI algorithm can be prone to some false positives. Optimization will be
     needed.
   id: totrans-384
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: AI算法可能存在一些误报的情况。需要进行优化。
 - en: Due to a lack of hardware precision, software accuracy, and a better approach
     to computational complexity, the current implementation of the DIApp cannot be
     used in production.
@@ -2887,6 +2967,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 由于缺乏硬件精度、软件准确性和更好的计算复杂度方法，当前的DIApp实现无法投入生产使用。
 - en: The DIApp is unable to trace infections indoors as GPS is unable to identify
     the floor that the sensor is currently placed in. Other alternatives such as Wi-Fi,
     Bluetooth, a manual check-in register, and CCTV image analysis can be considered
@@ -2895,50 +2976,60 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 由于GPS无法识别传感器当前所在的楼层，DIApp无法追踪室内感染。可以考虑其他替代方案，如Wi-Fi、蓝牙、手动签到登记和CCTV图像分析，以提高模型的准确性。
 - en: Now, let's look at some future enhancements.
   id: totrans-387
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，让我们来看看一些未来的增强。
 - en: '**Future enhancements**'
   id: totrans-388
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: '**未来的增强**'
 - en: 'I think that the proposed sample DIApp is simply the beginning of a new revolution.
     You can consider making the following enhancements to the code:'
   id: totrans-389
   prefs: []
   type: TYPE_NORMAL
+  zh: 我认为提出的示例DIApp仅仅是新革命的开始。您可以考虑对代码进行以下增强：
 - en: Better precision with other modes of input, apart from GPS
   id: totrans-390
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 除GPS外，使用其他输入模式获得更好的精度
 - en: Better accuracy by optimizing the models to prevent false positives
   id: totrans-391
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 通过优化模型以防止误报获得更好的准确性
 - en: Better data retention management for preserving privacy
   id: totrans-392
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 更好的数据保留管理以保护隐私
 - en: Installing beacons to develop a heat map and assessing risks
   id: totrans-393
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 安装信标以开发热图并评估风险
 - en: You can always reach out to me on GitHub by creating new issues for each of
     the suggestions or by participating in existing issue threads.
   id: totrans-394
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可以通过为每个建议创建新的问题或参与现有问题线程，在GitHub上随时与我联系。
 - en: '**Summary**'
   id: totrans-395
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: '**摘要**'
 - en: Both AI and blockchain are major technologies that are catalyzing the pace of
     innovation. The combination of these two technologies is expected to redesign
     the whole industrial paradigm. This chapter has articulated how we can empower
@@ -2957,6 +3048,7 @@
   id: totrans-396
   prefs: []
   type: TYPE_NORMAL
+  zh: AI和区块链都是重要的技术，正在催化创新的步伐。这两种技术的结合预计将重新设计整个工业范式。本章阐述了我们如何使用各种AI技术和模型来赋能区块链及其分布式应用。我们涵盖了应用程序的演变并对比了不同类型。我们还解释了COVID-19大流行带来的最新问题，并讨论了如何通过以接触追踪为例的使用案例来解决这些问题。我们介绍了问题陈述、解决方案方法和技术架构，以开发一个使用DIApp设计模式的示例接触追踪应用程序。我们还突出了测试每个解决方案组件所需的工具，并使其更加健壮。最后，我们解释了如何注册使用解决方案的每个依赖服务。本章使您能够形成一种思维范式，即结合AI和区块链技术，开发旨在为下一代互联网带来生产力和健壮性的应用程序。
 - en: If the DIApp tutorial in this chapter has inspired you, I highly recommend that
     you contribute what you've learned to a live use case called Tracy. Tracy is a
     privacy-preserving mobile application suite that offers many features to citizens,
@@ -2966,6 +3058,7 @@
   id: totrans-397
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果本章中DIApp教程激发了您的灵感，我强烈建议您将所学内容贡献给一个名为Tracy的实际用例。Tracy是一个保护隐私的移动应用套件，为公民、企业和政府机构提供许多功能，以便他们处理COVID-19大流行及其后续。要了解有关如何为Tracy做出贡献的更多信息，请加入Telegram社区，网址为[https://telegram.me/ProjectTracy](https://telegram.me/ProjectTracy)。
 - en: In the next chapter, we will cover some of the potential use cases of building
     DIApps, where blockchain, AI, and decentralized storage can be used to address
     challenging problems.
