@@ -3,6 +3,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 第七天 - 部署到网络
 - en: All right, it's day seven, the last day of our book. We've got a working DApp,
     and today, we're going to push this across the finish line by deploying our contract
     to the Ropsten test network, and making our UI publicly available using **Amazon
@@ -10,35 +11,42 @@
   id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 好了，这是第七天，也是我们书的最后一天。我们有一个可用的DApp，今天，我们将通过将合同部署到Ropsten测试网络，并使用**亚马逊网络服务**或**AWS**公开我们的UI，来将其推向最终阶段。
 - en: 'This chapter covers the following topics:'
   id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章涵盖以下主题：
 - en: Understanding the role of UI and smart contracts
   id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 理解UI和智能合约的作用
 - en: Deploying smart contracts to the Ethereum network
   id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将智能合约部署到以太坊网络
 - en: Obtaining ether for use in test networks
   id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在测试网络中获得以太币
 - en: Deploying the UI to AWS
   id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将UI部署到AWS
 - en: Understanding the role of UI and smart contract
   id: totrans-7
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 理解UI和智能合约的作用
 - en: 'A test network is just what it sounds like—it''s a public Ethereum network
     for you to use, but the ether used on those networks is not real, it''s sort of
     like monopoly money. So, there are three main Ethereum test networks, which are
@@ -46,27 +54,32 @@
   id: totrans-8
   prefs: []
   type: TYPE_NORMAL
+  zh: 测试网络就像其听起来的那样——它是一个供您使用的公共以太坊网络，但在这些网络上使用的以太币并不真实，有点像纸币。因此，主要有三个以太坊测试网络，它们分别是：
 - en: Kovan
   id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Kovan
 - en: Rinkeby
   id: totrans-10
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Rinkeby
 - en: Ropsten
   id: totrans-11
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Ropsten
 - en: Each of these test networks operates a little differently, so let's highlight
     the features available in each of them. This is going to help you decide which
     network you want to use on your future projects.
   id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些测试网络的运行方式各有不同，所以让我们重点介绍一下它们各自的功能。这将帮助您决定在未来的项目中要使用哪个网络。
 - en: Rinkeby uses a **Proof-of-Authority** (**POA**) consensus protocol, which means
     that not just anyone can mine for ether on this network, only approved miners
     can. This makes it resistant to spam attacks, which results in a more stable test
@@ -76,18 +89,21 @@
   id: totrans-13
   prefs: []
   type: TYPE_NORMAL
+  zh: Rinkeby使用**权威证明**（**POA**）共识协议，这意味着不是每个人都可以在该网络上进行挖矿，只有经过批准的矿工才能够。这使其能够抵抗垃圾邮件攻击，结果是更稳定的测试网络。它还支持Geth以太坊客户端，但不支持Parity。到目前为止，我们一直在使用Ganache，因为它既提供了我们的本地区块链网络，又提供了我们的客户端，这使我们更容易专注于开发。
 - en: Ganache can't act as a client for a public Ethereum network though, that's where
     Geth and Parity come in. I'll be showing you how to install and configure Geth
     later in this chapter.
   id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: Ganache不能作为公共以太坊网络的客户端，这就是Geth和Parity的作用。我将在本章的后面向您展示如何安装和配置Geth。
 - en: Kovan is also a POA network, meaning you can't launch your own mining server
     and mine for ether there. Also, instead of supporting Geth, Kovan supports the
     Parity client.
   id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: Kovan也是一个POA网络，这意味着您不能在那里启动自己的挖矿服务器并进行以太币挖矿。此外，Kovan不支持Geth，而是支持Parity客户端。
 - en: Finally, we have Ropsten, which uses **Proof-of-Work** (**POW**) for the consensus
     algorithm, and anyone can launch a mining server on this network. Because of this,
     it's susceptible to spam attacks, so network performance can be a bit sketchy
@@ -98,42 +114,51 @@
   id: totrans-16
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，我们有Ropsten，它使用**工作量证明**（**POW**）作为共识算法，任何人都可以在该网络上启动一个挖矿服务器。因此，它容易受到垃圾邮件攻击，因此网络性能有时可能会有些不稳定。但值得使用，因为它与主要以太坊网络完全相同——因此当您在这里进行测试时，您就在一个与您在生产中将要使用的环境完全相同的环境中进行测试。它还同时支持Geth和Parity。
 - en: 'We can summarize all the pros and cons of those three networks using the following
     table:'
   id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们可以通过以下表格总结这三个网络的优缺点：
 - en: '| **Network** | **Consensus protocol** | **Geth** | **Parity** |'
   id: totrans-18
   prefs: []
   type: TYPE_TB
+  zh: '| **网络** | **共识协议** | **Geth** | **Parity** |'
 - en: '| Rinkeby | POA | Yes | No |'
   id: totrans-19
   prefs: []
   type: TYPE_TB
+  zh: '| Rinkeby | POA | Yes | No |'
 - en: '| Kovan | POA | No | Yes |'
   id: totrans-20
   prefs: []
   type: TYPE_TB
+  zh: '| Kovan | POA | No | Yes |'
 - en: '| Ropsten | POW | Yes | Yes |'
   id: totrans-21
   prefs: []
   type: TYPE_TB
+  zh: '| Ropsten | POW | Yes | Yes |'
 - en: We'll be using the Ropsten network to deploy and test our contract, so let's
     get a high-level overview of what we're talking about when we talk about deploying.
   id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: '我们将使用Ropsten网络来部署和测试我们的合同，因此让我们高层次地了解一下我们在谈论部署时在讨论什么。  '
 - en: 'Everything we''ve done so far is done on your local workstation. The UI is
     running locally using Node.js, Ganache is running locally providing an Ethereum
     network, and their interactions take place on your workstation:'
   id: totrans-23
   prefs: []
   type: TYPE_NORMAL
+  zh: 到目前为止，我们所做的一切都是在您的本地工作站上完成的。UI是在本地使用Node.js运行的，Ganache在本地提供以太坊网络，它们在您的工作站上进行交互：
 - en: '![](img/cb467b84-9381-4360-84ba-7535139cf097.png)'
   id: totrans-24
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/cb467b84-9381-4360-84ba-7535139cf097.png)'
 - en: 'When we talk about deployment, we''re talking about compiling and migrating
     your Solidity contract to a public test network, and we''re talking about pushing
     your UI code up to a public server. So, when you test your DApp on the test network,
@@ -143,21 +168,25 @@
   id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 当我们谈论部署时，我们谈论的是将你的Solidity合约编译并迁移到公共测试网络，并将你的UI代码推送到公共服务器。因此，当您在测试网络上测试您的DApp时，您使用本地计算机上的浏览器查看部署到AWS的UI，而AWS知道如何使用Geth客户端与以太坊测试网络上的您的合约进行通信。以下图表显示了这是如何工作的：
 - en: '![](img/90bd7d0a-7a16-41fe-bf17-8c7826b981d1.png)'
   id: totrans-26
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/90bd7d0a-7a16-41fe-bf17-8c7826b981d1.png)'
 - en: The process of pushing your code from your local workstation to public servers
     and networks is sometimes referred to as a **deployment pipeline**. Now, let's
     take a look at how to deploy the contract we've written to a public Ethereum network.
   id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: 将代码从本地工作站推送到公共服务器和网络的过程有时被称为**部署流水线**。现在，让我们看看如何将我们编写的合约部署到公共以太坊网络。
 - en: Deploying smart contracts to the Ethereum network
   id: totrans-28
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 将智能合约部署到以太坊网络
 - en: 'In the preceding section, we learned about three of the Ethereum test networks
     available, and the differences in how our game operates locally versus when it''s
     deployed. Now, let''s deploy our contract to the Ropsten test network. Inside
@@ -166,6 +195,7 @@
   id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面的部分中，我们了解了三个可用的以太坊测试网络，以及我们的游戏在本地操作与部署时的差异。现在，让我们将我们的合约部署到Ropsten测试网络。在我们的代码存储库中，我们有一个名为`truffle.js`的文件，它当前看起来类似于以下代码片段：
 - en: '[PRE0]'
   id: totrans-30
   prefs: []
@@ -180,6 +210,7 @@
   id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: '`network`部分是我们的应用程序知道要与哪个网络通信的方式。我们定义了一个开发网络，如果您不告诉Truffle其他情况，它将使用此开发网络。主机设置为我们的localhost，端口设置为我们本地Ganache安装运行的端口。最后，我们有一个网络ID，当您在本地运行Ganache时，我们可以将其设置为使用任何网络ID。'
 - en: When we deploy to a public network, we need to set the ID to match the network
     that we're deploying to. The main public network is number 1; this is the ID you'll
     use when you deploy your app to production. To deploy to the Ropsten network,
@@ -188,11 +219,14 @@
   id: totrans-32
   prefs: []
   type: TYPE_NORMAL
+  zh: 当我们部署到公共网络时，我们需要将ID设置为我们要部署到的网络相匹配的ID。主要的公共网络是编号1；这是你在将应用程序部署到生产环境时将使用的ID。要部署到Ropsten网络，我们使用网络ID
+    3；对于Rinkeby，我们可以使用网络ID 4；对于Kovan，我们可以使用网络ID 42。
 - en: 'So, we''ll go back to our `truffle.js` config file, and then, in the network
     section, we will add a new entry for Ropsten, as shown in the following code snippet:'
   id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 所以，我们将回到我们的`truffle.js`配置文件中，然后，在网络部分中，我们将添加一个新的条目用于Ropsten，如下面的代码片段所示：
 - en: '[PRE1]'
   id: totrans-34
   prefs: []
@@ -204,33 +238,40 @@
   id: totrans-35
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们为它指定了我们将要使用的网络的ID。主机将是本地主机的`8545`端口，我们刚刚了解到Ropsten网络的ID是3，所以我们将它输入为`network_id`。
 - en: So, if you look at the code, we just set that to localhost on port `8545`, but
     we don't have anything running there—what's up with that?
   id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: 所以，如果您看一下代码，我们只是将其设置为本地主机上的`8545`端口，但我们没有任何东西在那里运行——怎么回事？
 - en: Well, so far, we've been using Ganache for our Ethereum network and it handled
     everything for us, but now we need a way to talk to an Ethereum network that isn't
     ours. We need an Ethereum client and we're going to use Geth.
   id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 到目前为止，我们一直在使用Ganache作为我们的以太坊网络，并且它为我们处理了一切，但现在我们需要一种方法来与不是我们的以太坊网络进行通信。我们需要一个以太坊客户端，我们将使用Geth。
 - en: Geth
   id: totrans-38
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Geth
 - en: Geth is an Ethereum client written in Go, and you can download it from [https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum](https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum).
     There are installers available for OS X, Linux, and Windows, as well as Docker
     images.
   id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth是用Go编写的以太坊客户端，您可以从[https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum](https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum)下载它。对于OS
+    X、Linux和Windows，都有可用的安装程序，以及Docker镜像。
 - en: 'With Geth installed, we can launch the client from a Terminal. This is the
     command that you''ll use to do so:'
   id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: 有了Geth安装好了，我们可以从终端启动客户端。这是您将使用的命令：
 - en: '[PRE2]'
   id: totrans-41
   prefs: []
@@ -248,59 +289,70 @@
   id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们解析一下这个命令以理解它。首先，我们有`--testnet`，它告诉Geth我们要使用Ropsten测试网络。接下来，我们用参数`light`指定同步模式。这告诉Geth我们只是想获取当前状态，我们不会处理交易或验证元素。如果需要验证任何内容，我们将联系网络上的一个完整节点。我们之所以这样做，是因为这是在您的工作站上运行客户端的最轻量级的方式，而不会消耗您可能需要用于其他应用程序的大量CPU和内存。我们使用`--rpc`标志在客户端中启用RPC模式，后跟`--rpcapi`标志和要启用的API列表，如下所示：
 - en: '`db`: The `db` API allows us to read and write to the local database.'
   id: totrans-43
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`db`：`db` API允许我们读写本地数据库。'
 - en: '`eth`: The `eth` parameter provides API access to the ether account, and related
     functions, such as accounts, balances, and transactions.'
   id: totrans-44
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`eth`：`eth`参数提供对以太账户及相关功能（如账户、余额和交易）的API访问。'
 - en: '`net`: The `net` parameter provides network-related API calls.'
   id: totrans-45
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`net`：`net`参数提供与网络相关的API调用。'
 - en: '`web3`: This parameter provides our `web3` library.'
   id: totrans-46
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`web3`：此参数提供了我们的`web3`库。'
 - en: '`personal`: This parameter provides API access to manage private keys in the
     key store.'
   id: totrans-47
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`personal`：此参数提供API访问以管理密钥库中的私钥。'
 - en: '`admin`: This parameter enables fine-grained access to the Geth instance.'
   id: totrans-48
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`admin`：此参数启用对Geth实例的细粒度访问。'
 - en: We round out our list of options with a cache of 1 GB, and we set our client
     to listen on TCP port 8545, which differs from Ganache, which used RPC port 7545.
   id: totrans-49
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的选择列表最后一个选项是一个缓存，大小为1GB，并且我们将客户端设置为监听TCP端口8545，这与Ganache不同，Ganache使用的是RPC端口7545。
 - en: 'We''ll then hit *Enter*, which starts the client and it starts to sync up by
     downloading the current block headers from the test network. You can see that
     happening here in the output screenshot:'
   id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后我们按下*Enter*，这将启动客户端，并开始通过从测试网络下载当前块头来同步。您可以在输出截图中看到这个过程：
 - en: '![](img/21d49109-f26c-43a4-9dde-178db8a0d074.png)'
   id: totrans-51
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/21d49109-f26c-43a4-9dde-178db8a0d074.png)'
 - en: 'This takes a little bit of time to complete. We can track its progress, by
     opening another Terminal session, and in that window, we''ll type the following
     command:'
   id: totrans-52
   prefs: []
   type: TYPE_NORMAL
+  zh: 这需要一点时间才能完成。我们可以通过打开另一个终端会话来跟踪其进度，在那个窗口中，我们将输入以下命令：
 - en: '[PRE3]'
   id: totrans-53
   prefs: []
@@ -311,14 +363,17 @@
   id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 运行此命令将我们置于JavaScript控制台中，在那里我们可以与此客户端进行交互，如下截图所示：
 - en: '![](img/ce515983-51bc-4257-8b60-36471b3cb3c3.png)'
   id: totrans-55
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/ce515983-51bc-4257-8b60-36471b3cb3c3.png)'
 - en: 'We''ll then execute the following command:'
   id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后我们将执行以下命令：
 - en: '[PRE4]'
   id: totrans-57
   prefs: []
@@ -328,16 +383,19 @@
   id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将会得到类似以下截图的内容：
 - en: '![](img/c2e65d53-6881-403d-9ecb-6b71735119e4.png)'
   id: totrans-59
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/c2e65d53-6881-403d-9ecb-6b71735119e4.png)'
 - en: Here, we can see that the current block being downloaded is 3,214,911, whereas
     the highest block on the network is 3,533,621\. This means that I have around
     300,000 blocks remaining to be downloaded, which will take a couple of minutes.
   id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们可以看到正在下载的当前区块是3,214,911，而网络上的最高区块是3,533,621。这意味着我还有大约300,000个区块需要下载，这将需要几分钟时间。
 - en: So, at this point, we've configured Truffle with the ability to deploy to the
     Ropsten network. We've installed and launched Geth to act as a client on the Ropsten
     network, and we've given it time to sync up. Now, we want to deploy our Solidity
@@ -352,32 +410,41 @@
   id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，目前我们已将 Truffle 配置为能够部署到 Ropsten 网络。我们已安装并启动了 Geth 作为 Ropsten 网络上的客户端，并且让其同步。现在，我们想将我们的
+    Solidity 合约部署到 Ropsten 网络，但这会创建一个交易，并且交易需要 gas，而目前我们没有花费的钱。这是因为我们的以太币在我们的本地 Ganache
+    网络上，现在我们使用的是 Ropsten 网络。这两个网络完全不同，因此您在其中一个网络中拥有的以太币与您在另一个网络上拥有的以太币不同。不过我们可以解决这个问题，而且其中的操作简单是我选择部署到
+    Ropsten 网络的原因之一。因此，让我们进入下一部分，我们将看看如何获取在 Ropsten 网络上使用的以太币。
 - en: Obtaining ether for use in test networks
   id: totrans-62
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在测试网络获取以太币
 - en: Now we're ready to deploy our contract to the Ropsten network, but we don't
     have any ether so let's fix that.
   id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们准备好将我们的合约部署到 Ropsten 网络，但我们没有任何以太币，所以让我们解决这个问题。
 - en: 'Let''s go back to our browser, and in MetaMask, you''re probably connected
     to your private network, so click the drop-down menu, and switch to the Ropsten
     network, as follows:'
   id: totrans-64
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们回到浏览器，在 MetaMask 中，您可能连接到您的私人网络，因此请单击下拉菜单，并切换到 Ropsten 网络，如下所示：
 - en: '![](img/93ce3ae9-98c9-412d-8632-a2fc2574656f.png)'
   id: totrans-65
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/93ce3ae9-98c9-412d-8632-a2fc2574656f.png)'
 - en: Then, open a browser tab and go to [faucet.ropsten.be](http://faucet.ropsten.be).
     This is called a faucet, and just like a leaky bathroom faucet in a cheap hotel,
     this one leaks.
   id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，在浏览器标签中，转到[faucet.ropsten.be](http://faucet.ropsten.be)。这称为水龙头，就像廉价旅馆内漏水的浴室水龙头一样，这个水龙头也会漏水。
 - en: 'But, instead of leaking water every few seconds, this faucet leaks ether. The
     faucet automatically populates your Ethereum address from MetaMask into the textbox
     there, and clicking the Send me test Ether button will submit your address to
@@ -386,10 +453,12 @@
   id: totrans-67
   prefs: []
   type: TYPE_NORMAL
+  zh: 不过，与每隔几秒泄漏水一样，这个水龙头泄漏的是以太币。水龙头会自动将您的以太坊地址从 MetaMask 填入文本框中，并单击“向我发送测试以太币”按钮，将向水龙头提交您的地址，然后水龙头会向您发送1个以太币。以下截图显示了水龙头窗口：
 - en: '![](img/cbbba0cf-4594-43cd-b3d0-2d2dd918b99f.png)'
   id: totrans-68
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/cbbba0cf-4594-43cd-b3d0-2d2dd918b99f.png)'
 - en: One thing to know here is that the faucet only drips 1 ether every 30 seconds,
     so if there's a queue of requests in front of you, it may take a couple of minutes
     for the ether to show up in your account. You should keep checking because it
@@ -398,31 +467,39 @@
   id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里需要知道的一件事是，水龙头每30秒只会滴下1个以太币，因此如果有排在您前面的请求，可能需要几分钟时间以才能在您的账户中显示以太币。您应该不断检查，因为它会显示出来，当它出现时，您现在有了一些零花钱，可以支付交易以将您的合约部署到
+    Ropsten 网络。
 - en: So, we've got some ether now, and we want to use Truffle to deploy our contract.
     And, we've got Geth running as our Ethereum clients, so Geth needs to access our
     account on the Ropsten network, so that it can pay for that transaction.
   id: totrans-70
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，我们现在有了一些以太币，我们想使用 Truffle 来部署我们的合约。并且，我们已经将 Geth 运行为我们的以太坊客户端，因此 Geth 需要访问我们在
+    Ropsten 网络上的账户，以便支付该交易。
 - en: 'To do that, we''ll click the Details button present on MetaMask, and we''ll
     export our private key:'
   id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 为此，我们将单击 MetaMask 上的“详细信息”按钮，并导出我们的私钥：
 - en: '![](img/56ac4b10-af3a-4485-9a63-e9a8bc36072b.png)'
   id: totrans-72
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/56ac4b10-af3a-4485-9a63-e9a8bc36072b.png)'
 - en: Here, we'll click on the Export Private Key button, which prompts you to type
     in your password, which will reveal the private key. You should copy that private
     key into a file, where you have easy access to it.
   id: totrans-73
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里，我们将点击“导出私钥”按钮，这会提示您输入密码，这样会显示私钥。您应该将私钥复制到一个易于访问的文件中。
 - en: 'We''ll run the following command now:'
   id: totrans-74
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们将运行以下命令：
 - en: '[PRE5]'
   id: totrans-75
   prefs: []
@@ -432,16 +509,19 @@
   id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 这会产生以下输出：
 - en: '![](img/ce5fd5f9-a6ee-4452-9da1-c5c6712061b1.png)'
   id: totrans-77
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/ce5fd5f9-a6ee-4452-9da1-c5c6712061b1.png)'
 - en: 'You can see there are no accounts listed in Geth currently. So, in a new Terminal
     window, we''ll navigate to the code directory where the text file that contains
     the private key is present, and we''ll run the following command there:'
   id: totrans-78
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以看到当前在 Geth 中没有列出任何账户。所以，在一个新的终端窗口中，我们将导航到包含包含私钥的文本文件的代码目录，并在那里运行以下命令：
 - en: '[PRE6]'
   id: totrans-79
   prefs: []
@@ -451,43 +531,52 @@
   id: totrans-80
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将产生以下输出：
 - en: '![](img/ac30cbdb-98ce-47de-81fa-7b1d73876c61.png)'
   id: totrans-81
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/ac30cbdb-98ce-47de-81fa-7b1d73876c61.png)'
 - en: 'Note: The preceding command is for OSX,if you are using Windows or Linux, please
     use the following commands:'
   id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: 注意：上述命令适用于 OSX，如果你使用的是 Windows 或 Linux，请使用以下命令：
 - en: 'For Windows: `geth account import private.txt --keystore %APPDATA%\Ethereum\testnet\keystore`,
     and'
   id: totrans-83
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于 Windows：`geth account import private.txt --keystore %APPDATA%\Ethereum\testnet\keystore`，以及
 - en: 'For Linux: `geth account import private.txt --keystore `/.ethereum/testnet/keystore`.'
   id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于 Linux：`geth account import private.txt --keystore `/.ethereum/testnet/keystore`。
 - en: If we take a look at the last digits of that address, `3eae6`, we'll see that
     it matches the last digits of our account listed in MetaMask.
   id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果我们看一下那个地址的最后几位，`3eae6`，我们会发现它与我们在 MetaMask 中列出的账户的最后几位相匹配。
 - en: 'So, now we''ll go back to our JavaScript Geth console and run the accounts
     command again. This time, we''ll see our account listed here:'
   id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 所以，现在我们将回到我们的 JavaScript Geth 控制台并再次运行账户命令。这次，我们会在这里看到我们的账户列出来：
 - en: '![](img/62db5054-00e3-4748-b424-9d38b2b7ccae.png)'
   id: totrans-87
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/62db5054-00e3-4748-b424-9d38b2b7ccae.png)'
 - en: 'That''s a password-protected account, so we need to unlock it for Geth. For
     that, run the following command:'
   id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是一个受密码保护的账户，所以我们需要为 Geth 解锁它。为此，请运行以下命令：
 - en: '[PRE7]'
   id: totrans-89
   prefs: []
@@ -497,16 +586,19 @@
   id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将产生以下输出：
 - en: '![](img/db77774a-f0e7-4482-9fe2-79e5c58ea10f.png)'
   id: totrans-91
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/db77774a-f0e7-4482-9fe2-79e5c58ea10f.png)'
 - en: Since the passphrase returns `true`, we know that the account has been unlocked
     successfully. An important step here is to delete that private file, because it
     contains the private key and you don't want to leave that laying around anywhere.
   id: totrans-92
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于口令返回`true`，我们知道账户已成功解锁。这里的一个重要步骤是删除该私有文件，因为它包含私钥，你不想让它留在任何地方。
 - en: Open the `truffle.js` file, and in the Ropsten configuration, we'll add a new
     line that says `from` and then specify the address of the account that we just
     imported into Geth. This is going to tell Truffle which account to use whenever
@@ -514,10 +606,13 @@
   id: totrans-93
   prefs: []
   type: TYPE_NORMAL
+  zh: 打开 `truffle.js` 文件，在 Ropsten 配置中，我们将添加一行新的内容，即 `from`，然后指定我们刚刚导入到 Geth 中的账户的地址。这将告诉
+    Truffle 在部署合约时使用哪个账户。
 - en: 'Switching back over to the Terminal, we''ll run the following commands:'
   id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 切换回终端，我们将运行以下命令：
 - en: '[PRE8]'
   id: totrans-95
   prefs: []
@@ -527,19 +622,23 @@
   id: totrans-96
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将产生以下输出：
 - en: '![](img/e2b80a38-d66e-45f5-8bbc-d04b919d6ce1.png)'
   id: totrans-97
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/e2b80a38-d66e-45f5-8bbc-d04b919d6ce1.png)'
 - en: It looks just like it does on Ganache, in that it's successfully migrated to
     the network.
   id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: 它看起来就像在 Ganache 上一样，它已成功迁移到网络上。
 - en: 'If you wanted to test that, at this point you can type the following command:'
   id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你想要测试一下，此时可以键入以下命令：
 - en: '[PRE9]'
   id: totrans-100
   prefs: []
@@ -551,18 +650,22 @@
   id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将启动我们的 web 服务器，并将使用刚部署的合约，这样我们就可以对我们的神秘数字下注。以下截图显示了网页：
 - en: '![](img/54fc12c6-fdcc-4c3a-bb1b-560a4dc20564.png)'
   id: totrans-102
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/54fc12c6-fdcc-4c3a-bb1b-560a4dc20564.png)'
 - en: 'We get a pop-up notification when we place our bet:'
   id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 当我们下注时，我们会收到一个弹出通知：
 - en: '![](img/9c76c5b6-5951-468e-a298-08b37120b606.png)'
   id: totrans-104
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/9c76c5b6-5951-468e-a298-08b37120b606.png)'
 - en: This window shows that we're connected to the Ropsten test network, so we then
     can confirm that, and as seen in the preceding screenshot, we lost that bet, so, my
     account was debited by the .1 ether that I bet. So, we've successfully deployed
@@ -571,16 +674,20 @@
   id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 此窗口显示我们已连接到 Ropsten 测试网络，因此我们可以确认，并且如前面的截图所示，我们输掉了那笔赌注，所以，我的账户被扣除了我下注的 0.1 以太币。因此，我们成功地将我们的合约部署到了
+    Ropsten 网络，并且我们能够从我们的本地 UI 与之交互。本章的最后一个任务是将 UI 部署到 AWS。
 - en: Deploying the UI to AWS
   id: totrans-106
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 将 UI 部署到 AWS
 - en: To release our game to the world, we need to make the UI available on the internet.
     We're going to use Docker and AWS to do that.
   id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 要将我们的游戏发布到世界上，我们需要将 UI 提供给互联网。我们将使用 Docker 和 AWS 来做到这一点。
 - en: If you're not familiar with Docker, it's a tool that performs virtualizations
     at the operating-system level, which is known as **containerization**. This means
     it will package your code, and everything it needs to run, into a single container
@@ -590,6 +697,8 @@
   id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果您对 Docker 不熟悉，那么它是一个在操作系统级别执行虚拟化的工具，这被称为**容器化**。这意味着它将您的代码及其运行所需的一切打包到一个单独的容器中，该容器可以在
+    Docker 主机上执行。我们将使用 AWS **弹性容器服务**（**ECS**）作为我们的 Docker 主机。这使我们能够运行我们的容器，而无需构建或管理底层基础结构。
 - en: To build the Docker image, you'll need Docker version 18 or higher installed.
     If you don't have it, you can download it from [http://docker.com](http://docker.com),
     and just make sure you download the Community Edition, because that's the free
@@ -597,12 +706,15 @@
   id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 要构建 Docker 镜像，您需要安装 Docker 版本 18 或更高版本。如果您没有安装，可以从 [http://docker.com](http://docker.com)
+    下载，并确保您下载的是社区版，因为那是免费版本，但它包含我们所需的所有内容。
 - en: To create our Docker image, we're going to use a Docker file. This is a set
     of instructions that specify how the container should be built. We'll dissect
     what we are adding in this Docker file, step by step.
   id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: 要创建我们的 Docker 镜像，我们将使用 Docker 文件。这是一组指令，指定如何构建容器。我们将逐步分解我们在此 Docker 文件中添加的内容。
 - en: 'We start by defining our base image. With Docker, you can use another Docker
     image as the base for your image, allowing you to build on top of the work that
     someone else has already made. In our case, we need Node.js, so we''ll use an
@@ -612,6 +724,8 @@
   id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们首先定义我们的基础镜像。使用 Docker，您可以使用另一个 Docker 镜像作为您的镜像的基础，从而使您能够在其他人已经完成的工作基础上构建。在我们的情况下，我们需要
+    Node.js，所以我们将使用官方的 Node.js Docker 镜像。在 Linux 服务器上安装和运行 Node.js 的所有步骤都已经为我们准备好了。以下代码片段显示了我们在这里所做的事情：
 - en: '[PRE10]'
   id: totrans-112
   prefs: []
@@ -626,6 +740,8 @@
   id: totrans-113
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，我们使用`COPY`命令将当前目录中的所有内容复制到容器中名为`app`的文件夹中，并切换到该目录。之后，我们将设置一个名为`NODE_ENV development`的环境变量。当
+    Node 启动时，Node.js 将使用它。对于生产构建，您将其设置为`production`而不是`development`。以下代码片段显示了此操作：
 - en: '[PRE11]'
   id: totrans-114
   prefs: []
@@ -639,6 +755,8 @@
   id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来，我们将运行`apt-get install`，这是 Debian 命令来更新基础镜像并安装`git-core`，它允许从 GitHub 存储库安装一些我们的节点依赖项。然后，我们运行`npm
+    install`命令来安装我们的 Node 应用程序的所有依赖项，如下代码片段所示：
 - en: '[PRE12]'
   id: totrans-116
   prefs: []
@@ -650,6 +768,7 @@
   id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 随后，`EXPOSE`命令在我们的 Docker 容器上打开 TCP 端口 3000，这允许我们在端口 3000 上连接到我们的网站。最后，我们有一个在容器启动时执行的命令，如下所示：
 - en: '[PRE13]'
   id: totrans-118
   prefs: []
@@ -662,10 +781,13 @@
   id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 所以，这相对来说很简单，因为我们基本上只是输入了设置应用程序的相同命令的 Docker 版本。所有这些都会被执行并保存到我们的 Docker 镜像中，当我们启动镜像时，将执行`npm
+    start`命令。
 - en: 'Now, we can build our Docker image using the following command:'
   id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们可以使用以下命令构建我们的 Docker 镜像：
 - en: '[PRE14]'
   id: totrans-121
   prefs: []
@@ -678,6 +800,8 @@
   id: totrans-122
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们提供`-t`标志以使用`gaming:latest`标签标记我们的镜像，末尾的点告诉 Docker 在当前目录中查找我们的 Docker 文件。这将执行我们放入
+    Docker 文件中的所有命令，并将输出存储为 Docker 镜像。
 - en: 'One of the other ways you can build your image is, if you''re using Visual
     Code, you can right-click on the Docker file and select Build Image. It will prompt
     you for the image name, which is `gaming:latest`, then hit *Enter*, and that''s
@@ -791,6 +915,7 @@
   id: totrans-139
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的第一个容器将是我们的`gaming-ui`，这是我们构建的React应用程序，图像来自我们推送到的ECS存储库。如果我们查看我们的存储库，那里存在的存储库URI就是我们需要的URL，我们将把它粘贴到图像框中。我们需要公开端口3000，因为那是我们的应用程序运行的端口。然后，我们需要指定一个健康检查。我们将在健康检查窗口中使用以下命令：
 - en: '[PRE15]'
   id: totrans-140
   prefs: []
@@ -803,20 +928,24 @@
   id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将使用`curl`命令检查本地主机，这将确定端口3000是否响应。如果没有响应，命令将以值1退出，这样ECS就知道容器没有健康，并将其拆除并替换。
 - en: 'We want to check for that every 60 seconds with a 15-second timeout, and we''re
     going to give ourselves 60 seconds to start up before we make that initial test.
     We''ll give it two chances to pass before we fail it:'
   id: totrans-142
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们希望每60秒检查一次，超时为15秒，并在启动前给自己60秒进行第一次测试。我们将允许其在失败之前有两次通过的机会：
 - en: '![](img/3feaf47a-9933-450d-9bef-af28d46fc235.png)'
   id: totrans-143
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3feaf47a-9933-450d-9bef-af28d46fc235.png)'
 - en: We don't need to set anything else on this container, so we can hit Add.
   id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们不需要在该容器上设置其他任何东西，因此我们可以点击“添加”。
 - en: 'Then, we''re going to add our second container. This one''s going to be our
     `geth-client` container. It will to come from the Ethereum repository, using the
     `client-go` image that''s provided by Ethereum. For our port mapping, we''re in
@@ -827,12 +956,15 @@
   id: totrans-145
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，我们将添加第二个容器。这个将是我们的`geth-client`容器。它将来自以太坊仓库，使用以太坊提供的`client-go`映像。对于我们的端口映射，我们正在公开端口8545，对于我们的健康检查命令，我们将`echo
+    "true"`，这将始终使其通过。我们将像以前一样做：60秒的间隔时间，15秒的超时时间，60秒的启动时间和2次重试尝试。
 - en: For the command, the only thing we need to do is set the `--rpc` and `--testnet`
     flags. Everything else is set inside the Docker image for us. We'll hit Add and
     then create it.
   id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于命令，我们需要做的唯一事情就是设置`--rpc`和`--testnet`标志。其他一切都在Docker映像内设置。我们将点击“添加”，然后创建它。
 - en: Now, we need to go over to EC2, and create a load balancer. A load balancer
     is going to provide us with a frontend interface so that whenever we access the
     URL for this, it's going to balance across multiple Docker containers, or if that
@@ -841,15 +973,18 @@
   id: totrans-147
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们需要转到EC2，创建一个负载均衡器。负载均衡器将为我们提供一个前端界面，以便每当我们访问此URL时，它将在多个Docker容器之间平衡，或者如果该Docker映像失败，则将使用新映像启动它并将其放入该负载均衡器中，以便我们的URL不会更改。
 - en: 'So, click on Load Balancers, create one, and we''re going to use an Application
     Load Balancer here:'
   id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: 点击负载均衡器，创建一个，并且我们将在这里使用应用负载均衡器：
 - en: '![](img/a56aaf1e-ca94-4696-827d-387c104bee5b.png)'
   id: totrans-149
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a56aaf1e-ca94-4696-827d-387c104bee5b.png)'
 - en: 'We''ll give it the same name as the task definition, which is `gaming-staging`.
     This is going to make it easy to see which resources are related to one another
     whenever we''re looking at our different resources in AWS. It''s going to be internet-facing
@@ -858,56 +993,68 @@
   id: totrans-150
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将给其设置与任务定义相同的名称，即`gaming-staging`。这将使我们轻松看到各资源与AWS中的其他资源相关联时哪些资源相关。它将具有互联网面向的属性，并在端口80上使用HTTP。我们需要设置VPC并在两个区域之间平衡，以便在AWS中实现一定的容错和冗余：
 - en: '![](img/8bc1893d-4bb4-4f69-a9cb-5f7218ca4ae6.png)'
   id: totrans-151
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/8bc1893d-4bb4-4f69-a9cb-5f7218ca4ae6.png)'
 - en: 'Next, we''ll place it in a security group that exposes the port for www servers,
     which basically exposes port 80 and port 443:'
   id: totrans-152
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来，我们将将其放在一个安全组中，公开用于www服务器的端口，基本上公开端口80和端口443：
 - en: '![](img/bb3a36df-134f-41b4-b3f5-714db04b158b.png)'
   id: totrans-153
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/bb3a36df-134f-41b4-b3f5-714db04b158b.png)'
 - en: 'We''ll then create a target group on port 80 with a target type of port of
     IP; this is the container or pool of resources that ECS is going to put into the
     load balancer:'
   id: totrans-154
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后我们将在80端口上创建一个目标组，目标类型为IP端口；这是ECS将要放入负载均衡器的容器或资源池：
 - en: '![](img/734fe761-3a15-4bb6-aa6e-7c9710384e42.png)'
   id: totrans-155
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/734fe761-3a15-4bb6-aa6e-7c9710384e42.png)'
 - en: 'And we don''t have any targets to register yet, so we''re just going to go
     ahead and hit Create:'
   id: totrans-156
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们还没有任何要注册的目标，所以我们继续点击创建：
 - en: '![](img/6d975c77-3856-4617-9811-a12879765131.png)'
   id: totrans-157
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/6d975c77-3856-4617-9811-a12879765131.png)'
 - en: 'It''s time to return to ECS, and create the service that is the actual running
     component of our application. Now, we''ll choose Create Cluster and it''s a pretty
     straightforward process to create a Fargate cluster:'
   id: totrans-158
   prefs: []
   type: TYPE_NORMAL
+  zh: 是时候回到ECS，创建实际运行应用程序的服务了。现在，我们选择创建集群，并且创建一个Fargate集群的过程非常简单：
 - en: '![](img/3e012bbd-340f-4041-9a6b-134dca3893fc.png)'
   id: totrans-159
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3e012bbd-340f-4041-9a6b-134dca3893fc.png)'
 - en: 'Once done, we should see something similar to the following screenshot:'
   id: totrans-160
   prefs: []
   type: TYPE_NORMAL
+  zh: 完成后，我们应该会看到类似以下截图：
 - en: '![](img/b4ed272e-5005-4c27-b3aa-52f13685ebdb.png)'
   id: totrans-161
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/b4ed272e-5005-4c27-b3aa-52f13685ebdb.png)'
 - en: 'Inside the cluster, we''ll hit Create to create a new service, specify Fargate
     as the launch type, and then choose the task definition that we just created, `gaming-staging`.
     I''m going to give the service name the same name that we''ve been using for all
@@ -918,42 +1065,51 @@
   id: totrans-162
   prefs: []
   type: TYPE_NORMAL
+  zh: 在集群中，我们将点击创建以创建一个新服务，指定Fargate为启动类型，然后选择我们刚刚创建的任务定义`gaming-staging`。我将为服务名称指定与所有这些资源一样的名称，然后指定我想要1个任务。如果你将要期望更多的流量，或者如果你想要确保如果其中一个容器失败了，还有另一个可以接管流量，你可以指定更多的任务：
 - en: '![](img/a56b0938-129b-4d48-8c89-7adb2d1edc83.png)'
   id: totrans-163
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a56b0938-129b-4d48-8c89-7adb2d1edc83.png)'
 - en: 'I''ll specify the same VPC that I put my load balancer in, and then, for the
     load balancer, I''ll choose the load balancer that we just built:'
   id: totrans-164
   prefs: []
   type: TYPE_NORMAL
+  zh: 我将指定与我放置负载均衡器的VPC相同的VPC，然后，对于负载均衡器，我将选择我们刚刚构建的负载均衡器：
 - en: '![](img/cabd1ab5-775a-4fd5-9747-c3ea548accaf.png)'
   id: totrans-165
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/cabd1ab5-775a-4fd5-9747-c3ea548accaf.png)'
 - en: 'We can review all of our settings and then hit Create Service:'
   id: totrans-166
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们可以查看所有我们的设置，然后点击创建服务：
 - en: '![](img/dd4b9128-f1b5-4ee3-8c93-906b9bbe007e.png)'
   id: totrans-167
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/dd4b9128-f1b5-4ee3-8c93-906b9bbe007e.png)'
 - en: 'After a few minutes, our service should be up and running. Once it''s up and
     running, we can switch back over to EC2, go to our load balancers, choose the
     load balancer we created, and copy the DNS name present there:'
   id: totrans-168
   prefs: []
   type: TYPE_NORMAL
+  zh: 几分钟后，我们的服务应该已经开始运行起来了。一旦它开始运行，我们就可以切换回到EC2，进入到我们的负载均衡器，选择我们创建的负载均衡器，并复制那里的DNS名称：
 - en: '![](img/7f5e24b5-c7ab-451a-a3c4-a8ee05198a13.png)'
   id: totrans-169
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/7f5e24b5-c7ab-451a-a3c4-a8ee05198a13.png)'
 - en: We'll paste that into our browser, and just like that, our app is loaded running
     with our UI on AWS, and using the Ropsten network for the Ethereum network.
   id: totrans-170
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将把它粘贴到我们的浏览器中，就这样，我们的应用程序就在AWS上加载运行了，使用以太坊网络的Ropsten网络。
 - en: 'There''s one more thing we need to check, and it''s one of the things that
     you care about most. We''ll go back into ECS and show you how to shut this down,
     so that you don''t continue getting billed for it. Go into the services and choose
@@ -963,30 +1119,36 @@
   id: totrans-171
   prefs: []
   type: TYPE_NORMAL
+  zh: 还有一件事情我们需要检查，这也是你最关心的事情之一。我们将返回ECS并告诉你如何关闭它，这样你就不会继续为它付费了。进入服务，并选择我们创建的服务，然后点击更新并将任务数设置为0，然后更新服务。这将关闭运行的容器，以便你不再为其付费：
 - en: '![](img/69e7deb4-6ce4-4012-988e-aa0055b71037.png)'
   id: totrans-172
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/69e7deb4-6ce4-4012-988e-aa0055b71037.png)'
 - en: Using the steps you learned in this chapter, you can publish your app to the
     Ethereum main network as well, allowing the players of your game to use real ether.
   id: totrans-173
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用本章学到的步骤，你也可以将你的应用程序发布到以太坊主网络，使你的游戏玩家可以使用真正的以太币。
 - en: With that said, let's jump into our last section of the day and of this book,
     which is today's assignment.
   id: totrans-174
   prefs: []
   type: TYPE_NORMAL
+  zh: 说了这么多，让我们来进行今天的最后一个部分，也是这本书的最后一个部分，也就是今天的作业。
 - en: Assignment
   id: totrans-175
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 作业
 - en: 'In your final homework task for this book, you''re going to launch your app
     on AWS, using all the steps we learned in this chapter:'
   id: totrans-176
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本书的最后一项作业任务中，你将使用本章学到的所有步骤在AWS上启动你的应用：
 - en: Your first task for today is to deploy your contract onto the Ropsten network.
     Remember that you'll need to create an account on Ropsten first and get some ether
     from the faucet in order to pay the gas fee to deploy your contract.
@@ -994,6 +1156,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 今天你的第一个任务是将你的合约部署到Ropsten网络上。记住，你首先需要在Ropsten上创建一个账户，并从水龙头获取一些以太币，以支付部署合约的燃气费用。
 - en: Once you've deployed your contract, you're going to build the Docker image to
     contain your user interface, and then log in to AWS and create a repository to
     hold your image and push your image up to that repository.
@@ -1001,6 +1164,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 一旦你部署了你的合约，你将会构建Docker镜像来包含你的用户界面，然后登录AWS并创建一个存储库来保存你的镜像，并将你的镜像推送到该存储库。
 - en: I want you to create a task definition that defines how your application runs.
     You'll need to define a task for your UI app and a task for your Geth client.
     By putting them both in the same task definition, you ensure that your UI app
@@ -1009,12 +1173,14 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 我希望你创建一个任务定义，定义你的应用程序如何运行。你需要为你的UI应用程序和Geth客户端定义一个任务。通过将它们都放在同一个任务定义中，你可以确保你的UI应用程序始终在本地运行一个Geth客户端，以便与Robsten网络通信。
 - en: Launch a new ECS service to bring your app online. Once it launches, give your
     app a test drive.
   id: totrans-180
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 启动一个新的ECS服务来使你的应用上线。一旦它启动，就给你的应用试驾一下。
 - en: Make sure you share the URL online for others to try out. If you're looking
     for a way to get a job as a blockchain developer, there's nothing better than
     having something online for potential employers to see that demonstrates your
@@ -1023,11 +1189,13 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 确保你在线分享URL，让其他人也可以尝试。如果你想要成为一个区块链开发者，没有比在线展示你的技能更好的了，让潜在雇主可以看到。
 - en: Summary
   id: totrans-182
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 总结
 - en: This chapter marks the finale of learning all about blockchain and how to use
     it to create and implement a gaming application. In this chapter, we learned how
     the Ethereum network works, and how to make smart contracts that interact with
@@ -1037,6 +1205,7 @@
   id: totrans-183
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章标志着学习区块链及如何使用它创建和实现游戏应用的结束。在本章中，我们学习了以太坊网络的工作原理，以及如何创建与之交互的智能合约。我们学会了如何在测试网络中获取以太币。最后，我们学会了如何将我们的应用部署到AWS，并让全世界的用户都来试试它！
 - en: We've covered a lot in the last seven days, and there's still a lot more to
     learn, but now you have the skills to start exploring more advanced topics on
     your own. I hope you had as much fun working on blockchain as I did, and I'd love
@@ -1044,3 +1213,4 @@
   id: totrans-184
   prefs: []
   type: TYPE_NORMAL
+  zh: 在过去的七天里，我们涵盖了很多内容，还有很多东西要学，但现在你有了开始自己探索更高级主题的技能。我希望你和我一样在区块链上工作时玩得开心，我很想看看你用所学技能建造的东西！
