@@ -1,315 +1,464 @@
 - en: Designing a Data and Transaction Model with Golang
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 用 Golang 设计数据和交易模型
 - en: In Hyperledger Fabric, chaincode is a form of a smart contract written by a
     developer. Chaincode implements a business logic agreed upon by stakeholders of
     the blockchain network. The functionality is exposed to client applications for
     them to invoke, provided they have the correct permissions.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 在超级账本 Fabric 中，链代码是由开发人员编写的智能合约的一种形式。链代码实现了区块链网络的利益相关者所达成一致的业务逻辑。该功能对客户端应用程序开放，以便它们调用，前提是它们具有正确的权限。
 - en: Chaincode runs as an independent process in its own container, isolated from
     the other components of the Fabric network. An endorsing peer manages the lifetime
     of the chaincode and of the transaction invocations. In response to client invocations,
     the chaincode queries and updates the ledger and generates a transactions proposal.
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 链代码作为一个独立的进程在自己的容器中运行，与 Fabric 网络的其他组件隔离开来。背书节点负责管理链代码和交易调用的生命周期。作为对客户端调用的回应，链代码查询和更新分类账，并生成交易提案。
 - en: In this chapter, we will learn how to develop chaincode in the Go language and
     we will implement the smart contract business logic of the scenario. Finally,
     we will explore the key concepts and libraries necessary for developing a fully
     functional chaincode.
+  id: totrans-3
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将学习如何用 Go 语言开发链代码，并实现场景的智能合约业务逻辑。最后，我们将探讨开发完全功能的链代码所必需的关键概念和库。
 - en: 'While in the next sections we will explore snippets of code related to the
     concepts you can get a complete implementation of the chaincode at the following
     address:'
+  id: totrans-4
   prefs: []
   type: TYPE_NORMAL
+  zh: 在接下来的章节中，我们将探索与概念相关的代码片段，你可以在以下地址找到链代码的完整实现：
 - en: '[https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/chaincode/src/github.com/trade_workflow_v1](https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/chaincode/src/github.com/trade_workflow_v1)'
+  id: totrans-5
   prefs: []
   type: TYPE_NORMAL
+  zh: '[https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/chaincode/src/github.com/trade_workflow_v1](https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/chaincode/src/github.com/trade_workflow_v1)'
 - en: Note that this is also available in the local git clone we created in the previous
     chapter.We have two versions of the chaincode, one in the `trade_workflow` folder
     and another in the `trade_workflow_v1` folder. We need two versions to demonstrate
     upgrades later in [*Chapter 9*](72e0e4f7-a8e3-49e6-935f-2c478d0ac891.xhtml), *Life
     in a Blockchain Network*. In this chapter, we use the `v1` version to demonstrate
     how to write chaincode in Go.
+  id: totrans-6
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，这也可以在我们在上一章中创建的本地 git 克隆中找到。我们有两个版本的链代码，一个在`trade_workflow`文件夹中，另一个在`trade_workflow_v1`文件夹中。我们需要两个版本来演示稍后升级，在[*第
+    9 章*](72e0e4f7-a8e3-49e6-935f-2c478d0ac891.xhtml)，*区块链网络的生活*中。在本章中，我们使用`v1`版本来演示如何用
+    Go 编写链代码。
 - en: 'In this chapter, we will be covering the following topics:'
+  id: totrans-7
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将讨论以下主题：
 - en: Creating a chaincode
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 创建链代码
 - en: Access control
+  id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 访问控制
 - en: Implementing chaincode functions
+  id: totrans-10
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 实现链代码函数
 - en: Testing chaincode
+  id: totrans-11
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 测试链代码
 - en: Chaincode design topics
+  id: totrans-12
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 链代码设计主题
 - en: Logging output
+  id: totrans-13
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 记录输出
 - en: Starting the chaincode development
+  id: totrans-14
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 启动链代码开发
 - en: Before we can start coding our chaincode, we need to first start up our development
     environment.
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们可以开始编写链代码之前，我们首先需要启动我们的开发环境。
 - en: The steps of setting up the development environment has been explained in [*Chapter
     3*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml), *Setting the Stage with a Business
     Scenario*. However, we now proceed with starting up the Fabric network in dev-mode.
     This mode allows us to control how we built and run the chaincode. We will use
     this network to run our chaincode in the development environment.
+  id: totrans-16
   prefs: []
   type: TYPE_NORMAL
+  zh: 设置开发环境的步骤已在[*第 3 章*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml)，*使用商业情景设定舞台*中解释过。然而，我们现在继续启动开发模式下的
+    Fabric 网络。这种模式允许我们控制如何构建和运行链代码。我们将使用此网络在开发环境中运行我们的链代码。
 - en: 'Here is how we start the Fabric network in dev mode:'
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面是我们如何以开发模式启动 Fabric 网络的步骤：
 - en: '[PRE0]'
+  id: totrans-18
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: If you encounter any error while the network start, it could be caused by some
     left-over Docker container.
+  id: totrans-19
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果在启动网络时遇到任何错误，可能是由一些残留的 Docker 容器引起的。
 - en: 'You can resolve this by stopping the network using `./trade.sh down -d true`
     and running the following command: `./trade.sh clean -d true`.'
+  id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可以通过停止网络使用`./trade.sh down -d true`，然后运行以下命令解决这个问题：`./trade.sh clean -d true`。
 - en: The `-d` true option tells our script to take action on the dev network.
+  id: totrans-21
   prefs: []
   type: TYPE_NORMAL
+  zh: '`-d` true 选项告诉我们的脚本在开发网络上采取行动。'
 - en: Our development network is now running in five Docker containers. The network
     is composed of a single orderer, a single peer running in `devmode`, a chaincode
     container, a CA container, and a CLI container. The CLI container creates a blockchain
     channel named `tradechannel` at startup. We will use the CLI to interact with
     the chaincode.
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的开发网络现在在五个Docker容器中运行。网络由单个订购者、在`devmode`中运行的单个对等体、一个链码容器、一个CA容器和一个CLI容器组成。CLI容器在启动时创建了一个名为`tradechannel`的区块链通道。我们将使用CLI与链码交互。
 - en: Feel free to inspect the log messages in the logs directory. It lists the components
     and functions executed during network startup. We will keep the terminal open,
     as we will receive further log messages here once the chaincode has been installed
     and invoked.
+  id: totrans-23
   prefs: []
   type: TYPE_NORMAL
+  zh: 随时查看日志目录中的日志消息。它列出了网络启动期间执行的组件和函数。我们将保持终端开放，因为一旦安装并调用了链码，我们会在这里收到进一步的日志消息。
 - en: Compiling and running chaincode
+  id: totrans-24
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 编译和运行链码
 - en: 'The cloned source code already includes all dependencies using Go vendoring.
     With that in mind, we can now begin to build the code and to run the chaincode
     with the following steps:'
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 克隆源代码已经使用Go vendoring包含了所有的依赖关系。考虑到这一点，我们现在可以开始构建代码，并使用以下步骤运行链码：
 - en: '**Compile the chaincode**: In a new terminal, connect to the chaincode container
     and build the chaincode with the following command:'
+  id: totrans-26
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '**编译链码**：在一个新的终端中，连接到链码容器并使用以下命令构建链码：'
 - en: '[PRE1]'
+  id: totrans-27
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: 'Run the chaincode with the following command:'
+  id: totrans-28
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 使用以下命令运行链码：
 - en: '[PRE2]'
+  id: totrans-29
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: We now have a running chaincode connected to the peer. The log messages here
     are indicating that the chaincode is up and running. You can also inspect log
     messages in the network terminal, which list the connections to the chaincode
     on the peer.
+  id: totrans-30
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们现在有一个连接到对等体的运行中的链码。这里的日志消息表明链码已经启动并正在运行。您还可以在网络终端中检查日志消息，其中列出了对等体上与链码的连接。
 - en: Installing and instantiating chaincode
+  id: totrans-31
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 安装和实例化链码
 - en: 'We now need to install the chaincode on the channel before we initiate it,
     which will invoke the method `Init`:'
+  id: totrans-32
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们启动通道之前，现在需要在通道上安装链码，这将调用`Init`方法：
 - en: '**Installing the chaincode**: In a new terminal, connect to the CLI container
     and install the chaincode with the name `tw`, as follows:'
+  id: totrans-33
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '**安装链码**：在一个新的终端中，连接到CLI容器并按如下方式安装名称为`tw`的链码：'
 - en: '[PRE3]'
+  id: totrans-34
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: 'Now, instantiate the following `chaincode`:'
+  id: totrans-35
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在，实例化以下`链码`：
 - en: '[PRE4]'
+  id: totrans-36
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: The CLI-connected terminal now contains a list of log messages of the interaction
     with the chaincode. The `chaincode` terminal shows messages from the `chaincode`
     method invocation and the network terminal show messages from communication between
     the peer and the orderer.
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: CLI连接的终端现在包含了与链码交互的日志消息列表。`链码`终端显示了来自`链码`方法调用的消息，而网络终端显示了对等体和订购者之间通信的消息。
 - en: Invoking chaincode
+  id: totrans-38
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 调用链码
 - en: 'Now we have a running chaincode, we can start to invoke some functions. Our
     chaincode has several methods that create and retrieve assets. For now, we will
     only invoke two of them; the first creates a new trade agreement and the second
     retrieves it from the ledger. To do this, complete the following steps:'
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们有一个正在运行的链码，我们可以开始调用一些函数。我们的链码有几种创建和检索资产的方法。目前，我们只会调用其中两个；第一个是创建一个新的交易协议，第二个是从分类账中检索它。要做到这一点，请完成以下步骤：
 - en: 'Put a new trade agreement with a unique ID `trade-12` on the ledger with the
     following command:'
+  id: totrans-40
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 使用以下命令在分类账上放置具有唯一ID`trade-12`的新交易协议：
 - en: '[PRE5]'
+  id: totrans-41
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'Retrieve the trade agreement with the ID `trade-12` from the ledger with the
     following command:'
+  id: totrans-42
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 使用以下命令从分类账中检索ID为`trade-12`的交易协议：
 - en: '[PRE6]'
+  id: totrans-43
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: We now have a running network in `devmode` and we have tested our chaincode
     successfully. In the following section, we will learn how to create and test chaincode
     from scratch.
+  id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们在`devmode`中有一个正在运行的网络，我们已成功测试了我们的链码。在接下来的部分，我们将学习如何从头开始创建和测试链码。
 - en: Dev Mode
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 开发模式
 - en: In a production environment, the lifetime of the chaincode is managed by the
     peer. When we need to repeatedly modify and test the chaincode in a development
     environment, we can use `devmode`, which allows the developer to control the life
     cycle of the chaincode. Additionally, `devmode` directs the `stdout` and `stderr`
     standard files into the terminal; these are otherwise disabled in a production
     environment.
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 在生产环境中，链码的生命周期由对等体管理。当我们需要在开发环境中重复修改和测试链码时，我们可以使用`devmode`，它允许开发人员控制链码的生命周期。此外，`devmode`将`stdout`和`stderr`标准文件重定向到终端；这些在生产环境中是禁用的。
 - en: To use `devmode`, the peer must be connected to other network components, as
     in a production environment, and started with the argument `peer-chaincodedev=true`.
     The chaincode is then started separately and configured to connect to the peer.
     The chaincode can be repeatedly compiled, started, invoked, and stopped as needed
     from the terminal during development.
+  id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 要使用 `devmode`，对等方必须连接到其他网络组件，就像在生产环境中一样，并且以参数 `peer-chaincodedev=true` 启动。然后，链代码将单独启动并配置为连接到对等方。在开发过程中，可以从终端重复编译、启动、调用和停止链代码。
 - en: We will use the `devmode` enabled network in the following sections.
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 在接下来的部分中，我们将使用启用了 `devmode` 的网络。
 - en: Creating a chaincode
+  id: totrans-49
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建链代码
 - en: We are now ready to start to implementing our chaincode, which we will program
     in the Go language. There are several IDEs available that provide support for
     Go. Some of the better IDEs include Atom, Visual Studio Code, and many more. Whatever
     environment you opt for will work with our example.
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们已经准备好开始实现我们的链代码了，我们将使用 Go 语言编程。有几个提供对 Go 的支持的 IDE 可用。其中一些较好的 IDE 包括 Atom、Visual
+    Studio Code 等等。无论您选择的环境如何，都可以与我们的示例一起使用。
 - en: The chaincode interface
+  id: totrans-51
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 链代码接口
 - en: 'Every chaincode must implement the `Chaincode interface`, whose methods are
     called in response to the received transaction proposals. The `Chaincode interface`
     defined in the SHIM package is shown in the following listing:'
+  id: totrans-52
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个链代码都必须实现 `Chaincode interface`，其方法是在接收到交易提案后调用的。SHIM 包中定义的 `Chaincode interface`
+    如下所示：
 - en: '[PRE7]'
+  id: totrans-53
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: As you can see, the `Chaincode` type defines two functions: `Init` and `Invoke`.
+  id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如你所看到的，`Chaincode` 类型定义了两个函数：`Init` 和 `Invoke`。
 - en: Both functions have a single argument, `stub`, of the type `ChaincodeStubInterface`.
+  id: totrans-55
   prefs: []
   type: TYPE_NORMAL
+  zh: 这两个函数都有一个参数，类型为 `ChaincodeStubInterface`，名为 `stub`。
 - en: The stub argument is the main object that we will use when implementing the
     chaincode functionality, as it provides functions for accessing and modifying
     the ledger, obtaining invocation arguments, and so on.
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: '`stub` 参数是我们在实现链代码功能时将使用的主要对象，因为它提供了访问和修改账本、获取调用参数等功能。'
 - en: 'Additionally, the SHIM package provides other types and functions in order
     to build chaincodes; you can inspect the whole package at: [https://godoc.org/github.com/hyperledger/fabric/core/chaincode/shim.](https://godoc.org/github.com/hyperledger/fabric/core/chaincode/shim)'
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 另外，SHIM 包提供了其他类型和函数来构建链代码；你可以在以下链接检查整个包：[https://godoc.org/github.com/hyperledger/fabric/core/chaincode/shim.](https://godoc.org/github.com/hyperledger/fabric/core/chaincode/shim)
 - en: Setting up the chaincode file
+  id: totrans-58
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 设置链代码文件
 - en: Let's now set up the `chaincode` file.
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在让我们设置 `chaincode` 文件。
 - en: 'We will work with the folder structure cloned from GitHub. The chaincode files
     are located in the following folder:'
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将使用从 GitHub 克隆的文件夹结构进行工作。链代码文件位于以下文件夹中：
 - en: '[PRE8]'
+  id: totrans-61
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: You can either follow the steps and inspect the code files in the folder, or
     you can create a new folder and create the code files as described.
+  id: totrans-62
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以按照步骤检查文件夹中的代码文件，也可以创建一个新文件夹并按描述创建代码文件。
 - en: First, we need to create the `chaincode` file
+  id: totrans-63
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 首先，我们需要创建 `chaincode` 文件
 - en: 'In your favorite editor, create a file, `tradeWorkflow.go`, and include the
     following package and import statements:'
+  id: totrans-64
   prefs: []
   type: TYPE_NORMAL
+  zh: 在您喜欢的编辑器中，创建一个名为 `tradeWorkflow.go` 的文件，并包含以下包和导入语句：
 - en: '[PRE9]'
+  id: totrans-65
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: In the preceding snippet, we can see that lines 4 to 8 import the Go language
     system packages, and lines 9 to 11 import the `shim`, `cid`, and `pb` Fabric packages.
     The `pb` package provides the definition of peer `protobuf` types and `cid` provides
     access control functions. We will take a closer look at CID in the section on
     access control.
+  id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面的代码片段中，我们可以看到第 4 至 8 行导入了 Go 语言系统包，第 9 至 11 行导入了 `shim`、`cid` 和 `pb` Fabric
+    包。`pb` 包提供了对 peer `protobuf` 类型的定义，而 `cid` 则提供了访问控制函数。在访问控制部分，我们将更详细地了解 CID。
 - en: 'Now we need to define the `Chaincode` type. Let''s add the `TradeWorkflowChaincode`
     type that will implement the chaincode functions, as shown in the following snippet:'
+  id: totrans-67
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在我们需要定义 `Chaincode` 类型。让我们添加将实现链代码函数的 `TradeWorkflowChaincode` 类型，如下所示：
 - en: '[PRE10]'
+  id: totrans-68
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: Make note of the `testMode` field in line 2\. We will use this feld to circumvent
     access control checks during testing.
+  id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: 注意第 2 行中的 `testMode` 字段。我们将在测试期间使用此字段来绕过访问控制检查。
 - en: The `TradeWorkflowChaincode` is required in order to implement the `shim.Chaincode`
     interface. The methods of the interface must be implemented in order for `TradeWorkflowChaincode`
     to be a valid `Chaincode` type of the `shim` package.
+  id: totrans-70
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '`TradeWorkflowChaincode` 是实现 `shim.Chaincode` 接口所需的。必须实现接口的方法，以使 `TradeWorkflowChaincode`
+    成为 `shim` 包中 `Chaincode` 类型的有效实现。'
 - en: 'The `Init` method is called once the chaincode has been installed onto the
     blockchain network. It is executed only once by each endorsement peer that deploys
     its own instance of the chaincode. This method can be used for initialization,
@@ -319,21 +468,31 @@
     method returns a result of the invocation of the function `shim`. Success with
     an argument value of `nil` signals a successful execution with an empty result,
     as shown as follows:'
+  id: totrans-71
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '`Init` 方法在将链码安装到区块链网络后调用。每个认可节点只会执行一次，部署其自己的链码实例。此方法可用于初始化、引导和设置链码。`Init` 方法的默认实现如下代码片段所示。请注意，第
+    3 行中的方法向标准输出写入一行以报告其调用。第 4 行中，方法返回了对 `shim` 函数调用的结果。成功的参数值为 `nil` 表示成功执行并返回空结果，如下所示：'
 - en: '[PRE11]'
+  id: totrans-72
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: 'An invocation of a chaincode method must return an instance of the `pb.Response`
     object. The following snippet lists the two helper functions from the SHIM package
     to create the response object. The following functions serialize the response
     into a gRPC protobuf message:'
+  id: totrans-73
   prefs: []
   type: TYPE_NORMAL
+  zh: 调用链码方法必须返回 `pb.Response` 对象的一个实例。以下代码片段列出了两个来自 SHIM 包的辅助函数，用于创建响应对象。以下函数将响应序列化为
+    gRPC protobuf 消息：
 - en: '[PRE12]'
+  id: totrans-74
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: 'It''s now time to move on to the invocation arguments. Here, the method will
     retrieve the arguments of the invocation using the `stub.GetFunctionAndParameters`
     function and validate that the expected number of arguments has been provided.
@@ -344,18 +503,25 @@
     details of the participants, which will be recorded as initial states. If an incorrect
     number of arguments is provided, the method will return an error. The codeblock
     validating arguments is as follows:'
+  id: totrans-75
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在是移步到调用参数的时候了。在这里，该方法将使用 `stub.GetFunctionAndParameters` 函数检索调用的参数，并验证是否提供了预期数量的参数。`Init`
+    方法希望收到零个参数，因此将账本保持为原样。当 `Init` 函数被调用时，这是因为链码在账本上升级到新版本。当链码首次安装时，它希望收到包含参与者详情的八个参数，这些将被记录为初始状态。如果提供了不正确数量的参数，该方法将返回错误。验证参数的代码块如下：
 - en: '[PRE13]'
+  id: totrans-76
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: As we can see in the preceding snippet, when the expected number of arguments
     containing the names and roles of the participants is provided, the method validates
     and casts the arguments into the correct data types and records them onto the
     ledger as an initial state.
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们在上述代码片段中所见，当提供了包含参与者姓名和角色的预期参数数量时，该方法会验证和将参数转换为正确的数据类型，并将它们作为初始状态记录到账本中。
 - en: In the following snippet, in lines 2 and 7, the method casts the arguments into
     an integer. If the cast fails, it returns an error. In line 14, a string array
     is constructed from string constants. Here, we refer to lexical constants as defined
@@ -364,31 +530,47 @@
     Finally, in line 16 for each of the constants one record (asset) is written onto
     the ledger. The function `stub.PutState` records a key and value pair onto the
     ledger.
+  id: totrans-78
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下面的代码片段中，在第 2 和第 7 行，该方法将参数转换为整数。如果转换失败，它返回错误。在第 14 行，通过字符串常量构造了一个字符串数组。这里，我们引用了在
+    `chaincode` 文件夹中的 `constants.go` 文件中定义的词法常量，这些常量代表了初始值将被记录到账本中的键。最后，在第 16 行，对于每个常量，一个记录（资产）被写入到账本中。`stub.PutState`
+    函数记录了一个键值对到账本中。
 - en: 'Note, that data on the ledger is stored as an array of bytes; any data we want
     to store on the ledger must be first converted into a byte array, as you can see
     in the following snippet:'
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，账本上的数据以字节数组形式存储；我们想要存储在账本上的任何数据都必须首先转换为字节数组，正如您在以下代码片段中所见：
 - en: '[PRE14]'
+  id: totrans-80
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: '[PRE15]'
+  id: totrans-81
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: The Invoke method
+  id: totrans-82
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 调用方法
 - en: The `Invoke` method is invoked whenever the state of the blockchain is queried
     or modified.
+  id: totrans-83
   prefs: []
   type: TYPE_NORMAL
+  zh: 每当查询或修改区块链的状态时，都会调用`Invoke`方法。
 - en: All **create**, **read**, **update**, and **delete** (**CRUD**) operations on
     the assets held on the ledger are encapsulated by the `Invoke` method.
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: 所有对账本上持有的资产的**创建**、**读取**、**更新**和**删除**（**CRUD**）操作都由`Invoke`方法封装。
 - en: 'The invocation of this method happens when a transaction is created by the
     invoking client. When the ledger is queried for the state (that is, one or more
     assets are retrieved but the state of the ledger is not modified), the contextual
@@ -397,28 +579,38 @@
     transaction. After receiving a response for the transaction to be recorded on
     the ledger, the client will submit that transaction to an ordering service. An
     empty `Invoke` method is shown in the following snippet:'
+  id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: 当事务由调用客户端创建时，将调用此方法。当查询状态时（即，检索一个或多个资产但不修改账本的状态时），上下文事务将在客户端接收到`Invoke`响应后被丢弃。一旦账本已被修改，修改将被记录到事务中。在接收到要记录在账本上的事务的响应后，客户端将提交该事务给一个排序服务。下面的代码片段显示了一个空的`Invoke`方法：
 - en: '[PRE16]'
+  id: totrans-86
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: Typically, the implementation of chaincode will contain multiple queries and
     modification functions. If these functions are very simple, they can be directly
     implemented in the body of the `Invoke` method. However, a more elegant solution
     is to implement each function independently and then invoke them from the `Invoke`
     method.
+  id: totrans-87
   prefs: []
   type: TYPE_NORMAL
+  zh: 通常，链码的实现将包含多个查询和修改函数。如果这些函数非常简单，可以直接在`Invoke`方法的主体中实现。然而，更加优雅的解决方案是独立实现每个函数，然后从`Invoke`方法中调用它们。
 - en: The SHIM API provides several functions for retrieving the invocation arguments
     of the `Invoke` method. These are listed in the following snippet. It is up to
     the developer to choose the meaning and order of the arguments; however, it is
     customary for the first argument of the `Invoke` method to be the name of the
     function, with the following arguments the arguments of that function.
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: SHIM API提供了几个函数来检索`Invoke`方法的调用参数。这些列在以下代码片段中。开发人员可以选择参数的含义和顺序；但是，通常情况下，`Invoke`方法的第一个参数是函数的名称，其后的参数是该函数的参数。
 - en: '[PRE17]'
+  id: totrans-89
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE17]'
 - en: 'In the following snippet, the arguments of the invocation are retrieved in
     line 1 using the `stub.GetFunctionAndParameters` function. From line 3 onwards,
     a series of `if` conditions pass the execution, along with the arguments, into
@@ -426,117 +618,167 @@
     functions implement their functionality separately. If a non-existent function
     is requested, the method returns an error indicating that the requested function
     does not exist, as shown in line 18:'
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下面的代码片段中，第1行使用`stub.GetFunctionAndParameters`函数检索调用的参数。从第3行开始，一系列`if`条件将执行与参数一起传递到请求的函数（`requestTrade`、`acceptTrade`等）。每个这些函数都独立实现其功能。如果请求了一个不存在的函数，该方法将返回一个错误，指示请求的函数不存在，如第18行所示：
 - en: '[PRE18]'
+  id: totrans-91
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE18]'
 - en: As you can see, the `Invoke` method is a suitable place for any shared code
     that is needed for extracting and validating arguments that will be used by the
     requested functions. In the following section, we will look at the access control
     mechanism and place some of the shared access control code into the `Invoke` method.
+  id: totrans-92
   prefs: []
   type: TYPE_NORMAL
+  zh: 如您所见，`Invoke`方法是放置任何需要用于提取和验证将由请求的函数使用的参数的共享代码的合适位置。在下一节中，我们将看看访问控制机制，并将一些共享访问控制代码放入`Invoke`方法中。
 - en: Access control
+  id: totrans-93
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 访问控制
 - en: Before we delve into the implementation of `Chaincode` functions, we need to
     first define our access control mechanism.
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 在深入讨论`Chaincode`函数的实现之前，我们需要首先定义我们的访问控制机制。
 - en: 'A key feature of a secure and permissioned blockchain is access control. In
     Fabric, the **Membership Services Provider** (**MSP**) plays a pivotal role in
     enabling access control. Each organization of a Fabric network can have one or
     more MSP providers. The MSP is implemented as a **Certificate Authority** (**Fabric
     CA**). More information on Fabric CA, including its documentation, is available
     at: [https://hyperledger-fabric-ca.readthedocs.io/.](https://hyperledger-fabric-ca.readthedocs.io/)'
+  id: totrans-95
   prefs: []
   type: TYPE_NORMAL
+  zh: 安全且受权限限制的区块链的关键特点是访问控制。在Fabric中，**成员服务提供商**（**MSP**）在启用访问控制方面发挥了关键作用。Fabric网络的每个组织都可以有一个或多个MSP提供者。MSP实现为**证书颁发机构**（**Fabric
+    CA**）。有关Fabric CA的更多信息，包括其文档，请访问：[https://hyperledger-fabric-ca.readthedocs.io/.](https://hyperledger-fabric-ca.readthedocs.io/)
 - en: Fabric CA issues **Enrollment Certificates** (**ecerts**) for network users.
     The ecert represents the identity of the user and is used as a signed transaction
     when a user submits to Fabric. Prior to invoking a transaction, the user must
     therefore first register and obtain an ecert from the Fabric CA.
+  id: totrans-96
   prefs: []
   type: TYPE_NORMAL
+  zh: Fabric CA为网络用户颁发**注册证书**（**ecerts**）。ecert代表用户的身份，并在用户提交给Fabric时用作签名交易。在调用交易之前，用户必须首先从Fabric
+    CA注册并获得ecert。
 - en: Fabric supports an **Attribute-based Access Control** (**ABAC**) mechanism that
     can be used by the chaincode to control access to its functions and data. The
     ABAC allows the chaincode to make access control decisions based on attributes
     associated with user identity. Users with an ecert can also access a series of
     additional attributes (that is, name/value pairs).
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: Fabric支持一种**基于属性的访问控制**（**ABAC**）机制，链码可以使用该机制控制对其功能和数据的访问。ABAC允许链码根据与用户身份关联的属性做出访问控制决策。拥有ecert的用户也可以访问一系列附加属性（即，名称/值对）。
 - en: During invocation, the chaincode will extract the attributes and make an access
     control decision. We will take a closer look at the ABAC mechanism in the upcoming
     chapters.
+  id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: 在调用期间，链码将提取属性并做出访问控制决策。我们将在即将到来的章节中更深入地了解ABAC机制。
 - en: ABAC
+  id: totrans-99
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: ABAC
 - en: In the following steps, we will show you how to register a user and create an
     ecert with attributes. We will then retrieve the user identity and the attributes
     in the chaincode to validate access control. We will then integrate this functionality
     into our tutorial chaincode.
+  id: totrans-100
   prefs: []
   type: TYPE_NORMAL
+  zh: 在接下来的步骤中，我们将向您展示如何注册用户并创建具有属性的ecert。然后我们将在链码中检索用户身份和属性，以验证访问控制。然后我们将把这个功能集成到我们的教程链码中。
 - en: First, we must register a new user with the Fabric CA. As part of the registration
     process, we have to define the attributes that will be used once the ecert is
     generated. A user is registered by running the command, `fabric-ca-client register`.
     The access control attributes are added by using the suffix `:ecert`.
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先，我们必须使用Fabric CA注册一个新用户。在注册过程中，我们必须定义生成ecert后将使用的属性。通过运行命令`fabric-ca-client
+    register`来注册用户。访问控制属性可以使用后缀`:ecert`添加。
 - en: Registering a user
+  id: totrans-102
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 注册用户
 - en: These steps are informational only and cannot be executed. For more information
     you can refer to the GitHub repository [https://github.com/HyperledgerHandsOn/trade-finance-logistics/blob/master/chaincode/abac.md](https://github.com/HyperledgerHandsOn/trade-finance-logistics/blob/master/chaincode/abac.md)
+  id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些步骤仅供参考，无法执行。更多信息可以参考GitHub存储库[https://github.com/HyperledgerHandsOn/trade-finance-logistics/blob/master/chaincode/abac.md](https://github.com/HyperledgerHandsOn/trade-finance-logistics/blob/master/chaincode/abac.md)
 - en: 'Let''s now register a user with a custom attribute named `importer` and the
     value `true`. Note that the value of the attribute can be of any type and is not
     limited to Boolean values, as shown in the following snippet:'
+  id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在让我们注册一个具有自定义属性名为`importer`和值为`true`的用户。请注意，属性的值可以是任何类型，并不仅限于布尔值，如下段所示：
 - en: '[PRE19]'
+  id: totrans-105
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE19]'
 - en: The previous snippet shows us the command line when registering a user with
     the attribute `importer=true`. Note that the values of `id.secret` and other arguments
     depend on the Fabric CA configuration.
+  id: totrans-106
   prefs: []
   type: TYPE_NORMAL
+  zh: 前面的片段显示了注册具有属性`importer=true`的用户时的命令行。请注意，`id.secret`的值和其他参数取决于Fabric CA配置。
 - en: 'The preceding command can also define multiple default attributes at once,
     such as: `--id.attrs` and `importer=true:ecert,email=user1@gmail.com`.'
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 上述命令还可以一次定义多个默认属性，例如：`--id.attrs`和`importer=true:ecert,email=user1@gmail.com`。
 - en: 'The following table contains the default attributes used during user registration:'
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下表格包含用户注册期间使用的默认属性：
 - en: '| **Attribute name** | **Command line argument** | **Attribute value** |'
+  id: totrans-109
   prefs: []
   type: TYPE_TB
+  zh: '| **属性名称** | **命令行参数** | **属性值** |'
 - en: '| hf.EnrollmentID | (automatic) | The enrollment ID of the identity |'
+  id: totrans-110
   prefs: []
   type: TYPE_TB
 - en: '| hf.Type  | id.type  | The type of the identity |'
+  id: totrans-111
   prefs: []
   type: TYPE_TB
 - en: '| hf.Affiliation  | id.affiliation  | The affiliation of the identity |'
+  id: totrans-112
   prefs: []
   type: TYPE_TB
 - en: 'If any of the previous attributes are needed in ecert, they must be first defined
     in the user registration command. For example, the following command registers
     `user1` with the attribute `hf.Affiliation=ImporterOrgMSP`, which will be copied
     into ecert by default:'
+  id: totrans-113
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE20]'
+  id: totrans-114
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE20]'
 - en: Enrolling a user
+  id: totrans-115
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -546,18 +788,23 @@
     one or more non-optional attributes are not defined on the user registration,
     the enrollment will fail. The following command will enroll a user with the attribute
     `importer`:'
+  id: totrans-116
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE21]'
+  id: totrans-117
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE21]'
 - en: Retrieving user identities and attributes in chaincode
+  id: totrans-118
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: In this step, we will retrieve a user's identity during the execution of the
     chaincode. The ABAC functionality available to chaincode is provided by the **Client
     Identity Chaincode** (**CID**) library.
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
 - en: Every transaction proposal submitted to the chaincode carries along with it
@@ -565,37 +812,46 @@
     access to the ecert through importing the CID library and invoking the library
     functions with the argument `ChaincodeStubInterface`, that is, the argument `stub` received
     in both the `Init` and `Invoke` methods.
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
 - en: 'The chaincode can use the certificate to extract information about the invoker,
     including:'
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
 - en: The ID of the invoker
+  id: totrans-122
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: The unique ID of the **Membership Service Provider** (**MSP**) which issued
     the invoker certificate
+  id: totrans-123
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: The standard attributes of the certificate, such as its domain name, email,
     and so on
+  id: totrans-124
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: The ecert attributes associated with the client identity, stored within the
     certificate
+  id: totrans-125
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 'The functions provided by the CID library are listed in the following snippet:'
+  id: totrans-126
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE22]'
+  id: totrans-127
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE22]'
 - en: 'In the following codeblock, we define a function, `getTxCreatorInfo`, which
     obtains basic identity information about the invoker. First, we must import the
     CID and x509 libraries, as seen in lines 3 and 4\. The unique MSPID is retrieved
@@ -604,11 +860,14 @@
     of the Fabric CA within the network. These two attributes are returned by the
     function and used in subsequent access control validation, as shown in the following
     snippet:'
+  id: totrans-128
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE23]'
+  id: totrans-129
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE23]'
 - en: We now need to define and implement the simple access control policy in our
     chaincode. Each function of the chaincode can only be invoked by members of a
     specific organization; each chaincode function will therefore validate whether
@@ -617,120 +876,182 @@
     In the following snippet, the function `authenticateImporterOrg` validates whether
     the invoker is a member of `ImporterOrgMSP`. This function then will be invoked
     from the `requestTrade` function to enforce access control.
+  id: totrans-130
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们需要在链码中定义和实现简单的访问控制策略。链码的每个函数只能由特定组织的成员调用；因此，每个链码函数都将验证调用者是否是所需组织的成员。例如，函数`requestTrade`只能由`Importer`组织的成员调用。在下面的代码片段中，函数`authenticateImporterOrg`验证调用者是否是`ImporterOrgMSP`的成员。然后，将从`requestTrade`函数调用此函数以执行访问控制。
 - en: '[PRE24]'
+  id: totrans-131
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE24]'
 - en: In the following snippet is shown the invocation of access control validation,
     which has granted access only to members of `ImporterOrgMSP`. The function is
     invoked with the arguments obtained from the `getTxCreatorInfo` function.
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面的代码片段显示了访问控制验证的调用，该验证仅授予`ImporterOrgMSP`成员访问权限。该函数使用从`getTxCreatorInfo`函数获取的参数进行调用。
 - en: '[PRE25]'
+  id: totrans-133
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE25]'
 - en: Now, we need to place our authentication functions into a separate file, `accessControlUtils.go`,
     which is located in the same directory as the main `tradeWorkflow.go` file. This
     file will be automatically imported into the main `chaincode` file during compilation
     so we can refer to the functions defined in it.
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们需要将身份验证函数放入一个单独的文件`accessControlUtils.go`中，该文件位于与主`tradeWorkflow.go`文件相同的目录中。此文件将在编译期间自动导入到主`chaincode`文件中，因此我们可以引用其中定义的函数。
 - en: Implementing chaincode functions
+  id: totrans-135
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 实现链码函数
 - en: At this point, we now have the basic building blocks of chaincode. We have the
     `Init` method, which initiates the chaincode and the `Invoke` method, which receives
     request from the client and the access control mechanism. Now, we need to define
     the functionality of the chaincode.
+  id: totrans-136
   prefs: []
   type: TYPE_NORMAL
+  zh: 到此为止，我们现在拥有链码的基本构建模块。我们有`Init`方法，用于初始化链码，以及`Invoke`方法，用于接收来自客户端和访问控制机制的请求。现在，我们需要定义链码的功能。
 - en: Based on our scenario, the following tables summarize the list of functions
     that record and retrieve data to and from the ledger to provide the business logic
     of the smart contract. The tables also define the access control definitions of
     organization member, which are needed in order to invoke the respective functions.
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
+  zh: 根据我们的场景，以下表格总结了记录和检索数据以及提供智能合约业务逻辑所需的函数列表。这些表格还定义了组织成员的访问控制定义，以便调用相应的函数。
 - en: 'The following table illustrates the chaincode modification functions, that
     is, how to record transactions on the ledger:'
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下表格说明了链码修改函数，即如何在分类账上记录交易：
 - en: '| **Function name** | **Permission to invoke** | **Description** |'
+  id: totrans-139
   prefs: []
   type: TYPE_TB
+  zh: '| **函数名称** | **调用权限** | **描述** |'
 - en: '| `requestTrade` | Importer | Requests a trade agreement |'
+  id: totrans-140
   prefs: []
   type: TYPE_TB
+  zh: '| `requestTrade` | 进口商 | 请求贸易协议 |'
 - en: '| `acceptTrade` | Exporter | Accepts a trade agreement |'
+  id: totrans-141
   prefs: []
   type: TYPE_TB
+  zh: '| `acceptTrade` | 出口商 | 接受贸易协议 |'
 - en: '| `requestLC` | Importer | Requests a letter of credit |'
+  id: totrans-142
   prefs: []
   type: TYPE_TB
+  zh: '| `requestLC` | 进口商 | 请求信用证 |'
 - en: '| `issueLC` | Importer | Issues a letter of credit |'
+  id: totrans-143
   prefs: []
   type: TYPE_TB
+  zh: '| `issueLC` | 进口商 | 发行信用证 |'
 - en: '| `acceptLC` | Exporter | Accepts a letter of credit |'
+  id: totrans-144
   prefs: []
   type: TYPE_TB
+  zh: '| `acceptLC` | 出口商 | 接受信用证 |'
 - en: '| `requestEL` | Exporter | Requests an export license |'
+  id: totrans-145
   prefs: []
   type: TYPE_TB
+  zh: '| `requestEL` | 出口商 | 请求出口许可证 |'
 - en: '| `issueEL` | Regulator | Issues an export license |'
+  id: totrans-146
   prefs: []
   type: TYPE_TB
+  zh: '| `issueEL` | 监管机构 | 发行出口许可证 |'
 - en: '| `prepareShipment` | Exporter | Prepares a shipment |'
+  id: totrans-147
   prefs: []
   type: TYPE_TB
+  zh: '| `prepareShipment` | 出口商 | 准备装运 |'
 - en: '| `acceptShipmentAndIssueBL` | Carrier | Accepts a shipment and issue a bill
     of lading |'
+  id: totrans-148
   prefs: []
   type: TYPE_TB
+  zh: '| `acceptShipmentAndIssueBL` | 承运人 | 接受装运并发行提单 |'
 - en: '| `requestPayment` | Exporter | Requests a payment |'
+  id: totrans-149
   prefs: []
   type: TYPE_TB
+  zh: '| `requestPayment` | 出口商 | 请求支付 |'
 - en: '| `makePayment` | Importer | Makes a payment |'
+  id: totrans-150
   prefs: []
   type: TYPE_TB
+  zh: '| `makePayment` | 进口商 | 进行支付 |'
 - en: '| `updateShipmentLocation` | Carrier | Updates shipment location |'
+  id: totrans-151
   prefs: []
   type: TYPE_TB
+  zh: '| `updateShipmentLocation` | 承运人 | 更新装运位置 |'
 - en: 'The following table illustrates the chaincode query functions, that is, those
     needed to retrieve data from the ledger:'
+  id: totrans-152
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下表格说明了链码查询函数，即从分类账中检索数据所需的函数：
 - en: '| **Function name** | **Permission to invoke** | **Description** |'
+  id: totrans-153
   prefs: []
   type: TYPE_TB
+  zh: '| **函数名称** | **调用权限** | **描述** |'
 - en: '| `getTradeStatus` | Exporter/ExportingEntity/Importer | Gets current state
     of a trade agreement |'
+  id: totrans-154
   prefs: []
   type: TYPE_TB
+  zh: '| `getTradeStatus` | 出口商/出口实体/进口商 | 获取贸易协议的当前状态 |'
 - en: '| `getLCStatus` | Exporter/ExportingEntity/Importer | Get current state of
     a Letter of Credit |'
+  id: totrans-155
   prefs: []
   type: TYPE_TB
+  zh: '| `getLCStatus` | 出口商/出口实体/进口商 | 获取信用证的当前状态 |'
 - en: '| `getELStatus` | ExportingEntity/Regulator | Get current state of an Export
     License |'
+  id: totrans-156
   prefs: []
   type: TYPE_TB
+  zh: '| `getELStatus` | 出口实体/监管机构 | 获取出口许可证的当前状态 |'
 - en: '| `getShipmentLocation` | Exporter/ExportingEntity/Importer/Carrier | Get current
     location of a shipment |'
+  id: totrans-157
   prefs: []
   type: TYPE_TB
+  zh: '| `getShipmentLocation` | 出口商/出口实体/进口商/承运人 | 获取货物当前位置 |'
 - en: '| `getBillOfLading` | Exporter/ExportingEntity/Importer | Get the bill of lading
     |'
+  id: totrans-158
   prefs: []
   type: TYPE_TB
+  zh: '| `getBillOfLading` | 出口商/出口实体/进口商 | 获取提货单 |'
 - en: '| `getAccountBalance` | Exporter/ExportingEntity/Importer | Get current account
     balance for a given participant |'
+  id: totrans-159
   prefs: []
   type: TYPE_TB
+  zh: '| `getAccountBalance` | 出口商/出口实体/进口商 | 获取给定参与者的当前账户余额 |'
 - en: Defining chaincode assets
+  id: totrans-160
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 定义链码资产
 - en: We are now going to define the structure of our assets, which will be recorded
     onto the ledger. In Go, the assets are defined as struct types with a list of
     attribute names and types. The definitions also need to contain JSON attribute
@@ -738,15 +1059,22 @@
     following snippet, you will see definitions for four assets in our application.
     Note that, the attributes of structs can encapsulate other structs and thus allow
     to create multi-level trees.
+  id: totrans-161
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们要定义资产的结构，这些资产将记录在账本上。在 Go 语言中，资产被定义为具有属性名和类型列表的结构类型。定义还需要包含 JSON 属性名，这些属性名将用于将资产序列化为
+    JSON 对象。在下面的片段中，您将看到我们应用程序中四个资产的定义。请注意，结构体的属性可以封装其他结构体，从而允许创建多级树。
 - en: '[PRE26]'
+  id: totrans-162
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE26]'
 - en: Coding chaincode functions
+  id: totrans-163
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 编写链码函数
 - en: In this section, we will implement the chaincode functions we looked at previously.
     To implement the chaincode functions, we will use three SHIM API functions that
     will read assets from the Worldstate and record changes. As we have already learned,
@@ -754,23 +1082,33 @@
     and the changes do not affect the state of the ledger immediately. Only after
     the transaction has passed through validation and has been committed into the
     ledger will the changes take effect.
+  id: totrans-164
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本节中，我们将实现之前查看过的链码函数。为了实现链码函数，我们将使用三个 SHIM API 函数，这些函数将从 Worldstate 中读取资产并记录更改。正如我们已经学到的那样，这些函数的读取和写入分别记录到`ReadSet`和`WriteSet`中，而这些更改并不会立即影响账本的状态。只有在交易通过验证并被提交到账本之后，更改才会生效。
 - en: 'The following snippet shows a list of asset API functions:'
+  id: totrans-165
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下片段显示了一系列资产 API 函数：
 - en: '[PRE27]'
+  id: totrans-166
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE27]'
 - en: Creating an asset
+  id: totrans-167
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建资产
 - en: Now that we can implement our first chaincode function, we will move on and
     implement a `requestTrade` function, which will create a new trade agreement with
     the status `REQUESTED` and then record that agreement on the ledger.
+  id: totrans-168
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们可以实现我们的第一个链码函数了，接下来我们将实现一个`requestTrade`函数，它将创建一个新的交易协议，状态为`REQUESTED`，然后记录该协议到账本上。
 - en: The implementation of the function is shown in the following snippet. As you
     will see, in line 9 we verify that the invoker is a member of `ImporterOrg` and
     has permission to invoke the function. From lines 13 to 21 we validate and extract
@@ -781,136 +1119,204 @@
     will store `TradeAgreement`. Finally, in line 37, we use the key and serialized
     `TradeAgreement` alongside the function `PutState` to store the value into the
     `WriteSet`.
+  id: totrans-169
   prefs: []
   type: TYPE_NORMAL
+  zh: 函数的实现如下所示。正如您将看到的，第 9 行我们验证调用者是否是`ImporterOrg`的成员，并且具有调用该函数的权限。从第 13 行到第 21
+    行，我们验证并提取参数。在第 23 行，我们创建一个以接收到的参数初始化的新的`TradeAgreement`实例。正如我们之前学到的，账本以字节数组的形式存储值。因此，在第
+    24 行我们将`TradeAgreement`序列化为 JSON 并转换为字节数组。在第 32 行，我们创建一个唯一的键，我们将存储`TradeAgreement`。最后，在第
+    37 行，我们使用键和序列化的`TradeAgreement`以及函数`PutState`将值存储到`WriteSet`中。
 - en: 'The following snippet illustrates the `requestTrade` function:'
+  id: totrans-170
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下片段说明了`requestTrade`函数：
 - en: '[PRE28]'
+  id: totrans-171
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE28]'
 - en: Reading and modifying an asset
+  id: totrans-172
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 读取和修改资产
 - en: After we have implemented the function to create a trade agreement, we need
     to implement a function to accept the trade agreement. This function will retrieve
     the agreement, modify its status to `ACCEPTED`, and put it back on the ledger.
+  id: totrans-173
   prefs: []
   type: TYPE_NORMAL
+  zh: 当我们实现了创建交易协议的函数之后，我们需要实现一个函数来接受交易协议。该函数将检索协议，将其状态修改为`ACCEPTED`，并将其放回到账本上。
 - en: 'The implementation of this function is shown in the following snippet. In the
     code, we construct the unique composite key of the trade agreement we want to
     retrieve. In line 22, we retrieve the value with the function `GetState`. In line
     33, we deserialize the array of bytes into the instance of the `TradeAgreement`
     struct. In line 41, we modify the status so it reads `ACCEPTED`; finally, in line
     47, we store the updated value on the ledger, as follows:'
+  id: totrans-174
   prefs: []
   type: TYPE_NORMAL
+  zh: 此函数的实现如下所示。在代码中，我们构造了我们想要检索的贸易协议的唯一的复合键。在第 22 行，我们使用`GetState`函数检索值。在第 33 行，我们将字节数组反序列化为`TradeAgreement`结构的实例。在第
+    41 行，我们修改状态，使其为`ACCEPTED`；最后，在第 47 行，我们将更新后的值存储在分类账上，如下所示：
 - en: '[PRE29]'
+  id: totrans-175
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE29]'
 - en: Main function
+  id: totrans-176
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 主函数
 - en: 'Last but not least, we will add the `main` function: the initial point of a
     Go program. When an instance of the chaincode is deployed on a peer, the `main`
     function is executed to start the chaincode.'
+  id: totrans-177
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后但并非最不重要的是，我们将添加`main`函数：Go 程序的初始点。当链码的实例部署在 peer 上时，会执行`main`函数以启动链码。
 - en: 'In line 2 of the following snippet, the chaincode is instantiated. The function
     `shim.Start` starts the chaincode in line 4 and registers it with the peer, as
     follows:'
+  id: totrans-178
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下面片段的第 2 行中，实例化了链码。 函数`shim.Start`在第 4 行启动了链码，并向 peer 注册了链码，如下所示：
 - en: '[PRE30]'
+  id: totrans-179
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE30]'
 - en: Testing chaincode
+  id: totrans-180
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测试链码
 - en: Now we can write unit tests for our chaincode functions, we will use the in-built
     automated Go testing framework. For more information and documentation, visit
     Go's official website at: [https://golang.org/pkg/testing/](https://golang.org/pkg/testing/)
+  id: totrans-181
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们可以为我们的链码函数编写单元测试，我们将使用内置的自动化 Go 测试框架。有关更多信息和文档，请访问 Go 的官方网站：[https://golang.org/pkg/testing/](https://golang.org/pkg/testing/)
 - en: 'The framework automatically seeks and executes functions with the following
     signature:'
+  id: totrans-182
   prefs: []
   type: TYPE_NORMAL
+  zh: 框架自动寻找并执行以下签名的函数：
 - en: '[PRE31]'
+  id: totrans-183
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE31]'
 - en: The function name `Fname` is an arbitrary name that must start with an uppercase
     letter.
+  id: totrans-184
   prefs: []
   type: TYPE_NORMAL
+  zh: 函数名`Fname`是一个任意的名称，必须以大写字母开头。
 - en: Note that the test suite file containing unit tests must end with the suffix, `_test.go`;
     therefore, our test suite file will be named `tradeWorkflow_test.go` and placed
     in the same directory as our `chaincode` file. The first argument of the `test`
     function is of the type `T`, which provides functions for managing test states
     and supporting formatted test logs. The output of the test is written into the
     standard output, it can be inspected in the terminal.
+  id: totrans-185
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，包含单元测试的测试套件文件必须以后缀`_test.go`结束；因此，我们的测试套件文件将被命名为`tradeWorkflow_test.go`，并放置在与我们的`chaincode`文件相同的目录中。`test`函数的第一个参数是类型为`T`的，它提供了用于管理测试状态并支持格式化测试日志的函数。测试的输出被写入标准输出，可以在终端中检查。
 - en: SHIM mocking
+  id: totrans-186
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: SHIM 模拟
 - en: The SHIM package provides a comprehensive mocking model that can be used to
     test chaincodes. In our unit tests, we will use the `MockStub` type, which provides
     an implementation of `ChaincodeStubInterface` for unit-testing chaincodes.
+  id: totrans-187
   prefs: []
   type: TYPE_NORMAL
+  zh: SHIM 包提供了一个全面的模拟模型，可用于测试链码。在我们的单元测试中，我们将使用`MockStub`类型，它为单元测试链码提供了`ChaincodeStubInterface`的实现。
 - en: Testing the Init method
+  id: totrans-188
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测试`Init`方法
 - en: First, we need to define the function needed to invoke the `Init` method. The
     function will receive references to `MockStub`, as well as to an array of arguments
     to pass to the `Init` method. In line 2 of the following code, the chaincode function
     `Init` is invoked with the received arguments, which is then verified in line
     3.
+  id: totrans-189
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先，我们需要定义一个函数，用于调用`Init`方法。该函数将接收对`MockStub`的引用，以及一个传递给`Init`方法的参数数组。在以下代码的第
+    2 行，使用接收到的参数调用链码函数`Init`，然后在第 3 行进行验证。
 - en: 'The following snippet illustrates the invocation of the `Init` method:'
+  id: totrans-190
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下代码片段演示了`Init`方法的调用：
 - en: '[PRE32]'
+  id: totrans-191
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE32]'
 - en: 'We will now define the function needed to prepare a default array of values
     of the `Init` function arguments, shown as follows:'
+  id: totrans-192
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将定义一个函数，用于准备`Init`函数参数的默认值数组，如下所示：
 - en: '[PRE33]'
+  id: totrans-193
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE33]'
 - en: '[PRE34]'
+  id: totrans-194
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE34]'
 - en: 'We will now define the test of the `Init` function, as shown in the following
     snippet. The test first creates an instance of the chaincode, then sets the mode
     to test, and finally creates a new `MockStub` for the chaincode. In line 7, the
     `checkInit` function is invoked and the `Init` function is executed. Finally,
     from line 9 onwards, we will verify the state of the ledger, as follows:'
+  id: totrans-195
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们将定义`Init`函数的测试，如下所示。测试首先创建链码的一个实例，然后将模式设置为测试，最后为链码创建一个新的`MockStub`。在第 7
+    行，调用`checkInit`函数并执行`Init`函数。最后，从第 9 行开始，我们将验证分类账的状态，如下所示：
 - en: '[PRE35]'
+  id: totrans-196
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE35]'
 - en: 'Next, we verify whether each key''s state is as expected with the `checkState`
     function, as shown in the following codeblock:'
+  id: totrans-197
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来，我们将通过`checkState`函数验证每个键的状态是否符合预期，如以下代码块所示：
 - en: '[PRE36]'
+  id: totrans-198
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE36]'
 - en: Testing the Invoke method
+  id: totrans-199
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测试调用方法
 - en: It's now time to define the test for the `Invoke` function. In line 7 of the
     following codeblock, `checkInit` is called to initialize the ledger, followed
     by `checkInvoke` in line 13, which invokes the `requestTrade` function. The `requestTrade`
@@ -918,52 +1324,78 @@
     the ledger contains the correct state, a new `TradeAgreement` is created and serialized
     in lines 15 and 16, before a new composite key is calculated in line 17\. Finally,
     in line 18, the state of the key is verified against the serialized value.
+  id: totrans-200
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在是定义`Invoke`函数的测试的时候了。在以下代码块的第7行，调用`checkInit`来初始化总账，然后在第13行调用`checkInvoke`，调用`requestTrade`函数。`requestTrade`函数创建一个新的贸易资产并将其存储在总账上。在第15和16行创建并序列化一个新的`TradeAgreement`，然后在第17行计算一个新的复合键。最后，在第18行，验证键的状态是否与序列化的值相匹配。
 - en: Additionally, as previously outlined, our chaincode contains a series of functions
     that together define the trade workflow. We will chain the invocations of these
     functions into a sequence in the test to verify the whole workflow. The code of
     the whole function is available in the test file located in the `chaincode` folder.
+  id: totrans-201
   prefs: []
   type: TYPE_NORMAL
+  zh: 此外，正如前面所述，我们的链码包含一系列函数，这些函数一起定义了贸易工作流程。我们将在测试中将这些函数的调用链接成一个序列，以验证整个工作流程。整个函数的代码可以在位于`chaincode`文件夹中的测试文件中找到。
 - en: '[PRE37]'
+  id: totrans-202
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE37]'
 - en: Following snippet shows the function `checkInvoke` .
+  id: totrans-203
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面的代码段显示了`checkInvoke`函数。
 - en: '[PRE38]'
+  id: totrans-204
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE38]'
 - en: Running tests
+  id: totrans-205
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 运行测试
 - en: We are now ready to run our tests! The `go test` command will execute all tests
     found in the `tradeWorkflow_test.go` file. The file contains a long series of
     tests that verify the functions defined in our workflow.
+  id: totrans-206
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们准备好运行我们的测试了！`go test`命令将执行在`tradeWorkflow_test.go`文件中找到的所有测试。该文件包含一系列测试，验证了我们工作流中定义的函数。
 - en: 'Let''s now run the tests in the terminal with the following command:'
+  id: totrans-207
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在让我们使用以下命令在终端中运行测试：
 - en: '[PRE39]'
+  id: totrans-208
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE39]'
 - en: 'The preceding command should generate the following output:'
+  id: totrans-209
   prefs: []
   type: TYPE_NORMAL
+  zh: 前面的命令应该生成以下输出：
 - en: '[PRE40]'
+  id: totrans-210
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE40]'
 - en: Chaincode design topics
+  id: totrans-211
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 链码设计主题
 - en: Composite keys
+  id: totrans-212
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 复合键
 - en: We often need to store multiple instances of one type on the ledger, such as
     multiple trade agreements, letters of credit, and so on. In this case, the keys
     of those instances will be typically constructed from a combination of attributes—for
@@ -973,148 +1405,214 @@
     of several attributes. These functions simplify composite key construction. Composite
     keys can then be used just as a normal string key is used to record and retrieve
     values using the `PutState()` and `GetState()` functions.
+  id: totrans-213
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们经常需要在总帐上存储一个类型的多个实例，比如多个贸易协议、信用证等等。在这种情况下，这些实例的键通常将由多个属性的组合构造而成，例如`"Trade"
+    + ID, yielding ["Trade1","Trade2", ...]`。实例的键可以在代码中自定义，或者在SHIM中提供API函数来构造实例的复合键（换句话说，基于几个属性的唯一键）。这些函数简化了复合键的构造。复合键可以像普通字符串键一样使用`PutState()`和`GetState()`函数来记录和检索值。
 - en: 'The following snippet shows a list of functions that create and work with composite
     keys:'
+  id: totrans-214
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下代码段显示了一系列创建和使用复合键的函数：
 - en: '[PRE41]'
+  id: totrans-215
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE41]'
 - en: 'In the following snippet we can see a function `getTradeKey`, which constructs
     a unique composite key of a trade agreement by combining the keyword `Trade` with
     an ID of the trade:'
+  id: totrans-216
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下面的代码段中，我们可以看到一个名为`getTradeKey`的函数，它通过将关键字`Trade`与贸易的ID组合构造了一个唯一的复合键：
 - en: '[PRE42]'
+  id: totrans-217
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE42]'
 - en: In more complex scenarios, keys can be constructed from multiple attributes.
     Composite keys also allow you to search for assets based on components of the
     key in range queries. We will explore searching in more detail in the upcoming
     sections.
+  id: totrans-218
   prefs: []
   type: TYPE_NORMAL
+  zh: 在更复杂的情况下，键可以由多个属性构造。复合键还允许您根据键的组件在范围查询中搜索资产。我们将在接下来的部分更详细地探讨搜索。
 - en: Range queries
+  id: totrans-219
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 范围查询
 - en: As well as retrieving assets with a unique key, SHIM offers API functions the
     opportunity to retrieve sets of assets based on a range criteria. Moreover, composite
     keys can be modeled to enable queries against multiple components of the key.
+  id: totrans-220
   prefs: []
   type: TYPE_NORMAL
+  zh: 除了使用唯一键检索资产之外，SHIM还提供API函数来根据范围条件检索一系列资产。此外，可以对复合键进行建模，以便查询多个键的组件。
 - en: The range functions return an iterator (`StateQueryIteratorInterface`) over
     a set of keys matching the query criteria. The returned keys are in lexical order.
     The iterator must be closed with a call to the function `Close()`. Additionally,
     when a composite key has multiple attributes, the range query function, `GetStateByPartialCompositeKey()`,
     can be used to search for keys matching a subset of the attributes.
+  id: totrans-221
   prefs: []
   type: TYPE_NORMAL
+  zh: 范围函数返回与查询条件匹配的一组键的迭代器（`StateQueryIteratorInterface`）。 返回的键按字典顺序排列。 迭代器必须通过调用`Close()`函数关闭。
+    此外，当复合键具有多个属性时，范围查询函数`GetStateByPartialCompositeKey()`可用于搜索匹配部分属性的键。
 - en: 'For example, the key of a payment composed of `TradeId` and `PaymentId` can
     be searched for across all payments associated with a specific `TradeId`, as shown
     in the following snippet:'
+  id: totrans-222
   prefs: []
   type: TYPE_NORMAL
+  zh: 例如，由`TradeId`和`PaymentId`组成的支付密钥可以在与特定`TradeId`相关联的所有支付中进行搜索，如下片段所示：
 - en: '[PRE43]'
+  id: totrans-223
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE43]'
 - en: 'We can also search for all trade agreements with an ID within the range of
     1-100 with the following query:'
+  id: totrans-224
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们还可以使用以下查询搜索ID范围在1-100之间的所有贸易协议：
 - en: '[PRE44]'
+  id: totrans-225
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE44]'
 - en: State queries and CouchDB
+  id: totrans-226
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 状态查询和CouchDB
 - en: By default, Fabric uses LevelDB as storage for the Worldstate. Fabric also offers
     the option to configure peers to store Worldstate in CouchDB. When assets are
     stored in the form of JSON documents, CouchDB allows you to perform complex queries
     for assets based on the asset state.
+  id: totrans-227
   prefs: []
   type: TYPE_NORMAL
+  zh: 默认情况下，Fabric使用LevelDB作为Worldstate的存储。 Fabric还提供了配置对等方将Worldstate存储在CouchDB中的选项。
+    当资产以JSON文档的形式存储时，CouchDB允许您根据资产状态执行复杂的查询。
 - en: 'The queries are formatted in the native CouchDB declarative JSON querying syntax.
     The current version of this syntax is available at: [http://docs.couchdb.org/en/2.1.1/api/database/find.html.](http://docs.couchdb.org/en/2.1.1/api/database/find.html)'
+  id: totrans-228
   prefs: []
   type: TYPE_NORMAL
+  zh: 查询采用本机CouchDB声明性JSON查询语法格式化。 此语法的当前版本可在以下链接找到：[http://docs.couchdb.org/en/2.1.1/api/database/find.html.](http://docs.couchdb.org/en/2.1.1/api/database/find.html)
 - en: 'Fabric forwards queries to CouchDB and returns an iterator (`StateQueryIteratorInterface()`),
     which can be used to iterate over the result set. The declaration of the  state
     based query function is as follows:'
+  id: totrans-229
   prefs: []
   type: TYPE_NORMAL
+  zh: Fabric将查询转发到CouchDB并返回一个迭代器（`StateQueryIteratorInterface()`），该迭代器可用于迭代结果集。 基于状态的查询函数的声明如下所示：
 - en: '[PRE45]'
+  id: totrans-230
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE45]'
 - en: 'In the following snippet, we can see a state-based query for all trade agreements
     that have the status `ACCEPTED` and a received payment of over 1000\. The query
     is then executed and the found documents are written to the terminal, shown as
     follows:'
+  id: totrans-231
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下面的代码片段中，我们可以看到一个基于状态的查询，用于所有状态为`ACCEPTED`且收到的付款超过1000的贸易协议。 然后执行查询，并将找到的文档写入终端，如下所示：
 - en: '[PRE46]'
+  id: totrans-232
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE46]'
 - en: Note that unlike queries over keys, the queries over state are not recorded
     into the `ReadSet` of the transaction. Thus, the validation of the transaction
     cannot actually verify whether changes to the Worldstate occurred between the
     execution and commitment of the transaction. The chaincode design must therefore
     take that into consideration; if a query is based on an expected invocation sequence,
     an invalid transaction may appear.
+  id: totrans-233
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，与键的查询不同，对状态的查询不会记录到交易的`ReadSet`中。 因此，交易的验证实际上无法验证在执行和提交交易之间Worldstate的更改。
+    因此，链码设计必须考虑到这一点； 如果查询基于预期的调用序列，那么无效的交易可能会出现。
 - en: Indexes
+  id: totrans-234
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 索引
 - en: Performing queries on large datasets is a computationally complex task. Fabric
     provides a mechanism for defining indexes on the CouchDB hosted Worldstate to
     increase efficiency. Note that indexes are also required for sorting operations
     in queries.
+  id: totrans-235
   prefs: []
   type: TYPE_NORMAL
+  zh: 在大型数据集上执行查询是一项计算复杂的任务。 Fabric提供了在CouchDB托管的Worldstate上定义索引以提高效率的机制。 请注意，索引也是查询中排序操作所必需的。
 - en: An index is defined in JSON in a separate file with the extension `*.json`.
     The full definition of the format is available at: [http://docs.couchdb.org/en/2.1.1/api/database/find.html#db-index](http://docs.couchdb.org/en/2.1.1/api/database/find.html#db-index).
     [](http://docs.couchdb.org/en/2.1.1/api/database/find.html#db-index)
+  id: totrans-236
   prefs: []
   type: TYPE_NORMAL
+  zh: 索引在一个扩展名为`*.json`的单独文件中以JSON格式定义。 格式的完整定义可在以下链接找到：[http://docs.couchdb.org/en/2.1.1/api/database/find.html#db-index](http://docs.couchdb.org/en/2.1.1/api/database/find.html#db-index)。
 - en: 'The following snippet illustrates an index that matches our query for the trade
     agreements we looked at earlier:'
+  id: totrans-237
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下代码片段说明了一个与我们之前查看的贸易协议查询匹配的索引：
 - en: '[PRE47]'
+  id: totrans-238
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE47]'
 - en: Here, the index files are placed into the folder `/META-INF/statedb/couchdb/indexes`.
     During compilation, the indexes are packaged along with the chaincode. Upon installation
     and instantiation of the chaincode on the peer, the indexes are automatically
     deployed onto the Worldstate and used by queries.
+  id: totrans-239
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，索引文件被放置到文件夹`/META-INF/statedb/couchdb/indexes`中。在编译期间，索引与链码一起打包。在对等体上安装和实例化链码后，索引会自动部署到世界状态并用于查询。
 - en: ReadSet and WriteSet
+  id: totrans-240
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 读集（ReadSet）和写集（WriteSet）
 - en: On receipt of a transaction invocation message from a client, the endorsing
     peer executes a transaction. The execution invokes the chaincode in the context
     of the peer's Worldstate and records all reads and writes of its data on the ledger
     into a `ReadSet` and `WriteSet`.
+  id: totrans-241
   prefs: []
   type: TYPE_NORMAL
+  zh: 当接收到来自客户端的事务调用消息时，背书节点会执行一个事务。执行会在对等节点的世界状态上下文中调用链码，并将其数据的所有读取和写入记录到`ReadSet`和`WriteSet`中。
 - en: The transaction's `WriteSet` contains a list of key and value pairs that were
     modified during the execution by the chaincode. When the value of a key is modified
     (that is, a new key and value are recorded or an existing key is updated with
     a new value), the `WriteSet` will contain the updated key and value pair.
+  id: totrans-242
   prefs: []
   type: TYPE_NORMAL
+  zh: 交易的`WriteSet`包含了在链码执行期间被修改的键值对列表。当修改键的值时（即记录新键值对或使用新值更新现有键），`WriteSet`会包含更新后的键值对。
 - en: When a key is deleted, the `WriteSet` will contain the key with an attribute
     marking the key as deleted. If a single key is modified multiple times during
     chaincode execution, the `WriteSet` will contain the latest modified value.
+  id: totrans-243
   prefs: []
   type: TYPE_NORMAL
+  zh: 当键被删除时，`WriteSet`会包含具有标记键为已删除的属性的键。如果在链码执行期间多次修改单个键，则`WriteSet`会包含最新修改的值。
 - en: The transaction's `ReadSet` contains a list of keys and their versions that
     were accessed during execution by the chaincode. The version number of a key is
     derived from a combination of the block number and the transaction number within
@@ -1122,25 +1620,35 @@
     Another section of the transaction contains information about range queries and
     their outcome. Remember that when a chaincode reads the value of a key, the latest
     committed value in the ledger is returned.
+  id: totrans-244
   prefs: []
   type: TYPE_NORMAL
+  zh: 交易的`ReadSet`包含了在链码执行期间访问的键及其版本的列表。键的版本号由区块号和区块内事务号的组合派生而来。这种设计使得数据的高效搜索和处理成为可能。交易的另一部分包含了关于范围查询及其结果的信息。请记住，当链码读取键的值时，会返回账本中最新提交的值。
 - en: If modifications introduced during chaincode execution are stored in the `WriteSet`,
     when a chaincode is reading a key modified during execution, the committed—not
     modified—value will be returned. Therefore, if a modified value is needed later
     during the same execution, the chaincode must be implemented such that it retains
     and uses the correct values.
+  id: totrans-245
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果链码执行期间引入的修改被存储在`WriteSet`中，当链码读取在执行期间被修改的键时，会返回已提交而非修改后的值。因此，如果后续需要修改后的值，则必须实现链码以保留并使用正确的值。
 - en: 'An example of a transaction''s `ReadSet` and `WriteSet` is as follows:'
+  id: totrans-246
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个交易的`ReadSet`和`WriteSet`的示例如下：
 - en: '[PRE48]'
+  id: totrans-247
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE48]'
 - en: Multiversion concurrency control
+  id: totrans-248
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 多版本并发控制
 - en: Fabric uses a **multiversion concurrency control** (**MVCC**) mechanism to ensure
     consistency in the ledger and to prevent double spending. Double spending attacks
     aim to exploit flaws in systems by introducing transactions that use or modify
@@ -1148,8 +1656,10 @@
     in a cryptocurrency network. A key collision is another type of problems that
     can occur while processing transactions submitted by parallel clients, and which
     may attempt to modify the same key/value pairs at the same time.
+  id: totrans-249
   prefs: []
   type: TYPE_NORMAL
+  zh: Fabric使用**多版本并发控制**（**MVCC**）机制来确保账本的一致性并防止双重支付。双重支付攻击旨在通过引入使用或多次修改同一资源的事务来利用系统中的缺陷，比如在加密货币网络中多次花费同一枚硬币。键碰撞是另一种可能发生的问题类型，它可能会在并行客户端提交的事务处理中尝试同时修改相同的键/值对。
 - en: In addition, due to Fabric's decentralized architecture, the sequence of transaction
     execution can be ordered and committed differently on the different Fabric components
     (including endorsers, orderers, and committers), which in turn introduces a delay
@@ -1157,14 +1667,18 @@
     can occur. Decentralization also leaves the network vulnerable to potential problems
     and attacks by intentionally or unintentionally modifying the sequence of transactions
     by clients.
+  id: totrans-250
   prefs: []
   type: TYPE_NORMAL
+  zh: 此外，由于Fabric的去中心化架构，事务执行顺序可以在不同的Fabric组件（包括背书者，排序者和提交者）上有不同的排序和提交方式，从而在交易计算和提交之间引入延迟，其中可能发生键冲突。去中心化还使网络容易受到客户端故意或无意地修改交易顺序的潜在问题和攻击的影响。
 - en: To ensure consistency, computer systems such as databases typically use a locking
     mechanism. However, locking requires a centralized approach, which is unavailable
     in Fabric. It's also worth noting that locking can sometimes introduce a performance
     penalty.
+  id: totrans-251
   prefs: []
   type: TYPE_NORMAL
+  zh: 为确保一致性，像数据库这样的计算机系统通常使用锁定机制。然而，在Fabric中无法使用这种集中式方法。同时，也值得注意的是，锁定有时可能会导致性能下降。
 - en: To combat this, Fabric uses a versioning system of keys stored on the ledger.
     The aim of the versioning system is to ensure that transactions are ordered and
     committed into the ledger in a sequence that does not introduce inconsistencies.
@@ -1174,19 +1688,25 @@
     the Worldstate, or of the preceding transactions in the same block, the transaction
     is considered valid. In other words, the algorithm verifies that none of the data
     read from the Worldstate during transaction execution has been changed.
+  id: totrans-252
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了应对这一点，Fabric使用了存储在总账簿上的键的版本系统。版本系统的目标是确保交易按照不引入不一致性的顺序被排序和提交到总账簿中。当在提交对等方收到一个块时，会验证块中的每笔交易。该算法会检查`ReadSet`中的键及其版本；如果`ReadSet`中每个键的版本与世界状态中相同键的版本，或同一块中之前的交易的版本相匹配，则交易被视为有效。换句话说，该算法验证执行交易期间从世界状态读取的任何数据是否已发生更改。
 - en: If a transaction contains range queries, these will be validated as well. For
     each range query, the algorithm checks whether the result of executing the query
     is exactly the same as it was during chaincode execution, or if any modification
     has taken place.
+  id: totrans-253
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果一个事务包含范围查询，这些查询也将得到验证。对于每个范围查询，算法会检查在链码执行期间执行查询的结果是否与之前完全相同，或者是否发生了任何修改。
 - en: Transactions that do not pass this validation are marked as invalid in the ledger
     and the changes they introduce are not projected onto the Worldstate. Note that
     since the ledger is immutable, the transactions stay on the ledger.
+  id: totrans-254
   prefs: []
   type: TYPE_NORMAL
+  zh: 未通过此验证的交易将在总账簿中标记为无效，并且它们所引入的更改不会映射到世界状态中。需要注意的是，由于总账簿是不可修改的，这些交易会保留在总账簿上。
 - en: If a transaction passes the validation, the `WriteSet` is projected onto the
     Worldstate. Each key modified by the transaction is set in the Worldstate to the
     new value specified in the `WriteSet`, and the version of the key in the Worldstate
@@ -1196,90 +1716,132 @@
     consideration. There are multiple well-known strategies for addressing key collisions
     and MVCC, such as splitting assets, using multiple keys, transaction queuing,
     and more.
+  id: totrans-255
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果交易通过了验证，`WriteSet`将被映射到世界状态。交易修改的每个键都会在世界状态中设置为`WriteSet`中指定的新值，并且该键在世界状态中的版本会设置为从交易中导出的版本。通过这种方式，任何重复支出等不一致性将被防止。同时，在可能发生键冲突的情况下，链码设计必须考虑MVCC的行为。针对键冲突和MVCC，存在多种公认的解决策略，如分割资产、使用多个键、事务排队等。
 - en: Logging output
+  id: totrans-256
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 日志输出
 - en: Logging is a vital part of system code, enabling the analysis and detection
     of runtime problems.
+  id: totrans-257
   prefs: []
   type: TYPE_NORMAL
+  zh: 日志记录是系统代码的重要组成部分，它使得可以分析和检测运行时问题。
 - en: 'Logging in Fabric is based on the standard Go logging package, `github.com/op/go-logging`.
     The logging mechanism provides severity-based control of logs and pretty-printing
     decoration of messages. The logging levels are defined in decreasing order of
     severity, as follows:'
+  id: totrans-258
   prefs: []
   type: TYPE_NORMAL
+  zh: Fabric中的日志记录是基于标准的Go日志包`github.com/op/go-logging`。日志机制提供基于严重性的日志控制和消息的漂亮打印装饰。日志级别按严重性递减的顺序定义，如下所示：
 - en: '[PRE49]'
+  id: totrans-259
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE49]'
 - en: The log messages are combined from all components and written into the standard
     error file (`stderr`). Logging can be controlled by the configuration of peers
     and modules, as well as in the code of the chaincode.
+  id: totrans-260
   prefs: []
   type: TYPE_NORMAL
+  zh: 所有组件生成的日志消息都会组合并写入标准错误文件（`stderr`）。可以通过对对等体和模块的配置以及chaincode的代码来控制日志记录。
 - en: Configuration
+  id: totrans-261
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 配置
 - en: 'The default configuration of peer logging is set to the level INFO, but this
     level can be controlled in the following ways:'
+  id: totrans-262
   prefs: []
   type: TYPE_NORMAL
+  zh: 对等体日志的默认配置设置为级别INFO，但可以通过以下方式控制此级别：
 - en: 'A command line option logging level. This option overrides default configurations,
     shown as follows:'
+  id: totrans-263
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 命令行选项日志级别。此选项覆盖默认配置，如下所示：
 - en: '[PRE50]'
+  id: totrans-264
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE50]'
 - en: 'Note that any module or chaincode can be configured through the command line
     option, as shown in the following snippet:'
+  id: totrans-265
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，通过命令行选项可以配置任何模块或chaincode，如下所示：
 - en: '[PRE51]'
+  id: totrans-266
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE51]'
 - en: 'The default logging level can also be defined with an `environment` variable
     `CORE_LOGGING_LEVEL`, as shown in the following snippet:'
+  id: totrans-267
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 默认的日志级别也可以通过`environment`变量`CORE_LOGGING_LEVEL`来定义，默认配置如下所示：
 - en: '[PRE52]'
+  id: totrans-268
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE52]'
 - en: 'A configuration attribute in the `core.yml` file, defining the configuration
     of a network can also be used with the following code:'
+  id: totrans-269
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '`core.yml`文件中的一个配置属性，定义了网络的配置，也可以与以下代码一起使用：'
 - en: '[PRE53]'
+  id: totrans-270
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE53]'
 - en: 'The `core.yml` file also allows you to configure logging levels for specific
     modules, such as for the `chaincode` or the format of messages, as shown in the
     following snippet:'
+  id: totrans-271
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '`core.yml` 文件还允许您配置特定模块的日志级别，例如`chaincode`模块或消息格式，如下节选所示：'
 - en: '[PRE54]'
+  id: totrans-272
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE54]'
 - en: More detail on the various configuration options are provided in the comments
     of the `core.yml` file.
+  id: totrans-273
   prefs: []
   type: TYPE_NORMAL
+  zh: 关于各种配置选项的详细信息包含在`core.yml`文件的注释中。
 - en: Logging API
+  id: totrans-274
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 日志API
 - en: The SHIM package provides APIs for the chaincode to create and manage logging
     objects. The logs generated by these objects are integrated with peer logs.
+  id: totrans-275
   prefs: []
   type: TYPE_NORMAL
+  zh: SHIM包提供了API，供chaincode创建和管理日志对象。这些对象生成的日志与对等体日志集成。
 - en: The chaincode can create and use an arbitrary number of logging objects. Each
     logging object must have a unique name, which is used to prefix log records in
     the output and to distinguish the records of different logging objects and the
@@ -1288,58 +1850,87 @@
     which the log records will be sent to the output. Log records with the severity
     level `CRITICAL` always appear in the output. The following snippet lists the
     API functions to create and manage logging objects in the chaincode.
+  id: totrans-276
   prefs: []
   type: TYPE_NORMAL
+  zh: chaincode可以创建和使用任意数量的日志对象。每个日志对象必须有一个唯一的名称，用于在输出中添加日志记录的前缀并区分不同日志对象和SHIM的记录。（请记住，日志对象名称SHIM
+    API是保留的，不应在chaincode中使用。）每个日志对象都设置了一个日志严重级别，在该级别下记录日志将被发送到输出中。具有严重级别`CRITICAL`的日志记录始终出现在输出中。以下节选列出了在chaincode中创建和管理日志对象的API函数。
 - en: '[PRE55]'
+  id: totrans-277
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE55]'
 - en: The logging object `ChaincodeLogger` provides functions for logging records
     for each of the severity levels. The following shippet lists the functions of
     the `ChaincodeLogger`.
+  id: totrans-278
   prefs: []
   type: TYPE_NORMAL
+  zh: 日志对象`ChaincodeLogger`提供了每个严重级别的日志记录函数。以下是`ChaincodeLogger`的函数列表。
 - en: '[PRE56]'
+  id: totrans-279
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE56]'
 - en: The default formatting of the records is defined by the configuration of SHIM,
     which places a space between the printed representations of the input arguments.
     For each severity level, the logging objects provide an additional function with
     the suffix `f`. These functions allow you to control the formatting of the output
     with the argument `format`.
+  id: totrans-280
   prefs: []
   type: TYPE_NORMAL
+  zh: 记录的默认格式由SHIM的配置定义，该配置在输入参数的打印表示之间添加空格。对于每个严重级别，日志对象还提供了一个带有后缀`f`的附加函数，这些函数允许您使用参数`format`来控制输出的格式。
 - en: 'The template of an output generated by the logging objects is as follows:'
+  id: totrans-281
   prefs: []
   type: TYPE_NORMAL
+  zh: 由日志对象生成的输出模板如下：
 - en: '[PRE57]'
+  id: totrans-282
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE57]'
 - en: The output of all logging objects and of SHIM is combined and sent into the
     standard error (`stderr`).
+  id: totrans-283
   prefs: []
   type: TYPE_NORMAL
+  zh: 所有日志对象和SHIM的输出都会合并并发送到标准错误（`stderr`）中。
 - en: 'The following code block illustrates an example of creating and using a logging
     object:'
+  id: totrans-284
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下代码块说明了如何创建和使用日志对象的示例：
 - en: '[PRE58]'
+  id: totrans-285
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE58]'
 - en: SHIM logging levels
+  id: totrans-286
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: SHIM日志级别
 - en: 'The chaincode can also directly control the logging severity level of its SHIM
     by using the API function `SetLoggingLevel` as follows:'
+  id: totrans-287
   prefs: []
   type: TYPE_NORMAL
+  zh: 链码还可以通过使用 API 函数 `SetLoggingLevel` 直接控制其 SHIM 的日志记录严重级别，如下所示：
 - en: '[PRE59]'
+  id: totrans-288
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE59]'
 - en: Stdout and stderr
+  id: totrans-289
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Stdout 和 stderr
 - en: As well as the logging mechanisms provided by the SHIM API and integrated with
     the peer, during the development phase, the chaincode can use the standard output
     files. The chaincode is executed as an independent process and can therefore use
@@ -1347,57 +1938,85 @@
     using standard Go printing functions (for example, `fmt.Printf(...)` and `os.Stdout`).
     By default, the standard outputs are available in `Dev` mode, when the chaincode
     process is started independently.
+  id: totrans-290
   prefs: []
   type: TYPE_NORMAL
+  zh: 除了由 SHIM API 提供并与对等节点集成的日志记录机制外，在开发阶段，链码可以使用标准输出文件。链码作为一个独立的进程执行，因此可以使用标准输出（`stdout`）和标准错误（`stderr`）文件来使用标准的
+    Go 打印函数记录输出（例如，`fmt.Printf(...)` 和 `os.Stdout`）。默认情况下，在 `Dev` 模式下启动链码进程时，标准输出可用。
 - en: In a production environment when the chaincode process is managed by the peer,
     the standard output is disabled for security reasons. When required, it can be
     enabled by setting the configuration variable `CORE_VM_DOCKER_ATTACHSTDOUT` of
     the peer. The outputs of the chaincode are then combined with the outputs of the
     peer. Keep in mind that these outputs should only be used for debugging purposes
     and should not be enabled in a production environment.
+  id: totrans-291
   prefs: []
   type: TYPE_NORMAL
+  zh: 在生产环境中，当链码进程由对等节点管理时，出于安全原因，标准输出被禁用。当需要时，可以通过设置对等节点的配置变量 `CORE_VM_DOCKER_ATTACHSTDOUT`
+    来启用它。然后，链码的输出将与对等节点的输出合并。请注意，这些输出仅应用于调试目的，不应在生产环境中启用。
 - en: 'The following snippet illustrates additional SHIM API functions:'
+  id: totrans-292
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下片段说明了其他 SHIM API 函数：
 - en: '[PRE60]'
+  id: totrans-293
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE60]'
 - en: 'Listing 4.1: Enabling chaincode standard output files on a peer in `docker-compose`
     file.'
+  id: totrans-294
   prefs: []
   type: TYPE_NORMAL
+  zh: 列表 4.1：在 `docker-compose` 文件中启用对等节点上链码标准输出文件。
 - en: Additional SHIM API functions
+  id: totrans-295
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 其他 SHIM API 函数
 - en: In this section, we provide an overview of the remaining API functions of shim
     available to chaincode.
+  id: totrans-296
   prefs: []
   type: TYPE_NORMAL
+  zh: 本节我们提供了剩余的适用于链码的 SHIM API 函数的概述。
 - en: '[PRE61]'
+  id: totrans-297
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE61]'
 - en: Summary
+  id: totrans-298
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 总结
 - en: Design and implementation a well-functioning chaincode is a complex software
     engineering task which requires both the knowledge of the Fabric architecture,
     API functions and of GO language as well as the correct implementation of the
     business requirements.
+  id: totrans-299
   prefs: []
   type: TYPE_NORMAL
+  zh: 设计和实现一个功能良好的链码是一项复杂的软件工程任务，它需要对 Fabric 架构、API 函数以及 GO 语言的知识，以及对业务需求的正确实现。
 - en: In this chapter, we have learned step-by-step how to start a blockchain network
     in dev mode suitable for implementation and testing of the chaincode and how to
     use CLI to deploy and invoke chaincode. We have then learned how to implement
     the chaincode of our scenario. We explored the `Init` and `Invoke` functions through
     which Chaincode receives requests from clients, explored access control mechanism
     and the various APIs available to developer to implement chaincode functionality.
+  id: totrans-300
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们逐步学习了如何启动适用于链码实现和测试的开发模式的区块链网络，以及如何使用 CLI 部署和调用链码。然后我们学习了如何实现我们场景的链码。我们通过
+    `Init` 和 `Invoke` 函数探索了链码如何接收来自客户端的请求，探索了访问控制机制以及开发人员可用于实现链码功能的各种 API。
 - en: Finally, we learned how to test chaincode and how to integrate logging functionality
     into the code. To get ready for the next chapter, you should now stop your network
     using `./trade.sh` down `-d` true.
+  id: totrans-301
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，我们学习了如何测试链码以及如何将日志功能集成到代码中。为了为下一章做好准备，现在应该使用 `./trade.sh` down `-d` true
+    停止网络。
