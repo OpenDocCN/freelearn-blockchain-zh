@@ -1,0 +1,906 @@
+- en: Managing Solutions on Oracle Blockchain Platform
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The previous chapter covered the business scenario and allowed us to explore
+    **Oracle Blockchain Platform** (**OBP**). Managing solutions using OBP is a cinch;
+    it allows you to experiment with the doing rather than reading about the doing,
+    as it effectively demonstrates the doing with samples. This chapter offers in-depth
+    facts on OBP and allows you to graduate with the practical knowledge of OBP. With
+    this chapter, you'll get into the practicality of translating the network topology
+    onto OBP, creating network stakeholders, and configuring OBP instances. This ledger
+    of knowledge illustrates setting up transaction infrastructures, joining participants
+    to business networks, access control, adding smartness (chaincode) to business
+    networks, and using the REST proxy configuration to expose chaincode to dApps.
+    For the most part, the OBP SDK and OBP on Oracle Cloud are similar in features,
+    except for the steps that let you create OBP instances. The differences between
+    the two options are not large and are also self-explanatory. This chapter primarily
+    covers translating the network topology on OBP, adding business smartness to the
+    OBP network and using the Administration REST Interface.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Translating the network topology onto OBP
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This section describes how to create network instances on OBP. As described
+    in the *Designing the solution* section of [Chapter 4](d772bd8e-2659-4dcc-be5f-ab1c68314cdf.xhtml),
+    *Engage in Business Case on Blockchain Platform*, a blockchain network requires
+    the following business entities:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Oracle Empire University** (**OEU**) as a founder entity'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Oracle Red School** (**ORS**) and **Certificate Viewer**/**Verifier** (**CVs**)
+    as participant entities'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Creating network stakeholders with OBP instances
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The foundational step toward building an OBP solution involves the creation
+    of OBP instances for the stakeholder entities. Perform the following steps in
+    order to create the necessary OBP instances for the use case:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Launch and log in to the OBP provisioning console. Refer to the *Setting up
+    OBP SDK* section of [Chapter 4](d772bd8e-2659-4dcc-be5f-ab1c68314cdf.xhtml), *Engage
+    in Business Case on Blockchain Platform*, to get the OBP provisioning console
+    details.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: After logging in, start creating OBP instances by filling instance details.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The following screenshot shows the sample values for creating an instance.
+    Note these two important points:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The Founder checkbox must only be selected for Founder instances.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Provide values of different OBP instances for Start Port. Make sure that these
+    port values are considerably far apart as OBP assigns multiple values consecutive
+    to the start port internally, as shown in the following screenshot:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/4bb4a2d8-af0a-4189-827b-f7eb6709a5ed.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Creating an instance
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Once all the OBP instances for our use case are created (and activated), they
+    will show on the provisioning console, as shown in the following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/c62e1d9e-b8b3-49b1-a81d-7c879b19a298.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Summary of the FOUNDER and PARTICIPANT instances
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Click on the context menu for each of the OBP instances and select Console
+    URL to navigate to the OBP dashboard of the respective instance. The next steps
+    for the OBP network creation of our use case are done through the OBP dashboard:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/61b43cee-b7d7-44b7-a637-94ee008ca756.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Context menu for the OBP instance
+  prefs: []
+  type: TYPE_NORMAL
+- en: As **oeu** is the founder organization, it will have more OBP system components
+    than the other participant OBP instances. Additionally, as the founder organization, **oeu**
+    is a self-sufficient organization, so it also has different visualization elements
+    on the dashboard. Once we finish the network setup with participant instances,
+    we will also get a similar visualization on the dashboard.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following table gives us the default values under the OBP artifacts:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **OBP artifacts** | **Founder** (**OEU**) | **Participant** (**ORS or CVs**)
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Channel | 1 | 0 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Peers | 2 | 2 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Orderer | 1 | 0 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| CA | 1 | 1 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| REST Proxy | 2 | 2 |'
+  prefs: []
+  type: TYPE_TB
+- en: 'The following screenshot shows the **oeu** dashboard, which is the dashboard
+    for the founder organization (oeu):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/1d579638-4954-4df4-9c5c-990171ccfc1c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP founder dashboard
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Take a look at the **ors** dashboard. Theors and cvs dashboards have a similar
+    appearance:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/56bef2e1-8b74-42ec-abeb-c6d02733bd42.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP participant dashboard
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuring the OBP network infrastructure
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: After creating OBP instances, the next step in building the OBP solution is
+    to establish a blockchain transactional network between these instances. This
+    section will take you through the steps to connect all OBP instances in a network
+    and enable an underlying shared ledger infrastructure.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The following sections lay out the steps.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Exporting/importing participant certificates
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Export the participant (**ors** and **cvs**) organization/instance certificates
+    and import them to the founder OBP instance. The steps are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Export the participant organization certificates
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Import the participant organization certificates to the founder organization
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The first step is to export the participant organization certificates. You
+    can export a participant''s OBP instance certificate by either of the following
+    two options:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Option 1**: Using the dashboard wizard, as shown in the following screenshot:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/d7250a5b-6843-4200-a549-756c081e500a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP participant export certificate flow
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Option 2**: From the organization''s context menu under the Network tab of
+    the OBP dashboard for the participants (**ors** and **cvs**):'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/a1446219-2545-46a9-921e-e156bc32678e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP participant network summary
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A participant certificate is a JSON file containing its certificate keys for
+    admin, **c****ertificate authority** (**CA**), and **Transport Layer Security**
+    (**TLS**), along with its signature. The following screenshot provides a glimpse
+    of one of the participant certificates:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/8fbb2efa-1d61-40f6-80df-eab90c62aa45.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP participant certificate snapshot
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The second step is to import participant organization certificates into the
+    founder organization. Follow these steps to import the participant certificate
+    into the founder organization:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Move over to the founder dashboard (oeu) to import these participants' certificates. This
+    can be achieved by selecting the Add Organizations option under the Network tab
+    on the oeu page. These steps are depicted in the following screenshot.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Add an organization by importing the participant certificates of ors and cvs:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/565ebed0-5e91-41c1-b6de-22649db57b59.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Importing the participant certificates
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The Network tab for the founder allows us to import the participant certificate:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a2ab671f-6a71-4718-9388-de704d13b39b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Founder network summary
+  prefs: []
+  type: TYPE_NORMAL
+- en: Orderer configuration
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The next set of steps for setting up the OBP network is importing the orderer
+    configuration from Founder to Participant.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since the orderer is associated with the founder instance at the infrastructure
+    level, it becomes imperative to perform this setup. It ensures that any blockchain
+    proposals (transactions) submitted by Participant peers are taken up by the same
+    orderer for validation, as well as ordering of ledger blocks, before finally being
+    written to the shared ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following steps provide step-by-step instructions on how to complete the
+    orderer configuration setup:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Export the orderer settings of the Founder instance by using the **Export Orderer
+    Settings** option, which is under the Network tab:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/97a9dc0b-3afd-4943-979e-b392326876e3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Export the orderer settings of the Founder instance
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Technically, the orderer settings in OBP are also represented and stored as
+    a JSON file and contain founder certificates, signatures, and orderer endpoints.
+    You will also get a similar JSON file for the orderer, as shown in the following
+    screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c5606234-8adc-4f07-a03c-5bb883fa7842.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: JSON file of the orderer settings
+  prefs: []
+  type: TYPE_NORMAL
+- en: Import the orderer settings to each of the participants (ors and cvs), as shown
+    in the next few screenshots.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Click the Orderer Settings import option under the Network tab of the ors dashboard:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/cc00ff84-0da6-498c-97da-6f06c3a3c615.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Orderer settings JSON file
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Upload the orderer file exported from the oeu instance:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/d3087c10-ce50-4334-a465-1fcac50113b7.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Importing orderer settings to participants
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Once the Orderer settings import is complete, you can choose the Orderer Settings
+    View option to verify the orderer details. Please note that the following Orderer
+    Addresses instance is the same as the orderer endpoint in the Orderer settings
+    JSON file exported from founder:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/b3111596-52c3-4635-b065-f2536e03814a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Matching the orderer settings
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuring the OBP transaction infrastructure
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: After setting the base OBP network infrastructure, as seen in the previous section,
+    it is now time to set up an OBP transaction infrastructure. Primarily, this is
+    defining the shared ledger in system configurations and associating parties (OBP
+    instances) who can read/write to the ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For our use case, this would involve setting up a channel with OEU (the founder)
+    and adding the ORS, CVs, and OBP instances to the same channel. Refer to the *Network
+    topology* and *Channels* sections of [Chapter 4](d772bd8e-2659-4dcc-be5f-ab1c68314cdf.xhtml),
+    *Engage in Business Case on Blockchain Platform*, for more details.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As the name suggests, channels are logical or configuration constructs in OBP,
+    which allow two or more network stakeholders to share data. This sharing of data
+    is done via the shared ledger. Hence, each channel in OBP essentially also represents
+    the underlying shared ledger associated with it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Channel setup
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s proceed with the necessary channel creation for the use case:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Go to the Channels tab of the oeu dashboard and click on Create a New Channel.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Update the following fields:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Channel Name: Provide a name for the channel.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Keep a note of it because you will need it when making chaincode calls.
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: Select the checkboxes for the ors and cvs instances.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Select one or more peers of **oeu** to join the channel, as shown in the following
+    screenshot:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/f2595ba9-8fc4-4edf-8185-6a106e18bb54.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Creating a channel
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Once the channel creation is successful, you can see a corresponding notification
+    on the oeu dashboard, and the newly created channel will be shown in the existing
+    **Channels** list. The **oeu **Channels tab will look similar to the following
+    screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/4e30b7d0-e90a-408d-8750-1f0febe5da25.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Create channel summary
+  prefs: []
+  type: TYPE_NORMAL
+- en: Joining participant peers to a channel
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: After creating a channel with OEU's OBP instance, add the peer nodes of the
+    participants, ORS and CVS, to the same channel. By doing so, we ensure that any
+    transaction submitted by the application clients of the respective OBP instances
+    for that channel will be taken by the peer nodes and added to the channel for
+    validation, chaincode execution, and RWSet creation. This RWSet will then be submitted
+    to the orderer for the sequencing of ledger blocks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can add a participant''s peer to a channel by either of the following options:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Using the context menu of the peer node under the Nodes tab of the participant
+    OBP dashboard, as shown in the following screenshot:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/02f2c198-240b-471c-9423-9ddf18dfe76d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Node summary
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Using the context menu of the channel under the Channels tab of the participant
+    OBP dashboard, as shown in the following screenshot:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/b3b51e57-3324-4bed-bba6-6736db6f7834.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Channel summary
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Moving ahead with option 2, you will be asked to select the **Peers to Join
+    Channel **option. You can select one or more peers of the instance to join:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/08dfb2aa-03f6-436b-b387-330d7f533439.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Joining the channel
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once the participant peers have joined the channel, the topology view of the
+    OBP instance nodes should look as shown in the screenshots in the following sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Founder node summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following screenshot shows the node summary for the founder organization:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e9e3ea38-20d4-4c6c-83db-92e4f119ade4.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Founder node summary
+  prefs: []
+  type: TYPE_NORMAL
+- en: Participant (ors) node summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following screenshot shows the node summary for the ors organization:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/bf684277-c276-4dd5-90b3-4d63403049e4.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Participant node summary
+  prefs: []
+  type: TYPE_NORMAL
+- en: Participant (cvs) node summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following screenshot shows the node summary for another participant (cvs)
+    organization:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/30c35059-127d-4466-b5b7-ef2f4d7d0f8a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Participant node summary
+  prefs: []
+  type: TYPE_NORMAL
+- en: Additionally, verify that the network topology view for OEU, ORS, and CVs are
+    showing the visualizations shown in the following screenshots.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Founder network summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following screenshot shows the founder organization''s (oeu) network summary:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3c347e6f-5e4f-4105-83d9-339c25fc165d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Founder network summary
+  prefs: []
+  type: TYPE_NORMAL
+- en: Participant (ors) network summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following screenshot shows one of the participant organization''s network
+    summary:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/26c09a3b-87f8-4e9a-8d49-ca7ad6de285c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Participant (ors) network summary
+  prefs: []
+  type: TYPE_NORMAL
+- en: Participant (cvs) network summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following screenshot shows the other participant organization''s (cvs)
+    network summary:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/26356d2e-dc02-433d-9b34-760450aa84d4.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Participant (cvs) network summary
+  prefs: []
+  type: TYPE_NORMAL
+- en: Adding smartness to the OBP network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The subsequent chapter extensively covers adding business smartness to the OBP
+    network through chaincode development and exposing chaincode functionality to
+    client applications. The following section provides a sneak preview of it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Developing chaincode to add smartness to the OBP network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: After completing the steps to configure the OBP network, the next set of implementation
+    involves adding smartness to it. Typically, this means adding our use case business
+    logic as smart contracts or chaincode. It deals with the installation and instantiation of
+    chaincode on all the nodes of the network instances.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The next chapter of this book covers the implementation of chaincode and related
+    network artifacts for our use case. [Chapter 6](0bf3e2e3-9ad5-4a97-aa1a-20a0aa7da463.xhtml), *Developing
+    Solutions on Oracle Blockchain Platform*, covers the development, deployment,
+    and instantiation of chaincode as needed for the use case. For more details about
+    the design of network artifacts, refer to the *Network artifacts* section of [Chapter
+    4](d772bd8e-2659-4dcc-be5f-ab1c68314cdf.xhtml), *Engage in Business Case on Blockchai**n
+    Platform*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Exposing chaincode via REST proxy configuration
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: These configurations typically include definitions to expose chaincode functionality
+    to a client application (such as a dApp). For the sake of sequential continuity,
+    refer to the chaincode deployment section of [Chapter 6](0bf3e2e3-9ad5-4a97-aa1a-20a0aa7da463.xhtml),
+    *Developing Solutions on Oracle Blockchain Platform*, for details on REST proxy
+    configuration.
+  prefs: []
+  type: TYPE_NORMAL
+- en: REST Interface for OBP
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'All the administration and configuration steps for setting up and managing
+    your OBP network (as mentioned in previous sections) can also be performed using
+    OBP''s Administration REST services. These services are useful for scenarios where
+    the following is required:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Reducing the manual mode of these activities
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Implementing an automated way (such as the DevOps pipeline) for setting up and
+    managing the OBP network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Representing OBP administration information in a customized way
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: These administration REST interfaces include services related to organizations,
+    nodes, channels, and chaincode. Additionally, OBP also provides a bundle of OBP
+    Statistics REST services.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following is the list of OBP Administration REST services:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Organizations REST endpoints: Under organizations REST endpoints, the following
+    are the list of services:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get organization certificates
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get organization admin credentials
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get the ordering service settings in a founder organization
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Join a new organization to a founder organization
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Set an ordering service to a participant organization
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Nodes REST endpoint: Under nodes REST endpoint, following are the list of services:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get node list
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get a list of peers on a channel
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get a list of peers for a specific chaincode
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Add a peer node
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Start/stop a peer node
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Remove a peer node
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get/set a peer node's attributes
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Join a peer to a channel
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Export/import peers
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Start/stop an orderer
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get/set an orderer's attributes
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Start/stop a CA node
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get/set a CA's attributes
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Start/stop REST proxy
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get/set REST proxy's configuration
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Channel REST endpoint: Under channels REST endpoint, the following are the
+    list of services:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Create a channel
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get a channel list
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get a channel list for chaincode
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get a channel list for a peer
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Update a channel configuration
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get a channel information
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get a ledger block by block ID
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get blocks by ID range
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get blocks by time range
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Chaincode REST endpoint: Under chaincode REST endpoint, the following are the
+    list of services:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get a list of installed chaincodes
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get a list of chaincodes on a specific peer
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get a list of chaincodes on a channel
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Install chaincode
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Instantiate chaincode
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get chaincode info
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Statistics REST endpoint: Under statistics REST endpoint, the following are
+    the list of services:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: List of the currently existing channels and the peers joined on each channel
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Current number and list of channels joined by the specified peer
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Current number and list of installed chaincodes on the specified peer
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Current number of instantiated chaincodes on the specified channel
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: List of configured chaincodes for a specified proxy or for all proxies
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Node health status
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Node usage related metrics (CPU, memory, disk usage)
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Total number of asynchronous invocations
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Number of billable transactions
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Number of blocks
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Number of commits
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Number of endorsements
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Total number of synchronous invocations
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Number of user transactions for peer or channel or the entire network
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For more details about these services, please refer to the OBP documentation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter primarily covered the first set of steps toward experimenting with
+    an OBP solution. We have covered translating the network topology on OBP, configuring
+    the OBP network infrastructure, configuring the OBP transaction infrastructure,
+    adding business smartness to the OBP network, REST proxy configuration, and administrating
+    the REST Interface.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The next chapter explores chaincode development, such as language section, development
+    tools, and the development environment setup. It also covers the full life cycle
+    of chaincode from development to updates, which includes installing, initiating,
+    testing, and versioning. It demonstrates a full chaincode with a codebase built
+    with Go and Node.js. It also illustrates endorsement policies, private data collection,
+    chaincode testing via shim and REST endpoints, and integrating client apps with
+    a business network using an SDK, REST, and events.
+  prefs: []
+  type: TYPE_NORMAL

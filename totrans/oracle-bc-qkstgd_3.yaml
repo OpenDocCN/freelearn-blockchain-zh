@@ -1,0 +1,3383 @@
+- en: Delving into Hyperledger Fabric
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Permissioned blockchain has evolved to address the need to adopt blockchain
+    among a set of known (and not necessarily trusted) but identifiable participants.
+    Such participants first need to be explicitly admitted to the blockchain network.
+    Here, knowing (identifying) participants is more important than fully trusting
+    those known participants. These participants might not trust one another, but
+    are known and identifiable and they are chained by a common goal. **Hyperledger
+    Fabric** (**HLF**) (a permissioned blockchain) uses **Byzantine Fault Tolerance** (**BFT**)
+    variant **Practical BFT** (**PBFT**), as the consensus protocol instead of **pr****oof
+    of** **work** (**PoW**). HLF offers improved functional qualities to permissioned
+    blockchain, such as confidentiality and consistency, while also offering improved
+    and enhanced non-functional qualities, such as performance and scalability.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This chapter focuses on the fundamentals of HLF. This will allow you to understand
+    how business logic is implemented in HLF and learn about various transaction types
+    that facilitate read and write operations to distributed ledgers. The Linux Foundation,
+    in collaboration with various leading companies and some of the smartest developers,
+    is endeavoring to solve some of the most complex challenges facing the world of
+    IT and is also promoting the commercial adoption of open source technology. This
+    is the largest ever open source software project in the world. The Linux Foundation
+    is a blanket project for various open source projects. For big data and analytics,
+    it supports R, as well as consortium projects. For networking, it powers **ONAP**
+    (short for **Open Network Automation Platform**), OpenDaylight, and others. For
+    cloud computing, it empowers projects such as Cloud Foundry, and cloud native
+    computing. Similarly, for blockchain, the Linux Foundation handles the Hyperledger
+    project.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A glance at the Hyperledger project
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Hyperledger project, initiated in December 2015, was hosted by the Linux
+    Foundation in an effort to create advanced, cross-industry **distributed ledger
+    technology** (**DLT**) and blockchain technologies. It hosts blockchain frameworks
+    and supports a number of tools as well. It is an umbrella of open source projects,
+    where some of the projects are DLT frameworks, including Iroha, Sawtooth, and
+    Fabric.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Frameworks hosted by Hyperledger
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following are the frameworks hosted by Hyperledger. These are classified
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Burrow
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Indy
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Iroha
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Sawtooth
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Burrow**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contributor**: Originally contributed by Monax and co-sponsored by Intel.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key features**: Burrow is a lightweight, fast, and efficient permissioned
+    chaincode machine. It leverages the Tendermint protocol for consensus. The most
+    important feature of Burrow is the speed of blockchain. Three dimensions achieve
+    speed in blockchain. The first is the codebase''s transactional throughput. The
+    second is the block''s propagation speed within the network. The third and final
+    dimension is the time when the blocks are finalized (aka the finality of blocks).
+    Burrow is a non-forking blockchain and transaction finality is guaranteed. Finality
+    enhances the overall speed of the system because applications and systems can
+    instantly rely on the information on the blockchain network.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Objective**: It provides a modular blockchain client with a permissioned
+    smart contract interpreter partially developed to the specifications of the **Ethereum
+    Virtual Machine** (**EVM**). It is a permissioned smart contract machine that
+    provides a modular blockchain client with a permissioned smart contract interpreter
+    incorporated, partly in line with the specifications of the EVM.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consensus protocol**: Tendermint.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Fabric (HLF)**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contributor**: Initially contributed by Digital Asset and IBM'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key features**: Modular and pluggable architecture and permissioned with
+    a high level of privacy and confidentiality'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Objective**: To serve as a basis for developing permissioned enterprise applications
+    or solutions with a modular architecture'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consensus protocol**: Apache Kafka'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Indy**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contributor**: The Sovrin Foundation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key features**: Built for decentralized identities. It manages keys, proofs,
+    and other relevant information that enables trusted peer interactions between
+    various parties.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Objective**: To offer tools, libraries, and reusable components to create
+    and use independent identities to be interoperable across applications.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consensus protocol**: PBFT.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Iroha**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contributor**: Contributed by Soramitsu, Hitachi, NTT Data, and Colu'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key features**: Allows the manipulation of accounts and digital assets'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Objective**: Hyperledger Iroha emphasizes mobile application development
+    with client libraries for Android and iOS, thereby setting it apart from other
+    Hyperledger frameworks'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Language**: C++'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consensus protocol**: **Yet Another Consensus** (**YAC**)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Sawtooth**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contributor**: Intel.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key features**: A modular platform for DLT applications.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Objective**: Sawtooth creates a digital platform, enabling physical traceability
+    in a trustless world. It is a blockchain framework that utilizes a modular platform
+    for building, deploying, and running distributed ledgers. It supports both permissioned
+    and permissionless deployments.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consensus protocol**: **Proof of Elapsed Time** (**PoET**) consensus.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The previously listed Hyperledger frameworks are used to build DLT and blockchain
+    applications, along with a list of modules (also known as tools) that facilitate
+    the deployment and maintenance of blockchain applications, analyzing ledger data,
+    and managing blockchain networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tools hosted by Hyperledger
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following **modules**, also known as tools, are hosted by Hyperledger:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Caliper
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Cello
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Composer
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Quilt
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Explorer
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger URSA
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Caliper**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contributors**: Oracle, Huawei, and others'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Objective**: To enable the performance of specific blockchain implementations
+    to be measured'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key features**: It allows the generation of reports with various performance
+    indicators, such as resource utilization, transactions per second, and transaction
+    latency'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Cello**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contributors**: IBM, Huawei, and others.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Objective**: To allow businesses to have **Blockchain**-**as**-**a**-**Service** (**BaaS**),
+    which enables quick blockchain solutions for enterprise. It reduces complexity
+    and minimizes the efforts required to create, terminate, and manage blockchains.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key features**: It offers multi-tenant services in addition to various infrastructures,
+    such as **bare** **metal**, and virtual machines. It enables the creation and
+    management of blockchain via a simplified dashboard allowing the immediate availability
+    of the blockchain instance.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Composer**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contributors**: Contributors from IBM and Ox-chains are the maintainer community,
+    however, everyone is encouraged to participate and contribute.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Objective**: To develop a set of collaboration tools that facilitate the
+    easy and quick building of blockchain business networks to enable developers to
+    quickly create chaincode and applications.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key features**: Built using JavaScript and tools including Node.js, npm,
+    and CLI. Its modular language facilitates asset definition, participant definition,
+    and transaction definitions. These three components constitute the blockchain
+    network. It allows faster and easier development of blockchain applications.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Quilt**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contributors**: NTT Data and Ripple.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Objective**: It allows interoperability between ledger systems by implementing
+    the **Interledger Protocol** (**ILP**). ILP is a payments protocol and is designed
+    to transfer value across both distributed and non-distributed ledgers.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key features**: It allows atomic swaps between ledgers (even non-blockchain
+    or distributed ledgers) and a single account namespace for the accounts within
+    each ledger.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Explorer**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contributors**: IBM, DTCC, and Intel.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Objective**:It allows authorized participants to explore DLT projects. It
+    also allows the visualization of blockchain operations, which enables enterprises
+    to extract value from data*.*'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key features**: Explorer can view, invoke, deploy, or query blocks, transactions
+    and associated data, network information (name, status, and a list of nodes),
+    chaincodes, and transaction families, as well as any other relevant information
+    stored on the ledger.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Ursa**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contributors** : Ursa contributors include Hyperledger Indy, Sawtooth, and
+    Fabric developers, who worked on security aspects of these modules. Also, to ensure
+    that all cryptographic algorithms meets the standards, several cryptographers
+    are involved.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key features**: A modular, flexible cryptographic library that is intended
+    for, but not limited to, use by other projects in Hyperledger.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Objective**: To ensure safe and easier access to trusted cryptographic libraries
+    to other Hyperledger projects. Its modular library will help blockchain developers
+    to switch or change cryptographic schemes with the aid of simple configurations.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Language**: Rust.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: HLF – features and qualifiers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Along with the Linux Foundation, various companies, such as Fujitsu, and IBM,
+    are collaborating on the HLF project. HLF is a permissioned blockchain framework
+    that is designed and architected to develop modular applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following are the key features of the Hyperledger framework:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: HLF is governed by excellent, diverse technical steering committees from various
+    organizations.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: HLF is modular and configurable, which makes it useful for various use cases,
+    ranging from banking, finance, and the supply chain, to education and healthcare.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It is a DLT where chaincode is authored in general-purpose programming languages,
+    such as Java, Go, and Node.js, instead of programming in **DSL** (**domain-specific
+    languages**). This also brings HLF closer to enterprises that have applications
+    and resources built and skilled in these languages.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: HLF is a DLT that is an open source, enterprise-grade, permissioned DLT.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: HLF follows a modular component-based approach and easy-to-use APIs.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: As HLF is permissioned, it operates under the governance model to handle disputes.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: HLF supports pluggable consensus protocols, and blockchain networks can choose
+    a consensus protocol to address their use cases. Examples of single enterprise
+    blockchain solutions, **crash fault tolerance** (**CFT**) consensus might be more
+    appealing than BFT, since BFT is more suited to a multi-enterprise blockchain
+    network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The membership service (a key component of HLF) is plug and play.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: HLF also has pluggable identity management protocols, such as **Lightweight
+    Directory Access Protocol** (**LDAP**) and OpenID Connect. This also makes HLF
+    appealing to enterprises that have diverse identity solutions.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In HLF, smart contracts, also known as chaincode, execute in a container (for
+    example, Docker) and hence, are isolated from the ledger state.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In HLF, ledgers can be configured to support various database management systems.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: HLF does not require cryptocurrency, which significantly reduces the reliance
+    on cryptocurrency for a blockchain existence and reduces the risk of attack.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'An HLF service diagram shows the various components of HLF. They are integrated,
+    assembled, and interacted with via APIs and SDKs. The major components are as
+    follows:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Identity
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Ledger
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transactions
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consensus
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Smart contract
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Security and cryptoservices
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Why Hyperledger?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We covered DLT and blockchain in [Chapter 1](759718e2-3861-41c1-8d90-bad1deeceddb.xhtml), *Exploring
+    Blockchain and BaaS,* and [Chapter 2](66a7f3de-72ef-49e8-95fb-c65908888e2e.xhtml),
+    *Construing Distributed Ledger Tech and Blockchain*. In addition, we learned about
+    various network topologies, such as centralized, distributed, and decentralized
+    systems. We also became familiar with the structure of blockchain, transactions,
+    and various other blockchain concepts. We carried out a detailed analysis of,
+    and discussion on, permissioned and permissionless blockchain. Permissionless
+    blockchain, such as Ethereum and Bitcoin, are open blockchain, where anyone can
+    participate. On the other hand, permissioned blockchain allows a limited set of
+    participants to administer the blockchain network, while only authorized and authenticated
+    sets of participants are able to access it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are various advantages associated with permissionless blockchain, and
+    similarly, there are advantages to using permissioned blockchain. Permissioned
+    blockchain is cost-effective, and has low transaction overheads. As transaction
+    verification and validation is faster, transaction costs are very low and transaction
+    times are faster. The decision behind the choice of blockchain network depends
+    entirely on the use case and the visibility of messages and transactions. However,
+    in my opinion, the key difference that resonates well with enterprises is the
+    determination as to who will participate in the blockchain business network and
+    who is authorized to transact on the business network; another reason being the
+    ability to empower the direct relationship between producer and consumer, and
+    reducing or removing the reliance on middle parties or third parties (intermediaries).
+  prefs: []
+  type: TYPE_NORMAL
+- en: We are in the era of disintermediation. It has been pioneered by Uber, Amazon,
+    Airbnb, and others, where they own no vehicles, hold no real inventory, and have
+    no inventory of rooms, respectively, yet they allow producers and consumers to
+    connect and transact. Blockchain and DLT further empower producers and consumers,
+    resulting in the disintermediation of third parties and intermediaries from the
+    equation. Permissioned blockchain enhances privacy by means of permissioned access
+    to blockchain networks and channeling transactions between participants to further
+    allow the segregation of data on blockchain networks, thereby enabling privacy
+    and the confidentiality of data. DLT, like blockchain, has the full potential
+    to disrupt industries that have a high reliance on intermediaries, such as insurance,
+    healthcare, transportation, retail, logistics, real estate, and education.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'At a high level, with regard to an enterprise, blockchain offers the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: It checks for the risk of malicious nodes tampering with data in the event of
+    transmission to ensure tamper-proof data transmission. This is ensured by securing
+    the transaction tree, along with complexity in gaining PoW. Malicious users cannot
+    alter/tamper with data without recomputing the PoW hash, which is a gigantic task
+    and requires extreme computing power.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: As the HLF blockchain is permissioned, the blockchain network is operating among
+    known participants, which offers a high level of trust in the blockchain network
+    itself.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using HLF's channels, transactions between groups of participants can be secured
+    further.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It removes the reliance on a single, central point of failure.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consistency is ensured by following protocol, adopting the same rules for validation
+    and block layout.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: All nodes will follow the longest chain, which ensures the establishment of
+    agreement across geographies.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Blockchain lowers uncertainty and enhances trust between parties, leading to
+    faster and more secure transactions.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Permissioned blockchain, chosen by enterprises, allows enterprises to define
+    membership rules for participants by providing immutability (tamper-proof, where
+    blockchain represents the truth), privacy, and confidentiality (the secure exchange
+    of sensitive data with authorization), scalability, reliability, availability
+    (to support mission-critical applications), and auditability (manage, track, trace,
+    verify, and monitor).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In a permissionless blockchain, transactions are executed on every node (assuming
+    the consensus is PoW). This means a lack of confidentiality because data and smart
+    contracts, as well as transaction data, is available on every node on the network.
+    Confidentiality and transaction data visibility is of great importance for enterprises.
+    In the case of B2B transactions, an enterprise would not like the data on special
+    rates that is offered to one partner being available to another partner, although
+    confidentiality is addressed in permissionless networks by encrypting data. However,
+    permissionless blockchain networks using PoW will lead to data being available
+    on every node, which highlights the possibility of decrypting it, given time,
+    and the local availability of data on the node. In HLF, along with the participants
+    identified and encryption, channels offer the highest level of confidentiality.
+    Here, only participating nodes will have access to chaincode and transaction data
+    and that, too, is further controlled by access control. This introduces a high
+    level of privacy and confidentiality to a blockchain network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Permissionless versus permissioned blockchain**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When we enter into a discussion on *Why Hyperledger?*, it makes sense to quickly
+    look into the differences between permissionless blockchain and permissioned blockchain,
+    such as HLF. Let''s analyze these variants of DLT in terms of execution style,
+    determinism, and confidentiality:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Execution style**:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A permissionless blockchain, such as Ethereum, observes the sequential execution
+    of transactions, where they abide by the *order*-*execute* architecture. All peers
+    execute the o*rder*-*execute* style of transactions and this results in performance
+    and scalability limitations. Here, the throughput is inversely proportional to
+    latency in transaction. However, permissionless blockchain tries to handle this
+    by orchestrating around a cryptocurrency. This ensures that a fuel/gas is included
+    with each transaction. Hence, a gas is paid for each step of the transaction execution
+    via a smart contract. However, such a mechanism of engulfing a cryptocurrency
+    might not fit into the permissioned blockchain.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A permissioned blockchain, like HLF's architecture, supports scalability and
+    performance, along with trust. HLF's architecture is based on **execute-order-validate**
+    (**E-O-V**) architecture, where transactions are executed even before a consensus
+    is reached. Execution (**execute**) of the transaction will ensure a transaction's
+    correctness (endorsement), while a modular pluggable consensus protocol will result
+    in an ordering (**order**) transaction. Furthermore, just before committing the
+    transaction, it is validated (**validate**) by an application-specific endorsement
+    policy. E-O-V addresses the flexibility, scalability, performance, and confidentiality
+    issues faced by the order and execute architecture of permissionless blockchain.
+    HLF allows a subset of peers to execute transactions in parallel. Interestingly,
+    chaincode delegates the work of endorsement to certain designated peers; hence,
+    different chaincode can designate different peers as endorsers, which supports
+    parallel execution. Note that Fabric executes a transaction even before it is
+    ordered.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Determinism**:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consensus ensures that nodes are in agreement over a transaction and, hence,
+    the smart contract should execute transactions deterministically. If not, there
+    is no point in establishing a consensus. In addition, such non-determinism will
+    lead to nullifying the consensus, and this will result in forks. Hence, smart
+    contract languages and compilers should ensure that smart contract execution is
+    deterministic. Hence, various blockchains opt for DSL. This forces developers
+    to learn new languages, just to ensure the determinism of smart contracts.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: HLF's E-O-V architecture ensures that a transaction is validated by an application-specific
+    endorsement policy. This means that it is the application-specific policy that
+    ensures how many, and which, peer nodes will validate and ensure the deterministic
+    execution of the chaincode. Hence, a subset of peers will execute (endorse) the
+    transaction to meet the endorsement policy. This will filter out inconsistent
+    results, even before ordering, and thereby eliminate any non-determinism. Because
+    non-determinism is eliminated, HLF supports the use of a standard programming
+    language. You can write chaincode in Go, Node.js, and Java.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hybrid replication driver for determinism**:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: HLF follows passive and active replication. Passive replication is achieved
+    by executing (endorsing) a transaction by a subset of peers, which offers determinism
+    and parallel execution. It also achieves active replication by committing transactions
+    to ledger only after a consensus is reached. Hence, HLF follows a hybrid replication
+    strategy. Again, the choice of consensus is specific to the use case, or deployment
+    in relation to that use case, as Hyperledger supports a modular consensus mechanism.
+    This allows implementers to choose any protocol of choice for consensus, such
+    as BFT or CFT.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Confidentiality**:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Permissionless blockchain, which leverages PoW, executes transactions on every
+    node. Hence, every transaction and the smart contract are visible to each node,
+    which clearly indicates a loss of confidentiality for the gain of BFT offered
+    by PoW. Loss of confidentiality is a challenge for enterprise customers and their
+    use cases. For example, if a business wanted to establish certain rates with some
+    suppliers and a different rate with non-premium suppliers, they would not be able
+    to maintain the confidentiality of such preferred rates. If all suppliers are
+    on the same blockchain network and access the same smart contract, it is impossible
+    to maintain different trade relationships (rates) with different suppliers. Permissionless
+    blockchain offers two types of solution:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It encrypts such preferred information. However, data and smart contracts are
+    on every node. Encryption can be compromised and there is always the risk of losing
+    information.
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Zero knowledge proofs** (**ZKP**) can handle a loss of confidentiality. However,
+    ZKP''s computation increases latency and consumes resources. This means that ZKP
+    can solve confidentiality issues, even though this will lead to performance issues.'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A permissioned blockchain, like HLF, offers channels and **private data collection**
+    (**PDC**) to address the confidentiality issue.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Go/No–Go for a blockchain solution
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now, every enterprise needs a blockchain solution and, at the same time, every
+    enterprise needs a blockchain solution based on the use case. Hence, the core
+    of identifying whether a blockchain solution is required by an enterprise is based
+    on the use case that it is trying to address.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, let''s list the factors that an enterprise should consider before evaluating
+    blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Is there a need for a common shared database?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For a business process, do the participating parties have a lack of trust?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Is more than one party involved in committing to a database?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Are third parties or middlemen involved in the business processes?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does the business process data exist in multiple databases?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Is there a need for the immutability of data or a log/history of transactions?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Is the transaction frequency in the region of 10,000 transactions per second?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Are the transaction rules changing infrequently? (Rules authored in blockchain
+    are pre-set and, once deployed and initiated, chaincode will not change routes
+    based on new rules). As everything on blockchain is deterministic, rule-changing
+    applications are frequently not the right candidate for blockchain).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does the process not store a lot of static data?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does the process not have a lot of data? (As the data is replicated, a significantly
+    larger set of data replication to all the nodes is not an efficient use case for
+    blockchain).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Is there not any need to retrieve data from external sources?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If the answer to any of the preceding questions is *yes*, then blockchain is
+    the solution for the enterprise use case. Also, if there is a need for transactions
+    to be public, then the enterprise use case requires a permissionless blockchain
+    solution, or else it requires a permissioned blockchain solution, such as HLF.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Architecture – conceptual view
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before we jump into HLF architecture and its components, let's first walk though
+    a conceptual view and learn a number of important terms. Read this section to
+    grasp some basic knowledge by means of an example and, after reading the architecture
+    and components, revisit this section to further affirm your understanding of HLF.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The KonsensusChain organization decides to create a product chain (a blockchain
+    business network named ProductChain) to enable producers and retailers to enter
+    into transactions. In addition, it will allow the regulatory authority to validate
+    the legality of the products as well. Organization KonsensusChain will act as
+    the founder organization and will not participate in any transactions. However,
+    it will set up the blockchain network, develop user interfaces, chaincode applications,
+    and will further maintain and operate the business network (consortium). This
+    is a founder-initiated model of a blockchain network, based on HLF, where participating
+    organizations have created a consortium. In this sample, a dApp is not fully offered
+    by the founder. dApps are individually built by the organization. However, they
+    use SDK, REST APIs, and other integration methods to connect with the business
+    blockchain network and execute transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following are the different organizations intending to be part of the blockchain
+    network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Producer organization**: Identified as organization 1 (**O1**), this is an
+    organization that produces certain products and sells them to retailers. The regulatory
+    authority further verifies the legality of those products. The **c****ertificate
+    authority** (**CA**) for producer organization **O1** is **CA 01**.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Retailer organization**: Identified as organization 2 (**O2**), this is an
+    organization that buys products from producer organization **O1** and sells them
+    on to its consumers. The CA for retailer organization **O2** is **CA O2**.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Retailer organization**: Identified as organization 1 (**O3**), this is an
+    organization that buys products from producer organization **O1** and sells them
+    on to its consumers. The CA for retailer organization **O3** is **CA O3**.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Regulatory authority**: Identified as a regulatory organization (**O4**),
+    this is a regulatory authority that verifies the products and stamps the legality
+    of produce*.*'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Founder organization**: [KonsensusChain.com ](http://KonsensusChain.com)is
+    the founding organization, identified as organization 5 (**O5**). All the retailers
+    and producers have agreed to employ **O5** as the founder organization for the
+    ProductChain blockchain network (the fictitious name of the blockchain network).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following are the requirements of this blockchain-based business network
+    (ProductChain):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Requirement one**: The producer organization (**O1**) wants to have private
+    transactions and communications with the retailer organization (**O2**), as they
+    have agreed on a specific rate for certain products and want to have transaction
+    privacy'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Requirement two**: Similarly, the producer organization (**O1**) wants to
+    have private transactions and communications with the retailer organization (**O3**), as
+    they have agreed on certain discounts and payment terms, which they want to keep
+    secret'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following is a conceptual diagram of the business network that will be
+    referred to in this section:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/4f65c0f4-db7a-42c4-a6da-7addbb5d27a9.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Architecture: conceptual view'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building the blockchain network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This section discusses the building blocks of the business network and covers
+    the steps involved in forming a business network. All the terms are based on HLF.
+    The following are the steps required to build a business network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Step 1**: **Initiating the blockchain network**: The first step in forming
+    a network is to start an orderer. In the sample (refer to the preceding *Architecture*:
+    *conceptual view* diagram), node **O5** is owned by organization **O5**, and it
+    is also defined as the orderer. The founder organization (**O5**) uses network
+    configuration, **NC05**, and configures an ordering service (**Ord05**) for the
+    blockchain network. This setup offers full administrative rights to the founder
+    organization (**O5**) over the blockchain network (ProductChain). The CA for organization
+    **O5** is **CA** **O5**. The CA issues certificates to administrators of the network
+    nodes of the founder organization (**O5**):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Essentially, the ordering service is hosted on the founder organization (**O5**),
+    or a cloud platform administrator, by **O5**, and further managed, and administered
+    by **O5**. The network configuration file (**NC05**) defines the rights and privilege
+    information of organization **O5** over the business network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: CAs are central to HLF. HLF offers a built-in Fabric CA for a quick start. However,
+    organizations can use their own CAs. Different participants use certificates to
+    identify themselves on the blockchain network. In this fictitious blockchain network
+    (ProductChain), we will define five CAs, one for each organization.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Network configuration (**NC05**) uses a structure called a **membership service
+    provider** (**MSP**) to map certificate issues by **CA05** to the certificate
+    holder of the **O5** organization. Furthermore, the MSP name is used in policies,
+    by **NC05**, to grant access to participants from the founder organization (**O5**)
+    over blockchain network resources. Take the example of identifying a participant
+    from **O5** who acts as the administrator of a blockchain network and can further
+    add new member organizations to the blockchain network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Other administrators being added by the founder**: The founder organization (**O5**)
+    adds a producer organization (**O1**) as an administrator by updating the network
+    configuration (**NC05**). This modification further defines **O1** as the administrator
+    of the blockchain network. The producer organization employs its resource (node)
+    as an additional orderer (**O1**) to the blockchain network.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Step 2**: **Defining a consortium to realize the separation and security
+    of transactions**: Secondly, we will look at defining the consortium. It is an
+    association of two or more organizations, which participate to achieve a common
+    goal. In a consortium, each participating organization has its own legal status
+    and is joined by agreed-upon contracts. This consortium formation is different
+    from the consortium defined in [Chapter 2](66a7f3de-72ef-49e8-95fb-c65908888e2e.xhtml),
+    *Construing Distributed Ledger Tech and Blockchain*. In [Chapter 2](66a7f3de-72ef-49e8-95fb-c65908888e2e.xhtml),
+    *Construing Distributed Ledger Tech and Blockchain,* thefounder organization itself
+    defines and owns the consortium and also participates in the transactions. Here,
+    a founder is responsible for setting up, maintaining, and operating the infrastructure
+    of the blockchain network. It also offers a solution, where various organizations
+    can amalgamate and form a consortium and channels, and can enter into transactions.
+    Such a configuration can allow cloud platform providers to manage the business
+    network, without participating in it. After all, consortia are groups of like-minded
+    organizations, working to solve a common problem. In this process, they employ
+    their resources in the business network. In this sample, the founder organization
+    is employing its infrastructure and also employs a few nodes as orderers. In this
+    consortium, the following applies:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The founder organization is employing its infrastructure and also employs node
+    **P5** (**Ord O5**) as the orderer node
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The producer organization **O1** (also defined as the network administrator)
+    defines a **Consortium-X1** with two members—organization **O1** and organization **O2**
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The consortium definition is stored in the network configuration (**NC05**)
+    file
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Step 3**: **Defining channels**: Thirdly, we will be creating a channel that
+    allows members of a consortium to enter into transactions with one another securely.
+    Generally, such channels are referred to as application channels:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Channel configuration **CCon1** governs **Channel-C1**. **Channel-C1** is created
+    for **Consortium-X1**. **O1** and **O2** can both manage channel configuration,
+    **CCon1**, and they have equal rights over it.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Channel configuration (**CCon1**) is completely separate from network configuration
+    (**NC05**) and, hence, organization **O5** has no control over channel configuration
+    (**CCon1**). However, **Channel-****C1** is connected to the ordering service
+    (**Ord 05**).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Channel configuration (**CCon1**) contains policies that define the organizations
+    (**O1** and **O2**) rights to transact over **Channel-C1**. Other organizations,
+    such as **O3** and **O5**, cannot affect transactions over it.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Adding peer nodes to channels**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Adding peers to the channel**, **organization 1**: Peer **P1** is joined
+    to a business network by the producer organization (**O1**). This is possible
+    because the organization owns the peer (**O1** owns **P1**). Peer **P1** in the
+    diagram also hosts the copy of ledger 1 (**L1**). It is clear that **P1** and
+    **O5** (the peer and ordering service) can communicate with one another over **Channel-C1**.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Adding peers to the channel**, **organization 2**: Similarly, peer **P2**
+    is joined to the channel by the retailer organization (**O2**), which owns peer
+    **P2**. Peer **P2 **also hosts the copy of ledger 1 (**L1**). It is clear that
+    **P2** and **O5** (the peer and ordering service) can communicate with one another
+    over **Channel-C1**.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following are the lessons we can take from this configuration:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Associating peer with the organization**: The association of peer **P1** with
+    organization (**O1**) can be confirmed based on the certificates. In this sample,
+    organization **O1**''s CA (**CA O1**) has issued the X.509 identity to peer (**P1**),
+    hence, **P1** is associated with **O1**. Similarly, the association of peer (**P2**)
+    with the organization (**O2**) can be confirmed based on the certificates. In
+    this sample, organization **O2**''s CA (**CA O2**) has issued the X.509 identity
+    to peer (**P2**), hence, **P2** is associated with **O2**.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Associating peer with the ledger**: Peer 1 (**P1**) and Peer 2 (**P2**) host
+    the copy of ledger 1 (**L1**). Hence, ledger 1 (**L1**) is physically associated
+    with **P1** and **P2**, while logically associated with channel (**C1**).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Functioning**: At startup, peer (**P1**) sends a request to the orderer (**Ord
+    O5**). The request from peer (**P1**) is verified by the orderer (**Ord O5**)
+    by referring to the channel configuration (**CCon1**). This verification unlocks
+    information about **P1''**s permissions (access controls) over the channel (**C1**).
+    It helps in determining the operations (read/write) that peer (**P1**) can perform
+    over ledger 1 (**L1**). The same holds true for peer **P2**.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Adding chaincode and allowing an application to access the ledger**: In this
+    sample, a dApp is not fully offered by the founder. dApps are individually built
+    by the organization.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'However, they use SDKs, REST APIs, and other integration methods to connect
+    with the business blockchain network and execute transactions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Producer organization (**O1**) owns application (**O1App1**), and retailer organization
+    (**O2**) owns application (**O2App2**). These applications are integrated with
+    chaincode (a smart contract), defined as chaincode (**SC1**) in the diagrams.
+    Chaincode (**SC1**) is deployed on peer 1 (**P1**) and peer 2 (**P2**) and allows
+    dApp (**O1App1** and **O1App2**) to access ledger 1 (**L1**). All the participating
+    entities, such as applications (**O1App1** and **O2App2**), peers (**P1** and
+    **P2**), and the ordering service (**O5**) use **Channel-C1** for communication
+    purposes (transactions).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: dApps (**O1App1** and **O2App2**) are also known as client applications. They,
+    too, have identities associated with the organizations (**O1** and **O2**). Chaincode
+    (**SC1**) defines operations, and dApps (applications) can integrate with chaincode
+    to execute transactions that allow access to the ledger (**L1**). The applications
+    (**O1App1** and **O2App2**) access to ledger (**L1**) is completely governed by
+    the chaincode (**SC1**) operations.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Chaincode is developed by an organization's (**O1**) development team, and is
+    reviewed and agreed by the consortium team (**X1**'s members, such as **O1** and
+    **O2**). However, a consensus on the chaincode is required by the consortium before
+    being deployed to the peer(s).
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Chaincode and its stages
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Chaincode has four stages—installation, initiation, the defining of endorsers,
+    and allowing transactions. A detailed analysis of these stages follows. You can
+    relate them to the example as well:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Installed**: In the event of consensus in relation to the chaincode (development
+    and testing), chaincode(s) can be deployed (installed) by the organization''s
+    (**O1**) administrator on peer nodes (**P1** and **P2**). Although the peers on
+    which chaincode is installed have full access to and knowledge of the chaincode,
+    client applications (dApps) are limited to invoking transactions. Interestingly,
+    just installing chaincode on the channel will not enable client applications (**O1App1**
+    and **O2App2**) to issue transactions against chaincode (**SC1**). This can only
+    happen when the chaincode is initiated.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Initiated**: So far, chaincode is only installed on peers (**P1** and **P2**).
+    Hence, other than the peer(s) (**P1** and **P2**), other channel participants
+    do not know about it. The producer organization (**O1**) will initiate chaincode
+    (**SC1**) on channel (**C1**). Once chaincode is initiated on a channel, other
+    channel participants, such as dApps (**O1App1** and **O2App2**) can invoke the
+    chaincode (**SC1**). In addition, only peers (with chaincode installed) can access
+    the chaincode logic. However, the chaincode logic remains inaccessible to other
+    components, but operations can be invoked on the chaincode.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Endorsement**: Referring to the preceding *Architecture*: *conceptual view*
+    diagram, it is clear that organizations (**O1** and **O2**) are part of **Consortium-X1**.
+    They have defined channel (**C1**), where it is governed by the channel configuration
+    (**CCon1**). Having said that, an endorsement policy (**EP #1**) is also part
+    of channel configuration, **CCon1**. Endorsement policy (**EP #1**) gets attached
+    to channel configuration (**CCon1**) when the chaincode is initiated. It is the
+    endorsement policy that dictates the acceptance of transactions on ledger (**L1**).
+    And transactions can only be accepted when the organizations (**O1** and **O2**)
+    on the channel (**C1**) approve it.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Invocation**: Only after instantiation will client applications be able to
+    send transaction proposals to the peers (**P1** and **P2**). Transaction proposals
+    are like inputs to the chaincode (**SC1**), which will result in an *endorsed
+    transaction response* by peer nodes **P1** and **P2** being sent back to the client
+    applications, **O1App1** and **O2App2**, respectively. This will be discussed
+    in further detail in the *Transaction flow* section of this chapter.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Referring to the diagram, organization 1 (**O1**) and organization 2 (**O2**)
+    have chaincode installed on peers **P1** and **P2**, which are owned by **O1**
+    and **O2**, respectively. However, as chaincode is initiated by **O1**, organization
+    **O2** need not initiate the chaincode as it is already initiated by **O1**. In
+    addition, the gossip protocol allows peers to communicate with one another.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Types of peers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Peers can be subdivided as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Mandatory peers**: Endorsing peers, and non-endorsing peers, also known as
+    committers and leader peers.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Option peers**: Anchor peers. These are optional, and a blockchain network
+    can function and exist without them.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following are the different types of peers available:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Endorsing peers**: The preceding section covered endorsing peers in detail.
+    Referring to the *Architecture*: *conceptual view *diagram, peers (**P1** and
+    **P2**) have chaincode installed by administrators of organizations (**O1** and
+    **O2**). Hence, they can endorse transactions, and are referred to as endorsing
+    peers.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Non**-**endorsing peers** (also known as committing peers):Referring to the
+    preceding diagram, peer **P4** (owned by organization **O1**) does not have chaincode
+    installed. The administrator of organization 1 (**O1**) chose to install chaincode
+    only on **P1**, and not on **P4**. This highlights two points:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Firstly, organization administrators can selectively choose to install chaincode
+    on peers.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Secondly, peers with chaincode installed are termed endorsing peers, and peers
+    that do not have chaincode installed can exist on the channel. Such peers (**P4**)
+    are non-endorsing peers (called committing peers). Every node on the channel is
+    a committing peer:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Peers such as **P4** (non-endorsing peers, also known as committing peers) cannot
+    generate transactions. However, they can accept or reject transactions to ledger
+    (**L1**).
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Peers with chaincode installed can generate transactions and also endorse transactions.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Committing peers receive blocks of transactions (transactions initiated by endorsing
+    peers) and are validated before being committed to a local copy of the ledger
+    (**L1**). Such a commit to the ledger copy (**L1**) by the peers (endorsers and
+    committers) constitutes an append-only operation to the ledger.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Remember that the endorsement policy (**EP #1**) for chaincode, existing in
+    channel configuration (**CCon1**), dictates which peers of an organization should
+    digitally sign transaction before being appended to the ledger (**L1**) of the
+    channel.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Leader peer**: Organization **O1** has two peers (**P1** and **P4**) on the
+    channel (**C1**), where **P1** is an endorser and **P4** is a committer. Hence,
+    transactions need to be distributed to all peers (committers) in an organization
+    (**O1**). The distribution of transactions means distributing from orderers to
+    committing peers of the organization. To ensure a transaction distribution, a
+    peer can be defined as a leader peer (statically), or any peer can assume the
+    role of leader (dynamically). Hence, in our sample network, for **Channel-C1**
+    and organization **O1**, peer **P1** is dynamically defined as the leader peer,
+    which will distribute transactions to all peers of organization 1 (**O1**) that
+    are attached to **Channel-C1**.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Anchor peer**: For inter-organization, peer-to-peer communication, a channel
+    requires an anchor peer. This is an optional peer and is only required when cross-organization
+    communication is required.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A peer can be all four. Example **P1** of **O1** is an endorser, a committer,
+    a leader, and can be an anchor peer as well. In addition, for a channel, there
+    will always be one endorser, one committer, and one leader.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Evolving the network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we will evolve the network further to realize requirement **#2.**
+    Requirement **#2** wants the producer organization **O1** to execute private transactions
+    and communications with **O3** (retail organization 3), as they have agreed on
+    certain private discount rates and payments terms.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Administrators from the founder organization (**O5**) define a new consortium
+    between the producer organization (**O1**) and a second retail organization (**O3**).
+    Consortium definitions are defined in the network configuration (**NC05**). One
+    of the organizations (**O1** or **O5**) can define a new channel (**C2**) for
+    the new consortium (**X2**). Channel (**C2**) configuration resides in the channel
+    configuration (**CCon2**). You may observe that the channel configuration for
+    **C2** resides in **CCon2**, and is separate from **Channel-C1**'s configuration
+    (**CCon1**). Both channel configurations are separate from the network configuration
+    (**NC05**). Hence, only **O1** and **O3** have rights over **C2**, and **O5**
+    has no rights over **Channel-C2**. **O5** only offers a resource (orderer service
+    – **Ord O5**) to channel (**C2**).
+  prefs: []
+  type: TYPE_NORMAL
+- en: The organization (**O3**) adds a peer (**P3**) to the channel (**C2**) and has
+    a different ledger (**L2**). The scope of the ledger is confined to the channel,
+    hence, **Channel-C1** has ledger **L1**, and **Channel-C2** has ledger **L2**.
+    Chaincode **SC2** is installed and initiated on **Channel-C2**, and organization
+    **O3'**s application (**O3App3****)** uses **Channel-C2** to invoke transactions
+    against chaincode **SC2**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Physical realization of network configuration and channel configuration
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section walks though how configurations are physically realized in a blockchain
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Logically, channel configuration (**CCon1** and **CCon2**) seems to be a single
+    configuration for the channels (**C1** and **C2**, respectively). In practice,
+    peers of the channel host a copy of the channel configuration. Logically, the
+    network configuration, **NC05**, appears to exist as a single file for the blockchain
+    network. However, in reality, it is replicated on all of the ordering nodes of
+    the blockchain network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When administrators configure networks and channels, they issue configuration
+    transactions to the blockchain network. Such transactions are digitally signed
+    by the organization (organization administrators), as defined in the policy files
+    called modification policy (`mod_policy`).
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`mod_policy` files are the policies within the network and channel configuration.
+    For example, as you add more organizations to a blockchain, those organizations
+    and their permissions are modified to `mod_policy` within the network configuration
+    for the blockchain network.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ordering service
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Each ordering node maintains a copy of the network configuration and uses a
+    system channel to execute configuration transactions and maintain a consistent
+    copy of the network configuration. In the diagram, we have two ordering nodes—**O5**
+    and **O1**. The founder organization (**O5**) added producer organization **O1**
+    as the administrator by updating the network configuration (**NC05**). This modification
+    further defines **O1** as the administrator of the blockchain network. The producer
+    organization (**O1**) employs its resource (node) as an additional orderer (**O1**)
+    to the blockchain network. Orderer **O5** is employed and maintained by organization
+    **O5**, and its certificate is issued by **CA05**. While orderer **O1** is offered
+    and maintained by organization **O1**, its certificate is issued by **CA01**.
+    Network configuration (**NC05**) defines the exact permissions for the participants
+    from the configured organizations (**O5** and **O1**).
+  prefs: []
+  type: TYPE_NORMAL
+- en: The ordering service also collects endorsed transactions from client applications
+    (dApp) and orders them in blocks. These blocks are then distributed to each committer
+    node on the channel. When a consensus is reached, each committing peer will record
+    and append the local copy of the ledger. Interestingly, you will notice that the
+    ordering service has meticulously taken care of the distribution of transactions.
+    Even though the same ordering service is used over multiple channels (**C1** and
+    **C2**), it handles the distribution of the right transaction to the right channel.
+    This is controlled and defined in the network configuration (**NC05**) and channel
+    configurations (**CCon1** and **CCon2**).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ordering nodes maintaining a consistent copy of network configuration
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To understand how ordering nodes maintain a consistent copy of network configuration,
+    we need to look at channels.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We know that there are two types of channels:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Application channels**: Channels **C1** and **C2** are examples of application
+    channels.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**System channels**: Ordering nodes are connected by a system channel, which
+    allows them to distribute configuration transactions among themselves. Hence,
+    when administrators try to configure the network, they issue configuration transactions
+    on this system channel. The system channel (depicted in the diagram as **System
+    Channel**) will then ensure the distribution of these configuration transactions
+    across ordering nodes on the blockchain network.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In this configuration, applications **O1App1** and **O2App2** will transact
+    on **Channel-C1**, based on chaincode **SC1**, and will use **Channel-C1** to
+    communicate with peers **P1**, **P2**, and orderer **O5**. Application **O3App3**
+    will effect a transaction based on chaincode **SC2**, and will use **Channel-C2**
+    to communicate with peers **P3** and orderer **O5**. This clearly demonstrates
+    precise decentralization, where different organizations can execute their specific
+    transactions and store blocks on their own ledgers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A node's behavior when part of multiple channels
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The producer organization (**O1**) wants to have separate application channels, **C1**
+    and **C2**, for consortia **X1** and **X2**, respectively. This will allow **O1**
+    to enter into private transactions with organizations on these channels. Hence,
+    the diagram shows **O1**'s peer, **P1**, and also hosts chaincode **SC2** installed
+    on **P1**. Organization **01**'s client application (**O1App1**), to which **P1**
+    belongs, will now be able to transact on **Channel-C2** based on logic defined
+    in chaincode **SC2**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Node behavior, which is an element of multiple channels, is controlled by the
+    channel configuration for that channel. Channel configurations, **CCon1** and
+    **CCon2**, define the operations available to a node (**P1**) when it is part
+    of multiple channels, **C1** and **C2**, respectively. Similarly, application
+    **O1App1** can now execute transactions on channels **C1** and **C2** based on
+    chaincode **SC1** and **SC2**, respectively, which is again dictated by the channel
+    configurations, **CCon1** and **CCon2**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger architecture (layered view) and components
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This section will cover the Hyperledger framework architecture layer and components.
+    As shown in the following diagram, the HLF architecture is divided into four major
+    layers, and each layer has its components working in concert. Together, these
+    layers, components, and their interactions constitute a permissioned blockchain
+    network, as shown in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/759e5a86-715b-4663-8f45-a48d0b2c5e02.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Architecture: Layered view'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Identity, security, and privacy
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section covers aspects of blockchain architecture that are specific to
+    identity, security, and privacy. There are various participants in a blockchain
+    network, such as nodes (committers, endorsers, and suchlike), dApps and client
+    applications, and network and channel administrators. Each of these participants
+    needs to have an identity established, because it's the identity of these participants
+    that determines their access permissions on the blockchain network and its resources.
+    Principle is a set of identities and properties, where identity is a user ID,
+    and properties include the organization it belongs to, the roles it is a member
+    of, and suchlike. Hence, it's obvious that the permissions are determined by the
+    properties of the identities.
+  prefs: []
+  type: TYPE_NORMAL
+- en: HLF uses X.509 certificates for identities. However, the MSP validates identities
+    and determines whether those identities are permitted in a blockchain network.
+    At a high level, remember that MSP has the rules, which enables identities in
+    the blockchain network. However, those identities must be trusted and verified
+    by the public key infrastructure.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A permissioned HLF blockchain network tightly controls the identities of the
+    participants. This is a mandatory two-step process—establishing the participants'
+    identities and secure communication.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Public key infrastructure
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Public key infrastructure** (**PKI**) ensures secure communication in the
+    blockchain network between various participants, and also authenticates the messages
+    sent to the blockchain network. PKI comprises CAs, who are responsible for issuing
+    digital certificates to participants (users, nodes, and so on). Participants are
+    authenticated based on these certificates, and messages are then sent to the blockchain
+    network.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the Hyperledger framework's distributed blockchain network, root CA is an
+    HLF CA, which is configured as a trust anchor. It is a self-certified root CA
+    that also signs and certifies the leaf certificates of the intermediate CAs. In
+    addition, these intermediate CAs can sign and certify other leaf intermediate
+    CAs. Hence, for the given digital certificate, trust can be traced back to the
+    root CA. This is termed a chain of trust. The HLF, and particularly HLF membership
+    services, have a Fabric CA and intermediate CAs for secure functioning of the
+    blockchain network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following are some of the key elements of PKI:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Digital certificate
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Keys
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: CAs
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Certificate revocation list** (**CRL**)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Digital certificate
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A digital certificate is a document comprising various properties of the certificate
+    holder. These certificates are standard-compliant, and, in the case of HF, this
+    is the X.509 standard.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here are a few brief details regarding certificates:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'What is in a certificate? A certificate is like an identity card, and includes
+    certificate data that consists of the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Algorithm information (such as SHA256)
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Issuer information, including the validity of the certificate (time)
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Subject information, including the following:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Subject details, such as the organization unit
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Subject public key and signature algorithm details
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The subject of a certificate (the user or node) can use that certificate to
+    prove their identity.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To prove their identity, the subject can use a private key to sign any communication
+    (transaction and suchlike) that is sent to the blockchain network. A subject's
+    public key is in the certificate itself. However, the subject's private key is
+    secret and private.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: All the information contained in the certificate is encrypted in such a way
+    that any change to it will mark the certificate as invalid.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The subject signs using their private key and uses this certificate to prove
+    their identity. As other parties trust the identity provider, also known as the
+    CA, the interacting party can trust the subject. Parties trust the CA and believe
+    that the certificate shown by the subject has not been tampered with.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Keys
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we will cover digital signatures and public and private keys.
+    In the preceding description, we saw that messages are signed by the subject.
+    Signing a message is termed the digital signature of the message. It is the digital
+    signature that guarantees message integrity and authentication. Authentication
+    ensures that parties involved in a transaction are sure about the identity of
+    the message sender or creator, and integrity affirms that the message was not
+    modified/tampered with during transit. Hence, it is the digital signature that
+    guarantees integrity and authentication. The transaction (message) sender will
+    sign the message using their private key and send it to the recipient. The recipient
+    will use the sender's public key (widely known) to verify the integrity and authenticity
+    of the message. This means that the recipient will use the sender's public key
+    to ensure that it was sent by the sender who is claiming to be the sender, and
+    who is the expected sender. A combination of keys, both public and private, ensures
+    secure communication over the blockchain network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: CAs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'CAs are mostly included in a Docker image with HLF release and are released
+    as an HLF CA component. In the case of a blockchain network, a CA has the following
+    purposes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Registering nodes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Enrolling nodes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In HLF, Certificate Authority is a CA service that creates and issues certificates
+    (enrollment certificates) to participating nodes, allowing them to join and participate
+    in the blockchain network. These certificates (enrollment certificates) are in
+    the standard X.509 v3 format. However, an HLF CA can be extended by enterprises
+    and they can even replace it, if needed. CAs issue X.509-compliant certificates
+    to participants (user, groups, and nodes). It is these certificates that enable
+    participants to transact and interact on the blockchain network. CAs issue certificates
+    to participants, and these certificates include various pieces of information
+    pertaining to the subject (participant), as shown previously. CAs only issue those
+    certificates after signing those certificates with their private keys. Hence,
+    the certificates issued by the CA are signed by CAs and, since these CAs are trusted,
+    the participant is also trusted. In addition, the information included in the
+    certificate is trusted, as it's signed by the CA. As long as the recipients have
+    the public key of the CA, they can trust the certificate.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In addition, when the subject (participant/sender) signs any transaction, the
+    recipient can use the subject's (sender/participants) public key to ensure the
+    authenticity and integrity of the message. Trusted CAs include DigiCert and Verisign.
+    These certificates do not have any private keys—either of the CA or of the participant.
+    In a blockchain network, every participant (subject/actor) needs to have a digital
+    identity that should be issued by the organization's CA, which actually means
+    that the CA facilitates a verifiable digital identity for the participant.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following types of CA are available:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Root CAs are biggies, like Symantec, who self-sign their own certificates and
+    then issue those certificates to other CAs. Intermediate CAs are CAs that have
+    a certificate issued by the root CA or by another intermediate CA. This results
+    in a *TrustChain* (chain of trust) of certificates. Organizations that use CAs
+    can use intermediate CAs with confidence, since the *TrustChain* will allow them
+    to trace the certificate back to the root CA. Also, the *TrustChain* limits the
+    root CA's exposure, which is paramount from the security perspective of the *TrustChain*.
+    Also, various organizations participating on the blockchain network can use different
+    intermediate CAs and may have different, or the same, root CAs.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'HLF offers an inbuilt CA called Fabric CA, which is a root CA for that HLF
+    blockchain network. It is a private CA for the Fabric blockchain network; it cannot
+    offer SSL certificates for use in browsers. Hence, organizations can use commercial
+    public root and intermediate CAs for their HLF blockchain network. The capabilities
+    of the HLF CA, also known as the Fabric CA, are as follows:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The HLF CA can either register identities or can be configured to use existing
+    enterprise LDAPs as a user registry
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For member organizations, users, and administrators, the HLF CA can issue, renew,
+    and revoke enrollment certificates and root certificates for the blockchain network
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The HLF CA generates self-signed X.509 certificates, and there can be one or
+    more Fabric CAs, where there will be one root CA and the remainder are intermediate
+    CAs, and where the chain of trust is followed by virtue of PKI.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: CRL
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: CAs can revoke certificates, and such revoked certificates do not constitute
+    expiring certificates. In the case of compromised identities, certificates can
+    be revoked, and put into a list called a CRL. It is recommended that any party
+    who wants to verify the identity of any other party's (the subject party) should
+    first refer to the CRL to check whether the party (the subject party's) certificate
+    is included in the revoked list.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The membership service
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We now know that PKI offers verifiable identities to participants. However,
+    how can these participants represent themselves as trusted participants from a
+    participating organization on a blockchain network? Every organization manages
+    its participants under a single MSP. However, organizations can have multiple
+    MSPs if they want to manage a participant's different **organization units** (**OU**),
+    such as financial and legal units. If you check the certificate issued to a subject
+    from a CA, it will include OU information. This allows further control of the
+    access to channels based on OUs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The membership service manages a participant''s identity and is used for the
+    validation of participants and their authentication. Specific privileges on system
+    resources (a network, channel, or suchlike) are controlled in the access control
+    list of the blockchain network. The membership service code is executed on peers
+    and orderers. It is responsible for authenticating, authorizing identities, and
+    managing those identities on the HLF blockchain network. The participants of the
+    HLF blockchain network have identities where the PKI generates certificates that
+    are linked to the participants (such as network components, organizations, dApps
+    and client applications). This facilitates the creation of an access control rule
+    for participants at the network level, as well as at the channel level, where
+    a channel is a subset of a blockchain network where participants conduct private
+    transactions. Access controls and channels in a blockchain network together address
+    confidentiality and privacy challenges:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Authentication**: HLF uses PKI to verify the identities of users and devices.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Authorization**: HLF uses **role-based access control** (**RBAC**) to control
+    access to an entity example controlling an identity''s read and write access to
+    an entity (for example, a ledger). Access control to identities for given resources
+    is based on RBAC, where identities are assigned to roles, authorization policies
+    are defined for resources, and rules are defined that determine which roles are
+    authorized to access what on that resource.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: MSP
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This is the identity management solution for the HLF blockchain network. MSP
+    performs the following tasks:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: It registers and enlists network and channel participants
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It maps certificates to members or participating organizations
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For an organization, MSP identifies the roles (administrative and suchlike)
+    a participant can play
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It defines the participant's network and channel, and access privileges, such
+    as read and write
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Its principal activities are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: MSP identifies the root CAs and intermediate CAs who can further define the
+    members of a domain, also known as an organization, either by listing the identities
+    of their users, or by authorizing CAs to assign valid identities to their members
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: MSP represents an organization, and is also responsible for RBAC on a network,
+    and channels of the member of that organization
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: An organization can have one or more OUs, and enrollment certificates (X.509
+    certificates) include an OU attribute in the certificate to define that organization's
+    area of business
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Types of MSP
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this section, we will cover the types of MSP. Broadly speaking, there are
+    three—network MSP, channel MSP, and local MSP:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Network MSP**: An MSP at the network level is used to define the blockchain
+    network that is authorized to perform administrative tasks at the network level,
+    such as maintaining networks and creating channels:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Scope**: Network level'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Duties**: Administrative activities, such as defining channels'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Channel MSP**: A channel (also known as a global) MSP is defined in the channel
+    configuration. However, each node has a local copy of the channel/global MSP,
+    which is kept in sync by consensus. Each participating organization on the channel
+    has an MSP defined, and all the nodes on that channel will share the MSP and,
+    hence, will be able to authenticate the channel participant using the same single
+    source of truth for authentication. Hence, any new participating organization
+    first needs to add its MSP to the channel configuration to participate in transactions
+    on the channel. A channel MSP is mostly used for identity validation, and does
+    not need to sign transactions. All the members of a channel are familiar with
+    the configuration of an MSP, where members of that organization participate. This
+    is termed a channel MSP:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Scope**: Channel level'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Duties**: Establishes a chain of trust by defining administration and participation
+    rights to members of entities at the channel level'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Local MSP**:MSPs authenticate nodes and users. Each node and user has a local
+    MSP in their local filesystem. To authenticate member messages, and to define
+    permissions outside the channel context, peers, orderers, and clients maintain
+    an instance of a local MSP:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Scope**: Each node has a local MSP that defines that node''s permissions'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Duties**: To authenticate member messages and define permissions outside
+    network and channel levels and maintain a local copy of the MSP as configurations
+    are applied locally'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Facts**:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Nodes such as committers, endorsers, and orderers, are termed local MSPs. Examples
+    include defining peer admins and suchlike.
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Users such as client users use local MSPs to authenticate themselves in relation
+    to the transaction performed on the channel.
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A participant's membership in an organization is determined by the root or intermediate
+    CA that is part of the local MSP.
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Structure**: The following list defines the various elements that constitute
+    the MSP structure. For each type of element, there is a sub-folder and a local
+    MSP is stored in the local folder as a file folder, inside that particular sub-folder.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Structure-wise, various elements constitute a local MSP, including the following:'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Root CA and intermediate CA**: The root CA contains self-signed certificates
+    (X.509 standard) of the root CAs that are trusted by the organization represented
+    in the MSP. The intermediate CA contains a list of intermediate CA certificates
+    that are trusted by the organization.'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Organization unit**: This is an optional element that contains a list of
+    OUs and is used to restrict organization members.'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Administrator:** This contains the identities of the actors who are administrators
+    for an organization. It is like defining the role. However, access privileges
+    (such as adding a new organization and suchlike) are determined by system resources,
+    such as channel configuration or network configuration policies. The role attribute
+    in a CA issue certificate also defines a participant''s role in the organization
+    and not on the blockchain network. It is the system resource (channel, network,
+    and suchlike) policies that define that role''s privileges on the blockchain network''s
+    system resource.'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Revoked certificates list**: Logically, this optional list is the same list
+    as CAs and the CRL. However, it also defines the revocation of membership of the
+    participant from the organization.'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Node identity**: This is a mandatory element and defines the identity of
+    the node. One should exist in the local MSP, along with the KeyStore (private
+    key) and the node identity, allowing a node (a peer such as an endorser) to authenticate
+    itself in the message that the node sends on the network or channel; for example,
+    the certificate that the endorser sends as part of the response to a transaction
+    proposal.'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**KeyStore**: This mandatory element is a node''s key that a node (committer,
+    orderers, client node, and suchlike) uses to digitally sign a transaction. It
+    is only part of a local MSP and not part of a channel MSP, since the channel MSP
+    does not send transactions and, hence, is not required to sign transactions.'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**TLS root CA and TLS intermediate CA**: TLS communications are sent when a
+    node wants to connect to another node, example the committer peer and connects
+    with orderers to get a ledger''s recent updates. This element contains self-signed
+    certificates of the root CA/intermediate CA.'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: All MSPs (network, channel, and local) should identity and interact with root
+    or intermediate CAs to ensure the establishment of a chain of trust.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Referring back to the diagram in the *Architecture *– *conceptual view* section,
+    the network configuration (**NC05**) uses the MSP of organization **O1** to ensure
+    the association of participant **P1** with organization 1 (**O1**). The network
+    configuration (**NC05**) then uses the MSP name defined in the access policies
+    to further grant privileges to **O1**'s participants (**P1**, **P4**, and **P6**);
+    for example, defining **P1** as the administrator from organization 1 (**O1**)
+    as the administrator of the blockchain network. Referring to the following MSP
+    diagram, each peer has its own local MSP copy in its filesystem. Also, each peer
+    keeps a copy of the global MSP of the channels it belongs to; for example, peer
+    **P1** belongs to **Channel-C1** and **Channel**-**C2**. Hence, although it has
+    its own local MSP, it also contains a copy of the channel configuration, **CCon1**
+    and **CCon2**, for channels 1 and 2, respectively. A local copy of the channel
+    configuration also means a local copy of the global MSP. Hence, **P1** has a copy
+    of the global MSP for **Channel-C1** and **Channel-C2**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For each peer, the trust domain is the organization to which it belongs, which
+    is part of a peer''s local MSP. However, to allow that organization (and also
+    its peers) to transact and communicate on a channel, an organization''s MSP needs
+    to be added to the channel configuration:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/4b2b9d59-61c9-4d10-bb1f-13a8ae79114e.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Membership service provider
+  prefs: []
+  type: TYPE_NORMAL
+- en: The diagram also shows that user A belongs to organization 1 (**O1**), and that
+    user A's identity is issued by **CA01** (CA of organization 1). A local MSP copy
+    of peer 1 (**P1**), which belongs to **O1**, contains the identity information
+    of user A. Depending on the type of operation requested by the user (local or
+    channel-level), peers will verify user A's identity. Given that peers **P1**,
+    **P3**, and **P4** are on **Channel-C2**, they have a copy of the global MSP.
+    The global MSP will contain the certificate and other details of all the members
+    (**P1**, **P3**, and **P4**) of the channel (**C2**). Also, each peer has its
+    own local MSP.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Local**-**level transaction**: Referring to the following diagram, it is
+    evident that MSPs can be found in two places—channel configuration (as a channel
+    MSP), and as a local peer (local MSP). Local MSPs are for applications, users,
+    peers, and orderers, and they define the privileges (permissions), such as the
+    administration of the peer, for that node. Every node and user has a local MSP.
+    For example, a user''s local MSP allows the user to authenticate themselves on
+    the transaction, as well as defining a node''s participatory rights and suchlike.
+    When user A tries to execute a local-level transaction (such as installing chaincode),
+    peer **P1** verifies the identity of user A by referring to its local MSP copy.
+    By means of verification, **P1** ensures that user A belongs to organization 1,
+    and has the privileges to perform that transaction. Only upon verification can
+    the installation transaction be completed successfully.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Channel**-**level transaction**: Every organization that is participating
+    on the channel must have a channel MSP. All peers and orderers on the channel
+    have the same view of the channel MSP. When user A tries to execute a channel-level
+    transaction, such as initiating chaincode, which requires the agreement of all
+    the participating organizations, then peer **P1** will check the channel MSP before
+    executing the transaction. Administrative and participatory rights in the channel
+    are defined as the channel MSP.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Channel (privacy provider)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Confidentiality in blockchain business networks is achieved with segregated
+    communication between network participants, which is achieved by using HLF channels.
+    Transactions in a blockchain business network are executed on a channel, where
+    transacting parties are authenticated and authorized to effect transactions on
+    that channel. By default, all participants in a network are part of a channel.
+    However, for private transactions, organizations need to create separate channels
+    and authorize members to that channel. Ledgers are separated from channel to channel
+    and, hence, ledger data cannot move between channels. The separation of ledger
+    data and peers by channels allows private and confidential transactions between
+    organizations that are still part of the same blockchain network. Data separation
+    between channels is achieved by configuring membership services, chaincode, and
+    the gossip protocol. Here, data includes transaction information, the state of
+    the ledger, and channel membership. This data is restricted to just those verified
+    peers who are members of the channel.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A client SDK passes parameters, such as the MSP ID (unique within a channel),
+    policies, and members (organizations) to the network configuration chaincode.
+    This invocation creates configuration transactions on the network configuration
+    chaincode. These versioned configuration transactions (configtx) result in the
+    creation of a genesis block on the channel's ledger. This genesis block records
+    information such as the channel configuration. As soon as a member is added to
+    a channel, it gets access to relevant information on the genesis block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Participants can deploy chaincode once the channel setup is complete. Then,
+    participants can propose transactions, endorse, order, and validate transactions.
+    Access rights are granted to participants by their MSP, and these rights define
+    the limits of a participant on a channel. Participants outside the channel do
+    not have access to any transactions or messages on the channel. Hence, segregating
+    transactions based on their channels enhances the privacy offered by the blockchain
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: PDC
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We know that channels facilitate private and confidential transactions between
+    organizations. However, what if you want to have a few organizations on a channel,
+    but still want to keep some of the data private to a subset of organizations participating
+    in that channel. Channels have advantages. However, if you keep creating multiple
+    channels between organizations that require private communication, then you might
+    end up with channel-explosion, which will lead to maintenance overheads. You have
+    to maintain MSPs, policies, and chaincode versions, and this does not allow us
+    to address the use case of having private data for a subset of organizations in
+    a channel. To address the challenge of allowing private data for a subset of organizations
+    in a channel, HLF (from v1.2 onward) offers the facility to create PDCs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: PDC – more privacy in channels
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: With PDC, subsets of organizations can query, comment, and endorse private data,
+    inside a channel without creating a separate channel.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Referring to the following diagram, peer **P1** belongs to organization **O1**,
+    **P3** belongs to organization **O3**, and Peer **P7** belongs to organization
+    **O4**. Here, **P1**, **P3**, and **P7** are all on **Channel-C1**. However, organization
+    1 (**O1**) wants to have a private data exchange with **P3**, and also wants a
+    separate private data exchange with **P7**. If only the channel concept is followed,
+    then the system will have multiple channels. Organization **O1** (**P1**) and
+    organization **O3** (**P3**) will have a separate channel, while organization **O1**
+    (**P1**) and organization **O4** (**P7**) will have a separate channel. Another
+    way of handling this requirement is to allow private transactions between channel
+    members in PDC:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9a10c146-051d-4c2f-ab79-9ecb4d894d7f.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Ledger and private data
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the ledger perspective, each peer has a ledger comprising states—the current
+    state and the transaction log. We will be covering ledgers in detail in subsequent
+    sections in this chapter. The diagram shows the current state as the ledger state,
+    and shows the transaction log in the ledger. Here, organization 1 has peer **P1**,
+    organization 3 has peer **P3**, and organization 7 has peer **P4**. As **P1**
+    and **P3** are sharing private data, the diagram shows the private state (**O1**
+    and **O3**) at peers **P1** and **P3**. In addition, since **P1** and **P7** are
+    sharing private data, the diagram shows the private state (**O1** and **O4**)
+    at peers **P1** and **P7**. Chaincode (**SC2**) is *instantiated* on the channel
+    (**C2**); hence, all the smart contracts within the chaincode (**SC2**) are available
+    for applications on the channel (**C2**). This private state will be replicated
+    to all the peers from an organization that wants to have private communication.
+    Those authorized peers will be able to see the hash of the data, which is located
+    in the main ledger, and the real private data will be on their private database.
+    As private data is not synced with unauthorized peers, they will never be able
+    to see the private data. However, the main ledger's data hash is accessible to
+    them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: PDC is an excellent way to comply with the **General Data Protection Regulation**
+    (**GDPR**). One such regulation stipulates that data owners can delete private
+    data. However, we know that blockchain is immutable and, once data is recorded
+    to the ledger, it cannot be deleted. With PDC, private data remains in your private
+    database. It is not written to the ledger. Only the hash of the data is written
+    to the ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Technically, PDC is supported by two key elements:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Private database**: This is also known as the SideDB on each peer, and participates
+    in private data communication. You will recall the anchor peer discussed in this
+    chapter. Since ordered nodes are not involved in private data communication, anchor
+    peers need to be set for P2P communication via the gossip protocol.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Data hash**: Hash is on the current state, the main ledger. It serves as
+    the transaction evidence, cannot be removed, and is accessible to all peers from
+    the channel, irrespective of whether they are into a PDC.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Distributed ledger
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section covers aspects of blockchain architecture that are specific to
+    the ledger. It also covers nodes, such as peers and orderers, and, while defining
+    the orderers, we will also cover the transaction flow process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Nodes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The deployment view of HLF comprises nodes that are connected as P2P networks
+    with a distributed edger that is shared among these nodes. Nodes can have different
+    roles in the HLF—peers and orderers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Peers:** These propose transactions, save/apply and commit transactions,
+    and maintain a local copy of the ledger.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The types of peers are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Endorsing peers**, also known as endorsers: These obtain a transaction proposal
+    from the client/apps, verify the client signature, get the RW state of the world
+    state to be affected by the transaction, and send these states to orderers.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Committing peers**, also known as committers (non-endorsing nodes): Following
+    endorsement and ordering, these validate the transaction, applying the result
+    of the transaction to the local ledger. This is committed to the ledger and the
+    transaction becomes immutable.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In HLF, every endorser node is also a committer node. However, not every committer
+    needs to be an endorser node.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Orderers:** At least one orderer should exist in a blockchain network. Orderers
+    ensure the correct ordering of transactions.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Peers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Peers constitute a blockchain network and host ledgers and chaincode. We saw
+    in the conceptual view of architecture that each peer has a copy of the chaincode
+    and ledger. Peers offer APIs, which allow applications to interact with them and
+    also to start, stop, configure, delete, and reconfigure the peers. A peer can
+    host a ledger and chaincode, and it is feasible for peers to host only ledgers
+    and not chaincode (application chaincode). Peers usually always have system chaincode.
+    The HLF SDK offers APIs, which allows applications to interact with peers, since
+    it is the peers to which applications connect if they need to query a ledger or
+    invoke a transaction on the ledger. Then, in turn, the peer invokes the chaincode
+    to effect the execution of that transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Along with orderers, peers ensure the synchronicity of ledgers on every peer.
+    We will walk through the transaction flow in subsequent sections, which will highlight
+    peer involvement. Here is a brief synopsis of that:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The application (the party that wants to execute a transaction) connects to
+    a peer. Where the application and peer are from the same organization, certificates
+    are issued by an organization's CA.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The peer invokes the chaincode, which results in the generation of a proposal
+    response. The response depends on the transaction request from the application.
+    For instance, if the application requested a query to the ledger, then the proposal
+    response will have a query result or, if the application requested an update to
+    the ledger, then the proposal response will include the proposed ledger updates.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The application receives a proposal response from the peer:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If it was a query (*ledger-query-transaction*), then the process is completed
+    as the application has received its response
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If it was a ledger update (*ledger-upd**ate-transaction*), the request then
+    proceeds to the next step
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For a ledger update request (*ledger-update-transaction*), the peer cannot send
+    the response as the update to the ledger first needs to be agreed by all the participating
+    peers. This agreement to change the ledger is termed a consensus.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: As a consensus is required for the *ledger-update-transaction*, the peer returns
+    a proposed update response to the application, which is actually a snapshot of
+    the change that the peer is proposing. This is similar to a change being performed
+    on the ledger only once a consensus is reached.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The application receives responses. The application will build a transaction
+    from all the responses and send it to the orderer's node.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Orderers will collect this transaction and various other transactions from the
+    blockchain network and compile them into a block.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Orderers will then distribute this block to all the peer (committer) nodes,
+    which also includes the peer to which the application (in this sample) sent the
+    initial request.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: All the peers, including the peer in this context, will validate the transaction.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Upon successful transaction validation, the peers will update the local copy
+    of the ledger.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Once the ledger is updated, the peer to which the initial request was sent will
+    generate an event.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: This event will be received by the application, which marks the completion of
+    the update transaction.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We saw in the *Architecture* – *conceptual view* section that peers are owned
+    and contributed by various organizations, and this group of peers forms the blockchain
+    network. Applications that are developed by an organization usually connect to
+    the peers of that organization.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A blockchain network does not literally depend on the organization and its contributed
+    peers. However, there should be at least one organization existing with one peer.
+    Interestingly, organization peers (belonging to any organization) host the same
+    ledger; however, every organization is free to use its own code language for building
+    application and presentation logic.
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the *Architecture*: *conceptual view* diagram, we know that peers are connected
+    to channels. Channels also have channel configuration and contain the global MSP.
+    This global MSP helps to map peers to their organization, as the certificate issued
+    to the peer emanates from the CA of that organization. By way of an example, refer
+    to the *MSP* diagram in this chapter. Here, peer **P1'**s certificate is issued
+    by the CA (**CA O1**). The channel configuration (**CCon1**) determines that the
+    identities (participants such as **P1**) are issued by the CA (**CA O1**), which
+    is from organization 1 (**O1**). This is defined in **O****1**. The MSP is contained
+    in the global MSP of the channel configuration. This helps in associating a peer
+    with an organization.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Each peer has a digital certificate issued by the organization's CA. This digital
+    certificate acts as the identity of the peer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: At a given point in time, a peer can only belong to/be owned by one organization.
+    A peer can reside anywhere; on a local machine, in an enterprise on premise, on
+    the cloud, and suchlike. It is the certificate (identity) of the peer that maps
+    and associates that peer with an organization. This mapping is provided by the
+    MSP. Along with the authentication of the user via the MSP, channel configuration
+    also involves access policies, which determines the privileges assigned to a peer
+    (the peer's identity). Details of this can be found in the *MSP* section. However,
+    in short, the mapping of an identity to an organization is defined by the MSP,
+    along with the roles assigned to the peer in that particular organization, and
+    also the rights (privileges) assigned to that identity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Orderers and transaction process flow
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In a blockchain network, orderers maintain a ledger's synchronicity and consistency.
+    We have seen details pertaining to a *ledger-update-transaction*, which needs
+    all the participating peers in the network to reach an agreement in order to approve
+    an update to the ledger. The agreement process of receiving approvals from other
+    peers to update the ledger is called a consensus. Once a transaction is approved
+    by all the peers, it is committed to the ledger and the client application is
+    further updated with the success of the commit (an update to the ledger). The
+    following are the stages of a *ledger-update-transaction**:***
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Proposal**: This is the stage where the transaction proposal is sent by the
+    client application to the channel''s peers'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Endorsement**: This is the stage where the transaction is simulated'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Packaging proposal response**: At this stage, each endorser will return its
+    signed endorsement back to the client'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Verify and send for ordering**: At this stage, the client application then
+    verifies the proposal response and sends the transaction message for ordering'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Distribution:** At this stage of the transaction process, orderers will distribute
+    the block to peers'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Validation and tagging**: At this stage, peers will receive a block from
+    the orderers and they will tag it as valid or invalid'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Notifications**: When the ledger is appended, client applications are notified
+    at this stage'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We will be talking about transaction flow in detail in the *Consensus everywhere*
+    section later.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ledger
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'As we discovered in [Chapter 1](759718e2-3861-41c1-8d90-bad1deeceddb.xhtml), *Exploring Blockchain
+    and BaaS*, accounting ledgers have transaction history recorded as credit and
+    debit transactions, while a statement shows the current balance. All the credit
+    and debit entries lead to the current balance. Now, let''s build the analogy,
+    where the current balance is the current state of the ledger, and credit and debit
+    entries are the transaction log entries. Current state and transaction logs, together,
+    form a ledger; a blockchain ledger. To interact (also known as transact) on a
+    distributed ledger, chaincode needs to be invoked:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Current state**: Also termed *world state* or just *state*, this is a key-value
+    pair that shows the current value of the ledger states, and it changes frequently
+    as states are created, appended, or erased.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Transaction log**: This is the set of changes that leads to the current world
+    state. Transactions that are ordered and sequenced in blocks are appended to the
+    blockchain. Sets of transaction lead to the current value of the world state.
+    These transactions, once ordered and sequenced, cannot be modified and, hence,
+    the block and blockchain, also known as the ledger, become immutable.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The ledger is distributed; hence, it is on all the peers. We have seen in transaction
+    flows that a consensus is required before a transaction is committed to the ledger.
+    Hence, the ledger is kept in sync with participating peers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Each peer node has a copy of the ledger. This copy contains the transaction
+    log and world state results, stored as key-value pairs in the database. DLT in
+    HLF has two aspects; a world state, and a transaction log. A ledger state comprises
+    a key-value pair. The world state is an aggregated state of the distributed ledger
+    at a given point in time. The world state allows consumers to get the current
+    state of the ledger. The equation for the ledger is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*distributed ledger = world state + transaction log*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows a ledger consisting of the world state and transaction
+    log. The transaction log comprises various blocks, with each block containing
+    one or more transactions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d29afb8b-e07a-43dc-a8a2-b0993aba8782.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Ledger state and the transaction log
+  prefs: []
+  type: TYPE_NORMAL
+- en: This example shows the **PiggyBank** of a boy named **Noah**. The world state
+    and the transaction log are empty at the start. This is represented by the **Genesis
+    Block** (**B0**). **Block B1** **includes Transaction T1**, where **Daddy puts
+    10k i.e. Credit to PiggyBank**. This is like a debit to daddy's account. The first
+    transaction is represented by block 1 (**B1**). Block 1 represents the ledger
+    state, with **Key** as **PiggyBank** and a **Value** of **10000**. Also, it has
+    ledger state with **Key** as **DaddyPutsToBank** and a **Value** of **10000**.
+    Both the ledger states are at **Version** **0**. **Version** **0** indicates that
+    it is a starting version number and that they have not been updated since they
+    were created.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Applications invoke the chaincode, which actually accesses the ledger states
+    via APIs to perform operations such as `get` and `put` on states using the **state**
+    key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Noah's mommy and Noah take money from the **PiggyBank**. Block **B2** **includes
+    Transaction** **T2** **and** **T3**. Here, **T2** represents the transaction where
+    **Mommy takes 2k i.e. Credit to Mommy's account**, and **T3** represents a transaction
+    where **Noah takes 2k i.e. Credit to Noah's account**. **PiggyBank** is debited
+    by 4k. Similarly, **Block** **B3** **includes** **Transaction** **T4**, where
+    **Mommy puts 1k i.e. Debit to Mommy's account**, which is 1k credit to **PiggyBank**.
+    Likewise, **Block** **B4** **includes** **Transaction** **T5**, where **Noah takes
+    3k i.e. Credit to Noah's account**. At this state, **PiggyBank** shows the latest
+    current state of **PiggyBank**, which is 4k. Hence, the current state represents
+    the current world state of **PiggyBank**. Even if the world state gets corrupted
+    and information pertaining to the current state is destroyed, replaying the transactions
+    in order will help to create the current world state.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The world state database
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We discussed the world state database in previous sections. Here, let''s examine
+    it in more detail. It is a database that offers queries and appends itself to
+    the states of the ledger. We know that the world state is modeled as a key-value
+    store that is versioned. Here, the values of the keys are appended or retrieved
+    by applications via simple `put` and `get` operations. The world state is maintained
+    in a database, which could be either LevelDB or CouchDB. The following is a quick
+    comparison and lists recommendations for this database:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Similarities**:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Both can store binary data.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Both support chaincode operations, such as `get` and `set`. This is where `get`
+    and `set` are essentially getting and setting the asset (the key's value).
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Both support range queries, where keys are queried by range.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Both also support composite keys; for example, a combination of asset ID and
+    owner ID can be used to get all the assets a particular owner owns.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Differences**: Business applications today model assets as JSON. Hence, CouchDB
+    allows applications to perform rich queries to chaincode where assets are JSON
+    modeled, using CouchDB''s JSON query language:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: LevelDB is the default database, and is collocated with a node, mostly embedded
+    in the same operating system process.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: CouchDB runs on a separate operating system process. However, it maintains a
+    one-to-one relationship with network nodes and CouchDB instances.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Recommendations**:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: LevelDB is recommended when the states are simple key-value pairs.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: When the state structure is JSON, then CouchDB is recommended.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It is possible to start with LevelDB and later move to CouchDB. However, I personally
+    recommend modeling assets' data as JSON and therefore use CouchDB.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Indexing is recommended for CouchDB, where indexes can be packaged alongside
+    chaincode in a different directory. The moment chaincode is installed and initiated
+    on peers, indexes also get deployed to channels and the chaincode's database for
+    states also known as CouchDB.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key Feature-Pluggable**: HLF has various components that are pluggable, and
+    a database is one of them. Businesses can have a relational database, a graph
+    store, or a temporal database as the database of choice for the world state.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In [Chapter 1](759718e2-3861-41c1-8d90-bad1deeceddb.xhtml), *Exploring Blockchain
+    and BaaS*, we learned about ledgers. There are different ledgers, for example,
+    sales ledgers to store financial transactions, purchase ledgers to record spending
+    and purchasing, while general ledgers record accounts, liabilities, expenses,
+    income, and suchlike. Similarly, in HLF, transaction logs are the ledgers that
+    record activities. These activities are also termed *transactions*. A ledger''s
+    world state tracks the transactions, which changes the world state of the ledger.
+    The world state is a key-value pair, which is versioned, and, along with the transaction
+    logs, it constitutes the ledger, which is available on all the participating nodes
+    on the blockchain network. Now, the question is: who proposes changes to a ledger''s
+    world state? Well, the answer is dApps. Client applications issue transactions
+    to the blockchain network via the execution of business logic in the chaincode,
+    which are comprised of smart contract(s).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: All the nodes are coordinated in terms of the latest copy of the smart contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, refer back to the diagram in the *Ledger* section earlier in this chapter.
+    In that **PiggyBank** sample, the account balance of **PiggyBank** and Daddy,
+    Mommy, and Noah's account shows the world view of the asset transfer (also known
+    as transactions) that happened between various parties and the **PiggyBank** account.
+    When Mommy and Noah take from **PiggyBank**, it is represented in block **B2**,
+    as transactions **T2** and **T3**. Here, the **PiggyBank** **Version** changes
+    from **0** to **1**, as it represents a change in value for the key, **PiggyBank**.
+    Whenever there is a change in value, a new version is created. All those transactions
+    are executed against the chaincode, which results in state changes in the work
+    state. So, what is chaincode?
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Chaincode** (**and its smart contract**): This is a distributed computer
+    program that is available across the HLF blockchain network. In the PiggyBank
+    sample, it''s the chaincode that enables the movement of assets (dollars) between
+    accounts without the involvement of a third party or an intermediary. Daddy, Mommy,
+    and Noah were able to perform transactions without a third party''s involvement.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincode, a computer program, is compiled and deployed across the blockchain
+    network. Upon approval, chaincode is deployed to the distributed blockchain network.
+    It runs in isolation from ordering services or peer processes, inside a Docker
+    container. dApps logic is implemented in chaincode, where chaincode is used to
+    initialize the ledger state and then manage it, which is handled by the SDKs.
+    Chaincode can be invoked by client applications. Hence, two types of transactions
+    are performed for chaincode—deploy transactions and invoke transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Chaincode** **deploy transaction**: Users, via participating nodes, author
+    a chaincode (in Golang and similar) and use HLF SDK to issue a deploy transaction
+    to the blockchain network. The permission to deploy chaincode is defined as access
+    control and an ECert is issued by the HLF CA. Chaincode runs in a secure Docker
+    container.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Chaincode** **invoke transaction**: The dApps/client application will use
+    SDK to propose a change to the world state of the ledger by issuing a transaction
+    that results in an invoke to chaincode. Chaincode''s `invoke` function is called
+    by the application by passing the function name and transaction parameters defined
+    in the chaincode function. Using the command line or via the SDK, query transactions
+    can be executed against the `invoke` function of the chaincode. However, in this
+    `invoke` function call, there is no proposal to change the world state of the
+    ledger.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Peers execute the invoke transactions, and each committing peer commits a transaction
+    by updating the local copy of the world state. We will get into a detailed analysis
+    of chaincode, the registry, and suchlike in subsequent chapters. Hence, this chapter
+    is limited to an introduction to chaincode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Consensus everywhere
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The agreement process of receiving approvals from other peers to update the
+    ledger is called a **consensus**.  A consensus ensures the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: It ensures that ledger transactions are synchronized throughout the blockchain
+    network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It ensures that only valid and approved transactions are appended to the ledger
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It ensures that when transactions are appended, they follow the same sequence
+    as is set by the orderers
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For a consensus to work, it is important that the transaction order is established
+    and maintained and that there is an effective way to reject invalid transactions
+    from becoming appended to the ledger. This can be achieved by PBFT, which ensures
+    file replicas to keep each copy consistent. Bitcoin uses mining for ordering,
+    where each computing node will solve a puzzle and define the order. HLF offers
+    various consensus mechanisms to choose from—SOLO or Kakfa.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A consensus goes beyond just establishing the order of transactions. In HLF,
+    a consensus plays an important role in the transaction flow—from proposal to endorsement,
+    to ordering, validation, and appending. Throughout the transaction flow, identity
+    verification happens at various stages. It is an ongoing process. Payloads are
+    signed by endorsers, and peers, and the payload gets verified and authenticated
+    repeatedly, throughout the transaction flow. To achieve a consensus, it is important
+    to ensure that the order of the transaction is met and that transactions have
+    gone through the endorsement policy. Before committing, it is important to ensure
+    that sufficient endorsements are achieved and that the transactions have passed
+    the versioning checks, where the current state is agreed before committing to
+    the ledger. A versioning check is a check against double spending and other data
+    integrity threats.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The transaction flow diagram and process flow are the representation of an ongoing
+    consensus process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To me, the whole transaction flow is a consensus process. If you check the following
+    transaction flow, peers reach agreement regarding the order of the transactions
+    and the content of the transactions. This is achieved by going through various
+    stages of the transaction flow. Under the hood, SDK manages the whole consensus
+    process and the client is notified at the notification stage when the process
+    is concluded.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The channel (application channel) contains details about the consensus options
+    and orderer organizations. For example, the channel configuration has a parameter
+    called Kafka broker. If it is set with `ConsensusType` as Kafka, then it's set
+    for the channel's orders as the consensus algorithm. It is generally established
+    during the bootstrapping of the blockchain network and, once configured in the
+    channel configuration and the blockchain network, is bootstrapped; then, it's
+    impossible to change it via configuration. Also, note that the MSP is synchronized
+    via a consensus, too. The consensus is the ordering service, and you will get
+    this clarified when you walk through transaction flow in the following section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**BFT versus CFT**: Consensus algorithms (protocols) are pluggable in HLF,
+    allowing designers to choose a consensus algorithm based on the use case. For
+    cases when a blockchain business network is composed as a single enterprise, or
+    all the participating organizations are fully trusted, then BFT is not the ideal
+    consensus algorithm as the trust already exists. CFT algorithms can be used as
+    they are more performant and offer better throughput. However, for decentralized
+    distributed use cases, which include multi parties, BFT is the most suitable consensus
+    algorithm.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction flow
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Ledger's synchronicity and consistence is maintained by the orderers. Consensus
+    is met, before an update to the ledger is approved. Ledger is updated only upon
+    approval by all the peers. This is part of transaction flow; and will be covered
+    in detail in this section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows the transaction flow :'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/eab48a7a-e1cb-4e60-ab8f-ca1a3d1ea988.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Transaction flow
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following are the stages of a transaction flow:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Proposal**: The client application sends *ledger-update-transactio**n* to
+    the peers on the channel. Referring to the preceding diagram, the client application, **O1App1**, sends
+    (proposes) a transaction on **Channel-C1**. When the chaincode is installed and
+    initiated, an endorsement policy is added to the channel configuration (**CCon1**).
+    The endorsement policy for the channel (**C1**) defines that organization **O1**,
+    and organization **O2** must approve the transaction. Hence, when a transaction
+    is proposed, it goes to the endorsing peers on channel (**C1**), which belongs
+    to organization **O1** and organization **O2**. Referring to the diagram, it goes
+    to **P1** and **P2**, as the peers are also endorsing peers for organizations **O1**
+    and **O2**.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Technically speaking, the application uses APIs, which result in the transaction
+    proposal. The transaction proposal is akin to a request to execute the chaincode's
+    functions so that ledger data can be read/updated. Here, applications use an SDK
+    (Node, Python, or Java) and one of the APIs to propose such transactions. The
+    SDK will take care of packaging the transaction proposal in an architecture format
+    (such as a protocol buffer over gRPC) and applies a user's private keys to add
+    a digital signature to the transaction proposal.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Endorsement** (**simulating the proposal**): The client application sends
+    a *ledger-update-transaction* to the peers on the channel. Such peers are the
+    endorsing peers. Note that a peer can be an endorser as well as a committer. At
+    this stage, orderers'' nodes are not consulted and are not involved. The following
+    are the steps involved:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The application generates a transaction proposal and sends it to the endorsing
+    peers.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The channel will consult the endorsement policy to identify the endorsing peers
+    and then route that transaction proposal request to the *chosen* endorsing peers:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: I have used the word **chosen**, since chaincode's endorsement policy will dictate
+    whether all endorsing peers on a channel need to endorse a transaction proposal
+    request.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Each endorsing peer has a local copy of the ledger and chaincode. They will
+    execute the chaincode based on the transaction proposal request, and will generate
+    a transaction proposal response.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Each endorsing peer verifies that the transaction proposal is well formed and
+    has not been submitted in the past.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The submitter's signature is verified by the MSP and authorizations are checked
+    to ensure that the client application is authorized to perform a transaction (read/write)
+    on the channel. Policies such as the write policy are defined during channel creation
+    and help to determine a user's entitlement to perform/submit transactions to a
+    channel.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Each endorser will generate a transaction proposal response. They will also
+    sign the transaction proposal response with their private key (signing the response
+    digitally). At this stage, there is *no* update to the ledger.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Each endorser will then send the proposal response to the application. For a
+    transaction, the application will receive multiple proposal responses.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'There may be inconsistency in the transaction proposal response sent to the
+    application by various chosen endorsing peers, perhaps because different endorsing
+    peers generated responses at different times, and the ledger state was different
+    during those instances. In this case, the application can do the following:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Accept the responses to allow the transaction process to proceed to further
+    steps
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Reject the response and terminate the transaction process
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Send another request for a more recent transaction proposal response
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Technically, each endorser will use the transaction proposal inputs as input
+    arguments to the chaincode. Each endorser takes the transaction proposal, and
+    executes the proposed transaction using the chaincode present. These chaincode
+    executions will not result in ledger updates. They just simulate the transaction.
+    The endorser, while simulating the transaction, will get a current list of keys
+    and values (the current state of the ledger) and a simulated list of keys and
+    values (the to-be state of the ledger), which will be written to the ledger. Hence,
+    there are two sets of keys and values (read and write sets). These sets of values,
+    along with the endorsing peer's signatures, are added to the proposal response
+    sent to the SDK, which will further parse the payload for the applications to
+    consume.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Packaging the proposal response**: The client application will receive endorsements
+    from all the endorsers and, upon accepting the transaction proposal response,
+    will send it to the orderer''s nodes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: From an orderer's node perspective, many applications will send it their respective
+    transaction proposal responses.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Orderers will sequence and package those transactions in blocks. It is these
+    blocks that are the blocks in blockchain:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Orderers will wait for a certain amount of time to package all transactions
+    within that time frame into a block, or, if the desired size of the block is satisfied,
+    then the block will be ready for distribution.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Orderers also don't have a local copy of the chaincode and, hence, they don't
+    refer to chaincode (being judgmental) in defining blocks.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Note**: In HLF, the ordering of transactions is not important. However, whatever
+    sequence they are added to the block in, they will be executed in that order.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Note**: A transaction in HLF is only present in **one** block, and not in
+    multiple blocks. This means a transaction''s position in the block is final and
+    is assured at this stage.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Technically, each endorser will return its signed endorsement back to the client
+    (through the SDK). We know that the endorser has obtained read and write set(s).
+    These read and write sets are part of the signed proposal.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Verify and send for ordering**: The client application will again participate
+    in the transaction flow and will perform two activities—verify the proposal response
+    and, for a *ledger-update-transaction*, the client will connect with an ordering
+    service for further processing.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Verify the proposal response**:The client application will verify the proposal
+    response:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: If it was just a *ledger-query-transaction*, the client application will verify
+    the proposal response and will collect its responses. It will not send it on to
+    ordering services.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'If it is a *ledger-update-transaction*, then the application will verify whether
+    all the endorsing peers, as specified in the endorsing policy, have endorsed the
+    transaction, and whether they are all valid. The sequence is as follows:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The client application will first verify the endorsing peer signatures
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then, it compares the proposal responses from each of the endorsing peers to
+    check whether the proposal responses are the same
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Even if the client application chooses not to inspect the proposal response,
+    the endorsement policy will still be executed by the peers and will be used in
+    the final commit of the transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Send for ordering****: **At this stage, the client application sends the
+    transaction message as a bundle (transaction proposal and a response) to the ordering
+    service. This transaction message contains the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The two sets of keys and values (read and write sets)
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The signatures of the endorsing peers
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The channel ID for which the transaction is meant to be committed
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Referring to the preceding diagram, **O5** and **O1** are orderers, and they
+    are configured for **Channel-C1**. Hence, transaction messages meant for **C1**
+    will be broadcast to the **O5** and **O1** orderers. They will sequence the transaction
+    message, order them, and create blocks of those transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Technically, the ordering service receives such transaction messages from all
+    the channels to which it is connected and configured. The ordering service will
+    sequence and order these transactions (chronologically by channel) and will create
+    transaction blocks (per channel). Orderers will never create a transaction, and
+    will ensure that they offer guaranteed delivery. The orderer's class offers capabilities
+    for the client applications to interact with the orderer's nodes. The orderer's
+    nodes have two exposed APIs—`broadcast ()` and `deliver ()`, and its bidirectional
+    streaming API with a gRPC streaming connection between the client application
+    and orderers. The `broadcast()` API enables clients to send transaction messages
+    to orderers, and the `deliver()` API allows clients/consumers to check with orderers
+    regarding channel information and channel configurations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Distribution**: At this stage of the transaction process, orderers will distribute
+    the block to peers. Peers are connected to orderers in the blockchain network.
+    Orderers will distribute the block to each connected peer via P2P communication
+    based on gossip protocol.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Gossip protocol**: I would like to talk a little bit about the gossip protocol
+    here, as distribution is the stage where the gossip protocol is used. Orderers
+    need to distribute the transaction message to all peers. However, it is a burden
+    to orderers and it sounds almost impossible to reach all the peers when a network
+    is huge in size. The HLF framework has a solution for this. Orderers do not deliver
+    messages to each peer. Orderers only deliver messages to peers that are configured
+    as leader peers. For each organization, on a channel, there is a leader peer identified.
+    Those leader peers will distribute those messages to other peers and suchlike.
+    Peers then forward these messages to a randomly selected number of peers. This
+    random number of peers is predetermined, and this forwarding continues until the
+    message reaches all the peers. This entire process is defined as a broadcast,
+    and the broadcast process relies on the gossip protocol to distribute transaction
+    messages.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Broadcast is a push method to distribute messages. However, peers use pull methods
+    to remain up to date if they are reincarnated from a *dead* to an *alive* status.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Peer bootstrapping**: We just read that peers send messages to a predefined
+    or predetermined list of peers. How does this determination happen? This happens
+    via peer bootstrapping (also known as bootstrapping). When the blockchain network
+    is established, each peer gets a bootstrap set of peers. After that, peers check
+    for the *alive* status of the peer. If the bootstrap peer is *dead*, it will mark
+    it as dead. However, it will check periodically whether it''s alive/dead. If a
+    peer is dead, and later becomes alive, it will have missed messages from the broadcast
+    process. Hence, to get up to date, that peer will pull information, such as membership
+    data (the *alive* and *dead* status of peers) and ledger data (blocks of transactions).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Validation** **and tagging**: At this stage of the transaction process, peers
+    will receive blocks from the orderers. They will validate them and tag them as
+    valid or invalid:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The peer will pick and process transactions from the block. The order of picking
+    and executing transactions is the same order in which transactions are sequenced
+    by the orderers. Peers do not execute chaincode for this step. Chaincode is only
+    executed at the endorsement stage, which corroborates the fact that chaincode
+    should only exist on endorsing nodes.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: When processing a transaction, each peer will verify that the transaction was
+    endorsed according to the endorsement policy defined in the chaincode, which actually
+    generated this transaction. This ensures that all the organizations that are meant
+    to endorse a transaction have endorsed it, and have generated the same output.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'If it is verified, this means that it was endorsed correctly, and then the
+    following happens:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The peer performs a consistency check. This check is to verify whether the current
+    ledger state is compatible with the state of the ledger when the peer generated
+    the transaction proposal update. If it is consistent, then the transaction is
+    marked as valid. If it is not consistent, then it is not applied and the transaction
+    is marked invalid and defined as a *failed* transaction. For example, a digital
+    asset against which a transaction was proposed and a proposal response was generated
+    was updated by another transaction. In this case, the state of the ledger at proposal
+    response time and consistency time are different and, hence, it cannot be applied
+    and is therefore marked as *failed*.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Once a peer validates all the transactions in the block, then all the transactions
+    in the block that are not failed are committed to the ledger:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Failed transactions are not committed to the ledger, yet they are considered
+    successful and are available for audit.
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Technically, each peer will append the block to the chain of the channel, and
+    only valid transactions are appended to the peer's local copy of the ledger (it's
+    an append to the current world state).
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Notifications**: When a block gets committed to the ledger, peer, and chaincode,
+    it generates the following events:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The peers and chaincode generate the following events:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**A peer generates**: A block event and a transaction event. A block event
+    contains the entire block content, while a transaction event highlights whether
+    a transaction was validated or invalidated (marked as *failed*).'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Chaincode generates**: A chaincode event.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Applications can subscribe to interesting events and can receive notifications.
+    These notifications help applications to know about the final stage of the transaction.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The transaction flow defined previously clearly displays various participants
+    involved in the transaction, from client applications to endorsers, orderers,
+    committers, and leaders. This section also clearly highlights the powerful role
+    of orderers in the blockchain network. Each peer validates the transaction and
+    follows the sequence and order defined in the block by the orderers. Hence, it
+    is the orderers that ensure consistency in the blockchain network. In addition,
+    it ensures that the position of the transaction in the block never gets changed
+    and, hence, induces immutability to the ledger in the blockchain network. If you
+    re-read the transaction process defined previously, it is evident that all peers
+    agree about the transactions and their contents. Orderers mediate this agreement
+    process, which is called a consensus.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Large object storage – on-chain or off-chain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section discusses the storage of large objects on or off the blockchain
+    network. This section is part of the design strategy. However, it was more relevant
+    to position this topic here, as it is an extension of PDC and helps to realize
+    it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Rationale for on-chain/off-chain architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Data storage and retrieval is at the heart of blockchain, where assets, accounts,
+    permissions, and transactions are treated as data. But what about documents such
+    as evidence files, X-rays, image scans, videos, and legal contract documents in
+    PDF form? Where should a blockchain application store these documents? What is
+    the architecturally correct approach to storing documents? This chapter will discuss
+    document storage approaches and how blockchain properties, such as immutability,
+    can be preserved even for off-chain storage.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are arguments for storing images, PDF files, and other objects on-chain
+    as part of the payload of a blockchain transaction. The reasons for doing so are
+    to ensure that non-repudiation and immutability apply to these objects as they
+    apply to any other blockchain data. If you store documents off-chain and simply
+    include URLs or other reference information, there's a possibility and risk of
+    tampering. Of course, images can be encrypted in off-chain storage. However, the
+    possibility of undetected tampering exists, as does reliance on a centralized
+    third party managing the documents.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The arguments against directly storing images and large files on-chain relate
+    to significantly impacting performance due to large transaction payloads. There
+    are three areas of concern to consider:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network latency, as large (multiple MB or even GB) payloads have to be sent
+    across the network to multiple participants
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Compute costs, as digital signature hashes of these message payloads have to
+    be computed when signing the message and verified when the message is received
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The cost of TLS channel encryption when sending the messages
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Storage costs, as blocks containing large transactions are stored across multiple
+    blockchain nodes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In short, the performance and cost impacts of including large objects in transaction
+    payloads should be a significant consideration in the design of your blockchain
+    application. There are also potential confidentiality concerns that might apply,
+    particularly in regulated contexts, such as US **Health Insurance Portability
+    and Accountability Act** (**HIPAA**) regulations for healthcare data, EU GDPR for
+    **personally identifiable information** (**PII**), and similar regulations in
+    many countries. Even though, in permissioned enterprise blockchain stacks such
+    as HLF, the scale of the network in terms of the number of peers is smaller, and
+    compute power, network bandwidth, and storage might be more readily available,
+    thus making the acceptable payload size higher, confidentiality concerns tend
+    to be even greater due to the nature of enterprise applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ultimately, the answer will depend on the use case, the nature of the data being
+    shared, and empirically determined performance impacts for a certain payload size.
+    While, with HLF and Oracle Blockchain Platform, it is technically possible to
+    store documents on-chain, let's compare this with similar arguments about whether
+    to store documents in a relational database.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A database primarily stores text strings, numbers, and date values. Using `int`
+    or `float` data types will let you store numbers, `var` and `varchar` will allow
+    you to store string and text, and a `blob` type column (binary large object) will
+    allow you to store binary objects, such as images, or document files, such as
+    PDFs or others. However, the key purpose of the database is to provide quick and
+    performant insertion, retrieval, and data management. While you can store blobs
+    in a database for convenience, storing documents off-database has numerous advantages.
+    Performance is superior multi-fold when the documents are stored off-database,
+    since the storage and the retrieval of a document from the filesystem is far more
+    performant than a database. In fact, some databases handle blobs by storing them
+    in a filesystem with only relevant pointer and metadata information in the actual
+    database column, and implement this under the hood of actual database storage
+    functions so that it's completely transparent to database users and applications.
+    However, there is still some added cost, and so, in some cases, it may be better
+    for applications to handle file storage off-database directly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Coming back to the blockchain, sharing images and files as part of the blockchain
+    transaction payloads raises various limitations, such as bandwidth, latency (to
+    store and retrieve images), the duplication of information among various nodes,
+    and burdening the consensus process due to the large size of the blocks. In fact,
+    due to the distributed and replicated nature of the blockchain architecture and
+    the critical dependency on network latency and PKI encryption (used for digital
+    signatures and their verification), the argument against burdening the blockchain
+    with large-size images and documents is even stronger than one against doing so
+    with database blobs. So, the argument ultimately is not about whether to store
+    documents on-chain, but about the size limits when it becomes necessary, and application
+    considerations to ensure that on-chain and off-chain storage are consistent and
+    that the application can still benefit from non-repudiation and immutability properties,
+    even when off-chain storage is used.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the HLF transaction flow, a transaction payload is signed by the client and
+    sent to one or more peer nodes to be executed. After delivering the payload to
+    chaincode execution containers, peer nodes capture the **read-write sets** (**RWSets**)
+    of the chaincode, which will include the objects from the payload if they are
+    to be stored on-chain. The RWSets are then signed by the peers, which involves
+    calculating hashes over the data, and are sent to the client. The client has to
+    verify the signatures, and, in the case of multiple endorsers, compare the results
+    to ensure they match. Then, an encrypted result and all the signatures are sent
+    to the ordering service, where the messages are stored in Kafka topics. **Ordering
+    service nodes** (**OSNs**) then have to reach a consensus on sequencing these
+    transaction messages into blocks, which are sent to the peer nodes for transaction
+    validation and ledger updates. Peer nodes go through each transaction, validating
+    the signatures of the other endorsers, and verifying versions of all read-set
+    data fields against those in the current world state database before declaring
+    the transaction valid, appending the block to the ledger, and updating the world
+    state database with the write-set values.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since, on a blockchain network, multiple parties (client, peer nodes, and OSNs)
+    need to ensure that a transaction is accurate and valid, and reach a consensus,
+    any transaction that involves storing images or documents on-chain will slow down
+    the blockchain network. All the message transfers, storage and retrieval, signing
+    and signature verification operations, and field validations will also consume
+    significant resources from participating nodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Key design principles
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: What options and approaches are recommended to address these limitations? How
+    can it be ensured that documents remain immutable and that non-repudiation still
+    applies even when documents are stored off-chain? A fundamental best practice
+    is for applications to capture an immutable document hash, which essentially fingerprints
+    the document, storage location (a URL in a content management system, object store,
+    and suchlike), and related metadata, including the timestamp, user credentials,
+    and version number. This data then becomes a document record, which can be stored
+    on-chain, even as the document itself is stored off-chain. The document record
+    is immutable, and the document hash it contains can be used to verify the integrity
+    of the document or image object when these are retrieved from the off-chain storage.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The other important practices to apply in this on-chain/off-chain design pattern
+    are the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ensure that you have received a confirmation that the document has been stored
+    successfully off-chain before updating the document record on-chain
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: When retrieving the document, first retrieve the document record from the blockchain,
+    use the location information to retrieve the document itself, and then calculate
+    and verify its hash against the hash included in the blockchain record
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: While it's possible to handle these tasks in a client application, it would
+    be more beneficial to use an off-chain storage solution that provides built-in
+    anchoring to the blockchain; that is, a solution that automatically creates and
+    updates records on the blockchain whenever any document is created, accessed,
+    updated, or deleted. Depending on the nature of the documents, this could be a
+    specific content management/document storage solution, or a generic object store
+    solution providing undifferentiated blob storage in its containers. Thus, transactions
+    that involve off-chain documents would be handled by this storage solution, which,
+    in turn, would create immutable document records on-chain. This leverages the
+    immutability of the blockchain network using small document records, while documents
+    themselves are stored off-chain in the document storage service.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Integrated blockchain – an anchored document storage solution
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Blockchain anchoring would be beneficial for documents such as ownership titles,
+    educational certificates, regulatory compliance reports, contracts, physically
+    signed or notarized documents, purchase orders, invoices with tax implications,
+    bills of lading and other shipping materials, and trade agreements.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Storing document records, including the cryptographic hash, location, and other
+    metadata, on a blockchain network would complement typical document storage/content
+    management features, such as versioning, searching, tracing documents, and document-level
+    access control.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Such a **Blockchain-anchored-Document-as-a-Service** (**BaDaaS**) would manage
+    two types of artifacts—an actual document or image file stored off-chain, and
+    document attributes, such as a unique document ID, content hash, document version,
+    and other metadata, recorded and posted to a blockchain network as an immutable
+    record. Any activity that involves these off-chain documents will be stored on-chain
+    as a blockchain transaction, while related document attributes will be stored
+    as its payload on-chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Essentially, BaDaaS offers the following types of API:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: An API to upload a document by invoking a `POST` call, or replace a document
+    with a new version by means of a `PUT` call. Each folder or container could be
+    mapped to a separate blockchain channel for sharding purposes.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: An API to retrieve documents using `GET` APIs, which allow authenticated users
+    to download or view the document, but only after its hash has been verified against
+    the one stored in the blockchain record.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: An API to retrieve the document history based on the blockchain transaction
+    history, with all the relevant versions and other metadata changes, timestamps,
+    user identities, and so on.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: An API to retrieve metadata for the latest version and verify that the document
+    content matches the hash stored on the blockchain without downloading the document
+    itself.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: APIs for managing access permissions and granting new ones. These changes should
+    also be stored on-chain to ensure their immutability as a series of **access control
+    list** (**ACL**) records linked to the document records via a document ID.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: This is an example of an approach that would solve the on-chain/off-chain storage
+    requirements for certain classes of use cases. It would not burden the blockchain
+    with large-size payloads, but would, at the same time, ensure that document integrity
+    and transaction history is maintained on-chain in an immutable manner.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So far, we've discussed large unstructured objects, such as binary image data,
+    and PDF files. Could this be applied to large-size structured documents? For example,
+    in supply chain collaboration demand forecast and planning, documents can contain
+    hundreds of MBs of structured data, which is impractical to share as a payload
+    of blockchain transactions. The good news is that an approach similar to the one
+    described previously with unstructured documents can be used. Only selected data
+    is extracted for blockchain records, and the entire document is hashed to ensure
+    that its integrity can be verified on the other end. The documents can be transferred
+    using traditional means (for example, EDI, and B2B file transfer) but, on both
+    ends of the transfer, the blockchain is used to store (when sending) and retrieve
+    and verify (when receiving) the relevant metadata fields, including using the
+    hash to verify the integrity of the transferred document.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Storage option selection for blockchain applications
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'An enterprise can opt for one of the following options to store documents off-chain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A relational or document database—on-premise or in a cloud (for example, Oracle
+    or MongoDB)
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A document management or content management system (for example, Oracle Content
+    and Experience Cloud)
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A distributed filesystem (for example, NFS) or a distributed object store service
+    (for example, Oracle Cloud Object Storage)
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A distributed database (for example, Apache Cassandra wide-column NoSQL database)
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A P2P filesharing network (for example, **InterPlanetary File System** (**IPFS**)
+    or Storj)
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: This section is not intended to constitute a detailed review of each of these
+    data storage solutions, but rather a guide to evaluating them as an off-chain
+    storage solution for blockchain applications. To begin with, you can store documents
+    or image data in a traditional database, such as Oracle, or a NoSQL database,
+    such as MongoDB, which offers stronger query capabilities and a lower cost; however,
+    it comes with low transparency, a single point of failure, and the strong presence
+    of a central authority.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Document or content management systems provide additional capabilities specifically
+    tailored to documents—such as folder structure, versioning capabilities, document-centric
+    access control, UIs, REST APIs that are tailored for working with documents, and
+    suchlike. However, they have similar drawbacks as databases in terms of being
+    a centralized solution with a single point of failure. When deployed in a cloud
+    environment, single points of failure can be mitigated by appropriate design.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Distributed filesystems or object storage provide other options, which are more
+    barebones and cheaper, and better suited to storing images and other binary objects
+    than actual documents. Note that while these can provide asynchronous distribution
+    to avoid a single point of failure, the latency associated with the asynchronous
+    replication of the stored data needs to be considered when deciding whether to
+    submit a blockchain transaction when the object has been stored initially, or
+    wait until it's been replicated. The answer will likely depend on a use case and
+    the ability to deal with various failure modes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A distributed database, such as Cassandra, can have nodes that follow the topology
+    of the blockchain and remove the centralization concern. Each Cassandra node can
+    be co-located within a blockchain node. When a document is created or updated
+    to a new version, the local Cassandra node is the first one to store it, and then
+    it replicates to other nodes. The blockchain record update transaction can be
+    submitted to the local node at the same time, but will eventually be available
+    on other nodes as well. The key benefit of using a distributed database is the
+    possibility to achieve local affinity between the database node and the blockchain
+    node for updates and document retrieval. However, the replication in both Cassandra
+    and blockchain operates under eventual consistency rules, but at different speeds
+    (considering that the document is likely much larger than the associated blockchain
+    record) and with different failure modes that need to be taken into account.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A P2P file share network, such as IPFS, which evolved on the basis of P2P concepts
+    from BitTorrent and Git, but which is built upon **DAG** (short for **directed
+    acyclic graph**) architecture, enables the exchange of versioned objects in a
+    decentralized network of storage nodes. Each object (file/document) has a hash—a
+    unique signature/ID that's used as its address. IPFS retrieves objects based on
+    their hashes—each node is asked to search for a file based on its hash. So, storing
+    the IPFS hash together with a file hash and related metadata in a blockchain record
+    provides the core anchoring capability we discussed earlier. IPFS offers historical
+    versioning of the content and high availability across the network of nodes. Similar
+    to Cassandra, IPFS provides a decentralized topology, though it is much more scalable
+    since it is filesystem-based rather than a database. However, latency of distribution
+    and potential failure modes still need to be accounted for in the application's
+    design.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter focused on illustrating HLF, its architecture, and its components.
+    During this chapter, we looked at the Hyperledger project and walked though the
+    qualifiers for the Hyperledger project. This chapter followed an example-based
+    approach in illustrating HLF's architecture. We explored peers, nodes, algorithms,
+    consensus, the membership service, and orderer services, as well as master identity,
+    security, and privacy. The chapter also construed channels and PDC to allow private
+    transactions between organizations. It concluded with design strategies for storing
+    large objects—on-chain or off-chain. From the next chapter onward, we will delve
+    into creating an HLF network and authoring chaincode to address a specific use
+    case.
+  prefs: []
+  type: TYPE_NORMAL

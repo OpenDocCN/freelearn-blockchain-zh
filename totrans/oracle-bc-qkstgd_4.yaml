@@ -1,0 +1,1914 @@
+- en: Engage in Business Case on Blockchain Platform
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The preceding chapter explored Hyperledger''s architecture and showed you how
+    to assemble an example Hyperledger-based business network. It provided an explanation
+    of founder-based and consortium-based business networks. It illustrated business
+    network components, adding peers to channels, and working with chaincode and smart
+    contracts. It also covered identity, security, privacy, membership services, channels,
+    ledgers, and transaction flow. In this chapter, we''ll learn how to design the
+    solution in line with the constructs of the **Oracle Blockchain Platform** (**OBP**).
+    This chapter has two parts: the first part focuses on defining a use case around
+    certificate issuance and sharing certificates with trusted parties on a Blockchain
+    network. The second part covers the **Blockchain-as-a-Service** (**BaaS**) platform,
+    which offers an effective, efficient, and economical avenue to realize the potential
+    of blockchain technology.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: BaaS is a catalyst for blockchain adoption. BaaS provider ensures the installation
+    and maintenance of your blockchain network, allowing your business and IT to focus
+    on chaincode and dApps. The entire blockchain ecosystem will be managed, administered,
+    maintained, and supported by the cloud service provider. Many top vendors, such
+    as Oracle, have a managed **Platform-as-a-Service** (**PaaS**) product for BaaS
+    because BaaS allows customers to take their SaaS, **business process management**
+    (**BPM**) processes, custom applications, and so on, to harness the power of blockchain
+    in a cost-effective and efficient way. This chapter also explores Oracle's BaaS by
+    exploring a use case in the education sector, showing you the ease of using the
+    blockchain platform.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding the business scenario
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Education is the foundation-building sector of human society. It also facilitates
+    continuous upskilling of the workforce with new knowledge areas as per the needs
+    of the changing times. Despite being one of the oldest sectors, it is still plagued
+    with inefficiencies:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Multiple manual processes cause administration delays
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Administration delays cause verification delays
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Manual processes always introduce some doubt over the authenticity of a student's credentials
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To construct a solution implemented on OBP, we have chosen a scenario in this
+    business process that deals with the approval of qualification certificates, issuing
+    them to students in a secure manner, and sharing them with other stakeholders
+    (such as employers and other educational institutions) in a trusted manner.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Introduction to the use case
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The use case includes a typical setup of the interactions and process flow
+    associated with the life cycle of the educational credentials/qualifications of
+    an individual. In this book, we will consider the aspects of the use case that
+    involve the following scenarios:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Issue/approval of certificates by a competent authority
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Availability of certificates to the owner (that is, the student)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Verification of certificate by third parties such as employers or other educational
+    institutions
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'In a real-life scenario, there are too many stakeholders involved in this scenario,
+    such as specific school of studies, examination controller, the issuing institution,
+    students, other institutions, and employers. For the sake of simplicity, we will
+    consider the following stakeholders:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Oracle Red School** (**ORS**): Certificate creator (school of studies)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Oracle Empire University** (**OEU**): Certificate approver and issuer (university)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Student, employer, other universities**: Certificate viewer/verifier'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Let''s take a quick look at an existing real-life process in this use case:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/063e4b9c-52ae-43d9-87ee-391be2dbe37e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Certificate Creation, Approval, Issuing, and Review Flow
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The existing process has the following inefficiencies:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The manual process of verification makes it slow
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The verification process is slow at ascertaining fraudulent claims
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It requires external background verification services
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Paper-based certificates are prone to loss or damage
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Faking paper certificates and gaps in the verification process makes certificates
+    trustworthiness questionable
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Criteria for use case qualification
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before proposing a blockchain-based solution to our business scenario, let's
+    first evaluate and see whether it qualifies for a blockchain solution. How can
+    we be sure that the application of a blockchain-based solution for a use case
+    would really solve the challenges facing the current process?
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's ponder over some of the characteristic aspects and constraints of the
+    use case that blockchain technologies can overcome. The following considerations
+    are not exhaustive; instead, it's an indicative approach toward trying to come
+    up with a blockchain solution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following are some of the characteristic aspects and constraints of the
+    use case that blockchain technologies can overcome:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Could the use case be solved with a centralized solution? A centralized solution
+    managed by OEU would speed up certain aspects compared to a purely manual process
+    (if it exists), but it would impose other challenges without providing a solution
+    that overcomes all the existing inefficiencies. The challenges of a centralized
+    solution are as follows:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A centralized solution would not guarantee synergy of the business processes
+    at ORS and OEU. Hence, the disconnect between the offline and online processes
+    would not provide much improvement in system efficiency.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: There would be a single point of failure from a system or trust perspective.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It requires other parties to trust one single entity (OEU) with no validation
+    or mandate from other stakeholders.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It does not provide an effective solution for fake certificates being issued.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Is there a digital asset that multiple stakeholders share? Considering that
+    the educational certificate is the digital asset in this use case, it will indeed
+    be shared between ORS and OEU for generation, processing, and granting, as well
+    as for validation.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Does the digital asset need to be stored and accessed in a secure manner? As
+    the certificates will be shared assets and will be accessed by different stakeholders,
+    a secure mechanism is of prime importance. Considering the nature of the asset,
+    security is very important for the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Any kind of access to it should be appropriately tracked
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Any updates to certificate data should have the endorsement of both ORS and
+    OEU
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Certificates should be protected against any kind of tampering and unauthorized
+    access
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Are there trust issues between the organizations potentially involved in the
+    use case? It is the establishment of trust among ORS, OEU, and certificate viewers
+    that is needed. The solution for the use case should ensure the automatic establishment
+    of trust by design.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Blockchain solution benefits
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The use case necessitates a need for a digital asset (education credentials)
+    that should be shared among stakeholders and exhibits the following characteristics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Shared asset state
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Mutually endorsed and validated data workflow
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transparent yet secure access to all authorized stakeholders
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Untampered, perpetual proof of existence, and proof of approval
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Considering the required characteristics of the solution, a blockchain-based
+    solution is an apt fit. With its inherent support for immutability, a shared ledger,
+    secure access, and transaction endorsement properties, a blockchain-based solution
+    would be able to fulfill all the use case requirements. Additionally, it would
+    open up possibilities for further automation and process efficiency by way of
+    involving more stakeholders and the application of smart contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following key benefits would be realized by a blockchain-based solution
+    for our use case:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A trusted, tamper-proof digital repository for educational certificates
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Eliminates the risk of loss or damage
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Streamlined (almost real-time) verification procedure, because the educational
+    credentials are persisted on a trusted, immutable, shared ledger with appropriate
+    authorization
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Further possibilities are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Large-scale, collaborated, complete educational credential history of an individual
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using a source of truth such as this as a prerequisite for any further approval,
+    such as research grants and industrial collaboration
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Tokenizing educational qualifications as a common, industry-accepted representation
+    (for example, EduCoin)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Designing the solution
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that we have qualified our use case for a blockchain-based solution, let's
+    get down to designing the solution in line with the constructs of OBP.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There is no fixed sequence of steps for the design process. It is up to the
+    solution designer's discretion. The primary objective should be to achieve clarity
+    on various aspects of an OBP solution, from a logical view to deployment aspects.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Business network topology
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'As we mentioned previously, for our use case, we are considering three stakeholders.
+    These are OEU, ORS, and **certificate viewers**/**verifiers** (let''s give this
+    an acronym of **CVs**). We need to determine the roles of each of these stakeholders
+    based on their function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: OEU is the university or governing body with which different schools (colleges)
+    are affiliated. It is this entity that has the final authority to approve an educational
+    credential of a student submitted by their school.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: ORS is one of the schools where a student is enrolled and completes their education.
+    On completion, ORS would evaluate and submit the student's educational credential
+    to OEU. In the larger context, ORS could be categorized as part of a representative
+    blockchain entity called *schools*. It depends on the business requirements and
+    the implementation context.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: CVs such as students, employers, and job agencies are primarily the consumers
+    of the data (educational credentials) and hence would have read-only access to
+    the network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Based on this premise, the following table provides a depiction of the entities:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Organization** | **Entity Type** | **Access Type** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| OEU | Founder | Read/write |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ORS | Endorsing participant | Read/write |'
+  prefs: []
+  type: TYPE_TB
+- en: '| CVs | Participant | Read |'
+  prefs: []
+  type: TYPE_TB
+- en: Channel association
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In our use case, a single type of asset will be shared with all stakeholders,
+    that is, certificate data. This necessitates everyone to have access to the same
+    ledger data. Hence, it will be a single channel network organization where all
+    stakeholders will be connected with varied access roles, as listed previously.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram depicts a logical view of how the OBP nodes will be created
+    for the solution:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/62bdecb4-ac91-4c3f-b0ff-8b3e213344cb.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Network topology and channel association
+  prefs: []
+  type: TYPE_NORMAL
+- en: This diagram shows the association of the various stakeholders with the single
+    channel.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network artifacts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: After determining the network topology and stakeholders, let's define the shared
+    asset and operations that will be performed on it over the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Asset model
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'For the given use case, we primarily have two types of object to store on the
+    ledger:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Student** (**Receiver**): Basic information'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Certificate**: Certificate data'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following diagram depicts the asset structure and the relations between
+    them at a high level:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/5c064f83-b9d4-4713-b92f-646a1ff2a7ba.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Asset model
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincode transactions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The use case requires the following transactions to be performed by the stakeholders
+    at various stages of a certificate''s life cycle:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Transactions** | **Actor** | **Description** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `CreateReceiver` | ORS | Create a new receiver or student |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `AddCertificate` | ORS | Insert a certificate for a receiver |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `ApproveCertificate` | OEU | Approve a certificate |'
+  prefs: []
+  type: TYPE_TB
+- en: '| **Search operations** |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `QueryByCert_id` | All | Query a certificate |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `QueryByRecev_id` | All | Query a receiver by ID |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `GetCertificateHistory` | OEU/ORS/receiver | Query history of one key for
+    the record |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `QueryAllCerts` | OEU/ORS | Query all certificates of all students |'
+  prefs: []
+  type: TYPE_TB
+- en: Solution operational flow
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: So far, we've identified the OBP stakeholders, their associations, the ledger
+    data model, and chaincode transactions. This section will help you visualize the
+    changes that an OBP-based solution can make to the existing business process and
+    consequently overcome the inefficiencies and challenges currently faced.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows the solution flow of the qualified use case:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/86a763d2-2668-4e95-b4ed-71a8a936b2b6.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Solution flow
+  prefs: []
+  type: TYPE_NORMAL
+- en: Solution architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As part of the solution architecture, this section covers a holistic high-level
+    component view and a run-time deployment view of the OBP based solution, its components
+    and instances.
+  prefs: []
+  type: TYPE_NORMAL
+- en: High–level architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s determine the solution''s components and the interactions between them
+    that are required to implement the OBP-based solution. The following diagram depicts
+    the high-level solution architecture:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b0967741-56ed-4487-81b0-9c1fe762fa7b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Solution architecture - high-level
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'These are the solution''s components:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**OBP Dashboard** provides an interface for OEU and ORS administrators/operators
+    to perform OBP administration and configuration tasks.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Different sets of client applications would be needed for each of the stakeholders:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**ORS**:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To create a student entry and insert certificate data for the student on the
+    ledger
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To be able to search student and certificate data
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**OEU**:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To be able to search student and certificate data
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To approve/reject students' certificate data
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Student** (**CV**):'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To be able to view their approved certificates
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Generate a token for a certificate verifier to verify their academic credentials
+    stored on an OBP ledger
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Certificate verifier**:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To be able to verify a student's academic credentials using the token generated
+    by the student using the OBP solution
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Deployment architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following diagram depicts how all the pieces of OBP and the constituent
+    solution components would run on top of an Oracle Cloud instance. Oracle Cloud
+    bundles OBP services and solutions on top of its robust and scalable **Oracle
+    Cloud Infrastructure** (**OCI**) availability domains. The whole cloud apparatus
+    is secured through the integrated Oracle **Identity Cloud Service** (**IDCS**):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0d7f43e6-e523-4d5d-89e3-69243cf60b55.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Deployment architecture [Oracle Image]
+  prefs: []
+  type: TYPE_NORMAL
+- en: Document storage – recommended approach with OBP
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Like our use case, many scenarios relating to today's enterprise business processes
+    involve the exchange of a document object. In terms of practicality, for many
+    cases, the document in itself is just a direct adoption of a physical process.
+    It primarily provides a perception of the trusted physical asset in the hands
+    of transacting stakeholders. Technically, it is a logical grouping of data values
+    related to business transactions such as agreed terms and conditions, contracts,
+    and transaction data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With blockchain-based trusted solutions such as the one we're building on OBP,
+    we can in fact do away with many such needs of a document object. Still, for the
+    sake of practicality, documents could co-exist and may gradually fade away into
+    irrelevance (not necessarily in all cases) as the adoption increases.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Currently, the following approach can be adopted for storing business documents
+    along with core OBP solution (ledger) data:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'During write transactions on the OBP ledger:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Generate a hash of the document, record the hash on the ledger (on-chain) and
+    store the document off-chain
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Off-chain storage of documents could either the cloud-based Oracle Content and
+    Experience Service or other Oracle Cloud storage options, such as object storage
+    or file storage
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hashing logic should be agreed by transacting stakeholders and must be secured
+    appropriately
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Performing hashing and document storage operation outside the smart contract
+    would reduce its execution time
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'During read transactions (that is, while fetching a document asset):'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Fetch the document from the chosen document storage.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Get a hash of the document and send it to a smart contract for comparison and
+    validation.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: On a positive match, the document can be read. Otherwise, an unexpected situation
+    should be reported.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For more details on this aspect, please refer to the document storage section
+    in the previous chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So far, we have walked through the business scenario and defined the use case.
+    We have analyzed the use case to justify the need for a blockchain solution by
+    walking through the use case qualifications. Once we decided that the use case
+    qualifies for a blockchain solution, we covered designing the blockchain-based
+    solution. The next half of the chapter concentrates on exploring OBP and its architecture,
+    and setting up an OBP network instance.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Exploring OBP
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'As we already know, OBP is based on the open source Hyperledger Fabric. But
+    for enterprise, Fabric is not enough because it is not pre-assembled. Here are
+    some of the high-level requirements for building a working blockchain network
+    for an enterprise from the ground up:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Set up all the prerequisites, configurations, and containers.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Set up container life cycle management to manage all the containers of peers,
+    channels, chain codes, and so on.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Install security such as user management, which is one of the most important
+    components for enterprise.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Manage the system upgrade plans and patches to align with the rapid changes.
+    As Hyperledger Fabric is open source, there will be continuous evolution in technology,
+    so you need to continually manage the system upgrade plans and patches.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Ensure high availability and scalability of all the resources.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Offer security to data and provide integration endpoints such as REST APIs to
+    connect with other products, such as SaaS applications, ERP, or any third-party
+    applications.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Work with various tools for monitoring and handling operational tasks, such
+    as checking the health and utilization of the nodes, channel activities, peer
+    activities, channel management, peer management, chain code management, and network
+    management.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To structure a blockchain network from foundation to production, you need skills,
+    resources, and time (maybe months) to set up and maintain all of these requirements.
+    Oracle takes responsibility for all of these requirements and provides a service
+    in terms of OBP. In this section, we will delve into OBP's architecture and will
+    learn to set up an OBP instance and blockchain network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Overview of OBP's architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: OBP provides a pre-assembled platform for building a blockchain network, deploying
+    and running smart contracts, and maintaining a distributed ledger. Once the service
+    has been provisioned with a few clicks, administrators can use the web console
+    to dynamically update blockchain configuration and monitor its operation. Developers
+    can deploy smart contracts and integrate applications using REST APIs or client
+    SDKs. OBP enables distributed P2P transactions in real-time and allows applications
+    (new or existing) to transact and share data between trusted business partners
+    over a blockchain network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For the latest updates from OBP product perspective, please refer to [https://www.oracle.com/cloud/blockchain/](https://www.oracle.com/cloud/blockchain/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Because OBP is part of the Oracle Cloud platform, it''s pre-assembled with
+    underlying cloud services, including containers, compute, storage, identity cloud
+    services for authentication, object storage for embedded archiving, and management
+    and log analytics for operations and troubleshooting. You can configure multiple
+    peer nodes and channels for availability, scalability, and confidentiality, and
+    Oracle Cloud will automatically handle the underlying dependencies. The following
+    diagram explains the architecture at a high level and explains how OBP adds value
+    to the open source Hyperledger Fabric:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/03272745-ea05-48c6-aaf1-0238c3b8cb93.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP high-level architecture
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'OBP is a permissioned blockchain, and it leverages the built-in Oracle IDCS
+    to the Hyperledger Fabric to provide the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: User and role management
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Authentication for the OBP console, REST proxies, and **certificate authority**
+    (**CA**)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Identity federation and third-party client certificate support to enable consortia
+    formation and simplify member onboarding
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'OBP is running on the OCI and it is a PaaS service. Hence, storage, scalability,
+    high availability, and infrastructure will be taken care of by Oracle. Using the
+    adapters of Oracle Integration Cloud Service, it can be integrated with Oracle
+    SaaS, PaaS, and on-premise applications with blockchain transactions, events,
+    and queries. As OBP is based on Hyperledger Fabric, it also allows us to connect
+    external member nodes that use Hyperledger Fabric. These external members can
+    be in customer data centers or third-party cloud services. The following diagram
+    depicts the OBP service-level architecture on OCI:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/cb931ff9-ace0-4904-bbff-4318f4101440.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP service-level architecture
+  prefs: []
+  type: TYPE_NORMAL
+- en: Oracle has made many enhancements to Hyperledger Fabric to make OBP an enterprise-grade
+    service. Each blockchain instance contains managed containers, virtual machines,
+    identity management, block and object storage, and Oracle Event Hub cloud service,
+    which is a dedicated Kafka connect.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain instance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: An OBP instance (aka blockchain instance for this book) is a collection of containers
+    that includes peer nodes, an orderer, an operation console, a CA, a REST proxy,
+    and chaincodes. OBP instance is integrated with identity management to manage
+    users and roles. It also integrates with Oracle object storage to dynamically
+    back up configuration changes and the ledger and restore when required. The Oracle
+    object storage takes a backup of all the components in the blockchain instance,
+    which includes all the block files of a ledger, which also includes the data in
+    the system channel and customer channel, the list of channels, the latest checkpoints,
+    the source code of chaincodes, configuration files, and the provisioning files
+    of the nodes and log files. This backup and restore process will be done automatically
+    in OBP without giving the user notice. So, there is no need for the user to worry
+    about data backup. OBP uses Oracle Event Hub cloud service as dedicated Kafka
+    for the orderers. Default REST proxies are available to integrate OBP with any
+    other applications, such as SaaS, PaaS, on-premise, or other third-party applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: By now, you should know that blockchain is very resource intensive because it
+    requires many containers with lots of storage. Since OBP is running on the Oracle
+    Cloud, the storage, scalability, and high availability of the services will be
+    taken care of by Oracle.
+  prefs: []
+  type: TYPE_NORMAL
+- en: OBP is available in two ways. One is by installing a pre-built VM provided by
+    Oracle, and the other option is to create an account in Oracle cloud and provision
+    the blockchain platform from the portfolio of services. Except for the initial
+    steps to access and create a blockchain instance, all other features and navigation
+    are the same. Let's see each one these ways of provisioning OBP.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting up the OBP SDK
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section shows how to set up the OBP SDK in a in a laptop or local machine.
+    This is just for reference; however, there are alternative ways, such as setting
+    up in cloud infrastructure such as OCI. Here is the process of setting up the
+    OBP SDK.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Prerequisites
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'These are the prerequisites for setting up the OBP SDK:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Oracle Linux version 7.3 or higher (OBP runs on any Linux with Docker, but Oracle
+    Linux is recommended) with internet access, and the Linux kernel version must
+    be greater than 3.10.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Disk space depends on the number of instances planned to deploy.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For the application, 4 GB memory per instance is recommended.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: There are multiple Docker containers running after provisioning, and each container's
+    access to the host machine's CPU cycles should be unlimited. To ensure that each
+    container runs smoothly, two CPUs are the recommended minimum.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A hostname is required.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: An Oracle user is needed because the processes run in Docker containers (such
+    as peer and orderer).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hostname should be a resolvable name when accessed from the browser. In case
+    of setting up OBP locally, the hostname must be the name of your VM runtime. When
+    creating multiple organization within the same OBP VM, the hostname will remain
+    the same (i.e. the VM name) but the port range for each organization will be different
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: Prepare the Docker environment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To build and install OBP SDK, the latest Docker Engine and Docker Compose need
+    to be installed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Docker Engine installation: The OBP SDK requires the latest version of Docker
+    Engine. Execute the following command to find out the Docker Engine version:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: If the version is not `Docker version 17.05.0-ce` or higher, then install/update
+    the latest version of Docker with the following instructions.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Use the following command to replace OS (operating system) version with your
+    specific OS version using docker `yum` repo command :'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Install Docker Engine:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Check the Docker Engine version:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following screenshot shows the version:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/09829dcf-41cf-4690-9944-fb899de70285.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Docker version
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Start Docker Engine:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Authenticate the user to the Docker daemon:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Unpackage and deploy the **blockchain cloud service** (**BCS**) SDK and unpack
+    it with the help of the following code fragment:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: Copy the OBP SDK from the web or a local source.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Unzip the build package to the `bcssdk` directory by executing the following
+    command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: This book used OBP SDK version 19.1.3 in which the Hyperledger Fabric version
+    is 1.3.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now we need to install images and start provisioning the console. As **root**
+    user, run the `build` command to load and install Docker images:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following screenshot shows the output of `build.sh`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/85a2ba89-150a-44c0-8eca-ebf4371d5fb1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: run build.sh
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Wait until the docker loads:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/c23f73e9-2c61-4458-82b3-e6c62e789335.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: docker load
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Confirm with `Y`, then the console will be started automatically after the
+    images are installed:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/e4910cb2-3b45-4d8f-b5a6-e053c4039490.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Starting provisioning
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There are certain points that you need to keep in mind:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: If the firewall is active, `build.sh` will prompt the user to stop the firewall
+    and restart the Docker daemon.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Please use `build.sh` to start provisioning the console. If the user doesn't
+    choose to stop the firewall, there will be problems when provisioning or after
+    provisioning. So, in this case, we recommend using the root user.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If the firewall is down, user `oracle` already exists, and the non-root user
+    has Docker access permission, we can use this user to run this command.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Provisioning
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As the OBP SDK is only for development purposes, each provisioned instance can
+    live for only 60 days. Once expired, the instance will not work anymore. You need
+    to provision a new instance to continue your testing or prototype if you need
+    to.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Perform the following steps for provisioning:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Please use the following command line to start provisioning the console (if
+    it''s not started yet):'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following message will be observed:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/ed9283ab-734c-437e-abde-000e4495571f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP console URL
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now you are able to access the console from your local machine using `ssh`
+    and port forwarding. On a Linux/mac system, open a Terminal window and enter the
+    following:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, from your local web browser, just enter `http://localhost:3000` and you
+    should see the console''s UI:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/d859b0f8-7895-4737-83a7-a85575bff194.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP console
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating blockchain instance using the SDK
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The process of creating blockchain instances using the OBP SDK is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Open the login URL of the VM, for example, `http://studentvm2:3000/`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The Oracle Sign In page will be opened. A user needs to be created for the first
+    time.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Enter the **Username** and **Password** (remember these credentials for future
+    use).
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Click on Sign In.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'If the user doesn’t exist, a dialog window with the title Create User will
+    be opened, as shown in the following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/8697e65e-719e-45e5-9dcf-c0dde9276a14.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP SDK login
+  prefs: []
+  type: TYPE_NORMAL
+- en: Click OK to create the user.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Once the user is created, the OBP Instances page will be opened, as shown in
+    the following screenshot. Use this page to create an instance and list all the
+    created instances:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/3c28d7bc-ef28-4f55-a68b-9957c84b9d69.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP SDK console
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a founder instance in the OBP SDK
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To create a founder instance, provide details in the Create Instance section
+    and make sure the Founder checkbox is ticked:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Name: As shown in the following screenshot, the name of the instance to be
+    created can be set, for example, `detroitauto`.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Host Address: As shown in the following screenshot, enter the host address
+    of the VM for which the SDK is set up. The instance will only be accessed using
+    this host address.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Start Port**: Referring to the screenshot, enter a port (or a range of ports)
+    to access the console once the instance has been created:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/6292d3fd-f3ca-4800-8cfd-22375986cef0.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP sdk founder 1
+  prefs: []
+  type: TYPE_NORMAL
+- en: Click on the **Create** button and wait for some time to see the created instance
+    as multiple containers and VMs have to be created and make them up and running.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'When the instance has been created, it will be visible under Instances on the
+    left-hand side:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/40f323d7-7f0a-4cb8-ac38-1d139a3f8d94.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP SDK founder
+  prefs: []
+  type: TYPE_NORMAL
+- en: On clicking the instance name, the blockchain console of the instance will be
+    opened.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Let's now create a participant instance in the OBP SDK.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a participant instance in the OBP SDK
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To create a participant, follow the previous procedure, but uncheck Founder:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Check the following screenshot for reference:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/3d3d9dcc-2e5c-4fc1-ae3e-21deef7545d1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP SDK participant
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Click on Create and wait for few minutes (in my case, it was 4 mins); then
+    you will see that a new participant instance has been added to the Instances list,
+    as shown:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/9694ff93-18d6-49bf-adc4-a5285610d012.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP SDK participant
+  prefs: []
+  type: TYPE_NORMAL
+- en: Refer to the *Features and components of OBP* section to find out what the OBP
+    console looks like and explore its features.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Provisioning OBP on Oracle Cloud
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The procedure to access OBP in the Oracle cloud is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Open [https://cloud.oracle.com](https://cloud.oracle.com/).
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Click Sign In in the top-right corner.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Enter your **Cloud Account Name** and click Next.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Enter your username and password and click on the Sign In button.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The Cloud My Services page will open.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Click on the hamburger icon in the top-left and expand the Services menu. Then
+    you will see Blockchain Platform in the list, as shown in the following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/bfd23d87-1912-435d-a3fc-3631954fdc4d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP cloud my services
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Click on Blockchain Platform. It will open the OBP console. This is where you
+    can create a new OBP instance or see the list of instances created in an account.
+    You can also see the history of the activities of the instances:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/2f0dd2c0-5aaa-420d-a3fa-279fd489b9e2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP cloud console
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a founder instance on Oracle Cloud
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Once you open the OBP console as shown in the previous section, click on Create
+    Instance:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The Create Instance page will open:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/993fed13-570c-4c20-85e1-1198cfa23f88.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP cloud founder
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fill detail in the form as shown in the preceding diagram.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Make sure that the Create a new Network checkbox is enabled. This is very important
+    when creating a founder.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Click on Next. A page with the details you have provided will appear for confirmation,
+    as shown in the following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/5f709bc2-5f0f-4531-9e39-7df8804fcfcb.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP cloud founder
+  prefs: []
+  type: TYPE_NORMAL
+- en: Verify all the details and click on Create.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Wait for a while. The following screen will appear after successful creation
+    of the instance. An email confirmation will be sent to the email addressed provided:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/d3afa668-e905-477b-9ddc-41a4dca87bc4.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP cloud founder
+  prefs: []
+  type: TYPE_NORMAL
+- en: Next to the instance name, click on the hamburger icon. A menu will be shown.
+    If you click on the Blockchain Console option, the console of the instance will
+    open.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Creating a participant instance on Oracle Cloud
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To create a participant, follow the earlier procedure mentioned in *Creating
+    a founder instance on Oracle Cloud* section but uncheck Create a new network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Check the following screenshot for reference:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/e4538b35-100f-46b1-a15a-2f3890555f23.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP cloud participant
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'After the participant instance has been created, you can see the list of instances
+    on the Instances tab in the OBP console, as shown in the following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/23098017-a837-4b11-b60e-661aac218686.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP cloud instances
+  prefs: []
+  type: TYPE_NORMAL
+- en: Features and components of OBP
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this section, we will see how an Oracle blockchain instance console looks
+    and examine its features. If you create the blockchain instance using the OBP
+    SDK or through Oracle Cloud, the console of an OBP instance will be the same,
+    as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/555260f4-f8fc-4688-a05d-22e941d2a9ea.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP instance dashboard
+  prefs: []
+  type: TYPE_NORMAL
+- en: The console has multiple tabs, and we will explore each of them in the following
+    sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Dashboard
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This is the first tab, which shows the summary of the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The number of channels the instance has created or is part of
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The number of peers the instance is using
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The number of chain codes deployed and running on the instance
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Activities of channels, such as the number of blocks created and number of user
+    transactions on the channels
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Activities of peers, such as endorsements and commits
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The health of the instance, such as the number of nodes running and stopped
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Metrics of CPU, memory, and disk utilization
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Along with these data on the dashboard, if the instance is a founder, then it
+    also shows the order and the number of organizations participating in the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There will be only one orderer per blockchain network, and it will be with the
+    founder in OBP.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network topology
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This tab shows everyone who is participating in the network. Also, it shows
+    a topology view of the network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3b1bd386-cdde-4f4d-be7d-a5ffe00b3b57.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP network topology
+  prefs: []
+  type: TYPE_NORMAL
+- en: The preceding diagram shows the network's structure and the relationship between
+    organizations and nodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Nodes topology
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This tab shows all the peers, including self peers and remote peers, who are
+    all part of the network, and a CA node. If it is the founder, it can see an extra
+    node for orderer. It also shows a topology view of the nodes and peers of the
+    network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/6130964b-930f-4011-8437-4289e5710a73.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: OBP nodes topology
+  prefs: []
+  type: TYPE_NORMAL
+- en: The preceding diagram shows the relationship between peers and channels.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Channels
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This tab is for managing the channels of the instance. It will list all the
+    channels that the instance is part of. A new channel also can be created from
+    here. Channel-level policies can be managed, new peers can be added to the channel,
+    and organizations can be added to or removed from the channel. Each channel will
+    have its own ledger and it will show all the blocks and transactions of a ledger.
+    Once a channel has been created, it cannot be deleted.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincodes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This tab is for managing the chaincodes and lists all the chaincodes of all
+    the networks in the instance. The deployment, initiation, and instantiation of
+    a chaincode can be done here. This chaincode can write to and update the ledger
+    of the channel. Once the chaincode is deployed, it cannot be updated. A chaincode
+    can be instantiated in multiple channels. Only one instantiation of a chaincode
+    is allowed per version per chaincode in a channel, which means that if a chaincode
+    is instantiated on a node in a channel, then the other nodes in the channel need
+    only to deploy the chaincode, and instantiation will be reflected automatically
+    on them. Each chaincode has its own logs and private data collections, which are
+    also accessible from this tab.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Developer tools
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This tab allows us to visit the OBP documentation and provides the download
+    links for SDKs, tools, and pre-built sample chaincodes from Oracle.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will see how to create a blockchain network and invite organizations to participate
+    in the network, create and deploy chaincodes, use chaincodes, test the ledger,
+    use REST proxy, and more, in the coming chapters.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Rich history database with OBP
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: OBP uses the Hyperledger Fabric history database to manage the ledger and present
+    ledger transaction information in the console. Only chaincodes can access this
+    history database and it cannot be exposed to any external applications to query
+    for analytics. Analytics cannot be ignored in any business, even if they provide
+    blockchain services. Hence, OBP integrates the rich history database to fulfill
+    this requirement.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The rich history database is external to OBP and contains data about the blockchain
+    ledger's transactions on the channels you select. You can integrate the rich history
+    database into the OBP instance console and select the channels whose data needs
+    to be captured in the database. Once the rich history database is enabled on a
+    channel, then all the transactions on the channel sync to the database. This level
+    of data collection makes the rich history database an excellent data source to
+    generate analytics and visualization reports of the ledger activities. You can
+    use any analytics tool, such as Oracle Analytics Cloud or Oracle Data Visualization
+    Cloud Service, to access the rich history database and create analytics reports
+    or data visualizations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: OBP only supports an Oracle database such as Oracle Autonomous Data Warehouse or
+    **Oracle Database Cloud Service** (**ODCS**) with OCI to create your rich history
+    database.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Create the ODCS connection string
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: OBP can be integrated with ODCS in OCI as a rich history database. However,
+    it must also be enabled access to the database through port `1521`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fetching ODCS information
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The process of creating a connection to ODCS in the OCI console is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Log in to Oracle Cloud, andthe My Services page will open.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Click on the hamburger icon in the top-left corner, expand the Services menu,
+    and select the Database option.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Under DB Systems, locate the database to be connected and record its public
+    IP address.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Click on the name of the database and capture the values of the following fields:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Database Unique Name
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Host Domain Name
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Port
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Find the username and password of a database user with read permissions for
+    this database.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Enabling port 1521 to access the database
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The procedure to enable port `1521` on the ODCS is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: As shown earlier, navigate to DB Systems and click the database to be connected.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Click on Virtual Cloud Network.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Under Security Lists, navigate to the corresponding subnet.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Click Default Security List For <Target Database>. The security list page will
+    be displayed.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Click on Edit All Rules.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Add an ingress rule to allow any incoming traffic from the public internet
+    to reach port `1521` on this database node with the following settings:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'SOURCE CIDR: `0.0.0/0`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: IP PROTOCOL: `TCP`
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: SOURCE PORT RANGE: `All`
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: DESTINATION PORT RANGE: `1521`
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Allows: TCP traffic for ports: `1521`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Creating a connection string
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'After enabling access to the Oracle database, use the information collected
+    to build the connection string in the Configure Rich History dialog. Construct
+    the connection string as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following example shows what a connection string looks like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: Configuring the rich history database in OBP
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Each blockchain network instance can configure its own rich history database,
+    and here is the procedure to do this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Open the console of the blockchain network instance.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Click on the option button (the hamburger icon in the top-right corner) and
+    click on Configure Rich History. A configuration dialog will open:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/a77a4ece-9258-4729-b4f0-6cc69f6f4e3e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Configure rich history
+  prefs: []
+  type: TYPE_NORMAL
+- en: Enter the **User Name** and **Password** of the database to be connected.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'In the Connection String field, enter the connection string of the database
+    in which the rich history data will be stored. This input depends on the Oracle
+    database being used:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: If the database is Oracle Autonomous Warehouse, then the connection string is
+    like `<username>adw_high`.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If the database is ODCS with OCI, get the connection string as discussed in
+    the *Create the ODCS connection string* section.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If you are using a non-autonomous database and want to use the `sys` user to
+    connect the database, then you must append `?as=sys[dba|asm|oper]` to the connection
+    string, for example, `123.123.123.123:1521/example.oraclevcn.com?as=sysdba`.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If you are using Oracle Autonomous Database, then instead of connection string,
+    you can also use wallet file. This file contains client credentials and is generated
+    from the Oracle autonomous database.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Click on the Save button.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: To update this configuration, repeat the same procedure.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The following screenshot is for your reference:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/77bf71f6-e907-4ef2-a69b-cfe5e0f04fdf.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Configure Rich History
+  prefs: []
+  type: TYPE_NORMAL
+- en: Enabling channels that write data to the rich history database
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Before enabling a rich history database on channels, it must be configured
+    in the instance. Follow these steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Open the console of the blockchain instance and go to the Channels tab
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Locate the channel and click on the More Options icon
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: To add the channel to the rich history database, click on the Configure Rich
+    History option from the menu
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A Configure Rich History dialog will open with an Enable Rich History checkbox
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Click on the checkbox to add the channel, and uncheck it to remove the channel
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Click on the Save button
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Rich history database tables and columns
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'When the rich history database is configured on a channel, three tables will
+    be created in the database for the channel: history, state, and latest height.
+    To create analytic reports, the history and state tables will be queried:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/8ef5bf92-7cbc-4b48-870c-23f3f806e63f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Rich history tables
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's see each table and its columns.
+  prefs: []
+  type: TYPE_NORMAL
+- en: History table
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The name of this table is similar to `<instance name>_<channel name>_hist`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This table contains the history of the ledger of the channel. Here is the list
+    of columns and their datatypes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Column** | **Datatype** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| --- | --- |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `chaincodeId` | `VARCHAR2 (256)` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `key` | `VARCHAR2 (1024)` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `txnIsValid` | `NUMBER (1)` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `value` | `VARCHAR2 (4000)` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `valueJson` | `CLOB` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `blockNo` | `NUMBER NOT NULL` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `txnNo` | `NUMBER NOT NULL` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `txnId` | `VARCHAR2 (128)` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `txnTimestamp` | `TIMESTAMP` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `txnIsDelete` | `NUMBER (1)` |'
+  prefs: []
+  type: TYPE_TB
+- en: Note that the `value` and `valueJson` columns are used in a mutually exclusive
+    way. That is, when a key value is valid JSON, then the value is set into the `valueJson` column.
+    Otherwise, the value is set in the `value` column. The `valueJson` column is set
+    up as a JSON column in the database, which means that users can query that column
+    using the usual Oracle JSON-specific extensions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: State table
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The name of this table is similar to `<instance name>_<channel name>_state`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This table replicates data from the state database. Here is the list of columns
+    and their datatypes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Column** | **Datatype** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| --- | --- |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `chaincodeId` | `VARCHAR2 (256)` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `key` | `VARCHAR2 (1024)` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `value` | `VARCHAR2 (4000)` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `valueJson` | `CLOB` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `blockNo` | `NUMBER` |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `txnNo` | `NUMBER` |'
+  prefs: []
+  type: TYPE_TB
+- en: The `value` and `valueJson` columns are used in a mutually exclusive way, as
+    in the history table.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Latest height table
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The name of this table is similar to `<instance name>_<channel name>_last`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This table is used by OBP internally to track the block height recorded in the
+    rich history database. This table cannot be queried for analytics.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here''s a screenshot for your reference to see these earlier tables when the
+    rich history database is connected to the **SQL Developer** tool:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/dec50c32-ce32-464e-993a-702dbb00f8d2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Rich history tables with columns
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Businesses are constantly looking for effective and efficient ways to leverage
+    blockchain technology, along with their SaaS, BPM, and other applications. BaaS
+    allows them to realize it. This chapter offered a glimpse at OBP. This chapter
+    was focused on designing a solution in line with the constructs of OBP. This chapter
+    covered the sample business network topology, network artifacts, and solution
+    and deployment architecture. This chapter also delved into defining and creating
+    an instance of a founder-based business network and adding participants to it.
+    The knowledge gained through this chapter will help you manage the blockchain
+    network in the next chapter, and acts as a foundational milestone for developing
+    solutions on OBP, as described in the previous chapter. The following chapter
+    allows you to deep dive into the administration aspects of OBP and teaches you
+    to translate network topology on OBP. It delves into peers, orders, and channel
+    configurations. It also provides details on REST configuration and the administration
+    of REST interfaces. Subsequent chapters will cover more on OBP and highlight the
+    power of Oracle BaaS Platform.
+  prefs: []
+  type: TYPE_NORMAL

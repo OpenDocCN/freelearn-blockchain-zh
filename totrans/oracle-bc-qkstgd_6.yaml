@@ -1,0 +1,1576 @@
+- en: Developing Solutions on Oracle Blockchain Platform
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The previous chapter allowed you to experiment with doing rather than reading
+    about doing, as it effectively demonstrated developing the samples. The preceding
+    chapter offered in-depth facts on the **Oracle Blockchain Platform** (**OBP**)
+    and taught the practicalities of translating network topology on OBP, creating
+    network stakeholders, and configuring OBP instances. This concluding chapter delves
+    into chaincode and covers details of chaincode development, including the language
+    section, development tools, and development environment setup. This chapter also
+    focuses on mapping asset models, operations, and developing chaincode functions
+    and interfaces. It details the full life cycle of chaincode, from development
+    to updates, including installation, initiation, testing, and versioning. It also
+    demonstrates the full chaincode with a code base build on Go and Node.js. Endorsement
+    policy, private data collections, and their functioning in concert with chaincode
+    are also illustrated. This chapter also demonstrates chaincode testing via shim
+    and REST endpoints and integrating client apps with business networks using SDK,
+    REST, and events. Finally, it concludes with insights into chaincode, transactions,
+    and channels by experimenting with the monitoring of business via chaincode logs
+    and channel logs. The chapter covers topics such as setting up chaincode development,
+    chaincode development, chaincode deployment, testing chaincode, and integrating
+    client applications with blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting up chaincode development
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, you will learn how to develop chaincode for the university
+    use case that we used in previous chapters.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Choosing the language for development (GO, Node.js, or Java)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Programming skills are very much required to write chaincode. As blockchain
+    has a distributed ledger, only the Go language was supported in the initial versions
+    of **Hyperledger Fabric** (**HLF**). However, with the evolution of HLF, it now
+    supports multiple languages and plans to add more in the future. As of Fabric
+    version 1.3, it supports writing chaincode in Go, Node.js, and Java. To explore
+    each of these, you can download samples from under the **Developer tools** tab
+    in the OBP instance console.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tools for OBP solution development
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section equips you with the development tools and development environment
+    details.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Development environment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: OBP leverages HLF as its foundation, hence use the HLF documentation for help
+    with writing valid chaincode. All the chaincode files should be packaged in a
+    ZIP file and installed on OBP. If the chaincode is developed in the Go language
+    and it has only one file, which is `.go`, then the packaging is optional. A standalone
+    file can be installed on OBP.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Development tools
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are no specific recommended tools from either HLF or OBP. A developer
+    can use any tools, such as a text editor or an IDE such as NetBeans, VS Code,
+    and so on. The choice of tool depends on the interest of the developer and the
+    language selected for the chaincode development. It is always good to use an IDE
+    for the development to avoid syntax errors, to format the code to be easy to read,
+    and to make development easy.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincode development, for the sample use case in this book, is performed using
+    **VS Code** (short for **Visual Studio Code**). VS Code is a source code editor
+    from Microsoft, available for Windows, Linux, and macOS. It includes support for
+    development, debugging, versioning, syntax highlighting, intelligent code completion,
+    and code refactoring.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following are a few screenshots of the chaincode file in VS Code for reference:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the source code window:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/31465fa1-bc10-4c9e-b61d-443f6374c27e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: VS Code source code window
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Direct installations of plugins required:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/b91022a8-4bb7-4155-8189-7d899e4ea208.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: VS Code Plugins direct installation
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There are multiple plugins available to install on VS Code for the selected
+    language:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/4591fb21-7398-4367-884f-43e8988002fa.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'VS Code: plugins'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mapping the asset model
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Chaincode results in the creation of assets (key-value pairs) on the ledger,
+    as HLF represents assets as key-value pairs. Assets state changes are recorded
+    as transactions on the channel''s ledger. There are few ways to represent assets—in
+    binary or JSON form. For the university use case in this book, two assets are
+    defined:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: One for student information
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Another for the certificate generated
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: This chapter includes the creation of basic assets and chaincode to enable quick
+    learning of the development process. The inclusion of more assets and a comprehensive
+    set of operations might lead to the investment of time in the modeling of the
+    use case itself. Later, when you've experimented more with the use case, you can
+    add more complexity to it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Using the Go language, the following are the definitions of the two assets:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'An asset to define a certificate receiver:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '| **Parameter** | **Description** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `assetType` | The type of asset, for example, a receiver |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `receiver_id` | The ID of a receiver/student |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `receiver_name` | The name of the receiver/student |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `upload_org` | The organization/department of the certificate uploaded |'
+  prefs: []
+  type: TYPE_TB
+- en: 'An asset to define a certificate:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '| **Parameter** | **Description** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `assetType` | The type of asset, for example, a certificate. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Cert_id` | The ID of the certificate. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Cert_no` | The number of the certificate. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Cert_name` | The name of the certificate. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Cert_receiver` | The receiver of the certificate. This will be fetched from
+    the ledger by the given `Cert_receiver_id` parameter. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Cert_receiver_id` | The ID of the receiver/student to whom this certificate
+    is assigned. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Cert_issuer` | The issuer of the certificate. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Cert_industry` | The industry/department of the certificate. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Cert_create_time` | The time the certificate was created at. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Cert_update_time` | The time the certificate was changed if any changes
+    are made. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Cert_remark` | Remarks or comments on the certificate, if any. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Cert_url_image` | The certificate image URL. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Cert_learning_processing` | Certificate learning proceeding. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Cert_status` | The status of the certificate. |'
+  prefs: []
+  type: TYPE_TB
+- en: Chaincode is a software program (a group of smart contracts) or business logic
+    that defines an asset and allows modifications to an asset (aka state changes).
+    Any transaction (as allowed by chaincode) will result in a new set of an asset's
+    key-value pair or the modification of an asset's key-value pair, or the deletion
+    of an asset's key-value pair.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mapping operations
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Chaincode (smart contracts) generates transactions that are distributed to every
+    peer node in a network. Upon consensus, they are immutably recorded in the local
+    copy of the ledger. Users use a client application or a dApp to invoke such transactions
+    (aka operations). [Chapter 3](6aaa9b0a-84b6-4fca-82c3-864e22d616b0.xhtml), *Delving
+    into Hyperledger Fabric*, covers transactions in detail and also showcases examples
+    of transaction flows. Notice that there are two types of transactions—deploy transactions
+    and invoke transactions. A deploy transaction creates a new chaincode and results
+    in the installation of chaincode on the blockchain business network, whereas an
+    invoke transaction performs an operation on the installed and initiated chaincode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This table concentrates on the implementation of the invoke operations/transactions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Operation** | **Description** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `initReceiver` | Creates an entry of the certificate receiver (student) |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `queryReceiverById` | Fetches the receiver details by the given receiver
+    ID |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `insertCertificateInfo` | Creates an entry for the certificate |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `queryCertificateBytId` | Fetches the certificate details by the given certificate
+    ID |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `getHistoryForRecord` | Gets a history of the receiver (student) information
+    or certificate changes |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `queryAllCertificates` | Fetches all certificates |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `approveCertificate` | Changes the status of a certificate |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `del` | Marks delete on a receiver or certificate |'
+  prefs: []
+  type: TYPE_TB
+- en: Take a look at [Chapter 3](6aaa9b0a-84b6-4fca-82c3-864e22d616b0.xhtml), *Delving
+    into Hyperledger Fabric*, to learn about more interesting aspects, such as concurrency
+    checks, types of transactions (such as *ledger-query* and *ledger-update* transactions),
+    transaction flow, and various other components involved in transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Demystifying the craft of chaincode development
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'With HLF, chaincode must implement the chaincode interface in any of these
+    languages: Go, Node.js, or Java. A chaincode developer can select any of these
+    programming languages to develop in. Fabric''s shim package ([github.com/hyperledger/fabric/core/chaincode/shim](https://github.com/hyperledger/fabric/tree/release-1.4/core/chaincode/shim))
+    is paramount in chaincode development.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: It provides support for all earlier languages. This package has two interfaces,
+    which play a key role in the chaincode. The syntax of these interfaces and their
+    methods may change, depending on the language, but their purpose is the same.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Essentially, when a transaction is received, these chaincode interfaces are
+    called. Firstly, when a chaincode receives a transaction request, the `Init` method
+    is invoked. This allows for the initialization of the application state. Subsequently,
+    the `Invoke` methods are called when an invoke transaction is received to process
+    any transaction proposals. Other interfaces that are used to modify the ledger,
+    allowing invocations between chaincode, include the chaincode shim API called
+    `ChaincodeStubInterface`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincode interfaces
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Chaincode interface is mandatory to implement chaincode that has two methods:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`Init()`: This method will be invoked only once in the life of the chaincode,
+    when the chaincode is instantiated or upgraded. This method helps to set up the
+    initial state of the ledger, such as initializing any serial numbers. It expects
+    the `ChaincodeStubInterface` object as input and returns the `peer.Response` object.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Syntax: `Init(stub ChaincodeStubInterface)`'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`Invoke()`: This method will help to invoke the user transaction. You may have
+    several operations in your code, but when a client sends a request to chaincode,
+    it only comes to the `Invoke()` method and, from here, this method will dispatch
+    to the corresponding transaction. This method also takes the input of the `ChaincodeStubInterface`
+    object and returns the `peer.Response` object.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Syntax: `Invoke(stub ChaincodeStubInterface)`'
+  prefs: []
+  type: TYPE_NORMAL
+- en: ChaincodeStubInterface
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Interface to stub provides functions to access history and the state of the
+    ledger via calls to peers. The `Invoke()` method is called for each transaction
+    and it passes the function and the parameters as a `stub` input requested by the
+    client. This interface facilitates many functions to interact with the ledger
+    and makes chaincode development easy.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincode functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '`ChaincodeStub` is implemented by the `fabric-shim` library. It is supplied
+    to `ChaincodeInterface` and encapsulates the APIs between the chaincode implementation
+    and the Fabric peer.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Although `stub` has many functions, this section lists a few of them that are
+    frequently used:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`getFunctionAndParameters() (string, []string)`: This method helps to get the
+    function and the parameters from the `stub`. This method returns two values: the
+    name of the function as a string and the parameters as a string array.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`getState(key string) ([]byte, error)`: This method fetches data from the state
+    ledger by the given key. It doesn''t read data from the ledger that has not been
+    committed. It returns data as a byte array and error information if there is any.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`putState(key string, value []byte) (error)`: This method will put the given
+    value in a transaction''s write set as a proposal. This doesn''t affect the ledger
+    until the transaction is valid and successfully committed. This decision will
+    be taken by Orderer. All the transaction data in the ledger is stored as a key-value
+    pair only. This method takes two parameters: key—a unique string value for data,
+    and value—a byte array of data to be stored in the ledger. This method returns
+    the error parameter if there are any errors while executing. The same method can
+    be used for both *insert* and *update*.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`delState(key string) error`: This method deletes the value of the given key
+    from the ledger. As the data in the blockchain ledger cannot be deleted permanently,
+    this method marks the data deleted and the block remains in the ledger. The input
+    for this method is a key and it returns an error if there is one.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`getHistoryForKey(key string) (HistoryQueryIteratorInterface, error)`: This
+    is a read-only method to fetch the history of committed transactions of the given
+    key in the ledger along with the transaction ID and timestamp. This method takes
+    the key as input and returns an iterator of the history records and errors if
+    there were any.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`getQueryResult(query string) (StateQueryIteratorInterface, error)`: This method
+    executes a `rich` query against a state database. It is only supported for state
+    databases that support rich queries, such as Oracle, ATP, or ADW. The input for
+    this method is a query string in the native syntax of the underlying state database.
+    This method returns an iterator of the result and errors if there were any.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`setEvent(name string, payload []byte) error`: This sets an event as a proposal
+    on the response to be included in a transaction. Regardless of the validity of
+    the transaction, the event will be available within the committed transaction
+    block.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Along with the earlier important and highly used methods in the chaincode,
+    the stub also has the following methods:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: Developing chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section covers the implementation in Golang. The following chaincode is
+    developed in the Go language for the operations/transactions described in the
+    preceding section, mapping operations using the assets mentioned in the preceding
+    section's mapping asset model.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincode in Go
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s look at chaincode development in the Go language for the use case discussed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`import`: This section imports the required libraries:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`type`: This will define the required asset structures:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`main`: This is the `main` method to start execution:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`Init`: This method is for initializing of chaincode while instantiating the
+    chaincode:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`Invoke`: This method is for bypassing or executing the user transaction:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`insertReceiver`: This method is for creating/inserting a student or receiver
+    of the certificate into the chaincode state:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`queryReceiverById`: This method fetches the receiver record by the given ID:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`insertCertificate`: This method is for inserting new certificate information
+    into the ledger state:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`queryCertificateById`: This method fetches the certificate details from the
+    ledger state by the given certificate ID:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`approveCertificate`: This method is used for approving a certificate by an
+    authority:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`queryAllCertificates`: This method is used to query all certificates from
+    the ledger state:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`getRecordHistory`: This method fetches the historical state transitions for
+    a given key of a record:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`getQueryResultForQueryString`: This method executes the given `rich` query
+    on the ledger state if required:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`deleteRecord`: This method will mark the record deleted by the given key:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding chaincode can also be downloaded from the GitHub repository referenced
+    in this book. The filename is `education.go`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincode in Node.js
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s look at the procedure for developing chaincode in Node.js:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Create a Node.js file using the `fabric-shim` package
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Create a `package.json` file with the details of the Node.js file and dependencies,
+    if any
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Package all the files in a ZIP file including `package.json`, the main Node.js
+    file, and other JavaScript or config files or dependencies, if any
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Deploy the package under the **Chaincode** tab in OBP (refer to the *Chaincode
+    deployment* section)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Note: You are only required to create a `package.json` file; there''s no need
+    to run `npm` commands to install `node_modules`, as the OBP does this for you
+    internally.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sample Node.js file named `education.js`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create a Node.js file using the `fabric-shim` package:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: Sample JSON file named `package.json`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create a `package.json` file with the details of the Node.js file and dependencies,
+    if any:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: This sample Node.js code with the `package.json` file can be downloaded from
+    the GitHub repository referenced in this book.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Adding events to chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Chaincode can also post events to notify a subscribing application to process
+    further client actions. For example, after purchase orders, invoices, and delivery
+    records have been matched by chaincode, it can post an event so that a subscribing
+    application can process related payments and update an internal ERP system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'OBP supports the following types of events, which can be subscribed via a REST
+    proxy:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`transaction`: Events for a transaction ID'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`txOnChannel`: Events for every new transaction on a channel'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`txOnNetwork`: Events for every new transaction in the entire network'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`blockOnChannel`: Events for every block on a particular channel'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`blockOnNetwork`: Events for the creation of a new block in the entire network'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`chaincodeEvent`: Custom events emitted by chaincode logic'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Publishing events
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Here, we''ll see how to trigger events from chaincode. Using the `SetEvent()`
+    method of `ChaincodeStubInterface`, events can be triggered by chaincode. Add
+    the following code in the `approveCertificate()` method to emit the event after
+    the certificate status is changed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: Subscribing to events
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Events can be subscribed to via a REST proxy or HLF SDKs. The following is
+    the procedure to subscribe via a REST proxy:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'REST endpoint: `<host name>:<port>/<REST proxy>/bcsgw/rest/v1/event/subscribe`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'REST method: `POST`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Headers:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Content-Type**: `application/json`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Authorization**: `<Basic authorization>`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Accept-Charset**: `UTF-8`:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/c80da958-6cf8-4012-8bc8-9352f6c0b2b4.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The JSON input to be passed to the REST API:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: It responds with `subid`.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Unsubscribe from events
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Events can also be unsubscribed. To do this, follow the same procedure as for
+    subscription but replacing the endpoint and the input as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'REST endpoint: `<host name>:<port>/<REST proxy>/bcsgw/rest/v1/event/unsubscribe`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'JSON input:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: Chaincode deployment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Chaincode deployment is a multistep process. It includes chaincode deployment
+    (quick or advanced methods), chaincode instantiation, enabling chaincode in a
+    REST proxy, and upgrading chaincode. Prerequisites to chaincode deployment on
+    OBP include having administrative access to the OBP instance to deploy the chaincode.
+    Chaincode can be installed and instantiated from any instance by either a founder
+    or a participant of a channel. Once it is instantiated, other instances of the
+    channel just need to install the chaincode. The instantiation will be applied
+    automatically on those instances. In this section, we will deploy the chaincode
+    from the founder instance.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Deploying chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: OBP offers two different deployment options. A quick deployment option for one-step
+    chaincode deployment and advanced deployment options. The quickstart deployment
+    option is recommended for chaincode testing, while the advanced deployment option
+    allows you to specify various advanced deployment settings such as choosing the
+    peers on which the chaincode will be installed, the endorsement policy to use,
+    and so on. This section shows both deployment options.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following is the procedure for deploying the chaincode:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Navigate to the **Chaincodes** tab:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/4db4164f-0975-4d0b-88a0-81649a32b905.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Chaincode deployment
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Click on the **Deploy a New Chaincode** button. The following screen will be
+    opened with two deployment options:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/311623f8-1794-49ca-873e-8500a598bd8c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Chaincode deployment options
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Quick Deployment**: The one-step chaincode deployment option uses default
+    settings and is enabled in the selected REST proxies. However, we''ll use the **Advanced
+    Deployment** option to deploy our chaincode in this section. The following is
+    the screen for you to refer to for **Quick Deployment**:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/73cf994e-589a-4486-b2bf-cf0d4e5c91fd.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Quick chaincode deployment
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Advanced Deployment** provides a multi-step wizard to install, instantiate,
+    and enable the REST proxy for chaincode. Select this option from the **Deploy
+    Chaincode** menu. The step-by-step wizard will be opened and the first step follows,
+    where you provide details of the chaincode such as the chaincode name, version,
+    target peers on which the chaincode should be deployed, and the actual chaincode
+    package. (If it is a single `.go` file, then there''s no need for a package. The
+    single file can be selected, but if it has multiple files or the code is written
+    in Node.js or Java, then package all the files in a ZIP file.) Fill in the fields
+    shown in the following screenshot and click on **Next**. Remember, none of these
+    values can be altered after installing the chaincode:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/653905e5-68fa-4c08-8644-251267e4774b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Details page
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When the **Install** process is successful, the wizard will show step 2, which
+    is **Instantiate**. The chaincode will be instantiated only once per channel per
+    version. In this step, you specify which channel the chaincode should be applied
+    to; the peers to participate; the array of the initial parameters if any, are
+    to be passed to the `Init()` method in the chaincode; the endorsement policy,
+    if any (see the next section for details on the endorsement policy); and the private
+    data collection (see the next section for the details). Fill the form as follows
+    and click **Next**; it may take a while to go to the next step:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/42ed9ed8-59e2-44f2-9db1-80cdd361e2af.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Advance chaincode deployment
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'After the chaincode is instantiated successfully, the wizard will show step
+    3, which is to enable the chaincode in a REST proxy. OBP provides multiple REST
+    proxies. You can choose more than one REST proxy to enable the chaincode. Fill
+    in the fields as follows and click **Next**:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/21abf370-14e6-4090-9b8c-ec5999f8c903.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: REST proxy
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'After completing all of the steps in the wizard, finally, you will see this
+    success screen. Click on **Close**:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/ff21a041-da3e-495c-bc74-3c33246ff46a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Deployment completion message
+  prefs: []
+  type: TYPE_NORMAL
+- en: So far, you have deployed the chaincode in the founder instance. You need to
+    deploy the chaincode in all the participant instances. Repeat the deployment process
+    as we just saw; however, you just need to deploy the chaincode—instantiation will
+    be applied automatically as it is done from the founder of the channel. So, in
+    the **Advanced Deployment** wizard, after step 1 installation is done, in the
+    step 2 screen, click on the **Close** button.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Go to the **Channels** tab. You will find that the chaincode is instantiated.
+    Look at the following references.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The following is the channel before chaincode installation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2ae1b8ae-7227-4ee5-a4c5-1f6cce1889e7.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Channel before chaincode installation
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following screenshot is the channel after chaincode installation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c3cc1db1-cb56-489a-9f62-a66e5eb628ff.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Channel after chaincode installation
+  prefs: []
+  type: TYPE_NORMAL
+- en: Multiple chaincodes can be installed on a channel. Also, a chaincode can be
+    enabled on multiple REST proxies.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Updating chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: HLF supports chaincode versioning and upgrading. You can update chaincode when
+    a smart contract needs to be altered, the business logic is changed, or any changes
+    are required in the chaincode. Chaincode can be upgraded to a new version, as
+    long as you maintain the same name of the chaincode, else it will be considered
+    different chaincode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: An update is a transaction on the blockchain network and it results in the binding
+    of the new version of the chaincode to the channel. What happens to the old version
+    of the chaincode? All of the other channels that are binding to the previous (old)
+    version of the chaincode can continue to execute the older version. You submit
+    the chaincode *upgrade* transaction to a channel. Hence, only one channel is affected,
+    on which you have executed the upgrade transaction. All other channels, on which
+    upgrade transaction is not executed, will continue to run the older version. When
+    invoking chaincode, it's always the case that only the latest instantiated version
+    will be executed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The procedure for updating the chaincode follows here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Go to the **Chaincodes** tab.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Select the **Upgrade** option under **More Actions** for the chaincode. A multi-step
+    wizard will open.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'In **Step 1 of 2: Select a version**, choose a target peers and browse the
+    chaincode source package. Then click on **Next**:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/091033ba-d8b9-4e70-a6dd-c6ebe5479676.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Upgrade chaincode—select version
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In **Step 2 of 2: Upgrade**, provide the channel name, the peers, the initial
+    parameters, if any, and an endorsement policy, if any. Click on **Next**:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/fa3ac110-2682-4566-97e0-cb4ab4e2dfd3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Upgrade chaincode—instantiate information
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'After the chaincode is upgraded successfully, you will see the following screen.
+    Click on **Close** and repeat the same procedure for other participants:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/f8c86bdd-2424-4bfb-97f3-bcce5a68aca0.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Chaincode upgrade
+  prefs: []
+  type: TYPE_NORMAL
+- en: Endorsement policy
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: An endorsement policy specifies the organizations with peers that must properly
+    approve or endorse a chaincode transaction before it's added to a block and submitted
+    to the ledger. You can add an endorsement policy in OBP when you instantiate chaincode,
+    which is step 2 in the chaincode deployment process. Endorsement guarantees the
+    legitimacy of a transaction. If no endorsement policy is specified, then the default
+    endorsement policy is used, which gets an endorsement from any peer on the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: An organization's endorsing peer must have read-write permissions on the channel.
+    When a transaction is processed, each endorsing peer returns a read-write set,
+    then the client bundles these endorsing peers with their signatures and sends
+    everything to the ordering service, which orders and commits the transactions
+    into blocks and then to the ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the following screenshot, you can see the endorsement policy configuration
+    while instantiating the chaincode. You can simply specify in the Signed by field
+    how many have to participate in the endorsement, or by selecting Advanced, you
+    can specify this through an expression too. In our use case, we are using the
+    default endorsement policy:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e8885b6c-0bf1-49e6-a4b9-57c399e5c2ab.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Endorsement policy
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private data collection
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: OBP version 19.1.3 and later has a feature for specifying subsets of organizations
+    that endorse, commit, or query private data on a channel—private data collections.
+    Private data collections are useful if you want a group of organizations on the
+    channel to share data and to prevent the other organizations on the channel from
+    seeing the data. One or more private data collections can be associated when the
+    chaincode is instantiated, shown as follows. Also, you should specify a transient
+    map to pass the private data from the client to the peers for endorsement.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following screenshot shows the **Private Data Collection** while instantiation
+    of the chaincode:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c0ef2f48-e729-4d89-94f8-7e3f4bf25d34.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Testing chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A chaincode can be tested locally, without installing it on OBP. There are
+    two ways to test chaincode: using mock shim and using REST endpoints.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing chaincode using the shim
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s see how to test the earlier chaincode developed locally in the Go language.
+    Before that, here are some key points to note:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Install the Go language locally on your machine.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: This test filename should take this form: `<Go file name>_test.go`.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'For example: if the chaincode name is `education.go`, then this test filename
+    should be `education_test.go`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Keep both files in the same folder.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Set `GOPATH` to the folder.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Install the dependent packages used in the chaincode if they can't be found.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'For example: `go get github.com/hyperledger/fabric/protos/peer`'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`go get github.com/hyperledger/fabric/core/chaincode/shim`.C'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Code snippet file `education_test.go` at the GIT repository ([https://github.com/PacktPublishing/Oracle-Blockchain-Quick-Start-Guide](https://github.com/PacktPublishing/Oracle-Blockchain-Quick-Start-Guide)),
+    is a test case with an explanation for only one method: `initReceiver()`. Similarly,
+    you can write test cases to all other methods.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Each test case should be prefixed with `Test<function name>`.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'For example: `TestInitReceiver`.'
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: 'After the test cases are ready, test them using the following command:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`go test -run <<function name>>`'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For example: `go test -run Education`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Here, `Education` is the test case name.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To test a function, create a stub using `NewMockStub()`. The stub has a `MockInvoke()`
+    function, which invokes an actual function of chaincode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For example, `stub.MockInvoke("001",[][]byte{[]byte("insertReceiver "), []byte(key),[]byte("Anand
+    Yerrapati"), []byte("Blockchain")})`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Here, `001` is a transaction ID to be returned upon the success of this test
+    and `insertReceiver` is a function to be invoked in the `education.go` file. The
+    remaining are the parameters to be passed to the `insertReceiver` function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Refer file 'education_test.go' at the GIT repository "https://github.com/PacktPublishing/Oracle-Blockchain-Quick-Start-Guide-".
+  prefs: []
+  type: TYPE_NORMAL
+- en: Test filename to test the chaincode (education.go), is test file "education_test.go".
+    This file is referred in this section for testing chaincode using the shim.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This test case is consolidated for flow, from inserting a receiver, querying
+    the receiver, inserting a certificate, verifying the certificate, approving the
+    certificate, and querying the certificate again, to verifying the changes. The
+    following are the results of the earlier test case after executing the `go test
+    -run Education` command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: The mock stub doesn't support every function. You can't implement the `GetQueryResult`
+    and `GetHistoryForKey` methods.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing chaincode from REST endpoints
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: OBP provides a REST proxy to connect chaincode via REST endpoints. Whichever
+    chaincode you want to be executed via REST services should be configured on the
+    respective REST proxy. This configuration can be seen in the *C**haincode deployment*
+    section in this chapter. In this section, we see how to invoke the REST endpoints,
+    how to connect to the required functions, and how to pass the parameters.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There are two REST endpoints available:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Query**: To execute any function to query data from the ledger:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Syntax: `<host name>:<port>/<restproxy>/bcsgw/rest/v1/transaction/query`'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Invocation**: To execute any function to save data to the ledger or query
+    data from the ledger. The query could also be done from this endpoint, however,
+    the execution would be slow to fetch and return the data. So, it is recommended
+    to use the query endpoint in cases where you are fetching data from the ledger:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Syntax: `<host name>:<port>/<restproxy>/bcsgw/rest/v1/transaction/invocation`'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For both these endpoints, the request input is the same, which is a JSON request and
+    the following is the typical structure of a JSON request:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: Multiple chaincodes can be configured in a single REST proxy. So, the **channel**
+    and **chaincode** parameters in the input JSON help to dispatch the request to
+    the corresponding chaincode. Both the endpoints are **POST** calls. Two headers,
+    **Authorization** and **Content-Type**, should be passed in every call.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We are using the OBP SDK, which has a default username and password: `customertenant@oracle.com/`
+    and `Welcome1`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The header should look as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Authorization** : `Basic Y3VzdG9tZXJ0ZW5hbnRAb3JhY2xlLmNvbTpXZWxjb21lMSA=`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Content-Type**: `application/json`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Target endpoint**: `https://<host name>:<port>/<restproxy>/bcsgw/rest/v1/transaction/<invocation
+    or query>`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: These are references to test the earlier chaincode from Postman (you can use
+    any REST client here for testing). The following are target endpoint invocation
+    input -
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Target endpoint – invocation to insert receiver:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target endpoint: `/invocation`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target method: `insertReceiver`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Input JSON: `{"channel":"channeleducation","chaincode":"cceducation","method":"insertReceiver","args":["std123",
+    "Anand Yerrapati", "Blockchain"]}`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/8ee13f0c-47bd-4e05-bee4-c6a2a8ccef02.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Target endpoint—query to query by receiver ID:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target endpoint: `/query`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target method: `queryReceiverById`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Input JSON: `{"channel":"channeleducation","chaincode":"cceducation","method":"queryReceiverById","args":["std123"]}`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/7c48fa8d-44a1-4dad-8695-b922b57835b5.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Target endpoint – invocation to insert certificate:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target endpoint: `/invocation`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target method: `insertCertificate`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Input JSON: `{"channel":"channeleducation","chaincode":"cceducation","method":"insertCertificate","args":["cert1234","1234","ORU
+    Blockchain Certificate","std123","ORU","IT","6/5/2019","","Blockchain Course Completed","","","Issued"]}`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/963ddb92-910d-4a07-9397-188f6bcb979a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Target endpoint – invocation to query certificate by ID:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target endpoint: `/query`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target method: `queryCertificateById`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Input JSON: `{"channel":"channeleducation","chaincode":"cceducation","method":"queryCertificateById","args":["cert1234"]}`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/5ed4b05f-82c6-4f84-bc6e-d16be147637d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Target endpoint – invocation to approve certificate:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target Endpoint: `/invocation`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target method: `approveCertificate`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Input JSON: `{"channel":"channeleducation","chaincode":"cceducation","method":"approveCertificate","args":["cert1234","Approved","6/5/2019
+    05:04:45 PM"]}`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/42e52fa9-cc0e-4655-844c-049107a198cf.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Target endpoint – invocation to query certificate by ID:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target endpoint: `/query`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target method: `queryCertificateById`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Input JSON: `{"channel":"channeleducation","chaincode":"cceducation","method":"queryCertificateById","args":["cert1234"]}`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/31f5a98b-f1c6-4dce-a5aa-f552b3ecce0a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Target endpoint – invocation to query all certificates:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target endpoint: `/query`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target method: ``queryAllCertificates``'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Input JSON: `{"channel":"channeleducation","chaincode":"cceducation","method":"queryAllCertificates","args":[]}`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/1551a71e-38cc-460b-a5ee-9f3efb67391c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Target endpoint – invocation to query endpoint to get record history:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target endpoint: `/query`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Target method: `getRecordHistory`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Input JSON: `{"channel":"channeleducation","chaincode":"cceducation","method":"getRecordHistory","args":["cert1234"]}`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/438a98d4-24b1-4550-8b7f-53910e01dce4.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The following is the response of `getRecordHistory`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9f5ddc22-576a-47fa-9fde-287f0ab8dad1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Response message
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincode logs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Logs are available for the system generated print statements given in chaincode.
+    In OBP, these logs can be downloaded or viewed inline. Also, we can choose logs
+    for the selected peer or the logs for a selected chaincode version. You can access
+    the log files for a chaincode execution on the peer on which the chaincode is
+    deployed. The following is the procedure to open the log files:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Go to the **Chaincodes** tab and locate the chaincode that you want to view
+    the log of
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Expand the chaincode
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Click on the chaincode version that you want—the version information will be
+    displayed
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: On the **Installed on Peers** tab, locate the peer
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Click on the **Log** link and the **View Chaincode Log** dialog will be opened
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'You can also open log files by selecting the **Logs** tab of a specified peer
+    under the **Nodes** tab, as shown in the following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/87d995f6-55a5-48e6-bb1d-70ba9065832f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Chaincode logs
+  prefs: []
+  type: TYPE_NORMAL
+- en: Channel ledger
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The **ledger** is the ultimate storage for all of the transaction blocks of
+    the blockchain network. Each channel has its own ledger which is common to all
+    of the organizations in the channel. Organizations can have read, write, or both
+    permissions on the ledger to handle transactions. The ledger can be queried or
+    updated only through chaincode. OBP has an option in its console to view the blocks
+    on the ledger of a channel. Each block on the ledger stores the transaction ID,
+    the chaincode name, the status, the function name, the initiator of the transaction,
+    the endorser, and the list of arguments. You can also see the total number of
+    blocks and the count of the total user transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'By following this procedure, you can see the data on the ledger of a channel:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Go to the **Channels** tab
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Locate the channel you want and click on the channel name
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Under the **Ledger** tab, you can see all the block transactions of the channel
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Select any transaction to see its details, as shown in the following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/2b4e5788-4d50-472f-b68c-feffbfbbf3c1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Integrating client applications with blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'So far, we have explored OBP and experimented with the development, deployment,
+    and testing of chaincode on OBP. This section is a recap of the *Integration architecture* section
+    of [Chapter 3](6aaa9b0a-84b6-4fca-82c3-864e22d616b0.xhtml), *Delving into Hyperledger
+    Fabric*. The following integration architecture diagram highlights three integration
+    options with OBP: REST, SDK, and events.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When building and integrating a client with OBP using REST APIs—refer to the *Testing
+    chaincode from REST endpoints* section*—*ithelps to understand the use of REST
+    endpoints to invoke chaincode transactions. REST endpoints can be integrated with
+    the client applications and can execute them by passing the respective headers,
+    such as authorization, Content-Type, and the input JSON, including the mandatory
+    channel name and chaincode name fields and the required arguments. The response
+    is also a REST JSON, which should be handled in the client application. For connecting
+    blockchain using client SDK, REST APIs are provided by OBP. REST APIs allows flexibility
+    to invoke, query, and view the status of a transaction. However, if much more
+    fine-grained operations are required in applications, then the HLF SDK is an alternative
+    approach:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9d397ccf-7bb3-4d6d-941b-f35b870f70c0.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Integration architecture
+  prefs: []
+  type: TYPE_NORMAL
+- en: Refer to the *Integration architecture* section of [Chapter 3](6aaa9b0a-84b6-4fca-82c3-864e22d616b0.xhtml), *Delving
+    into Hyperledger Fabric,* for a sample-based integration strategy for applications
+    with blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Running an end-to-end flow
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This section is a quick recap of the learning in this chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/5d6720f7-ae87-432a-a1eb-50302d4123ad.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: End-to-end flow
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following is a list of the steps executed so far while exploring the university
+    use case and engaging with OBP to experiment with the development process on OBP:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Identified who is a founder of the blockchain network (in our case, it is OEU)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Found the participant organizations of the network (in our case, it is CVS and
+    ORS)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Created a founder and two participant instances in OBP
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Exported the Orderer certificate of the founder
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Imported the Orderer certificate to the network tab of both participant organizations
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Exported the network certificate of each participant organization
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Added both the organizations' certificates to the founder network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Created a channel, `channeleducation`, in the founder for all three organizations:
+    the founder and the two participants'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Joined peers to the channel in the founder as well as in the participants
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Exported the peers of each participant and imported them to the founder (this
+    may require you to see the consolidated topological view of all the peers of a
+    network; however, this step is required for the organizations participating in
+    endorsement)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Installed and instantiated chaincode (chaincode name: `cceducation`) in the
+    founder'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Installed the chaincode in other participants
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Enabled/configured REST proxies to the chaincode in all of the organizations
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Used the respective organization's REST endpoints to connect to client applications
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter covered details about chaincode development such as the language
+    section, development tools, and development environment setup. It detailed the
+    full life cycle of chaincode, from development to updates, which included installation,
+    initiation, testing, and versioning. It demonstrated the full chaincode with a
+    code base built on Go and Node.js. It illustrated endorsement policies and private
+    data collections and their functioning in concert with chaincode. It covered chaincode
+    testing via shim and REST endpoints and integrating client apps with a business
+    network using an SDK, REST, and events. Finally, it concluded with insights into
+    chaincode, transactions, and channels by experimenting with the monitoring of
+    a business via chaincode logs and channel logs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This ledger of knowledge was created with the belief that, together, we will
+    positively contribute to the evolution of blockchain technologies and continually
+    inspire others to share their experience and further influence others to do so.
+    Hence, the torch is with you, to continue influence by sharing, as sharing is
+    caring, and together we contribute to creating a smarter world.
+  prefs: []
+  type: TYPE_NORMAL

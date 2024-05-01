@@ -1,0 +1,3812 @@
+- en: Exploring Blockchain and BaaS
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Blockchain is perceived to be a disruptive game-changing technology that will
+    have an impact as huge as the internet in the next two decades. This programmable
+    economy has use cases and applications in almost every industry. Blockchain has
+    grown from being a buzzword to something of great interest to enthusiasts and
+    real implementers. Evangelists are not confined to **proof of concepts** (**PoCs**),
+    but have started real implementations and have started demonstrating concrete
+    achievements. Although the adoption is slow, Gartner projects (at [https://www.gartner.com/](https://www.gartner.com/)
+    on June 3, 2019) that adoption will be $3.1 trillion by 2030.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain is a world where users are in full control of transactions and the
+    information around them. The information flowing around is true, trusted, accurate,
+    consistent, accepted, complete, timely available, widely available, transparent,
+    and immutable. Blockchain, a type of **distributed ledger technology** (**DLT**),
+    removes the risk of a central point of failure, while the underlying cryptography
+    and algorithms will ensure the security in this immutable world. As the *trust*
+    is in the blockchain network itself, there is no need for a trusted central third
+    party. Welcome to the blockchain world, a world of distributed double-entry systems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This chapter starts with accounting systems, centralized and decentralized ledgers,
+    and coins the term *distributed double-entry system*. This chapter gradually moves
+    toward the definition and analogy of blockchain and demonstrates the power of
+    equity offered by **peer-to-peer** (**P2P**) networks. Here, you will also walk
+    through various types of blockchain networks, such as permissioned and permissionless
+    or public and private. This chapter then graduates toward the layered structure
+    of the blockchain architecture and structure of transaction, as well as the blocks
+    and the transaction flow. Finally, it covers how you can approach a blockchain
+    solution and defines the cloud approach to ease blockchain adoption—from PoC to
+    production using a **Blockchain-as-a-****Service** (**BaaS**) platform such as
+    the **Oracle Blockchain Platform** (**OBP**).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Accounting system – single and double–entry
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before we jump into blockchain and delve into Hyperledger Fabric and the Oracle
+    Cloud solution, we need to start with two core principles—ledger and accounting.
+    In an accounting system, business transactions are recorded in journals and ledgers.
+    Fine-grained details of every transaction are entered into various journals. Summarized
+    information from the journals is then transferred (also known as posted) to a
+    ledger. It is the information from the ledger that becomes the source for trail
+    balances and various financial statements. Every transaction is recorded in journals
+    and then posted to a ledger that records this information in various accounts,
+    such as asset accounts, liability accounts, equity accounts, revenue accounts,
+    and expense accounts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For any organization's accounting system, the ledger is the backbone. Anything
+    that has financial value is posted to the organization's ledger. However, these
+    ledgers are centralized ledgers and the organization has full control over them.
+    We will talk about centralized and decentralized ledgers later in this chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Accounting system – single–entry
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Accounting systems address the purpose of producing an operating document to
+    display ownership of assets, to protect assets, and various other tasks. Essentially,
+    an accounting system is a powerful means to check the loss of assets due to malicious
+    human activity, software, and so on, and to keep track of activities and transactions
+    around those assets. Historically, as activities around assets were minimum, single-entry
+    accounting was good enough to prove the ownership of assets. It is a form of accounting
+    system where each transaction is a single-entry in the journal.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A single-entry account system resembles the check register that individuals
+    use to track their checks, deposits, and balances. The information recorded is
+    minimal and is owned by that individual. It's an efficient system for very small
+    businesses that work on a cash basis of accounting, which have fairly low transactions
+    each day. There are no credit-based transactions and the assets that are owned
+    are very few and far between. Most importantly, there is no need to publish income,
+    financial, and balance statements. Historically, it would have worked very well
+    and, even today, it might work fine for very small firms that meet the aforementioned
+    attributes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are various challenges with single-entry accounting systems—there are
+    no scientific or systematic rules to record, post, and report on the transactions.
+    It appears as an incomplete system as it does not have both the aspects of the
+    accounts being recorded; hence, it fails to reflect the truth about the profit
+    or loss and will miss reflecting the true financial position of the organization.
+    With all of these shortcomings, a single-entry is vulnerable to frauds and various
+    errors in the ledger. Hence, to check on vulnerability, you need to trust a centralized
+    authority; therefore, historically, there was the need for a king to check for
+    vulnerabilities and maintain trust around the ledger. However, since trade has
+    expanded its boundaries, you need a mechanism to allow one ledger owner to trade
+    with another ledger owner. This immediately led to a double-entry accounting system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Accounting system – double–entry
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The double-entry system offers error checks that are not inherently available
+    in a single-entry system. Each account has two columns and each transaction is
+    reflected in two accounts. Two entries are pushed for each transaction; however,
+    every transaction has a debit entry in one account and an equivalent credit entry
+    to another account. An example of a double-entry account system would be if an
+    organization wants to purchase a new laptop for $2,000\. In this case, the organization
+    will enter a debit of $2,000 to an expense account and a credit of $2,000 to a
+    cash account to show a decrease from the balance sheet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Double-entry accounting is a way to show both of the effects of a transaction.
+    For example, if an organization purchases a laptop, the accounting entry does
+    not clarify whether the laptop was purchased for cash, in exchange for another
+    laptop, or on credit. Information like this can only be available if both of the
+    effects on a transaction are accounted for. In the accounting system, these two
+    effects are known as debit and credit. A double-entry accounting system follows
+    the principle of duality, which means that, for every debit entry, there is a
+    mandatory equivalent credit entry. Debit entries demonstrate effects such as an
+    increase in assets and expenses and a decrease in equity, income, and liability.
+    Similarly, credit entries demonstrate effects such as a decrease in assets and
+    expenses and an increase in equity, income, and liability. The double-entry system
+    ensures that the accounting equation remains in equilibrium:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Assets = Liabilities + Equities*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: At the end of the reporting period, the total debits equalize the total credit.
+    A balance sheet follows the equation, where the total assets are the sum of liabilities
+    and equities. Any deviation from this equation will highlight an error.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Interestingly, a single-entry account system accounts for only revenue and expenses
+    and does not monitor equities, liabilities, and assets. However, a double-entry
+    system accounts for revenue, expenses, equity, liabilities, and assets, which
+    makes it easy and precise to derive and calculate profits and loss, helps to detect
+    fraud, reduces errors, and allows the generation of various financial statements.
+    As both aspects of a transaction are recorded, it is easier to keep the account
+    complete. Maintaining the double-entry system involves time, money, skill, and
+    labor. There are chances of errors and mistakes. During an accounting year, transactions
+    are posted and adjusted in final accounts; there are difficulties in adjusting
+    transactions if tracking transactions is a challenge.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the double-entry system, the first entry demonstrates what you have, while
+    the second entry clarifies how you received it. If these entries are not in equilibrium,
+    it is a clear indication that counterparty exposure might not be effectively accounted
+    for which leads to audits and corrections. In the double-entry account system,
+    it is mandatory to account for every single movement of the value of the counterparty.
+    It has been a simple, proven, and effective accounting system for many years.
+  prefs: []
+  type: TYPE_NORMAL
+- en: However, think about when there is no exposure to the counterparty. A what-if
+    system does not know who owns it and is liable for the assets and the value recorded
+    in the journal, which are posted in the ledger. To send or receive an asset of
+    value, there must be a counterparty to receive and send it. Such fundamentals
+    were far from question until today. A transaction is recorded in an organization's
+    ledger, and the same transaction is recorded in the counterparty's ledger; for
+    example, a supplier's ledger or bank's ledger. It reflects the counterparty's
+    perspective for the same transaction. Various documents and statements such as
+    contracts, invoices, notes, bank statements, and receipts support these transactions.
+    This is prone to errors, such as reconciliation errors and missing cash, which
+    then leads to disputes. This needs dispute resolution, and to check all of these,
+    organizations invest in recording, analyzing, and auditing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The double-entry account system worked well for hundreds of years. In this section,
+    we will not emphasize the need for a triple-entry accounting system; however,
+    we will delve into distributed ledgers. Double-entry mandates the need for each
+    organization and its counterparty to maintain its own ledger, which in turn reflects
+    the *truth*. However, there are multiple copies of the truth. In addition, the
+    organization and the counterparty invest time, resources, and money to perform
+    truth-reconciliation to actually derive and agree on a single truth.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Centralized versus distributed ledgers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section highlights centralized and decentralized ledgers and distributed
+    ledgers, and outlines the differences between them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows different types of systems:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e0a571a6-4569-4b4e-a866-03a468000727.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Types of systems and ledgers
+  prefs: []
+  type: TYPE_NORMAL
+- en: Throughout this section, we will refer to the preceding diagram to understand
+    the layout of various types of ledgers. Before we drill into the differences between
+    centralized and distributed ledgers, let's understand the different types of system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'From the perspective of *control*, there are two types of systems—centralization
+    and decentralization systems:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Centralized system**: One entity controls the entire system, where an entity
+    can be a person or an enterprise.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Decentralized system**: In a decentralized system, there could be multiple
+    entities controlling the system. There is no single point of control, and the
+    control is shared between various independent entities.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'From the perspective of *location*, there are two types of systems—centralized
+    and distributed systems:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Centralized system**: All the constituting parts of the system, such as servers,
+    ledgers, and so on, are co-located and exist at the same location'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Distributed system**: All the constituting parts of the system, such as servers,
+    ledgers, and so on, are NOT co-located and exist at different locations'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'These categories of the system lead to the following variants of the system:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Distributed yet centralized system**: Distributed yet centralized system
+    is the category of system wherein the system is distributed, from the location''s
+    perspective, yet the system is controlled by a central authority or central entity.
+    For example, cloud service providers offer various services such as compute, storage,
+    SaaS, PaaS, IaaS, and so on. These services are offered via servers and databases
+    that are distributed. However, the entire system is controlled by the cloud service
+    provider. Such a system can be termed a distributed yet centralized system.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Distributed system**: Distributed systems, from the control''s perspective,
+    are decentralized, whereas from the location''s perspective, they are distributed.
+    This means that no single entity is the owner or authority of the system and the
+    system doesn''t have just one location—it is widely distributed. DLT and its type,
+    such as blockchain, are such distributed systems, where control is not with one
+    entity. Hence, no single entity can alter or modify the system (decentralized).
+    Also, DLT and blockchain are based on the P2P network, where nodes (peers or participants)
+    are independent and globally spread (distributed).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A distributed system is a superset of a decentralized system, and is based on
+    a P2P network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Centralized ledgers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The double-entry accounting system we've discussed so far highlights an accounting
+    system that has a centralized ledger. Anything with a financial value is recorded
+    in journals and posted to ledgers. These ledgers are just like the central repository
+    of the posted transactions, and they are the backbone of any organization.
+  prefs: []
+  type: TYPE_NORMAL
+- en: However, centralized ledger systems have various drawbacks as well. For example,
+    banks control the transactions that are posted into the bank's ledgers and they
+    maintain total control over bank statements. In this case, they can penalize you
+    at any given time and can transact money from your account at any given time.
+    If such a centralized institute has malicious intent, then the consequences could
+    be manifold; they could close down their business without prior notification,
+    which prohibits any further transactions. These examples are used mostly by the
+    blockchain evangelists who lean more toward complete decentralization of trust
+    authorities.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's look at a more viable challenge, pertaining to banks. Double-entry mandates
+    the need for each bank to maintain its own ledger to reflect their perspective
+    of truth, and as more banks are transacting with each other, they need to reconcile
+    their version of the truth to derive a single version of the truth. Banks today
+    spend time, money, and resources to ensure a consensus over the single truth.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Obviously, they have their ledger and hence their own system, which allows the
+    financial industry to avoid any chance of a single point of control and single
+    point of failure. In addition, it becomes more interesting as a customer opens
+    an account with a bank and puts his/her money with a level of trust in that banking
+    institute. Now, the onus is on the banking institution to safeguard your money
+    and information. On the other hand, the bank will invest a lot of time, money,
+    resources, and effort into building and maintaining a system and then spend even
+    more time, money, resources, and effort on integrating and checking with other
+    banking institutes to ensure that their mastered system is in consensus with the
+    other banking institutes' system to reach a common truth.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you analyze this closely, you will see that each bank's ledger is actually
+    replicating the functionality of the other banking institutions. Now, what if
+    one of the banking institute's systems fail? Is this going to lead to a situation
+    where reconciliation is not possible? Doesn't this sound more like a single point
+    of failure? The answers lie in the distributed ledger discussed in the following
+    section and throughout the book.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Distributed ledgers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Across the world, in the economical, legal, political, and institutional systems,
+    the key elements are transactions, contracts, and documents. They dictate the
+    relationship between countries, enterprises, organizations, communities, and individuals
+    and, most importantly, they are perceived to offer trust. Interestingly, these
+    have not joined the digital transformation to a greater extent and for the greater
+    cause. So, what is the solution? Distributed ledgers and DLT, along with blockchain,
+    offer the solution to such critical challenges. In this section, we will explore
+    more about distributed ledgers and DLTs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In a distributed ledger, there is no central authority or a central administrator.
+    It is an asset database that is shared over the network, where each party on the
+    network has an identical copy of the ledger. These assets can be financial, legal,
+    and electronic assets. Changes to the value of these assets are reflected throughout
+    the network, and each copy of the ledger is appended.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Many organizations, governments, and institutes use a central database of the
+    ledger, which we discussed in the *Centralized ledgers* section. A centralized
+    ledger needs a central authority to be trusted by transacting parties; however,
+    in a distributed ledger, the need for a third party is omitted, which is one of
+    the gravitational forces behind the attraction to DLT. Here, I have quietly used
+    the term DLT because a distributed ledger can be pronounced as a shared ledger
+    or a DLT, and they are one and the same.
+  prefs: []
+  type: TYPE_NORMAL
+- en: What's disruptive about a DLT is that the ledger database is distributed, spread
+    on all of the nodes or computing devices across the network, and each node has
+    an identical copy of the ledger, where nodes update themselves independently.
+    All of the participating nodes reach an agreement to establish a single truth
+    (true copy) for the ledger through a process called **consensus**. Once a consensus
+    is reached, the distributed ledger is updated automatically and the latest truth
+    (true agreed copy) of the ledger is appended on each node separately. While reading
+    this paragraph, you might think about the reconciliation process of banks to establish
+    trust and an agreement on the ledger. With DLT, trust (reconciliation) and consensus
+    (agreement) happen seamlessly and automatically.
+  prefs: []
+  type: TYPE_NORMAL
+- en: What we just found out is that there is no central authority in the previous
+    story to maintain the distributed ledger. DLT empowers systems to reduce the dependencies
+    on various central authorities such as banks, lawyers, governments, regulatory
+    offices, and third-party authorities. Distributed ledgers omit the need for a
+    central authority to validate, authenticate, and process transactions. Transitions
+    on DLT are timestamped and have a cryptographic unique identity, where all records
+    in question are available for the participants to view, and this ensures that
+    the verifiable and auditable history of the transaction is stored immutably.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the decentralized distributed ledger, the transaction is replicated to the
+    distributed ledger, which means all the participating nodes' copies of the ledger
+    are appended; however, there is no central single database. It is the network
+    that is decentralized. Such a system needs a decentralized consensus as there
+    is no single point of contract, or single authority or party. Hence, to ensure
+    trustlessness, consensus is a must. In a traditional database system, a single
+    party acts on behalf of the transacting clients to modify the state of the system.
+    However, in a distributed ledger, any party can record, and the protocols and
+    algorithms govern the posting of transactions on the network's ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following table lists some of the differences between a centralized ledger
+    and a distributed ledger:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Centralized ledger** | **Distributed ledger** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Reconciliation is required (both internal and external). | Reconciliation
+    is not required; however, a consensus is required to reach an agreement. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| There''s no restriction on DB operations. | It''s append-only. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| There''s a single point of failure. | It''s distributed; hence, there''s
+    no single point of failure. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| There''s a single point of contact. | It''s decentralized; hence, there''s
+    no single authority. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| There are third parties, middlemen, and gatekeepers. | It''s P2P. There''s
+    no central party, and appending to the ledger is governed by the consensus. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Backup and disaster recovery are required. | Resilience and availability
+    increases as more and more participating nodes get to the network. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Actions can be performed on behalf of someone. | There''s cryptographic authentication
+    and authorization. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| NA | It''s immutable as the data added to the ledger stays immutable. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| NA | There''s direct interaction of the nodes, allowing initiation of direct
+    transactions of assets such as currency, real assets such as land titles or documents,
+    and so on. |'
+  prefs: []
+  type: TYPE_TB
+- en: Equipped with the knowledge of ledgers, let's now dive into DLT and blockchain
+    and understand the difference between them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: DLT and blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Blockchain is a P2P network, where the ledger is distributed and transactions
+    are posted to the ledger only upon consensus. Such a P2P network, along with various
+    components such as smart contracts, cryptography, and algorithms, help to build
+    a blockchain network that delivers trust. Blockchain allows participating parties
+    (nodes) to establish consensus without an intermediary, which leads to a single
+    distributed truth (ledger). There's no reconciliation, no delays, and no intermediary,
+    and transactions are recorded in real time over an immutable ledger forever.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We have not covered the details about blockchain and, in this section too,
+    we will just touch on the definition and jump into the difference between blockchain
+    and DLT. So far, we know about distributed ledgers. Blockchain technology concentrates
+    on securely and efficiently building an immutable record of transactions, also
+    known as activities of high importance. Blockchain (one form of DLT) is the most
+    accepted DLT; however, DLT by itself has a lot of potential for the future. There
+    are various types of DLTs, as displayed in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/4f7d8dfc-d527-43d0-8d3a-247794d339bb.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: DLT
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain groups data into blocks, chains them together, and firmly secures
+    them through cryptography. Blockchain is an always growing append-only chain of
+    blocks, where agreed upon transactions are appended only to the blocks. They can
+    never be altered or deleted and this immutability has various use cases. Now,
+    by virtue of the fact that blockchain is a form of DLT, it's the ledger that is
+    distributed on the blockchain network. Each node has a copy of the ledger and
+    transactions are only added securely when they reach a consensus by the participating
+    nodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: DLT is a broader term to highlight those technologies that allow the distribution
+    of information among participants (public or private). Blockchain is one of the
+    types of DLT that got wider acceptance and is very popular and, as a result, it
+    turned out to be the synonym of DLT. DLT focus on a technology that does not have
+    central authority, and interestingly, blockchain is a chain of blocks, while DLT
+    neither mandates any requirement for chains nor for blocks. For the vision of
+    blockchain, DLT resonated well; hence, every blockchain is a DLT. However, it
+    is not mandatory for a DLT to be a blockchain. Here's an analogy of DLT and blockchain
+    with the term vehicle and car, respectively. Hence, our equation is—every car
+    is a vehicle; however, not every vehicle need be a car.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following table summarizes the differences between DLT and blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **DLT** | **Blockchain** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| It''s a ledger that is distributed over the network. | It''s a P2P distributed
+    ledger. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| The ledger remains immutable. | Transactions are grouped into blocks, and
+    blocks are immutable. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| DLT includes a consensus algorithm that ensures an agreement. | Blocks are
+    added to the chain when a consensus is reached and each block has transactions.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| There''s no central authority or centralized data storage. | There''s no
+    central authority or centralized data storage. |'
+  prefs: []
+  type: TYPE_TB
+- en: 'A few other DLTs that have received popularity and acceptance are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chain Core
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Corda
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Directed acyclic graph** (**DAG**)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hash graph
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: peaq
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Quorum
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In conclusion, DLT has broadly– and blockchain has specifically– created a system
+    where the world can have a P2P distributed ledger that is trusted, immutable,
+    secure, and consensus-based. There are various types of DLT, such as blockchain
+    and DAG, and while blockchain has received wider acceptance, DAG is gaining momentum
+    slowly but steadily. For the sake of this book, we will be concentrating on DLTs
+    such as Hyperledger Fabric and blockchain. However, whichever DLT it is, the core
+    benefits of DLTs are transparency, immutability, efficiency, and the absence of
+    a third party.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**DLTs that are blockchain**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain is a form of DLT where data is stored in the form of blocks. These
+    blocks are linked and encrypted. Hence, it can also be termed an encrypted linked-list
+    of blocks, where you can trace the provenance of the block (this means you can
+    reach back to the genesis block). This linked-list of blocks (also known as a
+    chain of blocks) is ever-growing. Such a massive growth leads to slow transactional
+    speed and needs large storage capacity on a P2P network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Blockchain technology as a platform**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's start by talking about the first application of blockchain technology—cryptocurrency.
+    However, cryptocurrencies are not discussed further in this book. For cryptocurrency
+    transactions, a ledger is distributed over the P2P network. Any user (node) can
+    join the network without permission and can start transacting. As long as the
+    user (node) adheres to transaction protocol, transactions can be executed. If
+    they are valid, they will be added to the blockchain network. Similarly, any node
+    can participate in the consensus process and start validating transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Such blockchain networks are public and offer read access to everyone via explorer
+    applications. Such transaction information does not contain user details. They
+    just have the transaction details. Such public blockchain networks do not incur
+    costs to system administrators as the mining is performed by participating nodes
+    and the miners are paid incentives for their efforts to validate the transaction.
+    In turn, the miner can afford the infrastructure themselves by taking care of
+    the server, machines, and electricity costs. You can think of such an infrastructure
+    as crowd-funded, crowd-maintained, and crowd-validated. The cost is shared among
+    the participating nodes. With this approach, the upfront and maintenance cost
+    for the infrastructure is greatly reduced in comparison to centralized systems.
+    Some of the popular currencies are Litecoin, Ripple, EOS, Bitcoin, Ethereum (Ether),
+    and so on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Other than cryptocurrency, a blockchain platform fuels growth for permissionless
+    networks or permissioned networks. It can be used as a platform for various types
+    of transactions and consensus that represent an asset (a thing of value). Permissionless
+    networks include Ethereum, while permissioned networks include Hyperledger Fabric
+    and R3 Corda.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**DLTs that are not blockchain**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are various DLTs that are *not* blockchain, such as DAG, Hashgraph, and **Digital
+    Asset Holdings** (**DAH**). They are also based on distributed ledger concepts;
+    however, they are not based on a chain of blocks (also known as blockchain). They
+    are mostly effective and their transaction volume is extremely high. DAH is mostly
+    relevant to use cases such as financial services and banks. Hashgraphs are permissioned
+    DLTs based on voting algorithms. DAG (table) is another DLT that is not based
+    on blockchain. It is currently used for IOTA and micropayments.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Comparing blockchain and DAG:'
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Both blockchain and DAG are DLTs. However, let's look at the differences between
+    these two for a better perspective on their technologies.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following table compares DLT - Blockchain and DAG:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Properties** | **Blockchain** | **Directed Acyclic Graph** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Structure | It is a linked-list of blocks where transactions are grouped
+    into blocks. | It is a network of linked transactions. There are *no* blocks of
+    transactions. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Data structure | It''s a linked list (list of blocks). | It''s a tree (tree
+    of transactions). |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Consensus | Transactions are validated block by block to meet the consensus.
+    | Transactions are validated by one another. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Features | It offers transparency and immutability. | It offers high scalability
+    and a negligible fee. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Use case | It''s suitable for use cases with low volume and high worth of
+    transactions. | It''s suitable for high volume, of transactions. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Pitfalls | There''s a high transaction cost, storage and bandwidth requirements,
+    and computing power (for permissionless scenarios). | Low transaction volume can
+    lead to attacks. For private versions of DAG, it uses coordinators, which do not
+    allow DAG to be fully decentralized. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Approach | It''s a linear, utilitarian DLT that offers near real-time updates
+    for transactions and offers disintermediation. | It has a non-linear approach
+    that actually results in faster transactions as the network grows. |'
+  prefs: []
+  type: TYPE_TB
+- en: Accounting system – triple–entry or distributed double–entry
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let me pull you back to accounting systems again. We've already talked about
+    single-entry and double-entry accounting systems. Focusing more on ledgers drove
+    us to familiarize ourselves with centralized and distributed decentralized ledgers.
+    In addition, even before we had the definition of blockchain cemented in this
+    chapter, we tried to compare it with DLT. Now, we are back to square one, to answer
+    another important question about blockchain in the accounting world.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are various discussions around the triple-entry accounting system. Many
+    advocates believe that a triple-entry accounting system is an advanced enhancement
+    to the age-old and proven double-entry accounting system. Debit and credit remain
+    the two prime entries, and the third vertex entry is an immutable link to all
+    of the previous debits and credits, which means all of the ledger entries have
+    an immutable cryptographic seal.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's say two organizations are performing a transaction; one will post a debit
+    to their account for the amount received while the other organization will post
+    a credit to their account for the amount spent. However, these postings are into
+    different ledgers. We have seen this previously in the banking institute example.
+    Now, these organizations have separate copies of ledgers and then they will **reconcile**
+    it to ensure that they have a common 'true' understanding. DLT will ensure that
+    there aren't two ledgers. There will be one ledger, which will remains distributed,
+    and blockchain technologies will ensure that the transactions that are posted
+    to the distributed ledger are immutable and securely sealed. Immutability will
+    ensure that it is never tampered with, and cryptography will take care of the
+    security aspects. As a result, enterprise and business do not need to reconcile
+    ledgers as there are no separate silos ledgers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Although there are various definitions of a triple-entry accounting system,
+    it will be extremely difficult to replace the proven double-entry accounting system.
+    Triple-entry accounting is a complex term; we do not deny the fact that there
+    are enormous benefits of posting transactions to a distributed ledger in a blockchain
+    network. Posting and recording transactions in a distributed, append-only, immutable
+    ledger has many benefits, and we will touch on these in this book.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For example, as soon as a contract is signed, a block is created on the blockchain
+    and a transaction is posted to the distributed ledger in the blockchain network.
+    Someone can issue a purchase order against that contract, and this transaction is
+    appended as a block to the blockchain too, which means it is posted to the distributed
+    ledger as well. Bills can be issued against those purchase orders and payments
+    can be associated with those bills in separate transactions and recorded to the
+    distributed ledger. You have a chain of blocks, which displays transactions from
+    contracts to payments, in a single distributed ledger. This means you have an
+    excellent audit record and real-time visibility of transactions by all of the
+    transacting parties. Permissioned DLTs, such as Hyperledger Fabric, can further
+    enable you to provide restricted access to those transactions. Moreover, those
+    posted transactions need no reconciliations and are immutable and omnipresent.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We just learned that, in a distributed ledger on a blockchain network, transactions
+    are immutable and no one can falsify them. Transactions are timestamped, verified,
+    agreed upon via a consensus, and trusted; this offers an easy way to retrieve,
+    access, analyze, and audit in real time, anytime. A chain of transactions, in
+    the blocks, are tied together and are distributed across the blockchain network,
+    where each participating node has the same copy of the ledger (single truth over
+    the network). In this equation, we have not witnessed a single authority/party
+    as there is no central trusted party; the trust is in the blockchain network and
+    the distributed ledger. Welcome to the blockchain world, a world of distributed
+    double-entry systems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In conclusion, I personally believe in the distributed double-entry accounting
+    system. You can term it a triple-entry account system if you want to. However,
+    the essence of such an accounting system remains the same—a double-entry accounting
+    system that is distributed, secure, and immutable. In this equation, DLT offers
+    the distribution of the ledger, and blockchain technology will ensure the cryptography,
+    security, digital receipt, and immutability of the single distributed ledger.
+    Therefore, throughout this book, we will use the term distributed double-entry
+    accounting system, which you can still term as a triple-entry accounting system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain definition and analogy
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: With all of these fact checks about ledgers, types of systems, and knowing about
+    the difference between DLT and blockchain, let's get into the definition and analogy
+    of blockchain. Blockchain is a P2P network, where the ledger is distributed and
+    transactions are posted to the ledger, but only upon consensus. Such a P2P network,
+    along with various components, such as smart contracts, cryptography, and algorithms,
+    help build a blockchain network that delivers trust. Blockchain allows participating
+    parties (nodes) to establish consensus, without an intermediary, which leads to
+    a single distributed truth (ledger). There's no reconciliation, no delays, and
+    no intermediary, and transactions are recorded in real time over an immutable
+    ledger forever.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's use an analogy for blockchain. Let's refer to blockchain as a notebook.
+    Each page represents a block on this blockchain. You can record data of any kind,
+    such as medical records and financial transactions, on this page, which is also
+    known as a block, where each page (block) is chained to the previous page (block).
+    This chain is not just a link to the previous page; it also contains information
+    about the page in such a way that, once the data on the page is defined and added
+    to the notebook, it cannot be changed. If it is changed, information about the
+    page is changed. Then, the chain it holds with the other page is changed and so
+    on. This is noticeable since the chain link is broken. Hence, the lines on each
+    chained page are immutable.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain technology also includes smart contracts, which are intelligent programmatic
+    contracts, also known as rules; these are defined and executed when an event of
+    a certain type occurs on the blockchain network. It is called blockchain because
+    the chain of blocks are a linked list of the blocks, where each block has one
+    or many transactions. These transactions are verified and validated by the blockchain
+    network in a given time span. The blockchain protocol's consensus algorithm, adopted
+    for that blockchain network, defines the rules and incentive of the participating
+    nodes. We will cover this in detail in the consensus algorithm section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain is a chain of blocks, where each block has transactions that are
+    recorded on a ledger (blockchain), which is distributed over all of the participating
+    nodes in the blockchain network. This distributed ledger is the distributed double-entry
+    ledger (as discussed previously), which records transactions for any digital asset
+    or an asset of value. For a blockchain network, transactions are recorded on the
+    distributed ledger from when it (the ledger) started, and they remain there immutably,
+    forever. Hence, financial statements can be generated, traced, and validated from
+    the start of the network. Interestingly, as the ledger is distributed and a copy
+    of it is on all of the participating nodes, any node can verify the transaction
+    and announce the transaction verification to reach consensus.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Analogy
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's look at another analogy. Let's journey to a technology-less time. There
+    was a beautiful village with a few families where, instead of currency, they exchanged
+    goods.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A vegetable farmer would trade vegetables for rice, and a rice farmer would
+    trade rice for peanuts, and so on. It worked fine until they started making promises
+    to each other. Promises (transactions) were the credits, where a farmer would
+    buy vegetables without giving away the rice; instead, the rice farmer would promise
+    the vegetable farmer they would return rice when it was harvested. Similarly,
+    the fruit farmer would get rice, with the promise of delivering oranges at the
+    time of harvest.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The vegetable farmer trusted the rice farmer; however, over time, there were
+    several promises transacted between various farmers and it was difficult to track
+    those promises, which resulted in a breach of trust. Finally, the villagers appointed
+    a person to keep track of these promises. This person was given the title LedgerMan
+    (centralized third party). Soon, the LedgerMan established trust; however, he
+    was overwhelmed with promises and started demanding a fee (transaction cost).
+    The villagers agreed to pay him a portion of the promise as a fee. This eventually
+    turned the LedgerMan into a rich person. Later, the LedgerMan indulged in corruption,
+    started accepting bribes to tamper with the ledger, bribed villagers to keep his
+    position safe, and sometimes enhanced the fee.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Soon, the villagers realized the challenges of having a LedgerMan (a centralized
+    system). Hence, they decided that, instead of a single LedgerMan keeping the promises,
+    promises would now be kept by everyone (decentralized). There would not be a single
+    person holding the promises; the villagers would meet at a designated place to
+    make promises, and every promise would be recorded by each villager (P2P network).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once a week, they would validate the promises by reading out their version of
+    the promise. If the majority of the villagers reached an agreement (consensus)
+    over a promise, that promise would be considered valid and would be considered
+    as truth (ledger). In the event of an issue, the promise, which had most of the
+    entries, would be considered a correct promise and would help to resolve any promise-based
+    issues (longest chain). Over the course of time, they added security and various
+    other bells and whistles.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will revisit this story and extend it as well. For now, we understand that
+    blockchain is a solution (protocol) that allows a leaderless (decentralized) group
+    of peers (P2P) to reach an agreement (consensus) on a transaction, and the moment
+    they occur (synchronized), they are recorded (post) on an omnipresent tamper-proof
+    (immutable) distributed linked-list (ledger), where each peer holds a copy (distributed)
+    of it. We just learned that blockchain is a P2P network; now, let's find out exactly what a
+    P2P network is.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain components
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Blockchain comprises various components that work in tandem in a blockchain
+    network. We will cover some of these components in this chapter, as well as a
+    few others, such as member services, will be discussed in detail in subsequent
+    chapters. The following is a list of blockchain components:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Ledger**: A ledger is a distributed ledger where transactions are recorded/posted
+    immutably. Being a type of DLT, blockchain ensures immutability of transaction
+    history, right from the genesis block to the current block. We have covered single-entry
+    and double-entry accounting in this chapter. A blockchain ledger is a secure implementation
+    of a distributed double-entry accounting system.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Peer network and nodes**: A P2P network is a computer network where computers
+    (peers/nodes) are distributed and share the network''s workload to reach the end
+    goal. Nodes perform transactions on the blockchain. There are two kinds of nodes—full
+    node and light node. DLT types such as blockchain or Hyperledger can be public
+    or private. In public blockchain, each node has equity; however, they can operate
+    with distinct roles, such as miners, as full nodes, where the entire copy of the
+    blockchain will be replicated on such nodes. They can also act as light nodes
+    and can hold key or block header values only.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Smart contracts or chaincode**: For a blockchain such as Ethereum, and a
+    DLT such as Hyperledger, smart contracts, or chaincode, are the code logic that
+    is executed on a blockchain network. Participating nodes or blockchain clients
+    can issue transactions against that business logic (smart contracts or chaincode).
+    With the inclusion of a blockchain layer, the ledger will store not only the immutable
+    transactions but also the immutable code.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Membership services**: For DLTs such as Hyperledger, membership services
+    offer identity and security solutions, which ensure the participation of users
+    on a blockchain network. Authentication and authorization are functions of membership
+    services. They are mostly used in private and permissioned blockchains or DLTs.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Events**: It''s the responsibility of the blockchain or DLTs to raise events
+    when certain defined actions happen on the blockchain/DLT. Events are effective
+    ways to allow other subscriber applications or systems to interact with the blockchain
+    network.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consensus**: The consensus algorithm (or protocol) is the core for the existence
+    of blockchain platforms. Needless to say, a blockchain network cannot exist without
+    consensus. The consensus layer is the most critical and crucial layer for any
+    blockchain (Ethereum or Hyperledger, or any other). Consensus is responsible for
+    validating the blocks, ordering the blocks, and ensuring that everyone agrees
+    on it. Visit the *Consensus algorithm* subsection, in this chapter for details
+    about consensus algorithms.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In the previous section, we discussed ledgers and distributed systems in detail.
+    In this section, we will focus on the P2P network. This chapter, *Exploring Blockchain
+    and BaaS*, and [Chapter 2](66a7f3de-72ef-49e8-95fb-c65908888e2e.xhtml), *Construing
+    Distributed Ledger Tech and Blockchain*, cover all the enlisted components in
+    detail.
+  prefs: []
+  type: TYPE_NORMAL
+- en: P2P network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Blockchain technology leverages the internet and runs on a P2P network of computers.
+    These computers run the blockchain protocol, which allows these computers to keep
+    a copy of the ledger. This ledger includes transactions that are packaged in blocks
+    and chained together in a genesis block. The inclusion of blocks in the chain
+    is agreed over consensus, without an intermediary.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A blockchain distributed ledger runs on a P2P network, where transactions are
+    validated using cryptography by consensus algorithms. A blockchain network defines
+    the consensus algorithm for it, which is essentially the rule to validate transactions
+    on the blockchain P2P network. Upon reaching the consensus, blocks are added to
+    the ledger. The node adding the block to the network is then offered incentive
+    (depending on the type of blockchain). Hence, the highlights are that, in the
+    P2P network of a distributed ledger, transactions are verified using cryptography
+    and validated using consensus.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows types of networks:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b67b0271-5350-47c8-835a-d91083d1dbcb.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: P2P network
+  prefs: []
+  type: TYPE_NORMAL
+- en: As shown in the previous diagram, a **Centralized** network has a central node,
+    which defines and governs the validation and verification of the transactions.
+    All other connecting nodes rely on the central authority. The central authority
+    has full access and control of the data, information, and state of the transactions.
+    Although it's a network that is highly regulated, it's also centrally controlled.
+    On one hand, it's safe and secure as long as trust holds true between the central
+    authority and participating nodes; however, human error, malicious intent, single
+    point of failure, and power being in the hands of a single authority has its own
+    challenges. It is suited for very small organizations, where decisions can be
+    taken quickly and even the smallest decision is visible. **Decentralized** networks
+    are almost the same as centralized ones; however, here, the central node itself
+    is distributed. This means the centralization of authority is distributed. In
+    a decentralized network, each node is not directly connected to node; however,
+    in a P2P network, each node is connected to other nodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network of equity or the peer-to-peer network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A P2P network leverages the network; however, the attachment and detachment
+    of nodes is completely voluntary. The network is a network of *equity*, where
+    each peer is the same as any other peer, and it is fair and impartial. One peer
+    offers computing resources to other peers, without the need for a central authority
+    to control, govern, or maintain the network. Even though it has equity, each node
+    has a fair chance of adopting the role of the miner or can turn itself into a
+    full node. Each node keeps a copy of the distributed ledger, and this protocol
+    of the blockchain network ensures resilience and immutability of the blockchain
+    network. A blockchain network can resurrect the entire system as long as there
+    is a single node that holds the copy of the distributed ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: On a P2P network, information is recorded and replicated between all of the
+    participating nodes; hence, the power, consistency, reliability, and trust in
+    the P2P network grows more and more, as more and more nodes join the blockchain
+    network. Also, as there is no single point of failure and no single authority,
+    the system is not vulnerable to hacking, loss of data, inconsistency, human errors,
+    or a single part controlling the network agenda, and so power and privacy remains
+    with each node. Note that it's the consensus algorithms that ensure the synchronization
+    of data on the blockchain. There are various consensus algorithms, such as **proof
+    of work** (**PoW**) and **proof of stake** (**PoS**). We will be talking about
+    them in detail in this book.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Layered structure of the blockchain architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section covers the layered architecture of blockchain. In this section,
+    we will be diverging to Ethereum and Hyperledger Fabric as well. While discussing
+    the Hyperledger Fabric infrastructure, we will drill into the OBP's infrastructure
+    as well.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram displays the layered architecture of blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9752b5e2-1c80-438e-b129-b0466cfbced9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Blockchain layered architecture
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hardware and infrastructure layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The content of the blockchain is hosted on a server that resides in a data center
+    on this beautiful planet. While browsing the web or using any applications, clients
+    request content or data from application servers, commonly referred to as client-server
+    architecture. However, today, clients can connect with peer clients as well and
+    share data among each other. Such a massive collection of computers sharing data
+    with each other is termed a P2P network. Blockchain is a P2P network of computers
+    that computes transactions, validates them, and stores them in an ordered form
+    in a shared ledger. This results in a distributed database that records all the
+    data, transactions, and other relevant information. Each computer in a P2P network
+    is called a *node*. Nodes are responsible for validating transactions, organizing
+    them into blocks, broadcasting them to the blockchain network, and so on. Upon
+    reaching consensus, nodes commit the block to the blockchain network and update
+    their local ledger copy. This layer comprises of virtualization (creation of virtual
+    resources such as storage, network, servers etc.). Significantly, nodes are the
+    core of this layer. When a device gets connected to a blockchain network, it is
+    termed and considered as a node. On a blockchain network, these nodes are decentralized
+    and distributed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethereum - Infrastructure layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's look at the nodes in Ethereum. Anyone and everyone can run an Ethereum
+    node on their machine. This will enable their machine to participate on the Ethereum
+    blockchain network. Nodes can run a client (compatible client), such as Geth,
+    Parity, or Pantheon, to connect to Ethereum blockchain. Geth is written in Go,
+    Parity is written in Rust, and Pantheon is written in Java. A node (node-running
+    client), can be either a light node (client) or a full node (client). Light nodes
+    store the cache, while full nodes (client) store the dataset, which grows linearly
+    with time. Light nodes (clients) get high assurance from the Ethereum blockchain
+    network about the state of the Ethereum, and they can participate to verify the
+    execution of transactions. On the other hand, any node that participates in the
+    full enforcement of consensus and downloads the entire blockchain to the node’s
+    local storage is known as a full node (client). Full nodes verify signatures,
+    format the data of the transactions and blocks, check double spending, and so
+    on. They essentially validate the transactions and use a gossip protocol to relay
+    this information to other nodes, called peers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: These Ethereum nodes (clients) run the **Ethereum Virtual Machine** (**EVM**).
+    EVM is a Turing complete software; a stake-based virtual machine that enables
+    untrusted code to be executed by a global P2P network of computers. EVM handles
+    the internal state and computation. Ethereum blockchain is a Turing complete blockchain
+    where developers can also develop programs (smart contracts) for the blockchain.
+    EVMs are like JVMs, and they run on each node on the blockchain. EVMs are like
+    transaction engines, which are responsible for changing the blockchain's world
+    state. EVMs run as sandboxes and offer an execution environment for the smart
+    contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric – Infrastructure Layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This blockchain network, which is based on Hyperledger Framework, is comprised
+    of peer nodes, and these nodes host ledgers and chaincode (also known as smart
+    contracts). Essentially, peers host instances of the ledger and chaincode, which
+    keeps an eye on single points of failure. As peer nodes are responsible for hosting
+    the ledger and chaincode, applications and administrators need to interact with
+    these peer nodes. A node in Hyperledger Fabric can host more than one ledger.
+    In some cases, a peer node can only host a ledger, and not the chaincode (it is
+    rare, but possible). Most nodes have at least one chaincode installed to update
+    or query the node’s ledger. A node can host multiple chaincode and multiple ledgers
+    too, which are powered by channels. You will learn more about channels and the
+    Hyperledger Fabric architecture in [Chapter 3](6aaa9b0a-84b6-4fca-82c3-864e22d616b0.xhtml),
+    *Delving into Hyperledger Fabric*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To access the chaincode or ledger, applications and administrators (via admin
+    applications) will always connect with peers via Fabric **software development
+    kit** (**SDK**) APIs. These APIs allow applications to execute transactions on
+    the blockchain network and receive events related to the confirmation of the process.
+    There are two types of transaction—query and update transactions. For query transaction,
+    consensus is not required, as the peer will return the result immediately from
+    its local copy of the ledger. However, for update transactions, no individual
+    peer can update the ledger because other peers need to agree before updating the
+    ledger. This process of reaching an agreement to update the ledger is termed *consensus*.
+    You can read more about the ledger-update transaction process in [Chapter 3](6aaa9b0a-84b6-4fca-82c3-864e22d616b0.xhtml),
+    *Delving into Hyperledger Fabric*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A specific set of applications and peers can communicate via channels, since
+    a channel is a partition – a pathway of communication – between the specific application
+    and peer(s). Hyperledger Fabric is for enterprises and it caters to private-permissioned
+    (consortium) and private-permissionless use cases. Various like-minded organizations
+    form a consortium to build a blockchain business network. Hence, peers are owned
+    by various organizations. These organizations offer resources for the setup, maintenance,
+    and operations of the blockchain network. One of the resources is nodes (peers),
+    and the business network can continue to exist as long as one organization with
+    one peer remains alive on the blockchain business network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The administrators of that organization assign nodes to the blockchain business
+    network. Each organization has a certificate authority, which assigns a digital
+    certificate to these nodes. This digital certificate (X.509) is the digital identity
+    of these peers. This digital identity helps in identifying the owning organization
+    of the peer when the peer tries to connect to a channel on the blockchain business
+    network. A channel has policies, which determine the rights and privileges of
+    the peer. This mapping of the peer’s role in an organization and the peer’s identity
+    to an organization is provided the **Membership Service Provider** (**MSP**).
+    Anything that interacts with the blockchain business network, such as peers, applications,
+    admins, orderers, and so on, must have an identity and an associated MSP to enable
+    their integration with it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Orderers nodes ensure the consistency of the ledger across the blockchain business
+    network. Let’s take a quick glance at the transaction flow of a blockchain network
+    based on Hyperledger Fabric. This entire process is mediated by orderers (orderers'
+    nodes), where all the peers reach a consensus on the content of the transaction,
+    and also the order of the transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Transaction Flow**: Transactions in a Hyperledger Fabric-based blockchain
+    network happen in a multi-phase process. Please visit the *Transaction flow* section
+    of [Chapter 3](6aaa9b0a-84b6-4fca-82c3-864e22d616b0.xhtml), *Delving into Hyperledger
+    Fabric*,for more details. Here is the glimpse of the transaction flow:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**First phase** (**endorsing phase**): The application initiates a ledger-update
+    transaction. This transaction request is handled by endorsing peers (nodes as
+    endorsers). These nodes endorse the proposed ledger update and send the endorsement
+    to the application. However, no commits are performed to the ledger.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Second phase** (**ordering phase**): Proposal response from endorsed transaction,
+    from various applications are received by the orderers'' nodes. These nodes order
+    the transactions into blocks.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Third phase** (**distribution phase**): Finally, ordered blocks are distributed
+    to all the peers in the blockchain business network. These peers will validate
+    the transaction and, upon successful validation, commit the transaction to the
+    local copy of the ledger.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Orderers'' nodes are the mediators of the entire transaction process. This
+    transaction process is known as a consensus, as all the peers in the blockchain
+    business network have agreed about the transactions and the data of the transactions.
+    The ordering service leverages a message-oriented architecture, Ordering service
+    can be implemented in one of the following three ways:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Solo
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Kafka
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Raft
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following table highlights the features of various order service implementations:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| Features | **Solo** | **Kafka** | **Raft** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Number of nodes | Single ordering node | Multiple ordering nodes from one
+    organization. | Multiple ordering nodes from different organizations. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Fault-tolerant | Not fault-tolerant | **Crash fault-tolerant** (**CFT**),
+    which uses a ledger and follows node configuration. Uses ZooKeeper ensemble for
+    management. | CFT based on Raft protocol. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Implementation | Development and testing (not for production) | Production
+    grade, however has management overhead. | Production grade and easier to implement
+    than Kafka. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Distributed order service |  | Kafka clusters are practically run by one
+    organization (maybe a founder organization). Hence, all the ordering actually
+    goes to one single organization. Hence it''s partially decentralized. | Allows
+    distributed ordering service as various organizations can contribute their nodes
+    to form a distributed order service. Hence, it is fully decentralized. |'
+  prefs: []
+  type: TYPE_TB
+- en: 'From a physical presence perspective, nodes can reside in one of the following
+    locations:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cloud tenanted or owned by one of the organizations
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Data center or on-premise owned by one of the organizations
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: On a local machine
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Essentially, identity of the peer associates its affiliation with an organization
+    and determines that it is owned by that organization. These nodes are the basis
+    and core of the blockchain network. They are of different types and perform various
+    functions, such as endorsement, ordering, committing, and hosting chaincode, and
+    ensure the consistency of the ledger. So far, we've discussed infrastructure from
+    an Ethereum and Hyperledger Fabric perspective. If you want to check the infrastructure
+    offerings for a specific vendor, you can visit the *Oracle's Baas – OBP* section
+    of this chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Data layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Blockchain is a decentralized, massively replicated database (distributed ledger),
+    where transactions are arranged in blocks, and placed in a P2P network. The current
+    state of all accounts is stored in such a database. A network (public or private)
+    is comprised of many nodes and without a common consensus, data cannot be altered.
+    The data structure of a blockchain can be represented as a linked-list of blocks,
+    where transactions are ordered. The blockchain's data structure includes two primary
+    components—pointers and a linked list. The pointers are the variables, which refer
+    to the location of another variable, and linked list is a list of chained blocks,
+    where each block has data and pointers to the previous block. A **Merkle tree**
+    is a binary tree of hashes. Each block contains a hash of the Merkle root with
+    information such as the hash of the previous block, timestamp, nonce, the block
+    version number, and the current difficulty target. A Merkle tree offers security,
+    integrity, and irrefutability for the blockchain technology. Merkle trees, along
+    with cryptography and consensus algorithms, are the basis of the blockchain technology.
+    For example, Ethereum blockchain uses a Patricia tree database to store information.
+    Patricia tree (Trie) is a Merkle tree, which is like a key-value store. Just like
+    Merkle tree, a Patricia tree has a *root hash*. This root hash can be used to
+    refer to the entire tree. Hence, you cannot modify the content of the tree without
+    modifying the root hash. Each block contains a list of transactions that happened
+    since the last block, and after applying those transactions, the root hash of
+    the Patricia tree represents the new state (*state tree*).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The genesis block (the first block) does not contain the pointer, as it''s
+    the first in the chain. The following diagram shows the connected list of blocks
+    in a blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ced27515-cb58-4f75-99c1-1bc7ac739ee9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Blockchain structure
+  prefs: []
+  type: TYPE_NORMAL
+- en: Depending on the type of blockchain, data is stored in blocks. For example,
+    Hyperledger Fabric's blocks will include channel information, while a Bitcoin
+    blockchain will have data about the sender, receiver, and the amount. We've used
+    the term *hash* a few times already. A hash is a unique digest of the data. A
+    cryptographic hash algorithm (such as the SHA 256 algorithm) can generate a fixed
+    length hash value of the data. These hashes help in identifying blocks easily
+    and also help to detect any changes that are made to the blocks. Each block has
+    a hash of the previous block; hence, blockchain is essentially a chain of hashes.
+    Any new node connected to the blockchain will receive a copy of the blockchain
+    network. Only upon consensus are blocks added to the local blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transactions are digitally signed on the blockchain to ensure the security and
+    integrity of the data stored on it. They secure information about the block, transactions,
+    transacting parties, and so via a digital signature, which uses asymmetric cryptography.
+    Transactions are signed using a private key, and anyone in possession of the public
+    key can verify the signer. The digital signature checks for tampering. Digital
+    signatures guarantee integrity as the data that is encrypted is also signed. Hence,
+    any tampering will invalidate the signature. As the data is already encrypted,
+    it cannot be detected. Even if it is detected, it cannot be tampered with. A digital
+    signature secures the sender's (owner) identity as well. Private keys are linked
+    to owners (users); hence, signatures are legally associated with the owner and
+    cannot be repudiated. In this section, we talked about transactions in detail.
+    We will walk through the transaction flow for Ethereum-based blockchain platforms
+    in the next section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The network layer, also known as the P2P layer, is the one that is responsible
+    for internode communication. It takes care of discovery, transactions, and block
+    propagation. This layer can also be termed as propagation layer. This P2P layer
+    ensures that nodes can discover each other and can communicate, propagate and
+    synchronize with each other to maintain valid current state of the blockchain
+    network. Visit the following *Transaction flow* subsection, in this chapter to
+    experience the P2P layer in terms of transaction broadcast, transaction proposals,
+    transaction validation and transaction commit. This layer also takes care of the
+    world state propagation. A P2P network is a computer network where computers (nodes)
+    are distributed and share the network’s workload to reach the end goal. Nodes
+    perform transactions on the blockchain. There are two kinds of nodes—full node
+    and light node. Full nodes ensure the verification and validation of transactions,
+    mining, and the enforcement of consensus rules. They are responsible for maintaining
+    trust in the network. Light nodes only keep the header of the blockchain (keys)
+    and can send transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction flow
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The transaction flow described here highlights the interaction between nodes
+    in a P2P network layer. The following diagram displays the transaction flow for
+    the Ethereum blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/160e266c-1996-47c4-aeaa-14fc54645d8b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Blockchain transaction flow
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following bullet points highlight the transaction flow of Ethereum blockchain,
+    as shown in the preceding diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**T****ransaction Initiated**: A light node or a full node that has an Ethereum
+    client digitally signs and initiates the transaction'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Local Node Verification**: Once the local Ethereum node receives the transaction,
+    the local Ethereum node will perform the following checks:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Check the digital signature's consistency with the sender's address and transaction's
+    content
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Check if the sender has enough gas to fuel the transaction being processed
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Check if the transaction will result in a smart contract's functions to fail
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Broadcast to Blockchain Network**: Transactions are broadcasted to the blockchain
+    P2P network, where the full nodes will perform the following checks:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Repeat the aforementioned validation checks
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Full nodes communicate with each other
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Miner nodes will put the transaction in a pending block and start the consensus
+    (for example, PoW) so that it can try to solve the puzzle
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Validated, mined, and adde****d to the block**: Following steps ensure the
+    block validation and addition to blockchain :'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Once the transaction is validated and mined, it's added to the valid block
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The miner will solve the puzzle and find the valid block, which will be added
+    to the blockchain
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Valid Block added to the Blockchain**: The valid block is appended to the
+    blockchain and broadcasted to nodes:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The miner node will append the valid block to the blockchain.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The miner will broadcast the valid block to nodes.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Upon appending the block to the blockchain, the miner will broadcast this to
+    blockchain peer nodes, and each node will again validate the block to ensure the
+    consistency of the current (new) block with the previous block. Once validation
+    is successful, the node will broadcast to its nodes and so on.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Transaction Completed**: The initiating node will sync the local copy with
+    the blockchain and execute the transaction:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Finally, the block reaches the node that initiated the transaction
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The local node will sync its local copy with the blockchain and will execute
+    the transactions in the block
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transaction is marked as completed
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consensus layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The consensus protocol is the core to the existence of blockchain platforms.
+    As the saying goes, *behind every blockchain, there is a consensus algorithm*.
+    The consensus layer is the most critical and crucial layer for any blockchain
+    (Ethereum, Hyperledger, or any other). Consensus is responsible for validating
+    the blocks, ordering the blocks, and ensuring everyone agrees on it. The following
+    are the key points regarding the consensus layer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Consensus protocols (algorithms) create an irrefutable set of agreements between
+    nodes across the distributed P2P network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consensus keeps all the nodes synchronized. Consensus ensures that all the nodes
+    agree to the *truth*.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consensus ensures that power remains distributed and decentralized. No single
+    entity can control the entire blockchain network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consensus guarantees that a single chain is followed and that it holds the *truth*.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consensus is the rules that nodes follow to ensure that transactions are validated
+    within the boundaries of those rules and that blocks follow those rules.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consensus results in unanimous acceptance of *truth* among the participating
+    nodes.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For a blockchain with cryptocurrency (for example, Ethereum), consensus also
+    rewards the nodes for validating the transactions and maintaining the blockchain
+    network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: By design, consensus protocols cannot be replicated as replication or imitating
+    them is costly and time-consuming.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Reliability in a P2P network is achieved by a consensus protocol.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consensus methods vary for different types of blockchain. For example, consensus,
+    when followed by a permissionless blockchain network such as Ethereum, Bitcoin,
+    and so on, is known as a probabilistic consensus. Such a consensus guarantees
+    consistency of the ledger, though there is a possibility that various participants
+    have different views of the blocks. This means that they remain vulnerable to
+    ledger forks (also known as divergent ledgers). Permissioned blockchains such
+    as Hyperledger Fabric follow deterministic algorithms. Such blockchain networks
+    have specific nodes called ordering nodes; blocks validated by these ordering
+    nodes are considered as final and true. Hence, there is no probability of a fork.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following table outlines a quick comparison of some of the consensus algorithms
+    mentioned in this book:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Facts** | **PoW** | **PoS** | **PBFT** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Type of Blockchain | Permissionless | Permissionless and Permissioned | Permissioned
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Finality of Transaction | Probabilistic | Probabilistic | Deterministic |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Needs Token | Yes | Yes | No |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Example Usage | Bitcoin, Ethereum | Ethereum | Hyperledger Fabric |'
+  prefs: []
+  type: TYPE_TB
+- en: Visit the *Structure of the blockchain* section for a detailed analysis of the
+    various types of consensus algorithms.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Application layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The application layer is comprised of smart contracts, chaincode, and dApps.
+    Application layer can be further divided into two sub-layers –application layer
+    and execution layer. Application layer has the applications that are used by end
+    users to interact with the blockchain network. It comprises of scripts, APIs,
+    user interfaces, frameworks. For these applications, blockchain network is the
+    back-end system and they often connect with blockchain network via APIs. Execution
+    layer is the sublayer which constitutes of smart contracts, underlying rules and
+    chaincode. This sublayer has the actual code that gets executed and rules that
+    are executed. A transaction propagates from application layer to execution layer,
+    however the transaction is validated and executed at the semantic layer (smart
+    contracts and rules). Applications sends instructions to execution layer (chaincode;
+    in case of Hyperledger fabric), which performs the execution of transactions and
+    ensure the deterministic nature of the blockchain (such as permissioned blockchain
+    like hyperledger fabric).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contracts to be executed on the **Ethereum runtime engine** are written
+    in Solidity. It needs a compiler to syntactically prove the code. Since it is
+    compiled, the bytecode is smaller and runs faster on EVM. Code executed on EVM
+    is fully isolated and does not have any interaction with the network or filesystem.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Smart contract:** A code with business logic is identified by a unique address,
+    and it resides on the EVM. A smart contract contains functions that are executed
+    when a transaction is performed against those functions. Depending on the logic
+    of the smart contract, a transaction can result in a change of state in the contract.
+    Developers can use any language such as Solidity or Python, to write a smart contract,
+    and can use a specific complier to compile the code into bytecode and then deploy
+    those bytecodes to blockchain. Once deployed, a unique address is assigned to
+    the smart contract. Any user on the blockchain can execute a transaction against
+    that smart contract. Refer to the following transaction flow for the steps of
+    a transaction on an Ethereum blockchain. Smart contracts are written in a high
+    language such as Solidity and deployed to EVM for execution. However, there are
+    codes that link the smart contract to the outside world; for example, inter-blockchain, logic
+    execution, and so on. These are called oracles and dApps.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Oracles**:Smart contracts operate on values and trigger contract state change,
+    but only when the defined logic is met. An oracle is an agent whose task is to
+    securely provide these values to a smart contract. Oracles are like data feeds
+    from third-party services, which supply values to smart contracts.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Chaincode** (**Hyperledger Fabric**): Smart contracts are the transaction
+    logic that controls the life cycle of business objects, which are contained in
+    the world state. Smart contracts are then packaged together into chaincode, which
+    is then deployed to the blockchain business network. In Hyperledger, smart contracts
+    govern the transactions, while chaincode governs the packaging and deployment
+    of smart contracts. A chaincode can contain many smart contracts. For example,
+    in an insurance chaincode, there can be smart contracts for claims, liability,
+    processing, and so on. Chaincode defines the ledger’s data schema, initiates it,
+    performs updates to ledgers (consensus-based), and responds to queries for ledger
+    data. Chaincode also emits events, which allows other applications to subscribe
+    to chaincode events and perform subsequent downstream functions or processes.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In Hyperledger Fabric, there is no VM like EVM (Ethereum). Chaincode is deployed
+    on network nodes, and smart contracts run on a peer node owned by an organization,
+    mostly written in standard languages such as Java, Node.js, and Go. Chaincode
+    runs on a secure Docker container that's available to each blockchain instance.
+    These containers are independent of other nodes in the network; however, these
+    chaincodes are orchestrated by the peer nodes and act as proxies, allowing access
+    to client applications via REST APIs or SDK.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincodes are initiated for channels. An administrator can define an endorsement
+    policy for a chaincode for a given channel. This ensures that all the smart contracts,
+    which are packaged in the chaincode, are available for that channel. Because of
+    this, a chaincode might follow different endorsement policies on different channels
+    based on the endorsement policy that's been configured for that channel. Smart
+    contracts can communicate with other smart contracts on the same channel or other
+    channels.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**dApps**: dApps is a distributed application that runs on top of a distributed
+    technology like Blockchain, such as Ethereum, Bitcoin, or Hyperledger Fabric.
+    It''s a decentralized application that leverages smart contracts or chaincode.
+    dApps can be considered a web application that interacts with the smart contract
+    or chaincode; however, the dApps are not controlled by a single entity or an organization.
+    Once deployed, they belong to the blockchain network. dApps are user-friendly
+    applications, which business users can use to transact onto a blockchain network.
+    Smart contracts allow you to connect to blockchains, whereas dApps allows you
+    to connect to a smart contract or chaincode. For example, if you go to LinkedIn,
+    the web page calls APIs, which gather data from a database. However, in dApps
+    and the smart contract world, dApps are API-based web applications that connect
+    with smart contracts, which in turn execute transactions on the ledger. A few
+    examples of dApps are financial applications such as invoice factoring, KYC, and
+    so on.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Structure of the blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: When a user performs a transaction on a traditional system, there is a trusted
+    third party involved who takes care of transaction processing, transaction logging,
+    maintaining the ledgers and balances, and, in return, charge a transaction fee.
+    With a DLT such as blockchain (for example, Ethereum), every participating full
+    node has a copy of the ledger (blockchain). The trust is on the system itself
+    as there is no party involved. Users initiate transactions, which are validated
+    and grouped (in a block) and, based on consensus, the block is added to the ledger
+    (blockchain).
+  prefs: []
+  type: TYPE_NORMAL
+- en: This section is dedicated to the structure of block headers, transactions, adding
+    transactions to a block, and finally, adding blocks to the blockchain. We have
+    discussed blockchain and, in particular, Ethereum, in this section. However, we
+    will be delving into DLTs such as Hyperledger in detail in subsequent chapters.
+    There, we will walk through the structure, transaction flow, participants, and
+    algorithms that are specific to Hyperledger Fabric. Visit [Chapter 3](6aaa9b0a-84b6-4fca-82c3-864e22d616b0.xhtml), *Delving
+    into Hyperledger Fabric,* for details about Hyperledger Fabric.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction state machine
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Ethereum blockchain is a transaction-based state machine that starts with
+    a **genesis state**. A transaction will then lead to a change of state, where
+    the recent state is termed the current state. Hence, a transaction is a representation
+    of a *valid* sequence flow between two states; the blockchain should contain only
+    valid state transactions that occur because of a valid transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transactions are grouped into blocks. A block is chained to a previous block
+    with a cryptographic hash, representing a chain of blocks called a blockchain.
+    Here, the cryptographic hash is used as a reference. Blocks themselves are the
+    journals, and the blockchain is the ledger where blocks record one or more transactions.
+    Incentives are offered to miners, and incentivization occurs at the state transition.
+    A blockchain that offers incentives to miners needs to have a consensus to transmit
+    value to the miner. For example, Ethereum considers Ether as the value in the
+    Ethereum blockchain, and it's used to offer incentives to the miner. The smallest
+    unit of value, Wei, is used for incentivization in Ethereum.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mining is a process where various nodes solve a puzzle to validate a transaction
+    so that more transactions can be added as a block within the blockchain. This
+    process of validating transactions is known as mining. Many miners act at the
+    same time to validate the transaction and, once done, they submit a proof of their
+    work, which is mathematical proof. Miners not only have to solve the puzzle –
+    they need to solve it way before other miners to be able to add their block to
+    the blockchain. This is the process of miners solving a puzzle and submitting
+    a PoW. The winning miner is rewarded with some form of value. If it's Ethereum,
+    then a certain amount of Ether is offered as a reward to the miner.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As Ethereum is decentralized, every node has equity and can participate in creating
+    new blocks. There could be malicious participants as well who might propose a
+    new path. Hence, the system makes sure to reach a consensus that follows on from
+    the genesis block to the current block. Ethereum uses the **GHOST** (which stands
+    for **Greedy Heaviest Observed Subtree**) protocol to check the creation of multiple
+    branches in the blockchain and to follow the best valid path.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Types of accounts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Mapping between account addresses (160-bit unique identifier) and the account
+    state is termed the world state, which is maintained in the Merkle tree (Trie).
+    The Trie is maintained in the state database. Since the root node is dependent
+    cryptographically on all of the internal nodes' data, the root node's hash can
+    be used as a global secure identity for the blockchain network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Small objects constitute the shared global state of Ethereum. These objects
+    interact via message-passing framework. These objects are termed as **accounts**.
+    A state is associated with each account and each account has a 20-byte address,
+    where accounts are identified by a 160-bit identifier. Ethereum has two kinds
+    of accounts, where externally owned accounts have no codes associated and they
+    can initiate new transactions. However, contract accounts have contract codes
+    attached to them, along with a unique address, and they cannot initiate new transactions.
+    Contract accounts can only perform contract-to-contract messaging. Remember, external
+    accounts initiate transactions by signing them with their private keys and sending
+    those transactions to another external account or to a contract account. If the
+    transaction is sent to a contract account, this will result in the execution of
+    the business logic of the contract account (smart contract's account).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Both of these accounts have an account state that is represented by four components:
+    nonce, balance, storage root, and code hash. For an externally owned account,
+    the nonce highlights the transactions initiated from account''s address, while
+    for a contract account, it represents the contracts that have been created by
+    that contract account. Balance shows the base unit of the Ether (in the Ethereum
+    blockchain). The storage root holds the hash of the root node of the Merkle tree,
+    while the code hash contains the hash of the code on the contract account, which
+    is deployed on EVM.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Delving into Block Structure
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A block is comprised of a block header (`BH`), transaction set (`BT`), and
+    the other block''s headers for the current block''s ommers (`BU`), as shown in
+    the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: Ommers are those miners whose blocks were orphaned and didn't make it to the
+    blockchain. However, they were successful in mining the block, but their block
+    was added in time. Ethereum offers a low incentive to those miners as well.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Ethereum block headers contain the following components:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Parent Hash**: Hash of the parent block''s header'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Ommers Hash**: Hash of the ommer''s list portion of the current block'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Beneficiary**: Miner''s account address, who is entitled to the incentive'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**State Root**: Hash of the Trie''s root node'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Transactions Root**: Trie''s root node''s hash that has the transaction list
+    portion of the block'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Receipts Root**: Trie''s root node''s hash that has the receipts for each
+    transaction that is listed in the block'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Logs Bloom**: Log information such as logger address and log topics'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Difficulty**: Value representing the difficulty level of the block'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Number**: Number showcasing the value of ancestor blocks; for example, for
+    the genesis block, this number is zero'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Gas Limit**: Value that shows the gas limit per block'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Gas Used**: Value showing the gas used for the transactions in the block'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Timestamp**: Time at the block''s inception; essentially, it''s the system
+    time'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Extra Data**: Array containing the block data; it''s just 32 bytes and should
+    contain relevant data only'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**mixHash**: A hash value that, when mixed with the nonce, will prove the sufficiency
+    of the computations performed on the block'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Nonce**: A hash value that, when mixed with the mixHash, will prove the sufficiency
+    of the computations performed on the block'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The receipt of each transaction comprises cumulative gas prices of the block
+    in which the transaction resides, the set of logs created for the transaction,
+    the bloom filter from the transaction log, and the transaction's status code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transactions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A transaction is signed and created by external accounts. These transactions
+    result in messages being sent between contract accounts and the creation of a
+    contract account. Each transaction has the following fields:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Nonce**: Enlists the number of transactions initiated by the sender'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Gas Price**: Value (price) paid in Wei for the cost of computation to execute
+    the transaction'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Gas Limit**: Maximum gas limit for the given transaction; the given transaction
+    should not cost more than this limit'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**To**: Address of the recipient of the message or transaction'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Value**: The transacted value to be transferred to the recipient'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**V**, **r**, **s**: Signature of the sender of the transaction'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Init**: Usually associated with a contract creation transaction, which specifies
+    the EVM code for the initialization of the account; it''s executed once at the
+    time of creation of the account and is discarded afterwards'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Data**: Message call''s input data'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following diagram shows the transaction, block, and inclusion of the block
+    to the blockchain, which are discussed in detail in this section. Please refer
+    to this diagram while reading about the transaction components, block header components,
+    blockchain, and transaction flow. It also shows the inclusion of consensus in
+    the entire process:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/5ebb14f0-cf1e-4826-929b-8a261d208620.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Transactions
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Transactions are executed in the EVM. When a transaction is executed, it passes
+    through initial validation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The validity of the signature of the initiator
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Validity of the transaction's nonce (must match the sender's current nonce)
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Check the gas limit (it should be more than the intrinsic gas used by the transaction)
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Well-formedness of the transaction
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The sender's account should have sufficient funds for the upfront payment
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Once the transaction has been validated successfully, the following steps are
+    performed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The cost of the transaction is deducted upfront from the sender's account balance.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The nonce value of the sender's account is incremented by one.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The transaction is executed, and during transaction execution, the logic of
+    the transaction in the contract (smart contract) is executed.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: While the transaction is executing, various sub-state information is collected,
+    such as log series and refund balance. In addition, the remaining gas (total gas
+    limit minus intrinsic gas used) is calculated.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Once the transaction is used to create a valid state, unused gas is refunded
+    to the sender, the miner is incentivized, and gas that was used for the transaction
+    is added to a gas counter, which tracks the total gas used by all of the transactions
+    that are part of the block.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Finally, the state is changed and logs are created for the transaction.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Adding transactions to a block
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now, we know that transactions are executed in the EVM and that they have to
+    go through various validation and processing steps.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this section, we will walk through the steps for adding a transaction to
+    the block, which are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Validate ommer**: Within the blockchain header, each ommer block must be
+    a valid header'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Validate transactions**: The gas that''s used for the block should be equal
+    to or less than the gas that''s used for all of the transactions to be listed
+    on the block'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Apply the rewards, also known as incentives**: Miners are awarded'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Verify the state and block nonce**: Apply state changes to each transaction
+    and define the new block'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Appending blocks to blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now, we understand how transactions are added to a block. In this section, we'll
+    look at how a block is added to the blockchain. We already know that the block
+    header contains mixHash and nonce, which prove the sufficiency of the computations
+    performed on the block. This sufficiency of computation is defined as the *total
+    difficulty *a miner had to go through to create a new block. The algorithm for
+    *total difficulty* or the *block difficulty* is called the PoW algorithm (also
+    known as Ethash in Ethereum). A block is only valid if it contains PoW of a given
+    difficulty (maybe soon to be replaced with PoS).
+  prefs: []
+  type: TYPE_NORMAL
+- en: A seed is calculated for each block by scanning the header of the block until
+    that point in time. From the seed, a pseudo-random cache is computed and, from
+    the cache, a dataset is generated. Full clients and miners need to store this
+    dataset. Miners will randomly pick a few slices of the dataset and will hash them
+    together into mixHash. Each miner will continue to repeat this set of generating
+    mixHashes, until the mixHash matches the nonce. When the mixHash matches the nonce,
+    the nonce is considered valid and hence the block is considered valid and can
+    be added to the blockchain. Transactions that are part of this block are also
+    considered to be confirmed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Remember, there are many miners on the network, and they get to hear about the
+    transaction at different times. Hence, each miner is mining different transactions
+    (this could also be based on the transaction fee associated with each transaction),
+    and so is generating its own block. Since each miner is building its own block
+    with its own set of transactions in it, how does the block that gets mined and
+    validated come to a common agreement? They reach a common agreement based on the
+    consensus.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Consensus algorithm
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: It is evident that miners perform validation of the transaction and build their
+    own block of transactions. Once they solve the puzzle and create a new valid block,
+    they broadcast it to the blockchain network. This is where the consensus algorithm
+    of the blockchain appears, which will ensure that the blockchain network reaches
+    a consensus about the ordering of the transactions and about whose valid block
+    needs to be added to the blockchain. Remember, the decision about *whose block
+    to be considered* as the next block on the blockchain also determines the reward
+    to the miner. This is taken care of by consensus algorithms such as PoW or PoS.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Ethereum uses PoW and will move to PoS soon. With PoS being the consensus algorithm
+    for the blockchain network, any miner who solves the problem first and broadcasts
+    the valid block will be considered the winner. With PoS, the creator of a new
+    block is chosen in a deterministic way, depending on its wealth, which is also
+    defined as its stake. Interestingly, there are no block rewards in PoS and so
+    the miners will be offered transaction fees. This is the reason why miners are
+    forgers in PoS and not miners. The following table lists the differences between
+    PoW and PoS:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **PoW** | **PoS** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| PoW is the original consensus algorithm in a blockchain network. | The next
+    consensus algorithm for a blockchain, such as Ethereum. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Miners compete with each other to validate and propose a valid block to be
+    added to the blockchain so that the miners get rewarded. | There are no miners
+    and no mining rewards. Forgers (creators of new blocks) are chosen deterministically
+    and are offered transaction fees. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| The first miner of the valid block is rewarded. | The creator of a block
+    is determined by their share, or stake, in a currency. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Solving difficulty by many miners is expensive and needs computation power
+    and energy. | The PoS method is greener and cheaper. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| The main benefits are the anti-DoS attack defenses and the low impact of
+    stake on mining possibilities. Mining possibilities may result in cases, where
+    the holders of a high stake, can turn out to be in charge of the blockchain network.
+    | With PoS Casper, there will be a validator pool and network that will select
+    the forger from this pool. Forgers need to submit a deposit to participate and
+    be listed as a validator in the validator pool. If they violate or misbehave,
+    they will be charged economically, their deposits will be taken away, and the
+    forger will be delisted. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| The main disadvantages are huge expenditures, *uselessness* of computations,
+    and 51% attacks, where a 51% attack means a user or a group is in charge of the
+    majority of the mining power of the network. | For a validator to perform a 51%
+    attack, they need to own 51% of the overall supply of the value (currency). So,
+    for someone to attack Ethereum, the dollar amount is in billions, and its occurrence
+    is far from reality. |'
+  prefs: []
+  type: TYPE_TB
+- en: 'The following outlines some of the consensus methods in detail:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**PoW**: This is the pioneer consensus algorithm. It is used in Bitcoin and
+    other cryptocurrencies. Consensus is an algorithm that processes blocks of transactions
+    and adds them to blockchain when an agreement is reached between the nodes. Hence,
+    for a network that follows PoW consensus, that network is following the PoW rules
+    to establish various processing blocks of transactions and add them to blockchain.
+    The process of generating PoW and to allow a node to add a block to the blockchain
+    is known as *mining*, and nodes that participate in mining are called *miners*.
+    Before a miner adds a block to blockchain, PoW requires miners to solve a complex
+    business problem (also known as a puzzle). In exchange for solving the business
+    problem (puzzle), miners are rewarded. In a currency-based blockchain like Bitcoin
+    or Ethereum, they are awarded with cryptocurrency. Essentially, miners compete
+    with other miners to find a correct hash for each hash function. As soon as a
+    miner reaches the solution and finds the correct hash, it propagates it to all
+    the other nodes in the P2P network. Other nodes verify the hash before adding
+    the block (set of transactions) to the blockchain. To maintain block time, the
+    difficulty level of the problem (puzzle) is dynamically changed by the network.
+    In the event of multiple miners solving the problem at the same time, then the
+    longest chain is considered the winner, as the longest chain is the most trustworthy
+    chain.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It solves the double spending problem, but is slow and costly from an energy
+    and fee perspective, and not considered scalable.
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '**PoS**: This is an alternative to PoW, suggested in 2011, and was first implemented
+    by Peercoin (2012). In PoS, the miner’s probability to mine depends on the stake
+    (coins) the miners own in the system. For example, a miner with 15% of the stake
+    (coins) has a 15% probability of mining the next block. It is expensive to attack
+    a blockchain network based on PoS consensus, and it is energy efficient as well.
+    Hence, in PoS, the probability of creating a block and being rewarded is determined
+    by the stake in the network. Essentially, the probability of creating a block
+    is directly proportional to the stake in the underlying cryptocurrency.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: But doesn't this mean the rich get richer? To prevent this, PoS follows randomization,
+    that is, checking centralization, which may arise when a rich node gets richer and
+    finally takes over the entire network. An attacker loses its stake for every attempt
+    it makes to attach the blockchain network based on PoS. The problem with PoS is
+    the *nothing at stake* problem, where a block generator can vote for multiple
+    blockchain(s), also known as forks, and so, they can block the system from achieving
+    consensus.
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '**Proof of Elapsed Time** (**PoET**): Introduced by Intel in 2016, the PoET
+    consensus algorithm suits permissioned blockchain networks such as Hyperledger
+    sawtooth. The PoET algorithm is based on wait time, where the participating nodes
+    (known as validators) wait for a randomly selected period. Essentially, validators
+    generate a random wait time and sleep for that time. The first one that wakes
+    up (also known as the one with the shortest wake time) will get the chance to
+    commit a new block to the blockchain and propagate that information to all the
+    nodes in the P2P network. With this random wait time, each node has a fair and
+    similar probability to add blocks to the network. The PoET algorithm needs to
+    take care of two tasks—firstly, it needs to ensure that participating nodes have
+    really selected a random sleep time (not the shortest sleep time), and secondly,
+    that the node has reached the sleep time and not woke up in the middle of the
+    sleep time. PoET is cost-effective and offers equal opportunity to all participants.
+    However, it is not suited for permissionless public blockchain networks.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: PoET results in a leader selection, where leadership is randomly distributed
+    to the validators in the entire network. As the cost of the participation of the
+    validators is low, it enlarges the population of validators, and therefore, enhances
+    the robustness of the consensus algorithm.
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '**Byzantine** **Fault Tolerance** (**BFT**): This is not from the family of
+    *Proof *algorithms. Its name is derived from the classic Byzantine general’s problem.
+    An army, along with their Byzantine generals, surrounded a fort city. Generals
+    are scattered around the fort city and, for an attack to succeed, they need to
+    attack in unison. If all the generals do not attack in unison, they will lose
+    the war. Now, they need to communicate with each other to reach a consensus so
+    that they attack at the same time.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In technical terms, it needs a system with several peer nodes to reach a consensus,
+    even if there are few attackers and malicious nodes trying to influence the nodes.
+    The Practical Byzantine Fault Tolerance algorithm can help solve the BFT.
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '**Practical Byzantine** **Fault Tolerance** (**PBFT**): Hyperledger Fabric
+    uses this consensus mechanism. PBFT offers a Byzantine state machine replication
+    that is designed to tolerate malicious nodes (Byzantine faults). All the nodes
+    are sequentially ordered, where one node is declared as the leader node (primary
+    node) and other nodes are known as follower nodes (secondary/backup nodes). Any
+    node will become a leader by transitioning from follower node to leader node,
+    mostly via a round-robin algorithm. All nodes communicate and need to perform
+    two tasks—firstly, they need to verify that the message came from a specific peer
+    node, and secondly, they need to verify and ensure that the message was not modified
+    during its communication. All nodes will reach a consensus, irrespective of the
+    state of the network, using majority rule. The entire network is based on the
+    assumption that no more than one-third of the network nodes are malicious. The
+    more nodes, the more secure the network will be. It has the following phases:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A client sends a request to a leader node
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Leader node propagates this message to all the follower (secondary) nodes
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: All the nodes (leader and follower) will perform a task, as requested by the
+    client, and send a response back to the client
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The client will verify the responses and ensure that the request (attack or
+    retreat) is served successfully when it receives *n + 1* replies with the same
+    result, where *n* is the max number of malicious nodes
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: This is also based on the fact that the nodes are deterministic. The final result
+    is attained when all honest nodes reach an agreement on the order and collectively
+    accept or reject the order.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Types of blockchain networks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Broadly, there are two kinds of blockchain network—public and private. Both
+    are P2P networks, where the ledger is distributed among those that can participate
+    in the transaction. The ledger copy is replicated among participants, and those
+    parties that can execute append-only transactions to the ledger will hold a copy
+    of the ledger and will participate to reach a consensus to add a block to the
+    blockchain. Along with being public or private, a blockchain can be both **permissionless**
+    (such as Bitcoin or Ethereum) and **permissioned** (such as the Hyperledger blockchain
+    framework)*.*
+  prefs: []
+  type: TYPE_NORMAL
+- en: A permissionless blockchain is also known as a public blockchain because anyone
+    can join the network. Permissionless P2P systems do not require a set amount of
+    peers to be online and are generally slower. Parties communicate on a permissionless
+    blockchain without verifying the transacting parties' identities. Anyone can join
+    a permissionless blockchain such as Ethereum and can perform read and write transactions.
+    As the actors are not known, there are chances of malicious actors being in a
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Permissioned networks are the blockchain networks where only pre-authorized
+    users or organizations can perform write transactions. By virtue of the limited
+    nodes, they are faster and inexpensive, can comply with regulations, and can easily
+    be maintained. Pre-verification of the participating parties is mandatory for
+    a permissioned blockchain and, hence, transacting parties are made. *Permissioned
+    P2P networks have to guarantee uptime and require a high level of quality of service
+    on communication links.* Permissioned blockchains such as Hyperledger Fabric ensure
+    that only transacting parties are part of the transaction and that records of
+    the transaction are displayed to only those participants and not to the whole
+    network. Hence, capabilities such as data privacy, immutability, and security
+    are the primary capabilities that Hyperledger offers to enterprises.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Although there are two kinds of blockchain network—public and private – on
+    permissions, they can be classified as PUBLIC AND PERMISSIONLESS, PUBLIC AND PERMISSIONED,
+    PRIVATE AND PERMISSIONLESS, and PRIVATE AND PERMISSIONED, as shown in the following
+    diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/05882b5d-0343-482b-b2d8-5ae14475e27e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Types of blockchain
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Blockchain networks based on permissions can be classified as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Public and permissionless blockchain**: These are open and transparent and
+    offer disintermediation and anonymity. They are trustless and offer immutability.
+    This means they are *open* for anybody to join the blockchain network. The user
+    (on a node) can enable his/her system with the required software and join the
+    blockchain network. Public blockchain removes *intermediaries*, which reduces
+    the cost, reduces the time it takes for reconciliation, and offers *transparency*
+    in the network. Public blockchains are *trustless*, and trust is in the consensus.
+    Transactions are replicated to each participating node, and consensus takes care
+    of validation and synchronizes the transactions to be added to the blockchain.
+    This allows *trustless* parties to execute transactions with confidence. The more
+    nodes there are, the more impossible it becomes to undo a transaction; hence,
+    public blockchain is immutable. Although transactions can be read by anyone, the
+    identities of users are protected, hence offering *anonymity*.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Public and permissioned blockchain**: These are scalable, cost-effective,
+    transparent, and offer disintermediation and anonymity. Public and permissioned
+    blockchain allows anyone to read transactions, but only a few permissioned users
+    can write transactions (for example, government employees'' salaries and real-estate
+    registries). Alternatively, it can allow a few to read transactions and everyone
+    to write transactions (for example, voting). Public and permissioned blockchain
+    is designated for such use cases where people or authorities (such as a designated
+    employee or institution) sanction a transaction with data that''s viewable by
+    the public. If a public and permissioned blockchain is of the type where it allows
+    anyone to read it and only a few permissioned participants to write on it, then
+    such a system does not need to be based on expensive consensus algorithms such
+    as PoW. Such blockchain networks can be scalable. Not everyone will participate
+    for validation, and a validator is chosen. Hence, it is not slow and costly compared
+    to a public and permissionless network. Although there are no intermediaries,
+    only a few institutes can read or write.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Private and permissionless blockchain**: Only individual or selected members
+    can run a full node to transact, validate, and read transactions. A few can execute
+    write transactions and validate transactions, while everyone can read. It can
+    be applied to use cases that include audits and are mostly adopted by enterprises
+    that want to explore blockchain within the enterprise. All of the permissions
+    are central to an enterprise; hence, they are not decentralized, and they can
+    just be distributed. On the positive side, it allows the enterprise to be compliant
+    and meet privacy needs to implement blockchain. Moreover, it allows cryptographic
+    auditing. However, the whole idea of a decentralized network is lost.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Private and permissioned blockchain**: Public blockchain leads to scenarios
+    where we run one full node, which means the node is performing computation for
+    all of the applications for that network. This slows down the performance of the
+    blockchain network. This can be a fit for some use cases; however, for enterprise
+    requirements, public blockchain is not the answer. Enterprises are looking for
+    a blockchain network where a node performs only those computations that are required
+    for given applications. In addition, they need a blockchain network where parties
+    are identifiable (not necessarily trusted) and permissions can be granted. In
+    addition, the privacy of data can be guaranteed between a certain set of participants,
+    even if all of the participants are on the same blockchain network. Furthermore,
+    consensus is controlled by a predefined set of nodes, which leads to a faster
+    and low-cost business network.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The answer to enterprise needs is a private and permissioned blockchain network.
+    Private and permissioned blockchain can also be termed a consortium blockchain.
+    A consortia (a consortium of members) controls them. Nodes are predefined and
+    access rights are defined. Examples of such blockchain networks are R3 and Hyperledger
+    Fabric.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Private and permissioned blockchain/consortia offer the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Better governance than public blockchain**: Public blockchain networks lack
+    the governance to ensure an effective evolution of the blockchain network (for
+    example, updates, changes to operational mechanisms, and consensus). As a result,
+    it''s slow to rectify defects and hinders innovation. On the other hand, consortiums
+    can move fast as like-minded enterprises can quickly decide on innovations and
+    evolve the business network to meet the dynamic needs of businesses.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Cost-effective**: The upfront cost for public blockchain is low; however,
+    it gets expensive for nodes that are initiating transactions. Initial infrastructure
+    costs might be low, but the operational cost increases over time, which is reflected
+    in the increased cost of transactions. As public networks are trustless, trust
+    lies in the consensus mechanism. Expensive consensus mechanisms such as PoW and
+    PoS are not applicable. In a consortium, like-minded trusted parties are involved.
+    Hence, costly consensus mechanisms are not required. In addition, a consortium
+    does not include transaction fees. In many ways, a consortium is not only cost-effective,
+    but also faster.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Privacy and security**: A consortium or private and permissioned blockchain
+    network is highly secure. The access control layer is a first-class citizen for
+    consortiums and ensures that a defined set of people get access to the network.
+    Access is defined for reading, writing, and deploying code (smart contract/chaincode)
+    and validating transactions. Public blockchain are secured by *miners*—also called
+    **validators**. They solve complex problems (mining) to validate the transaction
+    and, in return, receive incentives and rewards. In a private and permissioned
+    network, security is ensured by the predictive distribution of control over the
+    creation of blocks among identifiable nodes that are highly unlikely to collude.
+    Malicious colluding and 51% attacks are not applicable as such malicious activities
+    can be easily detected and the parties involved will be penalized based on consortium
+    governing rules. Transactions are not visible to everyone. This offers enterprises
+    and businesses the ability to transact with confidence, with trust in privacy
+    offered by the business network.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following table highlights the similarities and differences between different
+    types of blockchain from the permissions perspective:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Public and Permissionless** | **Public and Permissioned** | **Private and
+    Permissionless** | **Private and Permissioned** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Open and transparent. | Open and restricted. | Restricted yet read transparent.
+    | Restricted (hybrid approach). |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Write all and read all. | Write all and read restricted. | Write restricted
+    and read all. | Write restricted and read restricted. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Everyone can join, transact, read, and audit. | Everyone can join and transact,
+    but only permissioned users can read and audit. | Everyone can join, nobody can
+    transact, and everyone can read and audit. | Nobody can join, transact, read,
+    and audit. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Anyone can download the protocol and participate with validate transactions.
+    | Anyone who meets the predefined criteria can download the protocol and participate
+    with validate transactions. | Anyone in the network can participate and validate
+    transactions. However, this is only within the enterprise. | Only consortium members
+    can validate the transaction. |'
+  prefs: []
+  type: TYPE_TB
+- en: 'The following table highlights the similarities and differences between different
+    types of blockchain from a transaction and anonymity perspective:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Public and Permissionless** | **Public and Permissioned** | **Private and
+    Permissionless** | **Private and Permissioned** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Transactions are anonymous and transparent. | Transactions are anonymous
+    and not read transparent. | Transactions are not anonymous and are read transparent.
+    | Transactions are not anonymous and not transparent. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Write transactions can be authored or initiated by anyone; for example, I''m
+    sending 10 Bitcoin to Bill. Everyone will know that 10 bitcoins were transacted.
+    | Write transactions can be authored or initiated by anyone; for example, I''m
+    casting my vote. However, whom I have cast my vote for can be counted by the authorized
+    institution only. Another example is that a write can be performed by few and
+    it can be read by all. | A write transaction is performed by few and it can be
+    read by anyone. For example, an authorized party writes about the source of the
+    inventory, and subsequent writes are performed by a few other intermediary parties
+    or devices; however, it can be read by anyone. | A write transaction can be authored
+    or initiated by authorized users; for example, I''m sending 10 USD to Bill. Authorized
+    institutions will know that 10 USD was transacted. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Everyone will participate in transaction validation, and the validators are
+    not the chosen ones. | Nobody can participate in transaction validation, and the validators
+    are the chosen ones. | Nobody can participate in transaction validation, and the
+    validators are the chosen ones. | Nobody can participate in transaction validation,
+    and the validators are the chosen ones. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Truly democratic: full equity. | Full write equity. | Full read equity. |
+    Restricted. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Transaction approval is long. It usually takes minutes. | Transaction approval
+    is long. It usually takes minutes. | Transaction approval is short. | Transaction
+    approval is short. |'
+  prefs: []
+  type: TYPE_TB
+- en: 'The following table shows the **consensus** and **use case** for different
+    types of blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Public and Permissionless** | **Public and Permissioned** | **Private and
+    Permissionless** | **Private and Permissioned** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Open and decentralized. | Open and controlled. | Restricted. | Closed and
+    restricted. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Anyone can run a full node to transact, validate, and read transactions.
+    | Not just anyone can run a full node to transact, validate, and read transactions.
+    Everyone can execute write transactions, while few can validate and read transactions.
+    | Only individual or selected members can run a full node to transact, validate,
+    and read transactions. A few can execute write transactions and validate transactions,
+    while everyone can read. | Only members of the consortium can run a full node
+    to transact, validate, and read transactions. In addition, only permissioned users
+    can read. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| For example, Bitcoin, Ethereum, and Litecoin. | For example, Ethereum. |
+    For example, Hyperledger Fabric. | For example, Hyperledger Fabric, R3, and Corda.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Consensus - PoW. | PoS, PoA. | PBFT. | PBFT and FBA. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Use case—cryptocurrency, video games. | Use case—voting, poll records. |
+    Use case—supply chain provenance, government record keeping, and assessor records.
+    | Use case—tax returns, consortium, federations. |'
+  prefs: []
+  type: TYPE_TB
+- en: 'The advantages of **public and permissionless** blockchain are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: There's no infrastructure costs for creating and running **decentralized applications**
+    (**dApps**)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: There's no need for a trusted party or intermediary; there is no intermediary
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The network is open and transparent and offers anonymity
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The network offers trustlessness and immutability
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The advantages of **public and permissioned** blockchain are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: No infrastructure costs for creating and running dApps
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: No need for a trusted party or intermediary; there is no intermediary
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Scalable, fast, and lower cost
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The advantages of **private and permissionless **blockchain are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cost of transaction is reduced
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: No need for reconciliations
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Simplified document handling
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Reduced data redundancy
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Scales better
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Better compliance with regulations
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Automated compliance functionalities
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Enables finality
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The advantages of **private and permissioned** blockchain are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: There's better governance than public blockchain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The cost of transactions is reduced. There is no need for reconciliations.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Document handling is simplified and data redundancy is reduced
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: As participants are preapproved and identities are known, there is better privacy
+    and security
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consortia is into decision-making and not using a single party
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: There are no single points of failure
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It scales better and adheres to compliance with regulations
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It enables finality
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The disadvantages of **public and permissionless** blockchain are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Scalability**: There is a limitation on the number of transactions that can
+    be created, which can often reach to minutes at the peak period. Hence, such decentralized
+    systems are not scalable.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Slowness and higher cost**: This includes the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Everyone will participate in validation, and a validator is not chosen. Consensus
+    can be reached when every node executes the same task, such as executing the code
+    (smart contract) or validating the transaction. This replication is slow, time-consuming,
+    and costly from many perspectives, such as storage, electricity, and processing
+    power.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: As the number of transactions increases, so does the cost of executing those
+    transactions, which leads to the clogging of miners to execute high-value transactions,
+    and so, the system becomes slow and costly.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Identity is anonymous**: Anonymous participants could be malicious.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Immutability is a challenge**: Although immutability of transactions and
+    blocks is the major feature of public blockchain, immutability of code (smart
+    contract) is a challenge for the blockchain network. Blockchain considers smart
+    contract deployment as a transaction and as they are transactions, they are immutable.
+    Hence, any bug or issue or a code loop cannot be corrected. This means that, smart
+    contracts need to be meticulously built and tested before being deployed and should
+    have operations to **KILL** (also known as **shutdown**) the invocation to stop
+    further damages.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Finality :** There''s no finality and 51% attack (theory).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Can lead to centralization**: To realize the tokenized benefits of public
+    blockchain, nodes operate as full nodes. A full node means the nodes carry a full
+    copy of the blockchain. As the blockchain network grows in size, it becomes costly
+    for smaller players and individual nodes to operate as full nodes. Only bigger
+    players will then be able to operate as full nodes, and such scenarios can lead
+    to centralization, which can influence the blockchain network.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The disadvantages of **public and permissioned** blockchain are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Identity is anonymous—participants, being anonymous, can be malicious
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Immutability is a challenge
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: There's no finality and 51% attack (theory)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It can lead to centralization
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The disadvantages of **private and permissionless** blockchain are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: It still has an intermediary and hence it is not decentralized.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It is centralized and hence it is not decentralized. However, it can be distributed.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: As participants are not preapproved, identities are not known, although malicious
+    users cannot perform write transactions and can only read information.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The disadvantages of **private and permissioned** blockchain are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Not fully distributed**: It still has an intermediary and hence it is not
+    fully distributed.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consortium formation is a challenge**: Formation of a consortium needs like-minded
+    enterprises to collaborate over common business problems. Along with defining
+    the structure and operation and governance model of the consortium, there are
+    various questions that need to be answered for a formal setup of a consortium:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How to ensure that the consortia does not lead to concentration of power?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Who controls the consortium?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Do primary consortium members benefit more than late joiners?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Who benefits from the already existing infrastructure? Does this create confusion
+    and infrastructure dependency or locking for new joiners or late joiners?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Who decides on new member inclusion or any member exclusion?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Who decides on the inclusion/exclusion of non-core members to the consortium?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How will the operational decisions be executed?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How will the consortium be financed?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How are disputes realized?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Dispute resolution and arbitrators**: This includes the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: As a consortium includes various enterprises and discrete parties, it has its
+    own business complexities. These complexities can lead to disputes. Hence, a consortium
+    must have arbitrators to settle disputes. This means there is a need for an arbitration
+    function for a consortium, which takes care of participation contracts (via a
+    legal document) between members of the consortia.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A consortium can also need smart contract (chaincode) auditors to verify the
+    smart contracts and verify the interface and integration of the smart contract
+    with external applications and data sources. Such independent auditors will offer
+    assurance to the consortium and help in surfacing vulnerabilities.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In this section, we compared different types of blockchain and learned about
+    their advantages, disadvantages, and so on. In the next section, the emphasis
+    will be on the layered structure of the blockchain architecture.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain platform
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Until now, we have explored different types of blockchain network. In this section,
+    we will quickly look at two major blockchain platforms—Ethereum and Hyperledger
+    Fabric.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Following is the overview of these two platforms:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Ethereum**: It''s an open source, public blockchain network. It is an extension
+    of the core blockchain concept and now supports applications beyond currencies.
+    Developers can build decentralized applications (via smart contracts) and can
+    even build **decentralized autonomous organizations **(**DAOs**). It is a generic
+    platform, and transactions are validated by PoW consensus. Ethereum is used as
+    an idea for **business-to-consumer** (**B2C**) use cases and applications. It''s
+    a public blockchain; hence, all of the participants can access the ledger. It
+    supports Solidity and has built-in currency (Ether).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Fabric**: It is a platform for enterprise applications. This
+    platform is open source and modular and runs the BFT consensus algorithm. Hyperledger
+    does not truly have a consensus mechanism. Due to its pluggable architecture,
+    consensus can be plugged to it, based on the use case. Ledger is not public and
+    it''s mostly suited for **business-to-business **(**B2B**) use cases or applications.
+    Chaincode (also known as smart contracts) can be written in standard languages
+    such as Java, Go, and Node.js. It does not have a built-in currency.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Operations** include the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Ethereum**: It is a public blockchain, where participants (nodes) can participate
+    any time'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Fabric**: It is a private blockchain, where participants (nodes)
+    are given permission to participate'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consensus** is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Ethereum**: Roles played by each participating node are similar. All of the
+    nodes need to reach consensus for a transaction to commit. Every node needs to
+    participate in consensus, even if that node is participating in a transaction.
+    Ethereum consensus is based on PoW algorithms or a hybrid of PoW/PoS (called Casper).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Fabric**: Roles played by each participating node can be different.
+    Some nodes are validating nodes, some are endorsing nodes, some are ordering nodes,
+    and so on. Hence, during the process of establishing a consensus, different nodes
+    will be performing different tasks. Nodes can opt for No consensus (No-op) or
+    an agreement protocol such as PBFT. There is no third party that is forcing the
+    choice of consensus mechanism. In addition to consensus, Hyperledger Fabric also
+    offers identity verification during the life cycle of the transaction. It also
+    supports channels and private data collection for a more private transaction between
+    parties. Transactions are ordered and then added to blocks, which are then distributed
+    across the channel. Channels further control the visibility of transactions to
+    the business network participants.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Choice: **Depending on the use case and application, you can opt for Ethereum
+    versus Hyperledger. The following are a few points to note:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Ethereum**: Ethereum is public and permissionless and offers transparency.
+    Its various advantages listed in the previous section. However, privacy and scalability
+    are low in Ethereum.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Fabric**: It solves privacy and scalability issues and offers
+    access control, high transaction speed, and resilience. On top of that, it is
+    modular and pluggable, which can suit various B2B enterprise use cases.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Code execution** is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Ethereum**: Code, also known as smart contracts, is executed on the EVM.
+    Ethereum networks offer services to execute smart contracts and allow them to
+    reach consensus. They also offer services to invoke external *oracles*. The scope
+    of a smart contract is until the lifetime of the business network concludes. Hence,
+    it''s good development practice to write smart contracts with KILL methods.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Fabric**: Code, also known as chaincode, can be written in a
+    standard programming language such as Java, Node.js, and Go. Chaincode is executed
+    on the business network and validated and endorsed by business network nodes.
+    Unlike Ethereum, Hyperledger Fabric supports chaincode versioning and upgrading.
+    Following are some highlights of Hyperledger fabric from chaincode perspective
+    -'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Chaincode can be upgraded to a new version, as long as you maintain the same
+    name of the chaincode; otherwise, it will be considered a different chaincode.
+    Update is a transaction on the blockchain network and results in the binding of
+    the new version of the chaincode to the channel. Before you update the chaincode,
+    install a new version of the chaincode on the endorsers.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: What happens to the old version? All the other channels that are binding to
+    the previous (old) version of the chaincode can continue to execute the older
+    version. You submit the chaincode *upgrade* transaction to a channel. Hence, only
+    one channel is affected, to which you have executed the upgrade transaction. All
+    other channels, on which the upgrade transaction is not executed, will continue
+    to run the older version.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Chaincode can even be stopped. However, the start and stop life cycle transactions
+    are *not* implemented in v1.4\. These are future enhancements. Stop transactions
+    will be a logical way to stop chaincode transactions before upgrading it.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Optionally, you can STOP a chaincode by removing the chaincode container from
+    the endorsers. Practically, you can delete the chaincode's container from each
+    host (VM) on which the endorsing peers are running.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric supports Ethereum. With Hyperledger Fabric version 1.3 onward,
+    smart contracts written in Solidity and Vyper can now be executed on Hyperledger
+    Fabric as it supports the EVM. It's a new smart contract runtime and supports
+    web3.js for enhancing the development of dApps (decentralized applications). This
+    further boosts the development of dApps on permissioned blockchain. Visit [https://www.hyperledger.org/](https://www.hyperledger.org/)
+    for more details on this feature.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain actors
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: An entity that can participate in an action or in a blockchain network is known
+    as an **actor**, which is an abbreviation of *blockchain actor*. In this section,
+    we will cover various actors involved in blockchain. However, before we get into
+    the details, let's briefly revisit the private blockchain. The previous section
+    covered various types of blockchain networks. However, in this section, we will
+    focus on defining actors primarily for private blockchain networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following table lists some of the main properties of private blockchain
+    networks that are essential to understanding blockchain actors:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Characteristics** | **Private and Permissionless** | **Private and Permissioned
+    (consortium)** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Owner | Single owner | Consortia or a founder organization |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Consensus | Managed by single owner | Managed by a consortium (set of designated
+    participants) |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Read transaction | Any node | Only permissioned nodes |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Network | Distributed | Decentralized |'
+  prefs: []
+  type: TYPE_TB
+- en: Private blockchain is meant to solve enterprise business cases, and this evolution
+    is gaining momentum. Private and permissioned is a consortium blockchain that
+    works across various organizations; however, it has a controlled user group. Participants,
+    although not fully trusted, are identifiable (have identities). Like-minded enterprises
+    or enterprises trying to chase similar goals can form a consortium to address
+    business needs, improve trust, transparency, and accountability, and enhance existing
+    business processes and workflows.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private and permissionless blockchains, are not truly distributed. They are
+    decentralized and are fully controlled by a single owner. As it is owned and operated
+    by a single authority, consensus that's established in such a network cannot be
+    trusted as the power lies with the central authority to choose users and influence
+    consensus. A consortium blockchain (private and permissioned blockchain) is owned
+    by a founder organization, but managed by a consortia (set of participants from
+    different organizations). Consensus can be trusted as various organizations participate
+    in it and they have a collective interest in the outcomes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A consortium offers many benefits, such as the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Not every enterprise or organization needs to build solutions to leverage blockchain.
+    They can share the business network and build it together, which is cost-effective
+    and less time-consuming.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Smaller organizations can join the league and join the network on a pay-per-use
+    basis and yet fully scale their business on blockchain.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Member organizations of the consortia need to identify the use cases that reflect
+    their common problems. They can then define a governing body and build solutions
+    together to meet business needs.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The identities of the participants are known, which enhances the level of trust.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consensus cannot be influenced as consortium members manage the blockchain network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The blockchain network access control and features of the blockchain network
+    can ensure the privacy of data and enhanced security.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Licenses to participate are issued by regulatory authorities of the blockchain
+    network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Access to transaction data and knowledge about transactions is limited to permissioned
+    participants for particular transactions.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consortia are resilient and offer high security, performance, scalability, and
+    transactional throughput.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'So far, we''ve discussed various private blockchain networks and the benefits
+    of a consortium. Now, let''s get back to the main topic of this section—actors.
+    The following figure shows various actors for private blockchain network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/97c4528e-31b4-4930-99e9-91a60749afe8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Blockchain actors
+  prefs: []
+  type: TYPE_NORMAL
+- en: Each actor has a defined and key role to play in the development, operation,
+    and maintenance of the blockchain network. However, the most challenging work
+    lies with the architect.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The architecture of designing, building, maintaining, and using blockchain
+    applications involve various actors, which are discussed as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Process owner**:Process owners are subject matter experts on business processes.
+    They are key to identifying business challenges and helping define common problems,
+    which become the base to form a consortium. Process owners are key participants
+    for defining use cases. They are subject matter experts on as-is processes, define
+    the to-be processes from a functional standpoint, and lay the foundation for the
+    blockchain business network.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain regulatory authority**: They are the primary authority of the
+    business network (founder organization with members from the consortium). They
+    issue licenses (certificates) to participants and usually have broader access
+    to the network. They define access controls, issue certificates, and so on. They
+    have functional knowledge about the processes and they ensure the correct participants
+    get access to the relevant parts of blockchain network. They are key in defining
+    the consortium, as private and permissioned blockchain networks are based on identifiable
+    participants with defined access controls. Along with architects, they are responsible
+    for identifying and defining the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Funding for the establishment, development, and operations of the consortium
+    and blockchain network
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Choosing the infrastructure for the blockchain network
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Access control and participation of the actors and end users in the blockchain
+    network
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Defining and establishing trust authorities
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Defining governance for the programs that will lead to the development of the
+    blockchain network
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Establish ROI for the consortium and its members
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Define tracking, tracking of the program, and so on
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain architect**: They should have a background in business analysis
+    and should have an understanding of technology. A blockchain architect should
+    have knowledge about their peers, consensus, security, chaincode, integration,
+    ledgers, and applications. They, along with the authority, define and decide on
+    the usage of consensus algorithms, standards, best practices, and so on for the
+    consortium and its solutions. A blockchain architect is responsible for the following
+    activities:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Delves into identifying use cases
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Analyzes and chooses a specific blockchain solution for the given use case(s)
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Defines which blockchain/DLT solution fits the gaps
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Offers estimates, plans risk, and defines milestones
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Architecting and designing the solution
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Works in tandem with infrastructure, blockchain operator, and development teams
+    for the correct realization of the blockchain solution
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Defines reuse, auditability, and monitoring of the blockchain network
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Analyzes and quantifies the performance, resilience, security, scalability,
+    and transactional throughput of the blockchain network
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Defines the versioning strategy, governance model, and production readiness
+    of the blockchain network
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain solution providers**: A consortium can opt for a BaaS (cloud)
+    offering as blockchain business network''s infrastructure. They can also set up
+    an on-premise solution. Blockchain architects, along with the blockchain authority,
+    can decide on the infrastructure. Once decided, the blockchain solution provider
+    (either cloud or on-premise) can take care of the setup, management, maintenance,
+    and support for the infrastructure of the blockchain network. The blockchain solution
+    providers are the team from the blockchain cloud service providers who are responsible
+    for creating and maintaining the blockchain network, offering security solutions,
+    and providing ease of deploying and maintaining smart contracts or chain codes.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain network operators**: They define the business network, configure
+    the business network, access control, and monitor the business network. They focus
+    on the operational part of the blockchain business network. They mostly care about
+    peers, consensus, and security of the blockchain network and are not concerned
+    about smart contract and user interface codes.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain developer**: Blockchain developers focus on code (chaincode, UI,
+    and analytics). They also take care of integration of blockchain network''s chaincode
+    with other applications, data sources, events, and ledgers. They are transparent
+    to the working of blockchain network, consensus, security, peers, and orderers.
+    However, they should understand the fundamentals of blockchain. Anyone with an
+    acumen to code in any high-level programming language and who has a basic understating
+    of blockchain/DLT technology can execute the following responsibilities as a blockchain
+    developer:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Develop smart contracts or chaincode
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Deploy and test smart contracts or chaincode
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Use APIs in code to interact with blockchain networks
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Develop, deploy, and maintain dApps and user interfaces as web applications
+    for smart contracts
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain end user**: With access to dApps web applications, end users are
+    capable of consuming blockchain smart contracts via a UI or web application. This
+    allows the end users to execute transactions against smart contracts, and yet
+    the underlying blockchain technology remains transparent to them.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain auditors**: As the consortium includes various enterprises and
+    discrete parties, it has its own business complexities. These complexities can
+    lead to disputes. Hence, a consortium must have arbitrators to settle disputes.
+    This means there is a need for an arbitration function for a consortium, which
+    takes care of the participation contract (via a legal document) between members
+    of the consortia. For now, the CPA authorities will handle these legal documents,
+    until the time they turn into smart contracts (chaincode) and act as smart arbitrators.
+    A consortium can engage smart contract (chaincode) auditors to verify the smart
+    contracts and verify the interface and integration of smart contracts with external
+    applications and data sources. Such independent auditors will offer assurance
+    to the consortium and help surface vulnerabilities. Also, it allows regulatory
+    bodies such as SEC to have a read-only pull on data so that they can identify transaction
+    details among *the universe of available information.*'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: BaaS
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Blockchain is a disruptive technology and is the future. However, due to technical
+    complexities, lack of expertise and skills, and operational overhead, the adoption
+    of blockchain is slow. These challenges were gradually addressed by cloud service
+    providers who entered into blockchain solutions with the BaaS offering, which
+    offered clarity on *where* we should host the solution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'So far, we''ve discussed DLT, blockchain, centralized and decentralized systems,
+    and ledgers. We also looked at the blockchain structure, blocks, and so on. Now,
+    I want to conclude this chapter by laying the foundation for *what''s next *in
+    the subsequent chapters. This section talks about the **center of gravity** (**CG**)
+    of this book. Subsequent chapters will revolve around use cases and the implementation
+    of a use case using Oracle''s Blockchain Cloud Platform (BaaS). At this stage,
+    you might be curious about how we will implement this. Consider this section as
+    a glimpse into a blockchain solution provider and where it should reside. There
+    are various steps before implementing blockchain. They start with identifying
+    the use case and choosing the solution providers. Some of the questions you will
+    need to answer are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Why do you need blockchain and what's the rationale behind it?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Is there a strategic choice or a tactical push?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: What are you building and how are you building it?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Who is involved, how are they involved, who will decide, and so on?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Where will the solution reside-on-premises or on the cloud?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Who will be managing it?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Who will take care of resilience?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Many of the answers lie with BaaS.
+  prefs: []
+  type: TYPE_NORMAL
+- en: BaaS qualifiers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: BaaS is a blockchain platform that hosts a consumer's blockchain applications
+    and solutions. The blockchain platform (BaaS) provider, for a fee, handles the
+    setup, maintenance, and support of the blockchain infrastructure. It is a boost
+    to businesses and entrepreneurs as it offloads a lot from customers and allows
+    them to focus on identifying use cases and developing blockchain applications
+    and solutions. Things such as network availability, scalability, performance,
+    and so on stay with the service provider. Blockchain touches on a wide range of
+    audiences, which includes architects, designers, developers, enthusiastic evangelists,
+    business and process owners, IT strategists, and economists. In addition, BaaS,
+    being a full-stake cloud-based solution, empowers entrepreneurs, enthusiastic
+    evangelists, enterprises, and so on to grasp the potential of DLT and blockchain
+    in a timely and efficient manner. BaaS is turning into a true catalyst to expand
+    the adoption of DLT and blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following are some of the qualifying factors to look at when choosing a
+    BaaS provider:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Standard**: These include the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Is it an established cloud provider?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Is it based on industry standards?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Is it compatible and interoperable? Is it interoperable with other ledgers too?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Quick setup**: Does it allow for the quick provisioning of a blockchain network?'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Integration and other service offerings**: These include the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does it support REST proxies for integrating OBP with SaaS, PaaS, and other on-premises
+    applications?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does it offer services such as data security, integration services, and object/document
+    storage?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does it offer cloud services such as containers and compute and storage services?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Security and privacy**: These include the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does it offer integrated identity management and security?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does it take care of privacy, data partitioning, and private channels?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Is it resilient**: These include the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does it offer high availability?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does it offer backup and disaster recovery?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does it offer enhanced performance (both blockchain network and consensus)?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Smart contract**/**chaincode**—**deployment, versioning, standards, auditing,
+    and testing**: These include the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does it offer the deployment of chaincode in standard languages such as Java
+    and Node.js?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does it allow rollback to the previous version of chaincode?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does it offer/support tools to test chaincode?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Does it have a credible development community?
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Eat your own pill**: Does it offer applications on the marketplace and build
+    on its own BaaS?'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Monitoring**: Does it offer transaction monitoring and dashboards?'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following diagram highlights the key qualifiers for a BaaS platform:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/34462cee-41bc-48d5-9fa9-d04ac31631dc.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: BaaS qualifiers
+  prefs: []
+  type: TYPE_NORMAL
+- en: BaaS use cases
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To keep it simple, BaaS solves cost, efficiency, and transparency challenges.
+    It allows the business to explore, experiment, experience, and then engage in
+    blockchain. It takes away the intricacies of implementation and allows the business
+    to focus on the core. It's analogous to an aged whiskey. You can trust its manufacturer
+    and pay for it to enjoy it. You do not need to get into the details of where it
+    was manufactured, under what conditions, how it was treated, and so on. Blockchain
+    enables product provenance.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There is an explosion of ideas around use cases, which can be advantageous
+    for DLT, and blockchain and BaaS will drive the wave in the adoption of DLT and
+    blockchain, thereby realizing and fulfilling these ideas for enterprises, customers,
+    and entrepreneurs. There are various use cases that can be addressed by leveraging
+    BaaS:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Prowess** (**education and profession**): A *ledger of prowess* can act as
+    a single source of truth for certificates, assessments, skills, and so on. It
+    offers prowess ownership, full authority on the asset (certificate, transcripts,
+    skills, evidence, and so on), and offers a solution to fully track and trace an
+    individual''s certificates, skills, and knowledge. There are various use cases
+    beyond certificates. For example, while hiring someone, organizations need authentic
+    and trustworthy information about the credentials of an applicant. *A ledger of
+    prowess *will offer the ledger that holds the applicant''s certificates, skills,
+    experience, expertise, and other relevant reports, immutably. In addition, as
+    these records are immutable, even the applicants cannot fabricate it to meet specific
+    job requirements. We easily calculate the risk involved in hiring an applicant
+    who has fabricated his/her skills.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Supply chain**: A *ledger of supply* can act as a single source of truth
+    for asset management, procurement, product life cycle management, logistics, provenance,
+    fraud detection, and so on. It can go beyond the provenance (tracking of products)
+    to a full life cycle of SCM on blockchain.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Government**: Government agencies hold citizen data and various other kinds
+    of sensitive information. The sensitivity quotient poses security and privacy
+    risks. Blockchain''s public repository, along with hashing, cryptography, and
+    other proven technologies, can take care of hacking, data modifications, loss
+    of information, and so on. A *l**edger of trust* can take care of citizen rights,
+    votes, donations, and so on. A voting platform with *ledger of trust* can ensure
+    fraud-free voting and fraud-free counting, and check vote rigging. Results are
+    quick and the entire exercise of executing elections can be made cost-effective,
+    timely, and trustworthy. A *ledger of ***unique identity** (**UID**) can digitize
+    secure identity management.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Real estate**: A *ledger of ownership* can act as a truth for the ownership
+    of properties, ease the listing of properties, allow the transferral of ownership
+    in minutes, reduce the cost of listing properties, and so on.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Healthcare**: A *ledger of wellness *can evolve as a truth to track patient
+    and doctor information. This will take care of drug counterfeits, secured and
+    controlled exchange of information such as prescriptions and medical history,
+    and so on. The current system stores medical information in silos with massive
+    restrictions on sharing and its usage. A *ledger of wellness* will lead to storing
+    information on an immutable and secure ledger, where discrete stakeholders have
+    access to it based on their privileges. Blockchain and its chaincode can automatically
+    keep audit and track an individual''s health and history, and can even allow patients
+    to monetize their medical records for research, which is a huge gain for humanity.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Insurance**: A *ledger of assurance* can be a source of truth from policy
+    sales to settlement, which includes sale of a policy, maintenance of a policy
+    (renewals, terminations, adjustments, and so on), claims, evaluation and evidence,
+    and settlements. This will eliminate cumbersome processes, reduce third-party
+    involvement, allow for faster settlements, and so on.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Intellectual properties**: A *ledger of IP* can be a proven source for patents
+    and trademarking of IP; it reduces IP abuse, ensures IP owners receive credits
+    and monetary benefits for their IP, and so on.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Fintech**: A *ledger of affluence* can be the base for cross-broader payments
+    and faster B2B transactions. It eliminates reconciliations, infuses trust among
+    traders, and so on. It can also be used for clearing and settlements, trade finance,
+    KYC, and AML.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Other industries**: These can use BaaS as well, and they are as follows:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Travel**: It can be used for passenger processing, travel trace and tracking,
+    single source of truth for passenger identity, and so on. With critical documents
+    being on the ledger, passport forging, pass-through, illegal immigration, and
+    so on can be checked.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Humanitarianism**: It can be used for charity, donations, and so on.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Transportation**: The use cases include track, trace, and so on.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Oil and gas**: It can be used for freight management, payments, shipments,
+    and so on.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Analytics**: I''m pushing analytics as a horizontal industry here, as I believe
+    in the quote: *Where there is data, there is analytics* (Vivek Acharya). Referring
+    to the aforementioned example on *Healthcare*—patients trying to monetize their
+    medical records also serves humanity a lot. If that happens, it needs an efficient
+    analytics platform to make sense of the blockchain data. Other than that, transactional
+    data on ledgers can lead to greater insights. Blockchain, along with AI, can lead
+    to better forecasting, effective predications, and answers to business and end-users
+    questions in real time.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Key advantages of BaaS
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: BaaS is a platform with a magnitude of features on the top of a platform such
+    as Hyperledger Fabric. Using BaaS offerings, customers can create networks and
+    channels and build and deploy chaincode and dApps. Cloud service providers take
+    care of the mundane necessary activities such as infrastructure agility, scalability,
+    and operational efficiency, while customers can focus on building applications
+    and chaincode. BaaS is a major boost to the adoption of blockchain, which is a
+    BaaS offering in most of the major cloud solution providers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'With a cloud platform such as Oracle''s Blockchain Cloud Service, you don''t
+    need to bring your own security, identity management, container management, admin
+    console management, infrastructure, HA, and recovery. It is all with the cloud
+    service provider. The following are a few of the key advantages of BaaS:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fast provisioning
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Ease to configure
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Quick on-boarding of members
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Embedded identity management
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Enhanced security and confidentiality
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Efficient development and testing
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Enhanced integration with processes and applications
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Better performance and scalability
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: High availability and operational resilience
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Excellent scalability
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Decouples infrastructure from the customer's primary task of developing smart
+    contracts and applications
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Allows customers to explore the magnitude of possibilities with their legacy
+    applications and business processes.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Oracle's BaaS – OBP
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: BaaS offers a lot on top of its base (also known as its core). Hyperledger Fabric
+    (base) is not preassembled. Hence, the enterprise needs to build chaincode and
+    benefit from Hyperledger Fabric; they need to set up the Hyperledger Fabric infrastructure,
+    handle its prerequisites, and configure and maintain it. The enterprise needs
+    to ensure the integration of the installed Hyperledger Fabric environment with
+    a security stake and manage the life cycle of all of the containers. The enterprise
+    needs to handle the patching and upgrades and needs to ensure the system's huge
+    availability, performance, business network management, and so on. Oracle's blockchain
+    platform is based on Hyperledger Fabric. With OBP, the enterprise's responsibilities
+    to set up, manage, and maintain the blockchain platform will shift toward Oracle
+    (BaaS provider), and the enterprise can continue to focus on building work class
+    blockchain applications and solutions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Linux foundation's Hyperledger Fabric is the foundational base (core) for OBP.
+    With Hyperledger Fabric being the base, any vendor (including Oracle) offering
+    solutions on top of it must automatically adhere to industry standards. Blockchain
+    platforms, such as Oracle's Blockchain platform, ease the creation of a network
+    where participants from different organizations can participate and work together.
+    Interoperability challenges such as governance, naming convention standards, and
+    unified data models need to meet common consensus. For example, a consortium where
+    participants mutually agree on standards, rules of participation, sharing of cost
+    and profits, governance mechanism, and collective risk mitigation, along with
+    the inclusion of analytics, auditing, and validation to ensure smooth blockchain
+    network operations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'OBP offers a console to manage networks, channels, and users. It offers a REST
+    proxy and various other infrastructure services to set up, build, and maintain
+    a blockchain network. It''s built on top of Hyperledger Fabric and adds a lot
+    of rich features to allow for the ease of operations, enhanced security, and high
+    accessibility. Oracle OBP is a BaaS offering from Oracle, which has the potential
+    to address enterprise DLT/blockchain use cases. The Oracle offering includes infrastructure
+    services and various embedded resources such as compute, containers, storage,
+    event streaming, and identity management. Oracle has the following features:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Standard-based**: Oracle BaaS''s core is Hyperledger Fabric; hence, it automatically
+    adheres to industry standards. As a result, applications built on OBP are interoperable
+    and compatible. This feature matches the BaaS qualifier *standard* listed in the
+    previous section.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Preassembled**: Oracle''s blockchain platform includes a preassembled identity
+    solution (Oracle''s identity management), object store (embedded archiving), and
+    RESTful APIs. The Oracle offering includes an operational console to configure
+    and manage the entire blockchain business network. Onboarding of B2B partners
+    to the blockchain network is simplified and partners can be verified with a built-in
+    identity solution. This feature resembles the BaaS qualifiers: *quick setup*,
+    *security*, *privacy*, *and chaincode management and monitoring*.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Pluggable**: It offers integration services with **Oracle Integration Cloud**
+    **Service** (**OICS**), which allows for quick integration with SaaS and PaaS
+    applications. This feature fits into the BaaS qualifier integration and other
+    services, which are as follows*:*'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The enterprise can leverage OICS tools in order to process cloud services to
+    build and extend BPM (workflow) applications. The enterprise can extend its SaaS
+    applications using SDKs or RESTful APIs.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Applications built on the Oracle development platform (for example, VBCS) can
+    invoke operations on chaincode using various standards (Java, Node.js, and Go)
+    and APIs.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Enterprises can build applications on application container cloud services,
+    Java cloud services, mobile cloud services, or application builder cloud services
+    and can initiate blockchain transactions using SOA cloud services, process cloud
+    services, and APIs.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Enterprise**-**grade solution**:It is a managed service with high availability,
+    enhanced security, and continuous backup of ledgers. This feature resonates with
+    the BaaS qualifier—*resilience*.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Automated**: Oracle''s autonomous database anchors OBP. Hence, it leverages
+    the benefits of Oracle''s autonomous database, such as self-provisioning, auto
+    upgrades, enhanced security, and monitoring. It auto-applies security patches
+    without a downtime, enhancing security multifold and storing data in an encrypted
+    state. It offers self-repairing features, which ensures the highest availability
+    and reduces planned and unplanned downtime to less than two and a half minutes.
+    This feature fits into the *resilience* and *monitoring *BaaS qualifiers.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Privacy**: Hyperledger Fabric offers channels and private data collection
+    (refer to [Chapter 3](6aaa9b0a-84b6-4fca-82c3-864e22d616b0.xhtml), *Delving into
+    Hyperledger Fabric* for more details) to allow the enterprise to conduct confidential
+    transactions. The Oracle offering allows only approved peers to join channels.
+    This feature fits with the *security* and *privacy* BaaS qualifiers.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: While analyzing the blockchain solution, identifying the use cases, and choosing
+    the most relevant blockchain platform, it's strategically important to look at
+    the core systems, business processes, and benefits the enterprise will reap from
+    the inclusion of blockchain in your ecosystem. We are in an era of *cloudifying
+    (cloud)* infrastructure, applications, and processes. Blockchain cloud platform
+    is an excellent addition to your cloud strategy. Cloud and blockchain strategies
+    go hand in hand with a vision toward the future of autonomous organizations. This
+    book contains details and practices around Hyperledger Fabric and its realization
+    though Oracle's blockchain cloud platform. We will be going though this in detail
+    in subsequent chapters.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Pre–built blockchain applications
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The previous section listed OBP and its features. It also tried to match them
+    with BaaS qualifiers. Almost all of the OBP features matched the BaaS qualifiers,
+    except one (*Eat your own pill*). In this section, we will expand on the OBP features
+    and match them with the *Eat your own pill* qualifier. This qualifier essentially
+    displays the capability and maturity of BaaS offerings from a vendor. In this
+    context, Oracle offers many applications that are built on OBP.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Oracle is the pioneer in creating SaaS-based blockchain applications that allow
+    business applications to leverage blockchain technology for traceability, enhanced
+    security, and streamlined consensus. These SaaS-based blockchain applications
+    are built using OBP and run on Oracle's cloud platform. They are seamlessly integrated
+    with other SaaS applications, such as **s****upply chain management** (**SCM**),
+    **enterprise resource planning** (**ERP**), and other cloud-based applications.
+    They are also integrated with machine learning applications and IoT and AI applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: These applications solve common challenges faced by enterprises such as tracking,
+    tracing, visibility, and root cause analysis. Blockchain is a technology that
+    remembers. It is a technology that removes the hurdle in the tracking, tracing,
+    and visibility of products. Oracle Blockchain Applications allow the tracking,
+    tracing, and analytics for products through their supply chain cycle. These applications
+    also allow root cause analysis and offer recommendations in challenging situations
+    such as damaged products, delayed transportation, delayed delivery, and low quality.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'These blockchain applications offer the following advantages:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: They offer pre-built solutions to common business challenges
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: These applications are configurable, allowing for the faster interconnection
+    of applications with blockchain technology to meet business needs
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It's a one-stop shop to add B2B partners to blockchain business networks
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It allows quick solutions to business challenges and saves time for business
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It leads to business agility for SaaS and on-premise applications, allowing
+    them to quickly leverage the benefits of blockchain technology
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It seamlessly integrates IoT and AI-based applications
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It offers a pre-built analytics dashboard to enhance transparency, trust, and
+    visibility among businesses, its partners, and suppliers
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'These applications offer solutions to business problems such as recalls, disputes,
+    frauds, compliance issues, and counterfeits. They offer analysis and end-to-end
+    traceability across the supply chain. They offer a pre-built dashboard, which
+    surfaces IoT, AI, and blockchain transactions. This allows real-time insights
+    for businesses. The following are the applications offered by Oracle (at the time
+    of writing this book):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Oracle Intelligent Track and Trace**: It offers end-to-end asset tracking
+    and tracing. It allows a digital footprint for each step and event in the process
+    of the supply chain. It offers real-time insight into these events and steps in
+    the process of the supply chain, from manufacturing to transportation, to sales
+    and delivery.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Oracle Product Lineage and Provenance**: It allows users to verify the provenance
+    of the product.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Oracle Intelligent Cold Chain**: It tracks the product''s state from manufacturing
+    to sales and offers a full audit trail of it. It emits alterations for excursions
+    and offers preventive recommendations.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Oracle Warranty and Usage Tracking**: It tracks high-value assets and offers
+    a complete audit trail of an asset''s usage. These audit trails are verifiable
+    logs and can be used for product warranty and liability claims.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Enterprises can transform their existing business processes and attain immediate
+    benefits from these business-friendly applications. These applications allow enterprises
+    to develop a blockchain network that allows secure, transparent, and efficient
+    transactions with their suppliers and partners. Moreover, it solves common business
+    problems with tracking, tracing, visibility, and root cause analysis. This is
+    indeed the future for applications. Such applications work seamlessly with existing
+    on-premise and cloud applications. Businesses can use out-of-the-box blockchain
+    applications, set up their blockchain business network with blockchain network
+    templates, and expand and integrate with applications using pre-built integration.
+    We are going to learn more about this in subsequent chapters.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we delved into ledgers, blockchain definitions, blockchain
+    structure, and layers. We also glanced at blockchain structure, blocks, transactions,
+    and how blocks are added to the blockchain. We have familiarized ourselves with
+    actors, components, and algorithms in blockchain. We also tried to coin the term
+    distributed double-entry (also known as triple-entry). [Chapter 2](66a7f3de-72ef-49e8-95fb-c65908888e2e.xhtml),
+    *Construing Distributed Ledger Tech and Blockchain*, will enlist use cases on
+    blockchain and Hyperledger and help us identify a possible approach for them.
+    Enterprises are exploring the immense opportunities of DLT and blockchain, and
+    they acknowledge the strategic and long-term benefits of this distributed technology;
+    however, there are various challenges tagged with DLT and blockchain that need
+    to be mitigated before it is adopted by enterprises. Although there are challenges,
+    there is a wide array of opportunities available. As the trust and benefits of
+    DLT and blockchain grows, businesses will explore and engage more in adopting
+    DLT/blockchain. Let's delve into [Chapter 2](66a7f3de-72ef-49e8-95fb-c65908888e2e.xhtml), *Construing
+    Distributed Ledger Tech and Blockchain*, and explore the plethora of opportunities
+    DLT-like blockchain offers by addressing various use cases.
+  prefs: []
+  type: TYPE_NORMAL
