@@ -110,6 +110,8 @@
   id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: '**密钥建立机制**关注的是设计允许在不安全通道上设置密钥的协议。 在许多场景中，不可否认的服务是一种非常理想的属性，可以使用**数字签名**提供。
+    有时，不仅要对用户进行身份验证，还要识别涉及交易的实体也很重要。 这也可以通过数字签名和**挑战-响应协议**的组合来实现。 最后，提供机密性的加密机制也可以使用公钥密码系统获得，例如RSA、ECC和ElGammal。'
 - en: Public key algorithms are slower in terms of computation than symmetric key
     algorithms. Therefore, they are not commonly used in the encryption of large files
     or the actual data that requires encryption. They are usually used to exchange
@@ -118,26 +120,31 @@
   id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 公钥算法在计算方面比对称密钥算法慢。 因此，它们不常用于加密大文件或需要加密的实际数据。 通常用于交换对称算法的密钥。 一旦安全地建立了密钥，就可以使用对称密钥算法对数据进行加密。
 - en: Public key cryptography algorithms are based on various underlying mathematical
     functions. The three main categories of asymmetric algorithms are described here.
   id: totrans-16
   prefs: []
   type: TYPE_NORMAL
+  zh: 公钥密码算法基于各种基础数学函数。 这里描述了三种主要的非对称算法类别。
 - en: Integer factorization
   id: totrans-17
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 整数因子分解
 - en: '**Integer factorization schemes** are based on the fact that large integers
     are very hard to factor. RSA is the prime example of this type of algorithm.'
   id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: '**整数因子分解方案**基于大整数很难因子分解的事实。 RSA是这种类型算法的典型示例。'
 - en: Discrete logarithm
   id: totrans-19
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 离散对数
 - en: A **discrete logarithm scheme** is based on a problem in modular arithmetic.
     It is easy to calculate the result of modulo function, but it is computationally
     impractical to find the exponent of the generator. In other words, it is extremely
@@ -145,14 +152,18 @@
   id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: '**离散对数方案**基于模算术中的一个问题。 计算模函数的结果很容易，但是找到生成器的指数是计算上不可行的。 换句话说，从结果中找到输入是极其困难的。
+    这是一个单向函数。'
 - en: 'For example, consider the following equation:'
   id: totrans-21
   prefs: []
   type: TYPE_NORMAL
+  zh: 例如，考虑以下方程：
 - en: '*3² mod 10 = 9*'
   id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: '*3² mod 10 = 9*'
 - en: Now, given *9*, the result of the preceding equation finding *2* which is the
     exponent of the generator *3* in the preceding question, is extremely hard to
     determine. This difficult problem is commonly used in the Diffie-Hellman key exchange
@@ -160,11 +171,13 @@
   id: totrans-23
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，给定*9*，是前面方程中发现的结果，其指数为前面问题中的生成器*3*，这是极难确定的。 这个困难的问题通常在Diffie-Hellman密钥交换和数字签名算法中使用。
 - en: Elliptic curves
   id: totrans-24
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 椭圆曲线
 - en: The **elliptic curves algorithm** is based on the discrete logarithm problem
     discussed earlier but in the context of elliptic curves. An **elliptic curve**
     is an algebraic cubic curve over a field, which can be defined by the following
@@ -173,10 +186,13 @@
   id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: '**椭圆曲线算法**基于前面讨论的离散对数问题，但是在椭圆曲线的上下文中。 **椭圆曲线**是一个代数立方曲线，可以由以下方程定义。 曲线是非奇异的，这意味着它没有尖点或自交点。
+    它有两个变量*a*和*b*，以及一个无穷远点。'
 - en: '![](img/64ca3d25-c233-4be3-8f6a-fb9b31a04dac.jpg)'
   id: totrans-26
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/64ca3d25-c233-4be3-8f6a-fb9b31a04dac.jpg)'
 - en: Here, *a* and *b* are integers whose values are elements of the field on which
     the elliptic curve is defined. Elliptic curves can be defined over real numbers,
     rational numbers, complex numbers, or finite fields. For cryptographic purposes,
@@ -186,6 +202,8 @@
   id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，*a*和*b*是整数，其值是定义椭圆曲线的域上的元素。 椭圆曲线可以在实数、有理数、复数或有限域上定义。 为了加密目的，使用素数有限域上的椭圆曲线，而不是实数。
+    此外，素数应大于3。 通过改变*a*和/或*b*的值可以生成不同的曲线。
 - en: The most prominently used cryptosystems based on elliptic curves are the **Elliptic
     Curve Digital Signature Algorithm** (**ECDSA**) and the **Elliptic Curve Diffie-Hellman**
     (**ECDH**) key exchange.
@@ -315,21 +333,25 @@
   id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: 步骤 1 生成的模数和步骤 2 生成的互质 *e* 构成了一对共同的公钥。这部分是可以与任何人共享的公共部分；然而，*p* 和 *q* 需要保密。
 - en: '**Generate the private key**:'
   id: totrans-45
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '**生成私钥**：'
 - en: 'The private key, called *d* here, is calculated from *p*, *q*, and *e*. The
     private key is basically the inverse of *e modulo (p-1) (q-1)*. In the equation
     form, it is this as follows:'
   id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里称为 *d* 的私钥是从 *p*、*q* 和 *e* 计算得出的。私钥基本上是 *e 模 (p-1) (q-1)* 的倒数。用方程表示如下：
 - en: '*ed = 1 mod (p-1) (q-1)*'
   id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: '*ed = 1 mod (p-1) (q-1)*'
 - en: Usually, the extended Euclidean algorithm is used to calculate *d*. This algorithm
     takes *p*, *q*, and *e* and calculates *d*. The key idea in this scheme is that
     anyone who knows *p* and *q* can easily calculate private key *d* by applying
@@ -340,39 +362,48 @@
   id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 通常，扩展欧几里得算法用于计算 *d*。该算法接受 *p*、*q* 和 *e*，并计算 *d*。这种方案的关键思想是，任何知道 *p* 和 *q* 的人都可以通过应用扩展欧几里得算法轻松计算出私钥
+    *d*。然而，不知道 *p* 和 *q* 值的人无法生成 *d*。这也意味着 *p* 和 *q* 应该足够大，使得模数 *n* 因子分解变得极其困难（计算上不可行）。
 - en: Encryption and decryption using RSA
   id: totrans-49
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 RSA 进行加密和解密
 - en: 'RSA uses the following equation to produce ciphertext:'
   id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: RSA 使用以下方程产生密文：
 - en: '*C = P**^e* *mod n*'
   id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: '*C = P**^e* *mod n*'
 - en: 'This means that plaintext *P* is raised to *e* number of times and then reduced
     to modulo *n*. Decryption in RSA is provided in the following equation:'
   id: totrans-52
   prefs: []
   type: TYPE_NORMAL
+  zh: 这意味着明文 *P* 被提升到 *e* 次方，然后对模 *n* 进行了缩减。RSA 中的解密由以下方程提供：
 - en: '*P = C*^(*d*) *mod n*'
   id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: '*P = C*^(*d*) *mod n*'
 - en: This means that the receiver who has a public key pair (*n*, *e*) can decipher
     the data by raising *C* to the value of the private key *d* and reducing to modulo
     *n*.
   id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 这意味着拥有公钥对（*n*，*e*）的接收方可以通过将 *C* 提升到私钥 *d* 的值并减少到模 *n* 来解密数据。
 - en: Elliptic Curve Cryptography
   id: totrans-55
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 椭圆曲线密码学
 - en: '**Elliptic Curve Cryptography** (**ECC**) is based on the discrete logarithm
     problem founded upon elliptic curves over finite fields (Galois fields). The main
     benefit of ECC over other types of public key algorithms is that it requires a
@@ -382,6 +413,8 @@
   id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: '**椭圆曲线密码学**（**ECC**）基于有限域上的椭圆曲线离散对数问题（伽罗华域）。ECC 相对于其他类型的公钥算法的主要优点是，它需要更小的密钥大小，同时提供与
+    RSA 等算法相同级别的安全性。源自 ECC 的两个值得注意的方案是用于密钥交换的 ECDH 和用于数字签名的 ECDSA。'
 - en: ECC can also be used for encryption, but it is not usually used for this purpose
     in practice. Instead, it is used for key exchange and digital signatures commonly.
     As ECC needs less space to operate, it is becoming very popular on embedded platforms
@@ -391,11 +424,14 @@
   id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: ECC 也可以用于加密，但在实践中通常不用于此目的。相反，它通常用于密钥交换和数字签名。由于 ECC 需要更少的空间来运行，因此在嵌入式平台和存储资源有限的系统中变得非常流行。相比之下，与
+    RSA 中的 3072 位操作数相比，仅使用 256 位操作数即可实现相同级别的安全性。
 - en: Mathematics behind ECC
   id: totrans-58
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: ECC 背后的数学
 - en: To understand ECC, a basic introduction to the underlying mathematics is necessary.
     An elliptic curve is basically a type of polynomial equation known as the **Weierstrass
     equation**, which generates a curve over a finite field. The most commonly-used
@@ -404,14 +440,18 @@
   id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 要理解 ECC，有必要对底层数学进行基本介绍。椭圆曲线基本上是一种称为**魏尔斯特拉斯方程**的多项式方程，它在有限域上生成曲线。最常用的域是所有算术运算都在模
+    *a* 素数 *p* 上执行的域。椭圆曲线群由有限域上的曲线上的点组成。
 - en: 'An elliptic curve is defined in the following equation:'
   id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 椭圆曲线在以下方程中定义：
 - en: '![](img/a52dd3ea-55f8-4baf-9183-5067219248fd.jpg)'
   id: totrans-61
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a52dd3ea-55f8-4baf-9183-5067219248fd.jpg)'
 - en: Here, *A* and *B* belong to a finite field *Zp* or *Fp* (prime finite field)
     along with a special value called the **point of infinity**. The point of infinity
     (∞) is used to provide identity operations for points on the curve.
@@ -711,15 +751,18 @@
   id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: 在椭圆曲线上，公钥是生成点的随机倍数，而私钥是用于生成该倍数的随机选择的整数。换句话说，私钥是随机选择的整数，而公钥是曲线上的一个点。离散对数问题用于找到私钥（一个整数），其中该整数落在椭圆曲线上的所有点之内。以下方程更准确地展示了这个概念。
 - en: 'Consider an elliptic curve *E*, with two elements *P* and *T*. The discrete
     logarithmic problem is to find the integer *d*, where *1 <= d <= #E*, such that:'
   id: totrans-112
   prefs: []
   type: TYPE_NORMAL
+  zh: '考虑一个椭圆曲线*E*，其中有两个元素*P*和*T*。离散对数问题是找到整数*d*，其中*1 <= d <= #E*，使得：'
 - en: '![](img/effb0730-ce10-4840-a3b3-b26f824c76a3.jpg)'
   id: totrans-113
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/effb0730-ce10-4840-a3b3-b26f824c76a3.jpg)'
 - en: Here, *T* is the public key (a point on the curve), and *d* is the private key.
     In other words, the public key is a random multiple of the generator, whereas
     the private key is the integer that is used to generate the multiple. *#E* represents
@@ -729,6 +772,7 @@
   id: totrans-114
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，*T* 是公钥（曲线上的一个点），*d* 是私钥。换句话说，公钥是生成器的随机倍数，而私钥是用于生成该倍数的整数。*#E*表示椭圆曲线的阶，这意味着椭圆曲线的循环群中存在的点的数量。**循环群**由椭圆曲线上的点和无穷点的组合形成。
 - en: 'A key pair is linked with the specific domain parameters of an elliptic curve.
     Domain parameters include field size, field representation, two elements from
     the field *a* and *b*, two field elements *Xg* and *Yg*, order *n* of point *G*
@@ -737,34 +781,42 @@
   id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: '密钥对与椭圆曲线的特定域参数相关联。域参数包括字段大小、字段表示、来自字段*a*和*b*的两个元素、两个字段元素*Xg*和*Yg*、点*G*的顺序*n*计算为*G
+    = (Xg, Yg)*，以及余因子*h = #E(Fq)/n*。后面的章节中将描述使用 OpenSSL 的实际示例。'
 - en: 'Various parameters are recommended and standardized to use as curves with ECC.
     An example of `secp256k1` specifications is shown here. This is the specification
     that is used in Bitcoin:'
   id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 推荐和标准化了各种参数以作为 ECC 的曲线使用。这里展示了`secp256k1`规范的一个例子。这是比特币中使用的规范：
 - en: '![](img/03dde81b-a50c-4e82-820c-58ecc49ae1ca.jpg)'
   id: totrans-117
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/03dde81b-a50c-4e82-820c-58ecc49ae1ca.jpg)'
 - en: Speciﬁcation of secp256k1 taken from http://www.secg.org/sec2-v2.pdf
   id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 来自 http://www.secg.org/sec2-v2.pdf 的`secp256k1`规范
 - en: 'An explanation of all of these values in the sextuple is as follows:'
   id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 六元组中所有这些值的解释如下：
 - en: '*P* is the prime *p* that specifies the size of the finite field.'
   id: totrans-120
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*P* 是指定有限域大小的素数*p*。'
 - en: '*a* and *b* are the coefficients of the elliptic curve equation.'
   id: totrans-121
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*a* 和 *b* 是椭圆曲线方程的系数。'
 - en: '*G* is the base point that generates the required subgroup, also known as the
     *generator*. The base point can be represented in either compressed or uncompressed
     form. There is no need to store all points on the curve in a practical implementation.
@@ -774,50 +826,60 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*G* 是生成所需子群的基点，也称为*生成器*。基点可以以压缩或未压缩形式表示。在实际实现中，没有必要存储曲线上的所有点。压缩的生成器有效是因为可以仅使用*x*坐标和*y*坐标的最低有效位来识别曲线上的点。'
 - en: '*n* is the order of the subgroup.'
   id: totrans-123
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*n* 是子群的阶。'
 - en: '*h* is the cofactor of the subgroup.'
   id: totrans-124
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*h* 是子群的余因子。'
 - en: In the following section, two examples of using OpenSSL are shown to help you
     understand the practical aspects of RSA and ECC cryptography.
   id: totrans-125
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一节中，展示了使用 OpenSSL 的两个示例，帮助您了解 RSA 和 ECC 加密的实际方面。
 - en: RSA using OpenSSL
   id: totrans-126
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 OpenSSL 进行 RSA
 - en: The following example illustrates how RSA public and private key pairs can be
     generated using the OpenSSL command line.
   id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面的示例说明了如何使用 OpenSSL 命令行生成 RSA 公钥和私钥对。
 - en: RSA public and private key pair
   id: totrans-128
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: RSA 公钥和私钥对
 - en: First, how the RSA private key can be generated using OpenSSL is shown in the
     following subsection.
   id: totrans-129
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先，下面的小节展示了如何使用 OpenSSL 生成 RSA 私钥。
 - en: Private key
   id: totrans-130
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 私钥
 - en: 'Execute the following command to generate the private key:'
   id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: 执行以下命令生成私钥：
 - en: '[PRE0]'
   id: totrans-132
   prefs: []
@@ -827,11 +889,13 @@
   id: totrans-133
   prefs: []
   type: TYPE_NORMAL
+  zh: 命令中使用的反斜杠（`\`）是用于续行的。
 - en: 'After executing the command, a file named `privatekey.pem` is produced, which
     contains the generated private key as follows:'
   id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 执行该命令后，将生成一个名为`privatekey.pem`的文件，其中包含生成的私钥，如下所示：
 - en: '[PRE1]'
   id: totrans-135
   prefs: []
@@ -842,12 +906,14 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 公钥
 - en: 'As the private key is mathematically linked to the public key, it is also possible
     to generate or derive the public key from the private key. Using the example of
     the preceding private key, the public key can be generated as shown here:'
   id: totrans-137
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于私钥在数学上与公钥相关联，因此也可以从私钥生成或派生公钥。使用前述私钥的示例，可以生成公钥，如下所示：
 - en: '[PRE2]'
   id: totrans-138
   prefs: []
@@ -857,6 +923,7 @@
   id: totrans-139
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用文件阅读器或任何文本查看器查看公钥：
 - en: '[PRE3]'
   id: totrans-140
   prefs: []
@@ -869,6 +936,7 @@
   id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了查看各种组件的更多细节，例如在加密过程中使用的模数、素数，或者生成的私钥的指数和系数，可以使用以下命令（这里仅显示部分输出，因为实际输出非常长）：
 - en: '[PRE4]'
   id: totrans-142
   prefs: []
@@ -879,11 +947,13 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 探索公钥
 - en: 'Similarly, the public key can be explored using the following commands. Public
     and private keys are base64-encoded:'
   id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: 同样，可以使用以下命令探索公钥。公钥和私钥都是 base64 编码的：
 - en: '[PRE5]'
   id: totrans-145
   prefs: []
@@ -895,26 +965,31 @@
   id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在公钥可以公开共享，任何想要向您发送消息的人都可以使用公钥加密消息并将其发送给您。然后，您可以使用相应的私钥解密文件。
 - en: Encryption and decryption
   id: totrans-147
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 加密和解密
 - en: In this section, an example will be presented that demonstrates how encryption
     and decryption operations can be performed using RSA with OpenSSL.
   id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本节中，将介绍一个示例，演示如何使用 OpenSSL 中的 RSA 执行加密和解密操作。
 - en: Encryption
   id: totrans-149
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 加密
 - en: 'Taking the private key generated in the previous example, the command to encrypt
     a text file `message.txt` can be constructed as shown here:'
   id: totrans-150
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用前面示例中生成的私钥，可以构造如下所示的加密文本文件`message.txt`的命令：
 - en: '[PRE6]'
   id: totrans-151
   prefs: []
@@ -926,23 +1001,28 @@
   id: totrans-152
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将生成一个名为`message.rsa`的文件，它是以二进制格式保存的。如果你在 nano 编辑器或你选择的任何其他文本编辑器中打开`message.rsa`，它将显示一些垃圾数据，如下图所示：
 - en: '![](img/eda866a3-6754-4c86-851f-b3cc95453af7.png)'
   id: totrans-153
   prefs: []
   type: TYPE_IMG
+  zh: '![图片](img/eda866a3-6754-4c86-851f-b3cc95453af7.png)'
 - en: message.rsa showing garbage (encrypted) data
   id: totrans-154
   prefs: []
   type: TYPE_NORMAL
+  zh: 显示垃圾数据（加密）的`message.rsa`
 - en: Decryption
   id: totrans-155
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 解密
 - en: 'In order to decrypt the RSA-encrypted file, the following command can be used:'
   id: totrans-156
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了解密 RSA 加密的文件，可以使用以下命令：
 - en: '[PRE7]'
   id: totrans-157
   prefs: []
@@ -953,6 +1033,7 @@
   id: totrans-158
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，如果使用`cat`读取文件，可以看到解密后的明文，如下所示：
 - en: '[PRE8]'
   id: totrans-159
   prefs: []
@@ -963,26 +1044,31 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 OpenSSL 进行 ECC
 - en: OpenSSL provides a very rich library of functions to perform ECC. The following
     subsection shows how to use ECC functions in a practical manner in OpenSSL.
   id: totrans-161
   prefs: []
   type: TYPE_NORMAL
+  zh: OpenSSL 提供了一个非常丰富的函数库，用于执行 ECC。以下小节显示了如何在 OpenSSL 中实际使用 ECC 函数。
 - en: ECC private and public key pair
   id: totrans-162
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: ECC 私钥和公钥对
 - en: In this subsection, first an example is presented that demonstrates the creation
     of a private key using ECC functions available in the OpenSSL library.
   id: totrans-163
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这个小节中，首先介绍了一个示例，演示了使用 OpenSSL 库中可用的 ECC 函数创建私钥的过程。
 - en: Private key
   id: totrans-164
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 私钥
 - en: 'ECC is based on domain parameters defined by various standards. You can see
     the list of all available standards defined and recommended curves available in
     OpenSSL using the following command. (Once again, only partial output is shown
@@ -990,6 +1076,7 @@
   id: totrans-165
   prefs: []
   type: TYPE_NORMAL
+  zh: ECC 是基于各种标准定义的域参数。您可以使用以下命令查看 OpenSSL 中定义的所有可用标准以及推荐的曲线列表。（再次强调，这里仅显示部分输出，并且在中间被截断。）
 - en: '[PRE9]'
   id: totrans-166
   prefs: []
@@ -999,15 +1086,18 @@
   id: totrans-167
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下面的示例中，使用`secp256k1`来演示 ECC 的使用。
 - en: Private key generation
   id: totrans-168
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 生成私钥
 - en: 'To generate the private key, execute the following command:'
   id: totrans-169
   prefs: []
   type: TYPE_NORMAL
+  zh: 要生成私钥，请执行以下命令：
 - en: '[PRE10]'
   id: totrans-170
   prefs: []
@@ -1277,6 +1367,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 消息摘要
 - en: '**Message Digest** (**MD**) functions were prevalent in the early 1990s. MD4
     and MD5 fall into this category. Both MD functions were found to be insecure and
     are not recommended for use anymore. MD5 is a 128-bit hash function that was commonly
@@ -1284,20 +1375,25 @@
   id: totrans-212
   prefs: []
   type: TYPE_NORMAL
+  zh: '**消息摘要**（**MD**）函数在 1990 年代初很流行。MD4 和 MD5 属于此类。这两个 MD 函数都被发现是不安全的，不再建议使用。MD5
+    是一个常用于文件完整性检查的 128 位哈希函数。'
 - en: Secure Hash Algorithms
   id: totrans-213
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 安全哈希算法
 - en: 'The following list describes the most common **Secure Hash Algorithms** (**SHAs**):'
   id: totrans-214
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下列出了最常见的**安全哈希算法**（**SHAs**）：
 - en: '**SHA-0**: This is a 160-bit function introduced by NIST in 1993.'
   id: totrans-215
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**SHA-0**：这是 NIST 在 1993 年引入的一个 160 位的函数。'
 - en: '**SHA-1**: SHA-1 was introduced in 1995 by NIST as a replacement for SHA-0\.
     This is also a 160-bit hash function. SHA-1 is used commonly in SSL and TLS implementations.
     It should be noted that SHA-1 is now considered insecure, and it is being deprecated
@@ -1306,12 +1402,15 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**SHA-1**：SHA-1 是由 NIST 于 1995 年引入的，作为 SHA-0 的替代。这也是一个 160 位的哈希函数。SHA-1 在 SSL
+    和 TLS 实现中被普遍使用。值得注意的是，SHA-1 现在被认为是不安全的，并且正在被证书颁发机构弃用。在任何新的实现中都不推荐使用它。'
 - en: '**SHA-2**: This category includes four functions defined by the number of bits
     of the hash: SHA-224, SHA-256, SHA-384, and SHA-512.'
   id: totrans-217
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**SHA-2**：这个类别包括了根据哈希位数定义的四个函数：SHA-224、SHA-256、SHA-384 和 SHA-512。'
 - en: '**SHA-3**: This is the latest family of SHA functions. SHA-3-224, SHA-3-256,
     SHA-3-384, and SHA-3-512 are members of this family. SHA-3 is a NIST-standardized
     version of Keccak. Keccak uses a new approach called **sponge construction** instead
@@ -1320,6 +1419,8 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**SHA-3**：这是最新的 SHA 函数系列。SHA-3-224、SHA-3-256、SHA-3-384 和 SHA-3-512 是该系列的成员。SHA-3
+    是 Keccak 的 NIST 标准化版本。Keccak 使用了一种称为**海绵构造**的新方法，而不是常用的 Merkle-Damgard 转换。'
 - en: '**RIPEMD**: RIPEMD is the acronym for **RACE Integrity Primitives Evaluation
     Message Digest**. It is based on the design ideas used to build MD4\. There are
     multiple versions of RIPEMD, including 128-bit, 160-bit, 256-bit, and 320-bit.'
@@ -1327,6 +1428,8 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**RIPEMD**：RIPEMD 是**RACE 完整性原语评估消息摘要**的缩写。它基于构建 MD4 的设计思想。RIPEMD 有多个版本，包括
+    128 位、160 位、256 位和 320 位。'
 - en: '**Whirlpool**: This is based on a modified version of the Rijndael cipher known
     as *W*. It uses the Miyaguchi-Preneel compression function, which is a type of
     one-way function used for the compression of two fixed-length inputs into a single
@@ -1335,6 +1438,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Whirlpool**：这基于修改版的 Rijndael 密码，称为 *W*。它使用 Miyaguchi-Preneel 压缩函数，这是一种用于将两个固定长度输入压缩为单个固定长度输出的单向函数类型。它是一个单个块长度的压缩函数。'
 - en: Hash functions have many practical applications ranging from simple file integrity
     checks and password storage to use in cryptographic protocols and algorithms.
     They are used in hash tables, distributed hash tables, bloom filters, virus fingerprinting,
@@ -1342,6 +1446,7 @@
   id: totrans-221
   prefs: []
   type: TYPE_NORMAL
+  zh: 哈希函数具有许多实际应用，从简单的文件完整性检查和密码存储到在加密协议和算法中使用。它们被用于哈希表、分布式哈希表、布隆过滤器、病毒指纹、点对点文件共享等许多应用中。
 - en: Hash functions play a vital role in blockchain. Especially, The PoW function
     in particular uses SHA-256 twice in order to verify the computational effort spent
     by miners. RIPEMD 160 is used to produce Bitcoin addresses. This will be discussed
@@ -1349,15 +1454,18 @@
   id: totrans-222
   prefs: []
   type: TYPE_NORMAL
+  zh: 哈希函数在区块链中发挥着重要作用。特别是，PoW 函数特别是两次使用 SHA-256 来验证矿工所花费的计算工作。RIPEMD 160 用于生成比特币地址。这将在后面的章节中进一步讨论。
 - en: In the next section, the design of the SHA algorithm is introduced.
   id: totrans-223
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一节中，将介绍 SHA 算法的设计。
 - en: Design of Secure Hash Algorithms
   id: totrans-224
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 安全哈希算法的设计
 - en: In the following section, you will be introduced to the design of SHA-256 and
     SHA-3\. Both of these are used in Bitcoin and Ethereum, respectively. Ethereum
     does not use NIST Standard SHA-3, but Keccak, which is the original algorithm
@@ -1366,11 +1474,14 @@
   id: totrans-225
   prefs: []
   type: TYPE_NORMAL
+  zh: 在接下来的部分中，您将了解到 SHA-256 和 SHA-3 的设计。这两者分别在比特币和以太坊中使用。以太坊不使用 NIST 标准 SHA-3，而是使用原始算法
+    Keccak。经过一些修改（如增加轮数和更简单的消息填充），NIST 将 Keccak 标准化为 SHA-3。
 - en: Design of SHA-256
   id: totrans-226
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: SHA-256 的设计
 - en: SHA-256 has the input message size < 2^(64)-bits. Block size is 512-bits, and
     it has a word size of 32-bits. The output is a 256-bit digest.
   id: totrans-227
@@ -1650,14 +1761,17 @@
   id: totrans-265
   prefs: []
   type: TYPE_NORMAL
+  zh: 这两种方法都有优缺点。对这两种方案的一些攻击已经发生。密码研究人员提出了使用各种技术的HMAC构造方案，例如**ipad**和**opad**（内部填充和外部填充）。这些方案在一些假设下被认为是安全的：
 - en: '![](img/15ff69dd-c88d-44f7-85fa-94e19e01e3a7.png)'
   id: totrans-266
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/15ff69dd-c88d-44f7-85fa-94e19e01e3a7.png)'
 - en: Operation of a MAC function
   id: totrans-267
   prefs: []
   type: TYPE_NORMAL
+  zh: MAC函数的操作
 - en: There are various powerful applications of hash functions used in peer-to-peer
     networks and blockchain technology. Some noticeable examples, such as Merkle trees,
     Patricia trees, and **Distributed Hash Table** (**DHT**), are discussed in the
@@ -1665,25 +1779,30 @@
   id: totrans-268
   prefs: []
   type: TYPE_NORMAL
+  zh: 在点对点网络和区块链技术中使用哈希函数的各种强大应用。一些显著的例子，如默克尔树、帕特里夏树和**分布式哈希表**（**DHT**），将在以下子章节中讨论。
 - en: Merkle trees
   id: totrans-269
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 默克尔树
 - en: The concept of Merkle tree was introduced by Ralph Merkle. A diagram of Merkle
     tree is shown here. **Merkle trees** enable secure and efficient verification
     of large datasets.
   id: totrans-270
   prefs: []
   type: TYPE_NORMAL
+  zh: 默克尔树的概念由Ralph Merkle引入。这里显示了默克尔树的图表。**默克尔树**可以安全有效地验证大型数据集。
 - en: '![](img/ac4efc16-8250-4415-a374-7de2d84f8c1e.jpg)'
   id: totrans-271
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/ac4efc16-8250-4415-a374-7de2d84f8c1e.jpg)'
 - en: A Merkle tree
   id: totrans-272
   prefs: []
   type: TYPE_NORMAL
+  zh: 默克尔树
 - en: A Merkle tree is a binary tree in which the inputs are first placed at the leaves
     (node with no children), and then the values of pairs of child nodes are hashed
     together to produce a value for the parent node (internal node) until a single
@@ -1691,34 +1810,40 @@
   id: totrans-273
   prefs: []
   type: TYPE_NORMAL
+  zh: 默克尔树是一种二叉树，其中首先将输入放置在叶节点（没有子节点的节点）上，然后将子节点的值对的值哈希在一起，以产生父节点（内部节点）的值，直到达到一个称为**默克尔根**的单一哈希值。
 - en: Patricia trees
   id: totrans-274
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 帕特里夏树
 - en: To understand Patricia trees, you will first be introduced to the concept of
     a **trie**. A trie, or a digital tree, is an ordered tree data structure used
     to store a dataset.
   id: totrans-275
   prefs: []
   type: TYPE_NORMAL
+  zh: 要理解帕特里夏树，您首先会介绍**trie**的概念。Trie，或数字树，是一种用于存储数据集的有序树数据结构。
 - en: '**Practical Algorithm to Retrieve Information Coded in Alphanumeric** (**Patricia**),
     also known as *Radix tree*, is a compact representation of a trie in which a node
     that is the only child of a parent is merged with its parent.'
   id: totrans-276
   prefs: []
   type: TYPE_NORMAL
+  zh: '**用于检索字母数字编码信息的实用算法**（**Patricia**），也称为*基数树*，是trie的紧凑表示，其中作为父节点的唯一子节点与其父节点合并。'
 - en: A **Merkle-Patricia tree**, based on the definitions of Patricia and Merkle,
     is a tree that has a root node which contains the hash value of the entire data
     structure.
   id: totrans-277
   prefs: []
   type: TYPE_NORMAL
+  zh: 基于帕特里夏和默克尔的定义，**Merkle-Patricia树**是一个具有根节点的树，该根节点包含整个数据结构的哈希值。
 - en: Distributed Hash Tables
   id: totrans-278
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 分布式哈希表
 - en: A hash table is a data structure that is used to map keys to values. Internally,
     a hash function is used to calculate an index into an array of buckets from which
     the required value can be found. Buckets have records stored in them using a hash
@@ -1726,12 +1851,14 @@
   id: totrans-279
   prefs: []
   type: TYPE_NORMAL
+  zh: 哈希表是一种用于将键映射到值的数据结构。在内部，使用哈希函数来计算一个索引，以便从存储桶数组中找到所需的值。桶中使用哈希键存储记录，并按特定顺序组织。
 - en: With the definition provided earlier in mind, one can think of a DHT as a data
     structure where data is spread across various nodes, and nodes are equivalent
     to buckets in a peer-to-peer network.
   id: totrans-280
   prefs: []
   type: TYPE_NORMAL
+  zh: 考虑到之前提供的定义，可以将DHT视为数据分布在各个节点上，而节点等价于点对点网络中的存储桶的数据结构。
 - en: 'The following diagram shows how a DHT works. Data is passed through a hash
     function, which then generates a compact key. This key is then linked with the
     data (values) on the peer-to-peer network. When users on the network request the
@@ -1741,14 +1868,18 @@
   id: totrans-281
   prefs: []
   type: TYPE_NORMAL
+  zh: 下图显示了分布式哈希表（DHT）的工作原理。数据通过哈希函数传递，然后生成一个紧凑的密钥。然后将此密钥与点对点网络上的数据（值）相关联。当网络上的用户请求数据（通过文件名）时，可以再次对文件名进行哈希以生成相同的密钥，然后可以请求网络上的任何节点以查找相应的数据。DHT
+    提供了分散性、容错性和可扩展性：
 - en: '![](img/f1733460-028b-4fca-993a-4eb9b134e370.jpg)'
   id: totrans-282
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/f1733460-028b-4fca-993a-4eb9b134e370.jpg)'
 - en: Distributed hash tables
   id: totrans-283
   prefs: []
   type: TYPE_NORMAL
+  zh: 分布式哈希表
 - en: Another application of hash functions is in digital signatures, where they can
     be used in combination with asymmetric cryptography. This concept is discussed
     in detail in the examples provided in the following subsections.
@@ -2340,11 +2471,13 @@
   id: totrans-381
   prefs: []
   type: TYPE_NORMAL
+  zh: 直到最近，没有一个系统支持这两种操作，但是在2009年，克雷格·根特里发现了一个**全同态加密** (**FHE**) 系统。由于这些方案使得加密数据的处理不需要解密，它们在许多不同的潜在应用中有着很多不同的潜在应用，特别是在需要保持隐私的情况下，但数据也被要求由潜在不受信任的方进行处理的场景，例如，云计算和在线搜索引擎。同态加密的最新发展非常有前景，研究人员正在积极努力使其更有效和更实用。这在区块链技术中尤其有趣，正如本书后文所述，因为它可以解决区块链中的保密性和隐私问题。
 - en: Signcryption
   id: totrans-382
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 签名加密
 - en: '**Signcryption** is a public key cryptography primitive that provides all of
     the functions of a digital signature and encryption. Yuliang Zheng invented signcryption,
     and it is now an ISO standard, ISO/IEC 29150:2011\. Traditionally, sign then encrypt
@@ -2355,16 +2488,19 @@
   id: totrans-383
   prefs: []
   type: TYPE_NORMAL
+  zh: '**签名加密** 是一种提供数字签名和加密所有功能的公钥密码原语。郑育亮发明了签名加密，现在它是ISO标准ISO/IEC 29150:2011。传统上，使用签名然后加密或加密然后签名方案来提供不可伪造性、身份验证和不可否认性，但是使用签名加密，所有数字签名和加密的服务都以比签名然后加密方案更低的成本提供。'
 - en: Signcryption enables *Cost (signature & encryption) << Cost (signature) + Cost
     (Encryption)* in a single logical step.
   id: totrans-384
   prefs: []
   type: TYPE_NORMAL
+  zh: 签名加密使得*成本（签名和加密） << 成本（签名） + 成本（加密）* 在一个单独的逻辑步骤中实现。
 - en: Zero-Knowledge Proofs
   id: totrans-385
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 零知识证明
 - en: '**Zero-Knowledge Proofs** (**ZKPs**) were introduced by Goldwasser, Micali,
     and Rackoff in 1985\. These proofs are used to prove the validity of an assertion
     without revealing any information whatsoever about the assertion. There are three
@@ -2373,6 +2509,7 @@
   id: totrans-386
   prefs: []
   type: TYPE_NORMAL
+  zh: '**零知识证明** (**ZKPs**) 是由Goldwasser、Micali和Rackoff于1985年引入的。这些证明用于证明某个断言的有效性，而不泄露任何与断言有关的信息。ZKPs所需的三个属性是：完备性、声音性和零知识性质。'
 - en: '**Completeness** ensures that if a certain assertion is true, then the verifier
     will be convinced of this claim by the prover. The **soundness** property makes
     sure that if an assertion is false, then no dishonest prover can convince the
@@ -2382,6 +2519,7 @@
   id: totrans-387
   prefs: []
   type: TYPE_NORMAL
+  zh: '**完备性** 确保如果某个断言为真，则验证者将被证明者说服。**声音性** 属性确保如果一个断言是假的，那么没有不诚实的证明者能说服验证者相反。**零知识性质**，正如其名称所暗示的，是ZKP的关键属性，确保除了该断言是真还是假之外，绝对不会透露任何关于断言的信息。'
 - en: ZKPs have sparked a special interest among researchers in the blockchain space
     due to their privacy properties, which are very much desirable in financial and
     many other fields, including law and medicine. A recent example of the successful
@@ -2392,11 +2530,14 @@
   id: totrans-388
   prefs: []
   type: TYPE_NORMAL
+  zh: ZKP在区块链领域引起了研究人员的特别兴趣，因为它们的隐私属性在金融和许多其他领域中非常受欢迎，包括法律和医学。成功实现ZKP机制的最新例子是Zcash加密货币。在Zcash中，实现了一种特定类型的ZKP，称为**零知识简洁非交互式知识论证**
+    (**ZK-SNARK**)。这将在 [第10章](1e7e53b5-c84c-4dd2-8c0b-3ee9cd6acf24.xhtml) *替代货币* 中详细讨论。
 - en: Blind signatures
   id: totrans-389
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 盲签名
 - en: '**Blind signatures** were introduced by David Chaum in 1982\. They are based
     on public key digital signature schemes, such as RSA. The key idea behind blind
     signatures is to get the message signed by the signer without actually revealing
@@ -2407,11 +2548,13 @@
   id: totrans-390
   prefs: []
   type: TYPE_NORMAL
+  zh: '**盲签名**是由David Chaum于1982年引入的。它们基于公钥数字签名方案，如RSA。盲签名背后的关键思想是让签名者在实际上不透露消息的情况下对消息进行签名。这通过在签名之前伪装或盲化消息来实现，因此称为*盲签名*。这种盲签名然后可以像普通数字签名一样对原始消息进行验证。盲签名被引入作为允许数字货币方案发展的机制。'
 - en: Encoding schemes
   id: totrans-391
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 编码方案
 - en: Other than cryptographic primitives, binary-to-text **encoding schemes** are
     also used in various scenarios. The most common use is to convert binary data
     into text so that it can either be processed, saved, or transmitted via a protocol
@@ -2422,6 +2565,7 @@
   id: totrans-392
   prefs: []
   type: TYPE_NORMAL
+  zh: 除了密码学基元外，二进制到文本的**编码方案**也在各种场景中使用。最常见的用途是将二进制数据转换为文本，以便可以通过不支持处理二进制数据的协议进行处理、保存或传输。例如，有时，图像以base64编码的形式存储在数据库中，这使得文本字段能够存储图片。一个常用的编码方案是base64。另一个名为base58的编码方案因在比特币中的使用而广受欢迎。
 - en: Cryptography is a vast field, and this section has merely introduced the basic
     concepts that are essential to understanding cryptography in general and specifically
     from the blockchain and cryptocurrency point of view. In the next section, basic
@@ -2429,23 +2573,27 @@
   id: totrans-393
   prefs: []
   type: TYPE_NORMAL
+  zh: 密码学是一个庞大的领域，本节仅介绍了对于理解密码学以及从区块链和加密货币角度来看的基本概念。在下一节中，将介绍基本的金融市场概念。
 - en: The section describes general terminology related to trading, exchanges, and
     the trade life cycle. More detailed information will be provided in later chapters,
     where specific use cases are discussed.
   id: totrans-394
   prefs: []
   type: TYPE_NORMAL
+  zh: 本节描述了与交易、交易所和交易生命周期相关的一般术语。更详细的信息将在后面的章节中提供，其中将讨论特定的用例。
 - en: Financial markets and trading
   id: totrans-395
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 金融市场和交易
 - en: 'Financial markets enable trading of financial securities such as bonds, equities,
     derivatives and currencies. There are broadly three types of markets: money markets,
     credit markets, and capital markets:'
   id: totrans-396
   prefs: []
   type: TYPE_NORMAL
+  zh: 金融市场使金融证券如债券、股票、衍生品和货币得以交易。广义上有三种类型的市场：货币市场、信贷市场和资本市场：
 - en: '**Money markets**: These are short-term markets where money is lent to companies
     or banks to do interbank lending. Foreign exchange or FX is another category of
     money markets where currencies are traded.'
@@ -2453,6 +2601,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**货币市场**：这是短期市场，资金借出给公司或银行进行同业拆借。外汇或FX是货币市场的另一个类别，其中进行货币交易。'
 - en: '**Credit markets**: These consist mostly of retail banks where they borrow
     money from central banks and loan it to companies or households in the form of
     mortgages or loans.'
@@ -2460,6 +2609,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**信贷市场**：这些主要由零售银行组成，他们从中央银行借款，以抵押贷款或贷款的形式向公司或家庭提供贷款。'
 - en: '**Capital markets**: These facilitate the buying and selling of financial instruments,
     mainly stocks and bonds. Capital markets can be divided into two types: primary
     and secondary markets. Stocks are issued directly by the companies to investors
@@ -2470,11 +2620,13 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**资本市场**：这些促进金融工具的买卖，主要是股票和债券。资本市场可以分为两种类型：一级市场和二级市场。股票直接由公司在一级市场发行给投资者，而在二级市场，投资者通过证券交易所将其证券转售给其他投资者。今天，交易所使用各种电子交易系统来促进金融工具的交易。'
 - en: Trading
   id: totrans-400
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 交易
 - en: A market is a place where parties engage in exchange. It can be either a physical
     location or an electronic or virtual location. Various financial instruments,
     including equities, stocks, foreign exchange, commodities, and various types of
@@ -2484,6 +2636,7 @@
   id: totrans-401
   prefs: []
   type: TYPE_NORMAL
+  zh: 市场是各方进行交易的地方。它可以是一个实际的地点，也可以是一个电子的或虚拟的地点。在这些市场上交易各种金融工具，包括股票、外汇、商品和各种类型的衍生品。最近，许多金融机构推出了软件平台，以交易不同资产类别的各种类型的工具。
 - en: '**Trading** can be defined as an activity in which traders buy or sell various
     financial instruments to generate profit and hedge risk. Investors, borrowers,
     hedgers, asset exchangers, and gamblers are a few types of traders. Traders have
@@ -2497,11 +2650,13 @@
   id: totrans-402
   prefs: []
   type: TYPE_NORMAL
+  zh: '**交易**可以定义为交易员买卖各种金融工具以获取利润和对冲风险的活动。投资者、借款人、对冲者、资产交换者和赌徒是交易员的几种类型。当交易员欠某物时，即如果他们卖出了一份合约，则他们持有空头仓位；当他们买入一份合约时，则持有多头仓位。有各种各样的交易方式，例如通过经纪人或直接在交易所或**场外交易**（**OTC**）进行交易，买方和卖方直接彼此交易，而不是使用交易所。**经纪人**是为客户安排交易的代理商。经纪人代表客户以给定价格或最佳价格交易。'
 - en: Exchanges
   id: totrans-403
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 交易所
 - en: '**Exchanges** are usually considered to be a very safe, regulated, and reliable
     place for trading. During the last decade, electronic trading has gained more
     popularity as compared to traditional floor-based trading. Now traders send orders
@@ -2513,31 +2668,37 @@
   id: totrans-404
   prefs: []
   type: TYPE_NORMAL
+  zh: '**交易所**通常被认为是一个非常安全、受监管和可靠的交易场所。在过去的十年中，电子交易比传统的基于交易大厅的交易更受欢迎。现在，交易员将订单发送到一个中央电子订单簿，订单、价格和相关属性通过通信网络发布到所有关联系统，从而实质上创建了一个虚拟市场。只有交易所成员才能进行交易。为了避免这些限制，交易对手可以直接参与场外交易。'
 - en: Orders and order properties
   id: totrans-405
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 订单和订单属性
 - en: '**Orders** are instructions to trade, and they are the main building blocks
     of a trading system. They have the following general attributes:'
   id: totrans-406
   prefs: []
   type: TYPE_NORMAL
+  zh: '**订单**是交易的指令，它们是交易系统的主要构建块。它们具有以下一般属性：'
 - en: The instrument name
   id: totrans-407
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 工具名称
 - en: Quantity to be traded
   id: totrans-408
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 交易数量
 - en: Direction (buy or sell)
   id: totrans-409
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 方向（买入或卖出）
 - en: The type of the order that represents various conditions, for example, limit
     orders and stop orders are orders to buy or sell once the price hits the price
     specified in the order, for example, Google shares for 200 GBP. Limit order allows
@@ -2547,6 +2708,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 表示各种条件的订单类型，例如，限价订单和止损订单是一旦价格达到订单中指定的价格就进行买入或卖出的订单，例如，以200英镑购买谷歌股票。限价订单允许以特定价格或更好价格出售或购买股票。例如，如果价格是100美元或更高，就出售微软股票。
 - en: Orders are traded by bid prices and offer prices. Traders show their intention
     to buy or sell by attaching bid and offer prices to their orders. The price at
     which a trader will buy is known as the **bid price**. The price at which a trader
@@ -2554,22 +2716,26 @@
   id: totrans-411
   prefs: []
   type: TYPE_NORMAL
+  zh: 订单通过买价和卖价交易。交易员通过给他们的订单附加买价和卖价来表明他们的买卖意向。交易员愿意购买的价格称为**买价**。交易员愿意出售的价格称为**卖价**。
 - en: Order management and routing systems
   id: totrans-412
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 订单管理和路由系统
 - en: '**Order routing systems** routes and delivers orders to various destinations
     depending on the business logic. Customers use them to send orders to their brokers,
     who then send these orders to dealers, clearing houses, and exchanges.'
   id: totrans-413
   prefs: []
   type: TYPE_NORMAL
+  zh: '**订单路由系统**根据业务逻辑将订单路由并交付到不同的目的地。客户使用它们将订单发送给他们的经纪人，然后经纪人将这些订单发送给经销商、结算所和交易所。'
 - en: There are different types of orders. The two most common ones are markets orders
     and limit order.
   id: totrans-414
   prefs: []
   type: TYPE_NORMAL
+  zh: 有不同类型的订单。其中两种最常见的是市场订单和限价订单。
 - en: 'A **market order** is an instruction to trade at the best price currently available
     in the market. These orders get filled immediately at spot prices. On the other
     hand, a **limit order** is an instruction to trade at the best price available,
@@ -2580,6 +2746,7 @@
   id: totrans-415
   prefs: []
   type: TYPE_NORMAL
+  zh: '**市场订单**是以市场当前最佳价格进行交易的指令。这些订单会立即以现货价格填补。另一方面，**限价订单**是以可用的最佳价格进行交易的指令，但前提是它不低于交易员设定的限价。根据订单的方向，限价也可以更高。所有这些订单都由交易所维护的**订单簿**管理，它记录了交易员的买卖意向。'
 - en: A **position** is a commitment to sell or buy a number of financial instruments,
     including securities, currencies, or commodities for a given price. The contracts,
     securities, commodities, and currencies that traders buy or sell are commonly
@@ -2589,68 +2756,81 @@
   id: totrans-416
   prefs: []
   type: TYPE_NORMAL
+  zh: '**头寸**是对以特定价格出售或购买一定数量的金融工具（包括证券、货币或大宗商品）的承诺。交易员买卖的合同、证券、商品和货币通常被称为**交易工具**，它们属于**资产类别**的广泛范畴。最常见的类别包括实物资产、金融资产、衍生合约和保险合约。'
 - en: Components of a trade
   id: totrans-417
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 交易的组成部分
 - en: A **trade ticket** is the combination of all of the details related to a trade.
     However, there is some variation depending on the type of the instrument and the
     asset class. These elements are described in the following subsections.
   id: totrans-418
   prefs: []
   type: TYPE_NORMAL
+  zh: '**交易单据**是与一项交易相关的所有细节的组合。但是，这些元素的具体内容取决于工具的类型和资产类别。这些元素在以下小节中描述。'
 - en: The underlying instrument
   id: totrans-419
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 底层工具
 - en: The **underlying instrument** is the basis of the trade. It can be a currency,
     a bond, interest rate, commodity, or equities.
   id: totrans-420
   prefs: []
   type: TYPE_NORMAL
+  zh: '**底层工具**是交易的基础。它可以是货币、债券、利率、商品或股票。'
 - en: The attributes of financial instruments are discussed in the following subsection.
   id: totrans-421
   prefs: []
   type: TYPE_NORMAL
+  zh: 金融工具的属性将在以下小节中讨论。
 - en: General attributes
   id: totrans-422
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 一般特性
 - en: This includes the general identification information and essential features
     associated with every trade. Typical attributes include a unique ID, instrument
     name, type, status, trade date, and time.
   id: totrans-423
   prefs: []
   type: TYPE_NORMAL
+  zh: 这包括与每笔交易相关的一般识别信息和基本特征。典型属性包括唯一ID、工具名称、类型、状态、交易日期和时间。
 - en: Economics
   id: totrans-424
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 经济特性
 - en: '**Economics** are features related to the value of the trade, for example,
     buy or sell value, ticker, exchange, price, and quantity.'
   id: totrans-425
   prefs: []
   type: TYPE_NORMAL
+  zh: '**经济特性**与交易价值相关，例如购买或出售价值、股票代码、交易所、价格和数量。'
 - en: Sales
   id: totrans-426
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 销售
 - en: '**Sales** refer to the sales-characteristic related details, such as the name
     of the salesperson. It is just an informational field, usually without any impact
     on the trade life cycle.'
   id: totrans-427
   prefs: []
   type: TYPE_NORMAL
+  zh: '**销售**指与销售相关的特征细节，例如销售人员的名称。这只是一个信息字段，通常不会对交易生命周期产生任何影响。'
 - en: Counterparty
   id: totrans-428
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 对手方
 - en: The **counterparty** is an essential component of a trade as it shows the other
     side (the other party involved in the trade) of the trade, and it is required
     to settle the trade successfully. The normal attributes include counterparty name,
@@ -2658,69 +2838,82 @@
   id: totrans-429
   prefs: []
   type: TYPE_NORMAL
+  zh: '**对手方**是交易的重要组成部分，因为它显示了交易中涉及的另一方（交易中的另一方），并且需要成功结算交易。常见的属性包括对手方名称、地址、支付类型、任何参考ID、结算日期和交付类型。'
 - en: Trade life cycle
   id: totrans-430
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 交易生命周期
 - en: 'A general **trade life cycle** includes the various stages from order placement
     to execution and settlement. This life cycle is described step-by-step as follows:'
   id: totrans-431
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个一般的**交易生命周期**包括从下单到执行和结算的各个阶段。这个生命周期逐步描述如下：
 - en: '**Pre-execution**: An order is placed at this stage.'
   id: totrans-432
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**预执行**：在这个阶段下单。'
 - en: '**Execution and booking**: When the order is matched and executed, it converts
     it into a trade. At this stage, the contract between counterparties is matured.'
   id: totrans-433
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**成交和预订**：当订单被匹配和执行时，它会转化为一笔交易。在这个阶段，交易对手之间的合约就成熟了。'
 - en: '**Confirmation**: This is where both counterparties agree to the particulars
     of the trade.'
   id: totrans-434
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**确认**：在这里，交易双方就交易的各种具体事项达成一致。'
 - en: '**Post booking**: This stage is concerned with various scrutiny and verification
     processes required to ascertain the correctness of the trade.'
   id: totrans-435
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**后预订**：这个阶段涉及到各种仔细审查和验证过程，以确认交易的正确性。'
 - en: '**Settlement**: This is the most vital part of trade life cycle. At this stage,
     the trade is final.'
   id: totrans-436
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**结算**：这是交易生命周期中最关键的部分。在这个阶段，交易就已经最终确定了。'
 - en: '**Overnight (end-of-day processing)**: End-of-day processes include report
     generation, profit and loss calculations, and various risk calculations.'
   id: totrans-437
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**隔夜（日终处理）**：日终处理包括报告生成、损益计算和各种风险计算。'
 - en: 'This life cycle is also shown in the following screenshot:'
   id: totrans-438
   prefs: []
   type: TYPE_NORMAL
+  zh: 该生命周期也显示在以下截图中：
 - en: '![](img/d6e1a330-91a8-4bb6-8d17-d734d5d54968.png)'
   id: totrans-439
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/d6e1a330-91a8-4bb6-8d17-d734d5d54968.png)'
 - en: Trade life cycle
   id: totrans-440
   prefs: []
   type: TYPE_NORMAL
+  zh: 交易生命周期
 - en: In all the aforementioned processes, many people and business functions are
     involved. Most commonly, these functions are divided into functions such as front
     office, middle office, and back office.
   id: totrans-441
   prefs: []
   type: TYPE_NORMAL
+  zh: '在所有上述流程中，涉及到许多人和业务职能。最常见的是将这些职能划分为前台、中台和后台等职能。 '
 - en: In the following section, you are introduced to some concepts that are essential
     to understanding the strict and necessary rules and regulations that govern the
     financial industry. Some concepts are described here and then again in later chapters
@@ -2729,11 +2922,13 @@
   id: totrans-442
   prefs: []
   type: TYPE_NORMAL
+  zh: 在接下来的部分，将介绍一些对于理解严格而必要的金融行业规章制度至关重要的概念。一些这里描述的概念在后面的章节中再次描述，当讨论具体的应用案例时。这些想法将帮助您理解所描述的场景。
 - en: Order anticipators
   id: totrans-443
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 订单预测者
 - en: '**Order anticipators** try to make a profit before other traders can carry
     out trading. This is based on the anticipation of a trader who knows how trading
     activities of other trades will affect prices. Frontrunners, sentiment-oriented
@@ -2741,11 +2936,13 @@
   id: totrans-444
   prefs: []
   type: TYPE_NORMAL
+  zh: '**订单预测者**试图在其他交易员进行交易之前获利。这是基于一个交易员预期他人的交易活动将如何影响价格。先行者、情绪导向的技术交易者和挤压者都是订单预测者的一些实例。'
 - en: Market manipulation
   id: totrans-445
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 市场操纵
 - en: '**Market manipulation** is strictly illegal in many countries. Fraudulent traders
     can spread false information in the market, which can then result in price movements
     thus enabling illegal profiteering. Usually, manipulative market conduct is trade-based,
@@ -2755,17 +2952,20 @@
   id: totrans-446
   prefs: []
   type: TYPE_NORMAL
+  zh: '**市场操纵**在许多国家严格禁止。欺诈交易者可以在市场中传播虚假信息，这可能导致价格波动，从而实现非法获利。通常，操纵市场行为是基于交易的，包括普遍性和特定时间的操纵。可以创建股票人为短缺、虚假活动的印象和价格操纵以获取犯罪利益的行为都包括在此类别中。'
 - en: Both of the terms discussed here are relevant to the financial crime. However,
     there is a possibility of developing blockchain-based systems that can thwart
     market abuse due to its transparency and security properties.
   id: totrans-447
   prefs: []
   type: TYPE_NORMAL
+  zh: 这两个名词都和金融犯罪有关。然而，由于区块链系统的透明度和安全性，有可能开发基于区块链的系统来阻截市场滥用。
 - en: Summary
   id: totrans-448
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 总结
 - en: We started this chapter with the introduction of asymmetric key cryptography.
     We discussed various constructs such as RSA and ECC. We also performed some experiments
     using OpenSSL to see that how theoretical concepts can be implemented practically.
@@ -2776,3 +2976,4 @@
   id: totrans-449
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们从介绍非对称密钥加密开始了本章。我们讨论了诸如RSA和ECC之类的各种构造。我们还使用OpenSSL进行了一些实验，以验证理论概念如何实际实现。之后，我们详细讨论了哈希函数及其特性和用法。接下来，我们涵盖了Merle树等概念，这些概念在区块链中被广泛使用，实际上是其核心。我们还介绍了其他概念，如Patricia树和哈希表。
