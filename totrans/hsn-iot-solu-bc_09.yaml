@@ -3,6 +3,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 开发区块链和物联网解决方案的最佳实践
 - en: As is the case for every emerging technology, being an early adopter is full
     of challenges and lessons that need to be learned. The focus of this chapter is
     to present some solutions that we can apply to real-world projects in order to
@@ -10,36 +11,43 @@
   id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如对每种新兴技术都是如此，成为早期采用者充满了挑战和需要学习的教训。本章的重点是提出一些解决方案，我们可以将其应用于现实项目中，以避免陷入麻烦。
 - en: 'The following topics will be covered in this chapter:'
   id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章将涵盖以下主题：
 - en: Reference architecture for cloud applications
   id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 云应用的参考架构
 - en: How to create cloud-native applications using the 12-factor application development
     model
   id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 如何使用 12 因素应用程序开发模型创建云原生应用程序
 - en: Serverless computing
   id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 无服务器计算
 - en: Using Hyperledger Composer as an accelerator for application development
   id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用 Hyperledger Composer 作为应用程序开发的加速器
 - en: Developing cloud applications
   id: totrans-7
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 开发云应用程序
 - en: There are many potential pitfalls related to cloud applications, ranging from
     the simple misuse of resources to unsolvable problems. Applying a concise architecture
     and using the 12-factor application development pattern ensures you won't get
@@ -47,6 +55,7 @@
   id: totrans-8
   prefs: []
   type: TYPE_NORMAL
+  zh: 与云应用程序相关的潜在问题很多，从资源的简单误用到无法解决的问题都有。应用简洁的架构并使用 12 因素应用程序开发模式可确保在应用程序扩展或缩减时不会陷入麻烦。
 - en: A container is a standardized way to package an application with all its dependencies,
     including its code, runtimes, middleware, libraries, and operating system. Docker
     and Garden are containers that can be run in the IBM Cloud Platform, but there
@@ -58,14 +67,18 @@
   id: totrans-9
   prefs: []
   type: TYPE_NORMAL
+  zh: 容器是将应用程序与其所有依赖项（包括其代码、运行时、中间件、库和操作系统）打包的标准化方式。Docker 和 Garden 是可以在 IBM 云平台上运行的容器，但也有其他容器类型可供使用，如
+    Rockt。使用容器增加了应用程序的可移植性，因此宿主操作系统是哪个特定的 Linux 发行版，以及您的应用程序是在不同的发行版上构建的都无关紧要，因为操作系统是容器化应用程序的一层，两个发行版一起交付。
 - en: 'The following diagram demonstrates the structure of a containerized application:'
   id: totrans-10
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下图示了容器化应用程序的结构：
 - en: '![](img/541c3b3a-f9d1-4180-9ed1-e0055743938f.png)'
   id: totrans-11
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/541c3b3a-f9d1-4180-9ed1-e0055743938f.png)'
 - en: Cloud platforms use containerized applications and deploy them into a set of
     servers. We can move these applications inside the flexible computing environment to
     make better use of the existing infrastructure and to keep track of the containers
@@ -73,15 +86,18 @@
   id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 云平台使用容器化应用程序并将其部署到一组服务器中。我们可以将这些应用程序移到灵活的计算环境中，以更好地利用现有基础设施，并跟踪服务发现组件中部署的容器。
 - en: 'Each platform has its own way of using the containerized model of application
     deployment, as shown in the following diagram:'
   id: totrans-13
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个平台都有自己使用容器化应用程序部署模型的方式，如下图所示：
 - en: '![](img/67db951b-b353-4f94-8d2e-fb8bf81b4578.png)'
   id: totrans-14
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/67db951b-b353-4f94-8d2e-fb8bf81b4578.png)'
 - en: A container is deployed based on a container image, which is a read-only definition
     of the base image, the dependencies, and the application. Each container of the
     same application is deployed based on that image, and any changes made to the
@@ -90,11 +106,13 @@
   id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个容器是基于容器镜像部署的，容器镜像是基本镜像、依赖项和应用程序的只读定义。每个相同应用的容器都是基于该镜像部署的，而在运行时对容器所做的任何更改仅在该容器处于活动状态时存在，并且仅适用于该容器的实例。
 - en: Reference architecture
   id: totrans-16
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 参考架构
 - en: 'Cloud computing creates an abstract environment for deploying applications; we
     use virtual runtimes. This means that we have no location awareness and no assurance
     that our application will stay in the same data center or virtual machine. We
