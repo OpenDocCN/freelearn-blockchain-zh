@@ -1,4 +1,5 @@
 - en: Day Seven - Deploying to the Network
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -6,28 +7,35 @@
     and today, we're going to push this across the finish line by deploying our contract
     to the Ropsten test network, and making our UI publicly available using **Amazon
     Web Services**, or **AWS**.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
 - en: 'This chapter covers the following topics:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
 - en: Understanding the role of UI and smart contracts
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Deploying smart contracts to the Ethereum network
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Obtaining ether for use in test networks
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Deploying the UI to AWS
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Understanding the role of UI and smart contract
+  id: totrans-7
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -35,23 +43,28 @@
     for you to use, but the ether used on those networks is not real, it''s sort of
     like monopoly money. So, there are three main Ethereum test networks, which are
     as follows:'
+  id: totrans-8
   prefs: []
   type: TYPE_NORMAL
 - en: Kovan
+  id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Rinkeby
+  id: totrans-10
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Ropsten
+  id: totrans-11
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Each of these test networks operates a little differently, so let's highlight
     the features available in each of them. This is going to help you decide which
     network you want to use on your future projects.
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
 - en: Rinkeby uses a **Proof-of-Authority** (**POA**) consensus protocol, which means
@@ -60,16 +73,19 @@
     network. It also supports the Geth Ethereum client, but not Parity. So far in
     our development process, we've been using Ganache as it provides both our local
     blockchain network and our client, which made it easier for us to focus on development.
+  id: totrans-13
   prefs: []
   type: TYPE_NORMAL
 - en: Ganache can't act as a client for a public Ethereum network though, that's where
     Geth and Parity come in. I'll be showing you how to install and configure Geth
     later in this chapter.
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
 - en: Kovan is also a POA network, meaning you can't launch your own mining server
     and mine for ether there. Also, instead of supporting Geth, Kovan supports the
     Parity client.
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
 - en: Finally, we have Ropsten, which uses **Proof-of-Work** (**POW**) for the consensus
@@ -79,34 +95,43 @@
     network—so when you're testing here, you're testing in an environment that's identical
     to what you're going to be using in production. It also supports both Geth and
     Parity.
+  id: totrans-16
   prefs: []
   type: TYPE_NORMAL
 - en: 'We can summarize all the pros and cons of those three networks using the following
     table:'
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
 - en: '| **Network** | **Consensus protocol** | **Geth** | **Parity** |'
+  id: totrans-18
   prefs: []
   type: TYPE_TB
 - en: '| Rinkeby | POA | Yes | No |'
+  id: totrans-19
   prefs: []
   type: TYPE_TB
 - en: '| Kovan | POA | No | Yes |'
+  id: totrans-20
   prefs: []
   type: TYPE_TB
 - en: '| Ropsten | POW | Yes | Yes |'
+  id: totrans-21
   prefs: []
   type: TYPE_TB
 - en: We'll be using the Ropsten network to deploy and test our contract, so let's
     get a high-level overview of what we're talking about when we talk about deploying.
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
 - en: 'Everything we''ve done so far is done on your local workstation. The UI is
     running locally using Node.js, Ganache is running locally providing an Ethereum
     network, and their interactions take place on your workstation:'
+  id: totrans-23
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/cb467b84-9381-4360-84ba-7535139cf097.png)'
+  id: totrans-24
   prefs: []
   type: TYPE_IMG
 - en: 'When we talk about deployment, we''re talking about compiling and migrating
@@ -115,17 +140,21 @@
     you''re using the browser on your local computer to view the UI that is deployed
     to AWS, which in turn knows how to talk to your contract on the Ethereum test
     network using a Geth client. The following diagram shows how this works:'
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/90bd7d0a-7a16-41fe-bf17-8c7826b981d1.png)'
+  id: totrans-26
   prefs: []
   type: TYPE_IMG
 - en: The process of pushing your code from your local workstation to public servers
     and networks is sometimes referred to as a **deployment pipeline**. Now, let's
     take a look at how to deploy the contract we've written to a public Ethereum network.
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
 - en: Deploying smart contracts to the Ethereum network
+  id: totrans-28
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -134,17 +163,21 @@
     deployed. Now, let''s deploy our contract to the Ropsten test network. Inside
     of our code repository, we have a file called `truffle.js`, and it currently looks
     similar to the following code snippet:'
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE0]'
+  id: totrans-30
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: The `network` section is how our application knows what network to talk to.
     We have a development network defined, and if you don't tell Truffle otherwise,
     it will use this development network. The host is set to our localhost, and the
     port is set to the port that our local Ganache installation runs on. Finally,
     we have a network ID, and when you're running Ganache locally, we can set it to
     use any network ID.
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
 - en: When we deploy to a public network, we need to set the ID to match the network
@@ -152,45 +185,57 @@
     use when you deploy your app to production. To deploy to the Ropsten network,
     we use network ID 3; for Rinkeby, we can use network ID 4; and for Kovan, we can
     use network ID 42.
+  id: totrans-32
   prefs: []
   type: TYPE_NORMAL
 - en: 'So, we''ll go back to our `truffle.js` config file, and then, in the network
     section, we will add a new entry for Ropsten, as shown in the following code snippet:'
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE1]'
+  id: totrans-34
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: We give it the ID of the network we'll be using. The host is going to be localhost
     on port 8545, and we just learned that the network ID for Ropsten is 3, so we'll
     enter that as `network_id`.
+  id: totrans-35
   prefs: []
   type: TYPE_NORMAL
 - en: So, if you look at the code, we just set that to localhost on port `8545`, but
     we don't have anything running there—what's up with that?
+  id: totrans-36
   prefs: []
   type: TYPE_NORMAL
 - en: Well, so far, we've been using Ganache for our Ethereum network and it handled
     everything for us, but now we need a way to talk to an Ethereum network that isn't
     ours. We need an Ethereum client and we're going to use Geth.
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
 - en: Geth
+  id: totrans-38
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Geth is an Ethereum client written in Go, and you can download it from [https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum](https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum).
     There are installers available for OS X, Linux, and Windows, as well as Docker
     images.
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
 - en: 'With Geth installed, we can launch the client from a Terminal. This is the
     command that you''ll use to do so:'
+  id: totrans-40
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE2]'
+  id: totrans-41
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: 'Let''s break this command down to understand it. First, we have `--testnet`,
     which tells Geth that we want to use the Ropsten test network. Next, we specify
     the sync mode with the parameter as `light`. This tells Geth that we''re just
@@ -200,76 +245,97 @@
     without eating up tons of CPU and memory that you might need for other applications.
     We use the `--rpc` flag to enable RPC mode in the clients, followed by the `--rpcapi`
     flag and a list of the APIs we want to enable, which are as follows:'
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
 - en: '`db`: The `db` API allows us to read and write to the local database.'
+  id: totrans-43
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`eth`: The `eth` parameter provides API access to the ether account, and related
     functions, such as accounts, balances, and transactions.'
+  id: totrans-44
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`net`: The `net` parameter provides network-related API calls.'
+  id: totrans-45
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`web3`: This parameter provides our `web3` library.'
+  id: totrans-46
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`personal`: This parameter provides API access to manage private keys in the
     key store.'
+  id: totrans-47
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`admin`: This parameter enables fine-grained access to the Geth instance.'
+  id: totrans-48
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: We round out our list of options with a cache of 1 GB, and we set our client
     to listen on TCP port 8545, which differs from Ganache, which used RPC port 7545.
+  id: totrans-49
   prefs: []
   type: TYPE_NORMAL
 - en: 'We''ll then hit *Enter*, which starts the client and it starts to sync up by
     downloading the current block headers from the test network. You can see that
     happening here in the output screenshot:'
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/21d49109-f26c-43a4-9dde-178db8a0d074.png)'
+  id: totrans-51
   prefs: []
   type: TYPE_IMG
 - en: 'This takes a little bit of time to complete. We can track its progress, by
     opening another Terminal session, and in that window, we''ll type the following
     command:'
+  id: totrans-52
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE3]'
+  id: totrans-53
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: 'Running this command puts us into a JavaScript console, where we can interact
     with this client, as shown in the following screenshot:'
+  id: totrans-54
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/ce515983-51bc-4257-8b60-36471b3cb3c3.png)'
+  id: totrans-55
   prefs: []
   type: TYPE_IMG
 - en: 'We''ll then execute the following command:'
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE4]'
+  id: totrans-57
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: 'We will get something similar to the following screenshot:'
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/c2e65d53-6881-403d-9ecb-6b71735119e4.png)'
+  id: totrans-59
   prefs: []
   type: TYPE_IMG
 - en: Here, we can see that the current block being downloaded is 3,214,911, whereas
     the highest block on the network is 3,533,621\. This means that I have around
     300,000 blocks remaining to be downloaded, which will take a couple of minutes.
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
 - en: So, at this point, we've configured Truffle with the ability to deploy to the
@@ -283,27 +349,33 @@
     is one of the reasons I chose to deploy on the Ropsten network. So, let's jump
     into the next section, where we'll see how to obtain ether to use on the Ropsten
     network.
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
 - en: Obtaining ether for use in test networks
+  id: totrans-62
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Now we're ready to deploy our contract to the Ropsten network, but we don't
     have any ether so let's fix that.
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
 - en: 'Let''s go back to our browser, and in MetaMask, you''re probably connected
     to your private network, so click the drop-down menu, and switch to the Ropsten
     network, as follows:'
+  id: totrans-64
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/93ce3ae9-98c9-412d-8632-a2fc2574656f.png)'
+  id: totrans-65
   prefs: []
   type: TYPE_IMG
 - en: Then, open a browser tab and go to [faucet.ropsten.be](http://faucet.ropsten.be).
     This is called a faucet, and just like a leaky bathroom faucet in a cheap hotel,
     this one leaks.
+  id: totrans-66
   prefs: []
   type: TYPE_NORMAL
 - en: 'But, instead of leaking water every few seconds, this faucet leaks ether. The
@@ -311,9 +383,11 @@
     there, and clicking the Send me test Ether button will submit your address to
     the faucet, where it''ll send you one ether. The following screenshot shows the
     faucet window:'
+  id: totrans-67
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/cbbba0cf-4594-43cd-b3d0-2d2dd918b99f.png)'
+  id: totrans-68
   prefs: []
   type: TYPE_IMG
 - en: One thing to know here is that the faucet only drips 1 ether every 30 seconds,
@@ -321,131 +395,172 @@
     for the ether to show up in your account. You should keep checking because it
     will show up, and when it does, you now have some spending money that will allow
     you to pay for the transaction to deploy your contract to the Ropsten network.
+  id: totrans-69
   prefs: []
   type: TYPE_NORMAL
 - en: So, we've got some ether now, and we want to use Truffle to deploy our contract.
     And, we've got Geth running as our Ethereum clients, so Geth needs to access our
     account on the Ropsten network, so that it can pay for that transaction.
+  id: totrans-70
   prefs: []
   type: TYPE_NORMAL
 - en: 'To do that, we''ll click the Details button present on MetaMask, and we''ll
     export our private key:'
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/56ac4b10-af3a-4485-9a63-e9a8bc36072b.png)'
+  id: totrans-72
   prefs: []
   type: TYPE_IMG
 - en: Here, we'll click on the Export Private Key button, which prompts you to type
     in your password, which will reveal the private key. You should copy that private
     key into a file, where you have easy access to it.
+  id: totrans-73
   prefs: []
   type: TYPE_NORMAL
 - en: 'We''ll run the following command now:'
+  id: totrans-74
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE5]'
+  id: totrans-75
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'This results in the following output:'
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/ce5fd5f9-a6ee-4452-9da1-c5c6712061b1.png)'
+  id: totrans-77
   prefs: []
   type: TYPE_IMG
 - en: 'You can see there are no accounts listed in Geth currently. So, in a new Terminal
     window, we''ll navigate to the code directory where the text file that contains
     the private key is present, and we''ll run the following command there:'
+  id: totrans-78
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE6]'
+  id: totrans-79
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: 'This results in the following output:'
+  id: totrans-80
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/ac30cbdb-98ce-47de-81fa-7b1d73876c61.png)'
+  id: totrans-81
   prefs: []
   type: TYPE_IMG
 - en: 'Note: The preceding command is for OSX,if you are using Windows or Linux, please
     use the following commands:'
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
 - en: 'For Windows: `geth account import private.txt --keystore %APPDATA%\Ethereum\testnet\keystore`,
     and'
+  id: totrans-83
   prefs: []
   type: TYPE_NORMAL
 - en: 'For Linux: `geth account import private.txt --keystore `/.ethereum/testnet/keystore`.'
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
 - en: If we take a look at the last digits of that address, `3eae6`, we'll see that
     it matches the last digits of our account listed in MetaMask.
+  id: totrans-85
   prefs: []
   type: TYPE_NORMAL
 - en: 'So, now we''ll go back to our JavaScript Geth console and run the accounts
     command again. This time, we''ll see our account listed here:'
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/62db5054-00e3-4748-b424-9d38b2b7ccae.png)'
+  id: totrans-87
   prefs: []
   type: TYPE_IMG
 - en: 'That''s a password-protected account, so we need to unlock it for Geth. For
     that, run the following command:'
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE7]'
+  id: totrans-89
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: 'This results in the following output:'
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/db77774a-f0e7-4482-9fe2-79e5c58ea10f.png)'
+  id: totrans-91
   prefs: []
   type: TYPE_IMG
 - en: Since the passphrase returns `true`, we know that the account has been unlocked
     successfully. An important step here is to delete that private file, because it
     contains the private key and you don't want to leave that laying around anywhere.
+  id: totrans-92
   prefs: []
   type: TYPE_NORMAL
 - en: Open the `truffle.js` file, and in the Ropsten configuration, we'll add a new
     line that says `from` and then specify the address of the account that we just
     imported into Geth. This is going to tell Truffle which account to use whenever
     it deploys that contract.
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
 - en: 'Switching back over to the Terminal, we''ll run the following commands:'
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE8]'
+  id: totrans-95
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: 'This results in the following output:'
+  id: totrans-96
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/e2b80a38-d66e-45f5-8bbc-d04b919d6ce1.png)'
+  id: totrans-97
   prefs: []
   type: TYPE_IMG
 - en: It looks just like it does on Ganache, in that it's successfully migrated to
     the network.
+  id: totrans-98
   prefs: []
   type: TYPE_NORMAL
 - en: 'If you wanted to test that, at this point you can type the following command:'
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE9]'
+  id: totrans-100
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: 'That''s going to launch our webserver, and it''s going to use that freshly-deployed
     contract, so we can place a wager on our mystery number. The following screenshot
     shows the web page:'
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/54fc12c6-fdcc-4c3a-bb1b-560a4dc20564.png)'
+  id: totrans-102
   prefs: []
   type: TYPE_IMG
 - en: 'We get a pop-up notification when we place our bet:'
+  id: totrans-103
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/9c76c5b6-5951-468e-a298-08b37120b606.png)'
+  id: totrans-104
   prefs: []
   type: TYPE_IMG
 - en: This window shows that we're connected to the Ropsten test network, so we then
@@ -453,14 +568,17 @@
     account was debited by the .1 ether that I bet. So, we've successfully deployed
     our contract to the Ropsten network, and we were able to interact with it from
     our local UI. Our final task for this chapter is to deploy the UI to AWS.
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
 - en: Deploying the UI to AWS
+  id: totrans-106
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: To release our game to the world, we need to make the UI available on the internet.
     We're going to use Docker and AWS to do that.
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
 - en: If you're not familiar with Docker, it's a tool that performs virtualizations
@@ -469,17 +587,20 @@
     that can be executed on a Docker host. We'll use the AWS **Elastic Container Service**
     (**ECS**) as our Docker host. This allows us to run our container without having
     to build or manage the underlying infrastructure.
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
 - en: To build the Docker image, you'll need Docker version 18 or higher installed.
     If you don't have it, you can download it from [http://docker.com](http://docker.com),
     and just make sure you download the Community Edition, because that's the free
     version, but it has everything we'll need.
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
 - en: To create our Docker image, we're going to use a Docker file. This is a set
     of instructions that specify how the container should be built. We'll dissect
     what we are adding in this Docker file, step by step.
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
 - en: 'We start by defining our base image. With Docker, you can use another Docker
@@ -488,56 +609,73 @@
     official Node.js Docker image. All the steps needed to get Node.js installed and
     working on a Linux server have been taken care of for us. The following code snippet
     shows what we do here:'
+  id: totrans-111
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE10]'
+  id: totrans-112
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: 'Then, we use a `COPY` command to copy everything from our current directory
     into a folder in the container named `app`, and we''ll switch into that directory.
     After that, we''ll set an environment variable called `NODE_ENV development`.
     This is used by Node.js when Node starts. For production builds, you would set
     it to `production` instead of `development`. The following code snippet shows
     this:'
+  id: totrans-113
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE11]'
+  id: totrans-114
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: 'Next, we''re going to run `apt-get install`, which is the Debian command to
     update the base image and we install `git-core`, which allows some of our node
     dependencies to be installed from their GitHub repo. Then, we run the `npm install`
     command to install all of the dependencies for our Node application, as shown
     in the following code snippet:'
+  id: totrans-115
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE12]'
+  id: totrans-116
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: 'Following that, the `EXPOSE` command opens TCP port 3000 on our Docker container,
     which allows us to connect to our website on port 3000\. Finally, we have the
     command that executes whenever the container starts, as shown here:'
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE13]'
+  id: totrans-118
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: So, this is relatively straightforward, as we're basically just entering in
     the Docker versions of the same commands that we used to set up our app. All of
     this gets executed and saved into our Docker image, and when we launch the image,
     the `npm start` command is executed.
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
 - en: 'Now, we can build our Docker image using the following command:'
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE14]'
+  id: totrans-121
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: We supply the `-t` flag to tag our image with the `gaming:latest` tag, and the
     trailing dot at the end tells Docker to look in the current directory for our
     Docker file. This will execute all the commands that we put into our Docker file,
     and it stores the output as a Docker image.
+  id: totrans-122
   prefs: []
   type: TYPE_NORMAL
 - en: 'One of the other ways you can build your image is, if you''re using Visual
@@ -545,99 +683,138 @@
     you for the image name, which is `gaming:latest`, then hit *Enter*, and that''s
     going to run the same command mentioned previously. Once that completes, we''re
     going to log in to AWS, and choose ECS. This will lead you to the following page:'
+  id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: 另一种构建镜像的方法是，如果你使用的是Visual Code，你可以右键单击Docker文件，然后选择“构建镜像”。它会提示你输入镜像名称，即`gaming:latest`，然后按*Enter*，这将运行先前提到的相同命令。完成后，我们将登录AWS，选择ECS。这将带领您进入以下页面：
 - en: '![](img/fd6b93cb-9db7-486b-9b9b-1d8c3f0e0b24.png)'
+  id: totrans-124
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/fd6b93cb-9db7-486b-9b9b-1d8c3f0e0b24.png)'
 - en: 'There are a couple different pieces here and we''re going to go through each
     of them. Let''s start with the repositories; one way to think of a repository
     is just as a bucket to hold the Docker images you''ve built. We put them up in
     Amazon or AWS, so that as we deploy this service, Amazon has a way to get this
     image:'
+  id: totrans-125
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里有几个不同的部分，我们将逐个讨论。让我们首先从存储库开始；把存储库看作只是一个容纳你构建的Docker镜像的桶。我们将它们放在亚马逊或AWS上，这样在部署此服务时，亚马逊就有了获取这个镜像的方式：
 - en: '![](img/f648ed85-f3a6-44b8-a164-945a500c3194.png)'
+  id: totrans-126
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/f648ed85-f3a6-44b8-a164-945a500c3194.png)'
 - en: 'We''ll create a new repository, and name it after our application, `gaming`.
     After it is created, it gives us the URL for it, as well as the commands that
     we''re going to need:'
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将创建一个新的存储库，并将其命名为我们的应用程序`gaming`。创建完成后，它将为我们提供URL以及我们将需要的命令：
 - en: '![](img/732d67b4-5d05-49ef-b75e-e20fcf098709.png)'
+  id: totrans-128
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/732d67b4-5d05-49ef-b75e-e20fcf098709.png)'
 - en: So, we're going to copy the first command there, and paste it into the Terminal.
     This will execute the login function for the ECS console, or the ECS repository,
     because you can't push to a repository, unless you're authenticated. This keeps
     people from the outside world from pushing their Docker images into your repository.
+  id: totrans-129
   prefs: []
   type: TYPE_NORMAL
+  zh: 所以，我们要复制第一个命令，然后粘贴到终端中。这将执行ECS控制台的登录功能，或者ECS存储库的登录，因为除非你经过身份验证，否则无法推送到存储库。这样可以防止外部人员将他们的Docker镜像推送到您的存储库。
 - en: You can see that, as a convenience, it listed the Docker build command for us,
     but we've already done that. So, we're just going to go to the next command, where
     we tag the image for the repository. We'll run that, and then we'll grab the last
     command, which will push our Docker image up to the repository.
+  id: totrans-130
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可以看到，为了方便起见，它为我们列出了Docker构建命令，但我们已经完成了。所以，我们将转到下一个命令，给镜像打标签以供存储库使用。我们将运行这个命令，然后我们将获取最后一个命令，将我们的Docker镜像推送到存储库中。
 - en: 'Once that image is uploaded, we can click the Done button, and we''ll see our
     image listed in the repository:'
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: 上传完该镜像后，我们可以单击“完成”按钮，然后我们会在存储库中看到我们的镜像已列出：
 - en: '![](img/34068d1b-2b6a-427d-b92a-5000e735e797.png)'
+  id: totrans-132
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/34068d1b-2b6a-427d-b92a-5000e735e797.png)'
 - en: 'So now, we''re going to create a task definition; the task definition is a
     way to define all the different containers that we want to operate as part of
     our service. We''ll do that by going into the Task Definitions tab on AWS:'
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们将创建一个任务定义；任务定义是定义我们想要作为服务的一部分运行的所有不同容器的方法。我们将通过进入AWS的任务定义选项卡来完成这个步骤：
 - en: '![](img/f7fadbd9-969e-41ad-9eda-f15f5b5b3e29.png)'
+  id: totrans-134
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/f7fadbd9-969e-41ad-9eda-f15f5b5b3e29.png)'
 - en: 'Click on Create new Task Definition, and we''ll give our task definition the
     name `gaming-staging`, then we need to select a task role. I already have one
     built here, but if you don''t have one built, a basic ECS task-execution rule
     will work. The following screenshot shows what this looks like:'
+  id: totrans-135
   prefs: []
   type: TYPE_NORMAL
+  zh: 点击“创建新任务定义”，然后我们给我们的任务定义命名为`gaming-staging`，然后需要选择一个任务角色。我已经在这里构建了一个，但如果你没有构建，一个基本的ECS任务执行规则也可以。以下屏幕截图显示了这是什么样子的：
 - en: '![](img/3d29a01b-0803-4402-b9c1-e6493553ed63.png)'
+  id: totrans-136
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3d29a01b-0803-4402-b9c1-e6493553ed63.png)'
 - en: 'We don''t need any special permissions inside of our ECS function. I''m going
     to give it 8 GB of memory and 4 CPUs, since that''s enough to power both the React
     UI application and the Geth client node. And now, we need to add our containers:'
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的ECS功能内部不需要任何特殊权限。我将给它分配8GB内存和4个CPU，因为这足以为React UI应用程序和Geth客户端节点提供动力。现在，我们需要添加我们的容器：
 - en: '![](img/aa224028-fd5c-4552-bd58-c47516cf4c2b.png)'
+  id: totrans-138
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/aa224028-fd5c-4552-bd58-c47516cf4c2b.png)'
 - en: 'Our first container is going to be our `gaming-ui`, which is the React application
     that we built and the image comes from the ECS repository that we push to. If
     we look in our repository, the repository URI present there is the URL that we
     need, and we''ll paste that into the Image box. We need to expose port 3000 because
     that''s the port on which our application runs. And then, we need to specify a
     health check. We''ll use the following command in the health check window:'
+  id: totrans-139
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE15]'
+  id: totrans-140
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: This will use the `curl` command to check for localhost, which will determine
     whether port 3000 is responding. If it's not responding, the command exits with
     a value of 1, so that ECS knows that the container is not healthy, and it tears
     it down and replaces it.
+  id: totrans-141
   prefs: []
   type: TYPE_NORMAL
 - en: 'We want to check for that every 60 seconds with a 15-second timeout, and we''re
     going to give ourselves 60 seconds to start up before we make that initial test.
     We''ll give it two chances to pass before we fail it:'
+  id: totrans-142
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/3feaf47a-9933-450d-9bef-af28d46fc235.png)'
+  id: totrans-143
   prefs: []
   type: TYPE_IMG
 - en: We don't need to set anything else on this container, so we can hit Add.
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
 - en: 'Then, we''re going to add our second container. This one''s going to be our
@@ -647,11 +824,13 @@
     is going to have the end result of this always passing. We''ll do the same as
     before: 60-second interval with a 15-second timeout, 60 seconds to boot up and
     2 attempts to retry.'
+  id: totrans-145
   prefs: []
   type: TYPE_NORMAL
 - en: For the command, the only thing we need to do is set the `--rpc` and `--testnet`
     flags. Everything else is set inside the Docker image for us. We'll hit Add and
     then create it.
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
 - en: Now, we need to go over to EC2, and create a load balancer. A load balancer
@@ -659,13 +838,16 @@
     URL for this, it's going to balance across multiple Docker containers, or if that
     Docker image fails, it's going to launch it with a new one and put it inside of
     that load balancer, so that our URL doesn't change.
+  id: totrans-147
   prefs: []
   type: TYPE_NORMAL
 - en: 'So, click on Load Balancers, create one, and we''re going to use an Application
     Load Balancer here:'
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/a56aaf1e-ca94-4696-827d-387c104bee5b.png)'
+  id: totrans-149
   prefs: []
   type: TYPE_IMG
 - en: 'We''ll give it the same name as the task definition, which is `gaming-staging`.
@@ -673,45 +855,57 @@
     whenever we''re looking at our different resources in AWS. It''s going to be internet-facing
     and and use HTTP on port 80\. We need to set the VPC and balance it across two
     regions, so that there''s some fault-tolerance and redundancy across AWS:'
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/8bc1893d-4bb4-4f69-a9cb-5f7218ca4ae6.png)'
+  id: totrans-151
   prefs: []
   type: TYPE_IMG
 - en: 'Next, we''ll place it in a security group that exposes the port for www servers,
     which basically exposes port 80 and port 443:'
+  id: totrans-152
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/bb3a36df-134f-41b4-b3f5-714db04b158b.png)'
+  id: totrans-153
   prefs: []
   type: TYPE_IMG
 - en: 'We''ll then create a target group on port 80 with a target type of port of
     IP; this is the container or pool of resources that ECS is going to put into the
     load balancer:'
+  id: totrans-154
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/734fe761-3a15-4bb6-aa6e-7c9710384e42.png)'
+  id: totrans-155
   prefs: []
   type: TYPE_IMG
 - en: 'And we don''t have any targets to register yet, so we''re just going to go
     ahead and hit Create:'
+  id: totrans-156
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/6d975c77-3856-4617-9811-a12879765131.png)'
+  id: totrans-157
   prefs: []
   type: TYPE_IMG
 - en: 'It''s time to return to ECS, and create the service that is the actual running
     component of our application. Now, we''ll choose Create Cluster and it''s a pretty
     straightforward process to create a Fargate cluster:'
+  id: totrans-158
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/3e012bbd-340f-4041-9a6b-134dca3893fc.png)'
+  id: totrans-159
   prefs: []
   type: TYPE_IMG
 - en: 'Once done, we should see something similar to the following screenshot:'
+  id: totrans-160
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/b4ed272e-5005-4c27-b3aa-52f13685ebdb.png)'
+  id: totrans-161
   prefs: []
   type: TYPE_IMG
 - en: 'Inside the cluster, we''ll hit Create to create a new service, specify Fargate
@@ -721,34 +915,43 @@
     tasks if you''re going to be expecting more traffic, or if you want to ensure
     that if one of those containers fails there''s another available to take over
     the traffic:'
+  id: totrans-162
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/a56b0938-129b-4d48-8c89-7adb2d1edc83.png)'
+  id: totrans-163
   prefs: []
   type: TYPE_IMG
 - en: 'I''ll specify the same VPC that I put my load balancer in, and then, for the
     load balancer, I''ll choose the load balancer that we just built:'
+  id: totrans-164
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/cabd1ab5-775a-4fd5-9747-c3ea548accaf.png)'
+  id: totrans-165
   prefs: []
   type: TYPE_IMG
 - en: 'We can review all of our settings and then hit Create Service:'
+  id: totrans-166
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/dd4b9128-f1b5-4ee3-8c93-906b9bbe007e.png)'
+  id: totrans-167
   prefs: []
   type: TYPE_IMG
 - en: 'After a few minutes, our service should be up and running. Once it''s up and
     running, we can switch back over to EC2, go to our load balancers, choose the
     load balancer we created, and copy the DNS name present there:'
+  id: totrans-168
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/7f5e24b5-c7ab-451a-a3c4-a8ee05198a13.png)'
+  id: totrans-169
   prefs: []
   type: TYPE_IMG
 - en: We'll paste that into our browser, and just like that, our app is loaded running
     with our UI on AWS, and using the Ropsten network for the Ethereum network.
+  id: totrans-170
   prefs: []
   type: TYPE_NORMAL
 - en: 'There''s one more thing we need to check, and it''s one of the things that
@@ -757,36 +960,44 @@
     the service that we created, then hit Update and set the number of tasks to 0,
     and then update the service. This will shut down the running container so you
     stop getting billed for it:'
+  id: totrans-171
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/69e7deb4-6ce4-4012-988e-aa0055b71037.png)'
+  id: totrans-172
   prefs: []
   type: TYPE_IMG
 - en: Using the steps you learned in this chapter, you can publish your app to the
     Ethereum main network as well, allowing the players of your game to use real ether.
+  id: totrans-173
   prefs: []
   type: TYPE_NORMAL
 - en: With that said, let's jump into our last section of the day and of this book,
     which is today's assignment.
+  id: totrans-174
   prefs: []
   type: TYPE_NORMAL
 - en: Assignment
+  id: totrans-175
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'In your final homework task for this book, you''re going to launch your app
     on AWS, using all the steps we learned in this chapter:'
+  id: totrans-176
   prefs: []
   type: TYPE_NORMAL
 - en: Your first task for today is to deploy your contract onto the Ropsten network.
     Remember that you'll need to create an account on Ropsten first and get some ether
     from the faucet in order to pay the gas fee to deploy your contract.
+  id: totrans-177
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Once you've deployed your contract, you're going to build the Docker image to
     contain your user interface, and then log in to AWS and create a repository to
     hold your image and push your image up to that repository.
+  id: totrans-178
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
@@ -794,11 +1005,13 @@
     You'll need to define a task for your UI app and a task for your Geth client.
     By putting them both in the same task definition, you ensure that your UI app
     always has a Geth client running locally, to communicate with the Robsten network.
+  id: totrans-179
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Launch a new ECS service to bring your app online. Once it launches, give your
     app a test drive.
+  id: totrans-180
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
@@ -806,10 +1019,12 @@
     for a way to get a job as a blockchain developer, there's nothing better than
     having something online for potential employers to see that demonstrates your
     skills.
+  id: totrans-181
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Summary
+  id: totrans-182
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -819,11 +1034,13 @@
     it. We learned how to obtain ether to use in test networks. Finally, we learned
     how to deploy our application to AWS and let users all around the world try it
     out!
+  id: totrans-183
   prefs: []
   type: TYPE_NORMAL
 - en: We've covered a lot in the last seven days, and there's still a lot more to
     learn, but now you have the skills to start exploring more advanced topics on
     your own. I hope you had as much fun working on blockchain as I did, and I'd love
     to see what you build with the skills you've learned here!
+  id: totrans-184
   prefs: []
   type: TYPE_NORMAL

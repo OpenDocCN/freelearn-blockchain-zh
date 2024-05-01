@@ -127,6 +127,8 @@
   id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，有些事情会在我们的应用程序之外发生，我们需要更新状态并让应用知道已经发生了，并据此响应 React。后者很容易解决，因为我们选择了 React 作为我们的工具。React
+    在跟踪状态方面做得很好，当状态改变时，它会更新受其影响的屏幕上的内容。
 - en: For updating the state, we're using Redux. In our React component, we'll do
     something that triggers an action, such as clicking the LET'S PLAY! button. In
     the case of clicking that button, it's going to call our contract using the `web3.js`
@@ -137,20 +139,26 @@
   id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了更新状态，我们使用了 Redux。在我们的 React 组件中，我们将执行一些触发动作的操作，比如点击“LET'S PLAY!”按钮。在点击该按钮时，它会使用
+    `web3.js` 库调用我们的合约，并执行我们之前创建的 `winnerLose()` 函数。当我们的合约函数执行该函数时，它会返回一些数据，这些数据可能是成功响应或错误消息。我们将获取该响应并将其分派到一个
+    reducer 中，该 reducer 将使用新信息更新 Redux 存储。
 - en: 'The updated information gets sent back to our application as `props`, or properties,
     where React can evaluate what needs to be updated in the UI. This whole process
     can be summarized in the following diagram:'
   id: totrans-19
   prefs: []
   type: TYPE_NORMAL
+  zh: 更新的信息以 `props` 或属性的形式发送回我们的应用程序，在那里 React 可以评估需要在 UI 中更新的内容。整个过程可以总结如下图所示：
 - en: '![](img/0fb65ccc-d493-488f-9309-2b3e752bf495.png)'
   id: totrans-20
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/0fb65ccc-d493-488f-9309-2b3e752bf495.png)'
 - en: So, we have a very clear separation of the different pieces that make up a DApp.
   id: totrans-21
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，我们清楚地将组成 DApp 的不同部分进行了分离。
 - en: We have the Ethereum network with our contract running on an **Ethereum Virtual
     Machine (EVM)**, and then we have our React application running on the web server.
     This part of our application can be anything; I chose a React application, but
@@ -159,6 +167,8 @@
   id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们有以太坊网络，我们的合约在**以太坊虚拟机（EVM）**上运行，然后我们的 React 应用在 Web 服务器上运行。我们应用的这部分可以是任何东西；我选择了一个
+    React 应用，但它同样可以是一个安卓或 iOS 应用，一个 Python 应用，甚至是一个老旧的 COBOL 主机应用。
 - en: 'The connection between the React application and the Ethereum network is done
     using a utility library called `web3.js` to make that communication happen. This
     library provides utilities that allow us to communicate with Ethereum nodes such
@@ -167,32 +177,39 @@
   id: totrans-23
   prefs: []
   type: TYPE_NORMAL
+  zh: React 应用程序与以太坊网络之间的连接是通过一个名为 `web3.js` 的实用程序库来完成的，以进行通信。该库提供了允许我们与以太坊节点通信的实用工具，如
+    Ganache，以及以太坊主网和测试网络上的节点。`web3.js` 有四个主要模块，分别是：
 - en: '`web3-eth`: Ethereum blockchain and contracts'
   id: totrans-24
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`web3-eth`：以太坊区块链和合约'
 - en: '`web3-shh`: Whisper protocol for P2P and broadcast'
   id: totrans-25
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`web3-shh`：点对点和广播的 Whisper 协议'
 - en: '`web3-bzz`: Swarm protocol for decentralized file storage'
   id: totrans-26
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`web3-bzz`：用于去中心化文件存储的 Swarm 协议'
 - en: '`web3-utils`: Helper functions'
   id: totrans-27
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`web3-utils`：辅助函数'
 - en: The modules that we're going to be working with in this book are `web3-eth` for
     communicating with the blockchain and our contract, and `web3-utils` for some
     utility functions, such as converting different denominations of ether.
   id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本书中我们将使用的模块是用于与区块链和我们的合约通信的 `web3-eth`，以及一些实用函数的 `web3-utils`，例如转换以太币的不同面额。
 - en: Web3 allows you to use callbacks and promises, and provides event emitters to
     try and provide all the options you need. We're going to be using promises extensively,
     and we'll cover them in detail in just a bit. There's a ton of boilerplate code
@@ -203,11 +220,13 @@
   id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: Web3 允许您使用回调和 promises，并提供事件发射器来尝试提供您需要的所有选项。我们将广泛使用 promises，并在接下来的内容中详细介绍它们。在您可以编写实际向您的客户、公司或客户端交付值的第一行代码之前，必须放置大量的样板代码。幸运的是，有一些快捷方式可以减少这段时间，我将在下一节中向您展示它们。
 - en: Creating React apps from templates
   id: totrans-30
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 从模板创建 React 应用
 - en: In this section, we will look at some shortcuts for starting a new React app.
     This a good thing as starting a new app is a lot of work and takes a lot of time,
     which could be spent writing code to complete your app.
@@ -851,11 +870,14 @@
   id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 请记住，我们将所有项映射到状态历史数组。React 将注意到我们刚刚更新了该状态变量，并重新渲染此组件，使其更新并显示我们上一轮的结果。在这里，我们只是立即发送了游戏发送的参数，但这并不是我们真正想要的。我们真正想要的是调用我们的智能合约，将这些游戏参数传递给它，并让它确定我们的玩家是赢了还是输了。为了做到这一点，我们需要我们的动作调用智能合约，然后等待这些结果。所以，在下一节中，我们将探讨
+    promises，它们的作用，工作原理以及我们将如何使用它们来与我们的以太坊网络进行通信。
 - en: Implementing JavaScript promises in a networked application
   id: totrans-116
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在网络应用程序中实现 JavaScript Promise
 - en: In our last section, we saw how to take input from the player of our game and
     send that through Redux to update the application state, and then refresh the
     user interface. But as we learned on day one, when we submit a call to the Ethereum
@@ -864,11 +886,13 @@
   id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们的最后一节中，我们看到了如何从我们游戏的玩家那里获取输入，并将其通过 Redux 发送以更新应用程序状态，然后刷新用户界面。但正如我们在第一天学到的，当我们提交调用以太坊网络时，我们并不会立即得到响应，会有一段延迟。不幸的是，我们在没有得到响应之前无法继续进行，那么我们该怎么办呢？
 - en: 'Before we answer that question, let me show you what the underlying problem
     is. It stems from the way JavaScript works. Let''s take a look at this code:'
   id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们回答这个问题之前，让我向你展示一下潜在的问题是什么。它源自 JavaScript 的工作方式。让我们看看这段代码：
 - en: '[PRE12]'
   id: totrans-119
   prefs: []
@@ -887,6 +911,10 @@
   id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: 在上面的代码中，我们有四行，每行都打印出数字 1 到 4。那么当我们运行这个代码时会发生什么呢？如果你预测它会打印出 **1**,**3**,**4**,**2**，那么你是对的，因为
+    JavaScript 执行第一行时，它打印出数字 1，然后执行第二行。这一行是问题的起点，因为它执行了 `setTimeout()` 函数，但并不知道我们希望它等待定时器完成。所以它调用了
+    `setTimeout()` 函数，然后移到下一行，打印出 3，然后移动到最后一行，有另一个定时器。一秒钟后，它打印出数字四，两秒钟后，当指定的 3000
+    毫秒延迟过期时，它最终打印出数字 2。
 - en: Now, imagine if instead of writing a number out to the console log, we were
     actually waiting for data to return from our Solidity contract, so we can use
     it in our application, wouldn't that cause problems, because we would be trying
@@ -895,36 +923,44 @@
   id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，想象一下，如果我们不是将一个数字写到控制台日志中，而是等待来自我们的 Solidity 合约返回的数据，以便在我们的应用程序中使用它，那么会不会导致问题，因为我们会在数据实际存在之前尝试使用它呢？那么，我们如何使用
+    JavaScript 的 Promise 来解决这个问题呢？
 - en: How a promise works
   id: totrans-122
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Promise 的工作原理
 - en: 'A JavaScript promise is an object which essentially produces a value or output
     in the future, much like real life promises. A promise can have three states:'
   id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: JavaScript 的 Promise 是一个对象，本质上是在未来产生一个值或输出，就像现实生活中的承诺一样。一个 Promise 可以有三种状态：
 - en: Fulfilled
   id: totrans-124
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 已完成
 - en: Rejected
   id: totrans-125
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 已拒绝
 - en: Pending
   id: totrans-126
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 待定
 - en: We will understand this further using the scenario in the preceding code block
     as an example.
   id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将通过上一个代码块中的场景作为示例进一步理解这一点。
 - en: 'We''re going to create a new function that returns a promise to handle our
     delayed events. A promise takes one argument, which is a function that takes two
     parameters, `resolve` and `reject`. Inside our promise, we''ve got our `setTimeout()`
