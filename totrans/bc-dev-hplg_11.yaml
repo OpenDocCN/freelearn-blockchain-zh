@@ -1,68 +1,100 @@
 - en: Hyperledger Fabric Security
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric安全性
 - en: Hyperledger Fabric is a modular blockchain system. It has been designed to allow
     a known set of actors to participate and perform actions in a blockchain network
     (the so-called **permissioned blockchain**). Due to its modular nature, it can
     be deployed in many different configurations. Different deployment configurations
     of Hyperledger Fabric have different security implications for the operator of
     the network, as well its users.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric是一个模块化的区块链系统。它经过设计允许一组已知的参与者在区块链网络中参与并执行操作（所谓的**许可区块链**）。由于其模块化的特性，它可以在许多不同的配置中部署。Hyperledger
+    Fabric的不同部署配置对网络操作者及其用户具有不同的安全影响。
 - en: At its core, Hyperledger Fabric is a **public key infrastructure** (**PKI**)
     system and thus it inherits the security (and complexity) associated with such
     systems. At the time of writing this book, Hyperledger Fabric v1.1 has been released.
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在其核心，Hyperledger Fabric是一个**公钥基础设施**（**PKI**）系统，因此它继承了与这类系统相关的安全性（和复杂性）。在编写本书时，Hyperledger
+    Fabric v1.1已发布。
 - en: The security aspects of designing and implementing a blockchain network has
     been discussed in earlier application chapters, we intend to give a broader as
     well as a more in-depth view of the security features of Hyperledger Fabric here.
+  id: totrans-3
   prefs: []
   type: TYPE_NORMAL
+  zh: 设计和实现区块链网络的安全方面已在先前的应用章节中讨论过，我们打算在这里更广泛并更深入地了解Hyperledger Fabric的安全特性。
 - en: 'We will be covering the following topics in this chapter:'
+  id: totrans-4
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: Design goals impacting security
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 影响安全性的设计目标
 - en: Hyperledger Fabric architecture recap
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric架构简述
 - en: Network bootstrap and governance – the first step towards security
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 网络引导和治理 - 安全的第一步
 - en: Strong identities – the key to the security of the Hyperledger Fabric network
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 强身份 - Hyperledger Fabric网络安全的关键
 - en: Chain code security
+  id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 链代码安全性
 - en: Common security threats and how Hyperledger Fabric mitigates them
+  id: totrans-10
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 常见安全威胁以及Hyperledger Fabric如何减轻这些威胁
 - en: Hyperledger Fabric and quantum computing
+  id: totrans-11
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric和量子计算
 - en: General data protection regulation (GDPR) considerations
+  id: totrans-12
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 常规数据保护法规（GDPR）考虑
 - en: Hyperledger Fabric design goals impacting security
+  id: totrans-13
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 影响安全性的Hyperledger Fabric设计目标
 - en: 'To understand the security of Hyperledger Fabric, it is important to state
     the key design goals that impact security:'
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: 要了解Hyperledger Fabric的安全性，重要的是阐明影响安全性的关键设计目标：
 - en: '**Existing members should determine how to add new members in the network**: The
     admission of new entities in the network must be agreed upon by existing entities
     in the network. This principle is at the foundation of creating a permissioned
@@ -70,17 +102,23 @@
     the network, network members must agree upon a policy to admit new members (e.g.,
     by majority vote), which is then enforced by Hyperledger Fabric. Upon a successful
     vote, the digital credentials of a new member can be added to an existing network.'
+  id: totrans-15
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**现有成员应确定如何在网络中添加新成员**：网络中的现有实体必须就是否接收新实体的加入达成一致意见。这一原则是创建许可区块链的基础。与其允许任何实体下载软件并连接到网络，网络成员必须就接受新成员的政策达成一致意见（例如，通过多数投票），然后由Hyperledger
+    Fabric强制执行。在成功投票后，新成员的数字凭证可以被加入到现有网络中。'
 - en: '**Existing members should determine how to update configuration/smart contract**: Similar
     to the first item, any change in the configuration of the network or deploying
     or instantiating a smart contract has to be agreed upon by the network members.
     Taken together, the first and second points give Hyperledger Fabric the capability
     to perform a permissioned blockchain.'
+  id: totrans-16
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**现有成员应确定如何更新配置/智能合约**：与第一条类似，网络配置的任何更改或部署或实例化智能合约都必须得到网络成员的同意。总结起来，第一和第二点赋予了Hyperledger
+    Fabric执行许可区块链的能力。'
 - en: '**The ledger and its associated smart contracts (chaincode) may be scoped to
     relevant peers to meet broader privacy and confidentiality requirements**: In
     public blockchain networks, all nodes have a copy of the blockchain ledger and
@@ -89,13 +127,18 @@
     (channels and channel private data in Hyperledger Fabric). The smart contracts
     (chaincode in Hyperledger Fabric) that update such a ledger will be scoped to
     the members of such a group.'
+  id: totrans-17
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**账本及其相关的智能合约（链码）可能会被范围化以满足更广泛的隐私和保密要求**：在公共区块链网络中，所有节点都拥有区块链账本的副本并执行智能合约。为了保持机密性和范围化，需要创建存储与其交易相关的账本的一组节点（在Hyperledger
+    Fabric中为通道和通道私有数据）。更新这种账本的智能合约（在Hyperledger Fabric中为链码）将范围化到这样一个组的成员。'
 - en: Only members participating in a channel have to determine how to update the
     configuration of that channel.
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: 只有参与通道的成员才需要确定如何更新该通道的配置。
 - en: '**Smart contracts can be written in a general purpose language**: One of the
     main design goals of Hyperledger Fabric is to allow smart contracts to be written
     in general purpose languages such as Go and JavaScript. Obviously, allowing general
@@ -104,79 +147,110 @@
     deploy smart contracts before execution. Even then, smart contracts written in
     a general purpose language should be reasonably isolated to limit the harm they
     may inadvertently cause.'
+  id: totrans-19
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**智能合约可以用通用语言编写**：Hyperledger Fabric的主要设计目标之一是允许智能合约用通用语言编写，如Go和JavaScript。显然，如果在执行前没有治理和流程来验证和部署智能合约，允许通用语言编写智能合约会暴露系统于各种安全问题。即便如此，用通用语言编写的智能合约也应该被合理地隔离，以限制它们可能无意中造成的危害。'
 - en: '**Transaction integrity must be ensured**: A transaction is an execution of
     smart contract. The transactions must be created and stored in a way which will
     prevent them from being tampered with by other peers or will make it easy to detect
     any tampering. Typically, ensuring transaction integrity requires the use of cryptographic
     primitives.'
+  id: totrans-20
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**必须确保事务完整性**：事务是智能合约的执行。事务必须以一种方式创建和存储，以防止其他节点篡改它们，或者使其易于检测到任何篡改。通常，确保事务完整性需要使用加密原语。'
 - en: '**Industry standards should be leveraged**: The system should leverage industry
     standards for asserting digital identities (for example, X.509 certificates),
     as well as for communication among peers (for example, TLS and gRPC).'
+  id: totrans-21
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**应利用行业标准**：系统应利用行业标准来断言数字身份（例如，X.509证书），以及节点之间的通信（例如，TLS和gRPC）。'
 - en: '**Consensus separation from transaction execution and validation**: Existing
     blockchain networks combine transaction execution and validation with achieving
     consensus among nodes of a blockchain network. This tight coupling makes it difficult
     to achieve pluggability of the consensus algorithm.'
+  id: totrans-22
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**共识与交易执行和验证分离**：现有的区块链网络将交易执行和验证与区块链网络中的节点达成共识紧密结合在一起。这种紧密耦合使得很难实现共识算法的可插拔性。'
 - en: '**Pluggability everywhere**: The system should have a modular design, and each
     module should be pluggable through standard interfaces. The ability to plug in
     modules specific to a network gives Hyperledger Fabric the flexibility to be used
     in a variety of settings. However, this pluggability also implies that two different
     instantiations of blockchain networks based on Hyperledger Fabric may possess
     different security properties.'
+  id: totrans-23
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**无处不可插拔**：系统应具有模块化设计，并且每个模块都应通过标准接口可插拔。能够插入特定于网络的模块使得Hyperledger Fabric具有在各种环境中使用的灵活性。然而，这种可插拔性也意味着基于Hyperledger
+    Fabric的两个不同的区块链网络实例可能具有不同的安全属性。'
 - en: To understand how these principles impact the security of Hyperledger Fabric,
     we will briefly explain the architecture of Hyperledger Fabric. Refer to earlier
     chapters for an in-depth architecture.
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: 要了解这些原则如何影响Hyperledger Fabric的安全性，我们将简要解释Hyperledger Fabric的架构。详细的架构请参考前面的章节。
 - en: Hyperledger Fabric architecture
+  id: totrans-25
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric架构
 - en: 'The Hyperledger Fabric architecture can be illustrated as follows:'
+  id: totrans-26
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric架构如下所示：
 - en: '![](img/df02a5fc-f6f4-4f1f-87c3-9bc2e5b08967.png)'
+  id: totrans-27
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/df02a5fc-f6f4-4f1f-87c3-9bc2e5b08967.png)'
 - en: Hyperledger Fabric architecture
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric架构
 - en: Fabric CA or membership service provider
+  id: totrans-29
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Fabric CA或成员服务提供商
 - en: The **membership service provider** (**MSP**) is responsible for creating digital
     identities for peers and users of the organization. The identities of peers must
     be configured in an existing network in order for a new entity to participate
     in the channel.
+  id: totrans-30
   prefs: []
   type: TYPE_NORMAL
+  zh: '**成员服务提供商**（**MSP**）负责为组织的节点和用户创建数字身份。节点的身份必须在现有网络中进行配置，以便新实体可以参与通道。'
 - en: Fabric CA is an implementation of the MSP and provides a mechanism for registering
     users from a network member and issuing them digital identities (X.509 certificates).
     Fabric CA typically runs inside a Docker container. Each Fabric CA is configured
     with a backend database (the default being SQLite, with other options, such as
     PostgreSQL or MySQL) which stores the registered identities, as well as their
     X.509 certificates. Fabric CA does not store the private keys of the users.
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: Fabric CA 是 MSP 的一种实现，提供了从网络成员注册用户并为他们颁发数字身份（X.509证书）的机制。Fabric CA 通常在 Docker
+    容器中运行。每个 Fabric CA 都配置有后端数据库（默认为 SQLite，其他选项包括 PostgreSQL 或 MySQL），用于存储注册的身份，以及它们的
+    X.509 证书。Fabric CA 不存储用户的私钥。
 - en: Peer
+  id: totrans-32
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 节点
 - en: A peer is an entity that participates in a Hyperledger Fabric network. Its identity
     is determined from its corresponding membership service provider. A peer is responsible
     for deploying and instantiating chaincode, updating the ledger, interacting with
@@ -184,23 +258,32 @@
     with the ordering service as well as smart contracts (chain code, in the preceding
     screenshot) that it runs. Similar to Fabric CA, a peer also typically runs inside
     a Docker container.
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个节点是参与 Hyperledger Fabric 网络的实体。它的身份是根据其对应的成员服务提供商确定的。节点负责部署和实例化链代码，更新账本，与其他节点交互以共享与交易相关的私有数据，并与订购服务以及其运行的智能合约（在前面的截图中称为链代码）进行交互。类似于
+    Fabric CA，一个节点通常也在 Docker 容器中运行。
 - en: Smart contract or chaincode
+  id: totrans-34
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 智能合约或链代码
 - en: '**Smart contract** (**SC**) is application logic, written in a high-level language,
     such as Go or JavaScript; when successfully executed, it reads or writes data
     that eventually gets committed to the ledger. A smart contract does not have direct
     access to the ledger. A peer can deploy zero or more smart contracts that run
     as Docker containers. A peer can also deploy multiple versions of a smart contract.'
+  id: totrans-35
   prefs: []
   type: TYPE_NORMAL
+  zh: '**智能合约**（**SC**）是应用逻辑，以高级语言（如Go或JavaScript）编写；成功执行时，它读取或写入最终提交到账本的数据。智能合约没有直接访问账本的权限。一个节点可以部署零个或多个作为Docker容器运行的智能合约。一个节点也可以部署多个版本的智能合约。'
 - en: Ledger
+  id: totrans-36
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 账本
 - en: Each peer maintains a digital ledger, which contains a record of all committed
     transactions that a peer has received. The entries in the ledger are stored as
     key/value pairs. Updates to the same key will replace the current value of a key
@@ -208,38 +291,52 @@
     efficient querying of the latest value of a key, a node can store the latest value
     of each key in a database such as `CouchDB`. This database is referred to as a
     world state in Hyperledger Fabric.
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个节点维护着一个数字账本，其中包含节点接收到的所有已提交交易的记录。账本中的条目以键/值对的形式存储。对同一键的更新将用新值替换键的当前值。当然，旧值将保留在账本中。为了有效查询键的最新值，一个节点可以将每个键的最新值存储在诸如`CouchDB`之类的数据库中。这个数据库在超级账本中被称为世界状态。
 - en: Note that a peer will only receive blocks to commit to its ledger from the channels
     that it participates in.
+  id: totrans-38
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，一个节点只会从它参与的通道接收要提交到它账本的区块。
 - en: A peer can be part of zero or more channels— the channels are not shown in the
     preceding diagram showing Hyperledge Fabric architecture.
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个节点可以是零个或多个通道的一部分 —— 在前面展示超级账本架构的图表中没有显示通道。
 - en: Private data
+  id: totrans-40
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 私有数据
 - en: With Hyperledger Fabric v1.1, peers can choose to selectively share private
     data with a subset of peers in the channel through the chain private data experimental
     feature ([https://jira.hyperledger.org/browse/FAB-1151](https://jira.hyperledger.org/browse/FAB-1151)).
     The blocks on the ledger only contain hashes of such data, while the private data
     is stored off the ledger in a private state database.
+  id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: 随着 Hyperledger Fabric v1.1，节点可以选择通过链私有数据实验性功能（[https://jira.hyperledger.org/browse/FAB-1151](https://jira.hyperledger.org/browse/FAB-1151)）与通道中的一部分节点选择性共享私有数据。账本上的区块只包含此类数据的哈希，而私有数据存储在账本之外的私有状态数据库中。
 - en: Ordering service
+  id: totrans-42
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 订购服务
 - en: The ordering service is responsible for receiving the executed transactions
     from peers, combining them into blocks, and broadcasting them to other peers on
     the same channel. The peers receiving the transaction blocks then validate it
     before committing it to their ledger. It is the responsibility of the ordering
     service to not mix the blocks intended for one channel on another channel.
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: 订购服务负责接收来自对等方的执行交易，在将它们组合成区块，并将其广播给相同通道上的其他对等方。接收交易区块的对等方在提交到总账簿之前会对其进行验证。订购服务的责任是不将一个通道上的区块混入到另一个通道上。
 - en: In version 1.0 of Hyperledger Fabric, the peers would send a transaction (keys
     and associated values, along with the read/write set) to the ordering service.
     Thus, the ordering service had visibility into all data associated with transactions,
@@ -247,101 +344,136 @@
     Fabric, the client can send hashes of the transaction data (input and read/write
     set) to the ordering service while transferring the data associated with a transaction
     directly to the relevant peers.
+  id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: 在Hyperledger Fabric 1.0版本中，对等方会将交易（密钥和关联值，以及读/写集）发送到订购服务。因此，订购服务对于与交易相关的所有数据都是可见的，这在保密方面有着影响。在Hyperledger
+    Fabric 1.1版本中，客户端可以将交易数据的哈希值（输入和读/写集）发送到订购服务，同时将与交易相关的数据直接传输给相关的对等方。
 - en: Presently, the ordering service is implemented using Kafka and is **crash fault
     tolerant** (**CFT**), but not **Byzantine Fault Tolerant** (**BFT**). But this
     is a point in time statement as HyperLedger is purported to be pluggable that
     includes the consensus service. Pluggability implies that in future other consensus
     models may be available.
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 目前，订购服务是使用Kafka实现的，并且是**崩溃容错**（**CFT**）的，但不是**拜占庭错误容忍**（**BFT**）。但这是一个时间点的说法，因为HyperLedger据称是可插拔的，包括共识服务。可插拔性意味着未来可能会提供其他共识模型。
 - en: Although now shown in the diagram depicting Hyperledger Fabric architecture,
     peers, orderers, and fabric use a pluggable cryptography service provider, which
     allows them to plug in new crypto algorithms as well as hardware security modules
     (HSMs) ([https://en.wikipedia.org/wiki/Hardware_security_module](https://en.wikipedia.org/wiki/Hardware_security_module))
     for managing crypto keys.
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 尽管在描述Hyperledger Fabric架构的图表中没有显示，但对等方，订购者和fabric使用可插拔的加密服务提供者，允许他们插入新的加密算法以及硬件安全模块（HSMs）（[https://en.wikipedia.org/wiki/Hardware_security_module](https://en.wikipedia.org/wiki/Hardware_security_module)）来管理加密密钥。
 - en: Network bootstrap and governance – the first step towards security
+  id: totrans-47
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 网络引导和治理 - 通往安全的第一步
 - en: 'When organizations decide to form a permissioned private blockchain network
     using Hyperledger Fabric, they need to consider several governance aspects, which
     will ultimately determine the overall security posture of the network. These governance
     aspects include, but are not limited to the following:'
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 当组织决定使用Hyperledger Fabric组建许可的私有区块链网络时，他们需要考虑几个治理方面，这将最终决定网络的整体安全状况。这些治理方面包括但不限于以下内容：
 - en: '**How shall the network be bootstrapped and the members verified to create
     the network?** Network bootstrap is the first step in creating a blockchain network.
     Different entities may come together to create a network. The entities may have
     an out-of-band communication to agree upon with the first set of members and establish
     governance policies, which will be discussed next.'
+  id: totrans-49
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**网络应如何引导启动和成员验证以创建网络？** 网络引导是创建区块链网络的第一步。不同的实体可以一起创建一个网络。这些实体可以进行场外通信，就第一批成员达成一致，并制定治理政策，接下来将进行讨论。'
 - en: '**What is the process for a new entity to join the network (or a channel)?** Defining
     a policy for admitting new members in the network is paramount and is governed
     by the business needs of the network.'
+  id: totrans-50
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**新实体加入网络（或通道）的流程是什么？** 确定网络中新成员的准入政策是至关重要的，并由网络的业务需求来规定。'
 - en: '**Who can deploy and upgrade chaincodes on peers in the network?** Defining
     a process is important to prevent a malicious or buggy chaincode from being installed
     on one or more peers (see [*Chapter 7*](2e166a5f-eff3-4317-9a8f-fb74bdb68915.xhtml),
     *A Business Network Example*).'
+  id: totrans-51
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**谁可以在网络上的对等方上部署和升级链码？** 确定一个过程是重要的，以防止恶意或有bug的链码被安装在一个或多个对等方上（参见[*第7章*](2e166a5f-eff3-4317-9a8f-fb74bdb68915.xhtml)，*业务网络示例*）。'
 - en: '**What is the data model that will be stored on the blockchain?** Members must
     agree upon a common data model that will be stored in the blockchain; the blockchain
     cannot be useful to its members otherwise. The data model should be devised so
     that it does not run afoul of any compliance regulations, such as **general data
     protection regulations** (**GDPR**) ([https://gdpr-info.eu/](https://gdpr-info.eu/)).'
+  id: totrans-52
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**将在区块链上存储什么数据模型？** 成员必须就将存储在区块链中的共同数据模型达成一致意见；否则，区块链对其成员将毫无用处。数据模型应设计得不会违反任何合规法规，例如**通用数据保护条例**（**GDPR**）([https://gdpr-info.eu/](https://gdpr-info.eu/))。'
 - en: Creating the network
+  id: totrans-53
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建网络
 - en: 'When entities decide to create a network, they must decide on the following:'
+  id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 当实体决定创建网络时，他们必须决定以下事项：
 - en: Who will run the ordering service
+  id: totrans-55
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 谁将运行排序服务
 - en: How many different instances of ordering service will be in the network
+  id: totrans-56
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 网络中将有多少不同的排序服务实例
 - en: The role of the ordering service is critical because, depending on the configuration,
     it has visibility into transaction hashes or the transaction data across all channels
     that flow through it. Thus, the entities deciding to form a network may choose
     to trust one of the entities to act as the ordering service; they may also decide
     to trust a neutral third party to run the ordering service.
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 排序服务的角色非常关键，因为根据配置，它可以看到流经它的所有频道的交易哈希或交易数据。因此，决定组建网络的实体可以选择信任其中一个实体充当排序服务；他们还可以决定信任中立的第三方来运行排序服务。
 - en: The ordering service can view all transactions (hashes or key/value pairs) across
     all channels that it serves. Thus, if it is necessary to hide the transaction
     data from the ordering service, only hashes of the read/write set in a transaction
     should be sent to the ordering service while exchanging the data directly between
     peers.
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: 排序服务可以查看其提供服务的所有频道中的所有交易（哈希或键值对）。因此，如果需要向排序服务隐藏交易数据，则在对等方之间直接交换数据时，应仅向排序服务发送交易中读/写集的哈希。
 - en: Once an ordering service has been established for a network, it must be configured
     with the digital identities of peers of founding members. This is typically done
     by configuring the digital certificates of peers in the ordering service genesis
     blocks. The peers must also be configured with the digital identity of the ordering
     service.
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦为网络建立了排序服务，就必须将创始成员的对等方的数字身份配置到其中。这通常是通过在排序服务创世区块中配置对等方的数字证书来完成的。对等方还必须配置排序服务的数字身份。
 - en: Adding new members
+  id: totrans-60
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 添加新成员
 - en: The founding members at the time of creation of a network or a channel must
     also define the policy on how new members will be admitted into the network or
     a channel. By default, this policy is simply the one chosen by the majority (namely
@@ -350,17 +482,23 @@
     in the policy to admit new members will typically be decided through a business
     agreement. Once an agreement is reached, the channel configuration can be updated
     per the current policy to reflect the new policy for admitting new members.
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 在创建网络或频道时的创始成员必须还要定义新成员如何加入网络或频道的政策。默认情况下，此政策通常是由多数人选择的（即两个中的两个，三个中的两个，四个中的三个等）。成员可以决定网络中任何其他接纳新成员的政策。对于接纳新成员的政策的任何更改通常将通过商业协议决定。一旦达成协议，就可以根据当前政策更新频道配置，以反映接纳新成员的新政策。
 - en: The creation of the genesis block, as well as subsequent transactions to update
     configurations, are privileged operations, and must be approved by the peer administrator
     before being confirmed.
+  id: totrans-62
   prefs: []
   type: TYPE_NORMAL
+  zh: 创世区块的创建以及用于更新配置的后续交易是特权操作，必须在确认之前经过对等方管理员的批准。
 - en: Deploying and updating chaincode
+  id: totrans-63
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 部署和更新链码
 - en: Once members have decided to participate in a channel, they may choose to deploy
     and instantiate chaincode (a.k.a smart contract). A chaincode defines how key/value
     pairs which are scoped to a channel will be updated or read from. A chaincode
@@ -370,23 +508,32 @@
     be installed and instantiated on a peer. See [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
     Network Assets and Transactions* and *[Chapter 7](2e166a5f-eff3-4317-9a8f-fb74bdb68915.xhtml)*, *A
     Business Network Example*, for more details on deploying chaincode.
+  id: totrans-64
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦成员决定参与通道，他们可以选择部署和实例化链码（又称智能合约）。链码定义了如何更新或读取通道范围内的键/值对。链码可以定义其认可策略——即，它可以要求网络中一些或所有对等方的数字签名。由于Hyperledger
+    Fabric的权限性质，需要对等方的数字签名（认可）的链码必须安装和实例化在对等方上。有关部署链码的更多详细信息，请参见[*第5章*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)、*公开网络资产和交易*和*[第7章](2e166a5f-eff3-4317-9a8f-fb74bdb68915.xhtml)*、*业务网络示例*。
 - en: Before deploying chaincode on a channel, it is expected that network members
     will want to review the chaincode to ensure that it conforms to their policy.
     This process can be formalized into chaincode governance to require mandatory
     reviews from all relevant members who will instantiate the chaincode on their
     nodes.
+  id: totrans-65
   prefs: []
   type: TYPE_NORMAL
+  zh: 在通道上部署链码之前，预期网络成员将希望审核链码，以确保其符合其政策。此过程可以正式化为链码治理，要求所有相关成员对其节点实例化的链码进行强制审核。
 - en: Establish a process for deploying chaincode on your peer, including manual reviews
     and the verification of a digital signature of the chaincode author.
+  id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 建立一个在同行上部署链码的流程，包括手动审核和验证链码作者数字签名。
 - en: Data model
+  id: totrans-67
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 数据模型
 - en: The entities must agree upon a data model that will be stored in a blockchain,
     which in turn is determined by the chaincode. The founding members of a network
     or a channel deploying a chaincode will determine the key/value pairs that get
@@ -396,39 +543,57 @@
     for the business functions that members desire to accomplish, is reasonably future-proof,
     and does not inadvertently leak information. Recall that all participating peers
     in a channel store the committed transactions (and their key/value pairs).
+  id: totrans-68
   prefs: []
   type: TYPE_NORMAL
+  zh: 实体必须就将存储在区块链中的数据模型达成一致意见，这反过来由链码确定。网络或通道部署链码的创始成员将确定存储在通道中的键/值对。此外，成员将决定哪些数据与其他成员共享，哪些数据他们将保留私有给自己或一部分成员。数据模型应设计得对成员希望完成的业务功能有用，合理地具有未来的保障，并且不会无意中泄露信息。请记住，通道中的所有参与对等方都存储了提交的交易（及其键/值对）。
 - en: Establish a process for defining the data model that will be stored in a channel.
+  id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: 建立一个定义将存储在通道中的数据模型的流程。
 - en: 'The preceding steps can be summarized as follows:'
+  id: totrans-70
   prefs: []
   type: TYPE_NORMAL
+  zh: 前述步骤可总结如下：
 - en: Determine who will run the ordering service
+  id: totrans-71
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 确定谁将运行订购服务。
 - en: Configure digital identities of founding members in the ordering service
+  id: totrans-72
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 配置订购服务中创始成员的数字身份。
 - en: Create channels and determine the channel policy for admitting new members
+  id: totrans-73
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 创建通道并确定接纳新成员的通道政策。
 - en: Define the governance for writing, distributing, deploying, and instantiating
     chaincode
+  id: totrans-74
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 定义编写、分发、部署和实例化链码的治理。
 - en: Establish the data model
+  id: totrans-75
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 建立数据模型。
 - en: Strong identities – the key to the security of the Hyperledger Fabric network
+  id: totrans-76
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 强身份——Hyperledger Fabric网络安全的关键。
 - en: Strong identities are at the heart of Hyperledger Fabric security. Creating,
     managing, and revoking these identities is critical to the operational security
     of Hyperledger Fabric-based deployment. The identities are issued by a MSP. As
@@ -436,139 +601,203 @@
     is typically associated with one peer. An MSP can issue any appropriate cryptographically
     signed identities. Hyperledger Fabric ships with a default MSP, (Fabric CA), which
     issues X.509 certificates to the authenticated entities.
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
+  zh: 强身份是 Hyperledger Fabric 安全的核心。创建、管理和撤销这些身份对于基于 Hyperledger Fabric 的部署的运行安全至关重要。这些身份由一个
+    MSP 发行。如前面的 Hyperledger Fabric 架构图所示，一个逻辑 MSP 通常与一个对等体关联。MSP 可以发行任何适当的加密签名的身份。Hyperledger
+    Fabric 配备了一个默认的 MSP（Fabric CA），该 MSP 为经过身份验证的实体发行 X.509 证书。
 - en: Bootstrapping Fabric CA
+  id: totrans-78
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 引导 Fabric CA
 - en: Fabric CA can be configured with a LDAP server or run in a standalone mode.
     When running in a standalone mode, it must be configured with a bootstrap identity
     that gets stored in the backend database of Fabric CA. By default, a SQLite database
     is used but, for production usages, a PostgreSQL or a MySQL database can be configured.
     Typically, the connection between the Fabric CA server and its database is over
     TLS if a standalone server is used.
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
+  zh: Fabric CA 可以配置一个 LDAP 服务器或以独立模式运行。当以独立模式运行时，必须配置一个引导身份，该身份存储在 Fabric CA 的后端数据库中。默认情况下，使用
+    SQLite 数据库，但对于生产用途，可以配置 PostgreSQL 或 MySQL 数据库。如果使用独立服务器，则 Fabric CA 服务器与其数据库之间的连接通常通过
+    TLS 进行。
 - en: For the rest of the chapter, we will refer to the bootstrap entity when running
     without the LDAP server as the `ca-admin`. The `ca-admin` and its password must
     be supplied on a bootstrap of the Fabric CA, when running without LDAP server.
+  id: totrans-80
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章的其余部分，我们将在没有 LDAP 服务器的情况下运行时将引导实体称为 `ca-admin`。在没有 LDAP 服务器的情况下运行时，必须在 Fabric
+    CA 的引导时提供 `ca-admin` 及其密码。
 - en: In order for the `ca-admin` to interact with the server, it must submit a **certificate
     signing request** (**CSR**) to the Fabric CA server to obtain a X.509 certificate.
     This process is called **enrolling an identity**, or simply **enroll**. With a
     X.509 certificate in possession, the `ca-admin` can then add other users, which
     we will explain next.
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了让 `ca-admin` 与服务器交互，必须向 Fabric CA 服务器提交一个**证书签名请求**（**CSR**）以获取 X.509 证书。这个过程称为**注册身份**，或简称**注册**。拥有
+    X.509 证书后，`ca-admin` 就可以添加其他用户，我们将在下面解释。
 - en: Keep the password of the admin user in a safe and secure place since this is
     the `root` user of your organization. Treat it as securely as you would treat
     the password of a `root` Linux user. Use it to create a new user with appropriate
     permissions, but never use this user for any other operation, except in the case
     of a security breach, where this user can be used to revoke the certs of all enrolled
     entities.
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: 将管理员用户的密码保存在安全的地方，因为这是您组织的 `root` 用户。将其视为您对待 `root` Linux 用户的密码一样安全。使用它创建具有适当权限的新用户，但除了在安全漏洞的情况下，永远不要使用此用户进行任何其他操作，在这种情况下，此用户可用于撤销所有注册实体的证书。
 - en: Fabric CA provides two key operations in the system, namely register and enroll.
     We will explain these operations next.
+  id: totrans-83
   prefs: []
   type: TYPE_NORMAL
+  zh: Fabric CA 在系统中提供了两个关键操作，即注册和登记。我们将在下面解释这些操作。
 - en: Register
+  id: totrans-84
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 注册
 - en: The register operation adds a new entity specified by an identifier to Fabric
     CA. The register operation does not create a X.509 certificate for the user; that
     happens in the enroll operation. It is up to the administrator of the Fabric CA
     to define the policies and procedures for adding new users to the network.
+  id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: 注册操作将指定的标识符添加到 Fabric CA 中的新实体。注册操作不为用户创建 X.509 证书；这在注册操作中发生。由 Fabric CA 的管理员定义将新用户添加到网络的政策和程序。
 - en: 'There are some important points to consider while registering the users:'
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 在注册用户时，有一些重要的注意事项：
 - en: If a policy is to register an email address then, upon subsequent enrollment,
     the user's email address will be encoded in the certificate. In Hyperledger Fabric,
     the certificate of the user issuing the transaction is stored in the ledger along
     with the committed transaction. Anyone can decode the certificate and determine
     the email address.
+  id: totrans-87
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 如果策略是注册电子邮件地址，则在随后的注册过程中，用户的电子邮件地址将被编码在证书中。在 Hyperledger Fabric 中，发起交易的用户的证书与提交的交易一起存储在账本中。任何人都可以解码证书并确定电子邮件地址。
 - en: Carefully determine how new entities will be registered within a Fabric CA,
     as their digital certificates will end up in the ledger when these entities issue
     transactions.
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 仔细确定如何在 Fabric CA 中注册新实体，因为当这些实体发出交易时，它们的数字证书将最终出现在账本上。
 - en: Another important point to consider is how many enrollments are allowed for
     that user. Each enrollment results in a new certificate being issued to the user.
     In Hyperledger Fabric, a new user being registered can be enrolled a finite number
     of times, or can have unlimited enrollments. Typically, a new entity being enrolled
     should not be configured with unlimited number of enrollments.
+  id: totrans-89
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 另一个重要考虑点是允许该用户的注册次数。每个注册将导致向用户发放新证书。在 Hyperledger Fabric 中，正在注册的新用户可以被注册有限次数，或者可以具有无限次数的注册。通常，正在注册的新实体不应该配置为具有无限次数的注册。
 - en: It is best to set the maximum number of enrollments to 1 for a new user. This
     setting ensures that there is 1-1 correspondence between an entity and its digital
     certificate, thus making management of entity revocation easier.
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于新用户，最好将最大注册数设置为 1。这个设置确保实体和其数字证书之间存在一对一的对应关系，从而使实体吊销管理更容易。
 - en: With Hyperledger Fabric 1.1, it is now possible to define attributes for entities
     at the time of their registration. These attributes are then encoded in the X.509
     certificate of an entity.
+  id: totrans-91
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用 Hyperledger Fabric 1.1，现在可以在注册时为实体定义属性。然后，这些属性将被编码到实体的 X.509 证书中。
 - en: When used in standalone mode, upon successful registration, Fabric CA will create
     a unique password (if not supplied during registration). The `ca-admin` can then
     pass this password to the entity being registered, which will then use it to create
     a CSR and obtain a certificate through the enroll operation.
+  id: totrans-92
   prefs: []
   type: TYPE_NORMAL
+  zh: 在独立模式下使用时，在成功注册时，Fabric CA 将创建一个唯一密码（如果在注册过程中未提供）。然后，`ca-admin` 可以将此密码传递给被注册的实体，后者将使用它创建
+    CSR 并通过注册操作获取证书。
 - en: Default Fabric roles
+  id: totrans-93
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 默认 Fabric 角色
 - en: 'To register an entity in the Fabric CA, an entity should have a set of roles.
     Fabric CA is configured with the following default roles:'
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Fabric CA 中注册实体时，实体应该具有一组角色。Fabric CA 配置了以下默认角色：
 - en: '[PRE0]'
+  id: totrans-95
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: 'A Fabric CA can register any entity that has one of these roles:'
+  id: totrans-96
   prefs: []
   type: TYPE_NORMAL
+  zh: Fabric CA 可以注册任何具有以下角色之一的实体：
 - en: '[PRE1]'
+  id: totrans-97
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: 'A Fabric CA can revoke a role:'
+  id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: Fabric CA 可以吊销角色：
 - en: '[PRE2]'
+  id: totrans-99
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: 'A Fabric CA can also register an intermediate CA:'
+  id: totrans-100
   prefs: []
   type: TYPE_NORMAL
+  zh: Fabric CA 还可以注册中间 CA：
 - en: '[PRE3]'
+  id: totrans-101
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: To register an identity in Fabric CA, an entity must have the `hf.Registrar`.
     Roles are attributed with a comma-separated list of values, where one of the values
     equals the type of identity being registered.
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Fabric CA 中注册身份，实体必须具有 `hf.Registrar`。角色被赋予一个逗号分隔的值列表，其中一个值等于正在注册的身份类型。
 - en: Secondly, the affiliation of the invoker's identity must be equal to or a prefix
     of the affiliation of the identity being registered. For example, an invoker with
     an affiliation of `a.b` may register an identity with an affiliation of `a.b.c`,
     but may not register an identity with an affiliation of `a.c`.
+  id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 其次，调用者身份的关联必须等于或是被注册身份的关联的前缀。例如，具有 `a.b` 关联的调用者可以注册具有 `a.b.c` 关联的身份，但不能注册具有
+    `a.c` 关联的身份。
 - en: Enroll
+  id: totrans-104
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 注册
 - en: The entity in possession of an ID and secret can then enroll itself with Fabric
     CA. To do so, it generates a public/private key pair, creates a CSR, and sends
     that to Fabric CA along with the registered ID and secret in the `Authorization`
@@ -576,54 +805,80 @@
     to the entity being enrolled. The entity sending the enroll request is responsible
     for managing the private key. These private keys should be stored in a secure
     fashion (such as a hardware security module).
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 拥有 ID 和密钥的实体随后可以使用 Fabric CA 注册自己。为此，它生成公钥/私钥对，创建 CSR，并将其与 `Authorization` 标头中注册的
+    ID 和密钥一起发送到 Fabric CA。验证成功后，服务器将向被注册的实体返回 X.509 证书。发送注册请求的实体负责管理私钥。这些私钥应该以安全的方式存储（如硬件安全模块）。
 - en: Which crypto protocols are allowed in certificate signing requests?
+  id: totrans-106
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 证书签名请求中允许哪些加密协议？
 - en: 'The CSR can be customized to generate X.509 certificates and keys that support
     the **Elliptic Curve Digital Signature Algorithm** (**ECDSA**). The following
     key sizes and algorithms are supported:'
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: CSR 可以定制为生成支持 **椭圆曲线数字签名算法** (**ECDSA**) 的 X.509 证书和密钥。支持以下密钥大小和算法：
 - en: '| **Size** | **ASN1 OID** | **Signature Algorithm** |'
+  id: totrans-108
   prefs: []
   type: TYPE_TB
+  zh: '| **大小** | **ASN1 OID** | **签名算法** |'
 - en: '| --- | --- | --- |'
+  id: totrans-109
   prefs: []
   type: TYPE_TB
+  zh: '| --- | --- | --- |'
 - en: '| 256 | prime256v1 | ecdsa-with-SHA256 |'
+  id: totrans-110
   prefs: []
   type: TYPE_TB
+  zh: '| 256 | prime256v1 | ecdsa-with-SHA256 |'
 - en: '| 384 | secp384r1 | ecdsa-with-SHA384 |'
+  id: totrans-111
   prefs: []
   type: TYPE_TB
+  zh: '| 384 | secp384r1 | ecdsa-with-SHA384 |'
 - en: '| 521 | secp521r1 | ecdsa-with-SHA512 |'
+  id: totrans-112
   prefs: []
   type: TYPE_TB
+  zh: '| 521 | secp521r1 | ecdsa-with-SHA512 |'
 - en: Revoking identities
+  id: totrans-113
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 吊销身份
 - en: Since Hyperledger Fabric is a PKI system, identities that must be removed from
     the system have to be explicitly revoked. This is done through standard **certificate
     revocation lists** (**CRLs**). The CRLs need to be synchronized across all organizations
     to ensure that everyone detects the revoked certificate. The distribution of CRLs
     to other peers requires out of band mechanisms.
+  id: totrans-114
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于Hyperledger Fabric是一个PKI系统，必须从系统中删除的身份必须明确撤销。这是通过标准**证书吊销列表**（**CRLs**）完成的。必须将CRLs同步到所有组织中，以确保每个人都能检测到被吊销的证书。向其他对等方分发CRLs需要使用带外机制。
 - en: Practical considerations in managing users in Fabric CA
+  id: totrans-115
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Fabric CA中管理用户的实际考虑
 - en: Typically, an organization has its own identity (LDAP) server for managing its
     employees. An organization may choose to participate in one or more Hyperledger
     Fabric networks, but only a subset of its employees may be onboarded to each network.
     The administrator of Fabric CA for each network may choose to register a subset
     of employees in each network.
+  id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 通常，组织有自己的身份（LDAP）服务器来管理其员工。一个组织可以选择参与一个或多个Hyperledger Fabric网络，但是只有其员工的子集可能被注册到每个网络。每个网络的Fabric
+    CA管理员可以选择在每个网络中注册一部分员工。
 - en: Since an employee must generate and manage a private key to successfully participate
     in a Hyperledger Fabric network, the responsibility of managing the private key
     and its corresponding digital certificate lies with the employee of an organization.
@@ -636,33 +891,46 @@
     industry, the private keys may be stored in hardware security modules, which will
     make it infeasible to tamper with the keys. The precise configuration of hardware
     security modules is beyond the scope of this chapter.
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于员工必须生成和管理私钥才能成功参与Hyperledger Fabric网络，因此管理私钥及其相应的数字证书的责任在于组织的员工。管理私钥和数字证书并不简单，这可能会给员工带来不必要的负担，并且可能会导致员工无意中暴露密钥。由于员工需要记住其组织发放的凭据（例如用户名和密码）以登录组织系统，组织可以选择代表参与一个或多个Hyperledger
+    Fabric网络的员工管理私钥和证书。根据行业的不同，私钥可能存储在硬件安全模块中，这将使得篡改密钥变得不可行。硬件安全模块的精确配置超出了本章的范围。
 - en: Chaincode security
+  id: totrans-118
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 链码安全性
 - en: In Fabric, smart contracts, also known as **chaincode**, can be written in Go
     or JavaScript. The chaincodes must be installed on a peer and then explicitly
     initiated. When initiated, each code runs in a separate Docker container. The
     previous versions of chaincode also run in separate Docker containers.
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 在Fabric中，智能合约，也称为**链码**，可以用Go或JavaScript编写。链码必须安装在对等方上，然后明确启动。当启动时，每个代码都在单独的Docker容器中运行。以前版本的链码也在单独的Docker容器中运行。
 - en: The Docker container running the chaincode has access to the virtual network
     as well as the entire networking stack. If care is not taken in carefully reviewing
     the chaincode before it gets installed on the peer, and isolating the network
     access for that chaincode, it could result in a malicious or misconfigured node
     probing or attaching the peer attached to the same virtual network.
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: 运行链码的Docker容器可以访问虚拟网络以及整个网络堆栈。如果在将链码安装到对等方之前不仔细审查链码，并将该链码的网络访问隔离开来，则可能会导致恶意或配置错误的节点探测或连接到相同虚拟网络上附加的对等方。
 - en: An operator can configure a policy to disable all outgoing or incoming network
     traffic on the chaincode Docker containers, except white-listed nodes.
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 运营商可以配置策略来禁用链码Docker容器上的所有出站或入站网络流量，除了白名单节点。
 - en: How is chaincode shared with other endorsing peers?
+  id: totrans-122
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 如何与其他背书对等方共享链码？
 - en: Organizations must establish a process for sharing chaincode with other other
     organizations participating in a Hyperledger Fabric network. Since the chaincode
     must be installed on all endorsing peers, it is necessary to ensure the integrity
@@ -671,22 +939,31 @@
     *Agility in a Blockchain Network*, for more details on the approach to share the
     chaincode This issue was also highlighted in the security assessment of Hyperledger
     Fabric conducted by Nettitude  [https://wiki.hyperledger.org/_media/security/technical_report_linux_foundation_fabric_august_2017_v1.1.pdf](https://wiki.hyperledger.org/_media/security/technical_report_linux_foundation_fabric_august_2017_v1.1.pdf)
+  id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: 组织必须建立一个流程，与参与 Hyperledger Fabric 网络的其他组织分享链码。由于链码必须安装在所有背书对等方上，因此在与其他对等方共享时需要通过加密机制确保链码的完整性。更多关于分享链码方法的详细信息，请参阅[*第八章*](112a5075-378d-4bb0-9b9e-db81c18a35f5.xhtml)，
+    *区块链网络中的灵活性*。这个问题也在 Nettitude 对 Hyperledger Fabric 进行的安全评估中得到了强调[https://wiki.hyperledger.org/_media/security/technical_report_linux_foundation_fabric_august_2017_v1.1.pdf](https://wiki.hyperledger.org/_media/security/technical_report_linux_foundation_fabric_august_2017_v1.1.pdf)。
 - en: Who can install chaincode?
+  id: totrans-124
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 谁可以安装链码？
 - en: To install chaincode on a peer, an entity's certificate must be installed on
     the node (stored in the local MSP) of the peer. Since installing chaincode is
     a highly privileged operation, care should be taken that only entities with administrative
     capabilities have the ability to perform this operation.
+  id: totrans-125
   prefs: []
   type: TYPE_NORMAL
+  zh: 要在对等方上安装链码，实体的证书必须安装在对等方的节点上（存储在本地 MSP 中）。由于安装链码是一项权限非常高的操作，必须小心，只有具有管理能力的实体才能执行此操作。
 - en: Chaincode encryption
+  id: totrans-126
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 链码加密
 - en: An entity can choose to encrypt the key/value pairs by using an AES encryption
     key at the time of chaincode invocation ([https://github.com/hyperledger/fabric/tree/master/examples/chaincode/go/enccc_example](https://github.com/hyperledger/fabric/tree/master/examples/chaincode/go/enccc_example)).
     The encryption key is passed to the chaincode, which then encrypts the values
@@ -694,12 +971,16 @@
     (for example, to endorse a transaction) must be in possession of a key. It is
     expected that such encryption keys are then shared with other peers in an out-of-band
     manner.
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 实体可以选择在调用链码时使用 AES 加密密钥来加密键/值对([https://github.com/hyperledger/fabric/tree/master/examples/chaincode/go/enccc_example](https://github.com/hyperledger/fabric/tree/master/examples/chaincode/go/enccc_example))。加密密钥传递给链码，然后在发送提案之前加密值。需要解密值的实体（例如，为了支持交易）必须拥有密钥。预期这些加密密钥将以点对点的方式与其他对等方共享。
 - en: Attribute-based access control
+  id: totrans-128
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 基于属性的访问控制
 - en: As you may remember from [*Chapter 4*](a557efde-d161-4451-b5ee-cb3e481010be.xhtml),
     *Designing a Data and Transaction Model with Golang*, one of the new features
     added with Hyperledger 1.1 is attribute-based access control. At the time of registering
@@ -710,56 +991,82 @@
     attributes before the invoke or query operation. At a simple level, this allows
     application-level attributes to be passed down into chaincode through a X.509
     certificate.
+  id: totrans-129
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如你可能还记得[*第四章*](a557efde-d161-4451-b5ee-cb3e481010be.xhtml)中所提到的 *使用 Golang
+    设计数据和事务模型*，Hyperledger 1.1 新增的功能之一是基于属性的访问控制。在注册实体时，可以为实体指定属性，然后这些属性将在注册时添加到 X.509
+    证书中。属性的示例包括由参与网络的组织约定的角色名称，例如“审计员”。当执行链码时，它可以在调用或查询操作之前检查身份是否具有某些属性。在简单级别上，这允许应用级别的属性通过
+    X.509 证书传递到链码中。
 - en: Pros and cons of attribute-based access control
+  id: totrans-130
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 属性访问控制的优缺点
 - en: Encoding attributes in certificates has its own set of pros and cons. On one
     hand, all the information associated with an identity is encoded in the certificate,
     thus decisions can be made based on attributes. On the other hand, if an attribute
     has to be updated, for example, a user moves to a different department, the existing
     certificate must be revoked, and a new certificate has to be issued with a new
     set of attributes.
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: 在证书中编码属性具有其自身一套优缺点。一方面，与身份相关的所有信息都编码在证书中，因此可以基于属性做出决策。另一方面，如果必须更新属性，例如，用户转移到不同部门，就必须吊销现有证书，并发行一个具有新属性集的新证书。
 - en: Common threats and how Hyperledger Fabric mitigates them
+  id: totrans-132
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric 如何应对常见威胁
 - en: 'Hyperledger Fabric provides protection against some of the most common security
     threats, and assumes a shared responsibility model for addressing others. In the
     following table, we will summarize the most common security threats, whether Hyperledger
     Fabric addresses them and how or whether it is the responsibility of a node/network
     operator to address them:'
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric 针对一些最常见的安全威胁提供了保护，并假定了一个共享责任模型来解决其他威胁。在下表中，我们将总结最常见的安全威胁，以及
+    Hyperledger Fabric 是否解决了这些威胁以及如何解决，或者这是否是节点/网络操作员的责任来解决这些威胁：
 - en: '| **Threat** | **Description** | **Hyperledger Fabric** | **Network/Node Operator**
     |'
+  id: totrans-134
   prefs: []
   type: TYPE_TB
+  zh: '| **威胁** | **描述** | **Hyperledger Fabric** | **网络/节点操作员** |'
 - en: '| Spoofing | Use of a token or other credential to pretend to be an authorized
     user, or compromise a user''s private key. | Fabric certificate authority generates
     X.509 certificates for its members. | Manage certificate revocation list distribution
     among network participants to ensure that revoked members can no longer access
     the system. |'
+  id: totrans-135
   prefs: []
   type: TYPE_TB
+  zh: '| 欺骗 | 使用令牌或其他凭证来假冒授权用户，或者 compromise 用户的私钥。 | Fabric 证书颁发机构为其成员生成 X.509 证书。
+    | 管理证书吊销列表的分发，以确保被吊销的成员不能再访问系统。 |'
 - en: '| Tampering | Modify information (for example, an entry in the database). |
     Use of cryptographic measures (SHA256, ECDSA) make tampering infeasible. | Derived
     from Fabric. |'
+  id: totrans-136
   prefs: []
   type: TYPE_TB
+  zh: '| 篡改 | 修改信息（例如，数据库中的条目）。 | 使用密码措施（SHA256，ECDSA）使篡改变得不可行。 | 源自 Fabric。 |'
 - en: '| Repudiation | An entity cannot deny who did what. | Tracks who did what using
     digital signatures. | Derived from Fabric. |'
+  id: totrans-137
   prefs: []
   type: TYPE_TB
+  zh: '| 否认 | 实体无法否认谁做了什么。 | 使用数字签名跟踪谁做了什么。 | 源自 Fabric。 |'
 - en: '| Replay attacks | Replay the transactions to corrupt the ledger. | Hyperledger
     Fabric uses read/write sets to validate the transaction. A replay of transactions
     will fail due to an invalid read set. | Derived from Fabric. |'
+  id: totrans-138
   prefs: []
   type: TYPE_TB
+  zh: '| 重放攻击 | 重放交易以破坏分类帐。 | Hyperledger Fabric 使用读/写集来验证交易。重放交易将由于无效的读取集而失败。 | 源自
+    Fabric。 |'
 - en: '| Information disclosure | Data exposed through intentional breach or accidental
     exposure. | Hyperledger Fabric provides support for using TLSv1.2 for in-transit
     encryption. It does not encrypt ledger data at rest (the operator''s responsibility).Information
@@ -767,39 +1074,55 @@
     service. | It is the operator''s responsibility to prevent information disclosure
     by following information security best practices as well as at-rest encryption.
     |'
+  id: totrans-139
   prefs: []
   type: TYPE_TB
+  zh: '| 信息泄露 | 通过有意的违规或意外曝光暴露的数据。 | Hyperledger Fabric 支持使用 TLSv1.2 进行在传输时加密。它不会加密静态数据（操作员的责任）。系统中所有对等体及其交易的信息都会暴露给排序服务。
+    | 通过遵循信息安全最佳实践以及静态数据加密，操作员有责任防止信息泄露。 |'
 - en: '| Denial of service | Makes it difficult for legitimate users to access the
     system. | It is the operator''s responsibility. | It is the operator''s responsibility
     to prevent denial of service to the system. |'
+  id: totrans-140
   prefs: []
   type: TYPE_TB
+  zh: '| 拒绝服务 | 使合法用户访问系统变得困难。 | 这是操作员的责任。 | 防止系统遭受拒绝服务攻击是操作员的责任。 |'
 - en: '| Elevation of Privileges | Gain high level access to the application. | Issued
     identities cannot upgrade their access (for example, create an identity) without
     manual review of access. | Hyperledger Fabric runs chaincode in Docker containers.
     It is the responsibility of the network/node operator to limit access and run
     chaincode containers with appropriate restrictions. |'
+  id: totrans-141
   prefs: []
   type: TYPE_TB
+  zh: '| 特权提升 | 获得应用程序的高级访问权限。 | 已经发行的身份无法升级其访问权限（例如，创建身份）而不经过手动审核。 | Hyperledger
+    Fabric 在 Docker 容器中运行链代码。限制访问并使用适当的限制运行链代码容器是网络/节点操作员的责任。 |'
 - en: '| Ransomware | Using cryptographic or other means to prevent access to data
     on the file system. | It is the operator''s responsibility. | It is the operator''s
     responsibility to ensure that ransomware cannot prevent access to a node''s ledger.
     |'
+  id: totrans-142
   prefs: []
   type: TYPE_TB
+  zh: '| 勒索软件 | 使用加密或其他手段阻止对文件系统上数据的访问。 | 运营者的责任。 | 运营者有责任确保勒索软件无法阻止节点账本的访问。 |'
 - en: Transaction privacy in Hyperledger Fabric
+  id: totrans-143
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric 中的交易隐私
 - en: One of the main design considerations for Hyperledger Fabric is to provide privacy
     and confidentiality of transactions. Hyperledger Fabric provides a number of knobs
     to achieve these goals.
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric 的主要设计考虑之一是提供交易的隐私和保密性。Hyperledger Fabric 提供了一些机制来实现这些目标。
 - en: Channels
+  id: totrans-145
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 通道
 - en: A Hyperledger Fabric node that only intends to share data with a subset of nodes
     in the network can do so through channels. In these cases, only peers that participate
     in the channel can store transaction data; the peers that are not part of the
@@ -807,32 +1130,44 @@
     it. However, this data is exposed to the ordering service. A robust Channel design
     will address the isolation, data privacy and confidentiality between participants
     and controlled/permissioned access with robust audit capability.
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric 节点如果只想与网络中的一部分节点共享数据，则可以通过通道实现。在这些情况下，只有参与通道的同行者才能存储交易数据；不参与通道的同行者无法看到交易数据，因此也无法存储交易数据。然而，此数据暴露给了排序服务。一个健壮的通道设计将解决参与者之间的隔离、数据隐私和保密性以及具有健壮审计能力的受控/有权限访问。
 - en: Private data
+  id: totrans-147
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 私有数据
 - en: Peers in a channel can choose to determine which other peers they will share
     their data with. The private transaction data is passed peer-to-peer between the
     peers, while only the hashes of the transaction data are broadcasted to the ordering
     services and to peers with whom this data is not shared with.
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: 通道中的同行者可以选择确定他们将与哪些其他同行者共享他们的数据。私有交易数据在同行者之间点对点传递，而仅将交易数据的哈希广播给排序服务和未共享此数据的同行者。
 - en: Encrypting transaction data
+  id: totrans-149
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 加密交易数据
 - en: Peers can also choose to encrypt the transaction data before sending it for
     endorsements. However, it may be necessary for peers endorsing the transaction
     to view the data. An out-of-band mechanism must be used to exchange encryption
     keys between such peers.
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
+  zh: 同行者还可以选择在发送交易进行认可之前对交易数据进行加密。然而，对于认可交易的同行者来说查看数据可能是必要的。必须使用一种带外机制在这些同行者之间交换加密密钥。
 - en: Hyperledger Fabric and Quantum Computing
+  id: totrans-151
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric 和量子计算
 - en: Hyperledger Fabric uses elliptic curve cryptography for digitally signing that
     transactions. The elliptic curve cryptography relies on mathematical techniques
     which can be sped up using quantum computing ([https://en.wikipedia.org/wiki/Post-quantum_cryptography](https://en.wikipedia.org/wiki/Post-quantum_cryptography)).
@@ -841,25 +1176,37 @@
     per the director of Information Technology Lab at NIST, the impact of quantum
     computing on the security of blockchain systems is at least 15 to 30 years from
     becoming a reality ([https://www.coindesk.com/dc-blockchain-hearing-sees-call-for-congressional-commission/](https://www.coindesk.com/dc-blockchain-hearing-sees-call-for-congressional-commission/)).
+  id: totrans-152
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric 使用椭圆曲线密码学对交易进行数字签名。椭圆曲线密码学依赖于数学技术，可以通过量子计算加速。然而，Hyperledger
+    Fabric 提供了可插拔的密码提供者，允许用其他算法替换这些数字签名算法。此外，根据 NIST 信息技术实验室主任的说法，量子计算对区块链系统安全的影响至少还有
+    15 到 30 年才会成为现实。
 - en: General data protection regulation (GDPR) considerations
+  id: totrans-153
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 通用数据保护条例 (GDPR) 考虑因素
 - en: '**General Data Protection Regulation** (**GDPR**) ([https://gdpr-info.eu/](https://gdpr-info.eu/))
     is an EU law that defines how personal data is acquired, processed, and ultimately
     erased from a computing system. The definition of personal data in GDPR is quite
     broad—examples include name, email address, and IP address.'
+  id: totrans-154
   prefs: []
   type: TYPE_NORMAL
+  zh: '**通用数据保护条例**（**GDPR**）是一项欧盟法律，规定了个人数据如何被获取、处理和最终从计算系统中删除。GDPR 中对个人数据的定义非常广泛——例如姓名、电子邮件地址和
+    IP 地址。'
 - en: Blockchain, by design, creates an immutable, permanent, and replicated record
     of the data. A blockchain network based on Hyperledger Fabric will obviously encompass
     these three properties. Thus storing personal data on a blockchain network which
     cannot be deleted or modified can be challenging from the perspective of GDPR.
     Similarly, it is important to know who that personal data is shared with.
+  id: totrans-155
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链本质上创建了数据的不可变、永久和复制记录。基于 Hyperledger Fabric 的区块链网络显然将涵盖这三个特性。因此，在不可删除或修改的区块链网络上存储个人数据可能会从
+    GDPR 的角度带来挑战。同样重要的是要知道个人数据与谁共享。
 - en: The channel and the channel private data feature of Hyperledger Fabric provides
     a mechanism for determining the entities with which data is shared. In the case
     of channel private data, the data is never stored on a blockchain, but its cryptographic
@@ -868,8 +1215,11 @@
     Fabric can potentially provide a mechanism to store personal data off the chain,
     determining who this data is shared with, while maintaining the integrity of this
     data through cryptographic hashes stored in the blockchain.
+  id: totrans-156
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric 的通道和通道私有数据特性提供了一种确定与之共享数据的实体的机制。在通道私有数据的情况下，数据永远不会存储在区块链上，但其加密哈希存储在链上。通过治理流程，节点可以确定与之共享此数据的其他节点。Hyperledger
+    Fabric 中的通道私有数据特性可能提供了一种将个人数据存储在链外，并确定与之共享此数据的对象的机制，同时通过存储在区块链中的加密哈希维护此数据的完整性。
 - en: Hyperledger Fabric also stores the X.509 certificate of the entity creating
     the transaction in the digital ledger. These X.509 certificates can contain personal
     data. With version 1.1, Hyperledger Fabric provides a mechanism to prove the identity
@@ -877,23 +1227,36 @@
     These zero-knowledge proof-based credentials are then stored in the ledger in
     lieu of a traditional X.509 certificate and can potentially help towards GDPR
     compliance.
+  id: totrans-157
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric 还会在数字账本中存储创建交易的实体的 X.509 证书。这些 X.509 证书可能包含个人数据。从版本 1.1 开始，Hyperledger
+    Fabric 提供了一种基于零知识证明的身份证明机制，同时隐藏属性的实际值。这些基于零知识证明的凭证随后存储在账本中，取代传统的 X.509 证书，并且有助于达到
+    GDPR 的合规性。
 - en: Summary
+  id: totrans-158
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 摘要
 - en: In this chapter, we first covered design goals of Hyperledger Fabric that are
     tied to security. All the sets of points which were described are considered to
     keep Fabric security in mind. We briefly studied the Hyperledger Fabric Security
     and understood how strong identities are at the heart of Fabric security. We also
     took a look at chaincode security.
+  id: totrans-159
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们首先讨论了与安全相关的 Hyperledger Fabric 的设计目标。所有描述的一系列点都被认为是考虑到 Fabric 安全性。我们简要研究了
+    Hyperledger Fabric 安全性，并了解了强身份是 Fabric 安全的核心。我们还简要讨论了链码安全性。
 - en: Hyperledger, by itself, is adept at handling threats. We dove into the common
     Hyperledger security threats and how Fabric mitigates them.
+  id: totrans-160
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger 本身擅长处理威胁。我们深入了解了常见的 Hyperledger 安全威胁以及 Fabric 如何应对它们。
 - en: We also briefly looked at the impact of quantum computing on Hyperledger Fabric.
+  id: totrans-161
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们还简要讨论了量子计算对 Hyperledger Fabric 的影响。
