@@ -3,6 +3,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 实现共识
 - en: 'The concept of consensus is straightforward: consensus is when the network
     agrees on what information stored in the network is true and should be kept, and
     what is not true and should not be kept. For Bitcoin, achieving consensus is a
@@ -13,6 +14,7 @@
   id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 共识的概念很简单：共识是当网络就网络中存储的信息的真实性达成一致意见时，应该保留什么信息，以及什么信息不真实，不应该保留。对于比特币来说，达成共识就是要就网络中要发送和接收的比特币集合达成一致意见。对于其他网络，达成共识还涉及就区块链上存储的智能合约的最终状态或任何其他网络信息达成一致意见。
 - en: 'Consensus algorithms have been the subject of research for decades. The consensus
     algorithms for distributed systems have to be resilient to multiple types of failures
     and issues, such as corrupt messages, parts of a network connecting and disconnecting,
@@ -24,24 +26,28 @@
   id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 共识算法已经成为研究对象数十年。分布式系统的共识算法必须对多种类型的故障和问题具有弹性，如错误的消息、网络的部分连接和断开、延迟等。在金融系统中，特别是在区块链中，系统中存在谋利的和恶意的行为者的风险。对于区块链网络中的每个算法，达成共识确保网络中的所有节点就区块链的一致全球状态达成一致意见。任何分布式共识协议都具有三个关键属性：
 - en: '**Safety**: The ability of all the nodes on a distributed network to guarantee
     that they have the same state or consistency'
   id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**安全性**：分布式网络上所有节点保证具有相同的状态或一致性的能力'
 - en: '**Liveness/Availability**: The protocol is guaranteed to succeed and have the
     different nodes produce a final result'
   id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**活跃性/可用性**：协议保证成功并使不同节点产生最终结果'
 - en: '**Fault tolerance**: The ability of the protocol to deal with nodes producing
     faulty or hostile results'
   id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**容错性**：协议处理节点生成错误或敌对结果的能力'
 - en: As it happens, a famous paper by Fischer, Lynch, and Paterson stated that it's
     impossible for all three to be true in the same asynchronous distributed system.
     Hence, any and all blockchain designs must make trade-offs between these properties.
@@ -50,46 +56,55 @@
   id: totrans-6
   prefs: []
   type: TYPE_NORMAL
+  zh: 恰巧，Fischer、Lynch 和 Paterson 的一篇著名论文指出，在同一个异步分布式系统中不可能同时满足这三个条件。因此，任何区块链设计都必须在这些属性之间做出权衡。这些权衡通常是在安全性和活跃性之间进行的，因为容错性通常被认为是全球分布式网络的必备条件。
 - en: 'In blockchain systems, there are currently four primary methods of achieving
     consensus. They are as follows:'
   id: totrans-7
   prefs: []
   type: TYPE_NORMAL
+  zh: 在区块链系统中，目前有四种主要方法可以实现共识。它们如下：
 - en: Practical Byzantine fault tolerance algorithm
   id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 实用拜占庭容错算法
 - en: PoW algorithms
   id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 工作量证明算法
 - en: PoS algorithms
   id: totrans-10
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 权益证明算法
 - en: Delegated PoS algorithms (DPoS)
   id: totrans-11
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 委托式权益证明算法（DPoS）
 - en: These approaches will each be covered in turn in this chapter.
   id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些方法将在本章中依次介绍。
 - en: Practical Byzantine fault tolerance algorithm
   id: totrans-13
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 实用拜占庭容错算法
 - en: '**Practical Byzantine fault tolerance** (**PBFT**) algorithm. Many algorithms
     are called **Byzantine fault tolerant**. The name comes from the allegory that
     presented the original problem.'
   id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: '**实用拜占庭容错**（**PBFT**）算法。许多算法被称为**拜占庭容错**。这个名字来源于提出原始问题的寓言。'
 - en: Imagine an ancient Byzantine army moving to capture a city. The idea is to attack
     from all sides. Once the generals of the army reach the city, they must agree
     on when and how to attack. The difficulty is in how to agree. The generals can
@@ -99,6 +114,7 @@
   id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 想象一支古代的拜占庭军队正在进攻一座城市。攻击的想法是从各个方向进攻。一旦军队的将军们到达城市，他们必须就何时以及如何进攻达成一致意见。难点在于如何达成一致。将军们只能通过信使进行通信，但信使可能会被敌人抓获，而且还有一个额外的担忧，即一个或多个将军或他们的指挥官可能是叛徒。
 - en: The generals need a method to ensure that all the loyal generals agree on the
     same plan, and that a small number of possible traitors cannot cause the mission
     to fail.
@@ -392,6 +408,7 @@
   id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: 没有运气。 那么 2 和 3 呢？ 这些也将无法解决谜题。 恰巧，*4I love Blockchains* 的哈希以 `0` 开头：
 - en: '[PRE2]'
   id: totrans-52
   prefs: []
@@ -403,6 +420,8 @@
   id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: 这只用了四次尝试，但这是一个非常低的难度。 每增加一个零，找到一个能计算出正确哈希的适当输入的挑战就会加倍。 截至目前，一个有效的比特币区块需要 18
+    个零才能有效。
 - en: This process of trying to find the nonce that results in a proper hash is called
     mining. Every computer mining a PoW chain is competing to see who can find a proper
     nonce first. The winner gets to create the next block in the chain and is rewarded
@@ -411,6 +430,8 @@
   id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 尝试找到产生正确哈希的随机数的过程称为挖矿。 每台挖掘 PoW 链的计算机都在竞争看谁能最先找到正确的随机数。 获胜者有权创建链中的下一个区块，并且以代币的形式获得奖励。
+    更多细节，请参阅 [第 18 章](a8437577-99dc-4620-99d5-7fbd19b12659.xhtml)，*挖矿*。
 - en: 'The advantage of PoW is that anyone can join a PoW network, and it is well
     established as a functional consensus mechanism. The primary downsides of PoW
     networks are slow speeds and financial costs: running all the computers to do
@@ -421,15 +442,19 @@
   id: totrans-55
   prefs: []
   type: TYPE_NORMAL
+  zh: PoW 的优势在于任何人都可以加入 PoW 网络，并且它已经被证明是一种功能性共识机制。 PoW 网络的主要缺点是速度慢和财务成本高：运行所有计算机进行这些计算非常昂贵，并且输出没有被用于任何真正的生产性用途。
+    这被认为对环境不利，并且可能导致在进行大量区块链挖掘的地方能源价格上涨。 由于这个原因，一些地区已经禁止了区块链挖掘。
 - en: As a result of these downsides, **proof-of-stake** (**PoS**) was invented.
   id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于这些缺点，**权益证明**（**PoS**）被发明出来。
 - en: Proof of Stake
   id: totrans-57
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 股权证明
 - en: PoS has the same objectives as PoW to secure the network against attack and
     to allow consensus to occur in an open network. The first digital currency to
     use this method was Peercoin, and was followed by many others, such as NXT, Dash,
@@ -443,70 +468,86 @@
   id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: PoS 与 PoW 具有相同的目标，即保护网络免受攻击，并允许在开放网络中达成共识。 第一个使用此方法的数字货币是 Peercoin，随后是许多其他数字货币，如
+    NXT，Dash，PIVX 等。 在 PoW 网络中，解决谜题决定了哪个节点可以创建链中的下一个区块。 在 PoS 网络中，区块被称为被锻造而不是被挖掘，因为它们在
+    PoW 区块链中。 在 PoS 链中，验证者通过获得每个区块的交易费用来获得奖励，并且有时在每次创建区块时自动创建额外的代币。 在 PoS 链中，成为下一个区块的创建者的机会取决于节点在网络中的投资金额。
 - en: 'Have a look at the following example:'
   id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 看看以下示例：
 - en: 'There are five nodes in a PoS network. They have the following balances:'
   id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: PoS 网络中有五个节点。 它们具有以下余额：
 - en: 10,000 coins
   id: totrans-61
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 10,000 枚代币
 - en: 200 coins
   id: totrans-62
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 200 枚代币
 - en: 300 coins
   id: totrans-63
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 300 枚代币
 - en: 4,000 coins
   id: totrans-64
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 4,000 枚代币
 - en: 20,500 coins
   id: totrans-65
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 20,500 枚代币
 - en: 'The total number of tokens is 35,000 coins. Assuming that each node is staking
     100% of their coins, every block and the nodes they contain will have the following
     likelihoods of being the next block signer:'
   id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 代币的总数为 35,000 枚。 假设每个节点都抵押了他们代币的 100%，每个区块和其中的节点被认为是下一个区块签名者的可能性如下：
 - en: 28.57%
   id: totrans-67
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 28.57%
 - en: 0.57%
   id: totrans-68
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 0.57%
 - en: 0.86%
   id: totrans-69
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 0.86%
 - en: 11.4%
   id: totrans-70
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 11.4%
 - en: 58.6%
   id: totrans-71
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 58.6%
 - en: 'It should be pretty obvious that, if a single node ever controls the majority
     of tokens (or even a large fraction), then they will have substantial control
     over the network. In this case, node #5 would end up creating more than half the
@@ -606,6 +647,7 @@
   id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: DPoS与PoS共识有关，但存在一些关键区别。这个新系统是Bitshares、Steemit以及目前的EOS的创始人Dan Larimer的创造。这两个网络以及Lisk（另一个常用的区块链）目前是唯一使用这种方法的主要区块链。在DPoS中，代币持有者不是进行区块验证的人。相反，他们可以使用自己的代币选举一个节点来代表他们进行验证——他们的代表（也称为**验证者**）。正是这个代表/验证者帮助操作网络。可用验证器插槽的数量往往锁定为一个特定的数量，通常是21个。要成为代表，节点的所有者必须说服网络的其他用户信任他们，让他们负责通过将他们在网络上的整体代币份额委托给他们来保护网络。基本上，网络上的每个代币都充当一票，而获得最高选票的人被允许操作网络。目前，只有Bitshares、Steemit、EOS和Lisk是使用这种方法的主要区块链。
 - en: 'In DPoS, each delegate has a limited, designated time in which to publish a
     new block. If a delegate continually misses their block creation times or publishes
     invalid transactions, the token holders using their stake can vote them out and
@@ -614,10 +656,12 @@
   id: totrans-83
   prefs: []
   type: TYPE_NORMAL
+  zh: 在DPoS中，每个代表都有一个有限的指定时间来发布新的区块。如果一个代表持续错过他们的区块创建时间或发布无效交易，使用他们投票权的代币持有者可以投票将他们替换为更好的代表。以下图表显示了这个结构如下所示：
 - en: '![](img/628dfec8-f071-49f2-b218-27e81770a21b.png)'
   id: totrans-84
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/628dfec8-f071-49f2-b218-27e81770a21b.png)'
 - en: The primary criticism of DPoS is that it is partially centralized and has no
     real immediate financial penalty for betraying the network. The consequence of
     violating network rules is to be voted out by the token holders. It is thought
@@ -628,11 +672,13 @@
   id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: DPoS的主要批评是它在某种程度上是中央集权的，并且对背叛网络没有真正的即时财务惩罚。违反网络规则的后果是被代币持有者投票淘汰。人们认为，违反网络规则的声誉成本以及竞选代表股份的损失将超过试图负面影响网络的财务收益。由于只有少数的代表插槽，代币持有者更容易关注个体验证节点的行为。
 - en: Tendermint consensus
   id: totrans-86
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Tendermint共识
 - en: Tendermint uses a custom consensus engine, designed as part of a doctoral thesis
     by Jae Kwon. It is similar to DPoS in that participants in the network can delegate
     their voting power to a validating account. However, to do so, they must bond
@@ -645,15 +691,18 @@
   id: totrans-87
   prefs: []
   type: TYPE_NORMAL
+  zh: Tendermint使用自定义共识引擎，由Jae Kwon的博士论文的一部分设计而成。它类似于DPoS，参与网络的人可以将他们的投票权委托给一个验证账户。然而，为了这样做，他们必须债券化或锁定他们的代币。为此，他们必须发出一个特殊的债券交易，其中他们的硬币被锁定到一个验证节点。如果他们的代表行为不端，那么代表和借出他们硬币的账户都将放弃一部分他们债券化的代币。要释放他们的代币，必须向网络发布另一个特殊的解除债券交易，而且这样的提款会受到长时间的延迟。
 - en: 'Let''s look at how these transactions happen. The following diagram is from
     the Tendermint documentation:'
   id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看看这些交易是如何发生的。以下图表摘自Tendermint文档：
 - en: '![](img/3b7ca00f-adc8-4a08-97df-0d171efa1978.png).'
   id: totrans-89
   prefs: []
   type: TYPE_NORMAL
+  zh: '![](img/3b7ca00f-adc8-4a08-97df-0d171efa1978.png)。'
 - en: 'Let''s look at the preceding figure in more detail. Delegates signal the next
     block by signing votes. There are three types of votes: prevotes, precommits,
     and commits. Each block has a special validator called a **proposer**. The proposer
