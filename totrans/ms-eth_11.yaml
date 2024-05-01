@@ -1,0 +1,1124 @@
+- en: Decentralized Exchanges Workflow
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Decentralized exchanges, also known as **DAXs**, are a hot topic for the simple
+    reason that all cryptocurrencies need to be exchanged by others to give them some
+    kind of utility. Could you imagine a world where you couldn't trade Bitcoin for
+    dollars? Or Ethereum for Bitcoin? It would destroy the real-world utility of most
+    cryptocurrencies. That's why we have exchanges, to allow the trading of all kinds
+    of currencies in a free market. We'll start by working on an explanation about
+    DAXs so that you understand the idea behind them. Then you'll understand how the
+    orders are made and how to manage user funds in a secure manner. After that, you'll
+    create a real-world DAX with a complex smart contract and a detailed interface.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we''ll cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Introducing decentralized exchanges
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding the trading and matching engine
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Managing cryptocurrency wallets and cold storage
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building the user interface
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building the Ethereum backend
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Finishing the dApp
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Introducing decentralized exchanges
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: What are DAXs, really? Well, normal exchanges, such as the stock market, are
+    built upon a centralized system where a server processes all orders and displays
+    the results to the users. They run very efficient systems that are quite expensive
+    to set up, although it's understandable given the utility they provide. DAXs,
+    on the other hand, don't rely on a centralized system where all orders have to
+    go through a server that makes the necessary computations. Instead, DAXs work
+    on top of Ethereum's infrastructure to provide users with a system that can be
+    executed by anyone and processed by the gigantic net of computers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The first difference with DAX compared to centralized exchanges is that they
+    are limited by the technology behind them. You can't create a DAX that trades
+    fiat currencies, such as the American dollar or the European euro, because those
+    currencies are based on a different technology; they run on a different market,
+    known as FOREX, where banks all over the world trade global currencies. Equally,
+    you can't trade ERC20 tokens on the stock market exchange because they run on
+    top of Ethereum, and the developers working on those centralized exchanges don't
+    have the tools required to create a fluid connection between those systems – the
+    main reason being the differences in speed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethereum naturally makes slower transactions because they have to be confirmed
+    by every node of the network. That's why it's expected to have a slow trading
+    system in DAXs. However, there are scaling technologies, such as *plasma* and
+    *state channels*, that allow you to trade way more efficiently after an initial
+    setup. We'll explore how they work and we'll build a DAX so that you understand
+    how they work. You could even create your own rules.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cons of DAXs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: DAXs are generally slower since you can't make instant transactions unless you
+    rely on off-chain systems between a pair of currencies, slowing you down when
+    you desire to trade between other cryptocurrencies.
+  prefs: []
+  type: TYPE_NORMAL
+- en: They are also limited in the sense that you can't trade fiat currencies or cryptocurrencies
+    based on different blockchains. For instance, the only way to exchange **Bitcoin**
+    (**BTC**) for **Ethereum** (**ETH**) is to have a centralized system that holds
+    both of those currencies and provides the user with a fair exchange at any given
+    moment. There are a few projects that have integrated both types of currencies,
+    but they are still young and need to mature to become popular.
+  prefs: []
+  type: TYPE_NORMAL
+- en: DAXs are not yet used by the mainstream public, so they are not as good as they
+    could be, since we lack the tools and protocols needed to create the type of exchanges
+    that work without issues.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Pros of DAXs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: On the other hand, these types of exchanges have the potential to overcome the
+    outdated technology from most markets that rely on centralized transactions. Because
+    they are being created from scratch, they can take all that's great from other
+    projects and implement them with better features.
+  prefs: []
+  type: TYPE_NORMAL
+- en: DAXs can work with thousands of tokens by default, since most of them implement
+    the ERC20 standard, giving them a huge array of possibilities. There are great
+    projects that are building protocols, such as the **0xprotocol** where developers
+    can implement a set of known functions to their own systems so that they can communicate
+    freely as one global system of interconnected DAXs. In fact, the 0xprotocol shares
+    the liquidity of tokens among many exchanges, giving them the power to perform
+    as a trader without requirements.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With the new scaling solutions being developed by the core Ethereum team, DAXs
+    are about to vastly improve, with faster transactions that resemble real-work
+    centralized markets, making Ethereum a core player in the global economy of virtual
+    currency.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Many successful exchanges are improving to expand the paradigm of what's possible
+    with decentralized technology, and they are using stablecoins, such as Tether
+    and USD Coin, to keep a constant value backed on fiat currencies, thus bridging
+    the gap between both worlds.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We could talk about DAXs for hours in several different books, but the point
+    that I'm trying to bring across is that DAXs have the potential to surpass existing
+    technology to become the main place where the global market of centralized and
+    decentralized currencies takes place. That's why I want you to understand how
+    all of this is possible by building a simple DAX based on solidity smart contracts
+    to have the practical experience required to work for the many companies that
+    create DAXs, or even start your own since they are one of the core elements of
+    decentralized technology.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Essential trading terms
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The world of exchanges is vast and complicated; that's why the people using
+    them created lots of terms to help each other understand what they mean precisely.
+    For instance, instead of saying *I want to buy 10 BTC hoping that it goes up in
+    the future*, you say *I want to go long on 10 BTC*. They mean the same thing,
+    but it's a more precise way of communicating with each other.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s go through some important terminology to comprehend some aspects of
+    exchange markets:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Market order**: An action that consists of selling or buying a currency for
+    the lowest or highest price available. You see, in exchanges there are sellers
+    and buyers, those that want to get rid of some currency and those that want to
+    grab some of it. Each one of them sets a price for what they want to get in return
+    and the prices are always in pairs. For instance, *I want to buy 10 BTC at the
+    price of 50 ETH*. In this case the pair would be BTC-ETH because you''re stating
+    that you want to get ETH in exchange for your Bitcoin; there, you''re being a
+    buyer of Bitcoin and a seller of Ether at the same time. People set different
+    prices, so when you make a market order you just buy or sell at the largest profit.
+    The same thing happens when you buy something online with dollars. If you are
+    European, like me, you''d notice that many things online are priced in dollars,
+    making it impossible to buy those items as you have euros, and they are not the
+    same thing. So what happens when you buy say, a book? In the backend, some program
+    is exchanging euros for dollars at the price set by the market and it''s buying
+    the book with dollars.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Limit order**: An action where you sell or buy at a fixed price that you
+    set by yourself. These types of orders are used for those that predict price movements
+    or are comfortable waiting until their order gets filled over a longer time.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Broker**: A person that lends you money with interest for your trading activities.
+    Brokers usually help you with actions, such as executing your trades, because
+    they have more money so they enjoy special privileges in the exchange you''re
+    in.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Margin account**: A special type of user account where you can borrow money
+    from brokers as you trade.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Long buying**: An action where you buy a specific currency because you believe
+    it will go up in value to make a profit, or to support the technology behind the
+    currency.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Short selling**: An action where you win when the currency that you''re shorting
+    goes down in value. For instance, you could say, *I''m going to go short on euros
+    because I believe the price will go down in the next five days*. It''s a system
+    where you can sell currencies that you don''t own. The reasoning behind consists
+    of the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: First, you borrow money from another person, called the broker, who gives you
+    the desired amount of currencies that you want to short, such as 100 ETH that
+    you short.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You automatically sell those 100 ETH at the market price.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: At a later date, you buy those 100 ETH. This is called closing your position.
+    For instance, after 20 days, you close your short position by buying 100 ETH at
+    the market price.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You win or lose money based on the price when selling and buying. If you start
+    shorting at a high price and close your position at a low price, you win the difference.
+    For instance, if you go 100 ETH short at $20 each and you close your position
+    5 days later where ETH is worth $10, you would have won $10 dollars per Ether
+    or a total of 100 ETH × $10 = $1,000 dollars.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Usually shorting is only available on margin accounts. Those are accounts where
+    you can borrow money from brokers with some restrictions.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: There's also the bid and ask, which are equivalent to buy and sell. Now that
+    you better understand a few complicated concepts, you can move on to learn more
+    about the DAX that we are going to build in this chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding the trading and matching engine
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A trading and matching engine is a set of functions that use different types
+    of algorithms to create and close orders. An algorithm could focus on completing
+    the orders with the higher price or those that were executed earlier. It depends
+    on the preferences of the developers. Because we'll work with smart contracts
+    and ERC20 tokens, our engine will focus on completing the orders as quickly as
+    they come, since it will be the users that close the orders, given that the frontend
+    is where most of the logic will be.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We can't process large amounts of information on smart contracts since gas is
+    expensive, so we let the React application take control of the trading to save
+    people's funds.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s start by planning the functions that we''ll need so that we have a solid
+    foundation when we create the contracts and the frontend functions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'That function signature (the function name with parameters but no body) will
+    take care of generating limit orders. Let''s see some examples and check whether
+    the signature of the function checks out:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For example, *I want to sell 7 BTC in exchange for 90 ETH*, execute the following
+    code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, we reversed the order of the symbol to convert that sell order
+    into a buy order where the user is willing to buy `ETH` in exchange for `BTC`.
+    It has the same effect with just one function, instead of creating an exclusive
+    function for selling.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For example, *I want to buy 10 BTC for 20 ETH*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: In this case, we put the symbols in the same order as expected since we are
+    creating a limit order to buy `BTC` while selling `ETH`. Now we can create the
+    signature of the market order function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Market orders are interesting, since we want to immediately fill the order at
+    the cheapest or highest price possible. What happens under the hood is that we're
+    closing a limit order with our market order. Nevertheless, it's often impossible
+    to fill the entire order at the latest market price for the simple reason that
+    the most profitable limit order is buying or selling minimal quantities of a token.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For instance, we want to sell 10 TokenA at the market price for TokenB. The
+    most profitable limit order available says *buy 5 TokenA in exchange for 40 TokenB*.
+    In that case, the price of 1 TokenA would be 8 TokenB and vice versa. So we create
+    the market order and we immediately sell 5 TokenA to buy 40 TokenB from that limit
+    order, but what happens with the remaining 5 TokenA that we want to sell? We go
+    to the next most profitable buy order, which says *buy 100 TokenA for 700 TokenB*.
+    In that case, the price of 1 TokenA would be 7 TokenB, which is less profitable
+    than the last one but still not bad. So we sell 5 TokenA in exchange for 35 TokenB,
+    leaving that limit buy order at *buy 95 tokenA for 665 TokenB* until the next
+    user fills it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'At the end, we got 75 TokenB for 10 TokenA using a combination of market prices
+    at that specific moment that depended on the most profitable limit orders at that
+    time. With that understanding, we can create the signature of our market order
+    function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `_maxPrice` parameter is simply a number that states the lowest price that
+    you're willing to sell, or the highest price that you're willing to buy. By default,
+    it's zero, which is unlimited so you'll get the most profitable price as long
+    as there are sellers or buyers available.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Managing cryptocurrency wallets and cold storage
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: When it comes to storing people's funds, we must pay extra attention to how
+    we do it since we could risk losing millions of dollars using our DAX. That's
+    why the largest exchanges use cold storage with lots of security systems in place.
+    Essentially, they keep funds offline in a remote location stored in secure hardware
+    devices that are customized to their needs such as Trezor, Ledger, or their own.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In our case, we'll store funds in a series of smart contracts, known as **escrows**,
+    whose only goal is to store people's money. There will be an escrow contract associated
+    with each user account to independently secure all of their funds. That escrow
+    contract will have a function to receive funds, only ERC20 tokens, and a function
+    to extract funds executable by the owner of that escrow. Go ahead and create a
+    folder named `decentralized-exchange`, then run the `truffle init` and `npm init
+    -y` commands, and create a contract inside the `contracts/` folder named `Escrow.sol`.
+    The following is how our escrow will look.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'First, it contains the interface for ERC20 tokens since we don''t need the
+    entire implementation to be able to trade with tokens:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then we add the `Escrow` contract, which will be used to manage the funds of
+    each user:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: This `Escrow` contract receives token transfers to keep the funds safely inside.
+    Each user will have a unique escrow contract to decentralize the location of funds
+    so that attackers can't focus on a single place. You can manage the token funds
+    inside with the `transferTokens()` function and you can check the balance of tokens
+    inside the contract with the `checkTokenBalance()` function, which is a simplified
+    `.balanceOf()` ERC20 helper function. Finally, I've added an empty non-payable
+    fallback function to avoid receiving Ether since we only want tokens inside.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We'll use this `Escrow` contract to manage people's funds later on, since we
+    want a secure place to keep their precious tokens. Ideally, we would create a
+    system that uses cold storage in hardware devices, but such an action would require
+    a complex system that takes care of securely managing every step of the way to
+    prevent middlemen attacks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building the user interface
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The user interface for DAXs is the same as the ones used for traditional exchanges,
+    such as the stock exchange, or centralized crypto-exchanges, such as **Binance**.
+    The idea is to provide a data-driven design where they can quickly understand
+    the situation of the selected token pairs. A central section will be used for
+    the data, a sidebar will be used for the actions that users may take, and an additional
+    sidebar to the right will be used for secondary data; in our case, it will be
+    used for past trades.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As usual, create a `src` and `dist` folder that will include our project. You
+    can just copy the setup from previous projects by taking a look at my own version
+    on [github.com/merlox/dapp](http://github.com/merlox/dapp). Our design will be
+    based on most exchanges since they have a studied formula that feels great. Create
+    the sidebar with a new component inside your `index.js` file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'First, add the `Main` component along with the required imports for a normal
+    React application:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then add the `Sidebar` component with some basic actions that the user can
+    take, such as a money-management section to add or withdraw money, and a section
+    to create buy or sell orders:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The classes and elements that you add are completely up to you. Personally,
+    I like to show users the currency pair they are trading, their balance for each
+    one, and a set of actions such as buy, sell, deposit, and withdraw. Then we can
+    add some `css`. In this project, we''ll be using a `css` preprocessor known as
+    `stylus` ([stylus-lang.com](http://stylus-lang.com)), which allows you to write
+    `css` without brackets and nested classes, among many other nice features. You
+    can install it as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then add it to your `webpack` configuration file as a new rules block:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create a new `index.styl` file inside your source folder and add your Stylus
+    code. If you want to create the same design as me, check the stylus code on the
+    official GitHub here: [https://github.com/merlox/decentralized-exchange/blob/master/src/index.styl](https://github.com/merlox/decentralized-exchange/blob/master/src/index.styl).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This generates a nice-looking sidebar for our DAX. Remember to bundle your
+    files with `webpack -w -d`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0c8388d6-1c5b-42cf-94c9-93968fa57683.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: As you can see, Stylus allows you to write clean, nestable `css` to organize
+    big chunks of styling easily so that your projects are easier to maintain. At
+    the end, the code gets converted into valid `css` that runs on all browsers since
+    Stylus compiles each file properly. Then we can add a trades section where we'll
+    show the trades taking place in our exchange for all pairs, so that people understand
+    the overall price of their coins.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'First, add new state trades to the state object with fake data to the `Main`
+    component so that we can see how the dApp will look once completed in its final
+    design:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'After that, update the `render()` function with the new state objects by passing
+    the props to the `Trades` and `History` components:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create the new `Trades` component so that it displays the trades that we just
+    added:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'As you can see, we''ve added lots of sample trades and history trades since
+    we''ll need them to understand how our exchange looks in a real environment; note
+    how we updated the `Main` component to pass the state data to each component.
+    Then we can add some Stylus to make it look good. Check the final Stylus code
+    on the official GitHub here: [https://github.com/merlox/decentralized-exchange/blob/master/src/index.styl](https://github.com/merlox/decentralized-exchange/blob/master/src/index.styl.).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To get a great-looking design. Notice that I''ve included 15 trade objects
+    and 15 history trade objects in the state of the `Main` component so that we can
+    see how the dApp looks when fully loaded:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/31ff1751-fdc3-48c3-8fc1-aa1f88b065c1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The trade at the top of each BUY and SELL section is the market price for that
+    cryptocurrency pair, since market orders are always the most profitable trade
+    at that particular moment. Those trades will update in real-time as people trade
+    different currencies over time. It''s a fantastic way to understand price movements.
+    Finally, we can add the `History` section, which will show the most recent trades:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Remember to add the `render()` function from the `react-dom` package to render
+    your components. Then we can add some more `css`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now if you run `webpack` and an `http-server`, you''ll see our finished product.
+    It''s not responsive for mobile devices since our goal is to create an exchange
+    to be used in desktop computers and it''s quite a time-consuming task to verify
+    every breakpoint to accommodate it to the different dimensions for phones and
+    tablets:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ba5184f6-415d-49c9-bd5c-4fa2fc4fdf98.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This will be our basic design. You can freely add more currency pairs with ERC20
+    tokens, graphs with D3.js, and even state channels! The great thing about the
+    project shown in this book is that you can build upon the existing structure to
+    create a truly high-quality product that you can use for an ICO or to grow the
+    ecosystem of dApps with your own solution. Let's move on to build the smart contracts
+    needed to create trades and use the DAX with MetaMask.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building the Ethereum backend
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The backend for our project will take care of generating trades that can be
+    filled by anyone as long as they have enough funds to pay the established price.
+    When the user gets registered, they'll deploy an Escrow contract which will be
+    used by our main DAX contract. So let's start by setting up the requirements and
+    the contract structure before starting to fill all the functions to practice the
+    system to improve, developer's efficiency that we studied in [Chapter 4](2b43135a-08f4-46d3-8c2a-5dd70bb02843.xhtml),
+    *Mastering Smart Contracts*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Start by defining the functions that we''ll need in a big comment at the beginning
+    of the file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Set up the Solidity version used, import the `Escrow` contract, and define
+    the token interface:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create the `DAX` contract by first defining the `Order` struct that we''ll
+    use for creating new orders:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then define the many variables needed to manage sell and buy orders, while
+    also whitelisting tokens:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create the mappings required for add and manage the token symbols and to find
+    the orders by the given IDs:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, add the `onlyOwner` modifier, the fallback function which reverts, and
+    the constructor:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Define the whitelisting token function with the complete NatSpec documentation
+    and the function signature. I''ve highlighted the function so that you can clearly
+    differentiate the function from the comments:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To manage tokens, create the following two functions with the documentation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add the market and limit the order functions with the parameters required for
+    them to work properly, since these will be the main functions used to create orders
+    and to interact with the DAX:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, add the `view` functions that you''ll use as helpers and getters for
+    important variables that your interface may need. Try to add them yourself. Then
+    check the solution:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: First, we set up an `event` to log token transfers so that people can see when
+    a token is sold or purchased. We could add more events but I'll leave it up to
+    you to discover which events you need. Then we added a ton of necessary variables,
+    starting with an `enum` that defines whether an order is open or closed. We added
+    a `struct` for each property of each order to clearly define which token is being
+    dealt.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Then we added three arrays to store existing orders, while also having a few
+    variables to whitelist new tokens so that we can trade with a wider set of cryptocurrencies.
+    After that, we added multiple mappings to find each specific order easily while
+    optimizing gas costs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We added an `onlyOwner` modifier to restrict access to the whitelisting function
+    so that it doesn't get too crazy when it comes to adding cryptocurrencies. We
+    added a fallback function that doesn't allow ETH transfers so that people don't
+    send funds to this exchange, as well as a constructor that defines DAX's owner.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Then we added the `whitelistToken()` function, which takes a token address,
+    and an array of symbols to create pairs with that main token; that way, you're
+    able to trade with a large quantity of pairs at once. The `depositTokens()` function
+    is used by users that want to increase their token balance. They can directly
+    transfer the tokens they want to trade to their associated Escrow contract, but
+    users first have to create a new Escrow, which can only be done through this function.
+    Then the `Escrow` address will be associated with that account in the `escrowByUserAddress`
+    mapping. This deposit function also requires that the user previously uses the
+    `approve()` function to allow the DAX contract to transfer tokens to the Escrow
+    contract; otherwise, it will fail.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Next, the `extractTokens()` function is used to move tokens from the Escrow
+    to the user's address. It's a shortcut to the `transferTokens()` function inside
+    the `Escrow` contract to facilitate token management. After that, we have the
+    complex market and limit order functions. Both are big functions because they
+    have to sort, update, and find orders to match existing ones while working within
+    the limitations of the blockchain regarding gas usage. We'll soon see how they
+    are implemented in depth. Finally, we have some helper functions to sort orders,
+    check whether a given pair of token exists, and to retrieve an array of token
+    pairs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s go ahead and implement some of those functions. Remember to start with
+    the simplest ones, and progress to the more complex ones, so that you have a solid
+    structure behind them. Here is how the `whitelisting` function should look:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: The whitelisting function makes some require checks, then whitelists each of
+    the given token pairs so that you can trade with them independently. For instance,
+    if your main token symbol is BAT and your array of `_tokenPairSymbols` contains
+    `['TOK', 'TIK']`, you'll be able to trade with BAT - TOK and BAT - TIK. Simple
+    stuff. The function should not run out of gas as long as you keep a low number
+    of token pairs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following are the next functions for managing token funds:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: The deposit function checks whether the user has an `Escrow` contract associated
+    with their address. If not, the function creates a new `Escrow`, then transfers
+    the deposit of tokens that the user requested as long as they previously approved
+    some in the appropriate ERC20 contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The extract function is simply running the `transferTokens()` function to the
+    owner's address, as long as they have some previous balance inside. Otherwise
+    it will revert.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's move on to the limit order function. Because this is a larger function,
+    we'll break it down into smaller parts so that you understand how each section
+    operates.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'First, we have an updated document based on changes that come across as you
+    create the function. It''s never too late to improve the documentation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then we run the many `require()` checks to be sure that the user is executing
+    the limit order function properly:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'After that, execute the `buy` functionality if the user is creating a buy limit
+    order:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Otherwise, change the array where the order will get added while also sorting
+    the orders once added:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'That''s the entire limit order function broken down into comprehensible pieces
+    to explain the logic behind every statement. You saw that we used the `sortIdsByPrices`
+    function because we need to sort the orders arrays. The following is how the sort
+    function looks once completed. Notice that the function is a `view` type, which
+    means that it won''t cost any gas to run all of the calculations, because they
+    will be done locally so the sorted array can be limitless:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: Pay attention to the `sortIdsByPrice()` function. It reads the respective state
+    variables that contain the order structs, and then organizes the orders in ascending
+    order if those are buy limit orders, or descending, if they are sell limit orders.
+    We need it for the limit order function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `limitOrder()` function starts by checking that the parameters are valid
+    and that the tokens can be traded. Depending on the type of order requested, it
+    will push a new `Order` struct instance to the `sellOrders()` or `buyOrders()`
+    arrays while sorting those arrays to push this new limit order to the right location.
+    Remember, the idea is to have a sorted array of orders so that we can find the
+    most profitable ones quickly; that's why we have the sort function. Finally, it
+    updates the arrays of orders and the mapping of order indexes, so that we can
+    later find where each `Order` instance is located in those arrays.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, we can take a look at the massive `marketOrder` function implementation;
+    this is my own way of doing it, I recommend you try to recreate a market order
+    function from scratch, considering all the gas restrictions and limitations. It''s
+    not perfect but it clearly displays how a DAX exchange works. Here''s the function
+    breakdown for your understanding. First, update the documentation of the function
+    to be sure that it explains what''s executed inside:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then add the `require()` function checks to verify that the given tokens are
+    valid and that the quantities are correct:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Just like with the limit order function, we execute the buying or selling functionality
+    depending on the state of the existing orders:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'It never hurts to add some additional comments when developing such complex
+    logic. Here, I''ve added some clarifications to remind myself of how this function
+    should work on a more technical level:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE35]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now that we''ve generated an array of orders to fill and the quantities required
+    per order, we can start filling each of those orders with another loop:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE36]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We have to break it down by type to see whether the order is actually a buy
+    or sell order, to guarantee that we are fulfilling the right order with the right
+    quantities:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE37]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If it''s a sell order, we change the arrays used, but the logic is the same:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE38]'
+  prefs: []
+  type: TYPE_PRE
+- en: At first glance, you can see that we have no less than three `for` loops, which
+    is extremely unoptimized since it won't be able to handle more than a few orders
+    at a time, but it's one of the few solutions for a DAX that doesn't require a
+    centralized server.
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, we do the required checks to verify that the user is creating a valid
+    market order with the appropriate `approve()` to what they want to buy or sell
+    so that the contract can purchase the tokens freely. Then, we start looping through
+    all of our sorted order arrays to fill the most profitable ones first, while keeping
+    track of how many tokens will be filled for each order. Once we have a list of
+    orders to fill with the quantities, we can move on to filling each one of those.
+    How do we do it?
+  prefs: []
+  type: TYPE_NORMAL
+- en: We update the state of each order so that we mark the quantities as zero or
+    a reduced amount while also using `enum OrderState.CLOSED` for those that are
+    filled completely. We then transfer the right quantity of tokens to each user.
+    That's where the mapping of `buyOrderIndexById[]` is especially useful since we
+    want to update a specific order without altering the order of the entire array,
+    thus saving gas and processing costs. Finally, we emit some events to indicate
+    that we made some token transfers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: That should be it! The following is the entire contract so that you can see
+    how it all ties together. It is available on the official GitHub at [https://github.com/merlox/decentralized-exchange/blob/master/contracts/DAX.sol](https://github.com/merlox/decentralized-exchange/blob/master/contracts/DAX.sol).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It''s quite a big contract, so I recommend you write some tests for it to verify
+    that it''s working. You can check and run the tests I''ve written by cloning my
+    GitHub with all the code here: [https://github.com/merlox/decentralized-exchange](https://github.com/merlox/decentralized-exchange).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finishing the dApp
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now that we have a working smart contract with our desired logic, we can implement
+    the dApp using Truffle and web3.js in a simple React application. Start by importing
+    the required components inside your `index.js` file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE39]'
+  prefs: []
+  type: TYPE_PRE
+- en: We'll use only two tokens in this prototype for you to learn how to create the
+    application since a fully-featured DAX is outside the scope of this book. The
+    goal is to show you the path so you can create a more advanced DAX if you desire.
+    We start by importing our required ABIs for creating the token instances and the
+    token addresses. Those are the tokens we'll use.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Start by updating the state object in the `Main` component with the new required
+    variables that we''ll use to interact with the smart contract. Notice how we removed
+    the trades and history arrays because we''ll get that data from the contract instead:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE40]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add the `bytes32()` helper function, which generates a valid hexadecimal string
+    required for web3.js:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE41]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then create the `setup()` to initialize the web3.js instance while also getting
+    the user''s consent to use their MetaMask account credentials:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE42]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Because the contract setup in the react application is more complicated, we
+    have to create a separate function for maintainability:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE43]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'After setting up the web3 and contract instances, we can start getting orders
+    from the smart contract to populate our user interface with orders. First, we
+    get the length of the arrays used to be able to loop through all the orders. That''s
+    the only way to securely take into account all the elements contained in the arrays:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE44]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then we start looping over the buy orders array by calling the smart contract
+    with each component independently:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE45]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We do the same thing with the sell orders array:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE46]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Again, we do the same thing with the closed orders array. We need this one
+    to display past historical trades that can help people understand what happened
+    before they joined the fun:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE47]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, create a function named `setPairs()`, which will be used in the future
+    to add new token pairs to the platform. Because we don''t want to overcomplicate
+    this initial DAX that we''re creating, we''ll limit ourselves to just one token
+    pair composed of two imaginary tokens, named `WAT` and `BAT`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE48]'
+  prefs: []
+  type: TYPE_PRE
+- en: We start by setting up the constructor with the essential variables required
+    for the entire application. Then a `setup()` function takes care of getting all
+    the initial information. The `bytes32()` function is used to convert normal strings
+    to hexadecimal since the new version of web3 forces us to send hexadecimal strings
+    instead of plain texts to identify the `bytes32` variables. Personally, I prefer
+    to write the `bytes32` variables as strings, but `web3` is their framework so
+    we have to follow its programming style. We continue by setting up the contract
+    instances with the `setContractInstances()` function that starts our contract
+    from the given addresses and ABIs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Then we set up the orders with the `setOrders()` function. This one looks scarier
+    since it contains a lot more code, but the idea is to simply get each order from
+    the smart contract and store them in organized arrays inside the react state variables.
+    Finally, we set up the token pairs with `setPairs()`, which updates the state
+    with our tokens.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now we need to implement the remaining functions in the smart contract. Here
+    is how the whitelist function looks in the React dApp:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE49]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then we implement the deposit tokens function which will increase the available
+    balance that the user adds to the platform for trading the tokens. I''ve added
+    plenty of comments for you to understand what''s going on:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE50]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The withdraw tokens function is quite simple and will be used for both tokens:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE51]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, we have to implement the limit and market orders functions which,
+    ironically, are the smallest ones, since we only have to pass the required information
+    to the smart contract for it to execute the entire functionality by itself:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE52]'
+  prefs: []
+  type: TYPE_PRE
+- en: The whitelist function is pretty straightforward since we only run the whitelisting
+    function from the smart contract using the main Ethereum address. Remember that
+    this function can only be executed by the owner of the contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The deposit tokens function checks whether you have enough tokens in your Ethereum
+    address, and then it creates two approvals: the first one is to reduce the approval
+    to zero since we can''t increase the approval quantity safely since there are
+    some security risks in that function; the second one is to `approve()` the desired
+    quantity of tokens to deposit for the selected token. Then we run the `depositTokens()`
+    method from our `DAX` contract to move the tokens to the escrow address and create
+    one if the user doesn''t have an escrow yet.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The withdraw function simply runs the `extractTokens()` method from our `DAX`
+    contract to move the tokens from escrow to the user's address because we don't
+    need to check anything there.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Then we move to the `createLimitOrder()` function. Remember how complicated
+    and large it was in the `DAX` contract? Well, in this case, it's just a matter
+    of putting the right parameters in the right places. We'll see later in the `render()`
+    function how we get those parameters. The same thing applies with the `createMarketOrder()`
+    which runs the `marketOrder` method from our `DAX` contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here''s the `render()` function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE53]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The render function generates three components: `Sidebar`, `Orders`, and `History`.
+    Those are the three sections that we created earlier. In this case, we''ve added
+    lots of props to each component to communicate data easily. You can see that the
+    limit order and market order props are simply taking parameters and sending them
+    to the functions of the `Main` component.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s explore my implementation of each of those components; this is my own
+    way of doing it so you can see how a DAX should look. I recommend you create your
+    own version based on what you''ve learned. The following is the `Sidebar` component;
+    we start by creating the updated `constructor()`, `bytes32()`, and `resetInputs()`
+    functions that will be used in the render:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE54]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `render()` function in this case is a bit too large for you to understand
+    it, so we''ll break it down into smaller, digestible pieces. Because we want to
+    give the user more options, we''ve added a deposit and withdraw button for each
+    token to keep it simple:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE55]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'As you can see, those buttons ask the user how many tokens to move with the
+    `prompt()` global JavaScript function, which provides a clear, albeit basic, dynamic
+    input. Then the respective functions get called on the `Main` component by passing
+    them via `props`. Then, we can add the `buy` button functionality to format the
+    required input for the limit or market orders:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE56]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The sell button does the same thing, but with the sell type in the topmost
+    functions to tell the smart contract that we want to sell:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE57]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, we give the user a simple select input to indicate that they want
+    to create a limit order or a market order. If they select a limit order, an additional
+    input will be displayed to indicate the sell or buy price:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE58]'
+  prefs: []
+  type: TYPE_PRE
+- en: As before, we have a constructor, a `bytes32` function, and a `render()` function.
+    The `resetInputs()` function takes care of cleaning the input fields so that you
+    reset their values after buying or selling. The most complex part is the render,
+    which creates our design. The main logic can be found in the buttons. We have
+    four buttons in the money management section to deposit BAT or WAT and withdraw
+    BAT or WAT. There is a simple system for managing how many tokens you have in
+    your escrow. Then, there are a couple of main buttons to buy or sell. Each of
+    those buttons runs the `createLimitOrder` or `createMarketOrder` methods, depending
+    on whether you have selected the limit order drop-down or the other. When you
+    click the buttons, the component reads the values stored in the input to transmit
+    them to the right functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Take a closer look at the logic behind the buttons to understand how they decide
+    which function to call and how they move that information to the `Main` component.
+    Let''s move on to the `Orders` component, previously named `Trades`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE59]'
+  prefs: []
+  type: TYPE_PRE
+- en: We only have a render and constructor to generate our desired design from the
+    buy or sell orders objects given from the `Main` component. There isn't much to
+    say about it, apart from the fact that it creates a clean interface for endless
+    orders.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, here''s the last `History` component:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE60]'
+  prefs: []
+  type: TYPE_PRE
+- en: It's almost identical to the `Orders` component, but with a different styling.
+    Remember to run the `ReactDOM.render()` function to display your dApp.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'That''s about it! Now you should have a working DAX that you can use and build
+    upon to create a stronger exchange for hundreds or even thousands of tokens, since
+    you understand how it works from the inside out. This is probably the most direct
+    way to start your own exchange. Here''s how it looks after some trades:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/8cc7387d-dcc8-41d5-99fe-5f3919182a81.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, you learned how to build a DAX from scratch, going from the
+    idea of how exchanges work, to the user interface using react and truffle, to
+    creating the required smart contracts so that you saw for yourself how a fully-decentralized
+    system works, to finally combining it all together in a beautiful dApp that communicates
+    with your deployed contracts and tokens. You learned about the differences between
+    traditional, centralized cryptocurrency exchanges and fully-featured DAXs, so
+    that you can choose the best type for your requirements.
+  prefs: []
+  type: TYPE_NORMAL
+- en: After that short introduction, you got into the technical aspects of the DAX
+    by understanding how we implement the trading and matching engine via a set of
+    smart contracts. Finally, you developed a clean interface without graphs to keep
+    it simple, and you integrated all the complex smart contract logic via manageable
+    components.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we'll explore Machine Learning on the blockchain, a topic
+    that you may have heard about, since it combines the two most popular technologies
+    regarding the future of money and computing by building a dApp that allows us
+    to make predictions with a trained model using Linear Regression algorithms in
+    a smart contract.
+  prefs: []
+  type: TYPE_NORMAL

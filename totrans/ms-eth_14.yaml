@@ -1,0 +1,1247 @@
+- en: Creating a Blockchain-based Social Media Platform
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Mastering Ethereum development starts with a lot of theory and technicality,
+    but, at some point you'll have to take the leap in order to start applying your
+    recently-acquired knowledge on real-world scenarios that build your portfolio.
+    That's why we're going to create a blockchain-based social media platform, since
+    it's one of the best use cases of blockchain technology, given that we provide
+    people with trust. Unfortunately, many centralized social media companies are
+    abusing that trust by stealing and monetizing users' privacy. Social media platforms
+    such as Twitter or Facebook are famous because they give people the power to stay
+    in touch with many individuals in one single interface that takes advantage of
+    the internet's capabilities.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This chapter will take you through the challenge of creating a dynamic social
+    media platform that lives entirely on the blockchain without centralized servers.
+    You will understand how to create a beautiful user interface with React. Then
+    you'll explore how to organize the information better so that you allow people
+    to find the content that they want using smart contracts. Finally, you'll tie
+    everything together using web3 and you'll be able to use your social media platform.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we''re going to cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding decentralized social media
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Creating the user interface
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building the smart contract
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Finishing the dApp
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding decentralized social media
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'When it comes to Ethereum-based social media dApps, we help people solve many
+    problems that current centralized companies can''t solve efficiently yet. We can
+    help with the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Preserving users' privacy on a decentralized blockchain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Guaranteeing total freedom by not allowing censorship from external, centralized
+    entities since information on the blockchain is permanent
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: An unchanging, fixed storage system that will be accessible decades after the
+    content was created
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'However, when we think of building a decentralized social media platform, we
+    lose a few of the following important aspects that are essential to modern applications:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Speed**: Users won''t be able to use the dApp as fast as normal centralized
+    applications for depending on a huge, slow network of interconnected computers.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Storage limitations**: Ethereum''s space is limited so every byte is costly,
+    resulting in a huge limitation on what you can store on the blockchain, so we''ll
+    have to find ways to overcome these natural limitations while preserving as much
+    decentralization as possible.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Gas costs**: Normal centralized applications don''t have to face gas fees
+    for each action taken on their system because they understand that all those costs
+    are paid in a centralized server. In the blockchain, every transaction has a cost
+    that could be significant. We''ll solve this by using testnets, where gas has
+    no value until the final application is created.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Another big problem is that we can't store images and videos on the blockchain;
+    we'll have to rely on decentralized storage solutions, such as IPFS, if we wish
+    to preserve the decentralization from the main system; however it isn't mandatory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The initial concept
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Our goal is to create an effective social media platform that overcomes or completely
+    avoids the limitations of the blockchain. To simplify the complexity of our dApp,
+    we will build an application similar to Twitter in the sense that users only share
+    text messages without the option to share images or video.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Since we are developers, we''ll create a Twitter for programmers, designers,
+    developers, and all kinds of technology-related fields where people can feel welcome
+    in a community of shared interests. We want it to have the following functionalities:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The capacity to share strings of text limited only by smart contract's capacity
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The capacity to add hashtags to each piece of content
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A function to be able to view hashtags that people have included in their content
+    by clicking on a hashtag
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A function to subscribe to hashtags
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We don't want people to follow others, we'll simply give them the capacity to
+    follow hashtags so that they focus on the content rather than the messenger. Let's
+    start working on the user interface that will become our social media dApp for
+    tech enthusiasts to focus on content via hashtags, rather than specific users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating the user interface
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The user interface for this particular project will be focused around content
+    and hashtags since hashtags are the way users will discover new trending content.
+    Users will be able to subscribe to particular hashtags to receive content from
+    those topics on their feed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As usual, we start by setting up a new project with Truffle. Follow these steps
+    to set up your project:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Clone the startup repository ([https://github.com/merlox/dapp](https://github.com/merlox/dapp))
+    which includes the initial configuration to work on your React dApp:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Rename the repository to `social-media-dapp` to organize the content:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create a new empty GitHub repository by going to GitHub (without a license
+    or `.gitignore` since they are already included in your project) and use the following
+    command to update the pull/push URL:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: Push the first commit. Install the dependencies with `npm i` and run `webpack`
+    with `webpack -wd`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Open up your application by running a static server with `http-server dist/`
+    and going to `http://localhost: 8080` to see whether everything was set up properly.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Now you can start creating your user interface. You already know how to do it,
+    so why not go ahead and create your own before seeing mine? You'll be amazed at
+    what you're capable of doing by yourself at this point, so I encourage you to
+    experiment to build your own systems. The idea is that we build this dApp together
+    by guiding you through the steps until you have a high-quality dApp that you can
+    use to build your resume or develop further for an ICO, or as open source software
+    for the betterment of humanity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuring the webpack style
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'At the end, you''ll have to have two sections: one with the most popular hashtags,
+    which will come from a mapping in our smart contract, and one where you can read
+    more about each specific hashtag while being able to publish content. You may
+    want to set up the style loader to be able to use css on your dApp, which is not
+    set up on the default dApp that you just cloned. To do so, install the following
+    dependencies after stopping webpack:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now that you installed the required libraries to be able to use CSS files inside
+    your project, you can update your webpack configuration file by adding a new loader
+    inside the `loaders` block for the `css` files. Pay attention to the fact that
+    we''re using both loaders – `style-loader` goes first. Otherwise, it won''t work:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: Setting up the initial structure
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Open the `index.js` file and start creating your user interface. First, I start
+    with the constructor by creating some necessary variables that we''ll use later
+    on:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Set up the required imports for any React project plus the `css` file that
+    we can now import thanks to the style and css loaders:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Set up the constructor with some dummy data to see how the final application
+    will look once we populate it with variables from the smart contract:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create the `render()` function with the `ReactDOM` render:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, the state of our application contains the `content` object with
+    an Ethereum address as the author of that piece, the message, the hashtags, and
+    the time. We may later change that, but for now it's good enough. We also added
+    two arrays, which contain the top hashtags and the followed tags for this particular
+    user. Those display subscribe variables are a necessary evil to display a subscribe
+    button every time a user hovers a hashtag so that they have the choice to subscribe
+    to improve interactivity of the dApp.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Rendering hashtags
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We can now create the render function with all the logic, but be warned: it''s
+    a bit complex given that we are displaying all the arrays from the state, so be
+    patient and see the code in chunks to understand it. Follow these steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create a new function to generate the hashtag''s HTML, because we want to add
+    variable logic to the buttons to be sure that the `hashtag` text reacts to the
+    user displaying the subscribe or unsubscribe button. Remember that we want users
+    to be able to follow hashtags; that''s why we need subscribe and unsubscribe buttons:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Update the `render()` function to generate the content and hashtag blocks because
+    we need a simple way of creating the content to be displayed; all the logic will
+    be executed in the `render()` function:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add the hashtag blocks, whose only job is to create the JSX objects that will
+    be displayed to the user, with the `generateHashtags()` function that we just
+    used:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'At the end of the `render()` function, add the `return` block with the block
+    variables that we just set up:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: We added a function named `generateHashtags` since we have to add the same logic
+    to display the subscribe button in many places, so it made sense to craft a function
+    that does precisely that when needed without duplicating these long blocks of
+    code. Then, in the `render()` function, you can see that we are using that function
+    to generate the hashtag logic in the many places where hashtags will be used.
+    Before the return, we have three variables that are simply generating JSX components
+    dynamically with our state data. Finally, the `render()` function is displaying
+    those blocks nicely.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Improving the appearance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'I''ve also imported the `index.css` file, which includes grid components for
+    displaying our application in the best way possible, with a clean structure that
+    is easy to maintain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Add the general styling to the main components of your application, such as
+    the body and buttons, to make them look better:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add the general hidden and spacer styles to hide elements and to create a dynamic
+    spacer:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add the container''s styles to position them with the grid system that is now
+    accepted on all major browsers:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Format the input and text areas to create a better-looking design that is easy
+    to use:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Provide a great-looking design for all the elements for the content block,
+    which is similar to a tweet in Twitter:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Format those hashtags to position them in the right places while also increasing
+    their size:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can copy and paste that css if you want to achieve the same look. Here''s
+    the appearance of the dApp right now:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/75137204-3f49-4c9f-8b63-407e6950bda0.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: You can check the completed code on GitHub at [https://github.com/merlox/social-media-dapp/tree/master/src](https://github.com/merlox/social-media-dapp/tree/master/src).
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: I tried to emulate a simple sort of cartoon design to make it more interesting
+    to visualize, while keeping a clear interface that people can read easily without
+    confusion. Pay attention to the user interfaces that you create because they are
+    a major component of every dApp. A dApp that looks professional will draw more
+    attention. More attention usually transforms into more revenue as you are capable
+    of directing people's attention to the right places at the right moments.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building the smart contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The smart contract that we are going to build will serve as the backend for
+    our decentralized application by storing all the messages, hashtags, and users.
+    In our application, we want to keep users anonymous; that's why they are represented
+    as addresses instead of usernames – to direct people's attention to what's being
+    talked about, not to who is delivering the message.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As you already know, we'll create a hashtag-focused social media platform without
+    images or video. That's why all of our data will be stored in a combination of
+    mappings and arrays.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Planning the design process
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Before getting straight to the code, I want you to understand the process that
+    we''ll follow to optimize the entire process, avoid confusion, and save time by
+    avoiding bugs with a clear head about what needs to be done. The process looks
+    like so:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Create a smart contract file and write in the comments a description of the
+    purpose of the contract, such as how the functions will work and who will use
+    it. Be as concise as possible since it will help you and the maintainers understand
+    what it is all about.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Start creating variables and function signatures, that is, functions without
+    body, just the name and parameters. Document each function using the NatSpec format
+    for additional clarifications.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Start implementing each function independently until all of them are done. You
+    can add more if you need to.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Manually test the contract by copy-pasting it to remix or any other IDE to quickly
+    find problems and run all the functions in a virtual EVM where you don't have
+    to pay any gas or wait for confirmations. Ideally, you'd write Truffle tests to
+    verify that everything is working, but sometimes it can be skipped to save time.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Here''s a graphic of the process so you can keep it in mind:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d46217b7-b58c-45b8-ba74-6131798e3d3b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This type of process is the one I follow for maximizing my productivity without
+    going crazy with specs. If you start coding immediately on a solution, you risk
+    getting stuck in a place where you have to remake the entire code base while creating
+    unneeded bugs in the process. That's why planning is so important. Besides, it
+    will make your life much easier knowing exactly what to do, and when.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now we can start creating our smart contract by describing the idea behind
+    it. Create a file named `SocialMusic.sol` inside your `contracts/` folder and
+    write a description of what should be in the final version of that contract at
+    the top of the file in comments. Try to do it yourself before looking at my own
+    solution since the only way to learn is to practice by yourself:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Whether you realize it or not, you''ve clarified your mind a whole lot by writing
+    the description. Now you can start creating the functions and variables. Given
+    that you have a user interface already in place, you''ll want to break that interface
+    into blocks and create the functions that will provide the data shown in those
+    blocks; for instance, take a look at the following block of your application:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/04337a64-1a6c-4d78-beb8-c844baacfce8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: You can obviously see the top hashtags with some random hashtags. You must ask
+    yourself when looking at the interface, what do I need to implement in my smart
+    contract to make that possible? Well, it seems obvious, but often it is not that
+    easy. In this case, you have to create a function to retrieve the top hashtags.
+    That function will get the data from a sorted array or mappings to send it to
+    the user, maybe a parameter to determine how many top hashtags to retrieve at
+    any moment so that you can experiment with different quantities. To create that
+    function, you'll have to implement some kind of sorting mechanism, probably a
+    view or pure function that doesn't consume gas to process. On the other hand,
+    how do you determine the order of those hashtags? Probably a score system that
+    increases the value of each hashtag, depending on the use.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You see, from a small obvious piece of our entire application, you came to
+    the realization that you need the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: An array or mapping with the top tags that need to be sorted.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A function to retrieve those hashtags with an optional parameter to determine
+    how many so that you can experiment with them.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A function to sort existing hashtags in a way that makes sense considering the
+    limitations of the blockchain. It must be a pure or view function to avoid excessive
+    gas costs.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A system to give a score for each hashtag so that we can order them depending
+    on their popularity.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You have to do the same analytical process for each component of your application.
+    No matter how obvious it may seem, try to describe those pieces in your mind so
+    that you visualize what's needed and what's possible beforehand to save yourself
+    hours of frustration and buggy code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting up the data structures
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'After doing the required planning, feel free to write the function signatures
+    for all of the needed parts by performing the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Define the variables that you''ll use later on with structs and events first:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add the mappings, arrays, and remaining state variables:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Define the function signatures:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: Are you surprised by the number of functions and variables that we came up with
+    in a moment? You probably didn't consider functions such as `checkExistingSubscription`
+    or `getContentIdsByHashtag` during that process. I'll be honest, I didn't know
+    that those functions were needed before writing the contract; it's just after
+    creating the entire code that they became necessary. It's okay if you don't come
+    up with all the required variables and functions before creating the code. They
+    will surface at the right moment as you develop. You don't have to write all the
+    functions and plan every single function and variable beforehand; that would be
+    insane. So be patient, and know that, after implementing your initial functions,
+    you may need to add a few additional ones to have the desired functionality.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Documenting the future functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Those function are not clear enough yet, so why don''t you write the NatSpec
+    documentation about each one of them? It''s a tedious process but you''ll thank
+    yourself for it since it will remind you of what you''re doing while coding. Here
+    is my version with the included documentation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Start with the add content, subscribe, and unsubscribe functions:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The getter functions for the top and followed hashtags. We need these functions
+    to display them on the sidebar of the user interface:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The getter functions by ID. We need them to return the struct variables broken
+    down into individual pieces:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The helper functions to sort hashtags and check existing subscriptions. These
+    will be used when a user subscribes to update the score of the entire hashtags
+    by ordering them, depending on the score:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: The NatSpec documentation describes all of your functions with a basic description,
+    the parameters, and the return values for other coders to see, so that they can
+    maintain your code. They also help you understand what's going on when the code
+    base grows.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Next, we must implement all the functions one by one until all of them are completed.
+    This is the most time-extensive process since some parts are harder than others,
+    considering the limitations of Solidity. Try to stay positive while doing it.
+    You'll finish it earlier than you expect if you set up a one- or two-hour timer
+    where you can't get distracted before completing it. That's the famous **Pomodoro**
+    technique to maximize productivity, and I suggest you to use it to get more stuff
+    done in less time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Implementing the adding content function
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The adding content function is the most complex in the dApp that we''re building
+    because we need to complete the following tasks:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Check whether the content given by the user is valid
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Add new content to the right state variables
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Increase the score of the hashtags included in the content piece
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Dynamically store contents in a `general` hashtag that people can use to find
+    random content without sorting
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Add the user to the array of users if they're a new customer
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Because of the many functions that we must implement, the function will inevitably
+    be complex. That''s why it is important to take your time to get it right, since
+    we could easily create gas traps that consume all the available gas. Before seeing
+    my solution, go to your computer to implement them as best as possible on your
+    own by performing the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Add the `require()` checks to be sure that the content is valid:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Depending on whether the user added a hashtag, we''ll execute the corresponding
+    functionality to sort and increase the value of those hashtags:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Sort the arrays by score using the function described earlier and we create
+    the user while emitting the right events:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here''s a breakdown of what I did in that function step by step:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: I checked that the `_content` variable that contains the message is not empty,
+    by converting it to bytes and checking the length of it. It's one of the ways
+    that you can check whether a string is empty since you can't get the length of
+    a string type.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: I created the `Content` struct instance with the required parameters and worked
+    on populating the mappings that use that struct, so that we can find that piece
+    of content later.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The user is free to not specify any tags, in which case the content will be
+    added to the `#general` hashtag to organize it in some way for those that want
+    to get general information from the application. Remember that we interact via
+    hashtags mainly, so it's imperative to organize each message into one.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: If the user specified a few hashtags, we add the content to all of those while
+    also creating new hashtags that people can follow. For now, we don't have any
+    limits on how many hashtags people can use, since we are experimenting with how
+    the application will work. We can focus on those details later, if we decide to
+    set up such limitations.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Add the user to the array of users and emit the `ContentAdded` event to notify
+    others about new content.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Creating the promotion engine
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We need a way to tell users which accounts are performing the best by creating
+    a scoring system that increases hashtags' value. That's why we created the `hashtagScore`
+    mapping, as a measurement of the popularity of the hashtags being used. The promotion
+    engine is simply a way of rating hashtags by popularity. So, the score of the
+    hashtag will increase when someone subscribes to that hashtag or adds new content
+    for that hashtag. It will decrease when someone unsubscribes. This will all be
+    invisible, so that users just see the top hashtags.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s continue with the subscribe functions to give people the power to follow
+    particular topics that interest them. To implement the promotion engine, we simply
+    have to update the score of the particular hashtag being used in the subscribe
+    and unsubscribe functions. Again, try to implement it yourself before seeing the
+    solution, to sharpen your skills while learning and gaining experience. The following
+    is the subscribe function, which increases the score of the selected hashtag for
+    that particular user:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then we have the unsubscribe function, which reduces the hashtag value because
+    it''s becoming less relevant:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `subcribeToHashtag` function simply checks whether the user is subscribed
+    already to add that new topic to their list of interests, while also sorting the
+    hashtags since the score of that particular one has been increased. In our smart
+    contract, hashtags are valued by use. The more people that subscribe to them and
+    the more content that gets created for that particular tag, the higher its ranking
+    will be.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `unsubscribeToHashtag` function loops through all the hashtags for that
+    particular user and removes the selected one from their list. This loop shouldn't
+    cause any gas problems since we don't expect people to follow hundreds of thousands
+    of topics. Regardless, the right thing to do is to limit the number of subscribable
+    tags to avoid gas errors. I'll leave that up to you. Finally, we reduce the score
+    of that hashtag and we sort all of them with the changes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Implementing the getter functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Next, let''s see the getter functions that we''ll use to show data to our users.
+    These functions don''t cost any gas because they are reading data from the downloaded
+    and synchronized blockchain, which is always available without depending on an
+    internet connection. Let''s take a look at the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create the `getTopHashtags()` function, which returns a list of names in bytes32
+    format to the user so that they can see which ones are trending. This is the main
+    discovery system for new content:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add the function to get the followed hashtags, which is quite straightforward
+    because it returns the specified list using the `subscribedHashtags[]` mapping:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Implement the `getContentIdsByHashtag()` function. This will be responsible
+    for returning an array of IDs that contain all the pieces of content for a particular
+    hashtag that a user may be subscribed to:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add the simple `getContentById()` function, required to get the struct of IDs
+    broken down into digestible variables, since we can''t return structs yet:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding functions are pretty straightforward . The `getContentIdsByHashtag`
+    function is a bit tricky since we wouldn't normally need it, but, because Solidity
+    doesn't allow us to return arrays of structs or arrays of strings, we have to
+    get the IDs so that to later we can get each piece of content independently with
+    the `getContentById` function, which does return each variable successfully.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here are the two last helper functions that we need to make everything possible:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The `sortHashtagsByScore()` function is used to return a list of tags sorted
+    by the popularity of each one since we''re reading the values of each tag:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[PRE35]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `checkExistingSubscription()` function returns a Boolean for whether a
+    user is subscribed:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[PRE36]'
+  prefs: []
+  type: TYPE_PRE
+- en: The sort function is quite difficult to read because of its apparent complexity.
+    Nevertheless, it's just a couple of `for` loops, a normal one, and a reversed
+    one inside the other which continuously moves the higher-score hashtags, to the
+    top until the best one is in the first position of our `sortedHashtags` array.
+    This will be used to replace the past, unsorted-state `hashtags` array.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `checkExistingSubscription` function loops through all of your subscribed
+    hashtags and returns `true` if the provided one is in your list. This is needed
+    for the subscription functions to keep the arrays clean without duplicating subscriptions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The updated, complete code can be seen on my GitHub at [https://github.com/merlox/social-media-dapp](https://github.com/merlox/social-media-dapp).
+  prefs: []
+  type: TYPE_NORMAL
+- en: What's left now is to test that all of those functions work. Go ahead and paste
+    the code into Remix or any other IDE so that it points you to the errors that
+    must be fixed. Then deploy the contract to the JavaScript VM, which doesn't have
+    any costs, and run those functions one by one. Note, that you'll have to convert
+    the `bytes32` variables to hexadecimal, which you can do with the `web3.toHex()`
+    function in the developer tools of your browser if you have MetaMask installed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ideally, you could write tests in Truffle to automatically check for errors
+    caused by new changes. I'll leave that for you to decide.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The contract is ready to run, the next step is to implement it in your dApp
+    so that the information comes from the decentralized backend that we just created.
+    See how it's done in the following section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finishing the dApp
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Your React.js web application looks great, what's left is to connect the smart
+    contract to the functions in your application so they talk to each other while
+    preserving that decentralization, since anybody is free to use the React application
+    where they want without relying on a centralized server.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The first step in connecting a smart contract with a web application is to install
+    web3.js since it's the bridge between Ethereum and web browsers, although you
+    may not need it as we already have MetaMask. In any case, it's important to have
+    it to select a stable version that won't change for our dApp. Go ahead and run
+    `npm i -S web3` on your project folder.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting up the smart contract instance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The first thing that must be done when implementing a smart contract inside
+    a React application is the contract instance so that we can start calling methods
+    from that contract all over the decentralized application. We''ll use the compiled
+    contract provided by Truffle and the address of it. Let''s perform the following
+    steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Import web3 into your project:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE37]'
+  prefs: []
+  type: TYPE_PRE
+- en: Why do you think I've named the variable `Web3Js` instead of just `Web3`? Because
+    MetaMask injects its own version of web3, which is precisely named `Web3`, so
+    when we develop, we may be used the injected version of web3, instead of the one
+    that we are interested in importing. It's important to use a slightly different
+    name to avoid interfering with the injected web3 by MetaMask.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Set up web3 with the current provider globally so that you can use it with in
+    your entire application without having to worry about scope problems.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Create a function named `setup()` that contains the MetaMask setup logic. This
+    function will be executed in the constructor, right when the page loads:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE38]'
+  prefs: []
+  type: TYPE_PRE
+- en: We created a new setup function because we can't use await on the constructor,
+    given that it's not an asynchronous function. Inside it, we created a global `web3js`
+    variable which is not called `web3` (in lowercase), since MetaMask is already
+    using that variable name and we risk using the wrong version. As you can see,
+    the provider in this case is called `ethereum`, a global variable coming from
+    MetaMask that includes all we need to start using web3; it's a new way of initializing
+    a web3 instance that is compatible with older dApps because of some changes the
+    MetaMask team made regarding security. Then we wait for the `enable()` function
+    to get permission from the user to inject web3 because we don't want to expose
+    user keys without the user's consent. If the user doesn't allow it, we show an
+    error to let them know that we need them to grant permission for this dApp in
+    order to work properly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Set up the smart contract instance. Because we have Truffle installed, we can
+    compile our smart contract to generate the JSON file that contains the ABI, which
+    is required to use the application. Then we can deploy our contract to `ropsten`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE39]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You might get the following message:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE40]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This means that you didn''t set up the Truffle config file properly with the
+    `ropsten` network. Install the wallet provider with `npm i -S truffle-hdwallet-provider`.
+    Then modify `truffle-config.js` with the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE41]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Tell Truffle to deploy your contract by creating a `2_deploy_contract.js` filename
+    inside your `migrations/` folder with the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE42]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, we only have the minimal configuration parameters so keep it
+    clean. Create a `.secret` file in your project folder and paste your Ethereum
+    seed phrase, which you can get by resetting MetaMask or installing it in another
+    browser if you are worried about making your seed public. That seed phrase will
+    be used by Truffle to deploy the contracts, so be sure to have enough `ropsten`
+    Ether in your first account. Then run `truffle deploy --network ropsten --reset`
+    again.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Update your `setup` function with the following to create a contract instance:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE43]'
+  prefs: []
+  type: TYPE_PRE
+- en: We've set up the user account in the app's state to have easy access whenever
+    we need it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Decentralizing your data
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To fully implement the smart contract, we have to take a look at each section
+    of the website to update its contents with data from the smart contract. Let''s
+    go from top-left to bottom-right. In that order, the first thing we have to decentralize
+    is the top hashtags sections, using the `getTopHashtags()` function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE44]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You''ll also have to update your `render()` function for when you don''t have
+    any top hashtags, since you just deployed your smart contract. We''ll get the
+    content from another function named `getContent()`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE45]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'So it looks like this after the changes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a9955266-a836-4781-9b0f-1023b74684a4.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Let''s update the get content function to generate data based on whether the
+    user has any active subscriptions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To get all the content the user will be seeing, we need to get `latestContentId`,
+    which is a number of how many pieces of content are available at that moment,
+    in case the user is not subscribed to any hashtags yet:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE46]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Get the content pieces if the user is following hashtags by looping through
+    all the IDs:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE47]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If the user isn''t subscribed to any hashtags yet, update the `counter` variable
+    to loop inversely so that we get the most recent pieces first:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE48]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Generate `contentsBlock`, which contains all the elements that create a piece
+    of content, which is similar to a tweet or a Facebook post:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE49]'
+  prefs: []
+  type: TYPE_PRE
+- en: This `getContent()` function checks whether the user has any active subscriptions
+    so that it can retrieve up to three pieces of content per hashtag. It will also
+    get up to the 10 most recent articles uploaded to the dApp. It is quite large
+    because it generates data based on the number of hashtags that are available on
+    the smart contract. If you follow 100 hashtags, you'll see 300 new pieces of content
+    since we're getting 3 articles per hashtag in the feed. We're also adding 10 random
+    contents that will be taken from the array of `contents` in the smart contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating the hashtag component
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Each hashtag is a little machine that contains lots of logic to detect whether
+    the user is subscribed. It may seem simple, but remember that we need to get the
+    state of each hashtag for each user, which means that we have to execute a lot
+    of requests that could slow our dApp's performance. Be clean when creating the
+    function so that they run smoothly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We''re using a new component named Hashtag, which is an HTML object that returns
+    an interactive hashtag text that can be clicked to subscribe to it, or unsubscribe.
+    This is the cleanest way of creating such functionality to reduce complexity:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create the constructor with a few state variables to display or hide the hashtag
+    depending on the user''s behavior:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE50]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create the `bytes32()` and `checkExistingSubscription()` functions to check
+    whether the current user is already following this particular hashtag:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE51]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `render()` function is quite large, so we''ll break it down into two main
+    pieces: the functionality to detect whether a user is subscribed and the functionality
+    to display the right buttons:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE52]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Implement the subscribe or unsubscribe buttons that will be shown when the
+    user hovers over the hashtag:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE53]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `render()` function displays the hashtag, which shows a subscribe or unsubscribe
+    button when hovered. The `checkExistingSubscription()` function gets the state
+    of a particular hashtag subscription to display the right type of button for the
+    user that wishes to unsubscribe.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating the hashtag getter
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We can now create a function to get the top hashtags and the followed hashtags
+    from the smart contract when the page loads. We'll do it by retrieving the followed
+    and top hashtags. Those will be shown to the user by looping through all of them
+    until the interface is filled with data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Try to implement it yourself and see the following result once you''re done:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Define the variables needed to create the resulting hashtag JSX:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE54]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Start looping through the hashtag blocks until we fill the list of top hashtags:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE55]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If the user isn''t following any hashtags, we''ll display a message. If they
+    are, we''ll loop through all the followed hashtags to generate the Hashtag component
+    with the required data. Update the state with the new blocks that we just created
+    to display them on the `render()` function:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE56]'
+  prefs: []
+  type: TYPE_PRE
+- en: Creating the publishing functionality
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Publishing new pieces of content is a simple task that requires that we verify
+    that all the inputs contain valid strings of text. Since we are storing hashtags
+    in a bytes32 variable, we need to format the hashtags introduced by the user properly
+    so that the smart contract is able to process them securely.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s make the publish function work so that we can start generating content
+    by performing the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create the `bytes32()` function if you haven''t done so, because we''ll need
+    it soon:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE57]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add the `publishContent()` function to process the message with the hashtags.
+    The hashtags will be given in a string format that contains a list of comma-separated
+    strings without the hash symbol (`#`). Make sure that the hashtags are properly
+    separated and formatted for the contract:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE58]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here''s the explanation for the two functions we just added:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`bytes32()`: This function is used to convert normal strings into hexadecimals
+    valid for Solidity, since the new update forces web3 users to convert data to
+    hexadecimal when dealing with `bytes` types of variables.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`publishContent()`: This function looks a bit messy because we are using regex
+    to convert the hashtag input from the user to a valid array of clear strings per
+    hashtag. It''s doing things such as removing spaces, removing duplicate commas
+    and tag symbols, and then breaking the string into a valid array that can be used
+    in our smart contract.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Remember to update your `setup()` function so that it gets the latest contents
+    when loading:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE59]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'It''s time to focus on creating the subscription functions. They will be executed
+    when the user clicks on subscribe or unsubscribe, depending on the current state.
+    Try to implement them yourself and come back once you''re done to compare your
+    solution with mine. Remember, this is about trying and failing until the code
+    becomes good enough. Here''s my solution:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE60]'
+  prefs: []
+  type: TYPE_PRE
+- en: Both functions are quite simple. They run the appropriate subscribe or unsubscribe
+    functions when the user presses the button next to the hashtag name. Notice how
+    we're using a try catch to avoid breaking the entire application if something
+    fails when calling the contract; that's also because sometimes it has a weird
+    failing system where it stops executing for no reason. Just add try catch blocks
+    when you feel like you need to.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can find the updated version in GitHub at [https://github.com/merlox/social-media-dapp](https://github.com/merlox/social-media-dapp)
+    with the complete implementation code for your reference. That's about it! You
+    now have a new project in your blockchain development resume that you can show
+    to employers, or build upon creating a better decentralized social media platform
+    for raising funds.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: That's about it when it comes to creating a fully-decentralized social media
+    platform for users to publish content freely. In this chapter, you learned about
+    the benefits of creating this type of application on the blockchain versus creating
+    it on a centralized system. Then you created the user interface by setting up
+    everything from scratch with Truffle and React. After that, you developed the
+    smart contract and connected it to the dApp to make it interactive. Overall, you
+    gained a big chunk of experience that you can expand upon to create a different
+    type of social media platform with interesting features, such as following users
+    and adding oracles for interacting with different APIs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we'll explore the build process behind a decentralized
+    e-commerce marketplace on the blockchain, where you'll create a fully-functioning
+    shop for your business.
+  prefs: []
+  type: TYPE_NORMAL

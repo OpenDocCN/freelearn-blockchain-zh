@@ -1,0 +1,1322 @@
+- en: Various dApps Integrations
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter is about improving your existing dApps and smart contracts with
+    new techniques that will make them faster, better, and more efficient. What's
+    interesting is that most dApps can be improved with a few tricks. You'll discover
+    new aspects of dApp development, including creating your own oracles and backends
+    that work with smart contracts. First, you'll start by improving your React skills,
+    and then we'll move to the backend so that you learn how to create better centralized
+    backends for hybrid dApps that require intensive resources to work properly. After
+    that, we'll go back to the frontend to learn how to build stronger dApps with
+    web3.js. To cover all the areas related to your dApps, you'll build oracles with
+    your recently acquired knowledge about servers, which are the main components
+    to take into consideration when dealing with oracles. Finally, to come full circle
+    with the improvements, you'll learn how to improve your development workflow to
+    produce your most efficient code time- and resource-wise.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we''re going to cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Better React applications
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Scalable Node.js backends with NGINX
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Better web3.js dApps
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building your own oracles
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Improving your development workflow
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Better React applications
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: You're familiar with the workflow that's required to create a React application.
+    However, many aspects of newer dApps are harder to control. This includes things
+    such as smart contract connectivity, processing data for your functions in Solidity,
+    and creating components that scale.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Organizing components properly
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: When your application starts growing, you want to make sure your code base is
+    clean enough to support new improvements without having to rewrite the entire
+    system later on. To do so, you'll start by separating your components into different
+    files so that you can keep your content ordered properly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For instance, take a look at this file named `index.js`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can see that there are five components that are all in one single big file
+    made up of hundreds of lines of code. This is acceptable for smaller projects
+    where you just have a few components, but when you start working on bigger applications,
+    you must separate your components in different files. To do so, create a file
+    for each component with the exact same name. Here is an example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Notice that you must export your component using the `export default` keyword
+    so that you get that one specifically. Then, your `src` folder will end up looking
+    similar to this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: Now, in your `Main.js` component, you have to import all the components that
+    you'll use. Otherwise, it won't work. This kind of restructuring can easily be
+    done in any sort of project since it's just separating components into files;
+    however, make sure to import them and export them to the right places.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Generating components dynamically
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Another trick when it comes to improving your React dApps is to generate components
+    dynamically. You've probably been in a situation where you have to generate several
+    child components with different attributes because you have some sort of array.
+    It may seem simple, but it's quite unintuitive because React only understands
+    a certain type of object in its virtual HTML.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s say you have the following array of objects containing different attributes
+    of some animals that you get from your smart contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You want to generate an `Animal` component for each of those objects. You can''t
+    just simply loop them all and create components; you must use the `.map()` function
+    with normal brackets, not curly brackets, since React components are very picky.
+    Here''s how it would look:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'First, you set up the constructor with the elements that you want to display
+    in an array, as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, set up the render function to look through all the elements with the
+    `map()` function, although you can use a normal `for()` loop to generate an array
+    of JSX components. Pay attention to the fact that we are returning each element
+    inside normal `()` brackets, not curly `{}` brackets, because it''s required by
+    JSX to return dynamic HTML elements:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, create the `Animal` component so that it gets displayed on your dApp:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'As you can see, the `AnimalContainer` component is generating `Animal` dynamically
+    with the `.map()` function. That''s how you translate a JavaScript object into
+    a React component. Pay attention to the fact that we are generating the components
+    inside the render function and that the `.map()` function block is inside normal
+    brackets, not curly ones:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: Starting up projects faster
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Another problem with React projects is that you must always install the dependencies
+    from scratch, set up a `webpack` file, and make sure everything works properly.
+    This is tedious and takes way too much valuable time. To solve this, there is
+    the `create-react-app` library, although it adds many unnecessary packages that
+    could end up causing trouble later on, making upgradability harder, since it's
+    based on a closed system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It''s better to use the most reduced version possible of a startup React project.
+    That''s why I created the open source `dapp` project, which contains precisely
+    the smallest, most minimal version of a react dApp project with Truffle to get
+    you started right away. You can get the most recent version from my GitHub with
+    the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: Then install all the dependencies with `npm i`, run `webpack watch` to keep
+    your files bundled as you make changes with `webpack -d -w`, and run the static
+    server of your choice in the `dist/` folder. For instance, you might choose `http-server
+    dist/`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The `dapp` project is doing the following tasks for you so that you can start
+    working on your new dApp immediately:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing all the `react`, `webpack`, `babel`, and `truffle` dependencies.
+    Just the right amount, since it doesn't even include `.css` loaders so that you
+    manage your packets easily. You still need to have Truffle globally installed
+    if you want to use it.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Setting up the `webpack.config.js` file for you with an entry at `/src/index.js`
+    and an output to `/dist/`, and loading all the `.js` and `.html` files with loaders.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Setting up the simplest HTML and JavaScript index files.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: So, every time you have to start a new project, you can simply clone the `dapp`
+    repository to start faster.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Scalable Node.js backends with NGINX
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Node.js** is one of the most powerful tools when it comes to creating command-line
+    applications, servers, real-time backends, and all sorts of tools for developing
+    web applications. The beauty of it is that Node.js is JavaScript on the server,
+    which combines nicely with your React frontend for JavaScript everywhere. Even
+    though it''s centralized, you''ll use it plenty of times for decentralized projects
+    where you just can''t get by with the limitations of the Ethereum blockchain.
+    You see, Solidity and Vyper are severely limited: you can''t do much besides basic
+    function-based code. At some point or another, you''ll have to use a centralized
+    backend for advanced applications such as those that require a dashboard.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: At least until decentralized hosting and storage solutions drastically improve,
+    we'll have to get by with centralized backends for specific tasks that cannot
+    be accomplished easily with smart contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**NGINX** (pronounced **engine X**), on the other hand, is a web server that
+    can be used as a reverse proxy and load balancer, among other things. It''s a
+    marvelous tool in conjunction with Node.js, since it speeds up backend calls and
+    drastically improves scalability. Put simply, NGINX is the best friend of Node.js
+    for advanced projects that require the best performance for a huge quantity of
+    users. That doesn''t mean that it can''t be used for simple Node.js applications,
+    not at all: NGINX is also excellent for small applications to help you control
+    ports and understand domain names easily. You''ll learn all that you need to use
+    it properly for bigger dApps.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We'll start by learning how to create a Node.js application with an NGINX backend,
+    then we'll connect it to a real domain name to finally deploy a scalable NGINX
+    backend with load balancing, among other improvements.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a Node.js server
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: You can create Node.js applications wherever you want, but at some point or
+    another you'll have to move that application to a real hosting service such as
+    **Amazon Web Services EC2** (**AWS EC2**) or DigitalOcean. Both are excellent
+    choices, so we'll explore how to deploy to DigitalOcean.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In any case, we''ll start by creating the Node.js server locally to then move
+    it to a hosting solution. Suppose we had the following scenario: you have just
+    created a dApp with React that''s working flawlessly with very good efficiency,
+    so you want others to be able to use this application for free. You could deploy
+    it to a static hosting site such as GitHub pages or those provided by HostGator,
+    but you want to expand the features of your application and to have a database
+    and administrator pages only accessible by certain users. That''s where you need
+    a custom server and a **Virtual Private Server** (**VPS**), which is basically
+    a remote computer where you can do whatever you want to create custom servers,
+    usually with a Linux OS.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To achieve all that, you must start by creating a Node.js server that serves
+    static files for you instead of using tools such as `http-server`. Let''s start
+    by creating a static server for our Social Music application that we created in
+    the previous chapters. Go ahead and create a `server/` and `public/` folders inside
+    your project''s directory, and move the essential code to the `public` folder:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e897cb84-07a3-48ca-b869-b331f7de3bd9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: We moved all of the files except those related to nodes such as `package.json`
+    and those related to GitHub, such as `LICENSE`, so that we can organize our server
+    files in a separate location.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Start by creating a file called `server.js` inside `server/` as the main file
+    with the main required libraries that we''ll use to set up a server:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, configure the server listeners that will be in charge of delivering the
+    right file when requested by external users:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: What we did first is import `express` and `body-parser`. Express is a framework
+    for creating web servers using Node.js, while body-parser is processing all our
+    JSON requests to be able to understand these types of messages, since by default,
+    Node.js doesn't understand JavaScript request `json` objects. Then, I created
+    several `get` requests handlers to send the `bundle.js` file and `index.html`
+    when requested from the `dist` folder; `app.use()` is a piece of middleware, which
+    means that it receives all requests, does some processing, and lets other request
+    blocks do their job. In this case, we're using that middleware to log information
+    about each request so that we can debug the server in case anything wrong happens.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Install the required server dependencies with the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, you can run the server:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The problem with the preceding command is that you have to restart the server
+    anytime there''s a bad request or you make changes to the server file. For development,
+    it''s better to use the `nodemon` utility, which that automatically refreshes
+    the server. Install it with the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, run your server again:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To make development easier, create a new script for running that command faster
+    inside your `package.json` file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: Then, you'll be able to run `npm run server` to start the server.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Getting a hosting solution
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that we have our static server running, we can deploy it on a hosting solution
+    to make our dApp accessible from the outside world. Before that, add your project
+    to GitHub with all the latest changes to use it later on another computer. Go
+    to [https://digitalocean.com](https://digitalocean.com) and create an account
+    with the link [https://m.do.co/c/db9317c010bb](https://m.do.co/c/db9317c010bb),
+    which will give you $100 dollars worth of service for 60 days for free and an
+    additional $25 dollars when you add $25 dollars to the service. That will be more
+    than enough to run a basic VPS server for at least 3 months. You'll have to add
+    your credit/debit card or add $5 PayPal dollars to start using it. In my case,
+    I used PayPal by paying $5 dollars.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Go to the Droplets section and click on Create Droplet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/4580562e-5303-4d51-8390-427472787d5c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Then, you have to choose what distribution to install inside that server; this
+    distribution is called Droplets. You could select a one-click installation with
+    Node.js, but I believe it''s important that you know how to install Node.js from
+    scratch when you don''t have a user interface. So, choose Ubuntu 18.04 as the
+    OS with a $5 dollar per month plan:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0fdfd8bd-0986-47c6-bc79-946329d94e76.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Select the datacenter closest to where you live to get the best performance.
+    I live in Spain, so I will choose servers in Germany or the United Kingdom. For
+    you, it may be different:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0f35797e-ee0a-4a86-bca0-bcf730f9f543.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Leave the rest of the options as they are and press Create to create it. You''ll
+    see how it''s created in real time. Click on your droplet and copy the IPv4 address,
+    which you''ll need to connect to that server:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e87945d6-af2e-4ca3-9bbe-a06c697d2f88.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Setting up your server on a VPS hosting
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'If you''re using Windows, download PuTTY to connect to external servers from
+    their official page, here: [https://www.putty.org](https://www.putty.org/). Open
+    it after installing it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c181034f-f3a0-452f-ace8-9867c9dce765.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Paste your IP address into the Host Name input and connect to it by clicking
+    on Open. It will warn you about connecting to an unknown server; just click Yes.
+    Then, it will ask you to log in; type `root` as your default username: it''s different
+    for each hosting provider.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If you''re using Mac, you can simply use the following command instead of using
+    PuTTY:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: Although **root** is the default user provided by DigitalOcean, note that it
+    may be different for each hosting solution, so check the information provided
+    on their website.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Then, it will ask you for your password, which you can get via email; since
+    DigitalOcean has sent you your login credentials, you won't see it as you paste
+    it as a security measure. You can paste it with a right-click and nothing else,
+    since that's the way PuTTY works.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Immediately after that, it will request that you retype your current password,
+    then change your Unix password to a new one, since you can''t rely on an autogenerated
+    one:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3d4d50ea-a67b-4d48-b085-b01e48462662.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'You should now have access to your server. As you can see, you don''t have
+    a user interface except for your command-line tools. You don''t want to do all
+    the tasks as the root user since it''s a security risk, given that any action
+    has access to the entire system without restrictions. Create a new user with the
+    following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here''s an example: `useradd -m merunas`. The `-m` flag will create a `/home/merunas`
+    user folder. Then, change to that user with `su merunas` or whatever user you
+    created. The `su` command means "substitute user".'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You also have to set up a password with the `passwd` command, otherwise you
+    won''t be able to log in at the start of the session. For instance, you could
+    use this command: `passwd merunas`. You''ll want to log in as that user next time
+    to avoid potential security risks as the root user. Then, you''ll want to change
+    your shell to Bash instead of sh to get autocompletes when pressing *ab*, among
+    other nice utilities to help you write commands. Do so with the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, add your user to the `sudo` group to be able to run commands as the `root`
+    user without having to change users. You must run this as the `root` user:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is an example: `usermod -aG sudo merunas`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'What we''ll do now is install Node.js and NGINX from scratch. The process for
+    Node.js is a bit complicated because they are constantly improving their software,
+    so it''s harder to set up, but perfectly doable. Go to [https://nodejs.org/en/download/current/](https://nodejs.org/en/download/current/)
+    and copy the link address of the Source Code by right-clicking on the button for
+    it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/70b46c66-5a68-4967-95c3-86876001ccb8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Go back to your PuTTY session and run the `wget` command with that source code
+    link to download the node binaries so that you can install it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Extract it with `tar`, as shown in the following command line:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Navigate to the current directory by running `cd node-v11.10.0` . To install
+    Node.js from that folder, you need a few dependencies that can be installed in
+    a package known as `build-common`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, run the `./configure` and `sudo make` commands to run the installation.
+    The `make` command generates the required configuration, but it takes several
+    minutes, so be patient. Previously, you also had to run `sudo ./install.sh`, but
+    it''s no longer necessary; you still get your nice `node` executable. Simply copy
+    it to the binaries location to be able to use it globally:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can now remove the installation folder and the downloaded file. Alternatively,
+    you could have used `sudo apt install nodejs` to install Node.js, but that''s
+    an outdated version that''s not as maintained as the official binaries. Now that
+    you have Node.js installed, git clone your social-music project from GitHub or
+    use mine with the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: Install `npm` externally with `sudo apt install npm` so that you can install
+    packets. You have to get it from this other source because Node.js doesn't include
+    it. The good thing about npm is that you can update it immediately with `sudo
+    npm i -g npm` to the latest version with ease, so it doesn't matter which version
+    you get where with Node.js, you can't simply update it to the latest version without
+    going through a lengthy process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, you can run `npm install` to install your dependencies from the `social-music`
+    project. Check that your `package.json` file contains your `npm run server` command
+    that you created previously. Otherwise, add it again with `vim` or any other text
+    editor, such as `nano`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: When you use the `npm run server` command, you'll see that your server runs
+    properly; the problem is that you shouldn't use `nodemon` because it's designed
+    to be used for development without considering the problems that could arise in
+    different environments.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For that reason, you have a utility that''s ideal for Node.js projects in production.
+    It''s called `pm2` and it will keep your server alive, even if a breaking error
+    occurs at some point. This utility is great because you can monitor your server
+    and run various instances of different services. Install it globally with the
+    following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: It's very easy to use. You can daemonize a service with just `pm2 start server/server.js`,
+    which means restarting it whenever it stops running for whatever reason. To stop
+    it, use `pm2 delete server` from the list of running services.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Congratulations! You have a Node.js application running on your server. Now,
+    to make it available to the world, you have to expose it to port `80`, which is
+    the public port used by all websites. You can do so by modifying your `server.js`
+    file or with what's called a frontend server, which receives all the requests
+    and redirects them to the right place. In our case, that will be NGINX. But before
+    that, we need an accessible domain that will make our IP management easier.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Getting a domain name
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'You need a domain to help people access your website with an easy-to-remember
+    name instead of writing a long IP number on their browsers. The domain will be
+    associated with your hosting solution with a few changes. To get a domain, go
+    to [godaddy.com](https://in.godaddy.com/) and search for the name you desire:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b3d2f064-f8bb-46d9-a8b9-be0fba87a097.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Select the domain that best fits your business:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/5d3fa06e-c6a6-4f64-b101-7c9bcfc2aed9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Buy it by clicking on the Add to Cart button and creating an account if you
+    don''t have one. I always use PayPal since it''s easier to manage. After a few
+    minutes, you''ll have your domain available in your dashboard:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e6b1abd4-588e-4dec-a9aa-ae0de2a65993.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now, you can go to your DNS management settings to point your domain to your
+    hosted server so that it''s accessible from that name:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d37552b3-b5eb-414a-97bc-4103272ccb0c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Click on the pencil icon next to your A records and change the pointer to your
+    IP address like so:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f59de043-7d0c-4bc0-a1d9-f0b57edfb019.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'With that change, you can now connect to your server with the domain name instead
+    of IP, for instance in Mac like so:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: And it will work exactly as before. You can also start your Node.js server on
+    port 80 and you'll be able to access the website with that domain. However, Node.js
+    is limited when it comes to talking to domains, so we have to use a more advanced
+    solution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting up NGINX
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that your domain is set up, it's time to configure NGINX as a frontend server
+    to connect your domain with your Node.js instance. NGINX will process all the
+    requests for you so that you can focus on improving your Node.js application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Connect to your server as before and install `nginx` with the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'After that, you''ll have to edit the configuration files of NGINX, which are
+    located at `/etc/nginx/sites-enabled/default`. Simply edit your default file with
+    `vim`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, add the following code to be able to use a domain with your Node.js server:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: First, we defined an `upstream` block. That's where we tell NGINX the location
+    of our running `node.js` server at the right port. This is important to protect
+    port 80 since it's where most of the requests will be executed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Then, we created a `server` block. These types of blocks are used to set up
+    some configuration at the port defined inside. The `listen 80;` statement tells
+    NGINX to process the request for port 80 inside that server block. We then added
+    some `gzip` compression for faster loading times and a location block that will
+    pass all the requests to `upstream nodejs`. The other location block is for serving
+    static files in case you had images and the like, since it's a faster way to deliver
+    static content. Note that the `root /home/merunas/social-music/public;` root location
+    is where our static files will be located.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Remember to change `socialmusic.online` for your domain. You can now run NGINX
+    with the following command line:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: That will restart the service to keep it running in the backend. Your website
+    is now accessible at your domain name from any browser. To finish the deployment,
+    we'll add SSL. **SSL** is an encryption algorithm that's used to secure communications
+    for those accessing your dApp. It's very common and must be added for any serious
+    project.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Adding SSL security
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To install SSL, we''ll use the free certificates from **Let''s Encrypt**, a
+    non-profit whose goal is to secure the internet with free SSL certificates for
+    everybody. Here are the steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Install the following libraries:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Run the `certbot` application to add your NGINX server:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Provide your email address, accept the terms of service, and select 1 for your
+    domain name:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/1461c4f9-b450-413d-b0e7-560b199d0e66.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'It will ask you if you want to redirect all requests to the 443 secure HTTPS
+    port. Simply say yes by selecting the second option:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/7118af8a-a3f3-4b10-aaf5-2767bd7e090a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: That should be it! You now have HTTPS enabled for all requests, and your domain
+    will automatically redirect to HTTPS. This can be done manually, but this way
+    is far easier so that you avoid countless headaches when dealing with these kinds
+    of complex authentication systems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You now have a NGINX server with HTTPS running for your decentralized application
+    using a Node.js centralized backend that you can expand as much as you wish with
+    advanced features that can't be done in a simple smart contract. The best of both
+    worlds.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Better web3.js dApps
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: web3.js is the most used utility for communicating with smart contracts in your
+    web applications to convert them into decentralized applications. It's capable
+    of managing endless transactions and works automatically once set up.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The problem comes from the fact that many web3.js applications are not optimized,
+    at least not as well as possible. Because we're dealing with smart contracts,
+    inevitably the code gets confusing really quickly, making maintenance harder over
+    the medium-long term. That's why it's important that you study systems to create
+    better web3.js dApps from the start to learn tips and tricks that will make you
+    a better programmer when it comes to interacting with smart contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You'll be working with a lot of dApps using web3, so why not learn the best
+    way of doing things to save you headaches in the long run while creating higher
+    quality code? Here are some tips and tricks to make better web3.js dApps.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting up a fixed web3.js version
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'If you, used MetaMask in the past, you''ll have noticed that it injects web3.js
+    into every single page you visit since it requires web3.js to be able to interact
+    with smart contracts. That''s great: it''s an expected behavior, but it usually
+    leads to ancient web3.js versions, mainly version 0.20, which has been used and
+    is still used for several years after web3.js 1.0 came out. They don''t want to
+    force users to update to the latest version because that would break many web3.js
+    dApps already dependent on MetaMask; it''s a huge potential issue.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: That's why it's imperative that you set up a fixed web3.js version for your
+    project so that you don't depend on what MetaMask or any other Ethereum client
+    forces you to use. It's mandatory to provide some kind of guarantee that your
+    dApp will continue working in the future.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To do so, take a look at this code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: We are using web3.js 1.0 for this example. Next, we import the `NewWeb3` class,
+    which is just a different name to differentiate it from `Web3` provided by MetaMask
+    to set up a new `web3` object to communicate with the blockchain using our particular
+    version of `web3`. It's called `web3Instance` instead of plain `web3` because
+    we want to use a different name to avoid using the one provided by MetaMask. You
+    see, we can't know when MetaMask will inject its own version of `web3`, so we,
+    make sure to use a different name to guarantee that our version is set up. Then,
+    we set up a global `web3Instance` variable using the `window` object so that it's
+    accessible from anywhere within our application, and we do it after the page loads
+    by listening to the event `'load'`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Try it in a project and you'll see that `web3Instance` is the version you defined
+    in your import. Note that `.givenProvider` is taking the injected web3.js data
+    from MetaMask to set up a new web3.js version. Make sure to use this tip for all
+    your future projects to guarantee that your dApp works for future and past web3.js
+    versions, since MetaMask is constantly changing it own system in an unreliable
+    manner.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating helper functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Helper functions are those that help you manage more complex functions with
+    ease. They are essentially functions that are intended to help other functions
+    with some common logic so that you don't have to repeat your code over and over.
+  prefs: []
+  type: TYPE_NORMAL
+- en: These are important functions because they will improve the maintainability
+    of your code vastly. You'll be able to see what's happening in fewer lines and
+    you'll be able to upgrade your code faster.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For instance, in web3.js 1.0, contracts have to use a large line of code for
+    every smart contract call and transaction:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE35]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'It''s descriptive, but a bit longer than necessary. Let''s reduce it with a
+    helper function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE36]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'As you can see, we''ve converted a method in call to the brackets version since
+    that''s the way you can dynamically generate function names with unique parameters
+    for objects. In the past, I recall using the following shortcut to select elements
+    quickly without having to type the same structure over and over:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE37]'
+  prefs: []
+  type: TYPE_PRE
+- en: With such a simple helper function, I've converted a 22-character function into
+    a 1-character function with the same logic. It may seem absurd at first, but when
+    you have to use it 100 times in a project, you'll realize that you're drastically
+    reducing the size of your code and you're making it easier to read. You're literally
+    saving 2,200 lines of code. Now that's efficiency with the smallest change possible!
+  prefs: []
+  type: TYPE_NORMAL
+- en: Promisifying your functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Modern JavaScript uses promises to process transactions cleanly since it gives
+    you the choice to run your code synchronously or asynchronously using the same
+    function instead of callbacks where you have to stack layers of code to control
+    the flow of things.
+  prefs: []
+  type: TYPE_NORMAL
+- en: That's why all your callback functions must be converted in to promises if they
+    are not already. This is not a problem with the latest versions of web3, but with
+    web3.js 0.20 and many other libraries where you have to use callbacks, it's better
+    to just convert them to promises for easier code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There''s a library called `bluebird` that helps you with that by converting
+    all the functions inside an object in to promises. Install it with the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE38]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Import it into your React project with the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE39]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Use the following function to convert your object methods into `Async`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE40]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, you can use `Async` functions instead of callback functions, like so:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE41]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'That''s just an example: the idea is that you add the `Async` keyword to your
+    callback functions to use the promisified version without having to do anything
+    else.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Listening to events with web3.js
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Events are essential to manage the flow of your decentralized applications since
+    you can get real-time updates about changes that are happening in your smart contracts
+    and act accordingly. You can even create Node.js applications to notify you about
+    critical changes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For instance, let''s say that you run a bank smart contract and have an event
+    that gets activated when the funds in your smart contract reach a critical 10
+    ETH low:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE42]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You want to be notified about such changes, so you''ve set up a simple web3.js
+    dApp on a `node.js` instance that sends you an email when that happens:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE43]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'That could be a monitoring system that you''ve set up yourself to manage a
+    dApp used by millions of users so that it stays operative for as long as possible.
+    You can argue that listening to events in such a scenario is essential, so how
+    do you do it? Here''s the basic structure:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE44]'
+  prefs: []
+  type: TYPE_PRE
+- en: Your `web3.eth.subscription` function will execute the callback when the event
+    is generated. That's basically how you listen to events in web3\. Now, you know
+    how to use them for critical operations in your dApp's workflow.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building your own Oracles
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Oracles are external applications that help your smart contract receive information
+    from the outer world to perform some functions outside of what''s possible inside
+    Solidity or Vyper. How they work is simple: you create a centralized server that
+    calls specific functions of your smart contract when needed.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: They are used to generate random numbers, to provide live price data, and to
+    show information from websites. As you know, smart contracts can't generate random
+    numbers because there can't be any uncertainty regarding being able to avoid unexpected
+    situations in the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this section, you'll learn how to create an Oracle to generate a random number
+    between 1 and 100 for a game on the blockchain. There are already oracles doing
+    these tasks, namely Oraclize, which has been used for a long time with Solidity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building a random generation Oracle
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Oracles are a smart contracts' way of getting information from the external
+    world. They are the bridge between centralized servers, external blockchains,
+    and APIs, with smart contracts running on Ethereum. Essentially, they are a service
+    that provides you with important information from places inaccessible with normal
+    smart contracts, and they work by setting a centralized server listening to web3
+    events for your contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'First, create a new project named `oracle`, run `truffle init` to be able to
+    compile contracts, set up npm with `npm init -y`, and create a smart contract
+    that generates events and handles `Oracle.sol`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE45]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'It''s pretty basic: the idea is to execute the `__callback()` function with
+    the randomly generated number when the user requests it by calling the `generateRandom()`
+    function. We''ll set up an event listener that will give users random numbers
+    at the right time, with the right sequence identifier.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Remember to update your `1_initial_migrations.js` file inside the `migrations`
+    folder to tell Truffle to deploy the right contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE46]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, deploy it to `ropsten` by setting up the right configuration inside `truffle-config.js`.
+    You already know how to do this since we learned how to set up Infura for Ropsten
+    inside the configuration file of Truffle in previous chapters:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE47]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, we can create the Node.js application that listens to events generated
+    by our smart contract and makes the right request with a randomly generated number
+    type using the following code to start inside an `oracle.js` file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE48]'
+  prefs: []
+  type: TYPE_PRE
+- en: We've imported `web3`, `fs`, and `path` as the libraries to interact with our
+    contract. Then, we defined a websockets Infura URL to use it to connect to Ropsten
+    for deploying and interacting with contracts. It's important that you use `wss`
+    instead of `http` since it's the only way to receive events. Finally, we added
+    some global variables that we'll need later on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The way we generate transactions without MetaMask is by creating and signing
+    our custom transaction object with our private key, which we can generate with
+    the following function based on our mnemonic located in the `.secret` file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE49]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'It''s quite complicated, although we only have to focus on installing and importing
+    the `bip39` and `ethereumjs-wallet` libraries to generate `privateKey` used for
+    signing transactions. We can install the dependencies with the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE50]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, we can create a `start` function that will set up the required contracts
+    and start listening to the right trigger event to call the `__callback()` function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE51]'
+  prefs: []
+  type: TYPE_PRE
+- en: First, we read the mnemonic 12-word passphrase to generate our privateKey and
+    address using the previous `generateAddressesFromSeed()` function. Then, we set
+    up a new web3 instance with `WebsocketProvider` for our Ropsten Infura URL because
+    we can't listen to events with `HttpProvider`. After that, we set up `contractInstance`
+    by reading the ABI data from the JSON file that was generated by Truffle, which
+    includes the address of the deployed contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, we set up a subscription for the `GenerateRandom` event using the
+    `contractInstance.events.GenerateRandom()` function, which will call the `callback()`
+    function with the sequence that corresponds. Let''s see what the callback function
+    looks like. Remember that this function will run the `__callback()` of our smart
+    contract to provide users with a randomly generated number, since we can''t directly
+    generate random numbers with Solidity:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE52]'
+  prefs: []
+  type: TYPE_PRE
+- en: This function receives the sequence parameter to map the values to the right
+    ID so that users can identify which event is the right one for them. First, we
+    generate a random number between 1 and 100 using `Math.random()`, with some calculations
+    to adapt it to our desired range. Then we generate a transaction object called
+    `tx` that includes our function data with `sequence` and `generatedNumber`, and
+    some essential parameters such as `gas` and the `from` address. Finally, we send
+    that transaction to our `Oracle` smart contract by first signing it with `privateKey`
+    and then sending it using `web3.eth.sendSignedTransaction`. When it's confirmed
+    by the miners, we'll see `console.log` saying `"Callback transaction confirmed!"`,
+    or an error in case something goes wrong.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'That''s about it! We can add the `start()` function initialization at the bottom
+    to start listening to events. Here''s the full code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Import your required libraries and set up the variables that will be used in
+    the project at the beginning of the file:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE53]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create the `generateAddressesFromSeed()` function, which provides you with
+    access to the accounts contained in the given seed:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE54]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create the `start` function to set up the web3 listeners:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE55]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, create the callback function that executes the `__callback()` function
+    from the smart contract. The function name starts with two underscores to avoid
+    calling an existing function, since it''s a special function used exclusively
+    by the oracle:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE56]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Remember to start the oracle by running the `start` function at the end of
+    the file once everything is loaded:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE57]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Optionally, we can add a function to execute the `generateRandom()` function
+    from our smart contract to verify that we''re indeed receiving events with another
+    subscription, such as the following:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE58]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, update the `start` function to listen to the new event we created by
+    using the `generateRandom()` function:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE59]'
+  prefs: []
+  type: TYPE_PRE
+- en: That way you'll be able to see how the contract is actually receiving your randomly
+    generated number from your Node.js oracle to confirm that it's working properly.
+    Go ahead and try it yourself by deploying your own oracles that provide smart
+    contracts with external data that they couldn't get by themselves using this callback-based
+    mechanism with unique identifiers. Additionally, you could add some external proofs
+    to verify that the data is coming from the right oracle, although that's outside
+    of the scope of this guide since it would be too extensive to describe.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As usual, you have the full, updated code updated on my GitHub ([https://github.com/merlox/oracle](https://github.com/merlox/oracle))
+    if you want to see the latest changes and try the working version. Take a look
+    at the Truffle configuration file if you want to see how I set it up.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Improving your development workflow
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: When it comes to creating smart contracts and decentralized applications, a
+    common problem is that we must work in the most efficient way possible to create
+    the highest quality code so that we don't spend unnecessary hours on fixing problems
+    that shouldn't be there in the first place.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In my personal experience, the best applications that I've created were born
+    from exhaustive planning beforehand. It may feel unnecessary, but the more you
+    work, the more you realize how much time you can save by getting your ideas in
+    place with a clear plan that describes each element of your idea.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Have you worked on projects where you're constantly getting into problems such
+    as bugs or confusion? That's probably because you didn't do enough planning. In
+    this section, you'll learn how to plan your applications to set up projects that
+    are easy to understand so that you can develop way more efficiently.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's say that you want to put your skills into practice to learn more about
+    Ethereum technology with real projects. So, you decide to work on a relatively
+    complex dApp. You first get the idea, then you detail the components of your application
+    based on how you think it should work, and you start to code right away to get
+    it done quickly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'That''s a very common approach to most projects, given that we don''t want
+    to waste time on projecting—we want to get it done fast so we develop the code
+    immediately. That''s fine for small projects, but for bigger ones we must follow
+    guidelines like the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Write a detailed description of what you have in mind: the most important features,
+    how it will feel to the customers, and what is it about.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Break it down into smaller pieces: the frontend, the backend, and the smart
+    contract, if any. Then describe those elements in a way that you can understand
+    how they will be used.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Go deeper by writing down the functions that will be added to each of those
+    three parts. Those will be the main functions for your application. Write them
+    in an empty file without body: just the functions with the parameters and return
+    values.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Document those functions by describing what they are supposed to do on a technical
+    level using NatSpec documentation so that each parameter and return value is explained
+    clearly.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Start working on the smaller independent functions. Those could be getter functions
+    that return some variable or simple functions for calculating a value.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Move on to more complex functions until all of them are completed. While you
+    do so, write empty tests as they come to mind to check every aspect of those functions.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Correct the project by writing unit tests from those that you set up previously
+    and add a few more focusing on the potential of the problem they could cause if
+    unchecked.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Your planning may be different: what you just read is only a simple guide that
+    I came up with after trying to understand the process behind a successful project.
+    Just so that you can take it with you in a more visual manner, here''s an illustration
+    of that development process:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/17dd7a95-db7c-45f7-ad0d-9ed61c9e1fde.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'While you create each function, leave `//TODO` notes describing what needs
+    to be done next, so that when you come back, you have a clear and simple objective
+    to go for. For instance, here''s a function that I''ve been working on recently:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE60]'
+  prefs: []
+  type: TYPE_PRE
+- en: There is an extension already installed in the famous [atom.io](https://atom.io/)
+    code editor called `language-todo` that highlights these types of `TODO` notes
+    so that you can see them easily. You can also search for those inside your entire
+    project with the search function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Also, there''s another extension that allows you to manage those reminders
+    in a single panel. Here''s the package name so that you can install it if you
+    want:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/20ac7f43-50ac-4f76-9a17-afe5f4ff4950.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Here are some additional recommendations to improve your workflow when you
+    work on creating a successful project:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: At the top of each file, create a list of things that need to be completed in
+    that particular file so that you know when it's completed.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Use already made tools to deploy your contracts and write tests to verify functionality
+    efficiently. For instance, Truffle, Ganache, and Remix are essentials for testing
+    while improving your efficiency.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Set a time limit to everything; be as precise as possible, since projects have
+    the tendency to use up as much time as you give them. Be strict to keep your mind
+    focused.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Determine what can be done in different time limits. For instance, in 1 week,
+    you could create a basic version of your idea with the core two features, in 1
+    day, you can complete 5 of the 100 functions required to complete a solid beta
+    version, and in 1 month, you could have the basic code completed. The idea is
+    to imagine what would be a realistic estimate of what's possible with enough time
+    for your idea. Write down what needs to be completed in 1 day, in 1 week, and
+    in 1 month.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Put yourself in places where you're comfortable. Usually, great ideas come when
+    your body feels good and your mind is relaxed. For instance, a shower where the
+    right temperature and the constant flow of water relaxes your entire being is
+    one of the best places to examine your assumptions and explore new ideas that
+    could be great.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Always remember to create a Git repository for your projects, even if you think
+    you won't work on it, because oftentimes you will need a piece of code for a particular
+    thing you did years ago and now you need to remember for a new project. Keeping
+    your code on GitHub is also great for seeing your progress as a developer and
+    to build a solid online presence.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Coming up with great ideas could have a chapter on its own. The thing with creativity
+    is that you'll only get it when you break routines, since you can't expect your
+    mind to create new associations based on the same daily experiences. Travel to
+    new local places, explore weird hobbies, and be genuinely interested in different
+    subjects that are completely different to what you're familiar with, even if they
+    seem boring at first.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: You just completed one of the most important chapters of this book, since we
+    talked about optimization and efficiency, two things that are essential for every
+    project you work on. We started by building better React applications, where you
+    learned to optimize the way you create frontend applications using this powerful
+    framework, along with interesting tips to properly structure your components.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Then you learned to create centralized Node.js applications with NGINX that
+    you can use for hybrid projects where smart contracts are just not enough, including
+    all the steps from idea to code to deployment on a VPS server with an HTTPS certificate.
+    After that, you explored several web3.js improvements to create stronger frontends
+    with subscriptions to events, helper functions, and promises that can be better
+    controlled.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You''ve gone through one of the most interesting topics when it comes to creating
+    capable smart contracts: **oracles**, since they provide smart contracts with
+    valuable external information that could be indispensable for specific applications.
+    Finally, you discovered 14 tips to improve the way you think about creating projects
+    so that you can become proficient when working to deliver higher quality code.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, you'll start working on the very interesting topic of decentralized
+    exchanges by building one from scratch. It's an exciting opportunity that you'll
+    love taking!
+  prefs: []
+  type: TYPE_NORMAL

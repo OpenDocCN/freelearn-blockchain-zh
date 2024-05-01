@@ -1,0 +1,1583 @@
+- en: Creating a Blockchain-Based E-Commerce Marketplace
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A decentralized e-commerce marketplace is one of the best cases of blockchain
+    technology for the simple reason that you don't have to pay fees or entrust your
+    data into the hands of powerful corporations that will sell it for profit. Ethereum
+    is an excellent solution for this, is the new ERC-721 token standard has been
+    approved for you to generate digitalized objects on the blockchain. In this chapter,
+    you'll learn how to deal with personal user data so that it's protected for each
+    individual, given that Ethereum is a public system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the first section, we'll look at how an e-commerce website should be structured
+    so that users can interact with it as if it were a real store. You'll build the
+    user interface that will display the unique products identified with the ERC-721
+    convention. Then, you'll implement the React router module to organize your different
+    views in a user-friendly interface. Finally, you'll create the smart contract
+    that implements ERC-721 tokens and creates the functions needed to manage decentralized
+    products.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Also, in this chapter, you''ll learn what it takes to create a fully featured
+    e-commerce marketplace for your business on Ethereum by learning about the following
+    topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating the user interface
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding ERC-721 tokens
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Developing the e-commerce smart contract
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Finishing the dApp
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Creating the user interface
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The great thing about these types of guides is that you can take what you learn
+    about decentralize e-commerce here and expand upon those ideas to create a more
+    advanced product that will provide a complex solution in order to raise funds,
+    or so that you can simply build a business out of it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Planning the marketplace interface
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This marketplace has almost unlimited options, given that you won''t have to
+    face many blockchain limitations. Each product is an independent instance that
+    can be molded as you need, so you''re free to add as many features as you desire,
+    such as the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A carting system to add products to the cart while shopping instead of purchasing
+    them directly for larger, combined purchases
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A dynamic shipping address functionality to add several different addresses
+    so that you can send orders quickly to many locations by saving your preferred
+    locations
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A bidding system to create auctions for user products
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Profile and review functionalities for better user interactions
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'In this project, we won''t implement any of those advanced features because
+    they would take way too much time to develop, although you can add them yourself
+    once the base product is completed. That''s why we''ll create a simple interface
+    with the following features:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A buy system to purchase physical and digital products directly with Ethereum
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A sell functionality to publish products to the marketplace as an independent
+    seller
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: An order-display functionality to see pending orders as a buyer and as a seller
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In general, users will be able to interact as a normal online store with direct
+    payments, using MetaMask instead of a credit card. The marketplace won't charge
+    fees to users, compared to e-commerce stores such as Amazon that charge about
+    15% of the total payment in fees, which really adds up. Another important point
+    is that there won't be any censoring or rules to follow, meaning users can freely
+    publish products without fearing a ban from a centralized entity, a recurring
+    problem that has affected sellers, causing them to lose thousands of dollars in
+    locked funds and reverted orders.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There won't be several quantities of a single product because we'll use unique,
+    **non fungible tokens** (**NFTs**), which means that each product has to be unique.
+    Since we will be exchanging tokens from one user to another, we won't be able
+    to have multiple copies of the same product. You could, however, implement an
+    ERC-20 token or a system to generate multiple copies of the same token ID for
+    multiple quantities of the same product.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s start by setting up the project by cloning the base repository ([https://github.com/merlox/dapp](https://github.com/merlox/dapp))
+    or by configuring `npm` and Truffle yourself. You should have the following folders
+    and initial files after setting up Truffle or cloning the repository:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`contracts/`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`dist/`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`migrations/`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`node_modules/` (remember to use `npm install` after cloning the repository)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`src/`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`index.js`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`index.html` or `index.ejs` ,based on your preference'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`index.css` or `index.styl` ,based on your preference'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`.babelrc`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`.gitignore`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`LICENSE`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`package.json`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`README.md`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`truffle-config.js`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`webpack.config.js` (remember to set up your webpack configuration)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Inside your `src/` folder, create a new folder called `components/` ,which
+    will contain a file for every single JavaScript component, since this is a larger
+    dApp and we will have lots of different components. Because we''ll have multiple
+    pages, we want to use the react router to manage the history location and URLs
+    so that the user will be able to navigate between pages. Install the React router
+    and `web3` libraries by running the following command on your terminal:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: Setting up the index page
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Open up your `index.js` file, import the required libraries, and set the initial
+    state with some placeholder products using fake data just to see how the final
+    design will look. we do this by going through the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Import the required libraries. We need several components from the `react-router`
+    library, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create the constructor with a few products that have the necessary properties
+    to display the greatest amount of information to the user as possible, as shown
+    in the following code. Properties such as `title`, `description`, `id`, and `price`
+    are a must:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can add more products by copying the `product` object and changing a few
+    parameters to make it look unique. Then add the `bytes32()` function to convert
+    strings into valid hexadecimal and the `render()` function, as shown in the following
+    code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Use the `withRouter()` function provided by the React router to provide our
+    `Main` component with the history property, which is necessary to navigate between
+    pages in your dApp. This is shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add the `BrowserRouter` component from the react router to initialize the router
+    object, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `BrowserRouter` component is the main component that is used to initialize
+    the router so that they can manage different pages. We're using the `withRouter`
+    import to access the navigational history so that we can change pages programmatically.
+    Basically, we need it to redirect users to different pages in our dApp at specific
+    times whenever we need. Then we set up some basic products with different properties
+    in the `this.state` object. Note how the image is a URL instead of a file. Since
+    we don't have a server that handles files, we need sellers to host their own pictures
+    on some kind of public service, such as Imgur.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The React router library will use several `Route` instances to determine which
+    page has to be loaded at what time. We also have to add the high-level `BrowserRouter`
+    component on top of our `Main` component to activate the router. Note how we're
+    rendering a single route with `exact path="/"`, which shows the setup text to
+    confirm that the application has loaded successfully after the configuration.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuring the webpack dev server
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'After creating the `Main` component, you will want to run the application to
+    see how it looks, however, in this case, we''ll use the `webpack-dev-server` extension,
+    which automatically reloads the website as we develop so that we don''t have to
+    constantly reload it manually and compiles the files in the backend. So instead
+    of setting up a webpack watcher and a static server, it''s all contained in a
+    single command. Install the webpack server locally with the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then update your `package.json` file with a new script under the `scripts`
+    section(as shown in the following code); otherwise, it won''t work, since we need
+    to execute this command from inside the project:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This simply runs the `webpack-dev-server` command with the `-d` flag, which
+    sets the mode to development, allowing you to see complete error messages from
+    uncompressed files. If you wish, you can add the `-o` flag, which opens a browser
+    when you run the command. Execute it by running the following command line:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: If everything is correct, you'll be able to go to `localhost:8080` and see your
+    page with the router set up.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating the Header component
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Our application will have several pages for buyers, sellers, and orders. That''s
+    why it''s important to separate each component as much as possible into unique
+    blocks that can be imported where required by performing the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create a new component inside the `src/components/` folder to display a header
+    for our website, and create a file named `Header.js` inside your `components`
+    folder, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Export it with `export default Header` so that other files can access your
+    component. Then import it into your `index.js` page as shown in the following
+    code to display it right under your imported libraries to keep them in order:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Update your `render()` function with the component instance, as shown in the
+    following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You''ll see your header loaded automatically without having to refresh your
+    webpack service, as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7397c524-025b-41a4-bbf3-13ef8445f937.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'It doesn''t look good yet, so let''s improve the design with some `stylus`
+    CSS. If you haven''t configured it already, install the `stylus` and `stylus-loader`
+    libraries with the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Update your `webpack` configuration as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here are the main things that we changed in the `webpack` file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We imported webpack so that we could use `webpack.HotModuleReplacementPlugin()`
+    to reload the page partially when we make changes. Instead of reloading the entire
+    page, only the changed components will be reloaded.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then we set up the stylus loader to load `styl` files.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Create `index.styl` with the following design, although it''s up to you to
+    decide how your e-commerce store will end up looking:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Note the `productPadding` variable at the top. Stylus allows us to create variables
+    so that we can configure multiple instances of the same value across the styling
+    file easily; we''ll use that variable later on. Then import the stylus file in
+    your `index.js` file like so:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now check how your app looks in your browser; you may have to reload your webpack
+    server since you updated the webpack configuration:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7c7d25d2-9c5b-4be6-a18c-b4e1e2f92802.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Creating the Home component
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The `Home` component will contain the logic to display the first page that users
+    see when opening the dApp for the first time so that they can begin buying products.
+    This component will be the core component to manage the remaining pages.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create a `Home` component with the default design for the main page; it will
+    contain the latest products in a clean design. Here''s the code for the `Home.js`
+    file inside the components folder:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can import it into your `index.js` file, which will be the main source
+    of data and functions. Also remove the `Header` import in the index because it''s
+    already included in the `Home` component. The following steps show the changes
+    that you have to make to include the `Home` component in your dApp:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Import the component at the beginning of the file while removing the `Header`
+    component, because we have included it in the `Home` component:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To make things simple, I''ve created a prototype JavaScript method for the
+    `Array` object. This is an advanced implementation of JavaScript methods that
+    you can use to change how certain functions work. In particular, I''ve created
+    an asynchronous `for` loop, which can be `awaited`, to make sure that it''s completed
+    before continuing with the rest of the code, as shown in the following code fragment.
+    Essentially, it''s a clean way of running loops:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Inside your constructor, include a `setup()` function call, as shown in the
+    following code fragment:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Implement the `setup()` function with code to start a web3 instance and to
+    display the products, as shown in the following code fragment:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We''ve included a call to the `displayProducts()` function, which will be used
+    to display products by looping through our array of products inside the `state`
+    object, as shown in the following code fragment:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Modify the `render()` function and include a function named `redirectTo()`,
+    which will allow you to change pages when the user clicks on a button using the
+    React router, as shown in the following code fragment:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We made the following important additions to this index file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, we set up a custom prototype function for the `Array` object, named `asyncForEach`.
+    You may not be familiar with how JavaScript works in depth, but you have to understand
+    that all types of variables are objects with a property called `prototype`, which
+    contains the methods for that type of variable. The default `forEach` method is
+    defined somewhere in JavaScript as `Array.prototype.forEach = function () {...}`;
+    the point of this is to create a custom `for` look which we can `await` until
+    it is finished to take full advantage of the `async` functions. So instead of
+    typing `for(let i = 0; i < array.length; i++) {}`, we can type `await array.asyncForEach()`,
+    which is way easier to read and has less confusing code. That's just an implementation
+    that I wanted to use for improving code readability while increasing its usability.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then we imported the `Home` component instead of the `Header` component and
+    replaced that in the `render()` function inside `Route`.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The `redirectTo` function changes the `Route` that we're currently seeing by
+    loading a new page using the `withRouter` history object that we saw previously.
+    This function will be used when the user clicks on the `View` button inside the
+    `displayProducts` function.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: After this, we added a `setup` function that configures MetaMask while adding
+    the owner address to each of those sample products so that you can see who owns
+    those objects.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Finally, we created a `displayProducts()` function that generates the HTML for
+    each product while pushing it into the array of products and updating the state.
+    The `Home` component then receives those products as `prop` and displays each
+    product.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Now we can add some CSS code to improve the appearance of the home page, as
+    follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now the web page looks like the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/546b7397-03d0-48e3-8656-5604bc69f860.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'As you can see, we are progressing fast! The initial setup takes a bit of time
+    for these kinds of complex applications, but then it''s a wonderful thing to work
+    on because you can update each separate section with ease while guaranteeing a
+    great maintainability factor for future improvements. The theme for the e-commerce
+    shop is similar to many shoe stores: it uses flat designs and black tones while
+    also popping an element, such as buttons, to give it that three-dimensional feeling.
+    It reminds me of a fashion magazine.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating the Product component
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now that we have a basic design, we can create the product pages when the user
+    clicks on the View button so that the user can see in detail more information
+    about that particular piece. The user will be able to purchase products inside
+    the product page. Let''s go through the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Add a new `Product.js` file inside your components with the following code,
+    although I always recommend you to try it yourself before seeing the solution:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We need a new header because when we change pages, a new component will be
+    loaded (in this case, the `Product` component,) so we need to show only the essential
+    information to the `Product` component. Then we can import it into a new `Route`
+    in the index file, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You should be able to access the custom product page when you click on the
+    View button, given that we set up the required history functionality. The `product`
+    prop for the `Product` component is set up when the user clicks on the View button
+    as well. Add the following CSS code to fix the design of the product page:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can open your dApp, click on the View button of a product, and see the
+    detailed product page, which shows larger images and the full description, as
+    shown in the following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/54664023-2a56-4390-85e7-6404ce0ec02a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'What''s left is adding the buy, sell, and orders pages. Here''s how we use
+    the `Buy` component, which will be displayed when the user clicks on the `Buy`
+    button located in the Product page:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Import the required libraries using the following:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Define the constructor inside the `Buy` component with empty state variables,
+    just so you know which variables will be used across the entire component, you
+    can do this by using the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `render` page function will display some basic product information to inform
+    the buyer of what they are getting, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Include a block with the shipping information for the users to include their
+    address so that they can receive the product with free shipping, as shown in the
+    following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Export the component so that it can be imported into your router manager, as
+    shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We only need to display a form with the user address parameters, since that''s
+    the only information we''ll need. The shipping costs we can assume will all be
+    free, included in the price. We''ll update the state of this `Buy` component with
+    the details so that we can later submit that data to the smart contract. Then
+    import the `Buy` component at the beginning of your index file. I''ve highlighted
+    the new import for you to see where the `Buy` component should be located, as
+    shown in the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then add the new `Route` and `props` parameters to the `Buy` component that
+    you just imported inside your `render` functions. The changes are highlighted
+    so that you can find them quicker, as shown in the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We only need to send `state.product` to this component so that we can see which
+    product is being purchased. Add some CSS code to make it look good by performing
+    the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Add the CSS code for the product section of the `Buy` component using the following
+    code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add the CSS code of the shipping form of the `Buy` component, as shown in the
+    following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE35]'
+  prefs: []
+  type: TYPE_PRE
+- en: Creating the Sell component
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We''re building a decentralized marketplace where users all over the world
+    can join with their own products that they will publish for free. No fees will
+    be charged and purchases will be completed in cryptocurrency. Therefore, we need
+    a dedicated page for those sellers, which we''ll make by creating a `Sell` component
+    by going through the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Import the essential libraries to create the React component and include `Header:`
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE36]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create the `Sell` class with an empty constructor that contains the `state`
+    object with the `title`, `description`, `image`, and `price` of the product that
+    the user will sell, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE37]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create the `render()` function with a neat form that will allow users to access
+    public products, as shown in the following code. Note how the image is a string,
+    since we''ll use external URLs for images instead of hosting the files ourselves:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE38]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Export this new component using the following code so that other files can
+    import it:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE39]'
+  prefs: []
+  type: TYPE_PRE
+- en: After saving the `Sell` component, import it into your index JavaScript file.
+    We'll have to add a function named `publishProduct` ,which will call the respective
+    smart contract function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following steps show the changes that need to be made to the index file
+    (highlighted for clarity) that are needed to import this `Sell` component:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Import the `Sell` component right under the `Buy` component import, as shown
+    in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE40]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Include the `Sell` component in the `render()` function with its own `route`
+    object while also defining a `publishProduct()` function, as shown in the following
+    function:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE41]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add some CSS code to improve the design of this page, as shown in the function:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE42]'
+  prefs: []
+  type: TYPE_PRE
+- en: You can see how it looks by clicking on the `Sell` button in the header, which
+    redirects to the `/sell` URL, loading the `Sell` component.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating the Orders component
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Add the final `Orders.js` component by going through the following steps. Try
+    to do it yourself before seeing the solution so that you practice your skills
+    with some `stylus` CSS to complete the design. You''ll find that it takes more
+    time than expected, but it''s well worth the effort:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Import the required libraries, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE43]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Define the constructor with some invented orders so that you can see how it
+    will look, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE44]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We''ll need a function to get users'' orders by getting the data from the smart
+    contract while also marking orders as completed. We won''t implement those functions
+    yet because we have to create the smart contract first, as shown in the following
+    code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE45]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add those empty functions, then create a function named `displayOrders()` ,which
+    will take the state data to output the resulting HTML. Define the arrays used
+    inside first, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE46]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Read the different order objects to loop through them and generate the resulting
+    valid JSX. Classify the products based on the state of the product, as shown in
+    the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE47]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If the state of the sell order is completed, push it into the `completedSellOrders`
+    array because we want to classify the orders based on their state, as shown in
+    the following code. Create a new HTML block because it will be slightly different,
+    since we want to use a button to mark products as completed:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE48]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Use the same process for the `buyOrders` array to design the HTML of each product
+    while looping through the arrays, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE49]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Update the state of the component with the generated HTML objects, as shown
+    in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE50]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create the `render()` function to display those generated orders, as shown
+    in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE51]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Export the `Orders` component object, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE52]'
+  prefs: []
+  type: TYPE_PRE
+- en: This one is big piece of code because we added some sample order data in the
+    state object to display a realistic view of the orders page. You can see that
+    we added a `state` property for each product, which shows us whether the order
+    is pending or completed. This will be set up in the smart contract. The `displayOrders`
+    function generates the HTML objects for each type of order because we want to
+    separate the completed and pending and buy and sell orders so that you can see
+    all the important information. The orders will come from the `getUserOrders` function
+    when the smart contract is implemented. Add some CSS to make it look decent. You
+    can check out my design on the official GitHub at [https://github.com/merlox/ecommerce-dapp](https://github.com/merlox/ecommerce-dapp)
+    inside the `src/` folder.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, you will get a cool-looking orders page, as shown in the following
+    screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ba46b011-54e5-4adb-91a0-c54aeaaae447.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'That''s about it when it comes to the User Interface in React! Just to make
+    sure, you should have the following files inside your `src/` folder once all the
+    components are created:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`components/`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`Buy.js`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`Header.js`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`Sell.js`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`Product.js`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`Home.js`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`Orders.js`'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`index.ejs`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`index.js`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`index.styl`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding ERC-721 tokens
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This new type of tokens is used to generate unique products in our smart contract.
+    The ERC-721 standard has been approved by the official Ethereum team, meaning
+    you'll be able to use it as it is for all sorts of applications, knowing that
+    it will be compatible with tools and smart contracts that depend on this standard.
+    Just as ERC-20 tokens gave birth to decentralized token exchanges, we can expect
+    the creation of decentralized ERC-721 exchanges and marketplaces of digital as
+    well as physical products.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Explaining the ERC-721 functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To understand how ERC-721 tokens work, it''s best to look at the functions
+    that define an ERC-721 token so that you can understand how they work internally.
+    These functions are described in the following list:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`balanceOf(owner)`: Returns the count of all the tokens a user has in their
+    possession for the given address.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`ownerOf(tokenId)`: Returns the address that owns a specific token ID.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`safeTransferFrom(from, to, tokenId, data)`: Sends a token from one address
+    to another after giving an allowance, just as this phrase does with ERC-20 tokens.
+    It''s called safe because if the receiver is a contract, it checks that the contract
+    is capable of receiving ERC-721 tokens, meaning that the receiver contract has
+    implemented the `onERC721Received` function so that you don''t lose your tokens
+    to a contract that can''t manage these types of tokens. The `data` parameter can
+    be omitted, and it simply includes additional byte information that you may want
+    to send to the `to` receiver address. The `from` address must be the current owner,
+    so you can use this function as a normal `transfer` function or as a `transferFrom`
+    function (which you may be familiar with from your use of ERC-20 tokens) with
+    for approved sending tokens to another address.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`transferFrom(from, to, tokenId)`: This is the same as the previous function,
+    but it does not ensure that the receiver address, is capable of managing these
+    types of tokens if it turns out to be a smart contract.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`approve(to, tokenId)`: This is used to approve a specific token to another
+    owner so that they can use it however they want.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`setApprovalForAll(operator, approved)`: This is to create an allowance of
+    all your tokens to another address, known as an `operator` address that can manage
+    your entire balance. You can revoke access to a specific operator by setting the
+    `approved` parameter to `false`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`getApproved(tokenId)`: Returns the address that has an allowance for this
+    token.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`isApprovedForAll(owner, operator)`: Returns `true` if the `operator` has access
+    to all the owner''s tokens.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Note how they removed the `transfer` function that we're familiar with from
+    the ERC-20 specification because it simplified the process by allowing the `transferFrom`
+    and `safeTransferFrom` functions to be used as a normal transfer or as an approved
+    transfer, removing the need for a standard `transfer` function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `_mint(owner, tokenId)` and `_burn(tokenId)` internal functions are used
+    to generate and delete tokens; however, they are not usable in the standard `ERC721.sol`
+    smart contract because they are internal, meaning they require you to create a
+    new contract that inherits that ERC-721 contract and implements custom `mint(owner,
+    tokenId)` and `burn(tokenId)` functions (without the underscore) with any modifications
+    you may need because we want to limit who can create or delete tokens.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Can you imagine everybody being able to generate tokens as they please? That
+    would defeat the purpose of having valuable tokens, so that's why they force you
+    to create your own minting functions with limited access, probably with an `onlyOwner`
+    modifier. In our case, we'll allow sellers to mint new types of ERC-721 tokens
+    for their products.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Each product in our decentralized e-commerce store will represent a unique ERC-721;
+    that's why we don't want to add multiple quantities per product, because we'd
+    have to create several unique instances of ERC-721\. On another note, NFT means
+    that each token is unique in its differentiating properties. Compared to ERC-20,
+    where each token is the same, the ERC-721 standard is meant to be used for unique
+    items, such as household products, handmade products, art, or unique digital assets,
+    such as skins for games. What's interesting is that you can combine both standards
+    as you see fit to create unique tokens, while also being able to generate multiple
+    instances of the same one.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The ERC-721 smart contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now that you understand how these types of NFTs work, let''s take a look at
+    the ERC-721 contract interface. The implementation is available on GitHub at [https://github.com/merlox/ecommerce-dapp/blob/master/contracts/ERC721.sol](https://github.com/merlox/ecommerce-dapp/blob/master/contracts/ERC721.sol),
+    since the full code is too large to display here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE53]'
+  prefs: []
+  type: TYPE_PRE
+- en: This contract is pretty similar to the ERC-20 contract because the basic idea
+    behind them is the same. This contract is used to generate many unique tokens
+    with a mining function that has to be implemented separately, since you want to
+    control who's able to create tokens and who's able to destroy them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create a file named `ERC721.sol` inside your `contracts/` folder and add that
+    code, as we''ll use it in a moment. We''ll create a contract that inherits the
+    ERC-721 smart contract to implement the `mint()` function, since it''s not accessible
+    by the default ERC-721 implementation. Create a new file named `Ecommerce.sol`
+    and import the `ERC721.sol` contract there, using the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE54]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The Solidity version doesn''t matter as long as it''s the same functionality.
+    Create a custom implementation of your own ERC-721 smart contract that inherits
+    this one, like so:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE55]'
+  prefs: []
+  type: TYPE_PRE
+- en: This token contract will only allow the e-commerce contract to generate new
+    tokens, which will be moved to the buyer after the purchase is completed; the
+    `setEcommerce` function must be set up before you will be able to mint tokens.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Developing the e-commerce smart contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Developing a smart contract that interacts with ERC-721 tokens is simple, because
+    we only have to make sure that users have a token ID associated with their products.
+    Users will be able to interact with their tokens independently if they wish to
+    do so. For our marketplace, we'll focus on creating the buy and sell functions
+    to create and burn tokens. As usual, we'll also create multiple getters to extract
+    the data from the smart contract for the user interface.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s start to create the e-commerce contract, which will have all the market
+    logic in the same file, since it doesn''t take up that much space:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Define the variables needed for the smart contract, starting with the structs
+    that you''ll need, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE56]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add the mappings, arrays, variables, and constructors, as shown in the following
+    code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE57]'
+  prefs: []
+  type: TYPE_PRE
+- en: We have to set up the variables first by starting with the structs, in this
+    case, `Product` and `Order`. Each order will reference a particular product through
+    the ID, which will be the same in both cases, meaning that each product will have
+    a corresponding order with the same ID. There will be mappings for pending orders
+    that have not been fulfilled yet and other mappings for those that have been completed
+    so that we have a reference of completed orders. The constructor will receive
+    the token address so that the e-commerce contract can create new tokens.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating the publish function
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Create a function to publish new products so that users can sell products by
+    themselves, using the following code. The image URL will be where the image is
+    located:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE58]'
+  prefs: []
+  type: TYPE_PRE
+- en: This function will check the parameters so that they are set up while also minting
+    a new token.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating the buy function
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now that users can publish products to sell, you can work on the `buy` function
+    to purchase products:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE59]'
+  prefs: []
+  type: TYPE_PRE
+- en: First of all, the `buy` function must be payable so that users can send the
+    required price in Ethereum, which will be sent to the seller without any fees
+    besides the gas costs. When purchasing a product, the buyer needs to send all
+    the address details so that the seller can process the shipping; that's why there
+    are so many parameters in the `buy` function where the phone number and the second
+    address line is optional. The `products` array deletes the product so that the
+    user interface displays the most recent ones. A new `order` struct instance will
+    be created and the order will be added to the pending mappings.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating the mark orders function
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'After the orders are created, we need a way to tell the customer that the product
+    has been shipped. We can do so with a new function, called `markOrderCompleted`
+    as shown in the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE60]'
+  prefs: []
+  type: TYPE_PRE
+- en: This function removes pending orders from the respective arrays and moves them
+    to the `completedOrders` mapping. Instead of using the delete function, we reduce
+    the length of the array to delete `Order` because the `delete` function doesn't
+    really remove the user order from the array but leaves an empty order instance
+    in its place. When we move the element that we want to `delete` to the last position
+    of the array and reduce the length of it, we are completely deleting it without
+    leaving any empty holes, since the `delete` function keeps the array intact.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating the getter functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'What''s left is to add the required `getter` functions to return the length
+    of those arrays because public array variables don''t expose the array length,
+    and we need to know how many products and orders there are to show users the latest
+    content, let set this up using the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE61]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `getOrdersLength()` function will be used for all three types of orders,
+    either seller, buyer, or completed, to avoid creating multiple similar functions.
+    That''s the entire contract. If you want to see the updated version, check out
+    my GitHub at: [https://github.com/merlox/ecommerce-dapp](https://github.com/merlox/ecommerce-dapp).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Deploying the smart contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: It's important to understand the deployment process to guarantee a successful
+    execution, because, let's face it, Truffle can be confusing to set up. You saw
+    in previous chapters what needs to be done to deploy a smart contract using this
+    framework, but it doesn't hurt to go over the process once again just to make
+    sure that you understand it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'First, open your `truffle-config.js` file and modify it for `ropsten`, which
+    is the network that we''ll use to deploy this initial version of our dApp. Here''s
+    how it should look, with your own INFURA key:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE62]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'I left the development network available because you may need to check the
+    deployment process on a local testnet generated with `ganache-cli` before deploying
+    the contract to `ropsten`. Be sure that you have enough `ropsten` Ethereum in
+    the first account generated with the seed phrase in your `.secret` file when doing
+    so. Remember to install the Truffle wallet so that the deployment process works
+    with the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE63]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, create a `.secret` file with your seed phrase and create a file named
+    `2_deploy_contracts.js` in your `migrations/` folder to tell Truffle what needs
+    to be done when deploying the contracts, mainly for setting up constructor parameters,
+    as shown in the following code. Truffle will fail without this file when deploying:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE64]'
+  prefs: []
+  type: TYPE_PRE
+- en: Your migrations folder should have the `1_initial_migrations.js` and `2_deploy_contracts.js`
+    files. The syntax is a bit confusing, but what's important is that we're using
+    the `deployer.deploy()` function, which returns a promise to get the token address
+    and run the `setEcommerce()` function from the token contract so that we can start
+    using the contracts right away. Note how we have access to the `accounts` by adding
+    that third parameter to the main function; this is required to run the `setEcommerce()`
+    function with the first Ethereum address. Finally, I'm checking whether the e-commerce
+    contract has been properly set up in the token by calling the `isEcommerceSet()`
+    public variable from the token.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Run the following deployment command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE65]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If you want to test that everything runs properly without waiting for `ropsten`,
+    you can spin up a `ganache-cli` private blockchain and deploy it there instantly
+    by running the following command line:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE66]'
+  prefs: []
+  type: TYPE_PRE
+- en: After deploying your contract, you'll find the address and the ABI inside the
+    `build/contract/Ecommerce.json` folder.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finishing the dApp
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To complete the dApp, we have to modify the React code to integrate the smart
+    contract changes while also making sense of the way we receive the information
+    from the blockchain using the right methods to display that data properly. Before
+    this, make sure that your contracts are deployed to `ropsten` , as shown in the
+    previous steps.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting up the contract instance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Because we are using webpack, we have access to all the files inside the source
+    folder from the React files, which means that we can get the deployed smart contract
+    ABI and the deployed contract address, as well as the required parameters to create
+    a contract instance. This is shown in the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE67]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `build` folder will be created when you successfully deploy your smart
+    contract with Truffle, and it contains important smart contract parameters that
+    we may need for our dApp. Modify your setup function to have access to the contract
+    object globally, making things easier for the external components. I''ve highlighted
+    the contract instance in the following code for you to find the changes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE68]'
+  prefs: []
+  type: TYPE_PRE
+- en: Note how we've reduced the `state` object to a few elements without any dummy
+    data because we'll use the real smart contract data. The contract instance is
+    created by using `abi` and the contract address, which is also contained in the
+    build JSON file. At the end of the setup function, we're calling the `getLatestProducts()`
+    and `displayProducts()` functions, which, as you will see in a moment, are necessary
+    to get the data from the contract while displaying it properly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Updating the index file
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now that we have a working contract instance, we can work on the required functionality
+    for the index file so that we are keeping the functionality contained inside smaller
+    components as shown in the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Implement the `displayProducts()` function to display products sorted by properties:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE69]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Add the updated redirect function, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE70]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Implement the function to get products from the smart contract by taking the
+    length of those products and looping each one of them:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE71]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In our home page, we''ll display the latest products added by other sellers
+    so that you can start buying straight away. For this reason, we''ll use `getLatestProducts()`,
+    which receives the number of products to display as the parameter while getting
+    the data from the blockchain. How do we get all the product data without a `getter`
+    function? Well, the process goes like this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We get the length of the array of products. We use the `getProductsLength()`
+    function because we can't get the length of an array without a proper `getter`
+    function.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Once we know how many products are available in the smart contract, we loop
+    through that size to run the `products()` function, which is available because
+    our products array is public, meaning that it has a `getter` function automatically
+    created for it. Public arrays have to be accessed one by one; that's why we're
+    using a reverse `for` loop.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: We need a reverse loop to get the latest products first. How the `for` loop
+    works because it could be the case that we run out of product to display, given
+    that we start with exactly zero products when we want to display `9`, indicated
+    at the end of the setup function. That's why we created the `condition` variable
+    – it checks whether the amount of products requested to display is actually available;
+    if not, we simply get all the products available, however few they are.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: On the other hand, once the `state` object has been populated with the products
+    contained in our smart contract, we use the `displayProducts()` function, which
+    takes care of generating the proper HTML needed for each product while updating
+    the `productsHtml` state array.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, we have the `render` function, which has been slightly modified for
+    these new updated components, as shown in the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE72]'
+  prefs: []
+  type: TYPE_PRE
+- en: After making the implementation changes, take a look at the entire index file,
+    available on GitHub at [https://github.com/merlox/ecommerce-dapp](https://github.com/merlox/ecommerce-dapp).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Updating the Buy component
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s move on to the `Buy.js` file since the `Home.js` and `Product.js` components
+    will stay as they are without any required modifications, considering that the
+    product data will have the same expected format. In the `Buy` component, we need
+    to add a function to purchase products, which will send the transaction to the
+    smart contract, here''s that function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE73]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `buyProduct()` function takes all the state data regarding the user address
+    and sends the transaction with the required product price as the transaction''s
+    payment. The `bytes32` function is required to convert some string values to bytes32,
+    saving gas costs. That''s the entire change required for this particular component.
+    Check the final implementation of the entire component on the updated GitHub at:
+    [https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Buy.js](https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Buy.js).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Updating the Sell component
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s work on creating the required functionality for the `Sell.js` function
+    so that you can start adding purchasable products to the marketplace. In this
+    case, we need to add a function that will call the `publishProduct()` function
+    from the smart contract. Here''s how the updated `publish` function looks:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE74]'
+  prefs: []
+  type: TYPE_PRE
+- en: Note how we check for all the required parameters to let the user know when
+    something's missing. You could add some additional checks to make sure that the
+    image URL provided is actually a valid picture that can be displayed on the marketplace.
+    I'll leave that up to you. It shouldn't take you more than 10 minutes, and it's
+    a great exercise to practice your JavaScript skills.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The final updated version is available on GitHub at: [https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Sell.js](https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Sell.js).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Updating the Orders component
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now let''s update the `Orders.js` component, which is the most elaborate component,
+    given that we have to generate multiple products. Let''s start by creating a function
+    to get all the orders related to the current user, as shown in the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE75]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We''re generating three different arrays by following the same procedure we
+    used for the products in the index file. We have the same condition operators
+    but for different types of orders. We then run a `for` loop for each of the desired
+    orders in reverse so that we get the most recent ones. Because the data returned
+    by the smart contract is a bit messy, we''ve created a function named `generateOrderObject()`,
+    which receives an order object and returns a cleaned object with converted hexadecimal
+    values at that have been converted to readable text. Here''s how it looks:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE76]'
+  prefs: []
+  type: TYPE_PRE
+- en: It's important to separate repetitive code in external functions to keep your
+    code neat. As you can see, this function converts the byte types of variables
+    to a readable `utf8` string while also converting BigNumbers to integers so that
+    they can be displayed in our user interface properly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'After updating the state object with the recent orders, we can create a function
+    to generate the proper HTML for each element by going through the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Set up the required array variables, which in this case is simpler, since we
+    want to create three blocks for the different types of orders:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE77]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In case there aren''t orders for each type of order, we want to display a message
+    to let the user know that there aren''t orders by using the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE78]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Update the pending orders by adding an address section using the following
+    code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE79]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Right under the product data, add the address information so sellers can fulfill
+    those orders using the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE80]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We do the same thing with the pending buyer orders: we display the product
+    data first, using the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE81]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The address data will be exactly the same, so copy and paste it into this pending
+    buyer orders loop. We''re using the same code because we need to update the appearance
+    of each HTML block, but the class names have to be different. Add the `for` loop
+    to the completed orders array using the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE82]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Paste the address block right under the product data. Update the state of this
+    component with the `setState()` method:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE83]'
+  prefs: []
+  type: TYPE_PRE
+- en: It's a big function because we have repetitive functionality for the sake of
+    keeping it simple. We have three loops for the three order arrays, so that we
+    can put the order information at the user's disposal. Nothing too fancy, just
+    the data in a clean design. We're adding that data to the `state` object so that
+    we can display it easily.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create a `setup()` function to run both functions when the component loads,
+    as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE84]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In this case, we''re requesting five orders per type, as we don''t want to
+    overwhelm the user with information – this is easily changeable to your preferences.
+    You can even add a slider in the UI so that the user changes how many items are
+    displayed. The `render()` function has also been updated to reflect the buyer''s
+    address data, as shown in the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE85]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'That''s the complete set of changes for the `Orders` component. Take a look
+    at the updated implementation in the official GitHub link at: [https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Orders.js](https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Orders.js).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can find the updated CSS code at [https://github.com/merlox/ecommerce-dapp/blob/master/src/index.styl](https://github.com/merlox/ecommerce-dapp/blob/master/src/index.styl),
+    where you'll get the exact same design.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'That''s the entire e-commerce dApp for you! Here''s how it looks, just so you
+    can see the potential of this simple yet capable application:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a8ee1daa-a409-4dfd-b265-d3601939472b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Remember to deploy your smart contract to `ropsten` and run `npm run dev` to
+    start the webpack server so that you can interact with it. This is a prototype
+    of what can be done in Ethereum in the e-commerce department; it's up to you to
+    build upon this idea now that you understand how the smart contract interacts
+    with the user interface.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Be sure to check out this chapter''s code on GitHub link at: [https://github.com/merlox/ecommerce-dapp](https://github.com/merlox/ecommerce-dapp).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, you began by learning about the potential of using ERC-721
+    tokens to create a marketplace of unique products using decentralized smart contract
+    technology so that you can easily manage NFTs created by users freely. Then you
+    built a clean interface to display the most important data so that users have
+    a comfortable place in which to interact with the underlying smart contract. Next,
+    you built the smart contract by learning how NFT tokens work, including all of
+    their functions. You deployed your own version of the ERC-721 standard to then
+    create the e-commerce smart contract that contained the logic required to publish
+    products for the public so that others can purchase them with real Ethereum. Finally,
+    you put everything together by creating the necessary functions to interact with
+    the smart contract on the React user interface.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we'll go further by building a decentralized bank and lending
+    platform that implements complex smart-contract systems to guarantee that people
+    have access to a reserve of secure funds, with a user interface for them to interact
+    with it.
+  prefs: []
+  type: TYPE_NORMAL

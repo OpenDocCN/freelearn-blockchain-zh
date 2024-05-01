@@ -1,0 +1,1831 @@
+- en: Mastering Smart Contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this chapter, you''ll be taken on a journey across several interesting frameworks
+    to design secure, scalable, and fast smart contracts that are gas-optimized so
+    that people don''t pay too much Ether per transaction. We are going to create
+    a **copyright marketplace smart contract** that stores licenses that people create
+    for their content that''s identified by a unique ID, all on the blockchain. Then,
+    you''ll explore the EVM in depth in order to understand how it actually works
+    in the backend when you deploy and interact with a smart contract. Next, we''ll
+    talk about upgradable and scalable smart contracts for the next generation. And,
+    finally, we''ll cover gas- and data-efficient smart contracts and security analysis
+    with audits. In this chapter, we''re going to cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Getting up to speed
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The EVM in depth
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Upgradable and scalable smart contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Gas- and data-efficient smart contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Smart contract security analysis
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Getting up to speed
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: If you want to become an expert when it comes to smart contracts, you have to
+    start with a simple project to refresh your skills. We're going to create a copyright
+    marketplace smart contract to upload legal documents to the blockchain that guarantee
+    that some piece of content is protected by copyright law and cannot be copied.
+    Without further ado, let's get right to it!
+  prefs: []
+  type: TYPE_NORMAL
+- en: Planning the marketplace idea
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Here is the way copyright law works in simple terms:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: You register a piece of content that could be a document, text, an image, a
+    video, or any kind of creation that you did by yourself with a unique identifier,
+    publicly so that people can confirm your authority.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The people that want to use your content for whatever reasons have to consult
+    your copyright terms and obey them to avoid legal problems, because we don't want
+    people stealing your work for their own benefit.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A copyrighted register shouldn't be modified, so we'll avoid creating functions
+    that allow people to modify their copyrighted data; so, we'll only allow them
+    to add or remove copyrights.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We need a smart contract that lives on the blockchain that people can access
+    easily. This contract will have the following functions to manage copyright registers:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A function to add new copyrighted content with a unique identifier that you
+    create by hashing the content. In this case, we want to limit the copyrighted
+    content to just text, since it's expensive to upload other types of content on
+    the blockchain. This function will receive the address of the owner of the content,
+    their name, their email address, the hashed ID of the content, a URL containing
+    the article or document to register, and the terms of use that others must obey
+    when using this particular piece of content.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A function to get content based on a hash.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A function to delete copyrighted content if you're the owner.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A function to extract the funds locked in this smart contract. It often happens
+    that people send Ether to the wrong address, which ends up in a smart contract
+    like this. We want to be able to extract the funds locked away so that they are
+    not lost forever if this happens. It can also be used as a donation address for
+    showing the appreciation for the work done.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Designing the code in Solidity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this project, we''ll use Truffle to deploy and run our smart contract. When
+    dealing with larger projects, it''s always worth the initial effort that''s invested
+    in setting up a framework such as Truffle with all the required dependencies,
+    because it saves us a lot of time in the long run while improving the development
+    experience. Here are the steps for setting up our project with Truffle, since
+    it''s the first time we''re mentioning it in this book. Later on, we''ll assume
+    that you know how to set up a project in Truffle, although we''ll remind you plenty
+    of times when needed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's start right away by creating a new folder called `copyright`**:**
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/6b264df7-8c04-4f50-8378-97f3c330f5a6.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Inside that folder, run the `truffle init` command. If you don''t have Truffle,
+    install it with `npm i -g truffle` or `sudo npm i -g truffle`. You can get `npm`
+    by installing Node.js from their website, [nodejs.org](http://nodejs.org). The
+    following screenshot shows what the process is:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/07b94f8a-e1b3-4e38-9bf2-244e43d7e322.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Then, you can open the project with your preferred code editor, in my case,
+    Atom:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/205bf315-6fbd-45e7-ab53-b670587b762f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Create a new file inside `contracts` with the name `Copyright.sol`. Create
+    the basic code structure of every Solidity smart contract:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The order of every smart contract is simple. First, we define the events, the
+    variables, the modifiers, the fallback function, the constructor, and, finally,
+    the functions. So, let''s define our events:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This event logs the `counter`, `hashId`, `contentUrl`, the address of the owner,
+    the timestamp, email, and terms of use for that content. We can now define the
+    `struct` that contains those variables. Our goal is to store information in a
+    way that is as accessible as possible, so a struct is the best way to organize
+    copyrighted content with mapping:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The mapping will associate each hash to the content object that stores all
+    the relevant information about the copyrighted content. Here''s the reason behind
+    each of those members inside the struct:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`counter`: We need a simple way to keep track of how many copyrighted elements
+    are added to the blockchain, because it provides us with a simple way to look
+    up the latest content using the registry of events.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`hashId`: The `keccak256` string of the text content that we''ll associate
+    with this object. Because we can''t use strings as the key of the mapping, we
+    have to use a `bytes32` type of variable. This causes the problem that we can''t
+    store the entire `keccack256` string because it''s 64 characters long, and `bytes32`
+    variables are limited to 32 hexadecimal characters. What we''re going to do to
+    overcome this limitation is to cut the resulting hash in half to only store the
+    first half, which is exactly 32 bytes. This significantly reduces the hash security,
+    but it''s good enough given that we won''t generate astronomically high copyrighted
+    elements.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`contentUrl`: A web URL that contains the original document to be copyrighted.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`owner`: The content owner''s address, which is essential to guarantee the
+    person''s property.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`timestamp`: A fixed timestamp for when the content was copyrighted. Great
+    to set up expiry dates to invalidate outdated elements.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`email`: A valid email to provide users with a simple system to contact the
+    owner of that particular content.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`termsOfUse`: A short piece of text explaining how the content must be treated:
+    what you can do with it as an external individual, when you can use it, and so
+    on.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'You can add your own elements to the `struct` if you wish to create a different
+    type of copyright registry marketplace. It''s about personal preference. Finally,
+    I''ve added an `owner` variable that we''ll use later for extracting funds that
+    could end up locked in this contract. Now, we can continue with the functions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `constructor` variable will be used for setting up the owner address. The
+    `addContent` function takes four parameters instead of the seven required for
+    the struct since we can generate the others dynamically. This is important to
+    simplify things and help people upload their copyright easier. First, it checks
+    that the most important parameters are set because we need them no matter what.
+    This means that the terms of use are optional for the simple reason that people
+    can choose to not restrict the use of their content, meaning open content with
+    their ownership.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We generate the `newContent` object, we increase the counter, and add that content
+    to the mapping of `copyrightsById` to finally emit the registration event. This
+    is the most important function and it has to be as optimized as soon as possible
+    to avoid reaching gas limits.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Note that we don't need a function to get the content by hash because the `copyrightsById`
+    mapping is `public`, therefore it has a getter function automatically created
+    for retrieving each struct element.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s continue with the function to delete copyrights and to extract funds:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `deleteCopyrightedByHash` function takes the half `keccak256` hash of existing
+    copyrights and deletes them if you're the owner of that particular content. The
+    `extractFunds` function is an optional function that I like to add, because I
+    usually see smart contracts with Ether inside that they got by mistake because
+    someone didn't realize that they were sending real money to the contract address,
+    so it's stuck in there forever. This function makes the extraction of funds possible
+    so that you can retrieve the money if that ends up happening.
+  prefs: []
+  type: TYPE_NORMAL
+- en: That's the entire contract! You can compile it with Truffle using `truffle compile`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can check the updated code on my GitHub: [https://github.com/merlox/copyright-marketplace](https://github.com/merlox/copyright-marketplace).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Deploying your smart contract with Truffle
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Deploying smart contracts with Truffle is not a straightforward process: you
+    must go through a few different files to modify the expected behavior of Truffle.
+    You see, Truffle needs to know where to deploy your contracts, the constructor
+    parameters, and the deployment order, among other things; therefore it''s necessary
+    that you configure all the moving parts to be able to deploy your contract continuously.
+    Once set up, you''ll be able to re-deploy new versions with just a command since
+    Truffle will know exactly what you need to get done, how, and where.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We will deploy our contract using the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, you must compile your contract with `truffle compile` since you can only
+    deploy compiled code to the blockchain. Open the `truffle-config.js` file from
+    your project folder. That's the file where the deployment configuration is set
+    up.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'If you read the comments, you''ll see that Truffle uses INFURA for a quick
+    and effective connection to the blockchain and that you need to uncomment lines
+    1 to 5 to update your information. For instance, the commented code shown here
+    must be uncommented:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/0681d055-8f14-478d-b864-a2229d3e467f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Doing this will mean that it will look like the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b93cff75-88d8-4287-bded-46cef3374582.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This essentially uncomments your INFURA and mnemonic variables.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Get your INFURA key by registering on [https://infura.io](https://infura.io)
+    to get unlimited access to high quality servers with blockchains installed after
+    creating a project:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/97bb0e91-5b1c-4522-90b2-328f9d30d069.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The ENDPOINT is where your INFURA key is. Simply click on the Copy icon next
+    to it so that you have something similar to this:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Strip the copied string down to just the part after the website name, since
+    that''s what Truffle uses when configuring the deployment network key:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, paste that into your `infuraKey` variable inside `truffle-config.js` so
+    that you''re able to deploy your smart contract on `ropsten`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/a36dfa0b-d07d-49a1-9258-539db776cd3f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'What you need now is to give Truffle your mnemonic phrase, so that it''s able
+    to deploy the smart contract on `ropsten` with your address. To do so, create
+    a file called `.secret` at the topmost level of your project containing the mnemonic.
+    Here is an example:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/d3c6bd5a-4e35-4469-abe1-f721d682756f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Inside `.secret`, write down your mnemonic without any additional information:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/6f6bbe48-9ad9-417a-9c8f-f149ba2df23d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Then, go back to your `truffle-config.js` file and uncomment the section about
+    `ropsten`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/10b326fd-3184-4bed-930d-3b4eabd946dd.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Then, install `truffle-hdwallet-provider` with the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Be sure to be in your project folder when installing it, since it will install
+    in the current location. Finally, execute the following:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Your contract will be deployed in a few minutes, depending on the network.
+    You can then play and test the smart contract. Make sure to hash the copyrighted
+    content with `keccak256` by using this tool: [https://emn178.github.io/online-tools/keccak_256.html](https://emn178.github.io/online-tools/keccak_256.html).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'After getting `keccak256`, cut it in half and generate the hexadecimal code.
+    If you have MetaMask, you can do that from your browser, since you''ll have web3.js
+    available on all websites. These are the steps to convert a specific string of
+    text into the hexadecimal version within your browser:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Open the developer tools on your browser.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Go to the Console tab where you can execute JavaScript code.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Type `web3` to see if web3 is available.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'If so, take your half `keccak256` resulting code and generate the hexadecimal
+    version with `web3.toHex(''your-hash'')`, as shown in the following example:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: You can then use that hexadecimal string to add a new copyright element to your
+    smart contract as `hashId`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The EVM in depth
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The **Ethereum Virtual Machine (EVM)** is one of the least understood parts
+    of the entire Ethereum ecosystem. It could be because the complexity that this
+    virtual machine contains is confusing even to the best developers. In any case,
+    your goal as an Ethereum expert is to become great at all things related to Ethereum
+    development, so it's a must that you understand the intricacies of this powerful
+    virtual machine so that you can extract its full potential at all times.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Explaining the EVM
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The EVM is a virtual machine where smart contracts and transactions get executed.
+    Think of VirtualBox or VMware with the Ethereum operating system. They are emulations
+    of a physical computer, in order to create a clean environment where applications
+    can communicate with the CPU. This type of virtual machine processes transactions,
+    blocks, and smart contracts uniformly for all users. It keeps hundreds of computers
+    connected, so it''s very important to have enough security to protect each node
+    from potential attacks. Some of the security systems that are implemented are
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Gas**: Every transaction must be paid before being executed to avoid abusive
+    behaviors where some nodes send unlimited transactions without any intention of
+    paying them.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Peer-to-peer communication**: Nodes can only communicate via messages by
+    sending and receiving data, which means that they can''t access each other''s
+    data.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Deterministic**: This means that the initial state will always produce the
+    same results. For instance, adding two numbers will result in the same exact result
+    if they are the same. This is important to make consensus possible because it
+    allows others to verify that the transactions are indeed valid; otherwise, it
+    would be impossible to verify transactions and consensus would be limited given
+    that the same state results in different calculations.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Sandboxed execution**: Since this is a virtual machine, smart contracts using
+    it can''t have access to the outside computer making all the transactions possible.
+    Only smart contracts can interact with each other with a limited scope.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To fully understand how the EVM works, we have to go deeper into the assembly
+    language that keeps this system together. Ideally, we could understand bytecode
+    language, which is what computers process, but because we can't, we've created
+    an abstraction for each process in a language called **assembly** that can be
+    easily translated to bytecode for processors to compute.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Operation of smart contracts in the EVM
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Smart contracts are fascinating because they are able to keep many nodes connected
+    in a single system that understands how they should make decisions and agree on
+    the results. They work on top of a stack-based virtual machine that you could
+    think of as an array that keeps track of the variables stored in memory. It provides
+    you with a set of small functions to manipulate that stack. To understand how
+    smart contracts operate in the EVM, we'll have to follow them to see how they
+    are being transformed by the virtual machine until they become executable bytecode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For instance, take a simple contract such as this one:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'How does a compiler such as `solc` convert that code into something that the
+    EVM can understand so that the computer can process it? Let''s try to analyze
+    it with that specific compiler. Install `solc` by executing the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If you compile the contract to bytecode and analyze the process that the bytecode
+    is taking, you will get the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You''ll see a few interesting things about the EVM''s behavior. First off,
+    you''ll get a file with the `.bin` termination, such as `Example_sol_Example.bin`,
+    which is the binary file containing the compiled bytecode of the smart contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To understand all that bytecode and see what the EVM is really doing, we have
+    to split each instruction accordingly. `6080604052` is just the initialization
+    of the smart contract. It''s always the same for every contract. Then, we have
+    the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The number 60 is a specific instruction, known as `PUSH`, that essentially
+    moves the number `3` to the memory stack. The stack is just an empty array that
+    can get or delete values from its array. Our stack looks like this after the `PUSH`
+    3 instruction:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following instruction adds a zero to the stack:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This results in `stack: [0, 3]`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Then, we have `55`, which is a `STORE` instruction that writes `uint256` permanently
+    to storage, the blockchain. We need to add the number 3 to the stack before we
+    can write it into storage. What we did here is essentially the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This is equivalent to the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Remember that all smart contracts start with `6080604052`, as you saw in the
+    complete bytecode. Our smart contract contains just a `uint256` assignment, so
+    it follows that bytecode with `6003600055`. What we finally have is the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: The rest is irrelevant, since it contains information about the sender and the
+    contract. There are about 100 opcodes, and many different techniques are used
+    in the EVM to translate smart contract code to bytecode so that it can be published
+    to the blockchain efficiently.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, you understand what happens under the hood when you write a smart contract,
+    compile it, and deploy it to the network. The rest is up to the nodes that run
+    their own specific implementation of the Ethereum protocol, so they decide which
+    blocks to take and which ones to ignore. The EVM is a complex virtual environment
+    that processes transactions and bytecode from smart contracts to achieve a global
+    consensus that benefits everybody.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Upgradable and scalable smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Ethereum blockchain is immutable, which means that you can't modify its
+    past actions. Once an action is confirmed by the majority of the miners, that
+    action stays there forever. The same restrictions apply to smart contracts. However,
+    we, as Ethereum experts, are able to overcome the issue of deploying unscalable
+    code that ends up being vulnerable because we understand that there are different
+    development techniques where we create scalable code. The idea is to deploy smart
+    contracts so that they are ready to scale in the future with a set of different,
+    interchangeable contracts. Knowing how to create smart contracts that scale and
+    can be improved in the future is an essential skill that any top Ethereum expert
+    must possess, so don't miss out on it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Upgradable smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Upgradable smart contracts** are the next step when it comes to creating
+    advanced smart contracts for big industries that keep evolving and require new
+    functionalities unexpectedly. They can be used in all kinds of projects, but I
+    recommend that you use them only for those that may require upgrades in the future
+    or for those that want to secure their data for future projections. Not every
+    smart contract needs to have upgradable functionalities, although tokens and the
+    likes will benefit heavily from upgradable code.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We''ll create an upgradable smart contract that is made up of three parts and
+    two smaller smart contracts. Here''s how it will look:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/953fbe37-68a7-4bd3-bcf9-e65bec40eb96.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: There are many ways to make upgradable smart contracts—you can even create your
+    own! So, be patient when it comes to understanding this kind of technology, because
+    it can seem confusing in the beginning.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To make a contract upgradable, we need three pieces:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**The proxy contract**: This is the initial contract—the main contract that
+    users always use to interact with the code. Think of this one as the same old
+    smart contract that you use to make function calls but that, instead of executing
+    the logic inside here, gets executed in the upgradable smart contract.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**The upgradable contract**: This one is where all the logic takes place. This
+    contract can be upgraded, which means that it can be removed and you can deploy
+    a newer version with the same name and new functions. Users won''t interact with
+    this contract directly since the address changes every time it gets upgraded.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**The storage contract**: Because we don''t want to lose our state variables
+    and all the user information every time we upgrade a contract, we will store all
+    the variables, mappings, and data in this storage contract. It will have only
+    variables and setter functions to update those variables. It won''t have any logic
+    or functions besides those.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'To upgrade a contract while keeping the same address, what will happen is this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Users will send a transaction to the proxy contract, for instance, `execute
+    function buyTokens()`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The proxy contract will send that, find the `buyTokens()` function inside the
+    upgradable contract, and execute it.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The upgradable contract will process the logic to buy tokens and it will store
+    all the changes inside the storage contract, for instance, by calling a function
+    named **`setTokens()`**, which increases the number of tokens of user A to 40.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The storage contract executes **`setTokens()`** and updates the tokens variables
+    to `tokens = 40;` for user A.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: That's essentially the workflow of how the logic operates. In essence, we will
+    always use the same contract address, but the logic will change. We will also
+    keep the same information without deleting it because it's valuable information
+    that could be very hard to re-insert.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To help you understand the concept behind all these contracts, I'll show you
+    a pseudocode version of the code that each smart contract has. We'll use the token
+    analogy, where a user wants to buy tokens in an upgradable contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here''s what the proxy contract would look like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This is what the upgradable contract would look like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'And, finally, here''s what the storage contract would look like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: Those three contracts working together are the core concept behind upgradable
+    smart contracts, where instead of updating the entire codebase, we break the different
+    roles into changeable parts that can be modified in the future. Let's take a deeper
+    look at how they are all implemented, one by one.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Storage smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The storage smart contract is the simplest of the three, since it just contains
+    variables and functions to update those variables. We don't need getters, because
+    these are public variables that already have getter functions created by default
+    for being public.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We''ll create a simple storage smart contract that contains one `uint` variable
+    for demonstration purposes. You''ll then be able to add more variables as you
+    need. This contract is quite simple, since it just contains one variable:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, we have a variable called `myNumber` and a setter function called
+    `setMyNumber` that updates that variable.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You may want to introduce access logic to only allow specific users to update
+    certain variables. For now, it's enough that you understand how it looks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Upgradable smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The upgradable smart contract is the most interesting one. It will execute
+    all the logic and will interact with the storage contract whenever it has to update
+    some variable data. Let''s take a look at the code to see how it works. We''ll
+    later see how to upgrade it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: This upgradable contract is in the same file as the `Storage` smart contract.
+    This is important at the beginning because we need access to that contract for
+    deployment purposes. Alternatively, you could use the `import` keyword.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As you can see, I've declared the `Upgradable` smart contract with a variable
+    called `storageContract`, which keeps track of the storage contract's address,
+    since we will update the state variables there. In the constructor, we set the
+    storage contract's address, since this contract will keep the same storage until
+    it's updated. Then, I added a function called `buyTokens()` as an example to show
+    you how it would look in a real-world example; right now, it doesn't do anything
+    besides updating the storage by calling `setMyNumber()` from the `Storage` contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you were to create a real implementation, you'd add all your desired logic.
+    I don't want to show you a real, completed version of this upgradable contract
+    because the many functions would distract you from understanding how an upgradable
+    smart contract works.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It shows that you execute all your logic and then, at the end of the file, you
+    update your storage variables by calling the storage contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To upgrade this contract, follow these steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Deploy a new version of this contract with your updated functions. You can add
+    new functions, update old ones, or even delete some.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: When deploying the contract, use the storage address in your constructor, since
+    you need to access that contract for variable keeping.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Finally, in the proxy contract, execute a function called `upgradeUpgradableContract()`,
+    which will redirect all the function calls to the newer version of your upgradable
+    smart contract.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Notice how you can deploy this contract while keeping the same storage contract,
+    thus preserving your data safely and so that it is ready to use like nothing happened
+    in the next version of your upgradable contract. Alternatively, you can deploy
+    a new storage contract and then a new upgradable contract pointing to that new
+    storage. That way, you have clean storage if you don't want to keep the old data.
+    Nevertheless, you'll still have access to the old data, since the contract will
+    permanently live on the blockchain just by pointing to the old storage address
+    when creating a new upgradable.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proxy smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This is the most important piece because this contract will never change. We
+    don't want it to change, because we want to keep the same Ethereum address while
+    updating the underlying logic. This contract will redirect all the calls to the
+    upgradable contract and will have several variables to register the current upgradable
+    contract's address and a list of past contracts for those that don't want to update
+    to the new code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Remember that upgrading to a new version is always optional. If your users decide
+    that they want to keep using the old smart contracts, they will simply send all
+    their transactions to the old upgradable contract directly without executing the
+    proxy contract. You could stop them from doing so by destroying the old upgradable
+    smart contract with the `selfdestruct()` function, but I don't recommend it, since
+    it makes your contract worthless, and it could be usable in the future.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here''s how the proxy contract looks:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: This is the most complex contract because it has to do quite a few things. First
+    off, we set up `storageAddress`, `upgradableAddress`, and `owner`. Those are the
+    variables that the contract will use to understand where to redirect all the calls.
+    We don't actually need to keep track of the storage address or the owner, but
+    it's good practice, since it makes things understandable and gives you more options.
+    Note that the `delegatecall()` function can't update the storage of the upgradable
+    contract, so we set up an external storage.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Then, we have two address arrays: `listStorage` and `listUpgradable`. These
+    arrays will contain the current and older versions of those storage and upgradable
+    contracts since we want to have access to old logic in case we needed to do so
+    with those addresses. I''ve added an `onlyOwner` modifier because we only want
+    to allow contract updates from the owner.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'After that, we have the constructor. It is used to deploy a new storage and
+    upgradable smart contract right away. You could deploy them separately, but it''s
+    just easier and cleaner to do it from the proxy''s constructor:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Next, there''s the fallback function, which is marked as external. This is
+    the most important function, since it''s the one that will receive all the function
+    calls and will redirect them to the right function from the upgradable smart contract.
+    It works by using the `delegatecall()` function. It''s a low-level function that
+    receives a `bytes` parameter to indicate which function to call from the other
+    contract with the parameter values:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, we have the functions that are required to upgrade the storage and
+    logic contracts whenever the owner decides to do so. They work by keeping track
+    of previous versions in the arrays so that users can access older versions if
+    they want to do so:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To understand how the mechanism of communicating with the logic contract works,
+    check out this function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: First, this takes the address of the contract to call, which in this case is
+    the upgradable contract address, and then the data with the information to transmit.
+    The `msg.data` parameter is a special variable that contains the function to call
+    with the parameter values. Here's where you'd write the function name to call.
+    For instance, let's say that you want to execute the `buyTokens(uint256 _number)`
+    function, with the `_number` parameter being `12`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In a normal contract, you''d simply create a contract instance and call the
+    function by name while sending the parameter values:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: But we can't do that when we don't know the function name beforehand. Remember
+    that we're dealing with a contract that may have new functions in the future,
+    and we also want to have access to those functions from the same proxy contract.
+    For that reason, we use `msg.data`. That variable contains a hexadecimal bytes
+    string with the function name and the parameters. Let's see how to format it properly
+    so that Solidity understands which function we want to call.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'First, we need the function name, and then we need the parameters encoded.
+    Because Solidity works with hexadecimal values, we need to write it in hexadecimal
+    form using the function signature. The function signature is a short way to reference
+    functions by a short hexadecimal value instead of their string names. If you go
+    to [https://remix.ethereum.org](https://remix.ethereum.org), you can quickly see
+    the function signature of each of your functions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/40a35747-e6f0-43f9-81b6-cc56ecce72d6.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'As you can see, I''ve copied my contract on Remix. Now, to get the function
+    signature in a hexadecimal form of the `setMyNumberStorage()` function, you have
+    to go to the compile tab while selecting your contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c97dc487-11f7-4d92-af1e-41dc1146209c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Then, you can click on Details for more information:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/8084c651-204f-4d4f-8e24-a453845d2f8f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'If you scroll down, you''ll see the section with the function hashes of your
+    contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/06255bbe-301b-46aa-ab9c-18656f8752da.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The function hash for `setMyNumberStorage()` is `009be4e6`; that''s the function''s
+    signature. Great! We have the first part of our `msg.data` object: `0x009be4e6`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, we need to encode the parameters of the function. Let''s say that I want
+    to set a number of `16` when calling the function. You can do it manually by converting
+    that number into its hexadecimal form with web3\. If you have MetaMask installed,
+    you can open your browser''s developer tools to interact with `web3.js`. In the
+    console, you can simply type `web3.toHex(16)` and you''ll receive the hexadecimal
+    version of 16:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9e8684fa-05a2-48ea-af5a-0dc446d040cc.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Note that `web3.toHex()` only works for version 0.20 of web3, which is the one
+    being used by MetaMask at the moment. The syntax is different in web3 1.0, so
+    if MetaMask updates its version of web3, you can read how to do hexadecimal conversion
+    in the official web3 1.0 docs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, we just need to add 62 zeroes in front of 10, since `0x10` is our number
+    to get the encoded version of that parameter. Here''s an example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'That would be 16 encoded hexadecimally. We just need to add the function signature
+    in front of that to complete our `msg.data` object:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'That''s about it! That long string of hexadecimal numbers says: *Call the function
+    setMyNumberStorage(12)*.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Going back to where we left it, the `.delegatecall(msg.data)` function can
+    now be executed properly with the converted value of our function call. You may
+    be asking yourself: *But why complicate things so much, how will users do all
+    that conversion work?*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The truth is that people using your smart contract or dApp won''t do all the
+    conversion. You''ll simple write the conversion logic in your decentralized application,
+    and the function names will be converted automatically in a few lines with web3,
+    as you saw already. Alternatively, you can deploy your contract on Remix and get
+    the entire encoded function call with just one button:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/686a99c0-4ecd-41de-83e0-6072bd1b0909.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'When you deploy a contract, you can see a box where you can interact with your
+    deployed contract. If you click the arrow that I''ve marked, you''ll see the expanded
+    version of the function call that shows you the toolbox icon, which you can click
+    to get `setMyNumberStorage(16)` converted directly into hexadecimal form:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'That''s a simple trick to make the conversion when using your contracts with
+    Remix. With that hexadecimal number, you can go to MetaMask and paste it inside
+    the data field. First, open MetaMask and click on SEND:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/cc869e8c-850b-446f-bb47-9e63a97f5b40.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Then, paste your code into the data field by scrolling down:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/72f8dde7-2186-4ef2-9638-2e25df506488.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: After confirming the transaction, you'll see that your function has been successfully
+    delegated and that you've made the execution from the proxy contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s go back to our fallback function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can see that the `delegatecall` function returns two values: a boolean
+    for whether the delegation was successful and a bytes parameter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE35]'
+  prefs: []
+  type: TYPE_PRE
+- en: We simply capture them and require that the delegation is successful. Otherwise,
+    it will revert the transaction and not make any changes. This is important, because
+    the `delegatecall` function doesn't care if the delegation was successful or not;
+    it will simply inform you to let you take the decision, since it's a low-level
+    function that can be used in many advanced situations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Another interesting property of `delegatecall()` is that `msg.sender` of the
+    receiving contract will be your Ethereum address instead of the proxy contract's
+    address. This is important because otherwise, your address would simply be different
+    in the upgradable contract. You don't want that in many cases, where the user
+    address is important for some logic.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, we have these two functions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE36]'
+  prefs: []
+  type: TYPE_PRE
+- en: They are simply used to update a smart contract. Whenever you deploy a new version
+    of `Upgradable` or `Storage`, you'll have to execute the corresponding function
+    to let the proxy contract know which one is the active one so that it can delegate
+    all the function calls to the right version of the contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Scalable smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Usually, smart contracts are strictly limited by blockchain's processing capacity,
+    since hundreds of thousands of nodes have to be connected to each other to execute
+    the same transactions. This is a major problem when we're dealing with popular
+    applications that exceed blockchain's capacity. To overcome this issue, there
+    are different scaling solutions that you can implement in your smart contracts
+    so that many more users are able to run your decentralized applications without
+    performance issues.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To understand the scaling solution that you''re going to learn, it''s important
+    to understand the process that takes place when using a smart contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, the user generates a transaction for a specific smart contract either
+    by running a decentralized application that interfaces with that contract or by
+    executing the smart contract directly with their own Ethereum node
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The transaction is received by the miners so that they can include it into the
+    next block and execute the bytecode
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: When they confirm it, the transaction gets permanently added to the longest
+    chain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We can't speed up the process of confirming transactions by miners since the
+    consensus scheme used by Ethereum requires that each node verifies each transaction
+    until they all become valid.
+  prefs: []
+  type: TYPE_NORMAL
+- en: What we can do instead is use a protocol known as **state channels**. It consists
+    of commitment schemes that generate valid transactions off-chain as long as a
+    group of people agree on those transactions. For instance, think about a card
+    game such as blackjack. If you're not familiar with it, it consists of receiving
+    one card per turn for each player and betting chips on getting the largest sum
+    of combined cards. The one with a combined sum of 21, or the next largest number,
+    wins. If you exceed 21, you lose.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In essence, state channels are like blackjack games, where users can play an
+    endless number of games while keeping a score of chips that you can exchange for
+    real money when you finish. It's a great scaling system because you can run many
+    transactions off-chain directly peer-to-peer without waiting for the blockchain
+    to process each one of them. You simply bundle the result together and push one
+    big transaction to the blockchain when you end the game.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So, you're processing hundreds of transactions in real time until you end the
+    game, when you have to send 1 transaction. Instead of waiting about 20 seconds
+    per transaction for 100 transactions, you just wait 20 seconds once, while saving
+    gas. Therefore, you end up with a much faster and scalable system where many more
+    players can use your dApp with much better performance.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using state channels for scalable smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: I'll guide you through a simple example project so that you can see state channels
+    in action. They use commitment schemes, which are just encrypted transactions
+    that you can't change to commit to your actions before revealing the result when
+    the players decide to show their cards.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The smart contract will be the entry and exit point of the state channel. What
+    happens in-between is outside of the blockchain''s control, although we''ll define
+    what goes inside each encrypted message so that we can verify it when ending.
+    These are the steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Each player that participates in the game must open the state channel by calling
+    a function in the smart contract to define who they are. When they do that, they
+    must send some Ether to the smart contract as an escrow. Those funds will be used
+    for distributing the rewards when the game ends.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Generate the hash with the variables that you want to commit. These hashes will
+    contain the encrypted participation of each player. So, they exchange messages
+    back and forth directly by first committing to their bet, then revealing their
+    result and updating the variables and balances.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: When they decide to end the game, they go back to the smart contract to upload
+    their latest signed hash so that the smart contract can read it to send the corresponding
+    Ether to each one.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Let''s create the smart contract with the entry and exit functions. The rest
+    will be done off-chain. As usual, here''s the contract''s structure:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE37]'
+  prefs: []
+  type: TYPE_PRE
+- en: The constructor will be the entry, since we want to deploy a new instance of
+    the contract per game. The `exitStateChannel()` function will check the latest
+    signed hash and will send the corresponding Ether to each player. Notice how the
+    constructor is payable given that we want to receive the escrow funds when starting.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s add some variables that we''ll need. In this case, we''ll create a simple
+    guessing game where each player has to set a number from 1 to 10 and the other
+    has to guess that number to win. So, player 1 wins when player 2 makes a guess
+    different from theirs. They also bet Ether every guessing game; the winner takes
+    double his bet as long as both have enough funds for those bets:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE38]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Next, we need to set up those variables for each player:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE39]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, the constructor will initialize the address and escrow for the
+    first player, while the `setupPlayerTwo()` function will do the same for the second
+    player. That's all we need for opening the state channel between 2 players. Before
+    creating the `exitStateChannel()` function that will end the game while closing
+    the channel and distributing funds, I want to clarify what kind of elements compose
+    each hashed message and how the game will be played off-chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this guessing game, we have two players who have two different escrows in
+    which they make bets every game about a specific number that they select. If the
+    number is the same for both, the second player wins; otherwise, the first player
+    wins. And they get double the number of Ether invested as long as they both have
+    enough funds.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Therefore, player 1 will create an encrypted object containing the following
+    values to start a game:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Number selected**: This must be between 1 and 10.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Amount of Ether bet for the game**: The other player must have enough funds
+    to pay double what you invest. For instance, player 1 has 10 Ether while player
+    2 has 4\. Player 1 won''t be able to bet more than 4 Ether given that, if he wins,
+    the second player will have to pay all his Ether to him. We will leave this option
+    open so that they can invest as much as they want and if the bet exceeds the balance
+    of the player, he simply gets all the funds, even if it''s less than the bet.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Game sequence**: A counter that increases every game to identify the order
+    of each game.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Timestamp**: A unique timestamp for each player to understand when the bet
+    was made.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**A nonce**: A random 10-digit number to keep each message unique. This is
+    not mandatory, but it helps when trying to understand the order of events of the
+    game.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Here''s an example: the first player starts the game after opening the state
+    channel by creating the smart contract with another player, who set up their escrow
+    within the smart contract. He then creates the following data that will be encrypted:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Number selected**: 9'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Amount of Ether to bet**: He has 10 Ether in escrow, so he''ll bet 4 Ether
+    for this game'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Game sequence**: 1'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Timestamp**: 1549378379'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Nonce**: 2948372910'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'He then encrypts that information with the `keccak256` algorithm using a dApp:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE40]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'He gets this resulting hash:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE41]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Note that this is just an example where the real `keccak256` would be different.
+    He then signs that hash with the Ethereum account used in the state channel smart
+    contract. He can do so with web3.js since it''s the fastest way to sign hashes
+    off-chain in combination with MetaMask:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE42]'
+  prefs: []
+  type: TYPE_PRE
+- en: After that, the encrypted hash will be signed to later confirm that he indeed
+    chose those parameters with his account. The other player will take the same steps
+    to generate an encrypted signed hash with his bet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When the two hashes are generated, they will use a decentralized application
+    running some kind of communication system, such as a server or email, to exchange
+    those hashes and reveal their bets. They will be able to verify those hashes at
+    any point, since you can quickly verify that the information encrypted is valid
+    once you know the valid contents of it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Each new message will have an increased sequence number, a random nonce, and
+    a new timestamp that must be larger than the previous one. All those checks can
+    be done in a dApp that implements the state channel contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When they decide to end the game, they will upload their latest message to the
+    smart contract for it to distribute the updated balances from the escrow that
+    they configured when opening the channel. Here's how the game will be closed in
+    the smart contract with the `exitStateChannel()` function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'First, we set up the variables required for our game to keep track of the balances:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE43]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, we create the setup functions, which in this case are the constructor
+    and `setupPlayerTwo()`, whose job is to store users'' initial data:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE44]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, we add the most important function: the function to end the game and
+    exit the state channel by choosing a victorious player based on the last state:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE45]'
+  prefs: []
+  type: TYPE_PRE
+- en: When we have that many parameters for a function, it's great practice to separate
+    each one in a new line. First off, we check that the address hasn't been set up,
+    since we want to set up each message individually. Then, we regenerate the encrypted,
+    signed hash message to verify that the parameters that were passed are valid.
+    To verify if `keccak256` is valid, we only have to generate it again with the
+    supposedly used parameters and check if the resulting hash is exactly the same
+    as the one given.
+  prefs: []
+  type: TYPE_NORMAL
+- en: After that, we use assembly to get r, v, and s, which are the three variables
+    that are used to sign a message with your Ethereum account. We use it to get the
+    address of the signer to verify that it comes from the right person. Then, we
+    set up the balance, bet, and call of that player in the state variables. We do
+    that to later distribute the funds when the second player executes the exit function
+    with his parameters. Finally, after both have set up their resulting messages,
+    we execute the Ether transfers with the `transfer()` function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It seems complicated, but all we did was check that the signed message is valid,
+    then check that the signature of the message is valid, and finally update the
+    variables to distribute the funds when the other player verifies his exit message
+    with this function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This smart contract is just a demonstration. It has some important issues, such
+    as the fact that one player could decide not to publish his message to exit the
+    channel to avoid losing Ether. For that, we would need to add some kind of conflict
+    resolution mechanism to distribute the funds if the second player doesn't respond
+    after 24 hours. I'll leave that up to you to practice your skills.
+  prefs: []
+  type: TYPE_NORMAL
+- en: These are the next generation of smart contract, which will power complex decentralized
+    applications running for hundreds of thousands of computers simultaneously with
+    some centralized logic. In the end, it's about making sure we leverage the trustless
+    nature of the blockchain to create applications that can benefit users without
+    external entities intervening in the process. Continue reading to learn more about
+    efficient smart contracts that use the minimum amount of resources for the greatest
+    results.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Gas and data-efficient smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'It''s imperative to make smart contracts that not only handle transactions
+    in a transparent and secure manner, but that are actually using the blockchain
+    resources as efficiently as possible. For this reason, we''ll explore how to make
+    gas- and data-efficient code for Ethereum. In this section, we''re going to cover
+    the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Making gas-efficient smart contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Making data-efficient smart contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Making gas-efficient smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'I''m sure you''ve seen several smart contracts containing lots of functions
+    that feel like they are consuming too much gas to operate: functions such as those
+    that manage lots of state variables or those that have several different contracts
+    operating at the same time.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Even though the blockchain requires gas be paid for every single transaction,
+    it's in our best interest to create smart contracts that consume as few resources
+    as possible so that transaction costs get reduced drastically for our users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So, how do we do that?
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It turns out that every small operation has an opcode associate in the EVM.
+    Whenever you use an opcode, you''re paying gas because miners have to process
+    your transaction. Here''s a list of the most common opcodes and their gas costs:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`ADD` and `SUB`: Adding or subtracting two numbers. It costs 3 gas every time
+    you add or subtract a number.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`MUL` and `DIV`: Multiplying or dividing numbers. This costs 5 gas per operation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`AND`, `OR`, and `XOR`: Logic operations for comparing booleans. This costs
+    3 gas per operation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`LT`, `GT`, `SLT`, `SGT`, and `EQ`: Logic operations for comparing numbers.
+    This costs 3 gas per operation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`POP`: It''s an EVM stack operation to remove elements from the stack machine.
+    It takes 2 gas for every `POP` operation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`PUSH`, `DUP`, or `SWAP`: To add elements to the stack machine. This uses 3
+    gas.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`MLOAD` and `MSTORE`: To add data to the EVM''s memory. This uses 3 gas per
+    operation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`JUMP`: To jump to another place in the assembly code. This takes 8 gas.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`JUMPI`: A conditional jump. This takes 10 gas per operation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`SLOAD`: Another stack operation that adds an element to the stack. This takes
+    200 gas per operation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`SSTORE`: Stores information into the blockchain directly. This takes anywhere
+    between 5,000 to 20,000 gas every operation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`BALANCE`: To get the balance of an Ethereum account or contract. This uses
+    400 gas per operation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`CREATE`: To deploy a new smart contract or account. We need 32,000 gas to
+    create a new smart contract.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: As you can see, storing information in the state variables uses `SSTORE`, which
+    costs up to 20k gas. That is very expensive and it's a place to optimize your
+    code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here are the main optimization techniques that we''ll explore and then explore
+    with a real-world example to check the real gas costs:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**The order of comparison operators**: The order of `&&` and `||` comparison
+    operators, where the first condition is always checked, while the second may not
+    be checked. For instance, if the second part of an if statement has a much higher
+    probability of being true than the other, it''s better to put the second part
+    first, since in an `OR` statement, it will save gas because it won''t spend unnecessary
+    computations in checking the other parameters. The same thing is true of `AND`:
+    you want to put the first part as the one most likely to be false because if the
+    first part is false, the compiler won''t check the second one and you''ll save
+    gas, given that every operator has a gas cost.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**The** `for` **and** `while` **loops that use state variables**: When you
+    have a loop that uses an external variable, you want it to use memory variables,
+    since they are way cheaper than using storage.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Inaccessible** `if...else` **statements**: There are situations where a conditional
+    `if...else` won''t ever execute the other part. In those cases, it''s important
+    to remove duplicate, redundant, and unreachable code that would consume gas every
+    time it''s executed.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Limit the size of the variables**: The number after each variable type defines
+    its capacity, so a variable with a smaller capacity consumes less gas for the
+    simple reason that it won''t need as much blockchain storage: for instance, `uint8`
+    instead of `uint256` for smaller variables.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Don''t use libraries when possible**: Every time you make a library or an
+    external contract call, you''re wasting gas, since you have to create an instance
+    of that external contract, which in turn wastes gas. That''s why it''s better
+    to combine all the code inside one big smart contract when deploying, instead
+    of creating smaller pieces, which is great for development but not so much for
+    production.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Instead of storing to storage, use memory**: The `memory` keyword after the
+    function type tells the compiler to store that information temporarily in the
+    local memory instead of writing it to the blockchain.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Limit balance calls**: Whenever you request the balance of some account,
+    you''re spending 400 gas, which can become quite a big number in sizeable contracts.
+    Also, remember to store your balance in a memory variable if you''re going to
+    request it several times, because once you store it, you won''t have to use the
+    opcode CREATE again.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Use** `bytes32` **instead of** `string`: String is a much bigger type of
+    variable, since it can hold about 1,000 words using all the gas of the transaction.
+    It doesn''t have a limit, per se; instead, it''s limited by the gas that you sent.
+    The more gas, the bigger the string that you can store. However, it''s always
+    best to use bytes32 since it''s much more compact, allowing you to store up to
+    32 characters, which is ideal for shorter texts such as names.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Let''s see some examples that can be optimized using these techniques:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE46]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see in the preceding contract, we are running a `for` loop inside
+    the `counter()` function, which just increments the `myNumber` state variable
+    by the `_counter` times. Do you see where there could be a problem? The main issue
+    is that we are writing to the state variable each time the loop runs, which means
+    that we are spending from 5k to 20k gas using the `SSTORE` opcode every single
+    iteration, because the `myNumber` variable is a state variable.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When running the function with `_counter = 5`, the transaction cost is 48,180
+    gas and with `_counter = 10`, it costs 74,625 gas. As you can see, the cost quickly
+    increased by about 26k gas, which is exactly what we expected from the `SSTORE`
+    opcode given that we ran it five more times.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To fix the contract, we simply have to create a new local variable that uses
+    memory instead of storage:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE47]'
+  prefs: []
+  type: TYPE_PRE
+- en: In this case, the transaction cost went from 27,331 to 27,681, which is merely
+    350 gas. As you can see, it's a huge improvement that will save people at least
+    double the money in thousands of transactions. It makes sense to create gas-optimized
+    contracts. This example can be further improved by changing `uint256` to `uint8`
+    or the equivalent in order to store smaller variables.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s see another example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE48]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This function runs a set of conditional statements with different conditions.
+    In the first case, where `if (conditionOne && conditionTwo)`, we can improve the
+    code by putting the condition most likely to be false first because it will save
+    gas by not doing unnecessary checks to the second condition. The `&&` operator
+    will not consider the second condition if the first one is false given that it
+    requires both to be true, which makes sense, so it saves gas. Consider the following
+    cases where we define the possibilities of each condition:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`conditionOne` will be true 80% of the time, meaning that after 100 function
+    calls, it will be true 80 times'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`conditionTwo` will be true 20% of the time, meaning that after 100 function
+    calls, it will be true 20 times'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If we leave the function as it is and we run the function 100 times, we will
+    be wasting 3 gas every time the first condition is true but false in the other
+    case. Remember that it costs 3 gas to run **AND** (**&&**), **OR** (**||**), and
+    **XOR** (**^**). So, after 100 runs, we'll be wasting 80 `&&` checks, because
+    the second condition is false in those cases, which means that we'll waste 300
+    gas. It doesn't seem much, but it adds up to many different functions and transactions,
+    so it's imperative to pay attention to the order of the conditional statements.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The correct version would be as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE49]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The same thing happens to the OR || statement, where we want to put the condition
+    most likely to be true first, since we only need one to be true. Whenever the
+    first condition is true, the compiler will stop checking the remaining conditions
+    in that `if` statement to save gas, since it''s not needed. Considering the same
+    probabilities from the previous example, where `conditionOne` is true 80% of the
+    time and `conditionTwo` is true 20% of the time, we can fix the code to be gas-optimized:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE50]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The last conditional statement in the function is this one:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE51]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Because the condition inside the if statement will always be true, it doesn''t
+    make sense to add the `else` block, since it will never be run. In this case,
+    it makes sense to remove that `else` block to save gas when processing the function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE52]'
+  prefs: []
+  type: TYPE_PRE
+- en: This kind of check is also important for coverage testing, since this uses tools
+    to verify that all parts of the code are being touched at least once to remove
+    unnecessary elements.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As a final tip for this section, I want you to know a little trick for storing
+    information super efficiently: use indexed events as storage. Events have a dedicated
+    section in the blockchain that costs way less gas to execute, therefore making
+    them super gas efficient. This can be leveraged to store small strings and variables
+    that you want to use in your dApps with minimal costs. You can later find each
+    event with web3.js because they are indexed, which means that they are searchable
+    for that particular parameter. Also, note that you can only have three indexed
+    parameters in each event, so you can create several different events that are
+    indexed.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Remember to go back to the 8-point list we set out before, every time you write
+    a contract to guarantee an efficient smart contract process that saves people
+    money and reduces the size of the blockchain, which is what we all want, after
+    all.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As a final tip, you can create `view` and `pure` functions for functionality
+    that could be expensive, since `pure` and `view` functions don't consume any gas
+    given that they process the calculations locally, so you're using computation
+    for free. For instance, if you want to sort an array in Solidity, you'd have to
+    spend a lot of gas, since each iteration costs gas, but, if the sorting function
+    is `view`, it won't cost you any gas, so you can sort as many arrays as you want
+    without spending gas.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Making data-efficient smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'What I mean by a data-efficient smart contract is just code that is easy to
+    read, understand, and manage. State variables are the main component when we talk
+    about data efficiency: we want to optimize the maintainability of our code. This
+    is not only important for explaining the code from developer to developer, but
+    also for customers that will want to investigate what the smart contract code
+    is actually doing. Data structures that are properly set up will save people hours
+    of headaches and will improve the quality of your code exponentially.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Vyper does a fantastic job in this regard, because you can use custom Unit
+    Types that are specifically designed to improve readability. It also uses a minimal
+    syntax system inherited from Python that helps with the readability of the code.
+    What does a data efficient smart contract look like? Take a look at this example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE53]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, each variable has a short comment above it to help you understand
+    what it's supposed to do, since it's not uncommon to find confusing variables
+    that could be misinterpreted for the wrong reasons. Each name is properly defined
+    with concise naming that tries to be as clear as possible about the variable's
+    use, just as they provide a clear understanding about when not to use them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The variable types are the right ones for each variable's purpose, since we
+    want to make them gas efficient by maximizing the capabilities of the virtual
+    machine without spending unnecessary amounts of gas.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In contrast, here''s what a bad contract would look like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE54]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here, the naming is too simplistic, leaving too much room for confusion. There
+    aren''t comments above each variable to help you understand when they should be
+    used, for what purpose, and with what limitations. And the variable types could
+    be improved: instead of using `string` for the name, it probably makes sense to
+    use `bytes32`, since we don''t need such a big type for a short piece of text.
+    The same thing is true with `uint256`, where we must consider whether it''s better
+    to reduce its size or not.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In general, we want to provide as much clarification in our contracts as possible.
+    To do so, we'll write great descriptions on top of each variable, even when we
+    think it's clear enough; we'll use types efficiently to optimize gas costs; and
+    we'll name the variables concisely to help upcoming developers understand the
+    complexity of the contract code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Many large smart contracts become too big to understand easily, so it's imperative
+    for you to optimize for data efficiency, since it's a great preventive security
+    measure for detecting dangerous entry points.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You've just learned how to optimize your smart contracts with simple techniques
+    that can save people's Ether by properly understanding opcodes with their costs
+    associated, so that you can make better decisions when creating functions that
+    will be executed by thousands of others.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contract security analysis
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Security in decentralized applications is a must that has to be carefully dealt
+    with, since we are dealing with real money from real people that trust the code
+    to be secure enough to keep their funds safely. You can't skip security analysis
+    in your code, because otherwise you'll be risking people's money, so it's a huge
+    responsibility.
+  prefs: []
+  type: TYPE_NORMAL
+- en: That's one of the main reasons securing a smart contract can be so costly in
+    time and price. Audits, bug bounties, and code analysis are common for ICO smart
+    contracts and those that handle real-world funds. They are naturally expensive
+    because they require careful consideration of all the moving parts in a smart
+    contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Techniques to secure a smart contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s take a look at some common checks that you want to go through before
+    you deploy a smart contract to the Mainnet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Overflows and underflows**: Overflowing a number means exceeding the capacity
+    of it, thus resetting its value to start counting from zero again. Conversely,
+    underflowing is exceeding the number capacity from the negative side, so when
+    you go beyond zero in the `uint` type of variables, the value jumps straight to
+    the largest value of that variable. For instance, let''s say that you want to
+    store 5,000 in a uint8: could you do it safely? No, because the maximum number
+    of a uint8 is 2 ** 8, which is 255 (not 256, since we start at zero), so you''ll
+    exceed the capacity of that type several times before storing an unknown value.
+    As you know, `uints` can''t be negative, so when you try to store a negative number
+    inside them, you''ll underflow them. Pay attention to those situations and have
+    checks in places to avoid exceeding the capacity of number types.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Documentation**: Not documenting your code is not a security risk in itself,
+    since documentation has more to do with the fact that you''ll save hours by not
+    confusing functions that could be misinterpreted. When you do document your code
+    properly, you can quickly understand where it could fail, making it easier to
+    maintain and more secure when auditing the code. For that reason, I always recommend
+    NatSpec documentation, which is a way of describing your functions using some
+    common parameters that can easily be understood by compilers and developers.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Re-entrancy attacks**: You''re probably familiar with this attack, which
+    consists of taking advantage of the `delegatecall` function to call external contracts
+    to update them in malicious manners. This is very dangerous and must be carefully
+    analyzed whenever you see a low-level function such as `delegatecall`. You can
+    avoid it by restricting access to the most important functions via visibility
+    or modifiers.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Race conditions**: This type of attack consists of taking advantage of gas
+    limitations to run a specific sequence of code repeatedly until you run out of
+    gas. It can be prevented by making sure that you reduce state variables before
+    increasing them. For instance, for a token contract that increases your balance
+    whenever you buy tokens with Ether, it is important to reduce the number of Ether
+    that you own before increasing the balance of tokens you own to avoid re-entrance
+    situations.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: There are many more small security issues that are specific to each individual
+    contract. To fix them, you'll have to slowly analyze your smart contract to find
+    points where it could lead to potential risks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this chapter, you started by getting up to speed to refresh your smart contract
+    development skills with a project marketplace of copyrighted content to protect
+    users'' content. Then, you explored the depths of the obscure world that is the
+    EVM with a solid understanding of how it works internally and how smart contracts
+    benefit from this wonderful technology. After that, you learned about one of the
+    most powerful skills in Ethereum: developing upgradable and scalable smart contracts
+    that can be used for advanced projects so that you can efficiently run large-scale
+    applications for big businesses.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Next, you learned how data and gas flows in smart contracts so that you're able
+    to better manage the consumption of the precious resources available within the
+    blockchain limitation, ultimately saving people's money and time with higher quality
+    contracts. Finally, you've come full circle with security analysis to protect
+    your code from malicious hands so that people's funds are completely secure in
+    your dApps.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, you'll explore the wonders of advanced decentralized applications
+    by challenging your current understanding of how great dApps are created from
+    the ground up. You'll see step-by-step the most efficient way to build stronger
+    dApps for projects that scale.
+  prefs: []
+  type: TYPE_NORMAL

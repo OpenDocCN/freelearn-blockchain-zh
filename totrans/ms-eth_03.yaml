@@ -1,0 +1,1208 @@
+- en: Ethereum Ecosystems
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we'll be covering several important aspects of the blockchain.
+    For example, among other interesting topics, we will look at the technology inventions
+    that made an organized, decentralized network of computers possible, and we will
+    explore the economics behind it all to help you solve the important question,
+    *why is this technology worth real money?* This will help you to become an expert
+    in this field of decentralized applications. You'll be able to explain, better
+    than ever, how it all works together so that you're able to direct your future
+    clients in the right direction, because you'll understand exactly what's going
+    on in the Ethereum blockchain behind all those layers of protocols, technology,
+    and cryptography, and you'll subconsciously solve the burning questions that concern
+    you about this invention.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we''re going to cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Introducing the Ethereum chain specification
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Blockchain technology
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Blockchain consensus
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Blockchain economics
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Blockchain metrics
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Introducing the Ethereum chain specification
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Ethereum chain specification is a format used to describe how the Ethereum
+    blockchain should look. It describes what parameters, components, and elements
+    it should have to actually be considered an Ethereum blockchain, so that you can
+    create your own private Ethereum blockchains with different properties for testing
+    your applications or forking a new version of Ethereum. The spec defines what
+    you need to create your own blockchain. For instance, WhaleCoin used the Ethereum
+    specification to create a new blockchain with the same core technology, but with
+    their own modifications, thanks to the Ethereum chain spec.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It is important to have a clear specification that tells us how to create our
+    own Ethereum-like blockchain, because hard forks are an elemental part of every
+    blockchain, and because advanced developers may feel that they want more control
+    for testing their applications on private blockchains. Ethereum gives people the
+    choice to create their own system based on Ethereum; in my opinion, this is really
+    good as a developer or miner that processes transactions because, for instance,
+    you can change the consensus algorithm, the gas costs per transaction, the block
+    times, and so on, while still having a valid Ethereum blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With the Ethereum chain spec, you can create forks or your own private Ethereum
+    blockchain as a testing tool to see how your smart contract code would interact
+    in the real world.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The genesis object
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The chain spec states that the Ethereum blockchain must be generated from a
+    single block, called the **genesis block**. This is a special one, because it
+    doesn't have information from previous blocks, and it contains the configuration
+    of the entire blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It''s based on a `genesis.json` file, and it has the following parameters:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`name`: This is the chain name. For instance, **Homestead**, **Constantinople**,
+    and **Morden**.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`forkName`: This is an optional secondary name for this chain.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`engine`: This is an enum that specifies the consensus engine, which can be
+    **Ethash** or **Null**.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`params`: This is an object with several attributes of the consensus engine
+    if you specified **Ethash** only. The different parameters are as follows:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`minimumDifficulty`: This is a number specifying the minimum difficulty a block
+    may have.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`gasLimitBoundDivisor`: This is a separator string. It is usually 0x400 which
+    is the character @ when converted to an utf8 string.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`difficultyBoundDivisor`: This is an integer specifying the difficulty per
+    block, which must be divisible by two. For instance, 2084.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`durationLimit`: This is the point at which difficulty is increased.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`blockReward`: This is the reward for discovering an Ethereum block.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`registrar`: This is the Ethereum address of the registrar contract on this
+    chain.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Different consensus engines may allow different keys in the `params` object,
+    however there are a few common to all:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`accountStartNonce`: This integer specifies what nonce all newly created accounts
+    should have.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`frontierCompatibilityModeLimit`: This integer specifies the number of the
+    block that frontier-compatibility mode finishes, and homestead mode begins.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`maximumExtraDataSize`: This integer specifies the maximum size in bytes of
+    the `extra_data` field of the header.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`minGasLimit`: This integer specifies the minimum amount of gas a block may
+    be limited at.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`networkID`: This integer specifies the index of this chain on the network.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`genesis`: An object with the header of the genesis block as you saw in [Chapter
+    1](ef2e73ea-cd2e-4ffb-83f6-9f731960f94a.xhtml), *Blockchain Architecture*. The
+    header contains specific information about the contents of the block, such as
+    the gas used, the timestamp, and the nonce.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The `genesis` object contains a series of mandatory parameters for the first
+    block created, namely the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`seal`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`difficulty`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`author`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`timestamp`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`parentHash`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`extraData`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`gasLimit`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`nodes`: An array of strings containing the initial nodes of the blockchain
+    in the enode format. We''ll later see how it''s structured.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`accounts`: An object with the accounts of the `genesis` block. Each account
+    must have several keys about each address:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`balance`: How much Ether this account has specified in wei.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`nonce`: The nonce of the account at `genesis`, which will usually be zero.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`code`: The address of the contract associated with this account or any other.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`storage`: The object mapping hex-encoded integers for the account''s storage
+    at `genesis`.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`builtin`: An alternative to code used to specify that the account''s code
+    is natively implemented. Value is an object with further fields:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`name`: The name of the built-in code to execute as a string such as **identity**
+    or **ecrecover**.'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`pricing`: An enum to specify the cost of calling this contract.'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`linear`: This specifies a linear cost to calling this contract. Value is an
+    object with two fields: base, which is the basic cost in Wei and is always paid;
+    and word, which is the cost per word of input, rounded up.'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Now that you know which parameters go into the `genesis.json` file, you can
+    start creating your own private blockchain with custom parameters for your own
+    personal applications. In [Chapter 3](8f93512c-8a39-4030-aa79-7e5ca832412b.xhtml),
+    *Ethereum Assets*,you'll learn the exact process for creating a custom Ethereum
+    blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, you possess the fundamental understanding about how Ethereum blockchains
+    are kick-started, how they operate, and a solid perception about how to create
+    your own personalized blockchain for testing purposes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain technology
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The technology that makes blockchain a reality is a complex set of inventions
+    working together to achieve the common goal of a global source of agreements.
+    To understand how they all tie together, it''s good to break the technology down
+    into four main pieces so that we can see the layers where all the decentralized
+    applications run:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0ed360cc-6308-4a48-ae71-ae6ab304a0a7.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: What makes Ethereum possible is a set of tools and protocols that are widely
+    used in the community. You'll be able to use those tools for personal projects
+    whenever you want to implement advanced mechanisms that would be very hard to
+    recreate from scratch.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Application layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The application layer is the one where external programs interact with the
+    blockchain. It also includes smart contract languages, such as Solidity and Vyper.
+    This layer is the most important one, because it gives people the option to use
+    the Ethereum blockchain for something more than just sending and storing cryptocurrencies,
+    it''s the next step regarding decentralized technology use cases. The following
+    diagram shows the application layer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/035e0eca-b356-470b-a4dd-546f21099d64.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: First off, we have **wallets** that allow everyday users to manage private keys
+    in order to be able to interact with **decentralized applications** (**dApps**)
+    and make transfers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The main ones are **Mist**, **MetaMask** and **MyEtherWallet**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Mist** is a work-in-progress browser that is always connected to Ethereum.
+    It allows you to use dApps directly from it without having to worry about managing
+    your account or using external plugins.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**MetaMask** is a plugin available on most browsers that give you the superpower
+    to connect to the Ethereum blockchain without having to have a local copy of the
+    blockchain, since it connects to a network of computers known as INFURA, where
+    you can create transactions freely.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**MyEtherWallet** is a famous Ethereum wallet manager where you can store your
+    funds, connect to your accounts, and interact with smart contracts online. You
+    can also download an offline version for increased security and reliability.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then, we have **smart contract languages**, such as **Solidity** and **Vyper**.
+    They are the ones used to create smart contracts that interact with the blockchain
+    with bytecode instructions. These work thanks to the miners that execute the code
+    when blocks are mined. Solidity is the most used in ICOs, decentralized applications,
+    and tokens, where users are able to interact with the blockchain in a trustless
+    environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Next, we have **libraries**, such as **Truffle**, **Embark** and **web3.js****.**
+    They give you the tools to create better dApps while being able to interact with
+    smart contracts:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Truffle**: This library is well-known for being used in **minimum viable
+    products** (**MVPs**), dApps, ICOs, and token contracts, since it provides a secure
+    and tested environment for developers that want to go further.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Embark**: This is a dApp framework made by the guys in Status that gives
+    you utilities such as the capacity to automatically deploy contracts from the
+    `.js` code, watch changes, and manage a variety of chains.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Web3.js**: This is the most used library to interact with existing smart
+    contracts on you web apps via JavaScript. It provides you with a simple interface
+    that is intuitive and easy to learn.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Finally, you have **testing tools** to verify the security of your smart contracts.
+    Keep in mind that these tools are not perfect, because they only provide you with
+    extended options to test your code without forcing you to fully test all aspects
+    of a decentralized application:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Sol-profiler**: This is a simple profiler to generate a beautiful table that
+    displays all your contracts and functions in an easy to understand manner. This
+    is great for larger projects, where it starts to become hard to understand the
+    relationship between all the components so that you''re able to test them more
+    efficiently.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Solidity coverage**: This is a great testing tool written in JavaScript to
+    ensure that your tests are actually checking every single line of code to at least
+    guarantee that it is being fully tested without regards to quality testing. Truffle
+    is a great tool to write tests, since it provides you with a testing framework
+    that helps you execute unit tests.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Cliquebait**: This provides you with a clean Docker image with the Ethereum
+    blockchain using proof-of-authority with extremely fast block times so that you
+    can deploy and check every feature of your decentralized applications without
+    dependencies.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hevm**: With hevm, you have a customized implementation of the **Ethereum
+    Virtual Machine** (**EVM**) that shows you exactly what''s going on in your smart
+    contracts, including opcodes and a debugger where you can interact with the deployed
+    smart contract directly.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Infrastructure layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Below the application layer, there is the infrastructure layer that provides
+    a set of lower-level utilities to interact more closely with the blockchain. Things
+    such as decentralized storage, **peer-to-peer** (**P2P**) real-time messaging,
+    and Ethereum clients.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows what the infrastructure layer contains:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/36ae8456-3a51-471d-8a47-b5f2dc3cc7c9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Because the blockchain is built on top of a P2P network where nodes interact
+    with each other directly, we can take advantage of **messaging** utilities such
+    as **Whisper** and **PyDevp2p**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Whisper**: This is a protocol maintained by the core Ethereum developers
+    that you can use on your own dApps to send almost instant messages between apps.
+    It''s great for encrypted chat-like application, since you only exchange hashes.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**PyDevp2p**: This is a similar tool that works directly with the DEVP2P protocol
+    to exchange messages without waiting for blocks to confirm transactions. It''s
+    fully written in Python, so it''s great for personal projects connecting to Ethereum
+    directly.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In this layer, you also have access to **decentralized storage**, which essentially
+    allows you to keep your data on the blockchain without restrictions. This protocol
+    is pretty similar to torrent, where large files are exchanged directly between
+    peers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The most popular storages that work with Ethereum are **IPFS** and **Swarm**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Swarm**: This is a decentralized storage built on top of Ethereum that is
+    maintained by the core developers. With it, you can create decentralized applications
+    that have the capacity to upload specific types of data while getting a hash with
+    your content. The way it works is simple; a user uploads some files to swarm while
+    keeping them online for other users and whenever someone else wants to get some
+    of those files, he simply has to download it directly from the uploader without
+    having to ask for permission. It provides a fault-tolerant system that is similar
+    to the way the internet works, but without the centralization. This fact forces
+    users to keep their content alive by themselves, which could become a problem
+    when this technology starts gaining massive traction by general internet users.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**InterPlanetary File System** (**IPFS**): This, on the other hand, is almost
+    identical to Swarm when it comes to having a decentralized protocol to store large
+    amounts of data, including files, between users, with some notable differences.
+    First of all, IPFS is focusing on removing redundancy from their network. You
+    see, one of the problems with decentralized storage is the fact that you will
+    have a great deal of identical copies from different nodes.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: When you have the same file on different computers with different processing
+    times, you have no choice but to choose the one that's fastest every time. You
+    also don't know for sure whether the file that you're downloading from the network
+    is actually what is says it is or not. It could contain malicious software full
+    of malware. To solve that, IPFS provides a GitHub-like system where each specific
+    file has a unique identifier. If two files have the exact same content, meaning
+    that they are identical, they will have the exact same hash.
+  prefs: []
+  type: TYPE_NORMAL
+- en: That is great, because it gives people a guarantee that they are getting the
+    valid content without any modifications. It also increases the availability of
+    the network so that you can reliably get the right file from many different providers.
+    IPFS is still a work in progress and it's developing a coin that will be used
+    to reward users for keeping files alive on the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finally, we have the **clients** that work on top of Ethereum. This is the software
+    that is directly used to mine and download the public Ethereum chain. The core
+    Ethereum developers made sure that they provided a wide variety of similar clients
+    so that people can choose which one fits their best interest openly, so that there
+    isn't a monopoly of software that is forced onto people with all the centralization
+    that it entails.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'These are the main clients, although there are many more written in different
+    languages and maintained by different organizations:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Geth**: This is the most popular client written in Go language, popular because
+    of its simplicity. You can use it to download the main blockchain, mine with your
+    CPU, deploy contracts, and interact with them, create Ethereum accounts, and many
+    more functions that are interesting to the general Ethereum developer. It provides
+    a command line interface where you can quickly have access to all the functions.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Parity**: This is a bigger client created by one of the co-founders of Ethereum
+    and written in Rust, which is similar to C++ in syntax while leaning toward security
+    in every aspect of it. Parity provides you with a command line and web interface
+    that you can use to create accounts, download the blockchain, and deploy smart
+    contracts, among many other tasks. Parity is famous for creating the multi-signature
+    wallet, which is a smart contract that helps organizations reach decisions when
+    dealing with funds and voting since all of the members have to agree on each decision
+    being made.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Alternatively, you have clients written in Python, C++, and other languages
+    that you can use for your personal projects. The choice is yours, so make sure
+    that you check all of them for a better understanding of what each client can
+    do for you.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mining layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Below the infrastructure, you have the mining layer, where you have a different
+    set of utilities available to mine Ethereum using your graphics card or your CPU.
+    As you probably know, the only somewhat profitable way to generate Ethereum is
+    with cheap electricity and GPU cards. Realistically, you can mine on your own,
+    or join pools that pay a fraction of the block reward.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows what the mining layer contains:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/029baa99-a862-43a7-a992-5ac1807bc01c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: '**Mining** is the process that increases the size of the blockchain by adding
+    blocks that contain valid transactions, thanks to a group of computers participating
+    in mining that reach consensus via the proof-of-work scheme. This is fundamental
+    in order to make cryptocurrency transfers and to be able to run smart contracts
+    using the combined power of the mining network.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The mining network is huge in Ethereum and it's the one in charge of processing
+    all the transactions that take place, including smart contract executions and
+    deployment. It's the foundation of any strong blockchain. The more miners you
+    have processing transactions, the more censorship-resistant and secure the entire
+    system is.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When it comes to mining, you have **mining pools** and mining clients that
+    use all the available graphic cards for solving **proof-of-work** (**PoW**) challenges.
+    The mining pools give all the participants a portion of the block reward they''d
+    get from mining alone because of the simple fact that mining has become exponentially
+    difficult and only the combined efforts of many computers can generate blocks
+    consistently. They are great for getting consistent rewards without spending days
+    mining on your own, not knowing whether you''d ever find a block or not:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Ethermine**:Among many other similar pools, Ethermine is well-known for its
+    great payouts and consistent returns. One of the biggest that you''ll find, you
+    have a great guarantee that you will receive your mined Ether after reaching a
+    minimum of 0.05 ETH.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Nicehash**: This is a special pool in the sense that it works with a much
+    bigger variety of cryptocurrencies. It''s more like a marketplace for selling
+    hashing power in exchange for larger payments in Bitcoin, which you can easily
+    convert to ETH. The payment threshold is 0.001 BTC, which is considerably more
+    expensive than what Ethermine requires. It''s great for those that are in it for
+    the longer-term benefits.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'After choosing your mining pool, you''ll need to get a mining software that
+    will take care of using your computer resources in the most efficient way possible
+    for the biggest payouts. The most popular **GPU** miners are Claymore and Ethminer,
+    although many others, such as Geth and Parity, can be used for the same purpose
+    using your CPU with a much lower hash output:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Claymore**: This is a fantastic tool to use your Nvidia and AMD GPUs to their
+    full capacity, since it''s optimized for each variety of those cards. Including
+    support for dual mining, you are able to mine Ether and other cryptocurrency of
+    your choice with minimum affect to the Ethereum hashing power, since they use
+    similar and complementary algorithms that work well together. The only catch with
+    this miner is that, for every hour that you mine using it, 36 seconds will be
+    used to mine for the developer of the application, which is understandable and
+    fair for such an efficient tool that provides a much better performance that other
+    miners.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Ethminer**: Ethminer, written in C++ is dedicated exclusively to mine any
+    cryptocurrency that uses the hashing algorithm Ethash, which includes Ethereum,
+    Ethereum Classic, and Musicoin, among many others. It''s not as efficient as Claymore,
+    but it has a strong open source community behind it that works endlessly to provide
+    the best support and programming possible from a small team of enthusiastic developers.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Ideally, you should test both miners to see which one is generating the best
+    performance, because every setup and computer is slightly different. Make sure
+    that you adjust the settings they provide if you're getting sub-optimal performance.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Peer-to-peer layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This is the lowest layer that Ethereum has to function properly. The P2P layer
+    is in charge of communicating nodes with each other in a real-time fashion without
+    middlemen via messages.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows what the P2P layer contains:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/595c3716-ae42-4e2f-9760-3c77e88ddb29.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Every node in the P2P network is discoverable because of a unique IP identifier
+    and a hash table that contains data about every node that you are connected to.
+    For instance, when you connect to node 123.456.123, you can send a request to
+    see which nodes it is connected to, thus giving you the option to extend your
+    range of known nodes that you can connect in the future. This is important for
+    being able to discover nodes and connect to new peers when required. The more
+    nodes you are connected to, the stronger your communication will be for getting
+    the important messages faster.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding DEVP2P
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: DEVP2P is a networking protocol in charge of managing the negotiations between
+    nodes when they want to interact by sending messages. Each message is encrypted
+    using a protocol named **RLPx**, which allows nodes to exchange encrypted data
+    over the network with a secure guarantee that nobody but the recipient will be
+    able to decode the message.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For nodes to connect to each other, they expose any TCP port they would like
+    to use, which, by default, is 30303\. So, if you want to connect to a specific
+    node, you must know exactly which port it is using, which protocol it is using,
+    and the IP address or unique identifier of it. For instance, Whisper, the messaging
+    protocol that we discussed earlier, uses the `shh` protocol, while Ethereum uses
+    the `eth` protocol. This is just a simple distinction that becomes apparent when
+    you use web3.js, because it shows each function in each corresponding protocol.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In summary, you've seen which components make up the Ethereum architecture,
+    so you are able to discern which parts you're actually using when developing your
+    smart contracts. You should be able to identify different protocols used in the
+    network and understand which tools you have available.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You have just developed an increased awareness when it comes to the tools that
+    are at your disposal, which is essential for all kinds of Ethereum developers
+    that want to implement time-tested solutions to common problems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain consensus
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Ethereum blockchain is working on a network of thousands of computers connected
+    with each other exchanging information. Now, in order to guarantee that they all
+    are processing the same transactions and working for the same goals as a combined
+    group of efforts, we need something to reach agreements, which is called consensus,
+    so that they all agree on the result. It's the best way to combine the efforts
+    to benefit the whole.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the following diagram, you can see how all the computers are running the
+    same mining software while agreeing on a single protocol that provides them with
+    a reward for their computing power:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c2edc7ed-9671-4387-a1bb-300926b1b30d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Introducing blockchain consensus
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Compared to a standard voting process, where all individuals decide independently
+    what they want to achieve, **consensus** in blockchain goes a step further and
+    aims toward making decisions that help in reaching the ultimate goal in the most
+    efficient manner. For instance, the decisions that managers of a bridge construction
+    project make are based on consensus to agree on the best solution to build the
+    bridge in the most efficient time and cost manner. When it comes to blockchain,
+    consensus is the combined group of actions that miners take to generate the best
+    blocks possible in the most efficient manner, so that block times are reduced
+    while miners are awarded a profitable amount of Ether.
+  prefs: []
+  type: TYPE_NORMAL
+- en: PoW is the scheme used to process transactions and generate blocks that include
+    those valid transactions in exchange for a difficult task, so that only the most
+    capable computers get rewarded with the block generation. What the miners are
+    doing when generating transactions is simply generating random hashes until they
+    find the one that is required for the next block. Each computer is doing this
+    independently. When a miner finds the right hash, they distribute the ingredients
+    that generated that hash to all of their connected nodes so that they can do the
+    same and eventually add this new block to the network while getting a reward for
+    his efforts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Why do all of the miners agree on the fact that the finder is the one that should
+    get a reward for discovering the right hash for the next block? Because, when
+    they mine, they are agreeing on a set of rules.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'These rules are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The user that finds the block gets a reward.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: As a miner, you must distribute this new block to all of your connected peers
+    to synchronize the entire network with new transactions contained in that block.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You must only add valid transactions to the block.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: At this point, you may be asking yourself *what happens when an invalid transaction
+    is added into a block?* The answer is that whenever a miner adds invalid transactions
+    to the block, solves the proof-of-work challenge, and tries to distribute it to
+    others in order to update the main chain, the other miners will notice those invalid
+    transactions and will stop distributing that block so it won't get any further,
+    since each one of them is a validator for what goes inside each block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The miner that solved the PoW challenge for the block that contains those invalid
+    transactions has wasted his computing power, since it won't propagate further.
+    That's the punishment for acting maliciously, it's a waste of energy and time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This is a very powerful and simple checking mechanism that protects the blockchain
+    from malicious intentions so that it only approves valid transactions that have
+    been successfully verified.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Envisioning the future
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Ethereum core developers are working on the next version of Ethereum's consensus
+    with the scheme **proof-of-stake** (**PoS**), which will be released in the hard
+    fork named **Serenity** somewhere in the near future, in about one or two years.
+    Instead of using Ethash as the algorithm for achieving and processing consensus
+    with PoW, Ethereum will use something called **Casper** as the protocol for achieving
+    consensus with a combination of PoS and PoW.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Why are they changing the protocol for generating blocks and reaching consensus?
+    Because PoW is not sustainable resource-wise, since it forces miners to waste
+    insupportable amounts of energy and resources. There's no real need to waste all
+    that energy in cryptographic challenges. We can reach the same goal with simpler
+    protocols that don't require much energy. Also, the biggest crypto-organizations
+    are able to afford large amounts of computing power, making a few companies the
+    owners of almost the entire mining network. This is a serious problem, since it
+    destroys decentralization principals. If they can control the entire network,
+    then the system can be considered centralized, so they attain a stronger position
+    to decide how the cryptocurrency develops.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Theoretically, they can combine efforts and launch a 51% attack to manipulate
+    transactions as they please.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Casper plans to solve those issues that the unexpected growth of PoW created
+    by using a PoS algorithm. Miners then lock a specific amount of Ether on the network
+    to be able to validate transactions while getting paid in transaction fees, since
+    new block creations will stop being rewarded. Each miner bets whatever number
+    of Ether they want on the blocks they think are valid and they get paid a portion
+    of their bet if they are right. This makes the entire network more decentralized,
+    because many more computers are able to participate in the consensus process for
+    speeding up and freeing resources from the hands of a few big players.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the following diagram, you can see a visual representation of how validations
+    generate blocks by proposing bets on randomly generated blocks:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b667ffb9-2ccd-46d4-bea7-fa1c0adbad36.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: In Casper, there will be a special type of miner, called **forgers**,who will
+    generate blocks by combining transactions and adding their public key in the process
+    to demonstrate that they were the ones that created that block. They will also
+    get rewarded with fees if they end up adding the right block to the blockchain.
+    Those that bet on the right block will be known as **validators**. Whenever a
+    block has enough bets in it and if it's in the right time, meaning that it was
+    generated within the standard block time of the blockchain, the block will be
+    added. Forgers will be randomly selected from all the validators so that a few
+    are able to create the blocks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The nothing-at-stake problem
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: When Casper with PoS is implemented, participants will be able to push blocks
+    forward by placing a bet on them if they believe they are valid while getting
+    rewarded if they choose the valid one. But, what happens if they decide to vote
+    on a malicious block? Nothing stops them for doing so, since they don't lose anything
+    when betting on a malicious block. This is known as the **nothing-at-stake** problem.
+  prefs: []
+  type: TYPE_NORMAL
+- en: These miners will be able to bet on every block they see for a possible reward.
+  prefs: []
+  type: TYPE_NORMAL
+- en: One possible solution to this issue is to punish those that are constantly betting
+    on the wrong block. So, if a miner makes 10 bad calls, he will lose a portion
+    of his stake. However, this only happens if the majority of the network decides
+    to vote for the wrong blocks, if the miners are distributed enough it would be
+    very hard to agree on the wrong choice.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain economics
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The interesting thing about cryptocurrencies is the fact that they combine technology
+    with real assets that have value in the real world. For the first time in history,
+    we are able to create digital money that runs completely on its own. Historically
+    speaking, money was always backed by a centralized government where they controlled
+    the supply and demand. They were the only ones capable of printing money in order
+    to control inflation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding inflation
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In simple terms, inflation is the increase in price that all assets in the economy
+    suffer. For instance, a house in 1890 would normally cost about $10,000 dollars,
+    but the same house now costs about $350,000 dollars, even though it got older
+    – that's the result of a high inflation. It could be caused by the increases in
+    material costs because of reduced supply when natural resources are scarce. Maybe
+    it is because there's a shortage of jobs, so people request better wages since
+    the requirements are increasing. It could also be because land costs are increasing,
+    caused by the fact that not enough houses are being sold. All of these, and many
+    other factors, force businesses to increase prices, which forces people to earn
+    more money while increasing inflation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cryptocurrencies such as Ethereum are able to increase in price, because adoption
+    is rising since the technology is constantly improving and more use cases are
+    being developed, that makes them somewhat resistant to external inflation. The
+    fact that supply is increasing more slowly every year keeps the value relatively
+    stable compared to fiat money, where governments and agencies are able to print
+    on demand, which makes Ethereum and many others a great store of value.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Evaluating cryptocurrency economics
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Asking why cryptocurrencies have value is equivalent to asking why anything
+    has value. We put a numerical value on things because it gives us something –
+    a house that provides us with a secure place to sleep, a car that gives us the
+    capacity to travel to distant places, or food for survival. Generally speaking,
+    blockchains have utilitarian value as a tool to store money, to make almost instant
+    digital coin transfers, and to use a specific type of applications that wouldn't
+    work without blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Exchanges play a big part when it comes to converting cryptocurrencies. You
+    can go to any exchange that accepts Ether and convert it to any other currency,
+    since they agreed that it's something valuable. Money is based on agreements.
+    We all agree that an apple has a specific dollar value that could vary slightly,
+    as long as people want to consume that apple and accept dollars in exchange, they
+    will buy it. It's the same thing with Ether—as long as people want Ether for whatever
+    they can do with it and accept dollars in exchange, they will buy it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Before money existed, people exchanged things by agreement, for instance, a
+    table for a potato sack. Then, they decided to use an abstraction, a number, that
+    could be used for understanding the value of things in a more precise manner.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Note that price is never fixed. It's not like the metric system, where 1 kilogram
+    is the same for the entire planet. Fiat and cryptocurrencies derive their price
+    by comparing themselves with other currencies. $1 dollar is $1 dollar compared
+    to 0.8 euros. 1 Ether is 1 Ether compared to 200 dollars. The global exchange
+    of fiat currencies in the world is called Forex (foreign exchange). For cryptocurrencies,
+    there are individual exchanges that deal with prices on their own.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The moment that someone is willing to exchange a coin for another, both coins
+    attain a price. For instance, imagine the following scenario:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Think about a new virtual coin called RED that someone just created. It doesn't
+    have any value, because nobody wants to buy it since it's not well-known yet.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Now, John reads about this new RED coin and decides that it will help him purchase
+    apples at a lower price, because they have reached agreements with local producers.
+    The RED coin has a utility value.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: He goes to the exchange and negotiates with the owner of the coin. John wants
+    to buy 100 RED coins, so they talk until they decide that 100 RED coins are worth
+    $300 dollars based on the utility of the coin.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: At that moment, the RED coin gains a value of $3 dollars until the creator of
+    the coin decides to reduce the price to increase buyers or vice versa.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The market decides the prices of all currencies that depend on the people's
+    willingness to buy them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Determining the value of cryptocurrencies
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The value of anything is dependent on supply and demand. The more people want
+    it, the more expensive it will become as long as supply stays consistent.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the following diagram, you can see how supply and demand affects the price
+    of a specific cryptocurrency in relation to a stable fiat counterpart:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e5560119-ae9a-41c7-b96e-f851ec713f78.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: There are many exchanges that have their own liquidity pool where ETH has a
+    different value, since people use different exchanges based on preference. So,
+    how do they all synchronize to have a standard price across all of them? The truth
+    is that they still have slightly different prices. Arbitrageurs work on keeping
+    prices consistent; since they get paid based on the difference in price from exchange
+    to exchange, that's the reason behind the overall stability in prices for each
+    cryptocurrency, especially big cryptocurrencies, such as Ethereum, where the volume
+    of daily exchanges in big enough to be worth the investment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The result of price movements over time can be seen in the charts in the next
+    section, where you can quickly analyze the value of the cryptocurrency at specific
+    relevant historical events. Charts provide a great understanding of blockchain
+    adoption.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethereum-based tokens
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: One of the reasons the Ethereum blockchain is so well-known is because of the
+    simplicity it provides for creating tokens. Each token that has a significant
+    following will invariably affect the price, since the technology behind is still
+    the same. In the upcoming chapters, you'll learn how ERC20 tokens are created.
+    For now, it's enough that you understand that whenever someone invests in buying
+    a token, the price of the token increases, while also increasing the overall value
+    of Ethereum.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The more tokens there are on Ethereum, the more valuable the blockchain becomes,
+    so the price of it increases. If you go to [https://coinmarketcap.com/](https://coinmarketcap.com/),
+    where you can see the price of all the big Ethereum-based tokens, you'll realize
+    that most tokens have the same price pattern as Ethereum, for the simple reason
+    that anyone buying a token is actually investing in the underlying technology,
+    which is Ethereum.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The total amount of money invested into Ethereum is called the market cap, because
+    Ethereum's market cap is so big that only large purchases of Ether can move the
+    price noticeably. So, whenever you see huge spikes in price it is probably because
+    of a big corporation investing in the technology for their own motives.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain metrics
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Blockchain metrics are important measurable features of the blockchain that
+    can help you understand its state, so that you are able to determine how good
+    the Ethereum blockchain is doing and what the adoption rate is, so that you're
+    able to predict the future when it comes to pricing, developments, and adoption
+    rates.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Number of transactions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The number of transactions in a blockchain is the most important metric, since
+    it shows the usage of the technology in everyday situations. Transactions represent
+    activity. The more transactions, the more people actively using the blockchain
+    for investing in projects, running dApps and using smart contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It doesn't make sense to have billions of users if no one is using the technology;
+    the more transactions there are, the more useful the technology is. You'll also
+    see in the next heading that Ethereum is experiencing growing pains and is not
+    being used as much as it should. People are joining it, but they are not using
+    it enough. This is a huge concern in the community that must be surpassed to become
+    mainstream.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When Ethereum started, there were 8,893 transactions, which then became 448,168
+    daily transactions on January 1st, 2019\. The record was 1,349,890 on January
+    4^(th), 2018.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here''s a visual of the number of transactions since Ethereum was launched
+    in 2015 for your reference:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/df9396ec-0c11-41b9-a90c-fef02694856b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The preceding screenshot tells us that 448 thousand daily transactions are coming
+    from daily transfers, people using dApps, investors participating in ICOs, and
+    people playing with smart contracts. In contrast, PayPal is handling 7.6 billion
+    transactions per year as of December 2017, which is about 633 million transactions
+    per day. PayPal is a mainstream technology used all over the world, so, for Ethereum
+    to reach such level of mass adoption, it has to grow about 1,413 times its current
+    level of transactions. This clearly indicates to us that Ethereum is still in
+    its infancy and it will take several years, with the current usage, to become
+    relevant at such a scale.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The chart reveals that Ethereum is not increasing the number of daily transactions
+    since last year. This is usual in the blockchain space and is expected to continue
+    growing after a while because of the many improvements that the technology is
+    yet to experience.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can explore the data on your own by checking the graph of Ethereum transactions
+    at [https://etherscan.io/chart/tx](https://etherscan.io/chart/tx).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Address growth
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Addresses in Ethereum are similar to accounts in real life, although they are
+    easier to generate, so it's not unusual for people to manage 10 addresses at any
+    given point. When Ethereum was founded, a total of 9,205 addresses were created.
+    Since then, Ethereum hasn't stopped growing and by January 1st, 2019 there were
+    54,281,633 addresses created with a daily growth of about 51,139\. Those are 50
+    million addresses that we can approximate to 5 million users, since we can assume
+    that normal users have about 10 addresses given the easiness to create them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here''s how the total of Ethereum addresses has been growing over the years:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/194fca81-be1d-4b55-9fe1-6570ad700f44.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: If you want to explore more past historical data regarding Ethereum addresses,
+    you can check the graph at [https://etherscan.io/chart/address](https://etherscan.io/chart/address).
+  prefs: []
+  type: TYPE_NORMAL
+- en: The 54 million addresses indicates to us that Ethereum is still in the adoption
+    phase while growing consistently. People are discovering this technology for the
+    first time, they are joining, and they are bringing more people in. Whenever we
+    reach 1 billion addresses, we can say with confidence that the technology is mainstream,
+    and that people have integrated it into their daily lives.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ether market capitalization
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The price per Ether indicates to us how much people believe in the technology.
+    There's a saying that goes *put your money where your mouth is* that fits this
+    statistic perfectly. The more money people invest in the technology, the more
+    they believe in it, which indicates expansion. Funds raised in ICOs, TGEs, and
+    STOs are also great sources of Ether price increases, since many projects are
+    using the technology successfully. People are putting money in useful projects
+    based on Ethereum.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the following diagram, you can see how the price of Ethereum has been moving
+    over time with several sudden spikes caused by people''s interest in the technology:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/002d66e3-3e48-42ab-9bec-ec3b49441031.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Ethereum was born four years ago in 2015, where one ETH was worth $0.31 USD.
+    After two years it was worth more than $1,000 dollars by the end of December 2017\.
+    Recently, the price is falling and it's about $142 as of January 1st, 2019\. This
+    indicates to us that people are running away from it because they got scammed,
+    because they don't have a use for it, or simply because the hype ran out. The
+    real reasons are uncertain, but what's for sure is that the price is in decline
+    because the technology needs to provide innovative solutions to real-world problems
+    that could only be solved with the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Check the graph on Etherscan if you want to know more about how the price changed
+    over time at [https://etherscan.io/chart/marketcap](https://etherscan.io/chart/marketcap).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Developer adoption
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A project is nothing without people behind it improving it and growing it to
+    new frontiers. The quality and number of developers behind Ethereum are an indicator
+    of how it will look in the future. The more great people work on it, the sooner
+    it will be able to face new challenges that could solve people's problems for
+    increased utility. We can measure developer adoption by the number of dApps published
+    using Ethereum and the number of ERC20 tokens in circulation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Etherscan, a block explorer, says that there is a total of 164,188 token contracts
+    published on the Ethereum blockchain as of January 24th, 2019\. You must consider
+    the fact that many of those are scams. About 1,000 are actually the real ones,
+    considering that, per each good token, there are 10 fake or abandoned tokens.
+    This number indicates to us that Ethereum is the dominant blockchain when it comes
+    to developer adoption, since the others hardly reach a few hundred tokens. People
+    are joining the network and learning more about it for useful purposes because
+    tokens have useful applications behind them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: State of the dApps is the most popular website that congregates most of the
+    applications built on Ethereum. It says that there are 2,432 dApps for this blockchain.
+    This is way more that any other blockchain. However, we must compare it to a real-world
+    scenario where applications are being deployed, since Ethereum is mainly a protocol
+    for building unstoppable applications. Google Play, for instance, lists about
+    2.6 million active applications, which is more than 1,000 times the size of apps
+    deployed on Ethereum.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We can conclude, based on this data, that Ethereum is, again, in its growing
+    phase, and adoption is just starting, so we must continue building on it until
+    people decide to participate to solve decentralized problems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To know more about this you can look at [https://etherscan.io/tokens](https://etherscan.io/tokens)
+    and [https://www.statista.com/statistics/266210/number-of-available-applications-in-the-google-play-store/](https://www.statista.com/statistics/266210/number-of-available-applications-in-the-google-play-store/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Miner activity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Finally, miner activity is a great measure of the power behind the technology.
+    The more miners join the network, the stronger it becomes, which, in turn, increases
+    its decentralization reaching record high hashrates.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethereum started in 2015 with just 11 GH/s in hashrate. That is extremely low,
+    and it's expected from any new blockchain. However, that number hasn't stopped
+    growing and now we have about 180,000 GH/s as of January 1st, 2019\.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Take a look at this screenshot of how the Ethereum''s network hashrate has
+    been increasing consistently to clearly appreciate the relation between price
+    and adoption:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/87e51ae9-e3e4-40b8-9b3d-bbf410d72d29.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: You can see in the preceding chart that the growth has been consistent until
+    September 2018, where it fell drastically while it recovers slowly. By interpreting
+    this data, we can come to the conclusion that it's slowly being accepted by miners
+    that believe in the technology, especially in recent times, where the difficulty
+    has increased while rewards have been reduced. This type of crypto winter is still
+    going surprisingly strong, supported by people that will mine it even at a loss.
+    It's a great indicator of how much people believe in the underlying system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Be sure to check the official graph to analyze by yourself the hashrate of this
+    interesting blockchain to discover interesting points in time where people decided
+    to participate in the mining process at [https://etherscan.io/chart/hashrate](https://etherscan.io/chart/hashrate).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we've learned a great deal of things related the mechanisms
+    that integrate blockchain technology with real-world scenarios, such as exchanges
+    and adoption rates. You are now capable of using powerful tools to improve the
+    quality of your decentralized applications and smart contracts, while also being
+    able to predict future price movements based on the most important metrics about
+    Ethereum. In the first section, you saw how the Ethereum blockchain is defined
+    using a specific set of rules known as the chain spec, then you learned about
+    the different parts that make such impressive technology possible, including the
+    many applications built on each layer. Finally, you saw how Ethereum consensus,
+    economics, and metrics work to help you understand why Ethereum is such a valuable
+    coin, while also seeing the way many nodes cooperate toward a singular objective
+    using what's known as consensus.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we'll cover different implementations of the Ethereum protocol
+    to become capable of exploiting the full potential of Ethereum in your own projects.
+  prefs: []
+  type: TYPE_NORMAL
