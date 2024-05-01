@@ -3,6 +3,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 去中心化交易所工作流程
 - en: Decentralized exchanges, also known as **DAXs**, are a hot topic for the simple
     reason that all cryptocurrencies need to be exchanged by others to give them some
     kind of utility. Could you imagine a world where you couldn't trade Bitcoin for
@@ -15,45 +16,56 @@
   id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 去中心化交易所，也被称为**DAXs**，是一个热门话题，简单的原因是所有加密货币都需要通过其他货币进行交换，以赋予它们某种实用性。你能想象一个世界，在这个世界里你不能用比特币换取美元吗？或者以太坊换比特币？这将摧毁大多数加密货币的实际实用性。这就是为什么我们有交易所，为了允许各种货币在自由市场中交易。我们将首先介绍关于
+    DAXs 的解释，以便你理解它们背后的思想。然后你会理解订单是如何进行的以及如何以安全的方式管理用户资金。之后，你将创建一个具有复杂智能合约和详细界面的真实世界
+    DAX。
 - en: 'In this chapter, we''ll cover the following topics:'
   id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这一章中，我们将涵盖以下主题：
 - en: Introducing decentralized exchanges
   id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 介绍去中心化交易所
 - en: Understanding the trading and matching engine
   id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 理解交易和匹配引擎
 - en: Managing cryptocurrency wallets and cold storage
   id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 管理加密货币钱包和冷存储
 - en: Building the user interface
   id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 构建用户界面
 - en: Building the Ethereum backend
   id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 构建以太坊后端
 - en: Finishing the dApp
   id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 完成 dApp
 - en: Introducing decentralized exchanges
   id: totrans-9
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 介绍去中心化交易所
 - en: What are DAXs, really? Well, normal exchanges, such as the stock market, are
     built upon a centralized system where a server processes all orders and displays
     the results to the users. They run very efficient systems that are quite expensive
@@ -65,6 +77,8 @@
   id: totrans-10
   prefs: []
   type: TYPE_NORMAL
+  zh: 到底什么是 DAXs？嗯，普通的交易所，比如股票市场，建立在一个集中式系统之上，其中一个服务器处理所有订单并向用户显示结果。他们运行非常高效的系统，但是要建立这样的系统成本相当高，尽管考虑到它们提供的效用是可以理解的。另一方面，DAXs
+    不依赖于一个集中式系统，所有订单都必须通过一个进行必要计算的服务器进行处理。相反，DAXs 基于以太坊的基础架构工作，为用户提供一个可以由任何人执行并由庞大的计算机网络处理的系统。
 - en: The first difference with DAX compared to centralized exchanges is that they
     are limited by the technology behind them. You can't create a DAX that trades
     fiat currencies, such as the American dollar or the European euro, because those
@@ -77,6 +91,8 @@
   id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 与中心化交易所相比，DAX 的第一个区别是它们受到背后技术的限制。你不能创建一个交易法币的 DAX，比如美元或欧元，因为这些货币是基于不同的技术的；它们在一个称为
+    FOREX 的不同市场上运行，那里的全球银行交易全球货币。同样，你也不能在股票市场交易 ERC20 代币，因为它们是基于以太坊运行的，而且在那些中心化交易所工作的开发者没有创建这些系统之间流畅连接所需的工具——主要原因是速度上的差异。
 - en: Ethereum naturally makes slower transactions because they have to be confirmed
     by every node of the network. That's why it's expected to have a slow trading
     system in DAXs. However, there are scaling technologies, such as *plasma* and
@@ -86,11 +102,14 @@
   id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊自然会产生较慢的交易，因为它们必须被网络的每个节点确认。这就是为什么在 DAXs 中预期会有一个慢速交易系统。然而，还有一些扩展技术，比如 *plasma*
+    和 *state channels*，允许你在初始设置后更有效地进行交易。我们将探讨它们的工作原理，并构建一个 DAX，以便你理解它们是如何工作的。你甚至可以创建自己的规则。
 - en: Cons of DAXs
   id: totrans-13
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: DAXs 的缺点
 - en: DAXs are generally slower since you can't make instant transactions unless you
     rely on off-chain systems between a pair of currencies, slowing you down when
     you desire to trade between other cryptocurrencies.
@@ -182,11 +201,14 @@
   id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: 交易世界广阔而复杂；这就是为什么使用它们的人们创造了许多术语来帮助彼此准确理解它们的含义。例如，与其说 *我想购买 10 个 BTC，希望未来价格上涨*，你可以说
+    *我想多买入 10 个 BTC*。它们的意思是一样的，但这是一种更精确的相互沟通方式。
 - en: 'Let''s go through some important terminology to comprehend some aspects of
     exchange markets:'
   id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们学习一些重要的术语，以理解交易市场的一些方面：
 - en: '**Market order**: An action that consists of selling or buying a currency for
     the lowest or highest price available. You see, in exchanges there are sellers
     and buyers, those that want to get rid of some currency and those that want to
@@ -206,6 +228,8 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**市价单**：一种以最低或最高价格买入或卖出货币的行为。你看，交易所有卖家和买家，那些想要摆脱某种货币的人和那些想要获取一些货币的人。每个人都为自己想要得到的东西设定一个价格，价格总是成对出现的。例如，*我想以
+    50 个 ETH 的价格购买 10 个 BTC*。在这种情况下，这对将是 BTC-ETH，因为你声明你想用你的比特币交换以太币；在那里，你同时是比特币的买家和以太币的卖家。人们设定不同的价格，所以当你进行市价交易时，你只是以最大的利润买入或卖出。当你用美元在线购买东西时也是一样的。如果你是欧洲人，像我一样，你会注意到许多在线物品的价格是以美元计价的，这使得用欧元购买这些物品成为不可能，因为它们不是同一种货币。那么当你购买书籍时会发生什么？在后台，一些程序以市场设定的价格将欧元兑换为美元，并用美元购买书籍。'
 - en: '**Limit order**: An action where you sell or buy at a fixed price that you
     set by yourself. These types of orders are used for those that predict price movements
     or are comfortable waiting until their order gets filled over a longer time.'
@@ -213,6 +237,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**限价单**：一种你自己设定的固定价格买入或卖出的行为。这些类型的订单用于那些预测价格变动或愿意等待订单在较长时间内得到执行的人。'
 - en: '**Broker**: A person that lends you money with interest for your trading activities.
     Brokers usually help you with actions, such as executing your trades, because
     they have more money so they enjoy special privileges in the exchange you''re
@@ -221,12 +246,14 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**经纪人**：一位向你提供贷款以进行交易活动的人。经纪人通常会帮助你执行交易等行动，因为他们有更多的资金，所以在你所在的交易所享有特权。'
 - en: '**Margin account**: A special type of user account where you can borrow money
     from brokers as you trade.'
   id: totrans-29
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**保证金账户**：一种特殊类型的用户账户，你可以在其中在交易时从经纪人那里借钱。'
 - en: '**Long buying**: An action where you buy a specific currency because you believe
     it will go up in value to make a profit, or to support the technology behind the
     currency.'
@@ -234,6 +261,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**多买入**：一种购买特定货币的行为，因为你相信它将升值以获利，或者支持货币背后的技术。'
 - en: '**Short selling**: An action where you win when the currency that you''re shorting
     goes down in value. For instance, you could say, *I''m going to go short on euros
     because I believe the price will go down in the next five days*. It''s a system
@@ -243,6 +271,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**空头交易**：一种当你看空的货币价值下跌时赢得的行为。例如，你可以说，*我要做空欧元，因为我相信价格会在接下来的五天内下跌*。这是一个你可以卖出你不拥有的货币的系统。其背后的推理包括以下内容：'
 - en: First, you borrow money from another person, called the broker, who gives you
     the desired amount of currencies that you want to short, such as 100 ETH that
     you short.
@@ -251,12 +280,14 @@
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 首先，你从另一个人，称为经纪人，那里借钱，他会给你想要做空的货币的所需数量，比如你做空的 100 个 ETH。
 - en: You automatically sell those 100 ETH at the market price.
   id: totrans-33
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 你会自动以市场价格出售那 100 个 ETH。
 - en: At a later date, you buy those 100 ETH. This is called closing your position.
     For instance, after 20 days, you close your short position by buying 100 ETH at
     the market price.
@@ -476,6 +507,7 @@
   id: totrans-62
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个`Escrow`合约接收代币转账以将资金安全地保存在内部。每个用户将拥有一个独特的托管合约来分散资金的位置，以便攻击者无法集中于单一地点。您可以通过`transferTokens()`函数管理合约内的代币资金，并且可以使用`checkTokenBalance()`函数检查合约内的代币余额，这是一个简化的`.balanceOf()`ERC20辅助函数。最后，我添加了一个空的非付款回退函数，以避免接收Ether，因为我们只想要代币内部。
 - en: We'll use this `Escrow` contract to manage people's funds later on, since we
     want a secure place to keep their precious tokens. Ideally, we would create a
     system that uses cold storage in hardware devices, but such an action would require
@@ -484,11 +516,13 @@
   id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将稍后使用这个`Escrow`合约来管理人们的资金，因为我们希望有一个安全的地方来保存他们珍贵的代币。理想情况下，我们会创建一个使用硬件设备中的冷存储的系统，但这样的操作将需要一个复杂的系统，负责安全管理每一个步骤，以防止中间人攻击。
 - en: Building the user interface
   id: totrans-64
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 构建用户界面
 - en: The user interface for DAXs is the same as the ones used for traditional exchanges,
     such as the stock exchange, or centralized crypto-exchanges, such as **Binance**.
     The idea is to provide a data-driven design where they can quickly understand
@@ -499,6 +533,7 @@
   id: totrans-65
   prefs: []
   type: TYPE_NORMAL
+  zh: DAXs的用户界面与传统交易所（如股票交易所）或中心化加密交易所（如**币安**）使用的界面相同。其理念是提供一个数据驱动的设计，使他们能够快速了解所选代币对的情况。中心区域将用于数据显示，侧边栏将用于用户可能采取的操作，右侧将用于辅助数据；在我们的情况下，它将用于过去的交易。
 - en: As usual, create a `src` and `dist` folder that will include our project. You
     can just copy the setup from previous projects by taking a look at my own version
     on [github.com/merlox/dapp](http://github.com/merlox/dapp). Our design will be
@@ -507,11 +542,14 @@
   id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 像往常一样，创建一个包含我们项目的`src`和`dist`文件夹。您可以通过查看我的GitHub上的自己版本 [github.com/merlox/dapp](http://github.com/merlox/dapp)
+    来直接复制之前项目的设置。我们的设计将基于大多数交易所，因为它们有一个经过研究的公式，感觉很棒。在您的`index.js`文件中创建一个新组件作为侧边栏的一部分。
 - en: 'First, add the `Main` component along with the required imports for a normal
     React application:'
   id: totrans-67
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先，添加`Main`组件以及普通React应用程序所需的导入：
 - en: '[PRE6]'
   id: totrans-68
   prefs: []
@@ -523,6 +561,7 @@
   id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后添加`Sidebar`组件，其中包含用户可以执行的一些基本操作，例如资金管理部分以添加或提取资金，以及创建买入或卖出订单的部分：
 - en: '[PRE7]'
   id: totrans-70
   prefs: []
@@ -538,6 +577,7 @@
   id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 您添加的类和元素完全由您决定。我个人喜欢向用户显示他们正在交易的货币对，每个货币对的余额以及一组操作，如购买、出售、存款和提款。然后，我们可以添加一些`css`。在这个项目中，我们将使用一种称为`stylus`的`css`预处理器（[stylus-lang.com](http://stylus-lang.com)），它允许您在没有括号和嵌套类的情况下编写`css`，以及许多其他很好的功能。您可以按照以下步骤安装它：
 - en: '[PRE8]'
   id: totrans-72
   prefs: []
@@ -547,6 +587,7 @@
   id: totrans-73
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后将其添加到你的`webpack`配置文件中作为新的规则块：
 - en: '[PRE9]'
   id: totrans-74
   prefs: []
@@ -683,11 +724,14 @@
   id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将是我们的基本设计。您可以自由添加更多的货币对，使用 ERC20 代币，使用 D3.js 创建图表，甚至使用状态通道！本书中展示的项目的优点在于，您可以在现有结构的基础上构建一个真正高质量的产品，该产品可用于
+    ICO 或使用您自己的解决方案来扩展 dApps 生态系统。让我们继续构建所需的智能合约来创建交易并使用 MetaMask 进行交易。
 - en: Building the Ethereum backend
   id: totrans-95
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 构建以太坊后端
 - en: The backend for our project will take care of generating trades that can be
     filled by anyone as long as they have enough funds to pay the established price.
     When the user gets registered, they'll deploy an Escrow contract which will be
@@ -698,11 +742,15 @@
   id: totrans-96
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们项目的后端将负责生成可以由任何人填写的交易，只要他们有足够的资金支付已确定的价格即可。当用户注册时，他们将部署一个 Escrow 合约，该合约将由我们的主要
+    DAX 合约使用。因此，让我们首先设置要求和合约结构，然后开始填写所有功能以练习在 [第四章](2b43135a-08f4-46d3-8c2a-5dd70bb02843.xhtml)
+    中学习的系统以提高开发者的效率，*精通智能合约*。
 - en: 'Start by defining the functions that we''ll need in a big comment at the beginning
     of the file:'
   id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先，在文件开头的大型注释中定义我们将需要的函数：
 - en: '[PRE15]'
   id: totrans-98
   prefs: []
@@ -713,6 +761,7 @@
   id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 设置所使用的 Solidity 版本，导入 `Escrow` 合约，并定义令牌接口：
 - en: '[PRE16]'
   id: totrans-100
   prefs: []
@@ -723,6 +772,7 @@
   id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先通过定义我们将用于创建新订单的 `Order` 结构来创建 `DAX` 合约：
 - en: '[PRE17]'
   id: totrans-102
   prefs: []
@@ -733,6 +783,7 @@
   id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后定义管理卖单和买单所需的许多变量，同时也将令牌列入白名单：
 - en: '[PRE18]'
   id: totrans-104
   prefs: []
@@ -743,6 +794,7 @@
   id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 创建所需的映射以添加和管理令牌符号，并根据给定的 ID 查找订单：
 - en: '[PRE19]'
   id: totrans-106
   prefs: []
@@ -753,6 +805,7 @@
   id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，添加 `onlyOwner` 修饰符，回退函数将还原，以及构造函数：
 - en: '[PRE20]'
   id: totrans-108
   prefs: []
@@ -764,6 +817,7 @@
   id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用完整的 NatSpec 文档和函数签名定义白名单令牌函数。我已经突出显示了该函数，以便您可以清楚地区分函数和注释：
 - en: '[PRE21]'
   id: totrans-110
   prefs: []
@@ -773,6 +827,7 @@
   id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: 要管理令牌，请创建以下两个带有文档的函数：
 - en: '[PRE22]'
   id: totrans-112
   prefs: []
@@ -784,6 +839,7 @@
   id: totrans-113
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用它们正常工作所需的参数添加市场和限价订单功能，因为这些将是创建订单和与 DAX 交互的主要功能：
 - en: '[PRE23]'
   id: totrans-114
   prefs: []
@@ -795,6 +851,7 @@
   id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，添加 `view` 函数，您可以将其用作界面可能需要的帮助程序和获取器。尝试自己添加它们。然后检查解决方案：
 - en: '[PRE24]'
   id: totrans-116
   prefs: []
@@ -809,6 +866,8 @@
   id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先，我们设置一个 `event` 来记录令牌转移，以便人们可以看到什么时候卖出或购买了令牌。我们可以添加更多事件，但我将让您自行发现您需要哪些事件。然后，我们添加了大量必要的变量，从一个定义订单是开放还是关闭的
+    `enum` 开始。我们为每个订单的每个属性添加了一个 `struct`，以清晰地定义正在处理哪个令牌。
 - en: Then we added three arrays to store existing orders, while also having a few
     variables to whitelist new tokens so that we can trade with a wider set of cryptocurrencies.
     After that, we added multiple mappings to find each specific order easily while
@@ -816,6 +875,8 @@
   id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，我们添加了三个数组来存储现有订单，同时还有一些变量来将新代币列入白名单，以便我们可以与更广泛的加密货币集进行交易。之后，我们添加了多个映射以轻松找到每个特定订单，同时优化了
+    gas 成本。
 - en: We added an `onlyOwner` modifier to restrict access to the whitelisting function
     so that it doesn't get too crazy when it comes to adding cryptocurrencies. We
     added a fallback function that doesn't allow ETH transfers so that people don't
@@ -823,6 +884,7 @@
   id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们添加了一个`onlyOwner`修饰符来限制对whitelisting函数的访问，以防止在添加加密货币时变得太疯狂。我们添加了一个不允许以太币转账的fallback函数，以防止人们向这个交易所发送资金，并添加了一个定义DAX所有者的构造函数。
 - en: Then we added the `whitelistToken()` function, which takes a token address,
     and an array of symbols to create pairs with that main token; that way, you're
     able to trade with a large quantity of pairs at once. The `depositTokens()` function
@@ -836,6 +898,7 @@
   id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，我们添加了`whitelistToken()`函数，该函数接受一个令牌地址和一个符号数组，用于创建与该主令牌的交易对；这样，你就能够一次交易大量的交易对。`depositTokens()`函数是由想增加其令牌余额的用户使用的。他们可以直接将他们想要交易的令牌转移到与他们相关联的Escrow合约中，但用户必须首先通过这个函数创建一个新的Escrow，这只能通过这个函数完成。然后，Escrow地址将与`escrowByUserAddress`映射中的该帐户关联起来。此存款函数还要求用户之前使用`approve()`函数来允许DAX合约将令牌转移到Escrow合约；否则，它将失败。
 - en: Next, the `extractTokens()` function is used to move tokens from the Escrow
     to the user's address. It's a shortcut to the `transferTokens()` function inside
     the `Escrow` contract to facilitate token management. After that, we have the
@@ -848,12 +911,14 @@
   id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来，`extractTokens()`函数用于将令牌从托管账户移动到用户的地址。这是一个快捷方式，用于在`Escrow`合约内部调用`transferTokens()`函数以便于令牌管理。之后，我们有复杂的市场和限价订单函数。它们都是大函数，因为它们需要对订单进行排序、更新和查找以匹配现有订单，并在区块链的燃气使用限制内工作。我们很快会深入了解它们是如何实现的。最后，我们有一些辅助函数用于对订单进行排序，检查给定的令牌对是否存在，以及检索令牌对的数组。
 - en: 'Let''s go ahead and implement some of those functions. Remember to start with
     the simplest ones, and progress to the more complex ones, so that you have a solid
     structure behind them. Here is how the `whitelisting` function should look:'
   id: totrans-122
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们继续实现一些这些函数。记得从最简单的函数开始，逐步进展到更复杂的函数，这样你就会有一个坚实的结构支撑它们。这是`whitelisting`函数应该的样子：
 - en: '[PRE25]'
   id: totrans-123
   prefs: []
@@ -868,10 +933,13 @@
   id: totrans-124
   prefs: []
   type: TYPE_NORMAL
+  zh: whitelisting函数进行一些要求检查，然后为每个给定的令牌对进行白名单设置，以便您可以独立交易。例如，如果你的主要令牌符号是BAT，并且你的`_tokenPairSymbols`数组包含`['TOK',
+    'TIK']`，你就可以与BAT - TOK和BAT - TIK交易。简单的事情。只要你保持低数量的令牌对，该函数就不会耗尽燃气。
 - en: 'The following are the next functions for managing token funds:'
   id: totrans-125
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是用于管理令牌资金的下一个函数：
 - en: '[PRE26]'
   id: totrans-126
   prefs: []
@@ -884,23 +952,27 @@
   id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 存款函数检查用户是否有与他们地址相关联的`Escrow`合约。如果没有，函数会创建一个新的`Escrow`，然后转移用户请求的令牌存款，只要他们之前在适当的ERC20合约中批准了一些令牌。
 - en: The extract function is simply running the `transferTokens()` function to the
     owner's address, as long as they have some previous balance inside. Otherwise
     it will revert.
   id: totrans-128
   prefs: []
   type: TYPE_NORMAL
+  zh: extract函数只是简单地运行`transferTokens()`函数到所有者的地址，只要他们之前有一些余额。否则它会回滚。
 - en: Let's move on to the limit order function. Because this is a larger function,
     we'll break it down into smaller parts so that you understand how each section
     operates.
   id: totrans-129
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们继续进行限价订单功能。因为这是一个较大的功能，我们将其拆分为更小的部分，以便您了解每个部分的操作方式。
 - en: 'First, we have an updated document based on changes that come across as you
     create the function. It''s never too late to improve the documentation:'
   id: totrans-130
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先，我们根据创建函数时出现的更改更新的文档。改进文档永远不会太迟：
 - en: '[PRE27]'
   id: totrans-131
   prefs: []
@@ -911,6 +983,7 @@
   id: totrans-132
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，我们运行许多`require()`检查，以确保用户正确执行限价订单功能：
 - en: '[PRE28]'
   id: totrans-133
   prefs: []
@@ -921,6 +994,7 @@
   id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 之后，如果用户创建买入限价订单，则执行`buy`功能：
 - en: '[PRE29]'
   id: totrans-135
   prefs: []
@@ -931,6 +1005,7 @@
   id: totrans-136
   prefs: []
   type: TYPE_NORMAL
+  zh: 否则，更改订单添加的数组，同时在添加后对订单进行排序：
 - en: '[PRE30]'
   id: totrans-137
   prefs: []
@@ -945,6 +1020,7 @@
   id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是整个限价订单功能拆分成易于理解的片段，以解释每个语句背后的逻辑。你看到我们使用了`sortIdsByPrices`函数，因为我们需要对订单数组进行排序。下面是完成后的排序函数的样子。请注意，该函数是`view`类型，这意味着运行所有计算不会产生任何Gas费用，因为它们将在本地执行，因此排序后的数组可以是无限的：
 - en: '[PRE31]'
   id: totrans-139
   prefs: []
@@ -957,6 +1033,7 @@
   id: totrans-140
   prefs: []
   type: TYPE_NORMAL
+  zh: 注意`sortIdsByPrice()`函数。它读取包含订单结构的相应状态变量，然后按升序排列订单（如果是买入限价单），或按降序排列订单（如果是卖出限价单）。我们需要它用于限价订单功能。
 - en: The `limitOrder()` function starts by checking that the parameters are valid
     and that the tokens can be traded. Depending on the type of order requested, it
     will push a new `Order` struct instance to the `sellOrders()` or `buyOrders()`
@@ -968,6 +1045,7 @@
   id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: '`limitOrder()`函数首先检查参数是否有效，以及代币是否可以交易。根据请求的订单类型，它将一个新的`Order`结构实例推送到`sellOrders()`或`buyOrders()`数组中，同时对这些数组进行排序，以将这个新的限价订单推送到正确的位置。请记住，我们的想法是有一个排序后的订单数组，以便我们可以快速找到最有利可图的订单；这就是为什么我们有排序功能。最后，它更新订单数组和订单索引映射，以便我们以后可以找到每个`Order`实例在这些数组中的位置。'
 - en: 'Now, we can take a look at the massive `marketOrder` function implementation;
     this is my own way of doing it, I recommend you try to recreate a market order
     function from scratch, considering all the gas restrictions and limitations. It''s
@@ -977,6 +1055,7 @@
   id: totrans-142
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们可以看一下庞大的`marketOrder`函数实现；这是我自己的方式来实现，我建议你尝试从头开始重新创建一个市场订单功能，考虑到所有的Gas限制和限制。虽然不完美，但它清楚地显示了DAX交易所的工作原理。以下是您理解的功能分解。首先，更新函数的文档以确保它解释了内部执行的内容：
 - en: '[PRE32]'
   id: totrans-143
   prefs: []
@@ -987,6 +1066,7 @@
   id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后添加`require()`函数检查以验证给定的代币是否有效，以及数量是否正确：
 - en: '[PRE33]'
   id: totrans-145
   prefs: []
@@ -997,6 +1077,7 @@
   id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: 就像限价订单功能一样，根据现有订单的状态执行买入或卖出功能：
 - en: '[PRE34]'
   id: totrans-147
   prefs: []
@@ -1008,6 +1089,7 @@
   id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: 当开发如此复杂的逻辑时，添加一些额外的注释永远不会有害。在这里，我添加了一些说明，以提醒自己这个功能应该在更技术层面上如何工作：
 - en: '[PRE35]'
   id: totrans-149
   prefs: []
@@ -1122,6 +1204,7 @@
   id: totrans-165
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先，通过更新`Main`组件中的状态对象，添加新的所需变量，我们将使用这些变量与智能合约进行交互。注意，我们移除了交易和历史数组，因为我们将从合约中获取这些数据：
 - en: '[PRE40]'
   id: totrans-166
   prefs: []
@@ -1132,6 +1215,7 @@
   id: totrans-167
   prefs: []
   type: TYPE_NORMAL
+  zh: 添加`bytes32()`辅助函数，用于生成 web3.js 所需的有效十六进制字符串：
 - en: '[PRE41]'
   id: totrans-168
   prefs: []
@@ -1142,6 +1226,7 @@
   id: totrans-169
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后创建`setup()`函数，初始化 web3.js 实例，并获取用户同意使用他们的 MetaMask 账户凭据：
 - en: '[PRE42]'
   id: totrans-170
   prefs: []
@@ -1152,6 +1237,7 @@
   id: totrans-171
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于在 react 应用中设置合约更加复杂，我们必须为可维护性创建一个单独的函数：
 - en: '[PRE43]'
   id: totrans-172
   prefs: []
@@ -1164,6 +1250,7 @@
   id: totrans-173
   prefs: []
   type: TYPE_NORMAL
+  zh: 在设置完 web3 和合约实例后，我们可以开始从智能合约获取订单，以便用订单填充我们的用户界面。首先，我们获取用于循环遍历所有订单的数组长度。这是唯一一种安全地考虑到数组中包含的所有元素的方法：
 - en: '[PRE44]'
   id: totrans-174
   prefs: []
@@ -1174,6 +1261,7 @@
   id: totrans-175
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后我们开始循环遍历买单数组，通过独立调用智能合约来处理每个组件：
 - en: '[PRE45]'
   id: totrans-176
   prefs: []
@@ -1183,6 +1271,7 @@
   id: totrans-177
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们对卖单数组也做同样的事情：
 - en: '[PRE46]'
   id: totrans-178
   prefs: []
@@ -1194,6 +1283,7 @@
   id: totrans-179
   prefs: []
   type: TYPE_NORMAL
+  zh: 再次，我们对关闭订单数组执行相同的操作。我们需要这个数组来显示过去的历史交易，这可以帮助人们了解在加入乐趣之前发生了什么：
 - en: '[PRE47]'
   id: totrans-180
   prefs: []
@@ -1206,6 +1296,7 @@
   id: totrans-181
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，创建一个名为`setPairs()`的函数，将来用于向平台添加新的令牌对。因为我们不想过度复杂化我们正在创建的初始 DAX，所以我们将自己限制在只有一个令牌对的范围内，由两个虚拟令牌组成，分别命名为`WAT`和`BAT`：
 - en: '[PRE48]'
   id: totrans-182
   prefs: []
@@ -1223,6 +1314,9 @@
   id: totrans-183
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们从设置构造函数开始，其中包含整个应用程序所需的基本变量。然后，`setup()`函数负责获取所有初始信息。`bytes32()`函数用于将普通字符串转换为十六进制，因为新版本的
+    web3 强制我们发送十六进制字符串而不是纯文本以识别`bytes32`变量。个人而言，我更喜欢将`bytes32`变量写成字符串，但`web3`是他们的框架，所以我们必须遵循它的编程风格。然后，我们使用`setContractInstances()`函数设置合约实例，该函数使用给定的地址和
+    ABI 启动我们的合约。
 - en: Then we set up the orders with the `setOrders()` function. This one looks scarier
     since it contains a lot more code, but the idea is to simply get each order from
     the smart contract and store them in organized arrays inside the react state variables.
@@ -1231,11 +1325,14 @@
   id: totrans-184
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后我们使用`setOrders()`函数设置订单。这个看起来更吓人，因为它包含了更多的代码，但其实想法很简单，就是从智能合约中获取每个订单，并将它们存储在
+    react 状态变量的组织良好的数组中。最后，我们使用`setPairs()`设置令牌对，它会用我们的令牌更新状态。
 - en: 'Now we need to implement the remaining functions in the smart contract. Here
     is how the whitelist function looks in the React dApp:'
   id: totrans-185
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们需要在智能合约中实现剩余的函数。以下是 React dApp 中白名单函数的样子：
 - en: '[PRE49]'
   id: totrans-186
   prefs: []
@@ -1247,6 +1344,7 @@
   id: totrans-187
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后我们实现存款令牌函数，它将增加用户为交易令牌而向平台添加的可用余额。我已经添加了大量注释，让您了解正在发生的事情：
 - en: '[PRE50]'
   id: totrans-188
   prefs: []
@@ -1256,6 +1354,7 @@
   id: totrans-189
   prefs: []
   type: TYPE_NORMAL
+  zh: 提取代币函数相当简单，将用于两种代币：
 - en: '[PRE51]'
   id: totrans-190
   prefs: []
@@ -1267,6 +1366,7 @@
   id: totrans-191
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，我们必须实现限价和市价订单功能，讽刺的是，这是最小的功能，因为我们只需要将所需信息传递给智能合约，它就会自行执行整个功能：
 - en: '[PRE52]'
   id: totrans-192
   prefs: []
@@ -1278,6 +1378,7 @@
   id: totrans-193
   prefs: []
   type: TYPE_NORMAL
+  zh: 白名单功能相当简单，因为我们只使用主以太坊地址从智能合约运行白名单功能。请记住，此功能只能由合约的所有者执行。
 - en: 'The deposit tokens function checks whether you have enough tokens in your Ethereum
     address, and then it creates two approvals: the first one is to reduce the approval
     to zero since we can''t increase the approval quantity safely since there are
@@ -1288,12 +1389,14 @@
   id: totrans-194
   prefs: []
   type: TYPE_NORMAL
+  zh: 存款代币函数检查您的以太坊地址中是否有足够的代币，然后创建两个批准：第一个批准是将批准数量减少到零，因为我们无法安全地增加批准数量，由于该功能存在一些安全风险；第二个批准是批准要存入所选代币的所需数量。然后，我们运行我们的`DAX`合约中的`depositTokens()`方法，将代币移动到托管地址，并在用户尚未拥有托管时创建一个托管。
 - en: The withdraw function simply runs the `extractTokens()` method from our `DAX`
     contract to move the tokens from escrow to the user's address because we don't
     need to check anything there.
   id: totrans-195
   prefs: []
   type: TYPE_NORMAL
+  zh: 提取函数简单地运行我们的`DAX`合约中的`extractTokens()`方法，将代币从托管转移到用户的地址，因为我们在那里不需要检查任何东西。
 - en: Then we move to the `createLimitOrder()` function. Remember how complicated
     and large it was in the `DAX` contract? Well, in this case, it's just a matter
     of putting the right parameters in the right places. We'll see later in the `render()`
@@ -1302,10 +1405,12 @@
   id: totrans-196
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后我们转向`createLimitOrder()`函数。还记得在`DAX`合约中它是多么复杂和庞大吗？嗯，在这种情况下，只是将正确的参数放在正确的位置。我们将在后面的`render()`函数中看到如何获取这些参数。与运行我们的`DAX`合约中的`marketOrder`方法相同，`createMarketOrder()`也是如此。
 - en: 'Here''s the `render()` function:'
   id: totrans-197
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是`render()`函数：
 - en: '[PRE53]'
   id: totrans-198
   prefs: []
@@ -1319,6 +1424,7 @@
   id: totrans-199
   prefs: []
   type: TYPE_NORMAL
+  zh: 渲染函数生成三个组件：`Sidebar`、`Orders`和`History`。这些是我们之前创建的三个部分。在这种情况下，我们向每个组件添加了许多属性，以便轻松地传递数据。您可以看到，限价订单和市价订单属性只是接收参数并将它们发送到`Main`组件的函数中。
 - en: 'Let''s explore my implementation of each of those components; this is my own
     way of doing it so you can see how a DAX should look. I recommend you create your
     own version based on what you''ve learned. The following is the `Sidebar` component;
@@ -1327,6 +1433,7 @@
   id: totrans-200
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们来探索每个组件的实现方式；这是我自己的做法，所以您可以看到 DAX 应该是什么样子。我建议您根据您所学到的知识创建您自己的版本。以下是`Sidebar`组件；我们首先创建更新的`constructor()`、`bytes32()`和`resetInputs()`函数，这些函数将在渲染中使用：
 - en: '[PRE54]'
   id: totrans-201
   prefs: []
@@ -1339,6 +1446,7 @@
   id: totrans-202
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这种情况下，`render()`函数有点过大，您可能无法理解它，因此我们将其分解为更小、更易消化的部分。因为我们想要给用户更多的选择，所以为每种代币添加了一个存款和提取按钮，以保持简单：
 - en: '[PRE55]'
   id: totrans-203
   prefs: []
@@ -1352,6 +1460,7 @@
   id: totrans-204
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如你所看到的，这些按钮通过`prompt()`全局 JavaScript 函数询问用户要移动多少代币，该函数提供了清晰但基本的动态输入。然后通过`props`将相应的函数调用传递到`Main`组件中。然后，我们可以添加`buy`按钮功能来格式化限价或市价订单所需的输入：
 - en: '[PRE56]'
   id: totrans-205
   prefs: []
@@ -1362,6 +1471,7 @@
   id: totrans-206
   prefs: []
   type: TYPE_NORMAL
+  zh: 卖出按钮做的事情是一样的，但是在顶层函数中使用卖出类型告诉智能合约我们想要卖出：
 - en: '[PRE57]'
   id: totrans-207
   prefs: []
@@ -1373,6 +1483,7 @@
   id: totrans-208
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，我们给用户一个简单的选择输入，表示他们想要创建限价订单还是市价订单。如果他们选择了限价订单，将显示一个额外的输入来指示卖出或买入价格：
 - en: '[PRE58]'
   id: totrans-209
   prefs: []
@@ -1392,12 +1503,15 @@
   id: totrans-210
   prefs: []
   type: TYPE_NORMAL
+  zh: 与以前一样，我们有一个构造函数，一个`bytes32`函数和一个`render()`函数。`resetInputs()`函数负责清理输入字段，以便在购买或出售后重置它们的值。渲染最复杂的部分是创建我们的设计。主要逻辑可以在按钮中找到。我们在资金管理部分有四个按钮，用于存入
+    BAT 或 WAT 和取出 BAT 或 WAT。有一个简单的系统来管理你在托管账户中有多少代币。然后，有几个主要按钮用于买入或卖出。这些按钮中的每一个都运行`createLimitOrder`或`createMarketOrder`方法，取决于您是否选择了限价订单下拉框还是其他选项。当您点击这些按钮时，组件读取存储在输入中的值，然后将它们传递给正确的函数。
 - en: 'Take a closer look at the logic behind the buttons to understand how they decide
     which function to call and how they move that information to the `Main` component.
     Let''s move on to the `Orders` component, previously named `Trades`:'
   id: totrans-211
   prefs: []
   type: TYPE_NORMAL
+  zh: 仔细观察按钮背后的逻辑，了解它们如何决定调用哪个函数以及如何将信息传递到`Main`组件。现在让我们转向`Orders`组件，之前称为`Trades`：
 - en: '[PRE59]'
   id: totrans-212
   prefs: []
@@ -1410,10 +1524,12 @@
   id: totrans-213
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们只有一个渲染和构造函数，从`Main`组件给出的买入或卖出订单对象生成我们所需的设计。除此之外，我们没有太多可说的，它为无尽的订单创建了一个清晰的界面。
 - en: 'Now, here''s the last `History` component:'
   id: totrans-214
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，这是最后一个`History`组件：
 - en: '[PRE60]'
   id: totrans-215
   prefs: []
@@ -1424,6 +1540,7 @@
   id: totrans-216
   prefs: []
   type: TYPE_NORMAL
+  zh: 它几乎与`Orders`组件相同，但样式不同。记得运行`ReactDOM.render()`函数来显示你的 dApp。
 - en: 'That''s about it! Now you should have a working DAX that you can use and build
     upon to create a stronger exchange for hundreds or even thousands of tokens, since
     you understand how it works from the inside out. This is probably the most direct
@@ -1431,15 +1548,18 @@
   id: totrans-217
   prefs: []
   type: TYPE_NORMAL
+  zh: 大概就是这样了！现在你应该有一个可用的 DAX，可以使用并构建它，以创建一个更强大的交易所，因为你从内到外了解了它的工作方式。这可能是启动自己的交易所的最直接方式。这是一些交易后的样子：
 - en: '![](img/8cc7387d-dcc8-41d5-99fe-5f3919182a81.png)'
   id: totrans-218
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/8cc7387d-dcc8-41d5-99fe-5f3919182a81.png)'
 - en: Summary
   id: totrans-219
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 总结
 - en: In this chapter, you learned how to build a DAX from scratch, going from the
     idea of how exchanges work, to the user interface using react and truffle, to
     creating the required smart contracts so that you saw for yourself how a fully-decentralized
