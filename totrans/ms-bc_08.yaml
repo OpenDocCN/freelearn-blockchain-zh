@@ -2254,6 +2254,7 @@
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 在这种情况下，如果根据前面描述的条件调用`fallback`函数，则会调用throw，它将状态回滚到调用之前的状态。它也可以是除了throw之外的其他构造方式；例如，它可以记录一个事件，该事件可以用作将调用结果反馈给调用应用程序的警报。
 - en: '**Modifier functions**: These functions are used to change the behavior of
     a function and can be called before other functions. Usually, they are used to
     check some conditions or verification before executing the function. `_`(underscore)
@@ -2265,6 +2266,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**修饰器函数**：这些函数用于更改函数的行为，并且可以在其他函数之前调用。通常，它们用于在执行函数之前检查某些条件或验证。在修饰器函数中使用`_`（下划线），当调用修饰器时将其替换为函数的实际体。基本上，它象征着需要*受保护*的函数。这个概念类似于其他语言中的守护函数。'
 - en: '**Constructor function**: This is an optional function that has the same name
     as the contract and is executed once a contract is created. Constructor functions
     cannot be called later on by users, and there is only one constructor allowed
@@ -2273,12 +2275,14 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**构造函数**：这是一个可选函数，与合约同名，一旦合约被创建就会执行。构造函数不能被用户后续调用，并且一个合约只允许一个构造函数。这意味着没有重载功能可用。'
 - en: '**Function visibility specifiers (access modifiers)**: Functions can be defined
     with four access specifiers as follows:'
   id: totrans-366
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**函数可见性规范器（访问修饰符）**：函数可以用四个访问修饰符来定义，如下所示：'
 - en: '**External**: These functions are accessible from other contracts and transactions.
     They cannot be called internally unless the `this` keyword is used.'
   id: totrans-367
@@ -2286,6 +2290,7 @@
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**External**: 这些功能可从其他合约和交易中访问。除非使用`this`关键字，否则不能在内部调用它们。'
 - en: '**Public**: By default, functions are public. They can be called either internally
     or using messages.'
   id: totrans-368
@@ -2293,6 +2298,7 @@
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**公共**: 默认情况下，函数是公共的。它们可以被内部调用，也可以使用消息调用。'
 - en: '**Internal**: Internal functions are visible to other derived contracts from
     the parent contract.'
   id: totrans-369
@@ -2300,6 +2306,7 @@
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Internal**: 内部函数对从父合约派生的其他合约可见。'
 - en: '**Private**: Private functions are only visible to the same contract they are
     declared in.'
   id: totrans-370
@@ -2307,6 +2314,7 @@
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**私有**: 私有函数只对声明它们的合约可见。'
 - en: '**Other important keywords/functions throw**: `throw` is used to stop execution.
     As a result, all state changes are reverted. In this case, no gas is returned
     to the transaction originator because all the remaining gas is consumed.'
@@ -2314,21 +2322,25 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**其他重要关键字/函数throw**：`throw`用于停止执行。结果是所有状态更改都被撤销。在这种情况下，不会将任何燃气返回给交易发起者，因为所有剩余的燃气都被消耗掉了。'
 - en: Layout of a solidity source code file
   id: totrans-372
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: Solidity源代码文件的布局
 - en: '**Version pragma**'
   id: totrans-373
   prefs: []
   type: TYPE_NORMAL
+  zh: '**版本声明**'
 - en: 'In order to address compatibility issues that may arise from future versions
     of the solidity compiler version, pragma can be used to specify the version of
     the compatible compiler as, for example, in the following:'
   id: totrans-374
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了解决未来版本Solidity编译器版本可能出现的兼容性问题，可以使用pragma来指定兼容编译器的版本，例如：
 - en: '[PRE69]'
   id: totrans-375
   prefs: []
@@ -2339,16 +2351,19 @@
   id: totrans-376
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将确保源文件不会在小于`0.5.0`的版本和从0.6.0开始的版本中编译。
 - en: '**Import**'
   id: totrans-377
   prefs: []
   type: TYPE_NORMAL
+  zh: '**导入**'
 - en: 'Import in solidity allows the importing of symbols from the existing solidity
     files into the current global scope. This is similar to import statements available
     in JavaScript, as for example, in the following:'
   id: totrans-378
   prefs: []
   type: TYPE_NORMAL
+  zh: 在Solidity中导入允许从现有的Solidity文件中导入符号到当前的全局范围。这类似于JavaScript中可用的import语句，例如：
 - en: '[PRE70]'
   id: totrans-379
   prefs: []
@@ -2358,25 +2373,30 @@
   id: totrans-380
   prefs: []
   type: TYPE_NORMAL
+  zh: '**注释**'
 - en: Comments can be added in the solidity source code file in a manner similar to
     C-language. Multiple line comments are enclosed in `/*` and `*/`, whereas single
     line comments start with `//`.
   id: totrans-381
   prefs: []
   type: TYPE_NORMAL
+  zh: 在Solidity源代码文件中可以添加注释，方式与C语言类似。多行注释用`/*`和`*/`括起来，而单行注释以`//`开头。
 - en: 'An example solidity program is as follows, showing the use of pragma, import,
     and comments:'
   id: totrans-382
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个示例的Solidity程序如下，展示了对pragma、import和注释的使用：
 - en: '![Layout of a solidity source code file](img/image_08_028.jpg)'
   id: totrans-383
   prefs: []
   type: TYPE_IMG
+  zh: '![Solidity源代码文件的布局](img/image_08_028.jpg)'
 - en: Sample solidity program as shown in browser solidity
   id: totrans-384
   prefs: []
   type: TYPE_NORMAL
+  zh: 在浏览器Solidity中显示的示例Solidity程序
 - en: This completes a brief introduction to the solidity language. The language is
     very rich and under constant improvement. Detailed documentation and coding guidelines
     are available online.
