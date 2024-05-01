@@ -1850,17 +1850,21 @@
   id: totrans-231
   prefs: []
   type: TYPE_NORMAL
+  zh: 必须提供密码，但只有当 `<username>` 是 `admin` 时才需要。在这种情况下，中间件将简单地检查提供的密码是否与用于启动组织 MSP 的
+    `fabric-ca-server` 的密码匹配。正如本章前面提到的，我们的 MSP 管理员密码设置为默认的 `adminpw`。
 - en: This is a naïve implementation, but as web application security is not the focus
     of this tutorial, this will suffice to show how a server and frontend can be implemented
     over a smart contract and middleware.
   id: totrans-232
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是一个天真的实现，但是由于 Web 应用安全不是本教程的重点，这足以展示如何在智能合约和中间件上实现服务器和前端。
 - en: 'The code for JWT token creation and user registration/login can be found in
     the following express route configured in `app.js`:'
   id: totrans-233
   prefs: []
   type: TYPE_NORMAL
+  zh: JWT 令牌创建和用户注册/登录的代码可以在以下 express 路由中找到，在 `app.js` 中配置：
 - en: '[PRE40]'
   id: totrans-234
   prefs: []
@@ -1871,11 +1875,13 @@
   id: totrans-235
   prefs: []
   type: TYPE_NORMAL
+  zh: 读者可以尝试使用会话管理的其他机制，例如会话 cookie，而不是 JWT 令牌。
 - en: Our web application can now be tested. First, bring up the Fabric network using
     `docker-compose` (or `trade.sh`), as shown earlier in this chapter.
   id: totrans-236
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的 Web 应用现在可以进行测试了。首先，使用 `docker-compose`（或 `trade.sh`）启动 Fabric 网络，就像本章前面所示的那样。
 - en: 'If you created fresh cryptographic keys and certificates for the organizations
     using `cryptogen` (or the `trade.sh` script), you MUST clear the temporary folder
     used by the middleware to save world state and user info, otherwise you may see
@@ -1886,11 +1892,15 @@
   id: totrans-237
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果您使用 `cryptogen`（或 `trade.sh` 脚本）为组织创建了新的加密密钥和证书，则必须清除中间件用于保存世界状态和用户信息的临时文件夹，否则如果尝试注册在应用程序的上一次运行中使用过的
+    ID，则可能会看到错误。例如：如果临时文件夹在您的机器上是 `network/client-certs`，您只需从 `network` 文件夹运行 `rm
+    -rf client-certs` 来清除内容。
 - en: 'In a different terminal window, start the web application by running the following
     command:'
   id: totrans-238
   prefs: []
   type: TYPE_NORMAL
+  zh: 在不同的终端窗口中，通过运行以下命令启动 Web 应用程序：
 - en: '[PRE41]'
   id: totrans-239
   prefs: []
@@ -1902,6 +1912,8 @@
   id: totrans-240
   prefs: []
   type: TYPE_NORMAL
+  zh: 在第三个终端窗口中，使用 `curl` 命令向 Web 服务器发送请求，以创建名为 `Jim` 的普通用户在 `importerorg` 组织中（这是在
+    `middleware/config.json` 中指定的组织名称）：
 - en: '[PRE42]'
   id: totrans-241
   prefs: []
@@ -1911,6 +1923,7 @@
   id: totrans-242
   prefs: []
   type: TYPE_NORMAL
+  zh: 你应该看到类似以下的输出：
 - en: '[PRE43]'
   id: totrans-243
   prefs: []
@@ -1921,10 +1934,12 @@
   id: totrans-244
   prefs: []
   type: TYPE_NORMAL
+  zh: 在中间件中，在这里执行的函数是 `clientUtils.js` 中的 `getUserMember`，这在本章前面已经讨论过。
 - en: 'To create an administrative user in the same organization, run:'
   id: totrans-245
   prefs: []
   type: TYPE_NORMAL
+  zh: 要在同一组织中创建一个管理用户，请运行：
 - en: '[PRE44]'
   id: totrans-246
   prefs: []
@@ -1935,6 +1950,7 @@
   id: totrans-247
   prefs: []
   type: TYPE_NORMAL
+  zh: 你应该看到以下输出（管理员用户已经注册，所以这实际上是一个登录调用）：
 - en: '[PRE45]'
   id: totrans-248
   prefs: []
@@ -1944,16 +1960,19 @@
   id: totrans-249
   prefs: []
   type: TYPE_NORMAL
+  zh: 在中间件中，在这里执行的函数是 `clientUtils.js` 中的 `getMember`。
 - en: Network administration
   id: totrans-250
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 网络管理
 - en: 'As you can see in `app.js`, the API functions from channel creation to chaincode
     instantiation are implemented as express routes:'
   id: totrans-251
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如你在 `app.js` 中所看到的，从通道创建到链码实例化的 API 函数都被实现为 express 路由：
 - en: '[PRE46]'
   id: totrans-252
   prefs: []
@@ -1965,6 +1984,7 @@
   id: totrans-253
   prefs: []
   type: TYPE_NORMAL
+  zh: 要使用这些路由，最终用户必须以管理员身份登录并使用返回的令牌。根据上一次调用的输出，我们可以如下请求通道创建：
 - en: '[PRE47]'
   id: totrans-254
   prefs: []
@@ -1978,6 +1998,8 @@
   id: totrans-255
   prefs: []
   type: TYPE_NORMAL
+  zh: 注意，授权头的格式是 `Bearer <JWT 令牌值>`。Web 服务器隐式假定通道名称为 `tradechannel`，这在 `middleware/constants.js`
+    中设置。（如果愿意，您可以扩展服务器 API 以接受请求体中的通道名称。）如果一切顺利，输出应该如下：
 - en: '[PRE48]'
   id: totrans-256
   prefs: []
@@ -2126,11 +2148,13 @@
   id: totrans-278
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们已经展示了如何使用示例脚本和`curl`命令来执行基于Node JS的中间件和应用程序功能。通过观察控制台输出，您可以了解应用程序是否按预期工作。对于生产应用程序，您将需要一种更健壮和可维护的测试方法，以持续评估库函数和API端点的正确性。单元测试和集成测试都应该是您评估过程的一部分。这样的测试的实际演示超出了本章的范围，编写单元测试和集成测试留给读者练习。Mocha是一个功能丰富的JavaScript框架，用于异步测试([https://mochajs.org/](https://mochajs.org/))，可以用于此目的。
 - en: Integration with existing systems and processes
   id: totrans-279
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 与现有系统和流程的集成
 - en: When discussing end-to-end solutions with customers, we often explain that blockchain-related
     components represent a very small percentage of the overall footprint. This is
     still a very important set of components, but nonetheless they represent a small
@@ -2138,11 +2162,13 @@
   id: totrans-280
   prefs: []
   type: TYPE_NORMAL
+  zh: 在与客户讨论端到端解决方案时，我们经常解释说，与整体足迹相比，与区块链相关的组件所占比例很小。这仍然是一组非常重要的组件，但它们代表的足迹很小。
 - en: This section will focus on the touch point between our traditional systems and
     the Hyperledger Fabric and Composer API.
   id: totrans-281
   prefs: []
   type: TYPE_NORMAL
+  zh: 本节将重点介绍我们传统系统与Hyperledger Fabric和Composer API之间的接触点。
 - en: We will explore the various patterns of integration we have leveraged and see
     how some of the non-functional requirements can influence the integration deployment.
     Finally, we will explore some additional considerations that integrators will
@@ -2150,30 +2176,36 @@
   id: totrans-282
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将探讨我们已经利用的各种集成模式，并查看一些非功能性要求如何影响集成部署。最后，我们将探讨一些在设计集成层时集成者需要牢记的其他考虑因素。
 - en: 'In short, in this section, you will:'
   id: totrans-283
   prefs: []
   type: TYPE_NORMAL
+  zh: 简而言之，在本节中，您将：
 - en: Understand the design consideration of the integration layer
   id: totrans-284
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 了解集成层的设计考虑
 - en: Review the integration design patterns
   id: totrans-285
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 查看集成设计模式
 - en: Explore the impact of non-functional requirements on the integration
   id: totrans-286
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 探索非功能性要求对集成的影响
 - en: Design considerations
   id: totrans-287
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 设计考虑
 - en: By now, you have experience with Fabric SDK and by the end of [*Chapter 7*](2e166a5f-eff3-4317-9a8f-fb74bdb68915.xhtml),
     *A Business Network Example*, you will have experienced using the `Composer REST`
     gateway. While those are certainly the main tools of the trade when it comes to
@@ -2183,40 +2215,49 @@
   id: totrans-288
   prefs: []
   type: TYPE_NORMAL
+  zh: 到目前为止，您已经有了使用 Fabric SDK 的经验，到[*第7章*](2e166a5f-eff3-4317-9a8f-fb74bdb68915.xhtml)结束时，*一个商业网络示例*，您将体验使用`Composer
+    REST`网关。虽然这些确实是集成的主要工具，但它们是生态系统的一部分，并且企业的业务流程需要进行调整，以确保集成是有意义的。
 - en: 'As per the design considerations, we will look at the following aspects:'
   id: totrans-289
   prefs: []
   type: TYPE_NORMAL
+  zh: 根据设计考虑，我们将考虑以下几个方面：
 - en: Impact of decentralization
   id: totrans-290
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 去中心化的影响
 - en: Process alignment
   id: totrans-291
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 流程调整
 - en: Message affinity
   id: totrans-292
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 消息关联
 - en: Service discovery
   id: totrans-293
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 服务发现
 - en: Identity mapping
   id: totrans-294
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 身份映射
 - en: Decentralization
   id: totrans-295
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 去中心化
 - en: Many attempts have been made to standardize IT functions and capabilities, but
     the reality is that no two organizations have the same IT landscape. Even for
     those who have selected the same ERP vendor, the systems will have been customized
@@ -2224,18 +2265,21 @@
   id: totrans-296
   prefs: []
   type: TYPE_NORMAL
+  zh: 曾经有很多尝试标准化IT功能和能力，但现实是没有两个组织拥有相同的IT景观。即使对于那些选择了相同的ERP供应商的组织来说，系统也会被定制以满足组织的流程和需求。
 - en: This means that when planning your integration design, you should keep in mind
     that each organization may have their own way of invoking smart contracts and
     may not have the same IT capabilities or policies.
   id: totrans-297
   prefs: []
   type: TYPE_NORMAL
+  zh: 这意味着在规划集成设计时，您应该记住每个组织可能都有自己调用智能合约的方式，可能没有相同的IT能力或政策。
 - en: As an example, exposing events through Web Socket may make sense for an organization
     who is familiar with cloud-based technologies, but other organizations may not
     have the skills, or their IT security policies may not allow them to use the protocol.
   id: totrans-298
   prefs: []
   type: TYPE_NORMAL
+  zh: 例如，通过 Web Socket 公开事件可能对熟悉基于云的技术的组织有意义，但其他组织可能没有这方面的技能，或者其 IT 安全策略可能不允许他们使用该协议。
 - en: While it may seem surprising to some, keep in mind that a network can be a mix
     of Fortune 500 organizations and start-ups. Consider the supply-chain industry
     for a moment; you will find some trucking company with little to no IT infrastructure,
@@ -2243,12 +2287,14 @@
   id: totrans-299
   prefs: []
   type: TYPE_NORMAL
+  zh: 尽管对一些人来说可能令人惊讶，但请记住，一个网络可以是财富 500 强组织和初创企业的混合体。想象一下供应链行业；您会发现一些几乎没有 IT 基础设施的卡车公司，一直到行业巨头。显然，一刀切可能不适用于所有情况。
 - en: 'Having said that, from a network perspective, you should consider the degree
     of support the network wants to provide to joining organizations. There are two
     possible approaches:'
   id: totrans-300
   prefs: []
   type: TYPE_NORMAL
+  zh: 话虽如此，从网络的角度来看，您应考虑网络希望为加入组织提供的支持程度。有两种可能的方法：
 - en: '**The network provides an integration asset**: This can take the form of a
     gateway that each participant deploys in their own infrastructure. The gateway
     is standard for everyone and manages the invocation of the smart contracts in
@@ -2257,6 +2303,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**网络提供集成资产**：这可以采用每个参与者在其自己的基础设施中部署的网关形式。网关对每个人都是标准的，并以一致的方式管理智能合约的调用。'
 - en: This can provide the benefit of accelerating the on-boarding process, but requires
     consideration about who owns, manages, and supports this IT component. Furthermore,
     some organizations may not want to deploy this piece of infrastructure due to
@@ -2265,6 +2312,7 @@
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 这可以提供加速入职流程的好处，但需要考虑谁拥有、管理和支持这个 IT 组件。此外，由于信任问题，一些组织可能不希望部署此基础设施。
 - en: '**Each participant builds their own integration layer**: The obvious downside
     of this approach is the recreation of the wheel by all participants, but it reduces
     the potential support issues created by deploying a common component in every
@@ -2273,21 +2321,25 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**每个参与者构建自己的集成层**：这种方法的明显缺点是所有参与者都要重新发明轮子，但它减少了通过在每个组织中部署一个公共组件所创建的潜在支持问题。'
 - en: This may also be the preferred approach for use cases requiring deep system
     integration to achieve the benefit of process optimizations.
   id: totrans-304
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 对于需要深度系统集成以实现流程优化效益的用例，这也可能是首选方法。
 - en: Process alignment
   id: totrans-305
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 流程对齐
 - en: 'The integration layer will have to deal with two different viewpoints:'
   id: totrans-306
   prefs: []
   type: TYPE_NORMAL
+  zh: 集成层将不得不处理两种不同的观点：
 - en: '**Organization IT system and business process viewpoint**: An organization
     business process may be hosted in an ERP such as SAP. In such a situation, when
     a specific business event warrants the invocation of a smart contract, this may
@@ -2298,6 +2350,8 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**组织 IT 系统和业务流程视角**：组织业务流程可能托管在诸如 SAP 等 ERP 中。在这种情况下，当特定的业务事件需要调用智能合约时，可能会通过
+    SAP 系统的 **业务 API**（**BAPI**）调用来发出。来自 ERP 的 API 调用可能包含各种数据结构，其中一些与区块链网络完全无关。'
 - en: '**Smart contract viewpoint**: This viewpoint has the particularity of having
     a data representation that is application agnostic. This means that all participants
     of the network will understand the nature of the data being processed.'
@@ -2305,28 +2359,33 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**智能合约视角**：这个视角具有数据表示是应用程序不可知的特点。这意味着网络的所有参与者都将理解正在处理的数据的性质。'
 - en: 'It is up to the integration layer to reconcile the two and ensure that the
     proper semantic of the transaction is maintained in both systems. This may imply:'
   id: totrans-309
   prefs: []
   type: TYPE_NORMAL
+  zh: 它取决于集成层来协调两者，并确保在两个系统中保持正确的交易语义。这可能意味着：
 - en: '**Mapping**: Moving data from one field name to the another'
   id: totrans-310
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**映射**：将数据从一个字段名移动到另一个字段名'
 - en: '**Transformation**: Aggregating, splitting, or computing a new value based
     on input'
   id: totrans-311
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**转换**：基于输入聚合、拆分或计算新值'
 - en: '**Cross-referencing**: Leveraging a reference table to map application-specific
     codes to values recognized by the network'
   id: totrans-312
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**交叉引用**：利用参考表将应用程序特定代码映射到网络识别的值'
 - en: The point here is that even if your network agrees to use the Hyperledger Composer
     REST gateway presented in [Chapter 7](2e166a5f-eff3-4317-9a8f-fb74bdb68915.xhtml),
     *A Business Network Example*, there is still work that needs to be done by each
@@ -2335,16 +2394,20 @@
   id: totrans-313
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里的观点是，即使你的网络同意使用[第7章](2e166a5f-eff3-4317-9a8f-fb74bdb68915.xhtml)中介绍的Hyperledger
+    Composer REST网关，《业务网络示例》，每个参与者仍然需要做一些工作，以确保集成适应组织的整体业务流程。
 - en: Message affinity
   id: totrans-314
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 消息亲和性
 - en: While this is not an issue often discussed, ignoring it can lead to serious
     issues that will typically surface during integration or performance testing.
   id: totrans-315
   prefs: []
   type: TYPE_NORMAL
+  zh: 虽然这通常不是一个讨论的问题，但忽视它可能会导致严重的问题，通常会在集成或性能测试过程中出现。
 - en: We refer to message affinity as a situation that occurs when a system issues
     a series of inter-dependent transactions, which are issued in a short period of
     time. Because each transaction is issued separately, they are subject to be processed
@@ -2352,34 +2415,41 @@
   id: totrans-316
   prefs: []
   type: TYPE_NORMAL
+  zh: 当系统发出一系列相互依赖的交易，并且这些交易在短时间内发出时，我们将其称为消息亲和性。因为每个交易是分开发出的，所以它们可能以与客户端发出时不同的顺序进行处理。
 - en: 'The result may be unpredictable, as the following example shows. To make it
     concrete, let''s look at an Order process that would issue three separate transactions,
     as shown in the following diagram:'
   id: totrans-317
   prefs: []
   type: TYPE_NORMAL
+  zh: 结果可能是不可预测的，就像下面的例子所示。为了更具体，让我们看一个将发出三个单独事务的订单过程，如下图所示：
 - en: '![](img/05a9b3bf-eb3a-4aec-94ff-da5d84218061.png)'
   id: totrans-318
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/05a9b3bf-eb3a-4aec-94ff-da5d84218061.png)'
 - en: 'Figure 5.4: Processing service requests in order'
   id: totrans-319
   prefs: []
   type: TYPE_NORMAL
+  zh: 图5.4：按顺序处理服务请求
 - en: 'Because the Service Provider is multi-threaded, the order of processing can
     vary depending on the load at the time. A potential result is illustrated in the
     following diagram:'
   id: totrans-320
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于服务提供者是多线程的，所以处理顺序可能因当时的负载而有所变化。一个潜在的结果如下图所示：
 - en: '![](img/0c721e3c-759b-45cc-b086-fc5fdba9fa3b.png)'
   id: totrans-321
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/0c721e3c-759b-45cc-b086-fc5fdba9fa3b.png)'
 - en: 'Figure 5.5: Potential service processing result'
   id: totrans-322
   prefs: []
   type: TYPE_NORMAL
+  zh: 图5.5：潜在的服务处理结果
 - en: The first item being processed out of order would be rejected because the order
     object hasn't been created yet. However, the two subsequent objects would succeed
     and leave the system in a state where the order is recorded as having a single
@@ -2387,11 +2457,13 @@
   id: totrans-323
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果第一个正在处理的项目顺序错误将被拒绝，因为订单对象还没有被创建。然而，后续的两个对象将成功，并且将系统留在订单记录为单个项目而不是两个项目的状态。
 - en: The challenge with this situation is that it is hard to troubleshoot. An unaware
     developer may not be able to reproduce this behavior on his/her development platform.
   id: totrans-324
   prefs: []
   type: TYPE_NORMAL
+  zh: 面临的挑战是很难进行故障排除。一个不知情的开发人员可能无法在他/她的开发平台上重现这种行为。
 - en: Now, you may be wondering, how does that relate to blockchain and Hyperledger
     Fabric? Considering that Fabric transactions are asynchronously processed and
     that they are validated against every world state, this situation can arise. The
@@ -2400,6 +2472,7 @@
   id: totrans-325
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，你可能会想，这与区块链和Hyperledger Fabric有什么关系？考虑到Fabric交易是异步处理的，并且它们根据每个世界状态进行验证，这种情况可能会发生。客户端将发出事务，并且可能会异步收到一条消息，说事务无效，因为它与世界状态不相符。
 - en: The moral of the story here is that when designing an API, make sure that they
     are at a granularity level that completely describes a business event. Too many
     fine-grained transactions only leads to message affinity, increased latency, and
@@ -2407,17 +2480,20 @@
   id: totrans-326
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里的故事教训是，在设计API时，确保它们在完全描述业务事件的粒度级别上。过多的细粒度交易只会导致消息亲和性、增加的延迟和可能出现的问题，就像这里描述的那样。
 - en: Service discovery
   id: totrans-327
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 服务发现
 - en: 'In the context of the integration to Hyperledger Fabric and Composer, the concept
     of service discovery is focussed on documenting and exposing the artifacts from
     Fabric: CA, peers, and orderers to the calling application.'
   id: totrans-328
   prefs: []
   type: TYPE_NORMAL
+  zh: 在集成到Hyperledger Fabric和Composer的上下文中，服务发现的概念着重于记录和向调用应用程序暴露来自Fabric的工件：CA、对等体和排序器。
 - en: As we now have experienced, in order for the application to get a transaction
     endorsed and added to the ledger, it needs to be able to interact with numerous
     components of these types. Having a way to maintain this information as a service
@@ -2426,15 +2502,18 @@
   id: totrans-329
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们现在所经历的那样，为了让应用程序获得认可的交易并添加到分类账中，需要与这些类型的众多组件进行交互。有一种方法将此信息作为服务配置元素维护将使团队能够快速适应网络的不断发展。
 - en: Currently, when developing client applications using the Fabric SDK, the developer
     is responsible for managing and applying this service configuration.
   id: totrans-330
   prefs: []
   type: TYPE_NORMAL
+  zh: 目前，在使用Fabric SDK开发客户端应用程序时，开发人员负责管理和应用此服务配置。
 - en: Part of the roadmap of Hyperledger Fabric is the intent to facilitate this configuration.
   id: totrans-331
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric路线图的一部分是促进这种配置。
 - en: One of the benefits of relying on a component such as the  `Composer REST` gateway
     is that service discovery is provided by the gateway. Concretely, as you will
     soon discover, it provides the concept of a business card which contains both
@@ -2443,16 +2522,20 @@
   id: totrans-332
   prefs: []
   type: TYPE_NORMAL
+  zh: 依赖于`Composer REST`网关等组件的一个好处是网关提供了服务发现。具体来说，正如您很快会发现的，它提供了一个包含身份信息和连接配置文件的商业卡，其中列出了可用于执行交易的Hyperledger
+    Fabric服务。
 - en: Identity mapping
   id: totrans-333
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 身份映射
 - en: Identity mapping is the process of converting the identity of an individual
     or an organization to an identity that is recognized on the network.
   id: totrans-334
   prefs: []
   type: TYPE_NORMAL
+  zh: 身份映射是将个人或组织的身份转换为网络上可识别的身份的过程。
 - en: When looking at the solution from a business network perspective, what is the
     granularity of the identity that needs to be recognized? Will other organizations
     care whether Bob or Ann from ACME issued the transaction? In most cases, the answer
@@ -2460,6 +2543,7 @@
   id: totrans-335
   prefs: []
   type: TYPE_NORMAL
+  zh: 从业务网络视角看待解决方案时，需要识别的身份的粒度是多少？其他组织是否会在乎ACME的Bob或Ann发起了交易？在大多数情况下，答案会是否定的。知道交易是由ACME发起的将是足够的。
 - en: Why is that, you may wonder. It is directly related to the concept of trust.
     Remember the concepts presented in [*Chapter 1*](ccf97c50-561e-41ae-99fa-784b3217619d.xhtml), *Blockchain
     – Enterprise and Industry Perspective*; blockchain solves the problem of time
@@ -2469,37 +2553,44 @@
   id: totrans-336
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可能会想为什么。这直接与信任的概念有关。还记得[*第1章*](ccf97c50-561e-41ae-99fa-784b3217619d.xhtml)中介绍的概念，*区块链-企业和行业视角*；区块链解决了时间和信任的问题。了解信任问题的根源有助于我们理性地确定应该用于在网络上交易的身份。在大多数情况下，我们的经验是信任问题发生在组织之间。
 - en: If you think about a use case where a bank customer transacts through their
     bank portal, the customer will not care about the backend systems; they trust
     their bank's security system.
   id: totrans-337
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果想象一个银行客户通过其银行门户进行交易的用例，客户不会关心后端系统；他们信任他们银行的安全系统。
 - en: 'Having said that, there are situations where an identity will need to be mapped:'
   id: totrans-338
   prefs: []
   type: TYPE_NORMAL
+  zh: 虽然如此，有些情况下需要进行身份映射：
 - en: Business partners transacting through the integration layer of the organization
   id: totrans-339
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 通过组织的集成层进行交易的商业合作伙伴
 - en: Different departments with varying levels of privilege
   id: totrans-340
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 具有不同权限级别的不同部门
 - en: Users with different roles that drive different access privileges
   id: totrans-341
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 具有不同角色的用户具有不同的访问权限
 - en: In this case, the integration layer will need to convert the inbound credentials
     (API Key, User ID and Password, JTW token, and so on) into a Hyperledger Fabric
     identity.
   id: totrans-342
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这种情况下，集成层将需要将传入的凭据（API密钥，用户ID和密码，JTW令牌等）转换为Hyperledger Fabric身份。
 - en: When working with the Hyperledger `Composer REST` gateway, you can configure
     it to support multiple users. The server leverages the node passport framework
     to manage this authentication. This provides the flexibility of supporting different
@@ -2507,6 +2598,7 @@
   id: totrans-343
   prefs: []
   type: TYPE_NORMAL
+  zh: 在使用Hyperledger `Composer REST`网关时，可以配置它来支持多个用户。服务器利用节点密码框架来管理此身份验证。这提供了支持不同模型（例如用户ID/密码，JWT和OAUTH）的灵活性。
 - en: Once the client is authenticated to the server, there is an additional step
     that consists of loading the Hyperledger Composer business card into the server's
     user repository. There needs to be implicit trust between the client and the server,
@@ -2514,11 +2606,13 @@
   id: totrans-344
   prefs: []
   type: TYPE_NORMAL
+  zh: 客户端一经验证通过服务器，还有一个额外的步骤，即将 Hyperledger Composer 商业卡加载到服务器的用户存储库中。客户端与服务器之间需要有隐式信任，因为商业卡包含私钥。
 - en: Integration design pattern
   id: totrans-345
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 集成设计模式
 - en: We will now look at some of the viable integration patterns we have seen in
     the industry. The list is by no means exhaustive, and given that we are still
     in the early days of the Hyperledger Fabric and Composer solutions, we expect
@@ -2527,35 +2621,43 @@
   id: totrans-346
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们将看一些我们在行业中见过的可行集成模式。这个列表并不是详尽无遗的，考虑到我们仍处于 Hyperledger Fabric 和 Composer
+    解决方案的早期阶段，我们预计随着人们和组织对技术变得更加熟悉，将会出现新的模式。
 - en: Enterprise system integration
   id: totrans-347
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 企业系统集成
 - en: In this category, we consider any organization's pre-existing systems that predate
     the joining of the network. As such, these systems have their own concepts and
     paradigms, and we will require a form of abstraction to reconcile the two worlds.
   id: totrans-348
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这个类别中，我们考虑任何组织在加入网络之前存在的现有系统。因此，这些系统有着自己的概念和范式，我们将需要一种形式的抽象来协调这两个世界。
 - en: Integrating with an existing system of record
   id: totrans-349
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 与现有记录系统集成
 - en: 'Following is a diagram to illustrate the blockchain network to an existing
     system of record:'
   id: totrans-350
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是一张图来说明将区块链网络集成到现有记录系统中的过程：
 - en: '![](img/ace45f87-b12c-4ea7-9b2d-0011fd97732d.png)'
   id: totrans-351
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/ace45f87-b12c-4ea7-9b2d-0011fd97732d.png)'
 - en: 'Figure 5.6: Integrating the blockchain network to an existing system of record'
   id: totrans-352
   prefs: []
   type: TYPE_NORMAL
+  zh: 图 5.6：将区块链网络集成到现有记录系统中
 - en: Most large enterprises looking at joining with a business network will eventually
     aim at integrating their system of record to make sure that they benefit from
     the real-time transparent distribution of transactions. In these circumstances,
@@ -2563,6 +2665,7 @@
   id: totrans-353
   prefs: []
   type: TYPE_NORMAL
+  zh: 大多数寻求加入业务网络的大型企业最终将目标定在集成其记录系统，以确保他们从实时透明的交易分配中受益。在这种情况下，我们之前提到的流程对齐将非常重要。
 - en: As depicted in the preceding diagram, the approach will consist of leveraging
     an adaptor pattern to act as a data mapper between the two worlds. The adaptor
     will adopt the enterprise system application protocol and data structure to receive
@@ -2571,49 +2674,59 @@
   id: totrans-354
   prefs: []
   type: TYPE_NORMAL
+  zh: 如前图所示，该方法将利用适配器模式来充当两个世界之间的数据映射器。适配器将采用企业系统应用程序协议和数据结构来接收交易请求。可选地，它还可以利用现有基础设施，如消息服务，来传播分类帐事件。
 - en: The important thing to note here is that this type of integration will be specific
     to an organization, and very little reuse will be possible.
   id: totrans-355
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里需要注意的重要事项是，这种类型的集成将针对一个组织，很少有可能重用。
 - en: 'As a variant of this pattern, some organizations will break the adaptor into
     two parts:'
   id: totrans-356
   prefs: []
   type: TYPE_NORMAL
+  zh: 作为此模式的一种变体，一些组织将适配器分解为两部分：
 - en: '**REST gateway**: Exposing a REST interface aligned with the Fabric smart contract'
   id: totrans-357
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**REST 网关**：暴露与 Fabric 智能合约对齐的 REST 接口'
 - en: '**Integration bus**: Mapping the fields and connecting the enterprise systems'
   id: totrans-358
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**集成总线**：映射字段并连接企业系统'
 - en: While in this variant reuse is higher, the same considerations only get moved
     one layer down.
   id: totrans-359
   prefs: []
   type: TYPE_NORMAL
+  zh: 虽然在这种变体中，重用率更高，但相同的考虑只是向下移动了一层。
 - en: Integrating with an operational data store
   id: totrans-360
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 与运营数据存储集成
 - en: 'Here is a diagram that illustrates integrating the blockchain network to an
     operational data store:'
   id: totrans-361
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里有一张图，展示了将区块链网络集成到运营数据存储中的过程：
 - en: '![](img/b7b1f220-6a7b-4734-9cf6-bd325cf463d7.png)'
   id: totrans-362
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/b7b1f220-6a7b-4734-9cf6-bd325cf463d7.png)'
 - en: 'Figure 5.7: Integrating the blockchain network to an operational data store'
   id: totrans-363
   prefs: []
   type: TYPE_NORMAL
+  zh: 图 5.7：将区块链网络集成到运营数据存储中
 - en: Oftentimes, organizations are looking at ways of running analytics on the information
     from their ledgers. However, issuing multiple/large queries against the organization's
     peers will only impact the online performance of the system. Generally, the recognized
@@ -2712,26 +2825,31 @@
   id: totrans-376
   prefs: []
   type: TYPE_NORMAL
+  zh: 可靠的系统是在面对故障时确保正确运行的系统，概率很高。这涉及以下几点：
 - en: Continuous self-monitoring of the system
   id: totrans-377
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 系统的持续自我监控
 - en: Detection of failure or corruption in a component
   id: totrans-378
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 组件中故障或损坏的检测
 - en: Fixing the problem and/or failing over to a working component
   id: totrans-379
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 修复问题和/或切换到正常工作的组件
 - en: Although various practices have evolved in the industry to ensure reliability,
     redundancy and failover are commonly (or even universally) used.
   id: totrans-380
   prefs: []
   type: TYPE_NORMAL
+  zh: 虽然行业中已经发展出了各种实践以确保可靠性，但冗余和故障转移通常（甚至普遍）被使用。
 - en: In the context of a Fabric application of the kind we built in Section I, this
     has certain implications. Recall that Fabric has many different components that
     must work in concert (though in a loosely-coupled manner) to ensure successful
@@ -2744,6 +2862,8 @@
   id: totrans-381
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们在第一部分构建的 Fabric 应用程序的背景下，这具有某些含义。请回想一下，Fabric 有许多不同的组件，它们必须协同工作（虽然是以松散耦合的方式）以确保成功运行。排序服务是其中一个关键组件，如果它失败了，将会完全停滞事务流水线。因此，当构建生产版本的比如说我们的交易应用程序时，您必须确保排序器具有足够的冗余性。在实践中，如果您的排序器是一个
+    Kafka 集群，这意味着必须确保有足够的 Kafka 节点（broker）来接管应付一个或多个失败的情况。
 - en: 'Similarly, the reliability of peers for endorsement and commitment is key to
     ensuring transaction integrity. Although blockchains, being shared replicated
     ledgers, are designed to be somewhat robust to peer failures, their vulnerabilities
@@ -2760,14 +2880,17 @@
   id: totrans-382
   prefs: []
   type: TYPE_NORMAL
+  zh: 同样，对于背书和承诺的对等体的可靠性对于确保交易完整性至关重要。虽然区块链作为共享复制账本被设计为在对等体故障时具有一定的健壮性，但其易受攻击的程度可能因应用程序而异。如果一个背书对等体失败，并且其签名是满足交易背书政策所必需的，那么就无法创建交易请求。如果一个背书对等体行为不端，并且产生了错误的执行结果，那么交易将无法提交。在任何一种情况下，系统的吞吐量都会降低或降为零。为了防止这种情况发生，您应确保在每个组织内建有足够的冗余，特别是对于满足背书政策的关键对等体。以下图示了一种可能的机制，通过该机制，交易提案将被提供给多个对等体，并且使用多数规则丢弃缺席或错误的响应：
 - en: '![](img/48ae0c90-7c06-4f14-aa18-4ca441fb8a2e.png)'
   id: totrans-383
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/48ae0c90-7c06-4f14-aa18-4ca441fb8a2e.png)'
 - en: Figure 5.9 Redundant peers for reliable transaction endorsement
   id: totrans-384
   prefs: []
   type: TYPE_NORMAL
+  zh: 图 5.9 可靠交易背书的冗余对等体
 - en: The level of reliability one gets from a system depends on the amount of resources
     devoted to monitoring and failover. For example, five peers in the preceding diagram
     are sufficient to counter two peer failures, but this now requires four more peers
@@ -2777,11 +2900,13 @@
   id: totrans-385
   prefs: []
   type: TYPE_NORMAL
+  zh: 从系统获得的可靠性水平取决于投入到监控和故障转移的资源量。例如，前述图中的五个对等体足以应对两个对等体的失败，但现在这需要比我们在示例网络中使用的对等体多四个对等体。为了确定并确保您的网络产生预期的可靠性水平，您需要在一段时间内对您的完整系统进行集成测试。
 - en: Availability
   id: totrans-386
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 可用性
 - en: The availability criterion is closely related to reliability, but it is more
     about ensuring system uptime with high probability, or as a corollary, minimizing
     the probability of system downtime. As with reliability, detection of failed nodes
@@ -2859,6 +2984,9 @@
   id: totrans-394
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们从一个简单的智能合约开始，并以一个准备好驱动贸易场景并在一个防篡改、共享、复制账本中存储记录的四节点区块链网络结束。在此过程中，我们学会了如何设计组织结构并配置
+    Fabric 网络。我们学会了如何构建一个通道，或者说一个 Fabric 区块链的实例，让网络中的节点加入该通道，并在该通道上安装和实例化一个智能合约，使用
+    Fabric SDK。我们学会了如何通过 Web 应用程序向最终用户公开我们网络和智能合约的功能，公开服务 API。我们还学会了超级账本 Fabric 交易流水线的工作原理，以及区块提交操作的异步性质如何影响端到端应用程序的实现。
 - en: In the latter part of the chapter, we learned about various design patterns
     and best practices that can be used to build industry-scale blockchain applications.
     We also learned about the considerations to keep in mind while integrating these
@@ -2868,6 +2996,8 @@
   id: totrans-395
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章的后半部分，我们学习了可以用来构建行业规模的区块链应用程序的各种设计模式和最佳实践。我们还了解了在将这些应用程序与现有系统和流程集成时需要考虑的因素。最后，我们探讨了运行操作性
+    Fabric 网络的性能方面，并学习了 CAP 定理以及 Fabric 如何在分布式环境中实现数据一致性。
 - en: The Hyperledger platforms and tools will, no doubt, evolve over time to serve
     industry and developer needs, but the architecture and methodology we described
     in our application-building exercise, as well as the design and integration patterns,
@@ -2875,14 +3005,17 @@
   id: totrans-396
   prefs: []
   type: TYPE_NORMAL
+  zh: 超级账本平台和工具毫无疑问会随着时间的推移而发展，以满足行业和开发者的需求，但我们在应用构建过程中描述的架构和方法论，以及设计和集成模式，应该会长期作为教育指南。
 - en: Our journey so far has taken us to the foundation of the Hyperledger Fabric
     framework. We have worked with chaincode and integrated an application using the
     Fabric SDK API. These are essential skills.
   id: totrans-397
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们迄今为止的旅程已经带领我们到了超级账本 Fabric 框架的基础。我们已经使用链码并使用 Fabric SDK API 集成了一个应用程序。这些都是必不可少的技能。
 - en: In the next two chapters, we will now explore a different approach to modeling
     and implementing a business network.
   id: totrans-398
   prefs: []
   type: TYPE_NORMAL
+  zh: 在接下来的两章中，我们将探讨一种不同的建模和实现业务网络的方法。
