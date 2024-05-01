@@ -1,4 +1,5 @@
 - en: Building a Betting App
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -12,36 +13,45 @@
     data from the World Wide Web. We will also learn how to access files stored in
     IPFS, use the strings library to work with strings, and so on. We will learn all
     this by building a football-betting smart contract and a client for it.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
 - en: 'In this chapter, we''ll cover the following topics:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
 - en: How does Oraclize work?
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: What are Oraclize's various data sources and how do each of them work?
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: How does consensus work in Oraclize?
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Integrating Oraclize in Ethereum smart contracts
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Using strings the `Solidity` library to make it easy to work with strings
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Building a football betting app
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Introduction to Oraclize
+  id: totrans-9
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -50,49 +60,60 @@
     and Ethereum's testnet and mainnet. What makes Oraclize so special is that you
     don't need to trust it because it provides proof of authenticity of all data it
     provides to smart contracts.
+  id: totrans-10
   prefs: []
   type: TYPE_NORMAL
 - en: In this chapter, our aim is to learn how Ethereum smart contracts can use the
     Oraclize service to fetch data from the World Wide Web.
+  id: totrans-11
   prefs: []
   type: TYPE_NORMAL
 - en: How does it work?
+  id: totrans-12
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Let's look at the process by which an Ethereum smart contract can fetch data
     from other blockchains and the World Wide Web using Oraclize.
+  id: totrans-13
   prefs: []
   type: TYPE_NORMAL
 - en: To fetch data that exists outside of the Ethereum blockchain, an Ethereum smart
     contract needs to send a query to Oraclize, mentioning the data source (representing
     where to fetch the data from) and the input for the data source (representing
     what to fetch).
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
 - en: Sending a query to Oraclize Oraclize means sending a contract call (that is,
     an internal transaction) to the Oraclize contract present in the Ethereum blockchain.
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
 - en: The Oraclize server keeps looking for new incoming queries to its smart contract.
     Whenever it sees a new query, it fetches the result and sends it back to your
     contract by calling the `_callback` method of your contract.
+  id: totrans-16
   prefs: []
   type: TYPE_NORMAL
 - en: Data sources
+  id: totrans-17
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'Here is a list of sources from which Oraclize lets smart contracts fetch data:'
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
 - en: 'URL: The URL data source provides you with the ability to make an HTTP GET
     or POST request, that is, fetch data from the WWW.'
+  id: totrans-19
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`WolframAlpha`: The `WolframAlpha` data source provides you with the ability
     to submit a query to the `WolframAlpha` knowledge engine and get the answer.'
+  id: totrans-20
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
@@ -100,24 +121,33 @@
     data from other `blockchains`. Possible queries that can be submitted to the `blockchain`
     data source are `bitcoin blockchain height`, `litecoin hashrate`, `bitcoin difficulty`,
     `1NPFRDJuEdyqEn2nmLNaWMfojNksFjbL4S balance`, and so on.'
+  id: totrans-21
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`区块链`：`区块链` 数据源允许您访问来自其他 `区块链` 的数据。可以提交给 `区块链` 数据源的可能查询有 `比特币区块链高度`、`莱特币哈希率`、`比特币难度`、`1NPFRDJuEdyqEn2nmLNaWMfojNksFjbL4S
+    余额` 等。'
 - en: '`IPFS`: The `IPFS` data source provides you with the ability to fetch the content
     of a file stored in `IPFS`.'
+  id: totrans-22
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`IPFS`：`IPFS` 数据源使您能够获取存储在 `IPFS` 中的文件的内容。'
 - en: '`Nested`: The `nested` data source is a metadata source; it does not provide
     access to additional services. It was designed to provide a simple aggregation
     logic, enabling a single query to leverage sub-queries based on any available
     data source and producing a single string as a result; for example:'
+  id: totrans-23
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`嵌套`：`嵌套` 数据源是一个元数据源；它不提供对其他服务的访问。它被设计为提供简单的聚合逻辑，使得可以基于任何可用的数据源进行单一查询，并生成单一的字符串作为结果；例如：'
 - en: '`[WolframAlpha] temperature in ${[IPFS] QmP2ZkdsJG7LTw7jBbizTTgY1ZBeen64PqMgCAWz2koJBL}`.'
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: '`[WolframAlpha] ${[IPFS] QmP2ZkdsJG7LTw7jBbizTTgY1ZBeen64PqMgCAWz2koJBL} 中的温度`。'
 - en: '`Computation`: The `computation` data source enables the auditable execution
     of a given application into a secure off-chain context; that is, it lets us fetch
     the result of an off-chain execution of an application. This application has to
@@ -131,22 +161,34 @@
     containing such files (Dockerfile plus any external file dependencies, and the
     Dockerfile has to be placed in the archive root), you should take care of preparing
     this archive and pushing it to IPFS beforehand.'
+  id: totrans-25
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`计算`：`计算` 数据源使给定应用程序在安全的链下环境中进行可审计的执行；也就是说，它允许我们获取应用程序的链下执行结果。该应用程序必须在退出之前（在标准输出上）打印查询结果。执行上下文必须由
+    Dockerfile 描述，其中构建和运行应用程序应该立即启动您的主应用程序。Dockerfile 初始化加上应用程序执行应尽快终止：在 `AWS t2.micro`
+    实例上的最大执行超时时间为 5 分钟。在这里，我们考虑的是 `AWS t2.micro` 实例，因为这是 Oraclize 将用来执行该应用程序的实例类型。由于数据源的输入是包含这些文件的
+    ZIP 存档的 IPFS 多哈希值（Dockerfile 加上任何外部文件依赖项，Dockerfile 必须放置在存档根目录中），您应该注意准备此存档并将其推送到
+    IPFS。'
 - en: These data sources are available at the time of writing this book. But many
     more data sources are likely to be available in the future.
+  id: totrans-26
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些数据源是在撰写本书时可用的。但未来可能会有更多的数据源可用。
 - en: Proof of authenticity
+  id: totrans-27
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 真实性证明
 - en: Although Oraclize is a trusted service, you may still want to check whether
     the data returned by Oraclize is authentic or not, that is, whether it was manipulated
     by Oraclize or someone else in transit.
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: 尽管 Oraclize 是一个值得信赖的服务，但您可能仍希望检查 Oraclize 返回的数据是否真实，即它是否在传输过程中被 Oraclize 或其他人操纵。
 - en: Optionally, Oraclize provides the TLSNotary proof of result that's returned
     from the URL, blockchain, and nested and computation data sources. This proof
     is not available for `WolframAlpha` and `IPFS` data sources. Currently, Oraclize
@@ -156,19 +198,28 @@
     smart contract code can verify the TLSNotary proof on its own while receiving
     the data from Oraclize so that this data is discarded if the proof turns out to
     be invalid.
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 可选地，Oraclize 提供了从 URL、区块链和嵌套和计算数据源返回的 TLSNotary 结果证明。这个证明对于 `WolframAlpha` 和
+    `IPFS` 数据源不可用。目前，Oraclize 只支持 TLSNotary 证明，但在未来，他们可能支持一些其他的认证方式。目前，TLSNotary 证明需要手动验证，但是
+    Oraclize 已经在进行链上证明验证的工作；也就是说，你的智能合约代码可以在从 Oraclize 接收数据的同时验证 TLSNotary 证明，以便如果证明无效则丢弃这些数据。
 - en: This tool ([https://github.com/Oraclize/proof-verification-tool](https://github.com/oraclize/proof-verification-tool))
     is an open source tool provided by Oraclize to validate the TLSNotary proof in
     case you want to.
+  id: totrans-30
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个工具（[https://github.com/Oraclize/proof-verification-tool](https://github.com/oraclize/proof-verification-tool)）是
+    Oraclize 提供的开源工具，用于验证 TLSNotary 证据，如果您愿意的话。
 - en: Understanding how TLSNotary works is not required to use Oraclize or to verify
     the proof. The tool to validate the TLSNotary proof is open source; therefore,
     if it contains any malicious code, then it can easily be caught, so this tool
     can be trusted.
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: 理解 TLSNotary 的工作原理并不是使用 Oraclize 或验证证据的必需条件。验证 TLSNotary 证据的工具是开源的；因此，如果其中包含任何恶意代码，那么它可以很容易被发现，因此可以信任这个工具。
 - en: Let's look at a high-level overview of how TLSNotary works. To understand how
     TLSNotary works, you need to first understand how TLS works. The TLS protocol
     provides a way for the client and server to create an encrypted session so that
@@ -186,20 +237,30 @@
     key and the symmetric key together are used to generate a signature for the encrypted
     message so that in case the message is modified by an attacker, the other party
     can know about it.
+  id: totrans-32
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们来看一下 TLSNotary 如何工作的高层概述。要理解 TLSNotary 的工作原理，首先需要了解 TLS 的工作原理。TLS 协议提供了一种让客户端和服务器创建加密会话的方式，以便其他人无法读取或操纵客户端和服务器之间传输的内容。服务器首先向客户端发送其证书（由受信任的
+    CA 颁发给域所有者），该证书将包含服务器的公钥。客户端使用 CA 的公钥解密证书，以便可以验证证书实际由 CA 颁发并获取服务器的公钥。然后，客户端生成对称加密密钥和
+    MAC 密钥，并使用服务器的公钥对其进行加密，然后将其发送给服务器。服务器只能解密此消息，因为它有解密该消息的私钥。现在客户端和服务器共享相同的对称和 MAC
+    密钥，除此之外，没有其他人知道这些密钥，它们可以开始相互发送和接收数据。对称密钥用于加密和解密数据，其中 MAC 密钥和对称密钥一起用于为加密消息生成签名，以便在消息被攻击者修改时，另一方可以知道。
 - en: TLSNotary is a modification of TLS, which is used by Oraclize to provide cryptography
     proof showing that the data they provided to your smart contract was really the
     one the data source gave to Oraclize at a specific time. Actually the TLSNotary
     protocol is an open source technology, developed and used by the PageSigner project.
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: TLSNotary 是 TLS 的修改版，由 Oraclize 使用以提供密码学证明，证明它们提供给您的智能合约的数据确实是数据源在特定时间提供给 Oraclize
+    的数据。实际上，TLSNotary 协议是开源技术，由 PageSigner 项目开发和使用。
 - en: TLSNotary works by splitting the symmetric key and the MAC key among three parties,
     that is, the server, an auditee, and an auditor. The basic idea of TLSNotary is
     that the auditee can prove to the auditor that a particular result was returned
     by the server at a given time.
+  id: totrans-34
   prefs: []
   type: TYPE_NORMAL
+  zh: TLSNotary 的工作原理是将对称密钥和 MAC 密钥分成三个方（即服务器、被审计者和审计者）。TLSNotary 的基本思想是被审计者可以向审计者证明特定结果是在特定时间由服务器返回的。
 - en: So here is an overview of how exactly TLSNotary lets us achieve this. The auditor
     calculates the symmetric key and MAC key and gives only the symmetric key to the
     auditee. The MAC key is not needed by the auditee as the MAC signature check ensures
@@ -208,139 +269,198 @@
     messages are "signed" by the bank using the MAC key and only the server and the
     auditor know the MAC key, a correct MAC signature can serve as proof that certain
     messages came from the bank and were not spoofed by the auditee.
+  id: totrans-35
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在这里是一个关于 TLSNotary 如何实现这一目标的概述。审核员计算对称密钥和 MAC 密钥，并仅将对称密钥给审计对象。审计对象不需要 MAC 密钥，因为
+    MAC 签名检查确保了从服务器传输的 TLS 数据没有被篡改。使用对称加密密钥，审计对象现在可以解密来自服务器的数据。由于所有消息都由银行使用 MAC 密钥“签名”，并且只有服务器和审核员知道
+    MAC 密钥，正确的 MAC 签名可以作为证明，证明某些消息确实来自银行，并且没有被审计对象伪造。
 - en: In the case of the Oraclize service, Oraclize is the auditee, while a locked-down
     AWS instance of a specially designed, open source Amazon machine image acts as
     the auditor.
+  id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于 Oraclize 服务，Oraclize 是审计对象，而一个锁定的 AWS 实例（一个特殊设计的开源亚马逊机器镜像）是审核员。
 - en: The proof data they provide are the signed attestations of this AWS instance
     that a proper TLSnotary proof did occur. They also provide some additional proof
     regarding the software running in the AWS instance, that is, whether it has been
     modified since being initialized.
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 他们提供的证明数据是 AWS 实例签名认证，证明了 TLSNotary 证明确实发生了。他们还提供了有关 AWS 实例上运行的软件的一些额外证明，即它自初始化以来是否被修改过。
 - en: Pricing
+  id: totrans-38
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 定价
 - en: The first Oraclize query call coming from any Ethereum address is completely
     free of charge. Oraclize calls are free when used on testnets! This works for
     moderate usage in test environments only.
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 来自任何以太坊地址的第一个 Oraclize 查询调用完全免费。Oraclize 在测试网使用时也是免费的！这只适用于在测试环境中适度使用。
 - en: From the second call onward, you have to pay in ether for queries. While sending
     a query to Oraclize (that is, while making an internal transaction call), a fee
     is deducted by transferring ether from the calling contract to the Oraclize contract.
     The amount of ether to deduct depends on the data source and proof type.
+  id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: 从第二次调用开始，你需要支付以太币来查询。当向 Oraclize 发送查询时（即进行内部事务调用），费用通过将以太币从调用合约转移到 Oraclize
+    合约的方式扣除。扣除的以太币数量取决于数据源和证明类型。
 - en: 'Here is a table that shows the number of ether that is deducted while sending
     a query:'
+  id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面是一个表格，显示了发送查询时扣除的以太币数量：
 - en: '| **Data source** | **Without proof** | **With TLSNotary proof** |'
+  id: totrans-42
   prefs: []
   type: TYPE_TB
+  zh: '| **数据源** | **没有证明** | **有 TLSNotary 证明** |'
 - en: '| URL | $0.01 | $0.05 |'
+  id: totrans-43
   prefs: []
   type: TYPE_TB
+  zh: '| URL | $0.01 | $0.05 |'
 - en: '| Blockchain | $0.01 | $0.05 |'
+  id: totrans-44
   prefs: []
   type: TYPE_TB
+  zh: '| 区块链 | $0.01 | $0.05 |'
 - en: '| WolframAlpha | $0.03 | $0.03 |'
+  id: totrans-45
   prefs: []
   type: TYPE_TB
+  zh: '| WolframAlpha | $0.03 | $0.03 |'
 - en: '| IPFS | $0.01 | $0.01 |'
+  id: totrans-46
   prefs: []
   type: TYPE_TB
+  zh: '| IPFS | $0.01 | $0.01 |'
 - en: So if you are making a HTTP request and you want the TLSNotary proof too, then
     the calling contract must have an ether worth of $0.05; otherwise, an exception
     is thrown.
+  id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，如果你发出 HTTP 请求，并且你也想要 TLSNotary 证明，那么调用合约必须有价值 $0.05 的以太币，否则会抛出异常。
 - en: Getting started with the Oraclize API
+  id: totrans-48
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 开始使用 Oraclize API
 - en: For a contract to use the Oraclize service, it needs to inherit the `usingOraclize`
     contract. You can find this contract at [https://github.com/Oraclize/Ethereum-api](https://github.com/oraclize/ethereum-api).
+  id: totrans-49
   prefs: []
   type: TYPE_NORMAL
+  zh: 要使用 Oraclize 服务，合约需要继承 `usingOraclize` 合约。你可以在[https://github.com/Oraclize/Ethereum-api](https://github.com/oraclize/ethereum-api)找到这个合约。
 - en: The `usingOraclize` contract acts as the proxy for the `OraclizeI` and `OraclizeAddrResolverI`
     contracts. Actually, `usingOraclize` makes it easy to make calls to the `OraclizeI`
     and `OraclizeAddrResolverI` contracts, that is, it provides simpler APIs. You
     can also directly make calls to the `OraclizeI` and `OraclizeAddrResolverI` contracts
     if you feel comfortable. You can go through the source code of these contracts
     to find all the available APIs. We will only learn the most necessary ones.
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: '`usingOraclize` 合约充当 `OraclizeI` 和 `OraclizeAddrResolverI` 合约的代理。实际上，`usingOraclize`
+    使得调用 `OraclizeI` 和 `OraclizeAddrResolverI` 合约变得容易，也就是说，它提供了更简单的 API。如果你觉得舒服，你也可以直接调用
+    `OraclizeI` 和 `OraclizeAddrResolverI` 合约。你可以查看这些合约的源代码以找到所有可用的 API。我们只会学习最必要的。'
 - en: Let's look at how to set proof type, set proof storage location, make queries,
     find the cost of a query, and so on.
+  id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看看如何设置证明类型，设置证明存储位置，进行查询，找到查询的成本，等等。
 - en: Setting the proof type and storage location
+  id: totrans-52
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 设置证明类型和存储位置
 - en: Whether you need the TLSNotary proof from Oraclize or not, you have to specify
     the proof type and proof storage location before making queries.
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
 - en: 'If you don''t want proof, then put this code in your contract:'
+  id: totrans-54
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE0]'
+  id: totrans-55
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: 'And if you want proof, then put this code in your contract:'
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE1]'
+  id: totrans-57
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: Currently, `proofStorage_IPFS` is the only proof storage location available;
     that is, TLSNotary proof is only stored in `IPFS`.
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
 - en: You may execute any of these methods just once, for instance, in the constructor
     or at any other time if, for instance, you need the proof for certain queries
     only.
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
 - en: Sending queries
+  id: totrans-60
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: To send a query to Oraclize, you will need to call the `oraclize_query` function.
     This function expects at least two arguments, that is, the data source and the
     input for the given data source. The data source argument is not case-sensitive.
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
 - en: 'Here are some basic examples of the `oraclize_query` function:'
+  id: totrans-62
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE2]'
+  id: totrans-63
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: 'Here is how the preceding code works:'
+  id: totrans-64
   prefs: []
   type: TYPE_NORMAL
 - en: If the first argument is a string, it is assumed to be the data source and the
     second argument is assumed to be the input for the data source. In the first call,
     the data source is `WolframAlpha` and the search query we sent to it was `random
     number between 0 and 100`.
+  id: totrans-65
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: In the second call, we make an `HTTP GET` request to the `URL` present in the
     second argument.
+  id: totrans-66
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: In the third call, we fetch the content of the `QmdEJwJG1T9rzHvBD8i69HHuJaRgXRKEQCP7Bh1BVttZbU` file
     from `IPFS`.
+  id: totrans-67
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
@@ -348,29 +468,37 @@
     to be a POST request. In the last call, we make an `HTTP POST` request to `https://xyz.io/makePayment`
     and the `POST` request body content is the string in the third argument. Oraclize
     is intelligent enough to detect the content-type header based on the string format.
+  id: totrans-68
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Scheduling queries
+  id: totrans-69
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: If you want Oraclize to execute your query at a scheduled future time, just
     specify the delay (in seconds) from the current time as the first argument.
+  id: totrans-70
   prefs: []
   type: TYPE_NORMAL
 - en: 'Here is an example:'
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE3]'
+  id: totrans-72
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: The preceding query will be executed by Oraclize `60` seconds after it's been
     seen. So if the first argument is a number, then it's assumed that we are scheduling
     a query.
+  id: totrans-73
   prefs: []
   type: TYPE_NORMAL
 - en: Custom gas
+  id: totrans-74
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -379,6 +507,7 @@
     ether oraclize_query charges to make a query are also used to provide gas while
     calling the `__callback` function. By default, Oraclize provides 200,000 gas while
     calling the `__callback` function.
+  id: totrans-75
   prefs: []
   type: TYPE_NORMAL
 - en: This return gas cost is actually in your control since you write the code in
@@ -386,124 +515,171 @@
     with Oraclize, you can also specify how much the `gasLimit` should be on the `__callback`
     transaction. Note, however, that since Oraclize sends the transaction, any unspent
     gas is returned to Oraclize, not you.
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
 - en: 'If the default, and minimum, value of 200,000 gas is not enough, you can increase
     it by specifying a different `gasLimit` in this way:'
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE4]'
+  id: totrans-78
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: Here, you can see that if the last argument is a number, then it's assumed to
     be the custom gas. In the preceding code, Oraclize will use a 500k `gasLimit`
     for the callback transaction instead of 200k. Because we are asking Oraclize to
     provide more gas, Oraclize will deduct more ether (depending on how much gas is
     required) while calling `oraclize_query`.
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，您可以看到如果最后一个参数是一个数字，则假定为自定义gas。在前面的代码中，Oraclize将使用500k的`gasLimit`来进行回调事务，而不是200k。因为我们要求Oraclize提供更多的gas，所以在调用`oraclize_query`时，Oraclize将扣除更多的以太币（取决于需要多少gas）。
 - en: Note that if you offer too low a `gasLimit`, and your `__callback` method is
     long, you may never see a callback. Also note that the custom gas has to be more
     than 200k.
+  id: totrans-80
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，如果提供的`gasLimit`太低，并且您的`__callback`方法很长，您可能永远看不到回调。还请注意，自定义的gas必须超过200k。
 - en: Callback functions
+  id: totrans-81
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 回调函数
 - en: 'Once your result is ready, Oraclize will send a transaction back to your contract
     address and invoke one of these three methods:'
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦您的结果准备好，Oraclize将向您的合约地址发送一个事务，并调用以下三种方法之一：
 - en: either `__callback(bytes32 myid, string result)`. `Myid` is a unique ID for
     every query. This ID is returned by the `oraclize_query` method. If you have multiple
     `oraclize_query` calls in your contract, then this is used to match the query
     this result is for.
+  id: totrans-83
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 要么`__callback(bytes32 myid, string result)`。 `Myid`是每个查询的唯一ID。该ID由`oraclize_query`方法返回。如果您的合约中有多个`oraclize_query`调用，则用于匹配此结果的查询。
 - en: 'If you requested for the TLS Notary proof, this is the result: `__callback(bytes32
     myid, string result, bytes proof)`'
+  id: totrans-84
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 如果您请求TLS Notary证明，这是结果：`__callback(bytes32 myid, string result, bytes proof)`
 - en: As a last resort, if the other methods are absent, the fallback function is
     `function()`
+  id: totrans-85
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 作为最后的手段，如果其他方法不存在，则回退函数为`function()`
 - en: 'Here is an example of the `__callback` function:'
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是`__callback`函数的示例：
 - en: '[PRE5]'
+  id: totrans-87
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: Parsing helpers
+  id: totrans-88
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 解析助手
 - en: The result returned from an HTTP request can be HTML, JSON, XML, binary, and
     so on. In Solidity, it is difficult and expensive to parse the result. Due to
     this, Oraclize provides parsing helpers to let it handle the parsing on its servers,
     and you get only the part of the result that you need.
+  id: totrans-89
   prefs: []
   type: TYPE_NORMAL
+  zh: 从HTTP请求返回的结果可以是HTML、JSON、XML、二进制等。在Solidity中，解析结果是困难且昂贵的。因此，Oraclize提供了解析辅助程序，让它在其服务器上处理解析，并且您只获得您需要的结果部分。
 - en: 'To ask Oraclize to parse the result, you need to wrap the URL with one of these
     parsing helpers:'
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 要求Oraclize解析结果，您需要将URL包装在以下其中一个解析助手中：
 - en: '`xml(..)` and `json(..)` helpers let you ask Oraclize to only return part of
     the JSON or XML-parsed response; for example, take a look at the following:'
+  id: totrans-91
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`xml(..)`和`json(..)`助手可让您要求Oraclize仅返回JSON或XML解析的部分；例如，看看以下内容：'
 - en: In order to get the whole response back, you use the `URL` data source with
     the `api.kraken.com/0/public/Ticker?pair=ETHUSD` URL argument
+  id: totrans-92
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 为了获得完整的响应，您使用带有`api.kraken.com/0/public/Ticker?pair=ETHUSD` URL参数的`URL`数据源
 - en: If all you want is the last-price field, you need to use the JSON parsing call
     as `json(api.kraken.com/0/public/Ticker?pair=ETHUSD).result.XETHZUSD.c.0`
+  id: totrans-93
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 如果您只想要最后价格字段，则需要使用JSON解析调用，如`json(api.kraken.com/0/public/Ticker?pair=ETHUSD).result.XETHZUSD.c.0`
 - en: 'The `html(..).xpath(..)` helper is useful for HTML scraping. Just specify the
     XPATH you want as the `xpath(..)` argument; for example, take a look at the following:'
+  id: totrans-94
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`html(..).xpath(..)`助手对HTML抓取很有用。只需将要作为`xpath(..)`参数的XPATH指定为您想要的；例如，看看以下内容：'
 - en: To fetch the text of a specific tweet, use `html(https://twitter.com/oraclizeit/status/671316655893561344).xpath(//*[contains(@class,
     'tweet-text')]/text())`.
+  id: totrans-95
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 要获取特定推文的文本，请使用`html(https://twitter.com/oraclizeit/status/671316655893561344).xpath(//*[contains(@class,
+    'tweet-text')]/text())`。
 - en: 'The `binary(..)` helper is useful in getting binary files such as certificate
     files:'
+  id: totrans-96
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`binary(..)`助手对获取二进制文件（例如证书文件）很有用：'
 - en: To fetch only a portion of the binary file, you can use `slice(offset,length)`;
     the first parameter is the offset, while the second one is the length of the slice
     you want back (both in bytes).
+  id: totrans-97
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 要获取二进制文件的部分内容，可以使用`slice(offset,length)`；第一个参数是偏移量，第二个参数是您想要返回的片段的长度（以字节为单位）。
 - en: 'Example: Fetch only the first 300 bytes from a binary CRL, `binary(https://www.sk.ee/crls/esteid/esteid2015.crl).slice(0,300)`.
     The binary helper must be used with the slice option, and only binary files (not
     encoded) are accepted.'
+  id: totrans-98
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 示例：仅从二进制CRL中获取前300字节，`binary(https://www.sk.ee/crls/esteid/esteid2015.crl).slice(0,300)`。二进制助手必须与切片选项一起使用，并且只接受二进制文件（未编码）。
 - en: If and when the server is not responding or is unreachable, we will send you
     an empty response. You can test queries using [http://app.Oraclize.it/home/test_query](http://app.oraclize.it/home/test_query).
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
 - en: Getting the query price
+  id: totrans-100
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -511,13 +687,16 @@
     query, then you can use the `Oraclize.getPrice()` function to get the amount of
     wei required. The first argument it takes is the data source, and the second argument
     is optional, which is the custom gas.
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
 - en: One popular use case of this is to notify the client to add ether to the contract
     if there isn't enough to make the query.
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
 - en: Encrypting queries
+  id: totrans-103
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -525,22 +704,28 @@
     the data source. For example: you may not want to reveal the API key in the URL
     if there is any. Therefore, Oraclize provides a way to store queries encrypted
     in the smart contract and only Oraclize''s server has the key to decrypt it.'
+  id: totrans-104
   prefs: []
   type: TYPE_NORMAL
 - en: Oraclize provides a Python tool ([https://github.com/Oraclize/encrypted-queries](https://github.com/oraclize/encrypted-queries)),
     which can be used to encrypt the data source and/or the data input. It generates
     a non-deterministic encrypted string.
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
 - en: 'The CLI command to encrypt an arbitrary string of text is as follows:'
+  id: totrans-106
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE6]'
+  id: totrans-107
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: The long hexadecimal string you see is the public key of Oraclize's server.
     Now you can use the output of the preceding command in place of the data source
     and/or the input for the data source.
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
 - en: In order to prevent the misuse of encrypted queries (that is, replay attacks)
@@ -548,33 +733,40 @@
     rightful owner. Any other contract reusing the exact same string will not be allowed
     to use it and will receive an empty result. As a consequence, remember to always
     generate a newly encrypted string when redeploying contracts using encrypted queries.
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
 - en: Decrypting the data source
+  id: totrans-110
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: There is another data source called decrypt. It is used to decrypt an encrypted
     string. But this data source doesn't return any result; otherwise, anyone would
     have the ability to decrypt the data source and input for the data source.
+  id: totrans-111
   prefs: []
   type: TYPE_NORMAL
 - en: It was specifically designed to be used within the nested data source to enable
     partial query encryption. It is its only use case.
+  id: totrans-112
   prefs: []
   type: TYPE_NORMAL
 - en: Oraclize web IDE
+  id: totrans-113
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Oraclize provides a web IDE, using which you can write, compile, and test Oraclize-based
     applications. You can find it at [http://dapps.Oraclize.it/browser-Solidity/](http://dapps.oraclize.it/browser-solidity/).
+  id: totrans-114
   prefs: []
   type: TYPE_NORMAL
 - en: If you visit the link, then you will notice that it looks exactly the same as
     browser Solidity. And it's actually browser Solidity with one extra feature. To
     understand what that feature is, we need to understand browser Solidity more in
     depth.
+  id: totrans-115
   prefs: []
   type: TYPE_NORMAL
 - en: Browser Solidity not only lets us write, compile, and generate web3.js code
@@ -586,35 +778,52 @@
     our own EVM and run byte code. If we want, we can configure browser Solidity to
     use the Ethereum node by providing the URL to connect to. The UI is very informative;
     therefore, you can try all these by yourself.
+  id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 浏览器 Solidity 不仅让我们能够为我们的合约编写、编译和生成 web3.js 代码，而且还可以在其中测试这些合约。到目前为止，为了测试我们的合约，我们一直在设置以太坊节点并向其发送交易。但是浏览器
+    Solidity 可以在不连接到任何节点的情况下执行合约，一切都发生在内存中。它通过使用 ethereumjs-vm 实现了这一点，ethereumjs-vm
+    是以太坊虚拟机的 JavaScript 实现。使用 ethereumjs-vm，您可以创建自己的 EVM 并运行字节码。如果需要，我们可以配置浏览器 Solidity
+    使用提供连接的以太坊节点的 URL。用户界面非常信息丰富，因此您可以自己尝试所有这些。
 - en: What's special about the Oraclize web IDE is that it deploys the Oraclize contract
     in the in-memory execution environment so that you don't have to connect to the
     testnet or mainnet node, but if you use browser Solidity, then you have to connect
     to the testnet or mainnet node to test Oraclize APIs.
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: Oraclize web IDE 的特殊之处在于它在内存执行环境中部署了 Oraclize 合约，因此您不必连接到测试网络或主网络节点，但如果使用浏览器
+    Solidity，则必须连接到测试网络或主网络节点以测试 Oraclize API。
 - en: You can find more resources related to integrating Oraclize at [https://dev.Oraclize.it/](https://dev.oraclize.it/).
+  id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以在 [https://dev.Oraclize.it/](https://dev.oraclize.it/) 找到更多关于集成 Oraclize
+    的资源。
 - en: Working with strings
+  id: totrans-119
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 处理字符串
 - en: Working with strings in Solidity is not as easy as working with strings in other
     high-level programming languages, such as JavaScript, Python, and so on. Therefore,
     many Solidity programmers have come up with various libraries and contracts to
     make it easy to work with strings.
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Solidity 中处理字符串不像在其他高级编程语言（如 JavaScript、Python 等）中那样简单。因此，许多 Solidity 程序员创建了各种库和合约，以便轻松处理字符串。
 - en: The `strings` library is the most popular strings utility library. It lets us
     join, concatenate, split, compare, and so on by converting a string to something
     called a slice. A slice is a struct that holds the length of the string and the
     address of the string. Since a slice only has to specify an offset and a length,
     copying and manipulating slices is a lot less expensive than copying and manipulating
     the strings they reference.
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: '`strings` 库是最受欢迎的字符串实用程序库。它让我们可以将字符串转换为称为切片的东西，从而实现连接、拼接、拆分、比较等操作。切片是一个结构体，它保存了字符串的长度和地址。由于切片只需指定偏移量和长度，复制和操作切片比复制和操作它们引用的字符串要便宜得多。'
 - en: To further reduce gas costs, most functions on slice that need to return a slice
     modify the original one instead of allocating a new one; for instance, `s.split(".")`
     will return the text up to the first `"."`, modifying s to only contain the remainder
@@ -622,34 +831,52 @@
     original slice, you can make a copy with `.copy()`, for example, `s.copy().split(".")`.
     Try and avoid using this idiom in loops; since Solidity has no memory management,
     it will result in allocating many short-lived slices that are later discarded.
+  id: totrans-122
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了进一步减少 gas 成本，大多数需要返回切片的切片函数会修改原始切片而不是分配一个新的；例如，`s.split(".")` 将返回到第一个 `"."`
+    之前的文本，修改 s 以仅包含 `"."` 之后的字符串。在不想修改原始切片的情况下，可以使用 `.copy()` 复制，例如，`s.copy().split(".")`。尽量避免在循环中使用这种习惯用法；由于
+    Solidity 没有内存管理，这将导致分配许多后来将被丢弃的短期切片。
 - en: Functions that have to copy string data will return strings rather than slices;
     these can be cast back to slices for further processing if required.
+  id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: 有必要复制字符串数据的函数将返回字符串而不是切片；如果需要，这些可以转换回切片进行进一步处理。
 - en: 'Let''s look at a few examples of working with strings using the `strings` library:'
+  id: totrans-124
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看一些使用 `strings` 库处理字符串的示例：
 - en: '[PRE7]'
+  id: totrans-125
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: The preceding code is self-explanatory.
+  id: totrans-126
   prefs: []
   type: TYPE_NORMAL
+  zh: 前述代码不言自明。
 - en: 'Functions that return two slices come in two versions: a nonallocating version
     that takes the second slice as an argument, modifying it in place, and an allocating
     version that allocates and returns the second slice; for example, let''s take
     a look at the following:'
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 返回两个切片的函数有两个版本：一个是非分配版本，将第二个切片作为参数传入，修改原地；另一个是分配版本，分配并返回第二个切片；例如，让我们看一下以下示例：
 - en: '[PRE8]'
+  id: totrans-128
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: You can learn more about the strings library at [https://github.com/Arachnid/Solidity-stringutils](https://github.com/Arachnid/solidity-stringutils).
+  id: totrans-129
   prefs: []
   type: TYPE_NORMAL
 - en: Building the betting contract
+  id: totrans-130
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -657,6 +884,7 @@
     with one person supporting the home team and the other person supporting the away
     team. They both should bet the same amount of money, and the winner takes all
     the money. If the match is a draw, then they both will take back their money.
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
 - en: We will use the FastestLiveScores API to find out the result of matches. It
@@ -665,6 +893,7 @@
     visit [https://customer.fastestlivescores.com/register](https://customer.fastestlivescores.com/register),
     and once the account is created, you will have the API key visible at [https://customer.fastestlivescores.com/](https://customer.fastestlivescores.com/).
     You can find the API documentation at [https://docs.crowdscores.com/](https://docs.crowdscores.com/).
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
 - en: For every bet between two people in our application, a betting contract will
@@ -673,26 +902,33 @@
     the parties. Once both parties have invested in the contract, they will find out
     the result of the match. If the match is not yet finished, then they will try
     to check the result after every 24 hours.
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
 - en: 'Here is the code for the contract:'
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE9]'
+  id: totrans-135
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: The contract code is self-explanatory. Now compile the preceding code using
     `solc.js` or browser Solidity depending on whatever you are comfortable with.
     You will not need to link the `strings` library because all the functions in it
     are set to the `internal` visibility.
+  id: totrans-136
   prefs: []
   type: TYPE_NORMAL
 - en: In browser Solidity, when specifying to import a library or contract from the
     HTTP URL, make sure that it's hosted on GitHub; otherwise, it won't fetch it.
     In that GitHub file URL, make sure that you remove the protocol as well as `blob/{branch-name}`.
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
 - en: Building a client for the betting contract
+  id: totrans-138
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -702,6 +938,7 @@
     and the other path to find the list of matches. We will let users deploy and bet
     using their own offline accounts so that the entire process of betting happens
     in a decentralized manner and nobody can cheat.
+  id: totrans-139
   prefs: []
   type: TYPE_NORMAL
 - en: 'Before we start building our client, make sure that you have testnet synced
@@ -709,12 +946,16 @@
     networks. You can switch to testnet and start downloading the testnet blockchain
     by replacing the `--dev` option with the `--testnet` option. For example, take
     a look at the following:'
+  id: totrans-140
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE10]'
+  id: totrans-141
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: Projecting the structure
+  id: totrans-142
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -722,18 +963,25 @@
     Final and Initial. Final contains the final source code of the project, whereas
     Initial contains the empty source code files and libraries to get started with
     building the application quickly.
+  id: totrans-143
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章的练习文件中，您将找到两个目录，即 Final 和 Initial。Final 包含项目的最终源代码，而 Initial 包含空源代码文件和库，可以快速开始构建应用程序。
 - en: To test the `Final` directory, you will need to run `npm install` inside it
     and then run the app using the `node app.js` command inside the Final directory.
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: 要测试 `Final` 目录，您需要在其中运行 `npm install`，然后使用 `node app.js` 命令在 Final 目录内运行应用程序。
 - en: In the `Initial` directory, you will find a `public` directory and two files
     named `app.js` and `package.json`. The `package.json` file contains the backend
     dependencies of our app, and `app.js` is where you will place the backend source
     code.
+  id: totrans-145
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 `Initial` 目录中，您将找到一个 `public` 目录和两个名为 `app.js` 和 `package.json` 的文件。`package.json`
+    文件包含了我们应用的后端依赖，而 `app.js` 则是您要放置后端源代码的地方。
 - en: The `public` directory contains files related to the frontend. Inside `public/css`,
     you will find `bootstrap.min.css`, which is the bootstrap library. Inside `public/html`,
     you will find the `index.html` and `matches.ejs` files, where you will place the
@@ -741,114 +989,172 @@
     for web3.js, and ethereumjs-tx. Inside `public/js`, you will also find a `main.js`
     file, where you will place the frontend JS code of our app. You will also find
     the Oraclize Python tool to encrypt queries.
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: '`public` 目录包含与前端有关的文件。在 `public/css` 中，您将找到 `bootstrap.min.css`，这是 bootstrap
+    库。在 `public/html` 中，您将找到 `index.html` 和 `matches.ejs` 文件，您将在其中放置我们应用的 HTML 代码，以及在
+    `public/js` 目录中，您将找到 web3.js 和 ethereumjs-tx 的 js 文件。在 `public/js` 中，您还将找到一个 `main.js`
+    文件，您将在其中放置我们应用的前端 JS 代码。您还将找到 Oraclize Python 工具来加密查询。'
 - en: Building the backend
+  id: totrans-147
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 构建后端
 - en: Let's first build the backend of the app. First of all, run `npm install` inside
     the Initial directory to install the required dependencies for our backend.
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们先构建应用程序的后端。首先，在初始目录内运行`npm install`来安装我们的后端所需的依赖。
 - en: 'Here is the backend code to run an express service and serve the `index.html`
     file and static files and set the view engine:'
+  id: totrans-149
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里是运行 express 服务并提供 `index.html` 文件和静态文件以及设置视图引擎的后端代码：
 - en: '[PRE11]'
+  id: totrans-150
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: 'The preceding code is self-explanatory. Now let''s proceed further. Our app
     will have another page, which will display a list of recent matches with matches''
     IDs and result if a match has finished. Here is the code for the endpoint:'
+  id: totrans-151
   prefs: []
   type: TYPE_NORMAL
+  zh: 上面的代码是不言而喻的。现在让我们继续。我们的应用将有另一个页面，该页面将显示最近匹配的 ID 列表和结果（如果匹配已经结束）。这是端点的代码：
 - en: '[PRE12]'
+  id: totrans-152
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: Here, we are making the API request to fetch the list of recent matches and
     then we are passing the result to the `matches.ejs` file so that it can render
     the result in a user-friendly UI. The API results give us the match start time
     as a timestamp; therefore, we are using moment to convert it to a human readable
     format. We make this request from the backend and not from the frontend so that
     we don't expose the API key to the users.
+  id: totrans-153
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们正在进行 API 请求以获取最近匹配的列表，然后将结果传递给 `matches.ejs` 文件，以便它可以在用户友好的界面中呈现结果。API
+    结果以时间戳的形式给出了匹配的开始时间；因此，我们使用 moment 将其转换为人类可读的格式。我们从后端而不是从前端进行此请求，以便我们不会向用户公开 API
+    密钥。
 - en: Our backend will provide an API to the frontend, using which the frontend can
     encrypt the query before deploying the contract. Our application will not prompt
     users to create an API key, as it would be a bad UX practice. The application's
     developer controlling the API key will cause no harm as the developer cannot modify
     the result from the API servers; therefore, users will still trust the app even
     after the application's developer knows the API key.
+  id: totrans-154
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的后端将为前端提供一个 API，通过该 API 前端可以在部署合同之前加密查询。我们的应用程序不会提示用户创建 API 密钥，因为这将是一个糟糕的用户体验实践。应用程序的开发者控制
+    API 密钥不会造成任何伤害，因为开发者无法修改来自 API 服务器的结果；因此，即使应用程序的开发者知道 API 密钥，用户仍将信任该应用程序。
 - en: 'Here is code for the encryption endpoint:'
+  id: totrans-155
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里是加密端点的代码：
 - en: '[PRE13]'
+  id: totrans-156
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: We have already seen how to use this tool. To run this endpoint successfully,
     make sure that Python is installed on your system. Even if Python is installed,
     this endpoint may show errors, indicating that Python's cryptography and base58
     modules aren't installed. So make sure you install these modules if the tool prompts
     you to.
+  id: totrans-157
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们已经看到如何使用这个工具。为了成功运行这个端点，请确保你的系统上安装了 Python。即使 Python 已经安装，端点可能仍然会显示错误，表明 Python
+    的加密和 base58 模块没有安装。因此，如果工具提示你安装这些模块，请确保你安装了它们。
 - en: Building the frontend
+  id: totrans-158
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 构建前端
 - en: Now let's build the frontend of our application. Our frontend will let users
     see the list of recent matches, deploy the betting contract, bet on a game, and
     let them see information about a betting contract.
+  id: totrans-159
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在让我们构建应用程序的前端。我们的前端将允许用户查看最近比赛的列表、部署投注合约、投注比赛，并查看有关投注合约的信息。
 - en: 'Let''s first implement the `matches.ejs` file, which will display the list
     of recent matches. Here is the code for this:'
+  id: totrans-160
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们首先来实现 `matches.ejs` 文件，它将显示最近比赛的列表。下面是该文件的代码：
 - en: '[PRE14]'
+  id: totrans-161
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: The preceding code is self-explanatory. Now let's write the HTML code for our
     home page. Our home page will display three forms. The first form is to deploy
     a betting contract, the second form is to invest in a betting contract, and the
     third form is to display information on a deployed betting contract.
+  id: totrans-162
   prefs: []
   type: TYPE_NORMAL
+  zh: 前面的代码不言自明。现在让我们编写主页的 HTML 代码。我们的主页将显示三个表单。第一个表单是用于部署投注合约，第二个表单是用于投资投注合约，第三个表单是用于显示已部署的投注合约的信息。
 - en: 'Here is the HTML code for the home page. Place this code in the `index.html`
     page:'
+  id: totrans-163
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是主页的 HTML 代码。将这个代码放在 `index.html` 页面中：
 - en: '[PRE15]'
+  id: totrans-164
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: 'The preceding code is self-explanatory. Now let''s write JavaScript code to
     actually deploy the contract, invest in contracts, and display information on
     contracts. Here is the code for all this. Place this code in the `main.js` file:'
+  id: totrans-165
   prefs: []
   type: TYPE_NORMAL
+  zh: 前面的代码不言自明。现在让我们编写用于实际部署合约、投资合约和显示合约信息的 JavaScript 代码。这里是所有这些的代码。将这个代码放在 `main.js`
+    文件中：
 - en: '[PRE16]'
+  id: totrans-166
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: 'This is how the preceding code works:'
+  id: totrans-167
   prefs: []
   type: TYPE_NORMAL
+  zh: 前面代码的工作原理如下：
 - en: At first, we store the contract byte code and ABI in the `bettingContractByteCode`
     and `bettingContractABI` variables, respectively.
+  id: totrans-168
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 首先，我们将合约的字节码和 ABI 分别存储在 `bettingContractByteCode` 和 `bettingContractABI` 变量中。
 - en: Then, we are create a `Web3` instance, which is connected to our testnet node.
+  id: totrans-169
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后，我们创建一个连接到测试网节点的 `Web3` 实例。
 - en: Then, we have the `getAJAXObject` function (a cross-browser compatible function),
     which returns an AJAX object.
+  id: totrans-170
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 接下来，我们有 `getAJAXObject` 函数（一个跨浏览器兼容的函数），它返回一个 AJAX 对象。
 - en: Then, we attach a `submit` event listener to the first form, which is used to
     deploy the contract. In the event listener's callback, we make a request to the
     `getURL` endpoint by passing `matchId` to get the encrypted query string. And
@@ -862,9 +1168,14 @@
     We do this just for simplification of the code. Then, we create the raw transaction,
     signing it and broadcasting it. Once the transaction is mined, we display the
     contract address.
+  id: totrans-171
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后，我们将 `submit` 事件监听器附加到第一个表单上，该表单用于部署合约。在事件监听器的回调中，我们通过传递 `matchId` 向 `getURL`
+    端点发出请求，以获取加密的查询字符串。然后，我们生成用于部署合约的数据。接着，我们找出所需的 `gas`。我们使用函数对象的 estimateGas 方法来计算所需的
+    gas，但你也可以使用 web3.eth.estimateGas 方法。两者在参数上有所不同；也就是说，在前一种情况下，你不需要传递交易数据。请记住，如果函数调用抛出异常，`estimateGas`
+    会返回区块 gas 限制。然后，我们计算随机数。这里，我们只是使用 `getTransactionCount` 方法，而不是我们之前学到的实际流程。这样做只是为了简化代码。然后，我们创建原始交易，签署它并广播。一旦交易被挖掘，我们就显示合约地址。
 - en: Then, we attach a `submit` event listener for the second form, which is used
     to invest in a contract. Here, we generate the `data` part of the transaction,
     calculating the gas required, creating the raw transaction, signing it, and broadcasting
@@ -874,84 +1185,124 @@
     address. Remember that while finding the gas required to call a contract's function,
     you can pass the `to`, `from`,and `value` properties because gas depends on these
     values.
+  id: totrans-172
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后，我们为第二个表格附加了一个`submit`事件侦听器，用于投资合约。在这里，我们生成了交易的`data`部分，计算所需的gas，创建原始交易，签名并广播。在计算交易所需的gas时，我们从帐户地址和value对象属性传递合约地址的值，因为这是一个函数调用，gas因取决于值、from地址和合约地址而异。请记住，在寻找调用合同函数所需的gas时，您可以传递`to`,`from`和`value`属性，因为gas取决于这些值。
 - en: Finally, we have a `submit` event listener for the third form, that is, to display
     information on a deployed betting contract.
+  id: totrans-173
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 最后，我们为第三个表单添加了一个`submit`事件侦听器，即显示已部署投注合同的信息。
 - en: Testing the client
+  id: totrans-174
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测试客户端
 - en: Now that we have finished building our betting platform, it's time to test it.
     Before testing, make sure the testnet blockchain is completely downloaded and
     is looking for new incoming blocks.
+  id: totrans-175
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们已经完成了建设我们的投注平台，是时候进行测试了。在测试之前，请确保测试网区块链已完全下载并正在寻找新的入块。
 - en: Now using our wallet service we built earlier, generate three account. Add one
     ether to each of the accounts using [http://faucet.ropsten.be:3001/](http://faucet.ropsten.be:3001/).
+  id: totrans-176
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在使用我们之前建立的钱包服务，生成三个帐户。使用[http://faucet.ropsten.be:3001/](http://faucet.ropsten.be:3001/)给每个帐户加一ether。
 - en: 'Then, run `node app.js` inside the `Initial` directory and then visit `http://localhost:8080/matches`,
     and you will see what is shown in this screenshot:'
+  id: totrans-177
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，在`Initial`目录中运行`node app.js`，然后访问`http://localhost:8080/matches`，您将看到以下屏幕截图中显示的内容：
 - en: '![](img/69b8a32a-af87-4a38-9dda-fe39a585b820.png)'
+  id: totrans-178
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/69b8a32a-af87-4a38-9dda-fe39a585b820.png)'
 - en: 'Here, you can copy any match ID. Let''s assume you want to test with the first
     match, that is, 123945\. Now visit [`http://localhost:8080`](http://localhost:8080)
     and you will see what is shown in this screenshot:'
+  id: totrans-179
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，您可以复制任何比赛ID。假设您想要测试第一场比赛，即123945。现在访问[`http://localhost:8080`](http://localhost:8080)，您将看到以下屏幕截图中显示的内容：
 - en: '![](img/e7bf2ba5-2e5f-4242-bac9-7f1a78a614b0.png)'
+  id: totrans-180
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/e7bf2ba5-2e5f-4242-bac9-7f1a78a614b0.png)'
 - en: Now deploy the contract by filling the input fields in the first form and clicking
     on the Deploy button, as shown here. Use your first account to deploy the contract.
+  id: totrans-181
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在通过填写第一个表格中的输入字段并单击“部署”按钮来部署合同，如图所示。使用您的第一个帐户来部署合同。
 - en: '![](img/a641776a-71df-4ae2-9458-01f4b6921fb9.png)'
+  id: totrans-182
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a641776a-71df-4ae2-9458-01f4b6921fb9.png)'
 - en: 'Now bet on the contract''s home team from the second account and the `away
     team` from the third account , as shown in the following screenshot:'
+  id: totrans-183
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在从第二个账户对合同的主队进行下注，从第三个账户对`客队`进行下注，如以下截图所示：
 - en: '![](img/7c16a73e-2a84-47eb-8505-12162dbc6e69.png)'
+  id: totrans-184
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/7c16a73e-2a84-47eb-8505-12162dbc6e69.png)'
 - en: 'Now put the contract address on the third form and click on the Find button
     to see the details about the contract. You will see something similar to what
     is shown in the following screenshot:'
+  id: totrans-185
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在将合约地址放在第三个表格上，然后单击“查找”按钮，以查看有关合约的详细信息。您将看到类似于以下屏幕截图的内容：
 - en: '![](img/0afac48e-edf4-4d7a-84a0-fb07d0348dc8.png)'
+  id: totrans-186
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/0afac48e-edf4-4d7a-84a0-fb07d0348dc8.png)'
 - en: 'Once both the transactions are mined, check the details of the contract again,
     and you will see something similar to what is shown in the following screenshot:'
+  id: totrans-187
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦两个交易都被挖掘，再次检查合同的详细信息，您将看到类似于以下屏幕截图的内容：
 - en: '![](img/e14aef7b-3a2e-42ab-a2d0-7a0ad97e29c5.png)'
+  id: totrans-188
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/e14aef7b-3a2e-42ab-a2d0-7a0ad97e29c5.png)'
 - en: Here, you can see that the contract doesn't have any ether and all the ether
     was transferred to the account that put the bet on the home team.
+  id: totrans-189
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，您可以看到该合约没有任何以太币，所有以太币都转入了下注主队的账户。
 - en: Summary
+  id: totrans-190
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 总结
 - en: In this chapter, we learned about Oraclize and the `strings` library in depth.
     We used them together to build a decentralized betting platform. Now you can go
     ahead and customize the contract and the client based on your requirements. To
     enhance the app, you can add events to the contract and display notifications
     on the client. The objective was to understand the basic architecture of a decentralized
     betting app.
+  id: totrans-191
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这一章中，我们深入学习了关于 Oraclize 和 `strings` 库。我们将它们结合起来构建了一个去中心化的投注平台。现在，你可以根据自己的需求前进并定制合同和客户端。为了增强应用程序，你可以向合同添加事件，并在客户端上显示通知。我们的目标是理解去中心化投注应用程序的基本架构。
