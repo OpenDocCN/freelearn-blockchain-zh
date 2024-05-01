@@ -1,0 +1,354 @@
+- en: Signing Legal Documents on Blockchains and Identity Verification
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The vast usage of blockchains necessitates a chapter dedicated to the topic.
+    The versatility that blockchains have tempts users to try their hand at implementing
+    them in the various areas of our lives. Though sometimes it might seems tedious,
+    using decentralized ledgers to store and handle data is actually very convenient
+    and safe, to a certain extent. Accessing these ledgers over a network to perform
+    activities such as transactions or signing documents makes it a feasible method
+    of conveying data without actually doing much.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This chapter will focus on the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: User identity and storing sensitive data on a blockchain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Dealing with large files on a blockchain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: User identity verification on a blockchain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Signing a document on a blockchain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: This chapter is more theoretical than some of the others as a lot of it depends
+    on the backend technologies that we choose to work on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: User identity and sensitive data on the blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let us begin by discussing the prime aspect for user identity—the parameter
+    that is used for verification. We can do this by using a person's email address,
+    their phone number, or even a physical address. One might wonder how we can do
+    this. It is actually very easy to verify any of the aforementioned parameters
+    on the blockchain.  To do this, we can use a confirmation code. The user can link
+    this confirmation code to their Ethereum account, which in turn links it to his/her
+    private key. As an administrator, you have to make sure that it is not you who
+    generates this code. This would give you the power to fabricate users at will.
+    You want your users to be real and verified people to eradicate the trustless
+    element from your blockchain. To generate these codes, we can use Twilio or any
+    external service provider. Twilio is used extensively for SMS verification, which
+    encapsulates phone verification.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's now consider the case of dealing with sensitive data, which cannot be
+    stored on public blockchains. You might think to yourself, *There are private
+    blockchains*. I know, I know. But for now, assume that all blockchains are public
+    blockchains. You cannot store sensitive data such as your name, phone number,
+    or email address on this particular blockchain. This would be a huge privacy concern.
+    One of the things that is necessary for a successful blockchain is genuine proof
+    that validates the fact that data stored on it cannot be tampered with. This involves
+    not keeping the entire blockchain on the centralized server. To solve this, we
+    will resort to hashing and using our backend storage including MySQL or Oracle.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hashing
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hashing is a method that transforms a large string value to a small, fixed-length
+    value. It is used for the purpose of indexing. Searching for a string is difficult
+    as compared to a value. Hashing not only makes indexing easier but also affects
+    the search time for any string. It reduces the search time, as finding a short
+    value is much easier and more efficient as compared to the original string value.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To learn how to perform hashing, you will begin by hashing some user information
+    and storing this in your smart contract, thus allowing you to link an anonymous
+    blockchain identity to a real-life identity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For this to work, you need to encourage your user to create a new Ethereum account
+    for your application. This will provide them with anonymity when they use this
+    account outside your application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using private blockchains is also a solution. The drawbacks of this outweigh
+    its advantages. Two of these drawbacks concern data tampering and data censoring.
+    However, these concerns turn into issues only if the blockchain is hosted by entities
+    under your control. Finding a way around these issues is something that banks
+    are currently interested in. Let us assume we have banks A, B, and C. These three
+    banks have teamed up together to use one single private blockchain, irrespective
+    of the fact that they are in competition with each other. This leads to them developing
+    internal security measures that make it impossible for anyone to manipulate the
+    data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To understand this better, let us look at an example that involves us verifying
+    the identity of a user. This begins with the user accessing your application and
+    generating a new address and a new private key. He could also use MetaMask, Geth,
+    or any other provider to do this. The backend system would notify the smart contract
+    of a new and unverified user, and the third-party application, such as Twilio,
+    would send out a verification code. At this point, even though you are an admin,
+    you will not be able to see the code. This prevents the possibility of users being
+    fabricated out of thin air by any member of the administrative team. Once the
+    code has been entered, it will be passed to the smart contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The preceding code is a JSON file that will show us how to use hashing to protect
+    sensitive data by hashing it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/def0aadb-15d1-404e-8d3e-dc29d2e443cb.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: SensitiveData.sol file on remix.org with output
+  prefs: []
+  type: TYPE_NORMAL
+- en: The data here is hashed and then passed to the `addUser` function. This will
+    allow the data to remain within your own database.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you try to manipulate data as an evil administrator, your hash would not
+    be right. Once the hash is passed to the `addUser` function, the `addUser` function
+    will push the `userHash` on top of the `userHashes` array of bytes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Dealing with files and large data on the blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we are going to learn how to deal with large files and documents
+    on any blockchain. As mentioned umpteen times before, blockchains are usually
+    public in nature, and therefore, privacy and security should be of prime importance.
+    A blockchain contains all of the data that is filled into it, which in the case
+    of Ethereum causes the cost to increase—that is, more gas is paid per transaction.
+    As this isn't something that we want, we'll use a few workarounds.
+  prefs: []
+  type: TYPE_NORMAL
+- en: One of these workaround is **Swarm**. There is also IPFS, or the InterPlanetary
+    File System, which we learned about briefly in [Chapter 1](464e368c-3ee6-4f15-bc1c-629d705acd1c.xhtml),
+    *Workflow Setup and Thinking Blockchain*. You could also use your own server to
+    store the data and larger files.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Swarm and IPFS are not blockchains, but they do follow the common principles
+    of decentralization, making the two of them decentralized file-storage systems
+    that are tamperproof.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A file is not decentralized in the beginning. When a file is uploaded through
+    IPFS, you become the first, sole host of that file. The moment someone else downloads
+    or requests the same file, they also become a host, and the rest of the network
+    has a reference to who the hosts are. This connectivity between the peers allows
+    a person to download or query a file by redirecting you to the right location/person.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since Swarm and IPFS are not completely developed, you can opt to use your own
+    systems and some hashing. You would start by making a SHA hash file in your backend
+    and storing this file in a blockchain. This file can no longer be edited without
+    changing the hash, thereby invalidating the hash.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In any scenario, if a user wants to validate their contract, they just rehash
+    the file to compare it to the original hash. This acts as an assurance that their
+    contract hasn’t been tampered with.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let us look at the following code example that will help us understand the
+    concept of hashing in a bit more depth:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The output for the preceding code in remix:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f02f978d-f3eb-4529-b319-44bb17033d52.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: In the preceding screenshot, we have hashed the entire document, and we will
+    also add that hash to the smart contract or to the blockchain by calling the `addDocument`
+    function, which will pass the hash and push it onto the array.
+  prefs: []
+  type: TYPE_NORMAL
+- en: User identity verification with blockchains
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This section takes a closer look at the user verification process and the Solidity
+    code that lies behind it. Let us consider the following Solidity code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, the owner is your own server. The constructor defines the value
+    of the owner as `message.sender`, which contains the address of the person who
+    deploys the smart contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following are the steps that the code goes through:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A user accesses your application.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The same user enters some private details.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Details are stored in the form of a hash in the smart contract of choice.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Twilio or a third-party service provider will send a text message to the user
+    while the system calls the Solidity function named `add.User`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The `add.User` function passes two parameters, namely, `address user` and a
+    `hashed_verification`, which is an array of 32 bytes and contains your hash of
+    the code that has been sent to the user. This function can be called only by the
+    owner or the modifier, which in this case is you or your server.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The contract constructor consists of a Boolean value that stores the address
+    that is mapped by the `user_verified` that lies in the `add.User` function. This
+    Boolean value defaults to the `false `value.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The `user_codes` maps `hashed_verification` to an array of 32 bytes.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The user enters the code on your frontend.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The `verify` function then checks whether or not the user is verified by comparing
+    the hash of the verification code that the user has provided with the hash that
+    is sent by the admin in the `add.User` function.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: You don't hash the verification code in JavaScript for future verification because
+    third parties can just take this code, hash it, and check it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once the user is verified, the default Boolean value is changed from `false` to
+    `true`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The verification code is then stored in plain text on the blockchain after the
+    user is verified.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Signing a document on the blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This section will teach you how to sign documents such as contracts on the
+    blockchain. Let us consider the following code to understand how this is done:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following screenshot is the result of the preceding code in the remix–Solidity
+    framework:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/94ea8048-bb7a-42fe-93cf-04b4226cb028.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Output of the UserExample.sol file in remix
+  prefs: []
+  type: TYPE_NORMAL
+- en: This code allows you to add a user to your blockchain. It also allows you to
+    invite and allow the user to sign a document. Since the code is similar to the
+    one we used in the previous section, entitled *User identity verification with
+    blockchains*, we will only take a look at the amendments we have made to the code
+    to accommodate the extra feature—namely, allowing the user to sign a contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If we look at the code closely, we will notice that there are two new parameter
+    mappings. One maps a 32-byte array (`bytes32`) to an address that is a user, while
+    the other one maps a 32-byte array (`bytes32`) to a Boolean called `signed`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`Structs` can also be used to map variables.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Once the contract is deployed, you can upload a document, hash it, and then
+    proceed to add it to the blockchain. Once this is done, you can invite a user.
+    Inviting a user leads to the user being added to the `to_sign` mapping at the
+    `documentHash`. Let us assume that we have something like the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, `0x121212121212` is the hash and `0x121212133293928` is your user. You
+    could then notify the user regarding his invitation via an email that contains
+    a link to the document. The user can use this link to view and verify this document.
+    The process of verification on the user end would require them to hash the document
+    and then compare it to the hash that was provided to them. In the event that the
+    user wants to take the process of verification a bit further, they can look the
+    hash up on the blockchain itself. After this, the user can call the `signDocument`
+    function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To understand how the `signDocument` function works, let us assume that you
+    want to sign the `0x1212 `hash. You should first call the function with the first
+    parameter as the user. First, it will check whether your address is different
+    from the address of the invited user. If this is true, your transaction will be
+    canceled using the `revert` function, which in this code is `null`. If the two
+    addresses match, we can simply proceed to sign the document.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This is one of the reasons I love blockchains. One can simply sign a document
+    by setting a variable to `true`. Once this variable has been set to `true`, you
+    can regard this document as signed. If this is used as evidence in court, the
+    document should hold, as it has been signed with a private key. This makes it
+    undeniable that the person has signed the contract knowingly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter took us on a journey where we learned how to handle large data
+    files on a blockchain. Given that data sensitivity is a concept that is a necessity
+    given the current developments in the World, we learned some simple methods to
+    implement the security of a blockchain. We then learned about the process of verifying
+    the identity of a real-world user on a blockchain with the help of third parties,
+    and learned how to sign a document with the help of a blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The next chapter will teach us the basic concepts and methods required to use
+    Ethereum outside our browsers, and also how it is used as the backbone of the
+    IoT. We will also take a quick glance at the physical components that make up
+    a blockchain.
+  prefs: []
+  type: TYPE_NORMAL

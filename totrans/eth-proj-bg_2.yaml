@@ -1,0 +1,636 @@
+- en: Developing Your First Decentralized Application with Ethereum
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**DApps** or a **Decentralized applications** is an application that is run
+    on a blockchain. Ethereum provides its users with some flexibility that allows
+    them to create such applications. In this chapter, we will focus on creating a
+    DApp and learn how to implement it in various aspects of our lives.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will learn how to do the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Create a project
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Deploying and testing a project
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Explore the Solidity syntax and JavaScript codes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Bug fixing and debugging smart contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Changing our application with a better payment method
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In order to build an application, we need to understand the codes and syntax
+    that are used to develop it. Hence, we will take a look at the Solidity syntax
+    and also understand the working of the JavaScript codes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a project
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section will teach us how to create a new project. It will require us to
+    explore the code and the Solidity syntax. Deploying the project will help us understand
+    how easy it is to transform this project into a better payment application. To
+    get a better understanding of the concept, we are going to take a look at some
+    specifics on bug fixing and also learn to debug smart contracts and some function
+    applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To begin, we need to create a new folder. For convention's sake, let's name
+    this `my_first_project`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/66999888-2bde-4cf7-992e-3aed7b7ea6da.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The immediate next step would be to run Truffle. The following command is used
+    for this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The output of the command should be as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c68e875d-1fba-43fc-b8a5-a6d5c108b3a2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This displays the list of commands that can be used for various processes for
+    Truffle. The Truffle `init` command allows us to initialize a new Truffle project.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Throughout the book, we will use a handy Truffle unbox command which will download
+    and set up a boilerplate project. For this, we will use the `webpack` box, which
+    is done by running the `truffle unbox webpack` command as shown in the following
+    screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'All the boxes are listed on their website and it is a growing list, among which
+    there are some React boxes and many others. The unboxing takes a while, after
+    which you will see the following message on your screen:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/eeaa6c41-8142-4a7a-8001-4552a630a0db.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Once this is done, we can start creating our project in an editor of our choice.
+    We can begin by examining the project structure. The unboxing will have created
+    several files and folders for us. Your screen should look similar to the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7a4d73c4-08dc-4041-a98e-2c8de9df1a9f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'It will also install a webpack, which can be configured through the `webpack.config.js`
+    file. This file allows you to configure how you will minimize your JSON, CSS,
+    and JavaScript, and everything in-between. You will also have a `truffle.js` file,
+    which is used to define your networks. Upon clicking this, your screen will look
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2964361c-a825-49f2-9c83-812fc2db5748.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The `truffle.js` file comes predefined with a development network that defaults
+    to a localhost on port `7545`. It will also create an app folder that contains
+    our main project. This folder contains an index of HTML and some CSS and JavaScript
+    that imports our smart contracts. The `contracts` folder contains `ConvertLib`
+    which is a simple library for demonstration purposes that is imported inside of
+    the `main` file, `MetaCoin.sol`. The file extension clearly depicts that the language
+    used here is Solidity, which one might call a dialect of JavaScript that was developed
+    for Ethereum. You can also see a migrations and `test` folder. Each serves its
+    own purpose, which we shall learn during the course of the book. The next section
+    will show us how to deploy and test a project.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Deploying and testing a projects
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We will now be deploying the application that we created in the previous section.
+    We will do so by starting a development blockchain, configuring our deployment,
+    deploying our smart contracts, and building the application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Starting a development blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Firstly, we are going to want to run our development blockchain. This can be
+    done by typing `ganache-cli` in the terminal window. Your screen will look as
+    follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9a094982-7658-4806-85a6-d2e169d31ef1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Make sure you jot down or remember the localhost port number. It is of importance,
+    as you will be connecting to it in the later stages of this project. Ganache-cli
+    generates 10 available accounts and then the corresponding private keys. These
+    private keys are used to encrypt the transactions that are being sent from each
+    individual account. At the bottom, you will see a Mnemonic. These twelve words
+    are very important. Always remember to save these words because you will require
+    them to import your private keys and the same accounts into MetaMask.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuring your deployment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Moving ahead, we need to make sure that the project settings are corresponding
+    to the hostname and the port on which our blockchain was created. To do this,
+    you need to go back to your editor, find the `truffle.js` file that is situated
+    in the `root` folder, and change the port number here from `7545` to `8545` to
+    match the port number that is hosting our development blockchain. There will be
+    no need to make any changes to the host as that is just the localhost. Then, proceed
+    to deploying your project on the terminal window, in the `my_first_project` folder.
+    Use the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: If you are using the Windows system we need to make some changes in the npm
+    Package folder which will be located at `C:/users/[YOUR USERNAME]/appdata/roaming/npm`.
+    The path may be vary depending upon where each user has installed the `npm` package
+    different machine. We need to rename the `truffle.cmd` file to `truffle-cli.cmd`
+    in the `npm` package.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This ensures that the smart contracts get compiled without any errors. Once
+    this happens, your screen should look something as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ece463c7-39a6-4506-b825-a1af40254e0d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The build output files have now been written in the contracts folder (also known
+    as the `build` folder).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Deploying the smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The immediate next step would be to migrate and deploy these smart contracts
+    to your development blockchain. To do this, we use the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: '![](img/560cfa8c-50dd-4d71-99d2-7cfa873c2452.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The preceding command helps create your contracts and conducts transactions
+    for each of them. The following screenshot should help you clearly determine the
+    factors that you need to look out for on your screen:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b82efac0-b101-4326-b4c9-7045a7bf49be.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Here, you can observe the creation of the first contract post—some variables
+    were updated and some transactions took place. The same process iterates to create
+    multiple contracts each having their own variables and transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Going back to your editor of choice, you will find these contracts in your `migration`
+    folder. The process of deploying begins with the `migration` smart contract and
+    then moves on to the `ConverLib` smart contract. `MetaCoin` is the last smart
+    contract to be deployed. A more clear understanding can be achieved if we take
+    a look at the `deploy_contracts.js` file that lies in the `migration` folder on
+    your editor.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following screenshot also helps you understand the order the smart contracts
+    have been deployed in:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/6a915eee-e54f-4f19-834f-09d1d505542e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Exploring the Solidity syntax and JavaScript codes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section will help us understand the Solidity syntax. We will explore the
+    Solidity and JavaScript codes to understand our project in depth. This will also
+    give us the power to alter the code to customize it to our needs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding the Solidity syntax
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'For understanding the syntax, let''s take a look at the Solidity file `MetaCoin.sol`.
+    The following screenshot will act as a guide so that we understand every line
+    of code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b997671f-6a65-4a53-8c74-c57bfef0188e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'As you can see, every Solidity file begins with the definition of the Solidity
+    version that you are currently using. In this case, that would be 0.4.17\. This
+    is immediately followed by the importing of the conversion library (commonly known
+    as `ConvertLib.sol`). This is shown the the code block as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We will now move on to creating a contract. We will use the contract keyword
+    followed by the name of your contract. For example, contract xyz. A contract runs
+    is similar to the concept of a class in any other programming language:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `MetaCoin` smart contract begins by adding the first variable that is mapping,
+    a mapping called **balances**. Mapping is essentially a key value storage that
+    allows you to map an address to an unsigned integer. This address can be a unique
+    person or a unique account. This `mapping` function is the core variable of your
+    application:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The next variable that is defined is an event and it has three parameters assigned
+    to it. These parameters are `FROM`, `TO`, and `VALUE`. An event can be used to
+    trigger a JavaScript event or even to log some data:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `MetaCoin` constructor is used to give the person who deployed the smart
+    contracts 10,000 `MetaCoin`. This person is usually the administrator. It can
+    also be another smart contract that has deployed this smart contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The next function is `sendCoin`. It accepts two parameters: receiver and amount.
+    It can also return a value. There are two methods to define a return value in
+    a function. The first method would be a direct implementation of the return function,
+    which is written as `returns(uint)`, and the second would be where we give it
+    any name such as `returns(bool sufficient)`. This function uses the `if` loop
+    to check if the sender of the message or the transaction has sufficient balance.
+    The code then proceeds to check if the sender''s balance is less than the amount
+    he/she wants to send and, if it is, the value returned is false or an insufficient
+    balance. If not, we just continue to move ahead and check that it deducts the
+    amount from the sender and adds the same amount to the receiver.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'After this, the transfer event is triggered, which is followed by the log or
+    the JavaScript event which will also return true to indicate that the sender did
+    in fact have a sufficient balance:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `getBalanceInEth` and the `getBalance` functions are defined as views that
+    return an integer. A view is a function that returns data for presenting. The
+    `getBalanceInEth` function makes use of the Convert library and the first parameter
+    that it passes is derived from the `getBalance` function. The `getBalance` function
+    returns the balance of the parameter that is being passed. You can observe that
+    `address.addr` is being externally called, hence it will be passed on the JavaScript
+    side. The number two is passed as a second parameter. This is the conversion rate,
+    whereas the first parameter is the amount. This is a simple multiplication to
+    simulate a conversion between a token and ether.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We will now use `ConvertLib`, which is not only defined as a library but is
+    also deployed separately. The following code helps us understand the workings
+    a little better:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: The primary benefit of this is that you can maintain a smart contract which
+    contains your business logic and you can maintain a smart contract which contains
+    a bunch of helper functions and maybe even variables.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Working with JavaScript
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Truffle provides us with the tools to easily import and interface with our
+    smart contracts. The following is a screenshot of a JavaScript code file named
+    `app.js` which you can find in the `javascript` folder under the `app` directory:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ef2bdb24-db70-4f3c-b242-7b4e85a94465.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The first import here is the `Web3` library which is by Ethereum. It interfaces
+    with the Ethereum blockchain. It can request information or send a transaction
+    based on the requirements of the moment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The next import is the `truffle-contract`. It acts as a wrapper around the contract
+    interface that Truffle provides.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We then proceed to import `metacoin_artifacts` from the `MetaCoin.JSON` file
+    that lies in the `build` directory. A `MetaCoin` variable is initialized with
+    this contract and we pass the `metacoin_artifacts` as a parameter to this contract
+    constructor. This allows us to have a usable abstraction of the `MetaCoin` smart
+    contract. The `MetaCoin` contract is used to set a provider and this provider
+    is how we will interface with the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `currentProvider` is usually filled by whatever provides the `Web3` library,
+    which in this case is `MetaMask`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We then use the `Web3` library to get all of the accounts that are active within
+    our setup of this test blockchain. The `getAccounts` function will get all of
+    the accounts that are available on your installation which are actually owned
+    by you. For understanding purposes, let's assume that each account represents
+    multiple people or multiple accounts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you are running an actual, live blockchain node, the `getAccounts` function
+    will not actually get all of the accounts in the concerned blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once the accounts have been obtained, the `refreshBalance` function uses the
+    `MetaCoin` abstraction that we defined earlier to get the deployed instances of
+    the concerned contract. This instance is then used to get the balance. Keep in
+    mind that this is not a transaction; this is a call that is used to get some data.
+    Hence, the keyword call is used. A call won't actually cost us anything.
+  prefs: []
+  type: TYPE_NORMAL
+- en: What would you change if this was actually a transaction? Not much. You would
+    only eliminate the keyword `call`. Easy, right?
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let us proceed to define the first parameter of the `getBalance` function; the
+    account parameter here coincides with the first parameter that we defined for
+    the `getBalance` or the `getBalanceinEth` functions that belong to our Solidity
+    file, `MetaCoin.sol`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The second parameter here is some extra data that you can add to a call or a
+    transaction. In this case, we can determine that it is from the same account that
+    the call is for. After this is complete, we can either return a value or use this
+    to update the `balance_element`. If an error occurs, it will get logged on the
+    console.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A similar process is used for sending a coin—we again obtain the deployed instance
+    and then use the `sendCoin` function. Looking closely will make us realize that
+    there is no call keyword here as this is an actual transaction. A coin being sent
+    from one person to another is a change in the blockchain, thus making this a transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The further steps would remain the same; these include the syntax, the order
+    of the parameters, and so on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bug fixing and debugging smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section tells you how to go about bug fixing and debugging your code. Usually,
+    the code will be debugged in the developer console which is similar to developing
+    regular JavaScript code. If there is an error present in the JavaScript code,
+    you could easily rectify it on the developer console. However, if the bug is in
+    your smart contract, you are going to want to go a bit deeper. How are you going
+    to debug your smart contract once it is live? Well, you cannot—not locally at
+    least. What if somebody finds a bug? You need to find out where it came from.
+    For these very reasons, we can use [remix.ethereum.org](http://remix.ethereum.org/#optimize=false&version=soljson-v0.4.24+commit.e67f0147.js)
+    and `etherscan.io`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The modified version of the `MetaCoin Solidity` file found at [remix.ethereum.org](http://remix.ethereum.org/#optimize=false&version=soljson-v0.4.24+commit.e67f0147.js)
+    is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2882f9fa-b652-4e7f-af9c-ac1bdcd1d40d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: You can create this file yourself by clicking the little plus icon in the top-left
+    corner and giving it a name of your choice. Once you compile this code, you will
+    notice a green bar which indicates that the code has been compiled successfully.
+    Let us try introducing an error by eliminating a semicolon; the bar will now turn
+    red, indicating that there is some error that you need to rectify.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following screenshot will help you understand the various tabs present
+    on your screen:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/6b000619-3189-47b1-84bc-9540620ab431.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The Run tab encapsulates the Environment section, where we should make sure
+    to select JavaScript VM as the environment that we wish to work on. This allows
+    us to simulate the Ethereum blockchain within our browser, which is something
+    similar to what TestRPC did.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You may notice that the constructor of the `MetaCoin Solidity` file now contains
+    a `firstHolder` parameter. The `firstHolder` will be the first person to get 10,000
+    MetaCoins. You can vary the person who gets to be the `firstHolder`. You can select
+    any account at random. You then need to make sure you copy it and give it as a
+    parameter for the constructor. For addresses, it's usually a good idea to put
+    them between quotes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Upon creating a `MetaCoin`, the lower half of your screen will display a window
+    that contains your transaction. It looks something as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c7cac424-1c60-43f4-88f2-364e036c7646.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Transaction of coins
+  prefs: []
+  type: TYPE_NORMAL
+- en: This window contains the details of the transaction. We can also debug the file.
+    However, let us first get the balance of this person by copying the address to
+    the GetBalance tab.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once this is done, we can proceed to debug this. We can do it step by step to
+    understand the process better. There will be only three steps as this is a small
+    function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let us now try to send some coins between any two accounts. This will require
+    us to copy the address of the second account and use it as a first parameter in
+    the SendCoin tab. The second parameter of course will be the number of coins that
+    you would like to transfer. Refer to the following screenshot for clarity:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/25bb7c16-812b-4e85-bd0b-75c3bae24495.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'You can check the details of the transaction in the grey area under Details or
+    Debug as shown in the following screenshot. You can also check the status of the
+    transaction. To get a clear understanding, click debug to see the step-by-step
+    process. Since remix is an open source project by the Ethereum developers, just
+    about everyone and anyone can use it. You can use it locally by pulling it from
+    Git or you can use it online. The choice is yours:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/48a57bd6-73ed-4aa4-b2fc-e97186397dbf.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Getting the balance and send coins to different accounts
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once your smart contract is live, you can monitor transactions on `etherscan.io`.
+    Just select any random transaction. You can see the source code or find out if
+    it is a smart contract or not. The transaction information shows any transaction
+    that has taken place. You can see the event logs, which display the text that
+    is written by the events that you create in the Solidity codes. If any of these
+    transactions have been done by you, you can trace them using `Geth DebugTrace`.
+    If you try to trace any transaction that does not belong to you, you will encounter
+    an error since there is not trace available. This can be seen in the tools and
+    utilities section of the transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The parity trace is just another Ethereum client that one can use. You will
+    see the trace here, though it probably won't make a lot of sense. When your smart
+    contract is live, you will not be fixing it—instead you will be updating it. You
+    can always just debug it locally.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Changing our application with a better payment application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section will focus on us improving our code. This will include adding functionalities
+    such as depositing ether, gaining tokens, and withdrawing ether in exchange of
+    tokens and also a creator fee.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will work on the same code that was used for the previous section and continue
+    to build on it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As we do not want to give away free tokens in exchange for deposited ether,
+    we will eliminate the following line of code completely:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We begin by setting a creator. To do this, we will need to define an address
+    creator and a `creatorFee` as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `collectedFees` is what one might call a pot. This is used to collect the
+    `creatorFees`. The conversion rate is the rate that is used to multiply the number
+    of tokens. For example, if you have one ether, you will get five tokens in exchange.
+    Let us consider that one has 0.1 ether; the conversion still works with integers
+    at the backend. The `currency_multiplier` is used to equate the values of your
+    tokens and ether. The smallest denomination is a wei.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We also need to initialize the creator as the `message.sender` when the smart
+    contract is being created:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The creator needs some special functions of its own, such as one for the withdrawal
+    of fees. This requires us to create a modifier called `onlyCreator`. It would
+    look something as follows in the code here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: This adds the condition that if the `message.sender` is the creator or if the
+    `transaction.origin` comes from the creator, only then will the code be executed.
+    This is done by adding an underscore.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The next step would be to create a function called `collectFees`. For the code''s
+    sake, we''ll make it public, but such that only the creator can call this function.
+    Your code should look something as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: Now we will transfer the funds to the creator and set the collectedFees to 0\.
+    Now, what we do want to add is some functions so that whenever somebody sends
+    a coin, we want a part of that coin to be able to go to the creator, and for this
+    we will create the deposit and the withdraw functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The deposit function will be a payable function. A payable function is used
+    whenever you want to receive ether. If you do forget to use it, it will just display
+    an error:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: The conversion rate used has already been set in the contract function. Remember,
+    our tokens will work the same as one ether; that means one token will be multiplied
+    by 10 to the power 18\. So when you deposit any tokens, it will be multiplied
+    by the `CURRENCY_MULTIPLIER`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We will then move on to the withdraw function. There has to be some amount
+    of caution while implementing this, because we first need to multiply with a currency
+    multiplier that has been set in the contract function. Then we will proceed to
+    deduct the balance of the executor of the transaction with the amount that needs
+    to be withdrawn. The amount will be divided by the conversion rate. The code for
+    this is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we took a look at how to create an Ethereum based application.
+    We also deployed and tested the same projects. We then delved into the Solidity
+    syntax which isn't only vast but is also extensive. JavaScript codes were also
+    looked into. We learned how to fix bugs using our own systems as well as externally.
+    In the end, we finally converted our project into a payment application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The next chapter focuses on the concepts of creating our own tokens. We will
+    take closer look at ICO's and also at handling our own token transactions.
+  prefs: []
+  type: TYPE_NORMAL
