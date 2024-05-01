@@ -136,11 +136,13 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 一个用于提取锁定在此智能合约中的资金的函数。经常发生的情况是，人们将以太发送到错误的地址，最终进入了这样的智能合约。如果出现这种情况，我们希望能够提取被锁定的资金，以免永远丢失。如果这种情况发生，它也可以用作显示对完成工作的感激的捐赠地址。
 - en: Designing the code in Solidity
   id: totrans-19
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Solidity代码设计
 - en: 'In this project, we''ll use Truffle to deploy and run our smart contract. When
     dealing with larger projects, it''s always worth the initial effort that''s invested
     in setting up a framework such as Truffle with all the required dependencies,
@@ -152,15 +154,18 @@
   id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这个项目中，我们将使用Truffle来部署和运行我们的智能合约。当处理更大型的项目时，始终值得在设置诸如Truffle之类的框架和所有必需的依赖项时投入初始工作，因为这样可以节省我们大量的时间，同时提高开发体验。以下是使用Truffle设置项目的步骤，因为这是我们在本书中首次提到它。稍后，我们将假设您知道如何在Truffle中设置项目，尽管在需要时我们会提醒您很多次：
 - en: Let's start right away by creating a new folder called `copyright`**:**
   id: totrans-21
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 让我们立即开始创建一个名为`copyright`的新文件夹**：**
 - en: '![](img/6b264df7-8c04-4f50-8378-97f3c330f5a6.png)'
   id: totrans-22
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/6b264df7-8c04-4f50-8378-97f3c330f5a6.png)'
 - en: 'Inside that folder, run the `truffle init` command. If you don''t have Truffle,
     install it with `npm i -g truffle` or `sudo npm i -g truffle`. You can get `npm`
     by installing Node.js from their website, [nodejs.org](http://nodejs.org). The
@@ -169,26 +174,32 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在该文件夹内，运行`truffle init`命令。如果您还没有Truffle，请使用`npm i -g truffle`或`sudo npm i -g
+    truffle`安装它。您可以通过从他们的网站[nodejs.org](http://nodejs.org)安装Node.js来获取`npm`。下面的截图显示了这个过程：
 - en: '![](img/07b94f8a-e1b3-4e38-9bf2-244e43d7e322.png)'
   id: totrans-24
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/07b94f8a-e1b3-4e38-9bf2-244e43d7e322.png)'
 - en: 'Then, you can open the project with your preferred code editor, in my case,
     Atom:'
   id: totrans-25
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后，您可以使用您喜欢的代码编辑器打开项目，我使用的是Atom：
 - en: '![](img/205bf315-6fbd-45e7-ab53-b670587b762f.png)'
   id: totrans-26
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/205bf315-6fbd-45e7-ab53-b670587b762f.png)'
 - en: 'Create a new file inside `contracts` with the name `Copyright.sol`. Create
     the basic code structure of every Solidity smart contract:'
   id: totrans-27
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在`contracts`目录下创建一个名为`Copyright.sol`的新文件。创建每个Solidity智能合约的基本代码结构：
 - en: '[PRE0]'
   id: totrans-28
   prefs: []
@@ -200,6 +211,7 @@
   id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个智能合约的顺序很简单。首先，我们定义事件、变量、修饰符、回退函数、构造函数，最后是函数。所以，让我们定义我们的事件：
 - en: '[PRE1]'
   id: totrans-30
   prefs: []
@@ -213,6 +225,7 @@
   id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: 此事件记录了`counter`、`hashId`、`contentUrl`、所有者的地址、时间戳、电子邮件和该内容的使用条款。现在我们可以定义包含这些变量的`struct`。我们的目标是以尽可能易于访问的方式存储信息，因此使用结构体是以映射方式组织受版权内容的最佳方式：
 - en: '[PRE2]'
   id: totrans-32
   prefs: []
@@ -224,6 +237,7 @@
   id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 映射将把每个哈希与存储了有关受版权内容的所有相关信息的内容对象相关联。以下是结构体中每个成员的原因：
 - en: '`counter`: We need a simple way to keep track of how many copyrighted elements
     are added to the blockchain, because it provides us with a simple way to look
     up the latest content using the registry of events.'
@@ -231,6 +245,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`counter`：我们需要一种简单的方法来跟踪添加到区块链上的受版权元素的数量，因为它为我们提供了一种使用事件注册表查找最新内容的简单方法。'
 - en: '`hashId`: The `keccak256` string of the text content that we''ll associate
     with this object. Because we can''t use strings as the key of the mapping, we
     have to use a `bytes32` type of variable. This causes the problem that we can''t
@@ -731,6 +746,7 @@
   id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 数字60是一个特定的指令，被称为`PUSH`，它本质上将数字`3`移到内存堆栈中。堆栈只是一个空数组，可以从数组中获取或删除值。在`PUSH` 3指令之后，我们的堆栈看起来像这样：
 - en: '[PRE15]'
   id: totrans-108
   prefs: []
@@ -740,6 +756,7 @@
   id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下指令将零添加到堆栈中：
 - en: '[PRE16]'
   id: totrans-110
   prefs: []
@@ -749,12 +766,14 @@
   id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: '这导致`stack: [0, 3]`。'
 - en: 'Then, we have `55`, which is a `STORE` instruction that writes `uint256` permanently
     to storage, the blockchain. We need to add the number 3 to the stack before we
     can write it into storage. What we did here is essentially the following:'
   id: totrans-112
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，我们有`55`，这是一个`STORE`指令，它将`uint256`永久写入存储，即区块链。我们需要在将其写入存储之前将数字3添加到堆栈中。我们在这里做的实质上是以下内容：
 - en: '[PRE17]'
   id: totrans-113
   prefs: []
@@ -764,6 +783,7 @@
   id: totrans-114
   prefs: []
   type: TYPE_NORMAL
+  zh: 这相当于以下内容：
 - en: '[PRE18]'
   id: totrans-115
   prefs: []
@@ -775,6 +795,7 @@
   id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 请记住，所有智能合约都以`6080604052`开始，就像你在完整的字节码中看到的那样。我们的智能合约只包含一个`uint256`赋值，因此它遵循具有`6003600055`的字节码。我们最终得到的是以下内容：
 - en: '[PRE19]'
   id: totrans-117
   prefs: []
@@ -787,6 +808,7 @@
   id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 其余部分是无关紧要的，因为它包含关于发送者和合约的信息。大约有100个操作码，在EVM中使用许多不同的技术将智能合约代码转换为字节码，以便可以有效地发布到区块链上。
 - en: Now, you understand what happens under the hood when you write a smart contract,
     compile it, and deploy it to the network. The rest is up to the nodes that run
     their own specific implementation of the Ethereum protocol, so they decide which
@@ -796,11 +818,13 @@
   id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，你了解了当你编写智能合约、编译它并将其部署到网络时，在幕后发生了什么。其余工作由运行其自己特定实现的以太坊协议的节点来完成，因此它们决定采取哪些块并忽略哪些块。EVM是一个复杂的虚拟环境，它处理来自智能合约的事务和字节码，以实现符合所有人利益的全局共识。
 - en: Upgradable and scalable smart contracts
   id: totrans-120
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 可升级且可扩展的智能合约
 - en: The Ethereum blockchain is immutable, which means that you can't modify its
     past actions. Once an action is confirmed by the majority of the miners, that
     action stays there forever. The same restrictions apply to smart contracts. However,
@@ -814,11 +838,13 @@
   id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊区块链是不可变的，这意味着你无法修改其过去的操作。一旦一个动作被大多数矿工确认，该动作将永远留在那里。相同的限制也适用于智能合约。然而，我们作为以太坊专家，能够克服部署不可扩展代码的问题，因为我们理解存在着不同的开发技术，我们可以创建可扩展的代码。这个想法是部署智能合约，使它们准备好在未来扩展，具有一组不同的、可互换的合约。知道如何创建可扩展并且能够在未来改进的智能合约是任何顶尖以太坊专家必须具备的基本技能，所以不要错过它。
 - en: Upgradable smart contracts
   id: totrans-122
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 可升级智能合约
 - en: '**Upgradable smart contracts** are the next step when it comes to creating
     advanced smart contracts for big industries that keep evolving and require new
     functionalities unexpectedly. They can be used in all kinds of projects, but I
@@ -829,25 +855,30 @@
   id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: '**可升级智能合约**是创建面向不断发展、突然需要新功能的大型行业的先进智能合约的下一步。它们可以用于各种项目，但我建议你只为那些可能需要未来升级或想要为未来预测保护数据的项目使用它们。并不是每个智能合约都需要具有可升级功能，尽管代币等项目将受益于可升级的代码。'
 - en: 'We''ll create an upgradable smart contract that is made up of three parts and
     two smaller smart contracts. Here''s how it will look:'
   id: totrans-124
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将创建一个由三部分和两个较小智能合约组成的可升级智能合约。它将是这样的：
 - en: '![](img/953fbe37-68a7-4bd3-bcf9-e65bec40eb96.png)'
   id: totrans-125
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/953fbe37-68a7-4bd3-bcf9-e65bec40eb96.png)'
 - en: There are many ways to make upgradable smart contracts—you can even create your
     own! So, be patient when it comes to understanding this kind of technology, because
     it can seem confusing in the beginning.
   id: totrans-126
   prefs: []
   type: TYPE_NORMAL
+  zh: 有许多方法可以使智能合约可升级 - 你甚至可以创建自己的！因此，在理解这种技术时要有耐心，因为在开始阶段可能会感到困惑。
 - en: 'To make a contract upgradable, we need three pieces:'
   id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 要使合约可升级，我们需要三个部分：
 - en: '**The proxy contract**: This is the initial contract—the main contract that
     users always use to interact with the code. Think of this one as the same old
     smart contract that you use to make function calls but that, instead of executing
@@ -856,6 +887,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**代理合约**：这是初始合约 - 用户始终用来与代码交互的主要合约。把这个视为同样旧的智能合约，用于进行函数调用，但是，不是在这里执行逻辑，而是在可升级智能合约中执行。'
 - en: '**The upgradable contract**: This one is where all the logic takes place. This
     contract can be upgraded, which means that it can be removed and you can deploy
     a newer version with the same name and new functions. Users won''t interact with
@@ -864,6 +896,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**可升级合约**：这是所有逻辑发生的地方。这个合约可以升级，这意味着它可以被移除，可以部署一个同名但带有新功能的新版本。用户不会直接与这个合约交互，因为地址每次升级时都会发生变化。'
 - en: '**The storage contract**: Because we don''t want to lose our state variables
     and all the user information every time we upgrade a contract, we will store all
     the variables, mappings, and data in this storage contract. It will have only
@@ -873,22 +906,26 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**存储合约**：因为我们不希望每次升级合约时丢失我们的状态变量和所有用户信息，我们将所有变量、映射和数据存储在这个存储合约中。它只会有变量和设置器函数来更新这些变量。除此之外，它不会有任何逻辑或函数。'
 - en: 'To upgrade a contract while keeping the same address, what will happen is this:'
   id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: 要升级一个合约并保持相同地址，将会发生以下情况：
 - en: Users will send a transaction to the proxy contract, for instance, `execute
     function buyTokens()`.
   id: totrans-132
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 用户将向代理合约发送一个交易，例如，`执行函数 buyTokens()`。
 - en: The proxy contract will send that, find the `buyTokens()` function inside the
     upgradable contract, and execute it.
   id: totrans-133
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 代理合约将发送这个命令，找到可升级合约中的`buyTokens()`函数，并执行它。
 - en: The upgradable contract will process the logic to buy tokens and it will store
     all the changes inside the storage contract, for instance, by calling a function
     named **`setTokens()`**, which increases the number of tokens of user A to 40.
@@ -896,12 +933,15 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 可升级合约将处理购买 token的逻辑，并将所有更改存储在存储合约中，例如，通过调用名为**`setTokens()`**的函数，将用户 A 的 token
+    数量增加到 40。
 - en: The storage contract executes **`setTokens()`** and updates the tokens variables
     to `tokens = 40;` for user A.
   id: totrans-135
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 存储合约执行**`setTokens()`**并将 tokens 变量更新为 `tokens = 40;`，用于用户 A。
 - en: That's essentially the workflow of how the logic operates. In essence, we will
     always use the same contract address, but the logic will change. We will also
     keep the same information without deleting it because it's valuable information
@@ -909,16 +949,19 @@
   id: totrans-136
   prefs: []
   type: TYPE_NORMAL
+  zh: 这基本上是逻辑操作的工作流程。实质上，我们将始终使用相同的合约地址，但逻辑会发生变化。我们也会保留相同的信息，而不会删除它，因为这是非常有价值的信息，很难重新插入。
 - en: To help you understand the concept behind all these contracts, I'll show you
     a pseudocode version of the code that each smart contract has. We'll use the token
     analogy, where a user wants to buy tokens in an upgradable contract.
   id: totrans-137
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了帮助你理解所有这些合约背后的概念，我将向你展示每个智能合约具有的伪代码版本。我们将使用 token 比喻，其中用户想要在可升级合约中购买 token。
 - en: 'Here''s what the proxy contract would look like:'
   id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是代理合约的样子：
 - en: '[PRE20]'
   id: totrans-139
   prefs: []
@@ -928,6 +971,7 @@
   id: totrans-140
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是可升级合约的样子：
 - en: '[PRE21]'
   id: totrans-141
   prefs: []
@@ -937,6 +981,7 @@
   id: totrans-142
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，这是存储合约的样子：
 - en: '[PRE22]'
   id: totrans-143
   prefs: []
@@ -1274,6 +1319,7 @@
   id: totrans-190
   prefs: []
   type: TYPE_NORMAL
+  zh: '`setMyNumberStorage()`的函数哈希是`009be4e6`；这是函数的签名。非常好！我们有了`msg.data`对象的第一部分：`0x009be4e6`。'
 - en: 'Now, we need to encode the parameters of the function. Let''s say that I want
     to set a number of `16` when calling the function. You can do it manually by converting
     that number into its hexadecimal form with web3\. If you have MetaMask installed,
@@ -1283,10 +1329,12 @@
   id: totrans-191
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们需要编码函数的参数。假设我在调用函数时要设置一个数字为`16`。您可以通过使用web3手动将该数字转换为其十六进制形式。如果您已安装MetaMask，您可以打开您的浏览器的开发者工具与`web3.js`交互。在控制台中，您只需输入`web3.toHex(16)`，就会收到16的十六进制版本：
 - en: '![](img/9e8684fa-05a2-48ea-af5a-0dc446d040cc.png)'
   id: totrans-192
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/9e8684fa-05a2-48ea-af5a-0dc446d040cc.png)'
 - en: Note that `web3.toHex()` only works for version 0.20 of web3, which is the one
     being used by MetaMask at the moment. The syntax is different in web3 1.0, so
     if MetaMask updates its version of web3, you can read how to do hexadecimal conversion
@@ -1294,11 +1342,14 @@
   id: totrans-193
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，`web3.toHex()`仅适用于web3的0.20版本，这是目前由MetaMask使用的版本。在web3 1.0中，语法是不同的，因此如果MetaMask更新了它的web3版本，您可以在官方web3
+    1.0文档中阅读如何进行十六进制转换。
 - en: 'Now, we just need to add 62 zeroes in front of 10, since `0x10` is our number
     to get the encoded version of that parameter. Here''s an example:'
   id: totrans-194
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们只需要在10的前面添加62个零，因为`0x10`是我们要获得该参数的编码版本。这是一个例子：
 - en: '[PRE31]'
   id: totrans-195
   prefs: []
@@ -1309,6 +1360,7 @@
   id: totrans-196
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将被十六进制编码。我们只需要在前面添加函数签名，以完成我们的`msg.data`对象：
 - en: '[PRE32]'
   id: totrans-197
   prefs: []
@@ -1319,6 +1371,7 @@
   id: totrans-198
   prefs: []
   type: TYPE_NORMAL
+  zh: 就是这样！ 那一长串十六进制数字代表着：*调用函数setMyNumberStorage(12)*。
 - en: 'Going back to where we left it, the `.delegatecall(msg.data)` function can
     now be executed properly with the converted value of our function call. You may
     be asking yourself: *But why complicate things so much, how will users do all
@@ -1326,6 +1379,7 @@
   id: totrans-199
   prefs: []
   type: TYPE_NORMAL
+  zh: 回到我们离开的地方，`.delegatecall(msg.data)`函数现在可以正确执行我们的函数调用的转换值。你可能在问自己：*为什么要这么复杂，用户怎么会做所有这些转换工作呢？*
 - en: 'The truth is that people using your smart contract or dApp won''t do all the
     conversion. You''ll simple write the conversion logic in your decentralized application,
     and the function names will be converted automatically in a few lines with web3,
@@ -1334,10 +1388,12 @@
   id: totrans-200
   prefs: []
   type: TYPE_NORMAL
+  zh: 人们使用您的智能合约或dApp的真相是，不需要他们做所有的转换。你只需在你的去中心化应用程序中简单地编写转换逻辑，函数名称将在几行代码中自动转换为web3中，就像你已经看到的那样。或者，您可以在Remix上部署您的合约，并在只需点击一个按钮即可获得整个编码函数调用：
 - en: '![](img/686a99c0-4ecd-41de-83e0-6072bd1b0909.png)'
   id: totrans-201
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/686a99c0-4ecd-41de-83e0-6072bd1b0909.png)'
 - en: 'When you deploy a contract, you can see a box where you can interact with your
     deployed contract. If you click the arrow that I''ve marked, you''ll see the expanded
     version of the function call that shows you the toolbox icon, which you can click
@@ -1345,6 +1401,7 @@
   id: totrans-202
   prefs: []
   type: TYPE_NORMAL
+  zh: 当您部署合约时，您会看到一个框，您可以与部署的合约进行交互。如果你点击我标记的箭头，你会看到函数调用的扩展版本，显示给您一个工具箱图标，您可以点击它直接将`setMyNumberStorage(16)`转换为十六进制形式：
 - en: '[PRE33]'
   id: totrans-203
   prefs: []
@@ -1356,27 +1413,33 @@
   id: totrans-204
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是在使用Remix与您的合约时进行转换的一个简单技巧。有了这个十六进制数字，您可以打开MetaMask并将其粘贴到数据字段中。首先，打开MetaMask并点击发送：
 - en: '![](img/cc869e8c-850b-446f-bb47-9e63a97f5b40.png)'
   id: totrans-205
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/cc869e8c-850b-446f-bb47-9e63a97f5b40.png)'
 - en: 'Then, paste your code into the data field by scrolling down:'
   id: totrans-206
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，通过向下滚动将您的代码粘贴到数据字段中：
 - en: '![](img/72f8dde7-2186-4ef2-9638-2e25df506488.png)'
   id: totrans-207
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/72f8dde7-2186-4ef2-9638-2e25df506488.png)'
 - en: After confirming the transaction, you'll see that your function has been successfully
     delegated and that you've made the execution from the proxy contract.
   id: totrans-208
   prefs: []
   type: TYPE_NORMAL
+  zh: 确认交易后，您将看到您的函数已成功委托，并且您已经从代理合约执行了这个操作。
 - en: 'Let''s go back to our fallback function:'
   id: totrans-209
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们回到我们的回退函数：
 - en: '[PRE34]'
   id: totrans-210
   prefs: []
@@ -1491,6 +1554,7 @@
   id: totrans-225
   prefs: []
   type: TYPE_NORMAL
+  zh: 相反，我们可以使用一种被称为**状态通道**的协议。它由产生有效的离链交易的承诺方案组成，只要一组人对这些交易达成协议。例如，想象一下像21点这样的牌游戏。如果你对这个游戏不熟悉，它是每个玩家轮流接收一张牌，并在获得最大组合牌面的同时下注筹码的游戏。组合总数为21的人，或者接近21的，赢得游戏。如果超过21，就会输掉游戏。
 - en: In essence, state channels are like blackjack games, where users can play an
     endless number of games while keeping a score of chips that you can exchange for
     real money when you finish. It's a great scaling system because you can run many
@@ -1500,6 +1564,7 @@
   id: totrans-226
   prefs: []
   type: TYPE_NORMAL
+  zh: 本质上，状态通道就像21点游戏一样，用户可以玩无数次游戏，同时保持可以在结束后兑换成真实货币的筹码得分。这是一个伟大的扩展系统，因为你可以直接点对点地在链下运行许多交易，而不必等待区块链处理每一笔交易。当你结束游戏时，你只需将结果捆绑在一起，并将一个大交易推送到区块链上。
 - en: So, you're processing hundreds of transactions in real time until you end the
     game, when you have to send 1 transaction. Instead of waiting about 20 seconds
     per transaction for 100 transactions, you just wait 20 seconds once, while saving
@@ -1508,11 +1573,13 @@
   id: totrans-227
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，你会实时处理数百笔交易，直到结束游戏时，你只需发送1笔交易。与等待100笔交易每笔大约20秒不同，你只需要等待20秒一次，同时节省了gas。因此，你拥有了一个更快速且可扩展系统，让更多的玩家能够以更好的性能使用你的dApp。
 - en: Using state channels for scalable smart contracts
   id: totrans-228
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用状态通道实现可扩展的智能合约
 - en: I'll guide you through a simple example project so that you can see state channels
     in action. They use commitment schemes, which are just encrypted transactions
     that you can't change to commit to your actions before revealing the result when
@@ -1520,6 +1587,7 @@
   id: totrans-229
   prefs: []
   type: TYPE_NORMAL
+  zh: 我将向你介绍一个简单的示例项目，让你看看状态通道是如何运作的。它们使用的是承诺方案，这只是你不能改变的加密交易，用于在玩家决定展示他们的牌之前承诺你的行动。
 - en: 'The smart contract will be the entry and exit point of the state channel. What
     happens in-between is outside of the blockchain''s control, although we''ll define
     what goes inside each encrypted message so that we can verify it when ending.
@@ -1527,6 +1595,7 @@
   id: totrans-230
   prefs: []
   type: TYPE_NORMAL
+  zh: 智能合约将成为状态通道的进入和退出点。在区块链的控制之外，中间发生的事情，尽管我们将定义每条加密消息里的内容，以便在游戏结束时能够验证它。以下是步骤：
 - en: Each player that participates in the game must open the state channel by calling
     a function in the smart contract to define who they are. When they do that, they
     must send some Ether to the smart contract as an escrow. Those funds will be used
@@ -1535,6 +1604,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 参与游戏的每个玩家必须通过调用智能合约中的一个函数来打开状态通道，以定义他们是谁。当他们这样做时，他们必须向智能合约发送一些以太作为存款。当游戏结束时，这些资金将用于分发奖励。
 - en: Generate the hash with the variables that you want to commit. These hashes will
     contain the encrypted participation of each player. So, they exchange messages
     back and forth directly by first committing to their bet, then revealing their
@@ -1543,6 +1613,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 用你想提交的变量生成哈希。这些哈希将包含每个玩家的加密参与。因此，他们通过首先承诺他们的赌注，然后揭示他们的结果并更新变量和余额，直接来回交换消息。
 - en: When they decide to end the game, they go back to the smart contract to upload
     their latest signed hash so that the smart contract can read it to send the corresponding
     Ether to each one.
@@ -1550,11 +1621,13 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 当他们决定结束游戏时，他们会回到智能合约上载他们最新签名的哈希，以便智能合约可以读取并向每个人发送相应的以太币。
 - en: 'Let''s create the smart contract with the entry and exit functions. The rest
     will be done off-chain. As usual, here''s the contract''s structure:'
   id: totrans-234
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们创建带有进入和退出函数的智能合约。其余操作将在链下进行。与往常一样，以下是合约的结构：
 - en: '[PRE37]'
   id: totrans-235
   prefs: []
@@ -1567,6 +1640,7 @@
   id: totrans-236
   prefs: []
   type: TYPE_NORMAL
+  zh: 构造函数将是入口，因为我们想为每场游戏部署一个新的合约实例。`exitStateChannel()`函数将检查最新签名的哈希，并将相应的以太币发送给每个玩家。请注意，构造函数是可支付的，因为我们希望在开始时收到托管资金。
 - en: 'Let''s add some variables that we''ll need. In this case, we''ll create a simple
     guessing game where each player has to set a number from 1 to 10 and the other
     has to guess that number to win. So, player 1 wins when player 2 makes a guess
@@ -1575,6 +1649,7 @@
   id: totrans-237
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们添加一些我们需要的变量。在这种情况下，我们将创建一个简单的猜数字游戏，每个玩家必须设置一个从1到10的数字，另一个玩家必须猜出那个数字才能赢。所以，当玩家2猜到与玩家1不同的数字时，玩家1获胜。他们每次猜数字游戏还会打赌以太币；获胜者将以两倍的赌注赢得比赛，只要两者都有足够的资金进行下注：
 - en: '[PRE38]'
   id: totrans-238
   prefs: []
@@ -1584,6 +1659,7 @@
   id: totrans-239
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来，我们需要为每个玩家设置这些变量：
 - en: '[PRE39]'
   id: totrans-240
   prefs: []
@@ -1598,6 +1674,7 @@
   id: totrans-241
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如您所见，构造函数将初始化第一个玩家的地址和托管账户，而`setupPlayerTwo()`函数将为第二个玩家执行相同的操作。这是我们在两个玩家之间打开状态通道所需要的一切。在创建`exitStateChannel()`函数之前，该函数将结束游戏，关闭通道并分配资金，我想澄清每个散列消息由哪些元素组成，以及游戏将如何在链下进行。
 - en: In this guessing game, we have two players who have two different escrows in
     which they make bets every game about a specific number that they select. If the
     number is the same for both, the second player wins; otherwise, the first player
@@ -1606,16 +1683,19 @@
   id: totrans-242
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这个猜数字游戏中，我们有两个玩家，他们有两个不同的托管账户，每场游戏都在其中下注一个特定的数字。如果两者选择的数字相同，则第二个玩家获胜；否则，第一个玩家获胜。只要他们两者都有足够的资金，他们就会得到两倍数量的以太币投资。
 - en: 'Therefore, player 1 will create an encrypted object containing the following
     values to start a game:'
   id: totrans-243
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，玩家1将创建一个包含以下值的加密对象来开始一场游戏：
 - en: '**Number selected**: This must be between 1 and 10.'
   id: totrans-244
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**选择的数字**：这个数字必须在1到10之间。'
 - en: '**Amount of Ether bet for the game**: The other player must have enough funds
     to pay double what you invest. For instance, player 1 has 10 Ether while player
     2 has 4\. Player 1 won''t be able to bet more than 4 Ether given that, if he wins,
@@ -1626,18 +1706,21 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**游戏赌注以太币数量**：另一个玩家必须有足够的资金支付你的两倍投资。例如，玩家1有10个以太币，而玩家2有4个。鉴于此，如果他赢了，玩家1将无法下注超过4个以太币，因为如果他赢了，第二个玩家将不得不支付他所有的以太币。我们将保留此选项，以便他们可以投资任意数量，如果赌注超过了玩家的余额，他将简单地获得所有资金，即使它少于赌注。'
 - en: '**Game sequence**: A counter that increases every game to identify the order
     of each game.'
   id: totrans-246
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**游戏序列**：每场游戏都会增加的计数器，以标识每场游戏的顺序。'
 - en: '**Timestamp**: A unique timestamp for each player to understand when the bet
     was made.'
   id: totrans-247
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**时间戳**：每个玩家都有一个唯一的时间戳，以了解下注何时进行。'
 - en: '**A nonce**: A random 10-digit number to keep each message unique. This is
     not mandatory, but it helps when trying to understand the order of events of the
     game.'
@@ -1645,38 +1728,45 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**随机数**：一个随机的10位数字，以确保每个消息都是唯一的。这不是强制性的，但在尝试理解游戏事件的顺序时会有所帮助。'
 - en: 'Here''s an example: the first player starts the game after opening the state
     channel by creating the smart contract with another player, who set up their escrow
     within the smart contract. He then creates the following data that will be encrypted:'
   id: totrans-249
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是一个示例：第一个玩家在与另一个玩家创建智能合约打开状态通道后开始游戏。然后，他创建以下数据将被加密：
 - en: '**Number selected**: 9'
   id: totrans-250
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**选择的数字**：9'
 - en: '**Amount of Ether to bet**: He has 10 Ether in escrow, so he''ll bet 4 Ether
     for this game'
   id: totrans-251
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**下注的以太币数量**：他在托管账户中有10个以太币，所以他将为这场比赛下注4个以太币'
 - en: '**Game sequence**: 1'
   id: totrans-252
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**游戏序列**：1'
 - en: '**Timestamp**: 1549378379'
   id: totrans-253
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**时间戳**：1549378379'
 - en: '**Nonce**: 2948372910'
   id: totrans-254
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**随机数**：2948372910'
 - en: 'He then encrypts that information with the `keccak256` algorithm using a dApp:'
   id: totrans-255
   prefs: []
@@ -1806,6 +1896,7 @@
   id: totrans-273
   prefs: []
   type: TYPE_NORMAL
+  zh: 这看起来很复杂，但我们所做的一切只是检查签名消息是否有效，然后检查消息的签名是否有效，最后在其他玩家使用此函数验证退出消息时更新变量以分配资金。
 - en: This smart contract is just a demonstration. It has some important issues, such
     as the fact that one player could decide not to publish his message to exit the
     channel to avoid losing Ether. For that, we would need to add some kind of conflict
@@ -1814,6 +1905,7 @@
   id: totrans-274
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个智能合约只是一个演示。它有一些重要问题，比如一个玩家可以决定不发布他的退出通道消息，以避免失去以太币。为此，如果第二个玩家在 24 小时内不回应，则需要添加某种冲突解决机制来分配资金。我会把这留给你来练习你的技能。
 - en: These are the next generation of smart contract, which will power complex decentralized
     applications running for hundreds of thousands of computers simultaneously with
     some centralized logic. In the end, it's about making sure we leverage the trustless
@@ -1824,11 +1916,13 @@
   id: totrans-275
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些是下一代智能合约，将支持同时在数十万台计算机上运行的复杂去中心化应用程序，并具有一些集中化逻辑。最终，关键在于确保我们利用区块链的无信任性质创建可以使用户受益的应用程序，而无需外部实体干预流程。继续阅读，了解更多使用最少资源获取最大结果的高效智能合约。
 - en: Gas and data-efficient smart contracts
   id: totrans-276
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 油气和数据高效的智能合约
 - en: 'It''s imperative to make smart contracts that not only handle transactions
     in a transparent and secure manner, but that are actually using the blockchain
     resources as efficiently as possible. For this reason, we''ll explore how to make
@@ -1837,21 +1931,25 @@
   id: totrans-277
   prefs: []
   type: TYPE_NORMAL
+  zh: 制作智能合约不仅要以透明和安全的方式处理交易，而且要尽可能有效地使用区块链资源。因此，我们将探讨如何为以太坊编写油气和数据高效的代码。在本节中，我们将介绍以下主题：
 - en: Making gas-efficient smart contracts
   id: totrans-278
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 制作油气高效的智能合约
 - en: Making data-efficient smart contracts
   id: totrans-279
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 制作数据高效的智能合约
 - en: Making gas-efficient smart contracts
   id: totrans-280
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 制作油气高效的智能合约
 - en: 'I''m sure you''ve seen several smart contracts containing lots of functions
     that feel like they are consuming too much gas to operate: functions such as those
     that manage lots of state variables or those that have several different contracts
@@ -1859,108 +1957,127 @@
   id: totrans-281
   prefs: []
   type: TYPE_NORMAL
+  zh: 我相信你已经看到了一些包含许多函数的智能合约，感觉它们消耗了太多的油气以运行：例如那些管理大量状态变量或同时有几个不同合约操作的函数。
 - en: Even though the blockchain requires gas be paid for every single transaction,
     it's in our best interest to create smart contracts that consume as few resources
     as possible so that transaction costs get reduced drastically for our users.
   id: totrans-282
   prefs: []
   type: TYPE_NORMAL
+  zh: 尽管区块链要求对每笔交易支付油费，但我们最好还是创建尽可能少消耗资源的智能合约，以便为我们的用户大大降低交易成本。
 - en: So, how do we do that?
   id: totrans-283
   prefs: []
   type: TYPE_NORMAL
+  zh: 那么，我们该怎么做呢？
 - en: 'It turns out that every small operation has an opcode associate in the EVM.
     Whenever you use an opcode, you''re paying gas because miners have to process
     your transaction. Here''s a list of the most common opcodes and their gas costs:'
   id: totrans-284
   prefs: []
   type: TYPE_NORMAL
+  zh: 原来每个小操作都有一个与 EVM 关联的操作码。每当使用操作码时，您都需要支付油费，因为矿工必须处理您的交易。以下是最常见操作码及其油费成本的列表：
 - en: '`ADD` and `SUB`: Adding or subtracting two numbers. It costs 3 gas every time
     you add or subtract a number.'
   id: totrans-285
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`ADD` 和 `SUB`：加或减两个数字。每次添加或减少一个数字时，都会消耗 3 油费。'
 - en: '`MUL` and `DIV`: Multiplying or dividing numbers. This costs 5 gas per operation.'
   id: totrans-286
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`MUL` 和 `DIV`：乘以或除以数字。每次操作都会消耗 5 油费。'
 - en: '`AND`, `OR`, and `XOR`: Logic operations for comparing booleans. This costs
     3 gas per operation.'
   id: totrans-287
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`AND`、`OR`和`XOR`：用于比较布尔值的逻辑操作。每次操作消耗 3 油费。'
 - en: '`LT`, `GT`, `SLT`, `SGT`, and `EQ`: Logic operations for comparing numbers.
     This costs 3 gas per operation.'
   id: totrans-288
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`LT`、`GT`、`SLT`、`SGT`和`EQ`：用于比较数字的逻辑操作。每次操作消耗 3 油费。'
 - en: '`POP`: It''s an EVM stack operation to remove elements from the stack machine.
     It takes 2 gas for every `POP` operation.'
   id: totrans-289
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`POP`：这是一种从堆栈机中删除元素的 EVM 堆栈操作。每次`POP`操作消耗 2 油费。'
 - en: '`PUSH`, `DUP`, or `SWAP`: To add elements to the stack machine. This uses 3
     gas.'
   id: totrans-290
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`PUSH`，`DUP`或`SWAP`：将元素添加到堆栈机器。这使用了3个气体。'
 - en: '`MLOAD` and `MSTORE`: To add data to the EVM''s memory. This uses 3 gas per
     operation.'
   id: totrans-291
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`MLOAD`和`MSTORE`：向EVM的内存中添加数据。每次操作使用3个气体。'
 - en: '`JUMP`: To jump to another place in the assembly code. This takes 8 gas.'
   id: totrans-292
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`JUMP`：跳转到汇编代码中的另一个位置。这需要8个气体。'
 - en: '`JUMPI`: A conditional jump. This takes 10 gas per operation.'
   id: totrans-293
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`JUMPI`：有条件的跳转。每次操作需要花费10个气体。'
 - en: '`SLOAD`: Another stack operation that adds an element to the stack. This takes
     200 gas per operation.'
   id: totrans-294
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`SLOAD`：另一个将元素添加到堆栈的操作。每次操作需要花费200个气体。'
 - en: '`SSTORE`: Stores information into the blockchain directly. This takes anywhere
     between 5,000 to 20,000 gas every operation.'
   id: totrans-295
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`SSTORE`：直接将信息存储到区块链中。每次操作需要花费5000至20000个气体。'
 - en: '`BALANCE`: To get the balance of an Ethereum account or contract. This uses
     400 gas per operation.'
   id: totrans-296
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`BALANCE`：获取以太坊账户或合约的余额。这每次操作使用400个气体。'
 - en: '`CREATE`: To deploy a new smart contract or account. We need 32,000 gas to
     create a new smart contract.'
   id: totrans-297
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`CREATE`：部署新的智能合约或账户。我们需要32000个气体来创建一个新的智能合约。'
 - en: As you can see, storing information in the state variables uses `SSTORE`, which
     costs up to 20k gas. That is very expensive and it's a place to optimize your
     code.
   id: totrans-298
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如您所见，将信息存储在状态变量中使用了`SSTORE`，这会花费高达20k个气体。这非常昂贵，是优化代码的一个地方。
 - en: 'Here are the main optimization techniques that we''ll explore and then explore
     with a real-world example to check the real gas costs:'
   id: totrans-299
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里是我们将探讨并在实际示例中检查真实的气体成本的主要优化技术：
 - en: '**The order of comparison operators**: The order of `&&` and `||` comparison
     operators, where the first condition is always checked, while the second may not
     be checked. For instance, if the second part of an if statement has a much higher
@@ -1974,6 +2091,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**比较运算符的顺序**：`&&`和`||`比较运算符的顺序，其中始终检查第一个条件，而第二个条件可能不会被检查。例如，如果if语句的第二部分比其他部分更有可能为真，则最好将第二部分放在首位，因为在`OR`语句中，这将节省气体，因为它不会在检查其他参数时进行不必要的计算。对于`AND`也是如此：您希望将第一部分作为最有可能为假的部分，因为如果第一部分为假，编译器将不会检查第二部分，您将节省气体，因为每个运算符都有一个气体成本。'
 - en: '**The** `for` **and** `while` **loops that use state variables**: When you
     have a loop that uses an external variable, you want it to use memory variables,
     since they are way cheaper than using storage.'
@@ -1981,6 +2099,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**使用状态变量的** `for` **和** `while` **循环**：当您有一个使用外部变量的循环时，您希望它使用内存变量，因为它们比使用存储更便宜得多。'
 - en: '**Inaccessible** `if...else` **statements**: There are situations where a conditional
     `if...else` won''t ever execute the other part. In those cases, it''s important
     to remove duplicate, redundant, and unreachable code that would consume gas every
@@ -1989,6 +2108,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**不可访问的** `if...else` **语句**：有些情况下，条件`if...else`永远不会执行其他部分。在这些情况下，重要的是要删除重复的、多余的和不可访问的代码，因为每次执行都会消耗气体。'
 - en: '**Limit the size of the variables**: The number after each variable type defines
     its capacity, so a variable with a smaller capacity consumes less gas for the
     simple reason that it won''t need as much blockchain storage: for instance, `uint8`
@@ -1997,6 +2117,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**限制变量的大小**：每个变量类型后面的数字定义了其容量，因此，具有较小容量的变量消耗的气体较少，简单来说，因为它不需要太多的区块链存储：例如，对于较小的变量，使用`uint8`而不是`uint256`。'
 - en: '**Don''t use libraries when possible**: Every time you make a library or an
     external contract call, you''re wasting gas, since you have to create an instance
     of that external contract, which in turn wastes gas. That''s why it''s better
@@ -2007,6 +2128,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**尽量不要使用库**：每次调用库或外部合约时，都会浪费气体，因为您必须创建该外部合约的实例，这又会浪费气体。这就是为什么在部署时将所有代码组合到一个大型智能合约中比创建较小的片段更好，尽管对开发而言很好，但对生产而言则不太好。'
 - en: '**Instead of storing to storage, use memory**: The `memory` keyword after the
     function type tells the compiler to store that information temporarily in the
     local memory instead of writing it to the blockchain.'
@@ -2014,6 +2136,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**使用内存而不是存储**：函数类型后面的 `memory` 关键字告诉编译器将该信息暂时存储在本地内存中，而不是写入区块链。'
 - en: '**Limit balance calls**: Whenever you request the balance of some account,
     you''re spending 400 gas, which can become quite a big number in sizeable contracts.
     Also, remember to store your balance in a memory variable if you''re going to
@@ -2023,6 +2146,8 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**限制余额调用**：每当你请求某个账户的余额时，你会花费 400 gas，这在规模较大的合约中可能会变得非常大。此外，请记住如果你要多次请求余额，则将余额存储在内存变量中，因为一旦存储，你就不必再次使用操作码
+    CREATE。'
 - en: '**Use** `bytes32` **instead of** `string`: String is a much bigger type of
     variable, since it can hold about 1,000 words using all the gas of the transaction.
     It doesn''t have a limit, per se; instead, it''s limited by the gas that you sent.
@@ -2033,10 +2158,14 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**使用** `bytes32` **而不是** `string`：字符串是一种更大的变量类型，因为它可以使用交易的所有 gas 来容纳约 1000
+    个单词。它本身没有限制；相反，它受到你发送的 gas 的限制。越多的 gas，你就可以存储更大的字符串。然而，最好使用 bytes32，因为它更加紧凑，允许你存储多达
+    32 个字符，这对于较短的文本（如姓名）是理想的。'
 - en: 'Let''s see some examples that can be optimized using these techniques:'
   id: totrans-308
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看一些可以使用这些技术进行优化的示例：
 - en: '[PRE46]'
   id: totrans-309
   prefs: []
@@ -2051,6 +2180,9 @@
   id: totrans-310
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如你在前面的合约中所看到的，我们在 `counter()` 函数内部运行了一个 `for` 循环，它只是将 `myNumber` 状态变量按 `_counter`
+    次递增。你能看出可能存在问题的地方吗？主要问题在于，每次循环运行时，我们都会向状态变量写入数据，这意味着我们每次迭代都要花费 5k 到 20k gas，因为
+    `myNumber` 变量是一个状态变量。
 - en: When running the function with `_counter = 5`, the transaction cost is 48,180
     gas and with `_counter = 10`, it costs 74,625 gas. As you can see, the cost quickly
     increased by about 26k gas, which is exactly what we expected from the `SSTORE`
@@ -2058,11 +2190,14 @@
   id: totrans-311
   prefs: []
   type: TYPE_NORMAL
+  zh: 当使用 `_counter = 5` 运行函数时，交易成本为 48,180 gas，当使用 `_counter = 10` 时，成本为 74,625 gas。正如你所看到的，成本很快增加了约
+    26k gas，这正是我们从 `SSTORE` 操作码中预期的，因为我们运行了五次更多的迭代。
 - en: 'To fix the contract, we simply have to create a new local variable that uses
     memory instead of storage:'
   id: totrans-312
   prefs: []
   type: TYPE_NORMAL
+  zh: 要修复合约，我们只需创建一个新的使用内存而不是存储的本地变量：
 - en: '[PRE47]'
   id: totrans-313
   prefs: []
@@ -2076,10 +2211,13 @@
   id: totrans-314
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这种情况下，交易成本从 27,331 增加到 27,681，仅相差 350 gas。正如你所看到的，这是一个巨大的改进，将在成千上万的交易中至少节省一倍的费用。创建经过优化的
+    gas 合约是有意义的。这个例子可以通过将 `uint256` 更改为 `uint8` 或等效类型来进一步改进，以存储更小的变量。
 - en: 'Let''s see another example:'
   id: totrans-315
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看另一个例子：
 - en: '[PRE48]'
   id: totrans-316
   prefs: []
@@ -2095,12 +2233,16 @@
   id: totrans-317
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个函数运行一组带有不同条件的条件语句。在第一个情况中，即 `if (conditionOne && conditionTwo)`，我们可以通过将最有可能为假的条件放在首位来改进代码，因为这样可以节省
+    gas，不进行第二个条件的不必要检查。`&&` 运算符在第一个条件为 false 时不会考虑第二个条件，因为它要求两个条件都为 true，这是有意义的，因此它节省了
+    gas。考虑以下情况，我们定义了每个条件的可能性：
 - en: '`conditionOne` will be true 80% of the time, meaning that after 100 function
     calls, it will be true 80 times'
   id: totrans-318
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`conditionOne` 80% 的时间将为 true，这意味着在 100 次函数调用后，它将为 true 80 次'
 - en: '`conditionTwo` will be true 20% of the time, meaning that after 100 function
     calls, it will be true 20 times'
   id: totrans-319
@@ -2210,11 +2352,13 @@
   id: totrans-332
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后一条建议是，您可以为可能昂贵的功能创建`view`和`pure`函数，因为`pure`和`view`函数不消耗任何气体，因为它们在本地处理计算，所以您可以免费使用计算。例如，如果您想在Solidity中对数组进行排序，您将不得不花费大量的气体，因为每次迭代都会花费气体，但是，如果排序函数是`view`，则不会花费任何气体，因此您可以排序任意数量的数组而不花费气体。
 - en: Making data-efficient smart contracts
   id: totrans-333
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 制作数据高效的智能合约
 - en: 'What I mean by a data-efficient smart contract is just code that is easy to
     read, understand, and manage. State variables are the main component when we talk
     about data efficiency: we want to optimize the maintainability of our code. This
@@ -2225,6 +2369,7 @@
   id: totrans-334
   prefs: []
   type: TYPE_NORMAL
+  zh: 什么是数据高效的智能合约？就是易于阅读、理解和管理的代码。状态变量是数据高效性讨论时的主要组成部分：我们希望优化代码的可维护性。这不仅对开发者之间解释代码很重要，而且对于想要调查智能合约代码实际操作的客户也很重要。正确设置的数据结构将节省人们数小时的头痛，并且将指数级提高代码质量。
 - en: 'Vyper does a fantastic job in this regard, because you can use custom Unit
     Types that are specifically designed to improve readability. It also uses a minimal
     syntax system inherited from Python that helps with the readability of the code.
@@ -2232,6 +2377,7 @@
   id: totrans-335
   prefs: []
   type: TYPE_NORMAL
+  zh: Vyper在这方面做得非常出色，因为您可以使用专门设计的自定义单元类型来提高可读性。它还使用了从Python继承的最小语法系统，有助于提高代码的可读性。一个数据高效的智能合约是什么样子？看看这个例子：
 - en: '[PRE53]'
   id: totrans-336
   prefs: []
@@ -2245,16 +2391,19 @@
   id: totrans-337
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如您所看到的，每个变量上方都有一个简短的注释，以帮助您理解它应该做什么，因为发现可能会因错误原因而被误解的令人困惑的变量并不罕见。每个名称都以简明的命名适当地定义，试图尽可能清楚地解释变量的用途，就像它们提供了关于何时不使用它们的明确理解一样清楚。
 - en: The variable types are the right ones for each variable's purpose, since we
     want to make them gas efficient by maximizing the capabilities of the virtual
     machine without spending unnecessary amounts of gas.
   id: totrans-338
   prefs: []
   type: TYPE_NORMAL
+  zh: 变量类型是每个变量目的的正确类型，因为我们希望通过最大化虚拟机的功能来使它们高效使用气体，而不需要不必要地花费大量气体。
 - en: 'In contrast, here''s what a bad contract would look like:'
   id: totrans-339
   prefs: []
   type: TYPE_NORMAL
+  zh: 相比之下，一个糟糕的合约会是这样的：
 - en: '[PRE54]'
   id: totrans-340
   prefs: []
@@ -2270,6 +2419,7 @@
   id: totrans-341
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，命名过于简单，留下了太多的混乱空间。每个变量上方没有注释帮助您理解它们应该何时使用，用于什么目的以及有什么限制。变量类型也可以改进：与其为名称使用`string`，也许使用`bytes32`更合理，因为对于短文本来说，我们不需要如此大的类型。对于`uint256`，同样的情况也是如此，我们必须考虑减少其大小是否更好。
 - en: In general, we want to provide as much clarification in our contracts as possible.
     To do so, we'll write great descriptions on top of each variable, even when we
     think it's clear enough; we'll use types efficiently to optimize gas costs; and
@@ -2278,12 +2428,14 @@
   id: totrans-342
   prefs: []
   type: TYPE_NORMAL
+  zh: 总的来说，我们希望在我们的合约中提供尽可能多的澄清。为此，我们将在每个变量的顶部编写出色的描述，即使我们认为它已经足够清楚了；我们将有效地使用类型来优化气体成本；我们将简明地命名变量以帮助即将到来的开发者理解合约代码的复杂性。
 - en: Many large smart contracts become too big to understand easily, so it's imperative
     for you to optimize for data efficiency, since it's a great preventive security
     measure for detecting dangerous entry points.
   id: totrans-343
   prefs: []
   type: TYPE_NORMAL
+  zh: 许多大型智能合约变得过于庞大，难以轻松理解，因此，对数据效率进行优化对您来说至关重要，因为这是一项重要的预防安全措施，可用于检测危险的入口点。
 - en: You've just learned how to optimize your smart contracts with simple techniques
     that can save people's Ether by properly understanding opcodes with their costs
     associated, so that you can make better decisions when creating functions that
@@ -2291,11 +2443,13 @@
   id: totrans-344
   prefs: []
   type: TYPE_NORMAL
+  zh: 您刚刚学会了如何通过正确理解与其相关的成本的操作码来优化您的智能合约，以便在创建将由数千其他人执行的函数时，可以做出更好的决策，从而节省人们的以太币。
 - en: Smart contract security analysis
   id: totrans-345
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 智能合约安全分析
 - en: Security in decentralized applications is a must that has to be carefully dealt
     with, since we are dealing with real money from real people that trust the code
     to be secure enough to keep their funds safely. You can't skip security analysis
@@ -2304,6 +2458,7 @@
   id: totrans-346
   prefs: []
   type: TYPE_NORMAL
+  zh: 在去中心化应用中的安全性是必须要仔细处理的问题，因为我们正在处理来自信任代码足够安全以安全保管他们资金的真实人的真实资金。您不能忽略代码中的安全分析，否则将会冒着风险损害他人的资金，因此这是一项巨大的责任。
 - en: That's one of the main reasons securing a smart contract can be so costly in
     time and price. Audits, bug bounties, and code analysis are common for ICO smart
     contracts and those that handle real-world funds. They are naturally expensive
@@ -2312,16 +2467,19 @@
   id: totrans-347
   prefs: []
   type: TYPE_NORMAL
+  zh: 这也是保护智能合约可能如此耗时和昂贵的主要原因之一。对于ICO智能合约和处理真实资金的合约来说，审计、漏洞赏金和代码分析是常见的。它们自然昂贵，因为需要仔细考虑智能合约中所有运动部件。
 - en: Techniques to secure a smart contract
   id: totrans-348
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 保护智能合约的技术
 - en: 'Let''s take a look at some common checks that you want to go through before
     you deploy a smart contract to the Mainnet:'
   id: totrans-349
   prefs: []
   type: TYPE_NORMAL
+  zh: 在部署智能合约到主网之前，让我们来看看一些常见的检查事项：
 - en: '**Overflows and underflows**: Overflowing a number means exceeding the capacity
     of it, thus resetting its value to start counting from zero again. Conversely,
     underflowing is exceeding the number capacity from the negative side, so when
@@ -2337,6 +2495,8 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**溢出和下溢**：溢出意味着超出其容量，从而将其值重置为从零重新开始计数。相反，下溢是从负面超出数字容量，所以当您超出`uint`类型变量的零时，该值会直接跳到该变量的最大值。例如，假设您想在uint8中存储5000：您能安全地做到吗？不，因为uint8的最大数是2
+    ** 8，即255（不是256，因为我们从零开始），因此在存储未知值之前，您将多次超出该类型的容量。如您所知，`uints`不能为负，因此当您尝试在其中存储负数时，它们将下溢。注意这些情况并在适当的位置进行检查，以避免超出数字类型的容量。'
 - en: '**Documentation**: Not documenting your code is not a security risk in itself,
     since documentation has more to do with the fact that you''ll save hours by not
     confusing functions that could be misinterpreted. When you do document your code
@@ -2348,6 +2508,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**文档**：不记录代码并不是一个安全风险，因为文档更多地与您节省时间的事实有关，因为不会混淆可能被错误解释的函数。当您正确记录您的代码时，您可以快速了解它可能失败的地方，这使得在审计代码时更容易维护和更安全。出于这个原因，我始终建议使用NatSpec文档，这是一种使用一些常见参数描述您的函数的方法，这些参数可以很容易地被编译器和开发人员理解。'
 - en: '**Re-entrancy attacks**: You''re probably familiar with this attack, which
     consists of taking advantage of the `delegatecall` function to call external contracts
     to update them in malicious manners. This is very dangerous and must be carefully
@@ -2358,6 +2519,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**重入攻击**：你可能熟悉这种攻击，它利用`delegatecall`函数调用外部合约以恶意方式更新它们。这是非常危险的，必须在看到低级函数如`delegatecall`时仔细分析。你可以通过限制对最重要功能的访问，通过可见性或修饰符来避免它。'
 - en: '**Race conditions**: This type of attack consists of taking advantage of gas
     limitations to run a specific sequence of code repeatedly until you run out of
     gas. It can be prevented by making sure that you reduce state variables before
@@ -2369,17 +2531,20 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**竞争条件**：这种类型的攻击利用了燃气限制来重复运行特定代码序列，直到燃气耗尽。可以通过确保在增加状态变量之前减少它们来预防这种情况。例如，对于一个代币合约，每当你用以太币购买代币时增加你的余额，重要的是在增加你拥有的代币余额之前减少你拥有的以太币数量，以避免重新进入情况。'
 - en: There are many more small security issues that are specific to each individual
     contract. To fix them, you'll have to slowly analyze your smart contract to find
     points where it could lead to potential risks.
   id: totrans-354
   prefs: []
   type: TYPE_NORMAL
+  zh: 有许多与每个单独合约相关的小型安全问题。要修复它们，你需要慢慢分析你的智能合约，找到可能导致潜在风险的地方。
 - en: Summary
   id: totrans-355
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 摘要
 - en: 'In this chapter, you started by getting up to speed to refresh your smart contract
     development skills with a project marketplace of copyrighted content to protect
     users'' content. Then, you explored the depths of the obscure world that is the
@@ -2391,6 +2556,7 @@
   id: totrans-356
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，你首先通过一个版权内容项目市场来提高你的智能合约开发技能，以保护用户的内容。然后，你深入探讨了智能合约世界的深处，了解了它的内部工作原理以及智能合约如何从这一美妙的技术中受益。之后，你了解了以太坊中最强大的技能之一：开发可升级和可扩展的智能合约，这些合约可以用于高级项目，以便你可以高效地运行大型企业的大规模应用程序。
 - en: Next, you learned how data and gas flows in smart contracts so that you're able
     to better manage the consumption of the precious resources available within the
     blockchain limitation, ultimately saving people's money and time with higher quality
@@ -2400,6 +2566,7 @@
   id: totrans-357
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来，你了解了数据和燃气在智能合约中的流动，这样你就能更好地管理区块链限制内可用的宝贵资源的消耗，最终以更高质量的合约节省人们的金钱和时间。最后，你对安全性分析来保护你的代码免受恶意攻击，以使人们的资金完全安全在你的dApps中。
 - en: In the next chapter, you'll explore the wonders of advanced decentralized applications
     by challenging your current understanding of how great dApps are created from
     the ground up. You'll see step-by-step the most efficient way to build stronger
@@ -2407,3 +2574,4 @@
   id: totrans-358
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一章中，你将探索先进的去中心化应用程序的奇迹，挑战你对如何从零开始创建出伟大的dApps的当前理解。你将逐步了解构建规模化项目的更强大的dApps的最有效方法。
