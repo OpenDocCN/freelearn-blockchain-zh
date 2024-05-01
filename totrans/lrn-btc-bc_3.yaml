@@ -1,0 +1,841 @@
+- en: Advanced Blockchain Concepts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we will discuss the advanced concepts of blockchain and the
+    various protocols, challenges, and solutions to it. In the earlier chapters, we
+    looked at the consensus protocol or algorithm as one of the most critical components,
+    or building blocks, of the blockchain. When we speak about blockchain, the first
+    thing that comes to mind is security and the blockchain consensus algorithm. We
+    will look into these challenges and the solutions. From there, we will progress
+    into smart contracts and how they work with the protocols in the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will cover the following advanced concepts of the blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Consensus protocols, which are the running engine of the blockchain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Types of consensus algorithms
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Key challenges in the blockchain to maintain privacy
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Smart contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Distributed applications
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Introduction to consensus protocols
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A consensus algorithm is a process implemented in distributed processes or systems
+    to achieve agreement on some particular data. The blockchain consensus algorithm
+    keeps the ledger transactions synchronized across the network to ensure that ledgers
+    are only updated when the appropriate participating board approves transactions
+    and, when ledgers are updated, they are updated with the same transactions in
+    the same order. This process is called a **consensus**, and the protocol program
+    that keeps this running is the consensus algorithm. That is why a consensus is
+    considered to be the running engine or heart of blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So, consensus primarily establishes a strong technology infrastructure layer
+    for the blockchain, which makes it the most critical part. It ensures that every
+    next block that gets added to the blockchain is the one and only true version
+    and that there are no other blocks that represent another version. It also safeguards
+    the entire blockchain against powerful adversaries that may potentially derail
+    it and cause it to fail to maintain its integrity. In short, for a blockchain
+    network, achieving consensus ensures that all nodes in the network agree upon
+    the consistent global state of the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Properties of consensus mechanism
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A consensus protocol has the following few key properties, which determine
+    its applicability and efficacy:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Safety**: According to the rules of the protocol, if all nodes produce the
+    same output and the outputs produced are valid, the consensus protocol is determined
+    to be safe. This is also referred to as the consistency of the shared legislature.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Liveness**: The liveness of a consensus protocol is guaranteed if all the
+    faulty nodes participating in the consensus eventually produce a value.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Tolerance**: A consensus protocol provides fault tolerance if it can recover
+    from failure often or participate in a consensus.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Non-repudiation**: This provides the means to verify that the supposed sender
+    really sent the message.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Decentralized consensus**: A single central authority cannot provide transaction
+    finality. Hence, the consensus must be of a decentralized nature.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Quorum structure**: Nodes exchange messages in predefined ways, which may
+    include several stages or tiers at the same time.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Authentication**: The consensus process provides the means to verify the
+    participants'' identity.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Integrity**: The process enforces the validation of the transaction integrity.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: While all the preceding properties are crucial, a famous result by Fisher, Lynch,
+    and Peterson, known as the **FLP Impossibility Result**, states that no deterministic
+    consensus protocol can guarantee safety, liveness, and fault tolerance all together
+    in an asynchronous system. Although fault tolerance is crucial for globally distributed
+    networks to operate, depending on their system requirements and assumptions, distributed
+    systems tend to choose between safety and liveness.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Byzantine Generals' Problem
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In a distributed system, faults are categorized into the following two types:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Fail-stop faults**: These are benign faults that cause nodes to stop participating
+    in the consensus protocol due to hardware or software crashes. The nodes will
+    stop responding when the fail-stop fault occurs.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Byzantine faults**: These are faults that cause nodes to behave erratically.
+    Leslie Lampert also identified and characterized this category of fault as the
+    **Byzantine Generals'' Problem**.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The Byzantine Generals' Problem is conceptualized on the basis of a situation
+    where a group of generals, each commanding a part of the Byzantine army, have
+    surrounded an enemy fort. To successfully attack and take over the fort, all the
+    generals have to agree on a common battle plan and generals can communicate through
+    messengers (horse riders or runners) only. But, there is a possibility that these
+    messengers might get captured by the enemy and the message might never reach the
+    other generals. Moreover, the difficulty in reaching an agreement is that one
+    or more generals might be traitors and might possibly be interested in sabotaging
+    the whole battle plan. Being traitors, they might send false messages, distort
+    messages, or not send any message at all. But all loyal generals will act accordingly
+    to the plan. In short, a small number of traitors should not cause the loyal generals
+    to adopt a bad or a wrong plan. With this example, we can see that the Byzantine Generals'
+    Problem is a typical challenge for a distributed and decentralized system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Solution to the Byzantine Generals' Problem
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Distributed systems now have a traditional consensus approach that focuses on
+    building fault tolerance in the face of unreliable systems, provisioning mainly
+    for fail-stop faults. Some examples of the Byzantine General's Problem are **Paxos**,
+    **Raft**, and **Viewstamped** replication. The traditional consensus approach is
+    used for putting an order of transactions in the distributed databases, to order
+    client-generated requests and other respective stage changes which take place
+    in distributed applications by using replicated state machines. The number of
+    nodes needed in such networks is `2 f + 1` to be able to tolerate `f` fail-stop
+    failures. Tolerating Byzantine faults increases the complexity of the consensus
+    protocol by adding several extra layers of messaging to the system. All these
+    solutions carry overhead and add more complexity, making them practically impossible.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Practical Byzantine Fault Tolerance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The approach that allowed for Byzantine fault-tolerant applications with low
+    overhead was **Practical Byzantine Fault Tolerance** (**PBFT**). PBFT was first
+    proposed by Miguel Castro and Barbara Liskov in 1999\. PBFT can process an enormous
+    number of direct P2P messages with minimal latency. To be able to tolerate `f` faults
+    in the system, PBFT needs `3f + 1` replicas. So, PBFT uses the concept of primary
+    and secondary replicas, where the secondary replicas automatically check the sanity
+    and liveness of decisions taken by the primary, and can collectively switch to
+    a new primary if the primary is found to be compromised. Each node maintains an
+    internal state. Upon receiving a message, the respective node uses the message,
+    in conjunction with the internal state, to run a computation or operation. This
+    directs the node as to what to do or think about the message it received. Once
+    the node reaches an individual decision about the respective message, it propagates
+    this decision with all other nodes participating in the system. A consensus decision
+    is arrived at, based on decisions propagated by all the participating nodes. This
+    mechanism of arriving at a consensus requires less effort and adds less overhead
+    than the other methods.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Types of consensus algorithms
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following three consensus algorithms or protocols are used in the majority
+    of blockchain platforms:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: PoW
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: PoS
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: PoET
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'We will also do a quick comparison of these three, in the later sections. Before
+    we look at these different consensus algorithms, let''s take a look at the reasons
+    behind the variety of algorithms. The following are some of the reasons for that
+    variety:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Business need**: Business demands drive which algorithm to use.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Use case**: The use case for using a public or private blockchain influences
+    which algorithm will be used.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Token need**: Not every business case needs to use tokens or cryptocurrencies,
+    and may just want to use the underlying blockchain with a consensus.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Security and privacy**: Security requirements may vary, and the same goes
+    for privacy. Some may want a public blockchain, while others may prefer private
+    ones.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Performance**: Public blockchains may need more time to arrive at a consensus,
+    while private ones may do it faster.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Robustness**: Banking use cases may demand extremely high cryptography and
+    consensus algorithms, as compared to others.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Proof of Work
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The PoW algorithm, also used by Bitcoin, is the best known method of achieving
+    a consensus on a blockchain. To achieve a consensus in PoW, unlike PBFT, the submission
+    of individual conclusions is not required from all the nodes in the network. Instead,
+    PoW uses a hash function to create conditions that allow a single/individual participant
+    to announce their conclusions about the submitted information, which are then
+    verified by all the other system participants. The hash function has a parameter
+    that ensures false information will fail to compute in an acceptable way to prevent
+    any false conclusions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Participants in the Bitcoin system, who publicly verify information on behalf
+    of the network, are rewarded with a newly created Bitcoin. This process of searching
+    for valid hashes for the verification of information is called **mining**. This
+    system of rewarding participation in the network allows broad participation, which
+    results in building a more robust network and a safer blockchain. This broad participation
+    ensures greater network stability with minimal requirements for each participant
+    and allows participants to remain anonymous.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Challenges with PoW
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Although PoW has its benefits, besides being the best known method, it also
+    has its own inherent challenges. Nodes need to use real-world resources, such
+    as computers and electricity. It takes a lot of power to run the computers, or
+    clusters of computers, that calculate different potential solutions, which from
+    an ecological standpoint isn't ideal and it is bad for the environment as well.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The nodes need a lot of computing hardware to reach a consensus and such hardware
+    is really expensive. There is a possibility of miners moving their hardware to
+    mine a different coin or an old coin if the reward is better there. In this case,
+    miners and nodes are less loyal. PoW incentivizes the consensus process, which
+    is a motivation for miners to mine blocks and earns rewards. However, with the
+    maximum capacity of 21 million Bitcoins, with more and more points being released
+    over a period of time, miners' rewards will come down as coins become harder to
+    mine. This may lead to demotivation for miners to continue mining, which might
+    challenge the overall consensus.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The fact that you need a serious amount of computing power, more than the average
+    person could afford or would even be able to work with, means the mining community
+    is getting smaller and more exclusive. This goes against the idea of decentralization
+    and could potentially lead to a 51% attack.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proof of Stake
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: PoS is the most common alternative to PoW for verifying and validating the transactions
+    on the block. In this type of consensus algorithm, instead of investing in expensive
+    computer equipment in a race to mine blocks, a validator invests in the coins
+    in the system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Note the term validator, because no coin creation or mining takes place in PoS.
+    Instead, all the coins exist from day one and validators, also called stakeholders,
+    are paired strictly in transaction fees only.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In PoS, the selection of individuals for the approval of new messages to confirm
+    the validity of new information submitted to the database is done in a more deterministic
+    way. This selection is done by the network on the proportional stake of each individual
+    in the network. In PoS, your chance of being picked to create the next new block
+    depends on the fraction of coins in the system you own or have to set aside as
+    a stake. For example, a validator with 500 coins will be five times as likely
+    to be chosen as someone with 100 coins.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Switching to PoS could help to encourage more community participation as well
+    as aid decentralization. Taking mining out of the hands of the few pools of GPU
+    farms doing the bulk of the mining, which somewhat resembles an oligopoly, and
+    then distributing it evenly across the network, should lead to a more real decentralized
+    system. Naive PoS algorithms suffer from a problem of keeping nothing at stake.
+    It doesn't punish actors for validating more than one history, meaning the network
+    could easily disagree on the real history. A participant with nothing to lose
+    or with no stake involved has no reason not to behave badly. These implementations
+    do not provide incentives for nodes to vote on the correct block. Therefore, nodes
+    can vote on multiple blocks, supporting multiple forks, to maximize their chances
+    of winning a reward, as they do not expend anything in doing so. This nothing-at-stake
+    problem needs to be tackled for the correct and efficient implementation of PoS.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proof of Elapsed Time
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: PoET is a consensus algorithm similar to PoW which it consumes far less electricity,
+    that Intel has developed for their own use. The algorithm uses a **t****rusted
+    execution environment** (**TEE**), such as **Software Guard Extensions** (**SGX**),
+    to ensure blocks get produced in a random lottery fashion without any work done,
+    instead of having participants solve a cryptographic puzzle. This approach is
+    based on a guaranteed rate time provided through the TEE. According to Intel,
+    the PoET algorithm scales to thousands of nodes and will run efficiently on any
+    Intel processor that supports SGX. A major drawback for PoET is the requirement
+    to always put your trust in Intel, when moving away from putting trust in third-parties
+    is the fundamental reason for the public blockchain. This algorithm can be looked
+    at as another alternative approach.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Comparison between PoW, PoS, and PoET
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We will now compare the three consensus algorithms that we have seen for a
+    better understanding, and weigh them against certain parameters. The following
+    table shows the state of respective consensus algorithms for each parameter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Parameters** | **PoW** | **PoS** | **PoET** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Blockchain type | Permissionless | Both | Both |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Transaction finality | Probabilistic | Probabilistic | Probabilistic |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Transaction rate | Low | High | Medium |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Token needed | Yes | Yes | No |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Cost of participation | Yes | Yes | No |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Scalability of peer network | High | High | High |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Trust model | Untrusted | Untrusted | Untrusted |'
+  prefs: []
+  type: TYPE_TB
+- en: 'Now, let''s discuss the preceding table:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Blockchain type**: This indicates the type of blockchain platform, permission
+    or permissionless, in which the consensus model can be used. This is mainly governed
+    by the type of membership allowed by the consensus model. While PoW models are
+    built exclusively for the permissionless platform with open-ended participation,
+    they can technically be used with permission platforms but won''t be ideal in
+    that setting. PoS and PoET, by design, can work in both function types.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Transaction finality**: This indicates whether the transaction, once added
+    to a block in the blockchain, is considered final. PoW- and PoET-based consensus
+    models carry the risk of multiple blocks being mined at the same time due to their
+    model of leader relationship in combination with network latency.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Transaction rate**: Platforms that can confirm transactions immediately and
+    reach a consensus quickly have a higher transaction rate. PoW approaches are probabilistic
+    and have to spend a significant amount of time-solving a cryptographic puzzle.
+    Therefore, these models have high transactional latencies, hence a low transaction
+    rate.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Token needed**: As the designs are based on the existence of a token, a cryptographic
+    token is inherently required for PoW and PoS models, whereas PoET models do not
+    require a token for a consensus to be achieved.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Cost of participation:** There are inherent costs associated for PoW and
+    PoS to participate in a consensus. To develop the security deposit to declare
+    interest and bond with the platform, PoW requires expending energy, which is a
+    resource that is external to the consensus protocol, while PoS requires nodes
+    to buy some initial cryptocurrency.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Scalability of peer network**: The scalability of the consensus model is
+    its ability to reach consensus when the number of peer nodes is constantly increasing.
+    All models summarized previously have high scalability.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Trust model**: This determines whether the nodes participating in the consensus
+    have to be known or trusted. In PoW, PoS, and PoET, nodes can be untrusted as
+    the mechanism to reach consensus is based on other means, such as computational
+    work or security deposits. As long as more than 25 to 50% of the network is not
+    adversarial, consensus decisions will not be effective.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'There is one more parameter that is not listed here, which is **adversary tolerance**:
+    that is the fraction of the network that can be compromised without the consensus
+    being affected. Each consensus model has a certain threshold or true adversary
+    tolerance.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Key privacy challenges of the blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's take a look at some general challenges regarding privacy in blockchain
+    and the solutions to overcome those challenges. Eric Hughes, cofounder of the
+    Cyberpunk Movement, UC Berkeley, and a well-known mathematician, said in 1993
+    that privacy in an open society requires anonymous transaction systems. Until
+    now, cash has been the primary system. An anonymous system empowers individuals
+    to reveal their identity when desired, and only when desired. But, is this the
+    case with Bitcoin and public blockchain? There is a popular delusion that Bitcoin
+    is anonymous and untraceable. It's an understandable mistake, given Bitcoin's
+    popular use case, which was the infamous Silk Road we covered in earlier chapters.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The FBI was able to trace and expose people involved in this case with the
+    help of immutability in the Bitcoin blockchain. However, we must not ignore that
+    they were able to trace the flow of currency and single out the exact person they
+    sought. The truth is that Bitcoin is indeed pseudonymous and traceable. Every
+    transaction in Bitcoin maps the inputs to the outputs, allowing anyone to follow
+    the money in a very trivial manner. Satoshi Nakamoto in his white paper defined
+    Bitcoin as a history of its custody. In 2009, he stated the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*"We define an electronic coin as a chain of digital signatures."*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Pseudonymous behavior of Bitcoin
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Pseudonymity is when we arrive at a relationship with some entity without disclosing
+    the individual identity of that entity. A pseudonym refers to a unique alternative
+    identifier, such as the nickname of a person, credit card number, student number
+    from college, and bank account number. Using a pseudonym, you can tag various
+    messages and transactions from the same entity by making a group of these transactions.
+    Pseudonyms are widely used in social networks and other virtual communication
+    channels. For example, any customer care representative introduces himself or
+    herself with a pseudonym, instead of revealing their original name; this is pseudonymity.
+    Twitter handles and Facebook accounts, for example, are classic examples of pseudonyms.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We must remember that while using pseudonymity, one cannot be identified but
+    can still be singled out, and that''s what poses a challenge in privacy for blockchain. Let''s
+    take a look at the following challenges:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Public blockchain ledger**: Since the public blockchain ledger is available
+    for anyone, some addresses can be grouped by their ownership, using behavioral
+    patterns and publicly available information from outside blockchain sources.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Wallet address**: The wallet address reuse links your transactions together
+    into a single profile.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**IP address reuse**: IP address reuse also hints to the world that a single
+    party, such as you or me, controls various addresses.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Combining inputs from multiple transactions**: This reveals the set of addresses
+    you control.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Using lite clients**:If you''re using lite clients, not really strictly written
+    clients, these are effectively revealing to a third-party your full set of addresses
+    and whatnot.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Bitcoin addresses clustering as another famous technology stack, which poses
+    a challenge for deanonymizing  Bitcoin address users. It does so while addressing
+    all addresses generated by a single user, via analysis of information derived
+    from the blockchain. It can then be observed that the P2P network represents other
+    information sources that aid in the deanonymization of Bitcoin users. Combining
+    these two together can easily assist Bitcoin address clustering and help in identifying
+    individuals. In some cases, it can also help in correlating all transactions of
+    the file user. At the same time, there are many companies in the world today that
+    are building businesses around blockchain. As the network increases, these companies
+    gain a lot of importance because incentives to track the flow of such capital
+    becomes stronger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Solutions to privacy challenges
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's look at some of the solutions that can help deal with the privacy challenges
+    posed by public blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: CoinJoin
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: CoinJoin is an anonymization method for Bitcoin transactions proposed by Gregory
+    Maxwell. It is a method of Bitcoin transaction compression, which aims to improve
+    privacy by discarding unnecessary information. A CoinJoin transaction is one where
+    multiple people agree to form a single transaction where some of the outputs have
+    the same value. All parties come together over some anonymous channel and each
+    of them provides a destination address, which belongs to them. One of the party
+    creates a transaction, which sends one coin to each destination address. All parties
+    log out and then separately log in to the channel, and each contributes one coin
+    to the account from which the funds will be paid out. If `X` number of coins is
+    paid into the account, they are distributed to the destination addresses; otherwise,
+    they are refunded. Some popular examples of CoinJoin implementations are SharedCoins,
+    Dark Wallets, CoinShuffle, and Dash.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ring signatures
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Ring signatures are a technically complicated technology but are extremely promising
+    and help to achieve token anonymization and to identify applications. Essentially,
+    a ring signature is something that proves that the signer has a private key corresponding
+    to one of a specific set of public keys, but does not reveal which one it is.
+    It is composed of the actual signer, who is then combined with the nonsigner to
+    form a ring. The actual signer and nonsigner in this ring are both considered
+    to be equal and valid. The actual signer is a one-time use key thing that corresponds
+    with an output being sent from the sender's wallet. The nonsigners are outputs
+    from past transactions that are drawn from the blockchain. These past transaction
+    outputs function as a decoy in the ring signature transaction by forming part
+    of the input of a transaction. All the inputs appear equally as likely to be the
+    output being spent in a transaction from outside the ring.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For example, if Dan wishes to send one Monero to Melissa with a ring size value
+    of five, one of the five inputs will be pulled from Dan's wallet, which will then
+    be added to the ring signature transaction. The other four inputs are past transaction
+    outputs that are pulled from the blockchain. These four inputs are decoys and,
+    when fused with the input from Dan's wallet, form a group of five possible signers,
+    making a ring of those five. A third party would not be able to determine which
+    input was actually signed by Dan's one-time use key. However, with the use of
+    a key image, the network is able to verify that the asset or coin being transferred
+    to Melissa has not been spent before. Monero is the best example that uses the
+    ring signature mechanism.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Zero-knowledge proof
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Another technology that has very powerful properties to solve privacy challenges
+    is **zero-knowledge proof** (**ZKP**). ZKP allows a user to construct a mathematical
+    proof so that, when a program is executed on some hidden input known only to that
+    user, it has a particular publicly known output, but without revealing any other
+    information beyond this. **Zero-Knowledge Succinct Non-Interactive Argument of
+    Knowledge** (**Zk-SNARKS**) is an even stronger technology in the ZKP protocol.
+    It is proof that something is true without revealing anything about what specifically
+    makes it true. Zcash is the first ever cryptocurrency that maintains total anonymity.
+    It uses a Zk-SNARKS cryptography implementation. It provides complete anonymity
+    by hiding all knowledge about the transactions. It provides users with a private
+    access control of their specific financial information. It also uses a concept
+    called a **view key**. Users can provide this view key to individuals to get details
+    of the transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contracts and decentralized applications
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We discussed Bitcoin and blockchain in earlier chapters, and how this entire
+    technology is the next big innovation after the internet. Besides all the unique
+    features of the blockchain, such as immutability, cryptography, and security,
+    smart contracts make blockchain an even more innovative technology. Besides the
+    P2P network and private key cryptography, blockchain program is something that
+    governs the execution of money flow in a programmatic manner. These programs are
+    a kind of smart contract that remains at the core of blockchain. If you look at
+    a typical standard contract agreement between two parties, it basically dictates
+    the terms of a relationship, where these terms or relationships are then usually
+    enforced by legal entities. On the other hand, smart contracts enforce their relationships
+    with smart code written using cryptographic techniques. In simple words, smart
+    contracts are programs that execute themselves exactly in the way written by their
+    creators or programmers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This concept was first conceptualized in 1993 by Nick Szabo, a famous computer
+    scientist and cryptographer. He made the analogy of a digital vending machine
+    and explained how users could input anything, such as data or a value, and receive
+    a specific item, similar to a real-world snack or soft drink that we could get
+    from a vending machine. In the case of blockchain, the user would create a smart
+    contract by writing a program and pushing the data to that contract so that it
+    could execute the desired command.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Smart contracts are at the core of blockchain technology. These are programs
+    written in Turing-complete programming languages and are capable of self-verifying
+    and self-executing agreements that can function autonomously or without any external
+    intervention. In layman's terms, if we consider Bitcoin as digital money, a smart
+    contract is highly programmable digital money. A smart contract is a piece of
+    code that is stored in the blockchain, is triggered by the blockchain transactions,
+    and which then reads or writes data from/to that blockchain's database.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The network of nodes will only validate transactions if certain conditions are
+    met, but Bitcoin is limited to dealing only with the currency use case. But, what
+    about many nonfinancial use cases or even financial use cases where money is not
+    a center point but is involved at the triggering point? Ethereum, one more variant
+    of blockchain that was forked from Bitcoin and modified further, replaced Bitcoin's
+    restricted language with a Turing-complete, more robust language that allows for
+    the writing of extensive smart contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Workings of smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now, let''s look briefly at the following factors and conditions that trigger
+    the working of a smart contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Agreement**: An option contract between two or more parties is written, coded,
+    and deployed on the blockchain platform. The individual parties involved can remain
+    anonymous, but the contract is written in the public ledger and remains unchanged.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**The triggering or execution point**: Any triggering event, be it within the
+    blockchain or outside of the blockchain, gets the contract into execution according
+    to the coded terms. A triggering event, for example, could be an expiration date
+    or a renewal date of a contract, a particular price being hit on an exchange,
+    or some cut-off rate being reached on our system.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Outcome**: The execution of a smart contract can produce an outcome that
+    will change the state of a transaction, or the state of the blockchain for that
+    matter, for example, a cash ledger. It may also impact on other systems as well.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Transparency**: This is another important aspect of contracts. These contracts
+    are immutably available on the blockchain. Regulators can use these on blockchain
+    to understand the activity of the market while maintaining the privacy of the
+    individual parties involved.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Now, let''s look at an example of writing a contract. The following are the
+    steps to follow to start:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Create a new file and name it `sample.sol`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Next, open the file to begin writing the code, as shown in the following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/8e3c48b3-5fe7-4be3-ab89-75fdd6668d09.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: B11516_3_03
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s see the steps covered in the preceding code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, let's declare the version of Solidity we'll use, which is `pragma solidity^0.4.17`.
+    This allows the Ethereum platform to compile the contract in a specific version.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, let's declare a contract and name it `Welcome`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Next, let's declare two instance table variables in this contract. One is the `contractOwner` address.
+    This will capture the address or the account of the owner of this contract, who
+    is going to deploy the contract on the Solidity platform.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Next, we declare a `greetMsg` string, which we capture from the contract's owner.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Now, we declare a `Welcome` function. Whenever the contract gets deployed on
+    the Ethereum platform, this instance or function gets called publicly.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Next, we pass the `_greetMsg` string in this function. We will also make this
+    a public contract.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Next, we assign the `contractOwner` variable its value: `contractOwner = msg.sender`.
+    So, whoever has called this function will actually be the message owner, who has
+    a right to create this contract.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Likewise, we also assign the value of `greetMsg` as `greetMsg = _greetMsg`.
+    So, what we have done here is we have created a  constructor function called `Welcome`,
+    which gets called when the contract gets deployed on the Ethereum platform.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we declare one more function called `sendGreeting()`, which will return
+    a string-type variable, `greetMsg`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: To see one more function, let's convert `public returns(string)` to a void view
+    function by adding the `public view returns(string)` view.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: We can slightly tweak this function to become a condition: `if message.sender
+    == contractOwner`. This will return `Hello Mr. Owner why you need to be greeted!` to
+    the owner, or else it will return `greetMsg`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Again, we will declare one more public function called `killContract()`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we give a condition, `if message.sender == contract Owner`, and assign
+    a task, `selfdestruct(this)`. So, unless the owner of the contract calls this
+    kill contract function, it will disturb the contract from the Ethereum platform.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: This is very important so you can decide the conditions in which you want to
+    resolve the contract from the platform. So, there you can have a time-bound contract
+    being created there.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So, that was an example of how you write detailed smart contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Decentralized applications
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Since its inception, the application of the blockchain has already increased
+    a lot of expectations from every industry and it also promises to be more prevalent
+    in most innovative technologies. It has a lot to offer in terms of immutability,
+    security, cryptography, distributed ledgers, and so on. We should not ignore the
+    fact that blockchain can solve specific issues with immutability, transparency,
+    anonymity, and security. However, it has its own challenges as well, for example,
+    the speed of a consensus required, the time required to arrive at a consensus,
+    and the replication time across the public ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Challenges and solutions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We have already covered decentralized applications in the previous chapter.
+    Dapps are not owned by anyone, cannot be shut down, and cannot have downtime.
+    So, whenever we want to build a Dapp, we need to keep some considerations in mind,
+    such as that a Dapp has to be a completely open source and operate autonomously,
+    with no entity in charge of the majority of its currency. It has to have protocol
+    changes that are designed to make some overall improvements, approved by all users.
+    It cryptographically stores all of its operations data in a public blockchain,
+    and most importantly, it has to incentivize. You truly need to have a consensus among
+    miners to arrive at a consensus. There has to be some motivation for miners at
+    the same time. If the objective is just to use bring about decentralization, then
+    there are many other ways to achieve it, such as BitTorrent.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So, while blockchain is still evolving and there are many new things being derived,
+    making it more and more mature, we as an entire community need to avoid abusing
+    this technology by not using it everywhere. Rather, there has to be a thorough
+    analysis of a technological, architectural, and design basis as to when and why
+    to use blockchain as a solution to solve a problem. We must not think that it
+    is a one-stop solution that fits all problems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned about some of the advanced concepts used in blockchain
+    and covered various consensus protocols used in various blockchain implementations.
+    We also looked at some of the key challenges to privacy on blockchain and how
+    solutions such as ZKP can help safeguard privacy. Then, we progressed to discussing smart
+    contracts, one of the core building blocks of blockchain; how they are written;
+    what they are; and how they are executed. We also looked at Dapps, when to use
+    them, and when not to use them. In the next chapter, we will look at some of the
+    general practices used to safeguard Bitcoin and cryptocurrencies in general.
+  prefs: []
+  type: TYPE_NORMAL
