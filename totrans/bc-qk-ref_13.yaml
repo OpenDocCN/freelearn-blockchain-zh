@@ -1,658 +1,974 @@
 - en: Solidity 101
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Solidity 101
 - en: In the previous chapters, we learned about Ethereum in detail. We read about
     the Ethereum network, clients, gas, Ethereum virtual machine, and other elements
     of the Ethereum blockchain. One of the interesting facts about Ethereum is that
     anyone can create their own blockchain using Ethereum.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前几章中，我们详细了解了以太坊。我们了解了以太坊网络、客户端、燃气、以太坊虚拟机和以太坊区块链的其他元素。有关以太坊的一个有趣事实是，任何人都可以使用以太坊创建自己的区块链。
 - en: Ethereum runs smart contracts on its platform; these are applications that use
     blockchain technology to perform the required action, enabling users to create
     their own blockchain and also issue their own alternative cryptocurrency. This
     is made possible by coding in **Solidity**, which is a contract-oriented programming
     language used for writing smart contracts that are to be executed on the Ethereum
     blockchain and perform the programmed tasks.
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊在其平台上运行智能合约；这些是利用区块链技术执行所需操作的应用程序，使用户能够创建自己的区块链并发行自己的另类加密货币。这是通过使用 **Solidity**
+    编码实现的，它是一种用于编写将在以太坊区块链上执行并执行程序化任务的智能合约的合约导向编程语言。
 - en: Solidity is a statically typed programming language that runs on the Ethereum
     virtual machine. It is influenced by C++, Python, and JavaScript, was proposed
     in August 2014 and developed by the Ethereum project's solidity team. The complete
     application is deployed on the blockchain, including smart contract, frontend
     interface, and other modules; this is known as a **DApp** or a **Decentralized
     Application.**
+  id: totrans-3
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 是一种静态类型的编程语言，运行在以太坊虚拟机上。它受到 C++、Python 和 JavaScript 的影响，于 2014 年 8
+    月提出，并由以太坊项目的 Solidity 团队开发。完整的应用部署在区块链上，包括智能合约、前端界面和其他模块；这被称为 **DApp** 或 **分散式应用**。
 - en: 'We will be covering following topics in this chapter:'
+  id: totrans-4
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将在本章中涵盖以下主题：
 - en: Basics of solidity
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Solidity 基础知识
 - en: Layout of a Solidity file
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Solidity 文件的布局
 - en: Structure of a smart contract
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 智能合约的结构
 - en: Variables and functions
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 变量和函数
 - en: Value types
+  id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 数据类型
 - en: Reference types
+  id: totrans-10
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 引用类型
 - en: Key to value mapping
+  id: totrans-11
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 键值映射
 - en: Basics of Solidity
+  id: totrans-12
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Solidity 基础知识
 - en: 'Solidity is not the only language to work on Ethereum smart contracts; prior
     to solidity, there were other languages that were not as successful. Here is a
     brief list of languages currently (as of August 2018) compatible with Ethereum:'
+  id: totrans-13
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 并不是唯一用于以太坊智能合约的语言；在 Solidity 之前，还有其他语言，但它们并不成功。以下是当前（截至 2018 年 8 月）与以太坊兼容的语言的简要列表：
 - en: '**Mutan**: Inspired from Golang and deprecated in March 2015.'
+  id: totrans-14
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Mutan**：受 Golang 启发，于 2015 年 3 月被弃用。'
 - en: '**LLL**: Short for lisp-like language. While it is still supported, it is rarely
     used.'
+  id: totrans-15
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**LLL**：Lisp-like 语言的缩写。虽然它仍然受支持，但很少使用。'
 - en: '**Serpent**: While this language is similar to Python, it is no longer recommended
     for use.'
+  id: totrans-16
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Serpent**：虽然这种语言类似于 Python，但不再推荐使用。'
 - en: '**Solidity**: The fourth language introduced by the Ethereum foundation, and
     so far the most successful language for developing smart contracts. It is the
     most documented, stable, and has a large community support.'
+  id: totrans-17
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Solidity**：以太坊基金会引入的第四种语言，迄今为止最成功的用于开发智能合约的语言。它是最有文档记录、最稳定且拥有庞大社区支持的。'
 - en: '**Vyper**: Newly introduced, much simpler and easier than Solidity, although
     it does not have much community support yet. It is influenced by Python.'
+  id: totrans-18
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Vyper**：新引入的，比 Solidity 简单易懂得多，尽管它目前没有太多社区支持。它受 Python 的影响。'
 - en: 'Solidity is also known as a contract-oriented language, since contracts are
     similar to classes in object-oriented languages. The Solidity language is loosely
     based on ECMAScript (JavaScript); hence, a prior knowledge of the same would be
     helpful in understanding Solidity. Here are some tools required to develop, test,
     and deploy smart contracts programmed in Solidity:'
+  id: totrans-19
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 也被称为合约导向语言，因为合约类似于面向对象语言中的类。Solidity 语言 loosely 基于 ECMAScript（JavaScript）；因此，了解
+    ECMAScript 将有助于理解 Solidity。以下是开发、测试和部署以 Solidity 编写的智能合约所需的一些工具：
 - en: '**TestNet**: The choice of TestNet to work on, the specified network ID to
     be used.'
+  id: totrans-20
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**测试网**：选择要工作的测试网，要使用的指定网络 ID。'
 - en: '**Compiler**: Choosing the required compiler, for example `solc`, is a solidity
     compiler; it is included in most of the nodes and also available as a standalone
     package.'
+  id: totrans-21
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**编译器**：选择所需的编译器，例如 `solc`，它是 Solidity 编译器；它包含在大多数节点中，并且还作为一个独立的软件包提供。'
 - en: '**Web3.js**: The library that helps in the connection between the Ethereum
     network and our DApp via HTTP or the IPC network connection.'
+  id: totrans-22
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Web3.js**：连接以太坊网络和我们的 DApp 的库，通过 HTTP 或 IPC 网络连接。'
 - en: '**Framework**: It is important to choose a framework from those available for
     contract compilation and the deployment and other tasks. Some of the frameworks
     used are Truffle, Embark, Dapple, and others.'
+  id: totrans-23
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**框架**：从可用于合约编译、部署和其他任务的框架中选择一个是很重要的。一些常用的框架包括 Truffle、Embark、Dapple 等。'
 - en: 'Apart from the crucial tools we''ve already mentioned, there are also various
     other tools that help in the development of a smart contract to be run on an Ethereum
     blockchain for tasks such as understanding the contract flow, finding security
     vulnerabilities, running the test application, writing documentation, and so on.
     Take a look at the following diagram:'
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: 除了我们已经提到的关键工具之外，还有各种其他工具可用于开发在以太坊区块链上运行的智能合约，例如理解合约流程、发现安全漏洞、运行测试应用程序、编写文档等等。请看下面的图示：
 - en: '![](img/0dce9deb-3c70-47f4-95b8-e87bf4ba03fd.png)'
+  id: totrans-25
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/0dce9deb-3c70-47f4-95b8-e87bf4ba03fd.png)'
 - en: The basics of working on Solidity
+  id: totrans-26
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在 Solidity 上工作的基础知识
 - en: If you program regularly, you are already aware of code editors or **Integrated
     Development Environments** (**IDEs**). There is a list of integrations available
     for various IDEs already present; apart from this, Ethereum foundation has also
     released a browser-based IDE with integrated compiler and a Solidity runtime environment,
     without the server components for writing and testing smart contracts. It can
     be found at [remix.ethereum.org](http://remix.ethereum.org).
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你经常编程，你应该已经了解到代码编辑器或**集成开发环境**（**IDE**）。目前已经有一系列各种IDE的集成工具列表；除此之外，以太坊基金会还发布了一个基于浏览器的IDE，其中包含了集成编译器和Solidity运行环境，无需服务器组件即可编写和测试智能合约。你可以在
+    [remix.ethereum.org](http://remix.ethereum.org) 找到它。
 - en: Using the compiler
+  id: totrans-28
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用编译器
 - en: 'For small and learning-based DApps projects, it is suggested to work on the
     browser-based compiler by the Ethereum foundation: **Remix**. Another way is to
     install the Solidity compiler on to your machine. `solc` can be installed from
     `npm` using the following command:'
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于小型和基于学习的 DApps 项目，建议使用以太坊基金会的基于浏览器的编译器：**Remix**。另一种方法是将Solidity编译器安装到您的计算机上。可以使用以下命令从
+    `npm` 安装 `solc`：
 - en: '[PRE0]'
+  id: totrans-30
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: Solidity can also be built from the source by cloning the Git repository present
     on the GitHub link: [https://github.com/ethereum/solidity.git](https://github.com/ethereum/solidity.git).
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 也可以通过克隆 GitHub 链接上的 Git 存储库来构建：[https://github.com/ethereum/solidity.git](https://github.com/ethereum/solidity.git)。
 - en: Programming in Solidity
+  id: totrans-32
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在 Solidity 中编程
 - en: In this section, we will be discussing the structure and elements of a Solidity
     source file; we will discuss the layout, structure, data types, its types, units,
     controls, expressions, and other aspects of Solidity. The format extension of
     a solidity file is `.sol`.
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本节中，我们将讨论Solidity源文件的结构和元素；我们将讨论布局、结构、数据类型、类型、单位、控件、表达式以及Solidity的其他方面。Solidity文件的格式扩展名是`.sol`。
 - en: Laying out a Solidity file
+  id: totrans-34
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 设计 Solidity 文件的布局
 - en: 'Solidity is going through active development and has lot of regular changes
     and suggestions from a huge community; hence, it is important to specify the version
     of a solidity file at the start of the source file, to avoid any conflict. This
     is achieved by the Pragma version. This is defined at the start of the solidity
     file so that any person looking to run the file knows about the previous version.
     Take a look at this code:'
+  id: totrans-35
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 正在进行积极的开发，并且有大量来自庞大社区的常规更改和建议；因此，在源文件的开头指定Solidity文件的版本是很重要的，以避免任何冲突。这通过
+    Pragma 版本来实现。这在Solidity文件的开头定义，以便任何打算运行该文件的人都知道先前的版本。看看这段代码：
 - en: '[PRE1]'
+  id: totrans-36
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: By specifying a version number, that specific source file will compile with
     a version earlier or later than the specified version number.
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 通过指定版本号，该特定源文件将与指定版本号之前或之后的版本一起编译。
 - en: Importing files
+  id: totrans-38
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 导入文件
 - en: 'Similar to ECMAScript, a Solidity file is declared using the `import` statement
     as follows:'
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 与 ECMAScript 类似，Solidity 文件使用`import`语句声明，如下所示：
 - en: '[PRE2]'
+  id: totrans-40
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: The preceding statement will import all the symbols from the `filename.sol`
     file into the current file as as global statements.
+  id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: 上述语句将把`filename.sol`文件中的所有符号导入到当前文件中作为全局语句。
 - en: Paths are also supported while importing a file, so you can use `/` or `.` or
     `..` similar to JavaScript.
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 在导入文件时也支持路径，因此您可以像 JavaScript 一样使用 `/` 或 `.` 或 `..`。
 - en: Commenting
+  id: totrans-43
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 注释
 - en: Single line (`//`) comments and multi-line(`/* ... */`) comments are used, although
     apart from this there is another type of comment style called **Natspec Comment**,
     which is also possible; in this type of comment, we either use `///` or `/** ...
     */`, and they are to be used only earlier function declaration or statements.
+  id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: 单行(`//`)注释和多行(`/* ... */`)注释被使用，尽管除此之外还有另一种称为**Natspec注释**的注释样式，这也是可能的；在这种类型的注释中，我们可以使用`///`或`/**
+    ... */`，它们只能在函数声明或语句之前使用。
 - en: 'Natspec is short for natural specification; these comments as per the latest
     solidity version (0.4.24) do not apply to variables, even if the variables are
     public. Here is a small code snippet with an example of such these types of comments:'
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: Natspec是自然规范的简称；根据最新的 Solidity 版本（0.4.24），这些注释不适用于变量，即使变量是公开的也是如此。以下是一个小的代码片段，其中包含了这些类型的注释的示例：
 - en: '[PRE3]'
+  id: totrans-46
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: Tags
+  id: totrans-47
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 标签
 - en: 'They are used in the Natspec comments; each of the tags has its own context
     based on its usage, as shown in the following table:'
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 它们用于Natspec注释；每个标签根据其用法具有自己的上下文，如下表所示：
 - en: '| **Tag** | **Used for** |'
+  id: totrans-49
   prefs: []
   type: TYPE_TB
+  zh: '| **标签** | **用于** |'
 - en: '| `@title` | Title for the Smart Contract |'
+  id: totrans-50
   prefs: []
   type: TYPE_TB
+  zh: '| `@title` | 智能合约的标题 |'
 - en: '| `@author` | Author of the Smart Contract |'
+  id: totrans-51
   prefs: []
   type: TYPE_TB
+  zh: '| `@author` | 智能合约作者 |'
 - en: '| `@notice` | Explanation of the function |'
+  id: totrans-52
   prefs: []
   type: TYPE_TB
+  zh: '| `@notice` | 函数的解释 |'
 - en: '| `@dev` | Explanation to developer |'
+  id: totrans-53
   prefs: []
   type: TYPE_TB
+  zh: '| `@dev` | 开发者的解释 |'
 - en: '| `@param` | Explanation of a parameter |'
+  id: totrans-54
   prefs: []
   type: TYPE_TB
+  zh: '| `@param` | 参数的说明 |'
 - en: '| `@return` | Explanation of the return type |'
+  id: totrans-55
   prefs: []
   type: TYPE_TB
+  zh: '| `@return` | 返回类型的解释 |'
 - en: Structure of a contract
+  id: totrans-56
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 合约的结构
 - en: 'Every contract in Solidity is similar to the concept of classes. Contracts
     can inherit from other contracts, in a fashion similar to classes. A contract
     can contain a declaration of the following:'
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 中的每个合约类似于类的概念。合约可以从其他合约继承，类似于类。一个合约可以包含以下的声明：
 - en: State variables
+  id: totrans-58
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 状态变量
 - en: Functions
+  id: totrans-59
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 函数
 - en: Function modifiers
+  id: totrans-60
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 函数修饰符
 - en: Events
+  id: totrans-61
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 事件
 - en: Struct types
+  id: totrans-62
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 结构类型
 - en: Enum types
+  id: totrans-63
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 枚举类型
 - en: State variables
+  id: totrans-64
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 状态变量
 - en: 'These are the values that are permanently stored in the contract storage, for
     example:'
+  id: totrans-65
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些值被永久存储在合约存储中，例如：
 - en: '[PRE4]'
+  id: totrans-66
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: Functions
+  id: totrans-67
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 函数
 - en: 'Functions can be called internally or externally, for example:'
+  id: totrans-68
   prefs: []
   type: TYPE_NORMAL
+  zh: 函数可以在内部或外部调用，例如：
 - en: '[PRE5]'
+  id: totrans-69
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: Function modifiers
+  id: totrans-70
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 函数修饰符
 - en: 'Function modifiers can be used to amend the semantics of functions in a declaration.
     That is, they are used to change the behavior of a function. For example, they
     are used to automatically check a condition before executing the function, or
     they can unlock a function at a given timeframe as required. They can be overwritten
     by derived contracts, as shown here:'
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 函数修饰符可用于在声明中修改函数的语义。也就是说，它们被用来改变函数的行为。例如，它们被用于在执行函数之前自动检查条件，或者根据需要在给定时间段内解锁函数。它们可以被派生合约覆盖，如下所示：
 - en: '[PRE6]'
+  id: totrans-72
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: Events
+  id: totrans-73
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 事件
 - en: 'Events allow convenient usage of the EVM, via the frontend of the DApp. Events
     can be heard and maintained. Take a look at this code:'
+  id: totrans-74
   prefs: []
   type: TYPE_NORMAL
+  zh: 事件允许通过 DApp 前端方便地使用 EVM。事件可以被监测和维护。请看以下代码：
 - en: '[PRE7]'
+  id: totrans-75
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: Types
+  id: totrans-76
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 类型
 - en: 'In Solidity, the type of each variable needs to be specified at compile time.
     Complex types can also be created in Solidity by combining the complex types.
     There are two categories of data types in Solidity: **value types** and** reference
     types**.'
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Solidity 中，每个变量的类型都需要在编译时指定。复杂类型也可以通过组合复杂类型在 Solidity 中创建。在 Solidity 中有两类数据类型：**值类型**和**引用类型**。
 - en: Value types
+  id: totrans-78
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 值类型
 - en: Value types are called **value types** because the variables of these types
     hold data within its own allocated memory.
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
+  zh: 值类型被称为**值类型**，是因为这些类型的变量在自己分配的内存中保存数据。
 - en: Boolean
+  id: totrans-80
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 布尔
 - en: 'This type of data has two values, either true or false, for example:'
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
+  zh: 这种类型的数据有两个值，要么为真，要么为假，例如：
 - en: '[PRE8]'
+  id: totrans-82
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: The preceding statement assigns `false` to boolean data type `b`.
+  id: totrans-83
   prefs: []
   type: TYPE_NORMAL
+  zh: 上述语句将`false`赋给布尔数据类型 `b`。
 - en: Operators in Solidity are similar to JavaScript operators, like arithmetic operators,
     assignment operators, string operators, comparison operators, logical operators,
     types operators and bitwise operators. These operators can be used with various
     value types, depending on allowed usage.
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity中的运算符与 JavaScript运算符相似，例如算术运算符、赋值运算符、字符串运算符、比较运算符、逻辑运算符、类型运算符和位运算符。这些运算符可以根据允许的用法与各种值类型一起使用。
 - en: Integers
+  id: totrans-85
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 整数
 - en: This value type allocates integers. There are two sub-types of integers, that
     is `int` and `uint`, which are signed integer and unsigned integer types respectively.
     Memory size is allocated at compile time; it is to be specified using `int8` or
     `int256`, where the number represents the size allocated in the memory. Allocating
     memory by just using `int` or `unit`, by default assigns the largest memory size.
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个数值类型分配整数。整数有两个子类型，分别是`int`和`uint`，分别是有符号整数和无符号整数类型。内存大小在编译时分配；使用`int8`或`int256`来指定，在这里数字代表内存中分配的大小。只使用`int`或`unit`来分配内存，默认情况下分配最大的内存大小。
 - en: Address
+  id: totrans-87
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 地址
 - en: 'This value type holds a 20-byte value, which is the size of an Ethereum address
     (40 hex characters or 160 bits). Take a look at this:'
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个数值类型保存了一个20字节的数值，这个大小等同于以太坊地址的大小（40个十六进制字符或160位）。看看这个：
 - en: '[PRE9]'
+  id: totrans-89
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: 'This type has several members that can be used to interact with the contract.
     These members are as follows:'
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个类型有几个成员可以用来与合同交互。这些成员如下：
 - en: '`balance`'
+  id: totrans-91
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`balance`'
 - en: '`transfer`'
+  id: totrans-92
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`transfer`'
 - en: '`send`'
+  id: totrans-93
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`send`'
 - en: '`call`'
+  id: totrans-94
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`call`'
 - en: '`callcode`'
+  id: totrans-95
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`callcode`'
 - en: '`delegatecall`'
+  id: totrans-96
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`delegatecall`'
 - en: '`balance` returns the balance of the address in units of wei, for example:'
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: '`balance` 返回地址的wei单位的余额，例如：'
 - en: '[PRE10]'
+  id: totrans-98
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: '`transfer` is used to transfer from one address to another address, for example:'
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: '`transfer`用于从一个地址转账到另一个地址，例如：'
 - en: '[PRE11]'
+  id: totrans-100
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: Almost the same amount of gas is spent when we use `transfer`, or `send` members. `transfer`
     was introduced from Solidity 0.4.13, as send does not send any gas and also does
     not propagate exceptions. `Transfer` is considered a safe way to send ether from
     one address to another address, as it throws an error and allows someone to propagate
     the error.
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 当我们使用`transfer`或`send`成员时，消耗的燃气几乎相同。`transfer`是从Solidity 0.4.13开始引入的，因为`send`不发送任何燃气，也不传播异常。`transfer`被认为是从一个地址安全地发送以太到另一个地址的一种方式，因为它会抛出一个错误并允许某人传播该错误。
 - en: The `call`, `callcode`, and `delegatecall` are used to interact with functions
     that do not have **Application Binary Interface **(**ABI**). `call` returns a
     Boolean to indicate whether the function ran successfully or got terminated in
     the EVM.
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
+  zh: '`call`、`callcode`和`delegatecall`用于与没有**应用程序二进制接口**（**ABI**）的函数交互。`call`返回一个布尔值，指示函数是否在EVM中成功运行或终止。'
 - en: When `a` does call on `b`, the code runs in the context of `b`, and the storage
     of `b` is used. On the other hand, when `a` does `callcode` on `b`, the code runs
     in the context of `a`, and the storage of `a` is used, but the code of and storage
     of `a` is used.
+  id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 当`a`调用`b`时，代码在`b`的上下文中运行，使用的是`b`的存储。另一方面，当`a`对`b`做`callcode`时，代码在`a`的上下文中运行，并使用`a`的存储，但是`a`的代码和存储会被使用。
 - en: The `delegatecall` function is used to delegate one contract to use another
     contract's storage as required.
+  id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: '`delegatecall`函数用于委托一个合同使用另一个合同的存储，如有需要。'
 - en: All these members: `call`, `delegatecall`, and `callcode` are not advised to
     be used unless really necessary, as they tend to break the type-safety of Solidity.
     It is possible that `callcode` will be deprecated in the near future.
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 所有这些成员：`call`、`delegatecall`和`callcode`都不建议使用，除非真的有必要，因为它们倾向于破坏Solidity的类型安全性。有可能`callcode`将在不久的将来被弃用。
 - en: Array value type
+  id: totrans-106
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 数组数值类型
 - en: Solidity has a fixed and dynamic array value type. Keywords range from `bytes1`
     to `bytes32` in a fixed-sized byte array. On the other hand, in a dynamic-sized
     byte array, keywords can contain bytes or strings. `bytes` are used for raw byte
     data and `strings` is used for strings that are encoded in `UTF-8`.
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity有固定和动态数组数值类型。关键字从`bytes1`到`bytes32`在固定大小的字节数组中。另一方面，在动态大小的字节数组中，关键字可以包含字节或字符串。`bytes`用于原始字节数据，`strings`用于用`UTF-8`编码的字符串。
 - en: '`length` is a member that returns the length of the byte array for a fixed-size
     byte array or for a dynamic-size byte array.'
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: '`length` 是一个成员，用于返回固定大小的字节数组或动态大小的字节数组的长度。'
 - en: A fixed-size array is initialized as `test[10]`, and a dynamic-size array is
     initialized as `test2[`.
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 固定大小数组初始化为`test[10]`，动态大小数组初始化为`test2[`。
 - en: Literal
+  id: totrans-110
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 文字
 - en: 'Literals are used to represent a fixed value; there are multiple types of literals
     that are used; they are as follows:'
+  id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: 文字用于表示一个固定的值；有多种类型的文字被使用；它们如下：
 - en: Integer literals
+  id: totrans-112
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 整数字面值
 - en: String literals
+  id: totrans-113
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 字符串字面值
 - en: Hexadecimal literals
+  id: totrans-114
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 十六进制字面值
 - en: Address literals
+  id: totrans-115
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 地址文字
 - en: 'Integer literals are formed with a sequence of numbers from 0 to 9\. Octal
     literals and ones starting with `0` are invalid, since the addresses in Ethereum
     start with `0`. Take a look at this:'
+  id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 整数字面量由从 0 到 9 的数字序列组成。八进制字面量和以 `0` 开头的字面量无效，因为以太坊中的地址以 `0` 开头。看一下这个：
 - en: '[PRE12]'
+  id: totrans-117
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: 'String literals are declared with a pair of double(`"..."`) or single(`''...''`)
     quotes, for example:'
+  id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 字符串字面量使用一对双引号(`"..."`)或单引号(`'...'`)声明，例如：
 - en: '[PRE13]'
+  id: totrans-119
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: Hexadecimal literals are prefixed with the keyword `hex` and are enclosed with
     double (`hex"69ed75"`) or single (`hex'69ed75'`) quotes.
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: 十六进制字面量以关键字 `hex` 为前缀，并用双引号 (`hex"69ed75"`) 或单引号 (`hex'69ed75'`) 包围。
 - en: 'Hexadecimal literals that pass the address checksum test are of `address` type
     literal, for example:'
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 通过地址校验和测试的十六进制字面量是`address` 类型的字面量，例如：
 - en: '[PRE14]'
+  id: totrans-122
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: Enums
+  id: totrans-123
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 枚举
 - en: 'Enums allow the creation of user-defined type in Solidity. Enums are convertible
     to and from all integer types. Here is an example of an enum in Solidity:'
+  id: totrans-124
   prefs: []
   type: TYPE_NORMAL
+  zh: 枚举允许在 Solidity 中创建用户定义类型。枚举可转换为所有整数类型。下面是 Solidity 中一个枚举的示例：
 - en: '[PRE15]'
+  id: totrans-125
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: Function
+  id: totrans-126
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 函数
 - en: 'There are two types of functions: internal and external functions. Internal
     functions can be called from inside the current contract only. External functions
     can be called via external function calls.'
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 有两种类型的函数：内部函数和外部函数。内部函数只能从当前合约内部调用。外部函数可通过外部函数调用方式调用。
 - en: Function Modifiers
+  id: totrans-128
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 函数修饰符
 - en: 'There are various modifiers available, which you are not required to use, for
     a Solidity-based function. Take a look at these:'
+  id: totrans-129
   prefs: []
   type: TYPE_NORMAL
+  zh: 有各种可用的修饰符，对于基于 Solidity 的函数，你不必使用。看看这些：
 - en: '`pure`'
+  id: totrans-130
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`pure`'
 - en: '`constant`'
+  id: totrans-131
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`constant`'
 - en: '`view`'
+  id: totrans-132
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`view`'
 - en: '`payable`'
+  id: totrans-133
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`payable`'
 - en: The `pure` functions can't read or write from the storage; they just return
     a value based on its content. The `constant` modifier function cannot write in
     the storage in any way. Although, the post-Solidity Version 0.4.17 `constant`
     is deprecated to make way for `pure` and `view` functions. `view` acts just like
     `constant` in that its function cannot change storage in any way. `payable` allows
     a function to receive ether while being called.
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: '`pure` 函数不能从存储中读取或写入；它们只是根据其内容返回一个值。`constant` 修饰符函数不能以任何方式在存储中写入。尽管，自 Solidity
+    版本 0.4.17 起，`constant` 被废弃以为`pure` 和`view` 函数腾出位置。`view` 的作用就像`constant` ，它的函数不能在任何方式改变存储。`payable`
+    允许函数在调用时接收以太币。'
 - en: Multiple modifiers can be used in a function by specifying each by white-space
     separation; they are evaluated in the order they are written.
+  id: totrans-135
   prefs: []
   type: TYPE_NORMAL
+  zh: 函数可以通过指定每个之间用空格分隔的修饰符来使用多个修饰符；它们按照编写顺序进行评估。
 - en: Reference types
+  id: totrans-136
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 引用类型
 - en: These are passed on by reference; these are very memory heavy, due to the allocation
     of memory they constitute.
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些是通过引用传递的；它们非常消耗内存，由于分配了它们构成的内存。
 - en: Structs
+  id: totrans-138
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 结构体
 - en: 'A struct is a composite data type that is declared under a logical group. Structs
     are used to define new types. It is not possible for a struct to contain a member
     of its own type, although a struct can be the value type of a mapping member.
     Here is an example of a struct:'
+  id: totrans-139
   prefs: []
   type: TYPE_NORMAL
+  zh: 结构体是在一个逻辑组下声明的复合数据类型。结构体用于定义新类型。结构体不能包含自己类型的成员，虽然一个结构体可以是映射成员的值类型。下面是结构体的一个示例：
 - en: '[PRE16]'
+  id: totrans-140
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: Data location
+  id: totrans-141
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 数据位置
 - en: This specifies where a particular data type will be stored. It works with arrays
     and structs. The data location is specified using the `storage` or `memory` keyword.
     There is also a third data location, `calldata`, which is non-modifiable and non-persistent.
     Parameters of external functions use `calldata` memory. By default, parameters
     of functions are stored in `memory`; other local variables make use of `storage`.
+  id: totrans-142
   prefs: []
   type: TYPE_NORMAL
+  zh: 这指定了特定数据类型将被存储的位置。它与数组和结构体一起使用。数据位置使用 `storage` 或 `memory` 关键字来指定。还有第三种数据位置，`calldata`，是不可修改且非持久的。外部函数的参数使用
+    `calldata` 存储器。默认情况下，函数的参数存储在 `memory` 中；其他局部变量使用 `storage`。
 - en: Mapping
+  id: totrans-143
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 映射
 - en: 'Mapping is used for key-to-value mapping. Mappings can be seen as hash tables
     that are virtually initialized such that every possible key exists and is mapped
     to a default value. The default value is all zeros. The key is never stored in
     a mapping, only the `keccak256` hash is used for value lookup. Mapping is defined
     just like any other variable type. Take a look at this code:'
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: '`mapping` 用于键值映射。`mapping` 可以被视为虚拟初始化的哈希表，使得每个可能的键都存在并映射到默认值。默认值为全零。键从不存储在
+    `mapping` 中，只有 `keccak256` 哈希用于值查找。`mapping` 定义方式与任何其他变量类型相同。看一下这段代码：'
 - en: '[PRE17]'
+  id: totrans-145
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE17]'
 - en: The preceding code example shows that `Catwoman` is being initialized as a `mapping`.
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: 前面的代码示例显示了 `Catwoman` 被初始化为 `mapping`。
 - en: Units and global variables
+  id: totrans-147
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 单位和全局变量
 - en: Global variables can be called by any Solidity smart contract. They are mainly
     used to return information about the Ethereum blockchain. Some of these variables
     can also perform various functions. Units of time and ether are also globally
     available. Ether currency numbers without a suffix are assumed to be wei. Time-related
     units can also be used and, just like currency, conversion among them is allowed.
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: 全局变量可以被任何 Solidity 智能合约调用。它们主要用于返回有关以太坊区块链的信息。其中一些变量还可以执行各种功能。时间和以太的单位也可以全局使用。没有后缀的以太货币数被假定为
+    wei。与货币类似，时间相关的单位也可以使用，并且它们之间可以进行转换。
 - en: Summary
+  id: totrans-149
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 摘要
 - en: In this chapter, we discussed Solidity in detail, we read about the compiler,
     and we did a detailed study programming in solidity that included studying about
     the layout of a solidity file, the structure of a contract, and the types of values
     and reference. We also learned about mapping.
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们详细讨论了 Solidity，了解了编译器，进行了关于 Solidity 编程的详细研究，包括研究 Solidity 文件的布局、合约的结构以及值和引用类型。我们还学习了关于映射的内容。
 - en: In the next chapter, we will apply our new knowledge from this chapter to develop
     an actual contract and deploy the same on a test network.
+  id: totrans-151
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一章中，我们将运用本章的新知识来开发一个实际的合约，并将其部署到测试网络上。
