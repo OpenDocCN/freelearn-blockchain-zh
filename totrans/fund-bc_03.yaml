@@ -3,6 +3,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链中的密码学
 - en: In the previous chapters, we introduced cryptography that are relevant to blockchain.
     Although we have a clear understanding of some of these cryptographic primitives,
     we haven't explored their applications in a real blockchain application. In this
@@ -12,26 +13,31 @@
   id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前几章中，我们介绍了与区块链相关的密码学。虽然我们对其中一些密码原语有清晰的理解，但我们尚未探讨它们在实际区块链应用中的应用。在本章中，我们将涵盖一些密码原语的应用，其中将包括哈希函数和数字签名。我们将通过在基本区块链应用中实际实现它们来深入研究它们。
 - en: 'In this chapter, we''ll cover the following topics:'
   id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: Hashing in blockchain
   id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 区块链中的哈希
 - en: Digital signatures in blockchain
   id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 区块链中的数字签名
 - en: One thing to note is that each cryptographic primitive that is used with blockchain
     technology has a distinct role. Hash functions and digital signatures are two
     concepts of cryptography that are extensively used with blockchain.
   id: totrans-5
   prefs: []
   type: TYPE_NORMAL
+  zh: 需要注意的一点是，每个与区块链技术一起使用的加密原语都有不同的作用。哈希函数和数字签名是与区块链广泛使用的两个加密概念。
 - en: We can mainly observe three layers in the blockchain technology. These are a
     *peer-to-peer network layer*, a *consensus layer*, which deals with the block
     creation and validation mechanism, and an *application layer*, which utilizes
@@ -44,17 +50,20 @@
   id: totrans-6
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们主要可以观察到区块链技术中的三个层次。这些是*点对点网络层*，负责块创建和验证机制的*共识层*，以及利用底层区块链构建应用程序的*应用层*。密码学主要用于区块链的共识和应用层。哈希算法主要用于创建块标识，确保区块链的完整性，并且还作为共识算法的关键组成部分，例如比特币的工作证明。另一方面，数字签名处理应用层，在这里它用于通过将其嵌入到交易中来验证事件。
 - en: Since hashing and digital signatures contribute to the blockchain at different
     layers, we will cover the significance of these concepts throughout different
     sections of this chapter.
   id: totrans-7
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于哈希和数字签名在不同层次上为区块链做出了贡献，我们将在本章的不同部分中涵盖这些概念的重要性。
 - en: Hashing in blockchain
   id: totrans-8
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链中的哈希
 - en: Hashing is an important concept in blockchain and has a huge role in the functioning
     of a blockchain application. The applications of hash functions range from minor
     blockchain implementations, such as creating a digest for a large amount of data,
@@ -66,11 +75,13 @@
   id: totrans-9
   prefs: []
   type: TYPE_NORMAL
+  zh: 哈希在区块链中是一个重要的概念，在区块链应用程序的功能中起着巨大作用。哈希函数的应用范围从较小的区块链实现，例如为大量数据创建摘要，到主要实现，例如维护链中块的完整性。哈希函数还用于工作证明共识算法中解决拜占庭失败问题，我们将在本章稍后深入探讨。首先，我们将探索一些利用哈希函数的区块链概念。
 - en: Linking blocks in a blockchain
   id: totrans-10
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在区块链中链接块
 - en: As defined in the introductory chapter, a blockchain is a continuously growing
     collection of blocks that are chained together to form an open ledger by using
     cryptography as a key ingredient. Each block in the blockchain is given an identity
@@ -84,6 +95,8 @@
   id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如在前言中定义的那样，区块链是一个持续增长的区块集合，通过使用加密技术作为关键要素来链接在一起形成一个开放账本。区块链中的每个区块都被赋予一个标识以标记该区块的唯一性，这是通过使用哈希函数生成该区块的摘要来实现的。正如在前一章节中提到的密码哈希函数的碰撞抵抗性属性，[第
+    2 章](bbe822af-c535-4a33-9783-168d174c48c1.xhtml)， *加密的一点**,* 保证了找到两个结果相同的哈希值的区块是不可行的。因此，哈希函数保证了为区块创建的标识的唯一性。
 - en: 'When a new block is created, it will backreference the previous block using
     the digest of the previous block, thus linking that block to the blockchain. Modifying
     any of the blocks would change the identity of that block due to the new hash
@@ -99,15 +112,18 @@
   id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 当创建新区块时，它将使用上一个区块的摘要作为后向引用，从而将该区块链接到区块链上。修改任何区块都会由于新的哈希值而改变该区块的身份。因此，这将破坏链，因为一个区块引用将因为新生成的哈希值而无效。因此，修改区块以生成与以前相同的哈希值是不可行的。这是由于密码哈希函数的前像抗性属性，即使我们拥有哈希值，也无法预测区块的数据。这就是为什么一旦创建了一系列区块，就会确保链的完整性，因为每个区块都引用了前一个区块。修改区块数据的唯一方法是通过修改所有后续区块，并更新其对前一个区块的引用：
 - en: '![](img/9b6db5b7-1e6e-4916-a9ce-655846464019.png)'
   id: totrans-13
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/9b6db5b7-1e6e-4916-a9ce-655846464019.png)'
 - en: 'Figure 3.1: Linking blocks using hashes from *A Peer-to-Peer Electronic Cash
     System*, S. Nakamoto'
   id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: 图 3.1：使用哈希链接块，来自 *点对点的电子现金系统*，S. 中本聪
 - en: The preceding *Figure 3.1* shows the design of blockchain from the original
     paper, *Bitcoin:* *A Peer-to-Peer Electronic Cash System*, by *Satoshi Nakamoto*,
     the creator of the original reference implementation of Bitcoin. It shows that
@@ -118,11 +134,13 @@
   id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 前文 *图 3.1* 展示了来自原始论文 *比特币：一个点对点的电子现金系统* 的区块链设计，该论文的作者是比特币原始参考实现者 **中本聪**。它显示每个区块的哈希值受到前一个区块哈希值的影响，从而链接了区块链中的每个区块。持有区块链账本副本的任何人都可以通过验证每个区块的哈希与下一个区块的哈希来验证区块链中的所有区块是否有效。
 - en: Linking blocks using an SHA256 hashing algorithm
   id: totrans-16
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 SHA256 哈希算法链接区块
 - en: Blocks in the blockchain are chained together by referencing the hash values
     of previous blocks. SHA256 is the most popular hashing algorithm used in the blockchain
     platform since it was used in the Bitcoin implementation. Firstly, we will define
@@ -131,17 +149,20 @@
   id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链中的区块通过引用前一个区块的哈希值链接在一起。SHA256 是区块链平台中最流行的哈希算法，因为它在比特币实现中使用过。首先，我们将定义区块的结构和功能，最后利用哈希算法构建区块链。
 - en: Block structure
   id: totrans-18
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块结构
 - en: 'Let''s consider a simple block whose header and data are combined to create
     a data structure called **Block**. Each Block will contain the following: an index,
     the previous hash, a timestamp, data, and its own hash value:'
   id: totrans-19
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们考虑一个简单的区块，其头部和数据合并以创建一个称为**Block**的数据结构。每个区块将包含以下内容：索引、前一个哈希、时间戳、数据及其自身的哈希值：
 - en: '[PRE0]'
   id: totrans-20
   prefs: []
@@ -157,6 +178,7 @@
   id: totrans-21
   prefs: []
   type: TYPE_NORMAL
+  zh: 前面的代码片段定义了一个名为`Block`的Python类，它具有区块链区块的所有基本属性。通常，一个区块将包含一个头部和一个主体，头部包含有关区块的元数据。然而，前面的示例并未区分头部和主体。像比特币这样的典型区块链应用程序将拥有大量可能以交易形式出现的数据，但在示例中，我们将考虑数据为`string`类型。
 - en: A typical block will also contain a nonce and a difficulty target in the header.
     This information is used in consensus algorithms, such as Proof of Work. Since
     our intention is just to describe a blockchain, these fields are outside the scope
@@ -164,21 +186,25 @@
   id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个典型的区块还将在头部包含一个随机数和一个难度目标。这些信息在共识算法中使用，如工作证明。由于我们的目的仅是描述一个区块链，这些字段不在本节的讨论范围内。
 - en: Blockchain functionality
   id: totrans-23
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链功能
 - en: The block linking process consists of several elements, such as creating a structure
     from the information, calculating the hash of the block, and appending it to the
     blockchain.
   id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链接过程包括几个要素，如从信息中创建结构、计算区块的哈希值，并将其添加到区块链中。
 - en: 'Let''s break down each of these functionalities into blockchain methods:'
   id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们将这些功能逐一细分为区块链方法：
 - en: '[PRE1]'
   id: totrans-26
   prefs: []
@@ -191,6 +217,7 @@
   id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: 前面的类是一个类方法的集合，这些方法使用哈希函数创建一个有效的区块链。`Blockchain`的构造函数将通过添加一个创世区块来初始化链条，这是区块链的第一个区块，且不引用任何前一个区块：
 - en: '[PRE2]'
   id: totrans-28
   prefs: []
@@ -202,6 +229,7 @@
   id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 创世区块是一个硬编码的区块，被添加到区块链的开头。它是用静态内容创建的。前面的创世区块有一个使用SHA-256创建的硬编码哈希值，如下所示：
 - en: '[PRE3]'
   id: totrans-30
   prefs: []
@@ -216,12 +244,14 @@
   id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: '`calculate_hash`是区块链中的一个关键方法，因为这个方法创建了将所有区块绑定在一起的哈希值。使用PyCryptodome包创建SHA-256哈希值，如上一章所示。这个方法将区块索引、前一个区块的哈希值、时间戳和创建所需的数据串联起来，生成需要被哈希处理的字符串。SHA256哈希函数生成的摘要就是该区块的哈希值。'
 - en: 'We need to find the hash value of the previous block during the creation of
     the next block. The following function identifies the last block appended to the
     chain:'
   id: totrans-32
   prefs: []
   type: TYPE_NORMAL
+  zh: 在创建下一个区块时，我们需要找到前一个区块的哈希值。下面的函数用于识别添加到链上的最后一个区块：
 - en: '[PRE4]'
   id: totrans-33
   prefs: []
@@ -234,6 +264,7 @@
   id: totrans-34
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面的函数将通过构建创建`Block`对象所需的所有属性来构建一个区块。它还会计算当前区块的哈希值。最终将创建一个由区块结构组成的新的`Block`对象：
 - en: '[PRE5]'
   id: totrans-35
   prefs: []
@@ -246,12 +277,14 @@
   id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: 注意：我们根据在创建区块链对象时创建的静态时间戳值创建了`next_timestamp`。尽管在实际的区块链中这不是真实的，但我们故意这样做是为了在代码执行期间解释一个特定的情况。
 - en: 'The following functions are used to add, reset, and read the blocks of the
     blockchain. The `add_block` method and the `chain` attribute are the only class
     members that need to be exposed to the user:'
   id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下函数用于添加、重置和读取区块链的块。`add_block`方法和`chain`属性是唯一需要向用户公开的类成员：
 - en: '[PRE6]'
   id: totrans-38
   prefs: []
@@ -262,11 +295,13 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建一个区块链
 - en: 'Now that we have defined all the required functionalities of a simple blockchain
     linker, we''ll emulate one by creating both a few blocks and a blockchain:'
   id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们已经定义了简单区块链链接器的所有必需功能，我们将通过创建一些块和一个区块链来模拟它：
 - en: '[PRE7]'
   id: totrans-41
   prefs: []
@@ -282,12 +317,14 @@
   id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 前面的代码片段创建了一个`Blockchain`对象，并向其添加了三个块，以及一个现有的创世块。在重置区块链后再次执行此操作。这里的一个重要观察是，`new_chain.chain`的两个输出都将产生包含以下输出中显示的块哈希的块列表。这是因为在执行期间贡献到哈希值创建的所有属性都相同。如果输入相同，哈希函数总是产生相同的哈希值。
 - en: 'The timestamp is hardcoded in the genesis block and is intentionally kept constant
     for all the blocks to show that hash values computed with the similar data will
     generate the same value every time:'
   id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: 时间戳在创世块中是硬编码的，故意保持所有块的时间戳恒定，以显示使用相似数据计算的哈希值每次都将生成相同的值：
 - en: '[PRE8]'
   id: totrans-44
   prefs: []
@@ -302,11 +339,13 @@
   id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 在实际执行期间，前面的输出将生成两次。输出显示了我们区块链中的块如何使用加密哈希链接在一起。区块链中的每个块都有一个`previous_hash`值，该值与前一个块的哈希值匹配。索引`0`是硬编码的创世块，没有`previous_hash`，索引`1`的`previous_hash`值与创世块的哈希匹配。所有其他块都以相同的方式链接。
 - en: 'Let''s try to alter the data in a block and insert the rest of the blocks in the
     chain:'
   id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们尝试修改一个块中的数据，并将其余块插入到链中：
 - en: '[PRE9]'
   id: totrans-47
   prefs: []
@@ -316,6 +355,7 @@
   id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将产生以下区块链中的块列表：
 - en: '[PRE10]'
   id: totrans-49
   prefs: []
@@ -332,17 +372,21 @@
   id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: 前面的块列表显示了与之前区块链相似的块链接属性，但有一个有趣的观察是，尽管只修改了索引`1`的块数据，但所有其他块的哈希值与前一个块的输出不同。这是由于链式效应或涟漪效应造成的。因为每个块都存储着前一个块的哈希值，所以每个块都受到此修改的影响。这导致了新的区块链的创建。这就是为什么区块链是安全的原因：不能修改单个块而不影响分类账中的其他块。
 - en: The complete script of the preceding sample blockchain application can be found
     in the GitHub repository of the book ([https://github.com/PacktPublishing/Foundations-of-Blockchain](https://github.com/PacktPublishing/Foundations-of-Blockchain)),
     along with Python packaging.
   id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: 在书籍的 GitHub 存储库中可以找到前述示例区块链应用程序的完整脚本（[https://github.com/PacktPublishing/Foundations-of-Blockchain](https://github.com/PacktPublishing/Foundations-of-Blockchain)），以及
+    Python 打包。
 - en: Byzantine failure problem in blockchain
   id: totrans-52
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链中的拜占庭失效问题
 - en: In the previous section, we saw how the blocks are appended to form a blockchain.
     We also looked at how the cryptographic hash function plays a vital role to ensure
     the integrity of the blockchain. Although the blockchain maintains integrity,
@@ -354,6 +398,7 @@
   id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面的部分中，我们看到了如何将区块追加在一起形成区块链。我们还看到了加密哈希函数如何在确保区块链完整性方面发挥关键作用。尽管区块链保持了完整性，但并不能保证在分散网络中可以维护单个版本的区块链。由于区块创建并不是一项困难的任务，网络中的每个节点都能够维护自己的区块链版本。这是一个众所周知的分布式系统问题，称为拜占庭将军问题，或拜占庭失败。
 - en: Byzantine failure is a fault that presents different symptoms to different observers.
     It occurs when there is a loss of a service in a system that needs to achieve
     a consensus. This kind of failure is witnessed in distributed systems, where it
@@ -362,6 +407,7 @@
   id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 拜占庭失败是一种对不同观察者呈现不同症状的故障。当系统需要达成共识时，会出现服务丢失。这种类型的故障在分布式系统中常见，由于很难收集关于组件状态的信息，并且恶意行为者的存在使得达成共识更加困难。
 - en: The term Byzantine failure is derived from the Byzantine Generals' Problem,
     which is an agreement problem in which a group of generals representing the Byzantine
     army are planning to attack a city. Some of the generals might decide to attack,
@@ -380,6 +426,7 @@
   id: totrans-55
   prefs: []
   type: TYPE_NORMAL
+  zh: 拜占庭失败这个术语源自拜占庭将军问题，这是一个协议问题，一组代表拜占庭军队的将军正在计划攻击一座城市。一些将军可能决定进攻，而另一些则撤退。他们应该就是攻击还是撤退达成一致，以便任务能够成功完成。将将军的投票结果传达给彼此是一项困难的任务，因为他们相距甚远，没有方便的沟通方式。由于这个原因，将军之间可能会出现延迟或误解。存在不可靠将军的问题进一步加剧了这个问题，因为他们可能会在投票时试图欺骗，以使任务失败。如果这样的系统无法获得大多数投票的一致意见，那么就会导致任务失败，因为决定进攻的军队可能没有足够的支持来自其他将军。这是一个经典的协议问题，没有一个单一的解决方案。解决拜占庭将军问题的方法是找到诚实将军中的多数票。
 - en: A system that displays a **Byzantine fault tolerance** (**BFT**) is one that
     can overcome the Byzantine failure problem. In a digital system, cryptographic
     primitives such as digital signatures can provide fault tolerance for security-critical
@@ -389,6 +436,7 @@
   id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个展示**拜占庭容错**（**BFT**）的系统可以克服拜占庭失败问题。在数字系统中，诸如数字签名之类的加密基元可以通过创建无法伪造的消息签名来为安全关键系统提供容错性。实现数据完整性可以在一定程度上抵御拜占庭失败问题，但这并不是一个完整的解决方案。
 - en: Now that we understand the Byzantine problem, we can notice that the problem
     is applicable to any distributed system. The problem also exists in the blockchain
     network, where participants are spread across a decentralized peer-to-peer network.
@@ -404,11 +452,13 @@
   id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们了解了拜占庭问题，我们可以注意到这个问题适用于任何分布式系统。该问题也存在于区块链网络中，其中参与者分布在去中心化的点对点网络中。在去中心化网络中保持一个真理是一项艰巨的任务，而网络中的不良行为者的参与使任务变得更加困难。区块链的去中心化网络必须就如何实现全局一致的区块链状态达成一致。在区块链网络中发生拜占庭问题是不可避免的，因为区块链网络存在于去中心化的不可信环境中。网络的节点应该就如何实现一个通用的区块链状态达成共识。矿工特别应该达成共识，因为他们是促进区块链增长的人。
 - en: A blockchain miner is a node that not only validates the data of the blockchain,
     but also contributes resources to create a new block in the blockchain ledger.
   id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链矿工是不仅验证区块链数据，而且还为区块链分类帐创建新块的节点。
 - en: Bitcoin was the first decentralized application that solved the Byzantine problem.
     It achieved this by using a consensus algorithm called Proof of Work, which was
     inspired by the Hashcash system proposed in 1997 by Adam Back, a British cryptographer.
@@ -420,6 +470,7 @@
   id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币是第一个解决拜占庭问题的去中心化应用程序。它通过使用一种名为工作证明的共识算法来实现这一点，这种算法受到了1997年由英国密码学家亚当·贝克提出的Hashcash系统的启发。Hashcash的开发目的是验证合法用户并通过创建需要一定计算量的邮票来减少电子邮件垃圾邮件。Hashcash邮票是使用哈希算法创建的。尽管创建邮票很耗时，但验证可以立即执行。同样，比特币的工作证明也使用了密码哈希函数来在网络中达成共识。
 - en: There are several consensus algorithms that achieve a common global view in
     a blockchain. Proof of Stack, Proof of Activity, Proof of Capacity, and Proof
     of Elapsed Time are just a few examples. Even the popular Ethereum blockchain
@@ -428,17 +479,22 @@
   id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 有几种共识算法可以在区块链中实现一个共同的全局视图。Proof of Stack、Proof of Activity、Proof of Capacity和Proof
+    of Elapsed Time只是其中的几个例子。即使是流行的以太坊区块链框架目前也使用工作证明共识，但已经有积极的开发工作在未来的以太坊发布中包括了Proof
+    of Stake。
 - en: How does Proof of Work ensure Byzantine fault tolerance?
   id: totrans-61
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 工作证明如何确保拜占庭容错性？
 - en: Proof of Work is a consensus algorithm designed to make sure that each participant
     node in the network that creates a block must prove that it has done a certain
     amount of work on the block before it is inserted in the public blockchain ledger.
   id: totrans-62
   prefs: []
   type: TYPE_NORMAL
+  zh: 工作证明是一种共识算法，旨在确保网络中创建块的每个参与节点都必须证明它在插入公共区块链分类帐之前对该块进行了一定量的工作。
 - en: Bitcoin's Proof of Work consensus algorithm was designed to make sure that blockchain
     data is immutable and cannot easily be altered by bad actors. Majority decisions
     in a blockchain network are represented by the longest chain; this is because
@@ -454,11 +510,13 @@
   id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币的工作量证明共识算法旨在确保区块链数据不可变，并且不容易被不良行为者改变。区块链网络中的多数决策由最长链代表；这是因为它证明了做了最多的工作。尽管这种系统会在去中心化网络中实现共识，但是如果不良行为者尝试创建带有一些欺诈性交易的备用区块链会怎样呢？当使用工作量证明时，这并不容易。每当不良行为者修改了早期创建的区块时，所有后续区块都将被重新创建，其中的所有区块都将重新进行工作。重新创建所有区块将需要很长时间，因为这个过程需要大量的计算能力。然而，你会发现，通常情况下，大多数网络会拒绝不良行为者的工作，因为它无法跟上诚实节点的工作。
 - en: Thus, Proof of Work helps to achieve a BFT system, even in the presence of dishonest
     nodes.
   id: totrans-64
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，工作量证明有助于在不诚实节点存在的情况下实现BFT系统。
 - en: Although Proof of Work provides a practical solution to the Byzantine failure
     problem, an attack called 51% could theoretically result in Byzantine failure.
     In a 51% attack, the majority of the computation power in the blockchain network
@@ -469,23 +527,27 @@
   id: totrans-65
   prefs: []
   type: TYPE_NORMAL
+  zh: 虽然工作量证明为拜占庭失效问题提供了实际解决方案，但一种名为51%的攻击理论上可能导致拜占庭失败。在51%攻击中，区块链网络中的大多数计算能力被不诚实的实体控制。这意味着比特币可以拥有50%的错误节点，但仍能正常运行。这就是比特币共识机制的容错性。51%攻击在[第10章](53dc28ad-de3d-463a-8244-e48d0d19d616.xhtml)的《区块链安全》中有更详细的介绍。
 - en: How does Proof of Work use cryptography?
   id: totrans-66
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 工作量证明如何使用密码学？
 - en: Proof of Work is a consensus algorithm that uses a cryptographic hashing puzzle
     to make sure that a certain amount of work has been done before a block is created.
     Bitcoin's Proof of Work uses the SHA-256 hash function to create a hashing puzzle.
   id: totrans-67
   prefs: []
   type: TYPE_NORMAL
+  zh: 工作量证明是一种共识算法，它使用密码哈希谜题确保在创建区块之前完成了一定数量的工作。比特币的工作量证明使用SHA-256哈希函数创建哈希谜题。
 - en: Blocks in a blockchain network are created by a special type of validator node
     called a miner. These miner nodes compete with each other to solve the hashing
     puzzle in order to produce a block to be appended to the ledger.
   id: totrans-68
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链网络中的区块是由一种特殊类型的验证者节点——矿工节点创建的。这些矿工节点互相竞争解决哈希谜题，以便产生要追加到分类账中的区块。
 - en: 'Blockchain miners will start to solve the hashing puzzle whenever they have
     data (often, a set of transactions) that needs to be included in a block. The
     following *Figure 3.2* shows the basic structure of a block header used in a Proof
@@ -496,14 +558,17 @@
   id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链矿工将在有数据（通常是一组交易）需要包含在一个区块中时开始解决哈希谜题。下图*图3.2*显示了工作量证明区块链应用中使用的区块头的基本结构。谜题求解器通常会使用SHA256哈希函数创建头的哈希值。这里的谜题是找到一个头的哈希值，使得哈希以已知数量的零位开始：
 - en: '![](img/1a796572-692a-4590-a208-f62bd628007a.png)'
   id: totrans-70
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/1a796572-692a-4590-a208-f62bd628007a.png)'
 - en: 'Figure 3.2: The basic structure of a block header'
   id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 图3.2：一个区块头的基本结构
 - en: We have mentioned previously the characteristics of a hash function; that is,
     the hash value cannot be predicted because the creation of a hash value is a one-way
     process. As a result, it's difficult to predict the contents of the header, which
@@ -517,6 +582,7 @@
   id: totrans-72
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们之前提到过哈希函数的特性；也就是哈希值是不可预测的，因为哈希值的生成是一个单向过程。因此，很难预测标题的内容，这会导致哈希值以一定数量的零位开始。实现这个唯一的方法是不断尝试不同的标题值，并使用哈希函数计算哈希值。通过改变标题中的名为**nonce**的变量字段来创建不同的标题。随机nonce被分配给哈希函数以创建一个不同的标题。一旦矿工找到一个nonce，将会生成一个具有所需数量零位的哈希值，那么难题就解决了，并且nonce记录在块标题中。
 - en: Using a hash function to perform Proof of Work turns out to be a good approach
     because it is difficult to fraudulently compute a hash value due to its cryptographic
     characteristics. Hash functions make sure that a certain amount of CPU effort
@@ -525,11 +591,13 @@
   id: totrans-73
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用哈希函数进行工作量证明证明是一个很好的方法，因为由于其加密特性，欺诈性计算哈希值是困难的。哈希函数确保已经使用了一定数量的计算机CPU功耗来计算哈希值，并且在这个过程中计算机的哈希率是工作证明。
 - en: An example implementation of Proof of Work
   id: totrans-74
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 工作量证明的示例实现
 - en: In the previous section, we covered how Proof of Work used a hashing algorithm.
     We also looked at computing a target hash to solve the hashing puzzle. We're now
     going to implement a Proof of Work algorithm using the SHA-256 algorithm in order
@@ -537,6 +605,7 @@
   id: totrans-75
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前一部分中，我们介绍了工作量证明如何使用哈希算法。我们还看了如何计算目标哈希值来解决哈希难题。现在，我们将使用SHA-256算法来实现工作量证明算法，以分析哈希和概率如何对这个共识算法产生影响。
 - en: Since the main intention of the Proof of Work algorithm is to find a nonce that,
     when attached to the blockchain header, results in the required target hash value,
     the task here is to randomly guess a nonce value and establish the digest value
@@ -551,6 +620,7 @@
   id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于工作量证明算法的主要目的是找到一个nonce，当附加到区块链标题时，会产生所需的目标哈希值，因此这里的任务是随机猜测nonce值，并建立区块的摘要值。由于哈希函数的特性，使得猜测nonce值非常困难和非确定性，找到nonce的唯一方法就是使用哈希函数实际尝试每一个nonce，并找到能满足目标哈希值的nonce。虽然解决方案是非确定性的，但由于哈希函数的特性，工作量证明受概率的影响。虽然找到解决方案取决于运气，但通常情况下，完成最多工作量的矿工节点会解决难题。这是因为找到nonce的概率随着所做工作量的增加而增加。
 - en: Each puzzle solved in the Proof of Work has a difficulty level that decides
     the target hash value to be created. The difficulty level is decided by the number
     of zero bits required at the beginning of the resulting hash value. The puzzle's
@@ -561,11 +631,13 @@
   id: totrans-77
   prefs: []
   type: TYPE_NORMAL
+  zh: 在工作量证明中解决的每个难题都有一个确定目标哈希值的难度级别。难度级别是由所需数量的零位在结果哈希值开始处决定的。增加所需零位数量将增加难题的难度级别。这是因为由于较小的样本空间，找到一个小哈希值的概率比找到任何哈希值的概率都小。
 - en: 'This example implementation of Proof of Work will illustrate the role of probability
     in this consensus algorithm:'
   id: totrans-78
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个工作量证明的例子实现将阐明概率在这个共识算法中的作用：
 - en: '[PRE11]'
   id: totrans-79
   prefs: []
@@ -576,6 +648,7 @@
   id: totrans-80
   prefs: []
   type: TYPE_NORMAL
+  zh: 示范 nonce 的代码灵感源自*《精通比特币-第一版》*中*Andreas M. Antonopoulos*的代码片段。
 - en: The preceding code snippet is a simple example of generating hashes to solve
     the Proof of Work hashing puzzle. The nonce is created in an incremental fashion
     and appended to the input data. The hash value is computed using the SHA-256 algorithm,
@@ -583,10 +656,13 @@
   id: totrans-81
   prefs: []
   type: TYPE_NORMAL
+  zh: 上面的代码片段是一个简单的例子，用于生成哈希值以解决工作证明哈希难题。Nonce 以增量的方式创建并附加到输入数据中。使用 SHA-256 算法计算哈希值，并对所有
+    nonce 值重复此操作。
 - en: 'The program will generate the following hashes for the nonce-appended data:'
   id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: 该程序将为附加 nonce 的数据生成以下哈希值：
 - en: '[PRE12]'
   id: totrans-83
   prefs: []
@@ -599,11 +675,14 @@
   id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: 尽管前面哈希值的每个输入仅差最后两位数，但由于哈希函数的性质，哈希输出值完全不同。这就是为什么无法检测出一个可以产生目标哈希值并因此解决难题的 nonce
+    的原因。
 - en: Example of finding a nonce to solve Proof of Work
   id: totrans-85
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 解决工作量证明的寻找 nonce 的例子
 - en: The following example will illustrate how to find a nonce by brute force, with
     the help of the SHA-256 algorithm, in order to find a hash value that will satisfy
     the target hash. The target hash value is determined by setting the difficulty
@@ -614,12 +693,14 @@
   id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下示例将演示如何通过暴力破解，使用 SHA-256 算法，来找到满足目标哈希值的哈希值的 nonce。目标哈希值是通过设置工作量证明算法中的难度比特位来确定的。我们将修改之前创建的区块链链接器，以在创建新区块时包括工作量证明算法。首先，让我们修改区块链示例的一些函数，以包括共识算法。
 - en: 'The `Block` class used to create a new block to be added to blockchain is modified
     to take two extra members, called `difficulty_bits` and `nonce`. We''ll also include
     `difficulty_bits` in the header of any Proof of Work-based blockchain application:'
   id: totrans-87
   prefs: []
   type: TYPE_NORMAL
+  zh: 用于创建要添加到区块链中的新区块的`Block`类被修改以接受两个额外成员，称为`difficulty_bits`和`nonce`。我们还将在任何基于工作量证明的区块链应用的头部中包括`difficulty_bits`：
 - en: '[PRE13]'
   id: totrans-88
   prefs: []
@@ -630,6 +711,7 @@
   id: totrans-89
   prefs: []
   type: TYPE_NORMAL
+  zh: '`self.difficulty_bits`也被包含在`Blockchain`类中作为矿工执行工作证明算法时的一个参数：'
 - en: '[PRE14]'
   id: totrans-90
   prefs: []
@@ -642,6 +724,7 @@
   id: totrans-91
   prefs: []
   type: TYPE_NORMAL
+  zh: '`create_block`函数将添加`nonce`和`difficulty_bits`，用户在挖掘新区块时会同时设置它们。此信息包含在区块中，以便稍后广播到网络中的每个节点进行验证：'
 - en: '[PRE15]'
   id: totrans-92
   prefs: []
@@ -652,6 +735,7 @@
   id: totrans-93
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后修改`calculate_hash`方法以计算一个标头，并调用函数执行工作量证明来计算 nonce：
 - en: '[PRE16]'
   id: totrans-94
   prefs: []
@@ -663,6 +747,7 @@
   id: totrans-95
   prefs: []
   type: TYPE_NORMAL
+  zh: '`proof_of_work`方法通过递增其值进行搜索每个 nonce，以找到小于目标值的哈希值。目标值是通过使用提供的`difficulty_bits`值进行计算的。'
 - en: 'Each time a hash value is calculated using the SHA256 hash function, the resulting
     hexadecimal digest is converted to a decimal value and compared with the target
     decimal value. If the computed hash value is less than the target value, it signifies
@@ -671,6 +756,8 @@
   id: totrans-96
   prefs: []
   type: TYPE_NORMAL
+  zh: 每次使用 SHA256 哈希函数计算哈希值时，得到的十六进制摘要将被转换为一个十进制值，并与目标十进制值进行比较。如果计算得到的哈希值小于目标值，则表示该哈希值以大于或等于`difficulty_bits`的值开头，因此返回
+    nonce 和哈希值：
 - en: '[PRE17]'
   id: totrans-97
   prefs: []
@@ -683,6 +770,8 @@
   id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下 Python 主方法将创建一个新的 Blockchain 对象类，该类将创建一个带有起源块的新链。`for` 循环将创建一个新的块，每次将 `difficulty_bits`
+    增加 1。每次创建一个块时将调用 `proof_of_work` 函数：
 - en: '[PRE18]'
   id: totrans-99
   prefs: []
@@ -694,6 +783,7 @@
   id: totrans-100
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将找到工作证明示例的输出如下所示。它打印出所使用系统的哈希功率、随机数以及在创建块期间经过的时间：
 - en: '[PRE19]'
   id: totrans-101
   prefs: []
@@ -708,11 +798,13 @@
   id: totrans-102
   prefs: []
   type: TYPE_NORMAL
+  zh: 很明显，从这个例子输出中可以看出，计算解决方案所用的时间与使用的难度位数直接成正比。确切地说，对于难度级别的每增加一位，找到随机数的概率就减半，因为目标空间减半。尽管偶尔运气可能帮助我们解决一些难题，但在工作证明共识算法的大多数情况下，概率论成立。
 - en: Digital signatures in blockchain
   id: totrans-103
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链中的数字签名
 - en: Digital signatures are a product of asymmetric key cryptography, and they are
     a great way of establishing trust between parties in a trustless environment.
     As mentioned at the beginning of this chapter, digital signatures are used in
@@ -723,6 +815,7 @@
   id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: 数字签名是非对称密钥密码学的产物，它是在一个无信任环境中建立信任的好方法。正如本章开头提到的那样，数字签名被用在区块链的应用层。它们主要用于验证插入块中的交易中的事件。它们被用于验证交易，因为任何拥有生成的公私钥对的公钥的人都可以进行验证。
 - en: The asymmetric key cryptography provides a way to identify an entity. Anyone
     can prove the identity by owning the private key. Creating an identity for the
     participants allows them to perform operations such as asset management. We will
@@ -731,11 +824,13 @@
   id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 非对称密钥密码学提供了一种识别实体的方法。任何人都可以通过拥有私钥来证明身份。为参与者创建身份允许他们执行资产管理等操作。我们将在本节中深入探讨数字身份和资产管理，以了解数字签名在区块链中的作用。
 - en: Creating an identity
   id: totrans-106
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建身份
 - en: As we have covered digital signatures and the public-private key in the previous
     chapter, we are already aware of the properties and security of digital signatures.
     To recap, they provide a way for a node that possesses the private key to sign
@@ -744,6 +839,7 @@
   id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们在前一章中介绍的数字签名和公私钥一样，我们已经了解了数字签名的属性和安全性。简而言之，它们为拥有私钥的节点提供了一种签署消息以证明其身份的方法。这可以由任何拥有分布式公钥的人验证。
 - en: 'An identity is created by generating a public-private key pair. This is similar
     to creating an account in the blockchain network. The following code shows how
     a public-private key pair is generated by the `ecdsa` Python package using an
@@ -751,6 +847,7 @@
   id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: 通过生成一个公私钥对来创建身份。这类似于在区块链网络中创建一个帐户。以下代码展示了如何使用椭圆曲线通过 `ecdsa` Python 包生成一个公私钥对：
 - en: '[PRE20]'
   id: totrans-109
   prefs: []
@@ -762,6 +859,7 @@
   id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用特殊的椭圆曲线 secp256k1 生成密钥对，该曲线也用于比特币的数字签名生成。以下代码将创建一个公私钥对：
 - en: '[PRE21]'
   id: totrans-111
   prefs: []
@@ -772,6 +870,7 @@
   id: totrans-112
   prefs: []
   type: TYPE_NORMAL
+  zh: 以十六进制格式生成一个 64 字符（256 位）的私钥和一个 128 字符的公钥如下所示：
 - en: '[PRE22]'
   id: totrans-113
   prefs: []
@@ -782,11 +881,13 @@
   id: totrans-114
   prefs: []
   type: TYPE_NORMAL
+  zh: 私钥始终保密，而公钥用于生成用户的公共地址，然后嵌入到交易中。
 - en: Signatures in transaction
   id: totrans-115
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 交易中的签名
 - en: Digital signatures are used in transactions due to their properties that ensure
     the integrity of the transaction contents and non-repudiation of any events in
     the transaction. A transaction embedded into the block will contain a certain
@@ -795,6 +896,7 @@
   id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 数字签名在交易中被使用，因为它们具有确保交易内容完整性和对交易中任何事件不可否认的属性。嵌入到区块中的交易将包含由拥有私钥的某人签名的某个动作。拥有私钥因此证明了签名者的身份。
 - en: 'The following code shows a simple transaction with transaction id, signature,
     and public key. The transaction can only be signed by the owner of the corresponding
     private key of the public key. The transactions of Bitcoin and other blockchain
@@ -804,6 +906,8 @@
   id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下代码展示了一个简单的交易，包含交易ID、签名和公钥。该交易只能由拥有相应私钥的公钥的所有者签名。比特币和其他区块链平台的交易在交易中有几个字段用于进行价值转移，而加密货币的交易在[第五章](15831d35-9bb3-4752-98d7-46e23efca78b.xhtml)
+    *加密货币* 中有更详细的介绍：
 - en: '[PRE23]'
   id: totrans-118
   prefs: []
@@ -814,6 +918,7 @@
   id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 签名是通过使用相应公钥的私钥对交易的散列内容进行签名而创建的：
 - en: '[PRE24]'
   id: totrans-120
   prefs: []
@@ -826,6 +931,7 @@
   id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 该交易随后将在只使用交易内容、创建的签名和公钥的帮助下进行验证。只有当签名或交易内容被修改时，验证才会失败。这个操作还验证了交易的完整性：
 - en: '[PRE25]'
   id: totrans-122
   prefs: []
@@ -837,6 +943,7 @@
   id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: 只要签名或数据未被更改，每次交易都可以成功验证。以下代码生成了一个签名并成功验证了它：
 - en: '[PRE26]'
   id: totrans-124
   prefs: []
@@ -847,6 +954,7 @@
   id: totrans-125
   prefs: []
   type: TYPE_NORMAL
+  zh: 当交易内容被修改或者在这种情况下，交易ID被修改时，验证失败：
 - en: '[PRE27]'
   id: totrans-126
   prefs: []
@@ -859,11 +967,13 @@
   id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 本节构建的交易演示了基本的签名和验证过程。实际交易可以用于将价值从一个用户转移到另一个用户。在下一节中，我们将介绍可以使用交易执行的基本资产管理。
 - en: Asset ownership in blockchain
   id: totrans-128
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链中的资产所有权
 - en: A blockchain network is a decentralized peer-to-peer network, where nodes communicate
     with each other to create, exchange, and validate blocks. Most of the users in
     the blockchain network are interested in the application layer of the blockchain
@@ -875,6 +985,7 @@
   id: totrans-129
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链网络是一个分散的对等网络，其中节点相互通信以创建、交换和验证块。区块链网络中的大多数用户都对区块链的应用层感兴趣，可以通过创建交易来执行操作。可以在网络中轻松创建身份，就像我们在本章的前一节中所看到的。节点可以执行诸如资产创建或资产转移等操作。每个涉及资产的操作如果得到资产所有者的批准，则是有效的。资产所有者通过使用他们的私钥对交易进行签名来证明他们的身份。
 - en: Asset management operations, such as transferring the asset, can only be performed
     by the owner, but it can be verified by anyone in the network. All the operation
     details are embedded in transactions, and digital signatures are used by the asset
@@ -884,11 +995,13 @@
   id: totrans-130
   prefs: []
   type: TYPE_NORMAL
+  zh: 资产管理操作，如资产转移，只能由所有者执行，但可以由网络中的任何人验证。所有操作细节都嵌入在交易中，资产所有者使用数字签名对这些交易进行签名。然后，他们将这些交易广播到区块链中的每个节点，以便它们被包含在下一个要附加到区块链分类帐的块中。
 - en: Transferring an asset
   id: totrans-131
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 资产转移
 - en: The ownership of an asset can be proven by possession of the private key for
     an address (public key) to which the asset belongs. Whenever the ownership of
     an asset needs to be transferred, users use their private key to sign the transaction,
@@ -897,6 +1010,7 @@
   id: totrans-132
   prefs: []
   type: TYPE_NORMAL
+  zh: 一项资产的所有权可以通过拥有该资产所属地址（公钥）的私钥来证明。每当需要转移资产的所有权时，用户使用他们的私钥签署交易，首先证明他们的所有权，然后将所有权转移到所需用户。
 - en: 'We''re now going to look at a detailed example to better explain asset ownership.
     Alice is a user who claims to own an asset in the blockchain network. She wishes
     to transfer this asset to her friend, Bob. She has access to her private key,
@@ -909,14 +1023,17 @@
   id: totrans-133
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们将看一个详细的例子来更好地解释资产所有权。Alice是一个在区块链网络中声称拥有资产的用户。她希望将此资产转移给她的朋友Bob。她可以访问自己的私钥，并使用它来创建一个包含数字签名的交易，证明她拥有该资产。签名过程是使用数字签名执行的，类似于本章早期使用ECDSA作为签名算法时使用的数字签名，该签名还使用了ECC密钥对。下面的*图3.3*显示了Alice如何通过签署包含资产转移信息的交易内容来创建签名：
 - en: '![](img/bc9d6401-de45-44e3-bc10-e30fc7e674f9.png)'
   id: totrans-134
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/bc9d6401-de45-44e3-bc10-e30fc7e674f9.png)'
 - en: 'Figure 3.3: Alice signing a transaction to transfer an asset'
   id: totrans-135
   prefs: []
   type: TYPE_NORMAL
+  zh: 图3.3：Alice签署一个用于转移资产的交易
 - en: All the information provided in this example of creating a transaction is from
     a high level and is not an accurate representation of transactions in practical
     blockchain applications. A detailed explanation of transactions is outside the
@@ -925,11 +1042,13 @@
   id: totrans-136
   prefs: []
   type: TYPE_NORMAL
+  zh: 此处提供的创建交易示例中的所有信息都是从高层次得出的，不是实际区块链应用中交易的准确代表。交易的详细解释超出了本章的范围，但将在[第5章](15831d35-9bb3-4752-98d7-46e23efca78b.xhtml)，*加密货币*中进行介绍。
 - en: Transmitting the transaction
   id: totrans-137
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 传输交易
 - en: 'Once the asset transfer information has been signed by the user, other information,
     such as the user''s public key for verification, the destination public address,
     and other information that is necessary for verification, is provided. This information
@@ -937,14 +1056,17 @@
   id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 用户签署资产转移信息后，提供其他信息，例如用于验证的用户的公钥，目标公共地址以及其他验证所需的信息。此信息被广播到所有节点，以便包含在区块链中：
 - en: '![](img/8350aa72-ff57-41c0-8494-9bf233982bbe.jpg)'
   id: totrans-139
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/8350aa72-ff57-41c0-8494-9bf233982bbe.jpg)'
 - en: 'Figure 3.4: Information in a transaction'
   id: totrans-140
   prefs: []
   type: TYPE_NORMAL
+  zh: 图3.4：交易中的信息
 - en: As shown in the preceding *Figure 3.4*, Alice will include information such
     as her public key and Bob's address in the transaction. The information provided
     in the transaction should suffice for Bob to claim that the asset belongs to him
@@ -952,17 +1074,20 @@
   id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: 如前述*图3.4*所示，Alice将在交易中包含诸如她的公钥和Bob的地址等信息。交易中提供的信息应足以使Bob在交易被包含在区块链的任何一个区块中后主张该资产属于他。
 - en: The public address of the node acts as an identifier for the node and is constructed
     from the public key by performing hashing and encoding. [Chapter 5](15831d35-9bb3-4752-98d7-46e23efca78b.xhtml),
     *Cryptocurrency*, will cover this in detail.
   id: totrans-142
   prefs: []
   type: TYPE_NORMAL
+  zh: 节点的公共地址充当节点的标识符，并通过执行哈希和编码从公钥构造而成。[第5章](15831d35-9bb3-4752-98d7-46e23efca78b.xhtml)，*加密货币*，将详细介绍此过程。
 - en: Claiming the asset
   id: totrans-143
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 认领资产
 - en: 'When an asset is transferred and transmitted with the information required
     in the transaction, the blockchain network will ensure that it is included in
     the blockchain after validating the transaction and the block in which it was
@@ -972,14 +1097,17 @@
   id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: 当资产通过交易所需的信息进行转移和传输时，区块链网络将验证交易和包含交易的区块后，将其包含在区块链中。当交易包含在区块链中时，每个人都将能够看到这笔交易，但只有被寄往的所有者能够认领资产：
 - en: '![](img/1e190536-4a69-45b4-9e40-d4c602c579dc.png)'
   id: totrans-145
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/1e190536-4a69-45b4-9e40-d4c602c579dc.png)'
 - en: 'Figure 3.5: Bob verifying the transaction by means of public information'
   id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: 图3.5：Bob通过公共信息验证交易
 - en: The level of security provided by the asymmetric key cryptography used in the
     digital signature will make sure that only the node that owns the private key
     corresponding to the public address will be able to claim the asset that was transferred
@@ -987,6 +1115,7 @@
   id: totrans-147
   prefs: []
   type: TYPE_NORMAL
+  zh: 数字签名中使用的非对称密钥加密提供的安全级别将确保只有拥有与公共地址对应的私钥的节点才能索要转移至该地址的资产。
 - en: The preceding *Figure 3.5* shows that when Bob's node recognizes that a transaction
     has taken place in which an asset has been transferred to his address, he tries
     to verify the transaction with the public information provided in the transaction.
@@ -998,11 +1127,13 @@
   id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: 前述的*图3.5*显示了当Bob的节点识别到一笔交易发生时，资产已被转移到他的地址时，他会尝试通过交易中提供的公共信息验证交易。一旦他验证了Alice创建了有效的交易，他就可以通过提供他的私钥执行任何关于资产的操作，从而证明资产属于他。这就是数字签名确保资产可以通过创建交易轻松转移，并且区块链确保交易在分散的网络中得到分发的方式。
 - en: Blockchain wallets
   id: totrans-149
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链钱包
 - en: A blockchain wallet is a piece of software that holds all the private keys owned
     by a particular user. While physical wallets hold hard cash, blockchain wallets
     hold all the private keys a user possesses, which will help the user claim assets
@@ -1010,6 +1141,7 @@
   id: totrans-150
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链钱包是一款保存特定用户拥有的所有私钥的软件。而物理钱包保存实体现金，区块链钱包则保存用户拥有的所有私钥，这将帮助用户索要属于自己的资产。
 - en: Wallets are a famous concept in cryptocurrency. A user holding the private key
     will be able to view their account balance when a transaction is recorded in the
     blockchain. Wallet nodes used in Bitcoin are called **Simplified Payment Verification**
@@ -1017,12 +1149,14 @@
   id: totrans-151
   prefs: []
   type: TYPE_NORMAL
+  zh: 钱包是加密货币中一个著名的概念。持有私钥的用户在交易记录在区块链中时将能查看他们的账户余额。比特币中使用的钱包节点称为**简化支付验证（SPV）**节点。
 - en: 'A single wallet can store any number of keys, which means a node can have multiple
     destination addresses. These keys are created in two distinct ways: deterministically
     and non-deterministically.'
   id: totrans-152
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个单独的钱包可以存储任意数量的密钥，这意味着一个节点可以有多个目标地址。这些密钥有两种不同的创建方式：确定性和非确定性。
 - en: A **non-deterministic wallet** is a collection of randomly created private keys
     that bear no relation to each other. Private keys created with these wallets are
     difficult to maintain because it is difficult to reconstruct the keys in the event
@@ -1031,6 +1165,7 @@
   id: totrans-153
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个**非确定性钱包**是一个由随机创建的私钥组成的集合，这些私钥彼此之间没有关系。使用这些钱包创建的私钥难以维护，因为一旦丢失很难重建。因此，钱包中的每个密钥都必须备份，以防在钱包故障时发生任何损失。
 - en: A **deterministic wallet** is also called a seed wallet because all the keys
     in this wallet are derived from a single seed. All the keys can easily be reproduced
     just by accessing the seed. All the keys in a simple deterministic wallet are
@@ -1040,11 +1175,13 @@
   id: totrans-154
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个**确定性钱包**也称为种子钱包，因为该钱包中的所有密钥都由一个单一的种子衍生而来。通过访问种子，所有密钥可以轻松地重新生成。一个简单的确定性钱包中的所有密钥都是通过对一个字符串和一个增量nonce进行哈希而创建的。在钱包发生故障的情况下，仅凭种子信息就足以恢复私钥，因此无需备份钱包中的所有密钥。
 - en: Summary
   id: totrans-155
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 摘要
 - en: In this chapter, we've covered foundations of the facets of cryptography in
     blockchain by identifying its application in the basic blockchain architecture.
     This will serve as a foundation for the more advanced blockchain topics that we'll
@@ -1052,6 +1189,7 @@
   id: totrans-156
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们通过识别加密货币在基本区块链架构中的应用，介绍了加密学在区块链中的基础知识。这将为我们在后续章节中讨论的更高级的区块链主题奠定基础。
 - en: Now that we have been introduced to the basic blockchain architecture, with
     cryptography as its backbone, it's time to move on to the counterpart of blockchain
     technology – decentralized networking. This will be covered in the next chapter
