@@ -1,4 +1,5 @@
 - en: Building Blockchain Using Quorum
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -9,36 +10,45 @@
     Quorum in depth by exploring all the various consensus protocols it supports,
     its permissioning and privacy features, and finally, tools that enable us to quickly
     deploy a Quorum network.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
 - en: 'In this chapter, we will cover the following topics:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
 - en: User accounts in Ethereum
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: What is a Merkle tree and what is it used for in blockchain?
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: How do **Istanbul Byzantine Fault Tolerant** (**IBFT**) and Raft work?
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Various mechanisms supported by Quorum to achieve privacy
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Setting up constellation, Raft, and IBFT networks
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Various third-party tools or libraries related to Quorum
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Overview of Quorum
+  id: totrans-9
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -49,6 +59,7 @@
     written in Solidity, LLL, or Serpent. Solidity is the preferred one. There can
     be multiple instances of a smart contract. Each instance is identified by a unique
     address, and you can deploy multiple DApps on the same Quorum network.
+  id: totrans-10
   prefs: []
   type: TYPE_NORMAL
 - en: In Ethereum, there is an internal currency called **ether**. To deploy or execute
@@ -62,6 +73,7 @@
     of a account if anything suspicious is by a account by tracking the ether transfers
     and also provide a way such that to make transactions you need to get permission
     from one of the permitted members; that is, get some ether from a network member.
+  id: totrans-11
   prefs: []
   type: TYPE_NORMAL
 - en: 'Currently, Quorum supports three consensus protocols: QuorumChain, IBFT, and
@@ -69,9 +81,11 @@
     ones. For privacy, it supports two mechanisms: the zero-knowledge security layer
     protocol and private contracts. We will learn about private contracts but will
     not be covering ZSL as it''s still not production-ready.'
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
 - en: Ethereum accounts
+  id: totrans-13
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -82,38 +96,46 @@
     uses  **secp256k1** curves. To go in to  ECC and it's curves will require mathematical
     knowledge, and it's not necessary to understand it in depth to build DApps using
     Ethereum.
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
 - en: Ethereum uses 256-bit encryption. An Ethereum private and public key is a 256-bit
     number. As processors cannot represent such big numbers therefore it's always
     encoded as a hexadecimal string of length 64.
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
 - en: 'Every account is represented by an address. Once we have the keys we need to
     generate the address, here is the procedure to generate the address, and here
     is the procedure to generate the address from the public key:'
+  id: totrans-16
   prefs: []
   type: TYPE_NORMAL
 - en: First, generate the **Keccak-256** hash of the public key. It will give you
     a 256-bit number.
+  id: totrans-17
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Drop the first 90 bits and 12 bytes. You should now have 160 bits of binary
     data (20 bytes).
+  id: totrans-18
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Now, encode the address as a hexadecimal string. So, finally, you will have
     a byte string of 40 characters, which is your account address.
+  id: totrans-19
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Now, anyone can send ether to this address, and then you can sign and send transactions
     from this address.
+  id: totrans-20
   prefs: []
   type: TYPE_NORMAL
 - en: What are Ethereum transactions?
+  id: totrans-21
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -126,6 +148,7 @@
     is allowed to take (called a **gas limit**), and the cost the sender of the transaction
     is willing to pay for each computational step (called the **gas price**). The
     product of the gas used and the gas price is called the **transaction fees**.
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
 - en: In permissioned networks, ether is valueless. In a Quorum network, ether is
@@ -133,6 +156,7 @@
     need to supply ether in the genesis block. You need to provide gas to prevent
     attacks, such as infinite loops. Ether is not deducted from accounts when transactions
     are mined.
+  id: totrans-23
   prefs: []
   type: TYPE_NORMAL
 - en: If the transaction's intention is to invoke a method of a contract, it also
@@ -140,6 +164,7 @@
     contain the initialization code. To send ether or to execute a contract method,
     you need to broadcast a transaction to the network. The sender needs to sign the
     transaction with its private key.
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
 - en: A transaction is said to be confirmed if we are sure that it will always appear
@@ -149,9 +174,11 @@
     there are chances of forking and the transaction disappearing from the blockchain.
     But, in Quorum's Raft or IBFT, as soon as the transaction appears in one of the
     blocks, we can say it's confirmed as there is no possibility of forking.
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
 - en: What is a Merkle tree?
+  id: totrans-26
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -161,6 +188,7 @@
     The block header contains information such as the previous block hash (it's actually
     a hash of the previous block's header), timestamp, Merkle root, and information
     related to achieving consensus.
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
 - en: At the time of sync, while downloading a block a node downloads the block header
@@ -173,6 +201,7 @@
     combining all transactions and hashing it. This idea will work perfectly, and
     we can detect if any transaction is missing or extra transactions included, or
     if transactions are in the correct order.
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
 - en: 'Well, a Merkle root is an alternative to the transactions hash approach but
@@ -183,6 +212,7 @@
     but still it should be able to provide all APIs to the client. For example: a
     smartphone cannot have the full blockchain as it could be very large in size;
     therefore, we can install a light client in smartphones.'
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
 - en: 'Let''s first understand what a binary Merkle tree is with respect to blockchain. A
@@ -192,9 +222,11 @@
     block. Every blocks forms it''s own Merkle tree. A Merkle tree is called a **binary
     Merkle tree** when every parent has two children. Binary Merkle trees are what
     is used in blockchain. Here is an example of a binary Merkle tree:'
+  id: totrans-30
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/6ec86d17-12ee-40b8-93ec-182de6126017.png)'
+  id: totrans-31
   prefs: []
   type: TYPE_IMG
 - en: In the preceding diagram, at first the individual hash of every transaction
@@ -202,6 +234,7 @@
     is calculated for each pair. This process will continue until we have a single
     hash called the **Merkle root**. In case there are odd numbers of transactions,
     the last transaction is duplicated to make the total number of transactions even.
+  id: totrans-32
   prefs: []
   type: TYPE_NORMAL
 - en: Now, at the time of downloading a complete block, the block header, and transactions
@@ -209,6 +242,7 @@
     not by forming the binary Merkle tree and checking that the generated Merkle root
     is the same as the one included in the block header. Of course, this can be done
     without a Merkle tree, as discussed previously.
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
 - en: A light node can take advantage of the Merkle tree to serve requests to the
@@ -229,6 +263,7 @@
     In this case, the only way to tackle this issue is to request multiple full nodes,
     and it's unlikely all of them will lie. This functionality cannot be achieved
     without Merkle trees.
+  id: totrans-34
   prefs: []
   type: TYPE_NORMAL
 - en: 'Ethereum blockchain is more complicated. Now, suppose an Ethereum light node
@@ -237,18 +272,22 @@
     binary Merkle will not be able to provide this functionality. So, in Ethereum,
     every block header contains not just one Merkle tree, but three trees for three
     kinds of objects:'
+  id: totrans-35
   prefs: []
   type: TYPE_NORMAL
 - en: Transactions
+  id: totrans-36
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Transaction receipts (essentially, pieces of data showing the effect of each
     transaction)
+  id: totrans-37
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: State
+  id: totrans-38
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
@@ -272,6 +311,7 @@
     making requests to the full node and if its result is the same as what the full
     node claims, the light client accepts output to be the one full node claims to
     be.'
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
 - en: For state, Ethereum uses the Merkle Patricia tree instead of the binary tree.
@@ -279,19 +319,23 @@
     consists of a key-value map, where the keys are addresses and the values are account
     balance, nonce, code, and storage for each account (where the storage is itself
     a tree). To learn how the Merkle Patricia tree works, visit [https://easythereentropy.wordpress.com/2014/06/04/understanding-the-ethereum-trie/.](https://easythereentropy.wordpress.com/2014/06/04/understanding-the-ethereum-trie/)
+  id: totrans-40
   prefs: []
   type: TYPE_NORMAL
 - en: In enterprise blockchains, there is no use of light clients as the nodes represent
     an enterprise, and enterprises have infrastructure to run full nodes.
+  id: totrans-41
   prefs: []
   type: TYPE_NORMAL
 - en: What is forking in blockchain?
+  id: totrans-42
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'A fork is said to have happened when there is a conflict among the nodes regarding
     the validity of the blockchain, that is, more than one blockchain happens to be
     in the network. There are three kinds of fork: regular, soft, and hard.'
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
 - en: A regular fork is said to be happening when there are two or more blocks at
@@ -300,6 +344,7 @@
     proof-of-work, if two miners mine a block at the same time then it creates a regular
     fork. And, this is resolved by selecting the blockchain with the highest difficulty
     as the most accurate one.
+  id: totrans-44
   prefs: []
   type: TYPE_NORMAL
 - en: A soft fork, by contrast, is any change to the blockchain protocol that's backward-
@@ -311,8 +356,11 @@
     and overridden by the blockchain created by the non-upgraded nodes. Soft forks
     are resolved when the majority of the nodes in the network upgrade their node
     software.
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 相比之下，软分叉是指对区块链协议的任何更改都是向后兼容的。比如，新规则可能只允许 1 MB 区块，而不是 2 MB 区块。非升级的节点仍然会将新的交易视为有效（在本例中，1
+    MB 小于 2 MB）。然而，如果非升级的节点继续创建区块，那么它们创建的区块将被升级的节点拒绝。因此，如果网络中的少数节点升级了，则它们形成的链将变得不太准确，并被非升级节点创建的区块链覆盖。软分叉在网络中的大多数节点升级其节点软件时解决。
 - en: A hard is a software upgrade that introduces a new rule to the network that
     isn't with the older software. You can think of a hard fork as an expansion of
     the rules. For example, a new rule that allows the block size to be 2 MB instead
@@ -320,28 +368,38 @@
     of the software will see new transactions as invalid. So, the fork can only be
     resolved when all the nodes in the network upgrade their node software. Until
     then, there will be two different blockchains in the network.
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 硬分叉是一种软件升级，引入了一个与旧软件不兼容的新规则到网络中。你可以把硬分叉看作是规则的扩展。例如，允许区块大小为 2 MB 而不是 1 MB 的新规则将需要进行硬分叉。继续运行旧版本软件的节点将会将新交易视为无效。因此，只有当网络中的所有节点都升级其节点软件时，分叉才能解决。在那之前，网络中将会有两个不同的区块链。
 - en: You must have heard about Bitcoin and Ethereum forks. For example, Bitcoin cash
     and Ethereum classic were formations of hard forks. Many miners and nodes in the
     network didn't agree to the new protocol and chose to run the old software, and
     split out of the network and formed a different network.
+  id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 你一定听说过比特币和以太坊的分叉。例如，比特币现金和以太经典是硬分叉的形成。网络中的许多矿工和节点不同意新协议，并选择运行旧软件，从而分裂出网络并形成了一个不同的网络。
 - en: Raft consensus
+  id: totrans-48
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Raft 共识
 - en: Let's see how the Raft consensus protocol works at a level which will make us
     comfortable enough to build DApps. We won't go in depth into Raft as it's not
     necessary.
+  id: totrans-49
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看看 Raft 共识协议的工作原理，以一个足以让我们舒适地构建 DApps 的水平。我们不会深入研究 Raft，因为这并不必要。
 - en: Raft is used in a semi-trusted network, and there is a desire for faster blocktimes
     (on the order of milliseconds instead of seconds) and single confirmation (the
     absence of regular forks).
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: Raft 用于半可信网络，并且有一种希望获得更快的区块时间（以毫秒为单位而不是秒）和单次确认（没有定期的分叉）的愿望。
 - en: Every node in the network keeps a list of all other nodes in the network regardless
     of whether they are up and running or not. A server in a Raft cluster is either
     a leader or a follower, and can be a candidate in the case of an election, which
@@ -358,6 +416,7 @@
     vote for it. If a leader is not elected in a certain timeout, then a new leader
     election process is started. It's not necessary to understand the leader election
     process in depth.
+  id: totrans-51
   prefs: []
   type: TYPE_NORMAL
 - en: Raft is designed in such a way that a Raft network requires more than 50% of
@@ -367,6 +426,7 @@
     will again resume working properly once the cluster again has more than F nodes
     working properly. Even leader election will fail if more than 50% nodes are not
     available in the network.
+  id: totrans-52
   prefs: []
   type: TYPE_NORMAL
 - en: Every transaction from every node is sent to every other node in the network. The
@@ -379,6 +439,7 @@
     committed by all of the followers. This process makes sure that once a block is
     committed to blockchain, it can never be reversed. Even the leader election process
     makes sure that whoever is selected as a leader has its blockchain up to date.
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
 - en: In Quorum, the default block time is 50 ms, and you can change that according
@@ -388,37 +449,52 @@
     previous block is committed, and block creation is asynchronous. But of course,
     they are committed serially. When a node starts up, it retrieves the missed blocks
     from the leader only, not from other nodes in the network.
+  id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Quorum 中，默认的区块时间是 50 毫秒，您可以根据需要进行更改。因此，每 50 毫秒会创建一个区块，但请记住，如果没有交易，那么就不会创建区块；在
+    Raft 中不会创建空块。领导者可以在先前的区块提交之前创建新的区块并将其发送给跟随者，区块创建是异步的。但是当然，它们是按顺序提交的。当节点启动时，它只会从领导者那里获取丢失的区块，而不会从网络中的其他节点获取。
 - en: For the Raft cluster to function properly, it's very important that the average
     time it takes a server to send a heartbeat request to every server in the cluster
     and receive responses is less than the election timeout. Also, there is no way
     for the leader to delete or modify committed blocks; a leader can only append
     new blocks to the blockchain.
+  id: totrans-55
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于 Raft 集群的正常运行，非常重要的一点是，服务器发送心跳请求到集群中的每个服务器并接收响应的平均时间小于选举超时时间。此外，领导者没有办法删除或修改已提交的区块；领导者只能将新的区块追加到区块链中。
 - en: Istanbul Byzantine Fault Tolerence
+  id: totrans-56
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 伊斯坦布尔拜占庭容错
 - en: Let's see how the IBFT consensus protocol works at a level that will make us
     comfortable enough to build DApps. We won't go in depth into IBFT as it's not
     necessary.
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看看 IBFT 共识协议是如何工作的，这将使我们足够放心去构建 DApps。我们不会深入研究 IBFT，因为这并不是必要的。
 - en: 'IBFT is a type of proof-of-authority protocol. In IBFT, there are two kinds
     of nodes: validator nodes (referred to as authorities when they are linked to
     physical entities) and regular nodes. Authority nodes are the ones that create
     blocks. IBFT is used in a network where there is a need for BFT, blocktime up
     to a few seconds is good enough, and we need a single confirmation (the absence
     of regular forks).'
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: IBFT 是一种权威证明协议。在 IBFT 中，有两种类型的节点：验证者节点（当它们与物理实体连接时称为权威节点）和常规节点。权威节点是创建区块的节点。IBFT
+    用于需要 BFT 的网络，几秒钟的区块时间足够好，并且我们需要单一确认（没有常规分叉）。
 - en: The system can tolerate at most *F* Byzantium or crashed nodes in a *N* validator
     nodes network that is, *F = (N-1)/3* . The default block time in IBFT is between one
     to ten seconds and Quorum does allow you to customize this.
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 系统最多能容忍 *F* 个拜占庭或崩溃节点，在一个 *N* 个验证节点网络中，即 *F = (N-1)/3*。IBFT 中的默认区块时间为一到十秒，Quorum
+    允许您自定义此时间。
 - en: In IBFT, a round involves creating and committing a new block to the blockchain.
     A new round is started once a new block is committed in the *(2F + 1)* validators
     blockchain. Before each block creation round, the validators will pick one of
@@ -427,8 +503,11 @@
     least *(2F + 1)* validators. So, there is a process which involves sending and
     receiving various messages between the purposer and other validators at each round
     to agree to the new block.
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 IBFT 中，一个轮次涉及创建并提交一个新的区块到区块链中。在 *(2F + 1)* 个验证者的区块链中提交了一个新的区块后，就会开始一个新的轮次。在每个区块创建轮次之前，验证者将从中选择一个作为提议者。提议者是负责创建区块的验证者。为了将区块提交到区块链上，必须至少有
+    *(2F + 1)* 个验证者签名。因此，在每一轮中，提议者和其他验证者之间需要发送和接收各种消息的过程以同意新的区块。
 - en: 'There are two algorithms supported by Quorum for selection of the purposer:
     round robin and sticky purposer. Round robin is used by default, and in round
     robin algorithms the purposer is selected in round robin fashion. But, in the
@@ -438,20 +517,26 @@
     until it fails. Regardless of the round robin or sticky purposer algorithm, if
     the purposer fails to commit a block in *1-10* seconds time, then a new round
     is started and the next validator becomes the purposer of the new round.'
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 夸姆支持两种算法来选择提议者：轮询和粘性提议者。默认情况下使用轮询，而在轮询算法中，提议者按轮询方式选择。但是，在粘性提议者算法中，单个验证者成为所有轮次的提议者，如果提议者崩溃，则选择下一个验证者作为新的提议者，其再次成为所有轮次的唯一提议者；提议者保持不变，直到失败。无论是轮询还是粘性提议者算法，如果提议者在*1-10*秒的时间内未能提交区块，则会启动新一轮，下一个验证者成为新一轮的提议者。
 - en: If the network manages to have more than *F* faulty nodes, then these faulty
     nodes can prevent creation of new blocks by declining to sign blocks. When a crashed
     node in the network comes up, it can get missed blocks from any node in the network.
     There is no way more than *F* faulty nodes can rewrite blocks.
+  id: totrans-62
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果网络设法拥有多于*F*个故障节点，则这些故障节点可以通过拒绝签署区块来阻止新区块的创建。当网络中的崩溃节点重新上线时，它可以从网络中的任何节点获取丢失的区块。超过*F*个故障节点无法重新编写区块。
 - en: The list of validators is stored in the header of genesis blocks, and the `extraData`
     field in the header contains the list of validators. For the first round, the
     first validator is selected. The header also contains various other fields and
     details related to IBFT to help the network reach consensus.
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 验证者列表存储在创世区块的头部，并且头部的`extraData`字段包含验证者列表。对于第一轮，选择第一个验证者。头部还包含与 IBFT 相关的各种其他字段和详细信息，以帮助网络达成共识。
 - en: A validator can add or remove a validator. Even adding or removing new validators
     to the network requires *2F + 1* validators agreeing to it. This process of validators
     agreeing or disagreeing to adding or removing a validator is done manually. It
@@ -459,20 +544,29 @@
     nodes of their own and compromise the network. Therefore, a manual process makes
     sure that other validators learn who the new validator is and decide whether to
     allow it or not.
+  id: totrans-64
   prefs: []
   type: TYPE_NORMAL
+  zh: 验证者可以添加或删除验证者。即使将新验证者添加或删除到网络中也需要*2F + 1*个验证者同意。验证者同意或不同意添加或删除验证者的过程是手动进行的。它不能是一个自动过程，因为验证者可以开始添加多个自己的验证节点并危害网络。因此，手动过程确保其他验证者了解新验证者是谁，并决定是否允许它。
 - en: You can learn more about how IBFT works in depth at [https://github.com/ethereum/EIPs/issues/650.](https://github.com/ethereum/EIPs/issues/650)
+  id: totrans-65
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可以在[https://github.com/ethereum/EIPs/issues/650.](https://github.com/ethereum/EIPs/issues/650)深入了解
+    IBFT 的工作原理。
 - en: Private contracts and constellation
+  id: totrans-66
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 私有合约和星座
 - en: Private contracts are an out-of-the-box feature provided by Quorum for enabling
     data privacy. Private contracts are used for sharing information privately between
     two or more nodes without other nodes being able to see it.
+  id: totrans-67
   prefs: []
   type: TYPE_NORMAL
+  zh: 私有合约是夸姆提供的一个开箱即用的功能，用于实现数据隐私。私有合约用于在两个或多个节点之间私下共享信息，而其他节点无法看到。
 - en: 'Let''s look at what private contracts in Quorum are. Contracts that are deployed
     using private transactions are called **private contracts**. A private transaction
     is basically one whose payload (contract code for contract deployment or function
@@ -486,8 +580,11 @@
     and private state. Private transactions form the private state, whereas public
     transactions form the public state. These states cannot interact with each other.
     But, private-private contracts can certainly interact with each other.'
+  id: totrans-68
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看看 Quorum 中的私有合约是什么。使用私有交易部署的合约称为**私有合约**。私有交易基本上是一种其有效负载（合约部署的合约代码或调用函数的函数参数，交易的数据部分）在区块链之外点对点共享的交易，在发送交易时选择的一组节点之间共享有效负载，并且有效负载的哈希在区块链中被记录，用有效负载的哈希替换实际有效负载。现在，网络中的节点检查它们是否有内容哈希为区块链中存在的有效负载的哈希，并且如果是，则执行原始有效负载。Quorum
+    形成同一区块链的两个不同状态：公共状态和私有状态。私有交易形成私有状态，而公共交易形成公共状态。这些状态之间不能互相交互。但是，私有-私有合约可以相互交互。
 - en: Quorum uses constellation for sending and receiving actual transaction payloads
     for private transactions. Constellation is a separate software built by J.P. Morgan. Constellation
     forms a network of nodes, each of which advertises a list of public keys that
@@ -502,18 +599,29 @@
     to the blockchain network once the payload is successfully sent to all the listed
     constellation nodes. If any listed constellation node is down, then the transaction
     fails and is never broadcast to the blockchain network.
+  id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: Quorum 使用 constellation 来发送和接收私有交易的实际交易有效负载。Constellation 是由 J.P. Morgan 构建的独立软件。Constellation
+    形成一个节点网络，每个节点都会公布一个它们是接收方的公钥列表。每个节点暴露了一个 API，允许用户将有效负载发送到一个或多个公钥。在传输到接收节点之前，有效负载将被加密为公钥。它通过
+    IPC 公开了应用程序连接到其 constellation 节点并发送或接收数据的 API。在高层次上，如果您连接到 constellation 网络，则只需提及接收方的公钥，数据就会被加密并发送到与公钥映射的
+    IP 地址。在发送私有交易时，仅在有效负载成功发送到所有列出的 constellation 节点后，才将公钥列表和交易广播到区块链网络。如果任何列出的 constellation
+    节点宕机，则交易失败，并且永远不会广播到区块链网络。
 - en: So, basically, before starting your Quorum node, you need to start your constellation
     node and then provide the IPC path for constellation to the Quorum node before
     starting the Quorum node. Then, your Quorum node uses the constellation for sending
     or receiving private transactions.
+  id: totrans-70
   prefs: []
   type: TYPE_NORMAL
+  zh: 所以，在启动您的 Quorum 节点之前，您需要启动您的 constellation 节点，并在启动 Quorum 节点之前提供 constellation
+    的 IPC 路径给 Quorum 节点。然后，您的 Quorum 节点使用 constellation 来发送或接收私有交易。
 - en: 'Private transactions are not the ultimate solution to achieving privacy in
     Quorum. They have various downsides. Following are some of them:'
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 私有交易并不是在 Quorum 中实现隐私的最终解决方案。它们有各种缺点。以下是其中一些：
 - en: Once you send a private transaction to a list of nodes, you cannot add new nodes
     to that list. For example, if you deployed a private contract that used for interbank
     transfers. Suppose initially the central bank was not part of the network, and
@@ -522,9 +630,11 @@
     previous bank transfers visible to them. Although they can see the new private
     transactions, as they don't have the new private transactions they cannot execute
     the transactions and so will not be able to see the output.
+  id: totrans-72
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 一旦您向一组节点发送了私有交易，就无法将新节点添加到该列表中。例如，如果您部署了用于银行间转账的私有合约。假设最初中央银行不是网络的一部分，如果后来他们决定加入，那么他们将无法监视交易，因为我们无法使私有合约对他们可见，也不能使之前的银行转账对他们可见。虽然他们可以看到新的私有交易，但由于他们没有新的私有交易，他们无法执行交易，因此将无法查看输出。
 - en: There is no way to check whether private transactions pointing to a private
     contracts have exactly the same list of public keys that were used while deploying
     the private contracts. This can lead to double spend attacks; in other words,
@@ -535,110 +645,161 @@
     There is no way for *C* to verify that the new owner of the asset is *B*. For
     this reason, private transactions aren't used for transferring digital assets,
     but private transactions can used for all other forms of data representation.
+  id: totrans-73
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 无法检查指向私有合约的私有交易是否具有与部署私有合约时使用的完全相同的公钥列表。这可能导致双重花费攻击；换句话说，您可以将相同的资产转移两次。例如，在部署合约时，您提到了三个节点
+    *A*、*B* 和 *C*。现在，当 *A* 转移资产时，它可能会从私有交易中排除 *C*，然后稍后通过创建新的私有交易将相同的资产转移到 *C*。*C*
+    无法验证资产的新所有者是 *B*。因此，私有交易不用于转移数字资产，但私有交易可用于所有其他形式的数据表示。
 - en: You will need to build your own backup mechanisms for the constellation nodes.
     So, if your constellation node crashes, then it will not automatically get back
     payloads from the constellation network.
+  id: totrans-74
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 您需要为星座节点构建自己的备份机制。因此，如果您的星座节点崩溃，则不会自动从星座网络中获取有效负载。
 - en: Installing Quorum and constellation
+  id: totrans-75
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 安装 Quorum 和星座
 - en: Now we are quite confident about the Quorum's consensus protocols, Ethereum
     accounts, transactions, and private contracts. It's time to build a Quorum network.
     Before that, we need to learn how to install Quorum and constellation. Remember
     that constellation is optional and should only be integrated in the Quorum network
     if private contracts are required.
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们对 Quorum 的共识协议、以太坊账户、交易和私有合约非常有信心。是时候构建一个 Quorum 网络了。在此之前，我们需要学习如何安装 Quorum
+    和星座。请记住，星座是可选的，仅在需要私有合约时才应将其集成到 Quorum 网络中。
 - en: The best way to install Quorum and constellation is to build the source code.
     In this book, we will concentrate on steps for Ubuntu and macOS only. You can
     find Quorum's source code at [https://github.com/jpmorganchase/quorum](https://github.com/jpmorganchase/quorum)
     , whereas you can find constellation source code at [https://github.com/jpmorganchase/constellation.](https://github.com/jpmorganchase/constellation)
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
+  zh: 安装 Quorum 和星座的最佳方法是构建源代码。在本书中，我们将仅集中在 Ubuntu 和 macOS 上的步骤。您可以在[https://github.com/jpmorganchase/quorum](https://github.com/jpmorganchase/quorum)找到
+    Quorum 的源代码，而星座源代码可以在[https://github.com/jpmorganchase/constellation](https://github.com/jpmorganchase/constellation)找到。
 - en: 'Following are the three basic commands to build Quorum from source code:'
+  id: totrans-78
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是从源代码构建 Quorum 的三个基本命令：
 - en: '[PRE0]'
+  id: totrans-79
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: Now, go into the `build/bin/` directory and you will find the `geth` executable,
     which is the node software for running the Quorum node. Also, you will find another
     executable file named `bootnode`, and we will use this to generate the enode ID
     only. We will see later what an enode ID is.
+  id: totrans-80
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，进入 `build/bin/` 目录，您会找到 `geth` 可执行文件，这是运行 Quorum 节点的节点软件。此外，您还会找到另一个名为 `bootnode`
+    的可执行文件，我们将仅使用它来生成 enode ID。稍后我们将看到什么是 enode ID。
 - en: 'To install constellation, you need a few prerequisites. In Ubuntu, run the
     following commands to install the prerequisites:'
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
+  zh: 要安装星座（constellation），您需要几个先决条件。在 Ubuntu 中，运行以下命令安装先决条件：
 - en: '[PRE1]'
+  id: totrans-82
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: 'And, in macOS, run the following commands to install the prerequisites:'
+  id: totrans-83
   prefs: []
   type: TYPE_NORMAL
+  zh: 而在 macOS 中，运行以下命令安装先决条件：
 - en: '[PRE2]'
+  id: totrans-84
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: 'Now, to install constellation, run the following commands:'
+  id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，要安装星座，运行以下命令：
 - en: '[PRE3]'
+  id: totrans-86
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: Now, after you run they preceding commands and they are executed successfully,
     you will get a message stating the path of the `constellation-node` executable.
     Move the executable from that path to a place where you can find it easily.
+  id: totrans-87
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，在运行上述命令并成功执行后，你将收到一条消息，指明了`constellation-node`可执行文件的路径。将可执行文件从那个路径移动到一个方便你找到的地方。
 - en: Build your first Raft network
+  id: totrans-88
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 构建你的第一个Raft网络
 - en: Now, we have installed Quorum and constellation successfully, it's time to set
     up our first Quorum network. Before setting up the network, you need to decide
     whether you want to use Raft or IBFT, and accordingly you need to plan and set
     up. We will learn setting up both kinds of networks. We will also set up a constellation
     network.
+  id: totrans-89
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们已经成功安装了Quorum和星座，现在是时候设置我们的第一个Quorum网络了。在设置网络之前，你需要决定是否要使用Raft还是IBFT，然后相应地进行计划和设置。我们将学习如何设置这两种类型的网络。我们还将设置一个星座网络。
 - en: Now, let's build a Raft network with constellation. We will also see how to
     add and remove new nodes once the network is up and running. We will build a network
     of four nodes.
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，让我们使用星座构建一个Raft网络。一旦网络运行起来，我们还将看到如何添加和删除新节点。我们将构建一个四个节点的网络。
 - en: Create a directory named `raft`. Then, place the `geth` and `constellation-node` binaries
     in it. You can use the `--help` option of `geth` and `constellation-node` to find
     the various sub-commands and options available.
+  id: totrans-91
   prefs: []
   type: TYPE_NORMAL
+  zh: 创建一个名为`raft`的目录。然后，在其中放置`geth`和`constellation-node`的二进制文件。你可以使用`geth`和`constellation-node`的`--help`选项来查找各种子命令和可用选项。
 - en: Setting up a constellation network
+  id: totrans-92
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 设置星座网络
 - en: 'Now, let''s first create four constellation nodes. For development purposes,
     we will run all four nodes in the same machine. For every constellation node,
     we have to generate a separate asymmetric key pair. Run the following commands
     in the `raft` directory to create the key pairs:'
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，让我们首先创建四个星座节点。为了开发目的，我们将在同一台机器上运行所有四个节点。对于每个星座节点，我们必须生成一个单独的非对称密钥对。在`raft`目录中运行以下命令来创建密钥对：
 - en: '[PRE4]'
+  id: totrans-94
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: Here, we are generating a single public key for each constellation node. But,
     you can have multiple public keys for each constellation node. At the time of
     running the preceding commands, it will ask you to enter a password to encrypt
     the keys, but you can skip that by pressing the *Enter* key. In case you want
     to encrypt at the time of running the constellation node, you have to provide
     the password for decryption. To keep things simple, we will not set a password.
+  id: totrans-95
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们为每个星座节点生成了一个公钥。但是，你可以为每个星座节点有多个公钥。在运行上述命令时，它将要求你输入一个密码来加密密钥，但是你可以通过按下*Enter*键来跳过这一步。如果你想在运行星座节点时加密，则必须提供解密密码。为了让事情简单，我们将不设置密码。
 - en: 'While starting a constellation node, you need to pass the various required
     and optional variables, such as the URL to advertize to other nodes (reachable
     by them), the local port to listen on, the directory to store the payload, public
@@ -647,116 +808,173 @@
     file. Let''s create a configuration file for each constellation node, which will
     provide these settings for the constellation nodes to start. Following are the
     configuration files for the constellation nodes:'
+  id: totrans-96
   prefs: []
   type: TYPE_NORMAL
+  zh: 在启动星座节点时，你需要传递各种必需和可选变量，例如广告给其他节点的URL（它们可以访问的），本地监听的端口，存储负载、公钥、私钥、TLS设置等的目录。你可以将这些变量作为命令的选项传递给星座节点，或者以配置文件的形式传递。让我们为每个星座节点创建一个配置文件，为星座节点提供这些设置以启动。以下是星座节点的配置文件：
 - en: 'Here is the code for `constellation1.conf`:'
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是`constellation1.conf`的代码：
 - en: '[PRE5]'
+  id: totrans-98
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'Here is the code for `constellation2.conf`:'
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是`constellation2.conf`的代码：
 - en: '[PRE6]'
+  id: totrans-100
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: 'Here is the code for `constellation3.conf`:'
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是`constellation3.conf`的代码：
 - en: '[PRE7]'
+  id: totrans-102
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: 'Here is the code for `constellation4.conf`:'
+  id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是`constellation4.conf`的代码：
 - en: '[PRE8]'
+  id: totrans-104
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: Here, the variable's name reveals what the variable is all about. One important
     thing to notice here is that we are not providing the other three nodes' URLs
     in the last three nodes, because constellation has a built-in auto-discovery protocol
     to find nodes in the network. So, here the first node is pointing to the last
     three, and the last three have a connection to the first, but in the end all will
     be able to find each other.
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里，变量名揭示了变量的含义。需要注意的一点是，在最后三个节点中我们并没有提供其他三个节点的 URL，因为 constellation 具有内置的自动发现协议来发现网络中的节点。所以，第一个节点指向最后三个节点，而最后三个节点与第一个节点有连接，但最终所有节点都能找到彼此。
 - en: 'Now, run the following commands in different shell windows to start the constellation
     nodes:'
+  id: totrans-106
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，在不同的 shell 窗口中运行以下命令来启动 constellation 节点：
 - en: '[PRE9]'
+  id: totrans-107
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: Generating enodes
+  id: totrans-108
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 生成 enode
 - en: In Raft, before setting up the network you have to decide the total number of
     nodes that will be in the network, and then generate and enode ID for each. Then,
     you create a `static-nodes.json` file listing the enode URL of all the nodes,
     and feed this file to every node in the network. Adding nodes to the network once
     the network is set up involves a different process.
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Raft 中，在设置网络之前，你必须确定网络中将有多少个节点，然后为每个节点生成并 enode ID。随后，你创建一个列出所有节点的 enode URL
+    的 `static-nodes.json` 文件，并将此文件提供给网络中的每个节点。一旦配置好网络，向网络中添加节点涉及不同的流程。
 - en: Before going further, you need to know what an enode in Ethereum is. An enode
     is a way to describe an Ethereum node in the form of a URI. Every node in the
     network has a different enode. The enode conatins a 512-bit public key called
     a **node ID**, which is used to verify communication from a particular node on
     the network. The encode also contains the IP address and port number along with
     the node ID. The private key associated with the node ID is called a **node key**.
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: 在继续之前，你需要了解以太坊中的 enode 是什么。Enode 是一种以 URI 形式描述以太坊节点的方式。网络中的每个节点都有一个不同的 enode。Enode
+    包含一个名为**节点 ID**的 512 位公钥，用于验证网络上特定节点的通信。Enode 还包含节点 ID 的 IP 地址和端口号。与节点 ID 相关联的私钥称为**节点密钥**。
 - en: 'We will set up a network of three nodes, and then add the fourth node dynamically.
     Use the following three commands to generate the node keys of all four nodes:'
+  id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将建立一个由三个节点组成的网络，然后动态添加第四个节点。使用以下三条命令生成所有四个节点的节点密钥：
 - en: '[PRE10]'
+  id: totrans-112
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: 'The preceding command will create the private keys. Now, to find the node ID,
     you need to run the following commands:'
+  id: totrans-113
   prefs: []
   type: TYPE_NORMAL
+  zh: 上述命令将创建私钥。现在，要查找节点 ID，需要运行下面的命令：
 - en: '[PRE11]'
+  id: totrans-114
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: The preceding commands will not create any new file; instead they will simply
     print a sample node URL with the actual node ID associated with the corresponding
     private key. For example: `enode://[nodeID]@[IP]:[port]`.
+  id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 上述命令将不会创建任何新文件；相反，它们将仅打印带有相应私钥相关联的实际节点 ID 的示例节点 URL。例如：`enode://[nodeID]@[IP]:[port]`。
 - en: 'Now, create a `static-nodes.json` file and add the following code. Make sure
     you replace the node IDs with your generated ones:'
+  id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，创建一个名为 `static-nodes.json` 的文件，并添加以下代码。确保将节点 ID 替换为你生成的节点 ID：
 - en: '[PRE12]'
+  id: totrans-117
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: Here, `2300x` ports are for Ethereum protocol communication, and `2100x` ports
     are for Raft protocol communication.
+  id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里，`2300x` 端口用于以太坊协议通信，`2100x` 端口用于 Raft 协议通信。
 - en: In Ethereum, `static-nodes.json` is used to list enodes of some nodes that you
     always want to connect to. And, using these nodes, your node can discover other
     nodes in the network. But, in the case of Quorum's Raft, this file has to include
     the enode of all the nodes in the network, as in Raft this file is used for achieving
     consensus, unlike in Ethereum, where this file is used for nodes discovery.
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 在以太坊中，`static-nodes.json` 被用来列出一些你总是想要连接的节点的 enode。并且，使用这些节点，你的节点可以发现网络中的其他节点。但在
+    Quorum 的 Raft 中，这个文件必须包含网络中所有节点的 enode，因为在 Raft 中，这个文件用于达成共识，不同于以太坊中的用途是节点发现。
 - en: Creating an account
+  id: totrans-120
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建一个账户
 - en: 'Now, we need to generate an Ethereum account. We are doing this now because
     at the time of creating the genesis block, we have to supply ether to the network.
     So, we will supply ether to this generated account. Here is the command for creating
     an Ethereum account:'
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们需要生成一个以太坊账户。现在进行这个操作是因为在创建创世块时，我们必须为网络提供以太币。因此，我们将为此生成的账户提供以太币。以下是创建以太坊账户的命令：
 - en: '[PRE13]'
+  id: totrans-122
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: At the time of running this command, it will ask for a password to encrypt the
     account. You can press the *Enter* key twice and skip. This will make an empty
     string the password to decrypt the account. Here, the `--datadir` option is used
@@ -764,31 +982,39 @@
     you will find a file with the format `UTC--DATE-TIME--ADDRESS`. Rename this file
     to `key1`. This file stores the private key and address of the account. Open the
     file and copy the address, as you will need it while creating the genesis block.
+  id: totrans-123
   prefs: []
   type: TYPE_NORMAL
 - en: Creating the genesis block
+  id: totrans-124
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'Now, the last step is to create the genesis block. The genesis block is always
     hardcoded in the network. Here is the genesis block content. Create a `genesis.json`
     file and place the following code in it:'
+  id: totrans-125
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE14]'
+  id: totrans-126
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: Here, make sure you replace the account address, `0x65d8c00633404140986e5e23aa9de8ea689c1d05`,
     with your account address. Here, we supplied ether to the `0x65d8c00633404140986e5e23aa9de8ea689c1d05`
     account.
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
 - en: If you want to get rid of ether in a Quorum network, you can use the `--gasPrice
     0` option while starting `geth`. Therefore, you will not need to supply ether
     in the genesis block. But, ether gives the advantage of traceability.
+  id: totrans-128
   prefs: []
   type: TYPE_NORMAL
 - en: Starting nodes
+  id: totrans-129
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -796,55 +1022,70 @@
     for each node; copy the `static-nodes.json` file in each node's data directory,
     copy the account keys to the data directory, and Bootstrap the blockchain with
     the genesis block.
+  id: totrans-130
   prefs: []
   type: TYPE_NORMAL
 - en: An Ethereum node's data directory structure includes `geth` and `keystore` directories,
     and also, a `static-nodes.json` file. The `keystore` directory contains accounts
     files and the `geth` directory contains all other data related to Ethereum, such
     as blockchain transactions, state, and the enode key.
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
 - en: 'Following are the commands to do all the initialize operations for all the
     nodes:'
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE15]'
+  id: totrans-133
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: 'The preceding commands are self-explanatory. Now, run the following commands
     to start the Quorum nodes. Run each command in a new shell window:'
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE16]'
+  id: totrans-135
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: 'Here is the meaning of the different options we provided:'
+  id: totrans-136
   prefs: []
   type: TYPE_NORMAL
 - en: '`PRIVATE_CONFIG`: This variable is used to make `geth` aware of the constellation
     node which it needs to send the private payload to. It points to the constellation
     node''s configuration file.'
+  id: totrans-137
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`--datadir`: Data directory to store state, transactions, accounts, and so
     on.'
+  id: totrans-138
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`--raft`: This is used to specify that we want to run a Raft consensus.'
+  id: totrans-139
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`--port`: The port to bind for the Ethereum transport.'
+  id: totrans-140
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`--raft-port`: The port to bind for the Raft transport.'
+  id: totrans-141
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`--ipcpath`: Filename for the IPC socket and pipe. IPC is enabled by default.'
+  id: totrans-142
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
@@ -854,37 +1095,56 @@
     to interact with it programatically using JavaScript APIs. The interactive console
     uses JSON-RPC over IPC to communicate with `geth`. We will learn more about this
     later.'
+  id: totrans-143
   prefs: []
   type: TYPE_NORMAL
+  zh: '`geth`为客户端提供了用于与其通信的JSON-RPC API。`geth`使用HTTP、WS和IPC提供JSON-RPC API。JSON-RPC提供的API分为各种类别。`geth`还提供了一个交互式的JavaScript控制台，以便使用JavaScript
+    API对其进行编程交互。交互式控制台使用IPC上的JSON-RPC与`geth`进行通信。我们稍后会详细了解这个。'
 - en: 'Now, to open the interactive console of `node1`, use the following command:'
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，要打开`node1`的交互式控制台，请使用以下命令：
 - en: '[PRE17]'
+  id: totrans-145
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE17]'
 - en: Now, we have completed creating our first Raft network.
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们已经完成了创建我们的第一个Raft网络。
 - en: Adding or removing nodes dynamically
+  id: totrans-147
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 动态添加或移除节点
 - en: 'Now, let''s add the fourth node dynamically. Any node can add the fourth node
     to the network. Let''s add it from `node1`. The first step is to do the initialize
     operations for `node4`. Run the following commands for this:'
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，让我们动态添加第四个节点。 任何节点都可以向网络添加第四个节点。 让我们从`node1`添加它。 第一步是对`node4`进行初始化操作。 为此运行以下命令：
 - en: '[PRE18]'
+  id: totrans-149
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE18]'
 - en: 'Note that, here, we didn''t copy the `static-nodes.json` file, as we are adding
     it dynamically. Now, from the fourth node''s interactive console, run the following
     line of code to add the fourth peer to the network:'
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，这里我们没有复制`static-nodes.json`文件，因为我们是动态添加它。 现在，从第四个节点的交互式控制台中，运行以下行代码将第四个对等体添加到网络中：
 - en: '[PRE19]'
+  id: totrans-151
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE19]'
 - en: 'Here, replace the node ID with your generated one. When you run the following
     command, you will get a number as a return value. This number is important, and
     is called the Raft ID of the node. Raft consensus assigns a unique ID to every
@@ -892,45 +1152,66 @@
     next one is given Raft ID `2`, and so on. The fourth node will have Raft ID `4`.
     While starting the fourth node you will need this number. Now, start the fourth
     node using the following command:'
+  id: totrans-152
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，请用您生成的节点ID替换节点ID。 当您运行以下命令时，将获得一个数字作为返回值。 这个数字很重要，被称为节点的Raft ID。 Raft共识为每个节点分配一个唯一ID。
+    静态`nodes.json`文件中的第一个节点被赋予Raft ID `1`，下一个节点被赋予Raft ID `2`，依此类推。第四个节点将具有Raft ID
+    `4`。 在启动第四个节点时，您将需要这个数字。 现在，使用以下命令启动第四个节点：
 - en: '[PRE20]'
+  id: totrans-153
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE20]'
 - en: In the preceding command, everything looks similar except a new option, `--raftjoinexisting`.
     While starting nodes that were added dynamically, we need to specify this option
     and assign it to the node's Raft ID. This Raft ID will appear while adding a node
     using `raft.addPeer`.
+  id: totrans-154
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面的命令中，一切看起来都很相似，除了一个新选项，`--raftjoinexisting`。 在启动动态添加的节点时，我们需要指定此选项并赋予它节点的Raft
+    ID。 当使用`raft.addPeer`添加节点时，这个Raft ID将出现。
 - en: 'Now, let''s remove a node from the network. Let''s remove the third node from
     the `static-nodes.json` file. This node will have `raft` ID of `3`. In the node
     1''s interactive console, run the following code to remove the third node from
     the network:'
+  id: totrans-155
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，让我们从网络中移除一个节点。 让我们从`static-nodes.json`文件中删除第三个节点。 这个节点的`raft` ID将是`3`。 在节点1的交互式控制台中，运行以下代码从网络中移除第三个节点：
 - en: '[PRE21]'
+  id: totrans-156
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE21]'
 - en: Now, the third peer will be removed from the network.  You can now use the `admin.peers`
     API to check the list of total nodes connected to this node. It should be two
     nodes in the list, a total of three nodes in the network.
+  id: totrans-157
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，第三个对等体将从网络中移除。 您现在可以使用`admin.peers` API来检查连接到此节点的节点总数列表。 列表中应该有两个节点，网络中共有三个节点。
 - en: In case a node is down at the time of adding or removing a new node to the network,
     then the downed node will come to know about the changes to the network once it's
     up and running.
+  id: totrans-158
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果一个节点在添加或移除新节点到网络时处于宕机状态，那么宕机的节点将在其恢复运行后知道网络的更改。
 - en: Building your first IBFT network
+  id: totrans-159
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 搭建你的第一个IBFT网络
 - en: We will build a network of six nodes. The first four will be validators and
     the other two will be non-validators. We will not add a constellation in this
     network. If you want to add one, the instructions are the same as previously.
+  id: totrans-160
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将构建一个六个节点的网络。 前四个将是验证者，另外两个将是非验证者。 在这个网络中，我们将不添加星座。 如果您想添加一个，指令与之前相同。
 - en: In IBFT, every validator is identified uniquely using an Ethereum account derived
     from its node key. Similar to Raft, in IBFT, before setting up the network you
     have to decide on the total number of validators that will be in the network and
@@ -938,13 +1219,16 @@
     listing the enodes of all the validating nodes, and feed this file to every validator
     in the network. After that, derive Ethereum addresses from the node IDs. And finally,
     we construct the `extraData` field and create the `genesis` file.
+  id: totrans-161
   prefs: []
   type: TYPE_NORMAL
 - en: In the case of IBFT, creating the `static-nodes.json` file is not necessary.
     You can connect nodes using the `admin.addPeer(url)` API too.
+  id: totrans-162
   prefs: []
   type: TYPE_NORMAL
 - en: Installing IBFT tools
+  id: totrans-163
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -953,166 +1237,219 @@
     and so on. Creating a genesis block for IBFT is not as simple as creating it for
     Raft, as there is a encoded `extraData` field that needs to be included in the
     genesis block listing the list of validators.
+  id: totrans-164
   prefs: []
   type: TYPE_NORMAL
 - en: 'Following are the steps to install IBFT tools:'
+  id: totrans-165
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE22]'
+  id: totrans-166
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE22]'
 - en: Now, in the `~/go/bin` directory, you will find an executable file named `istanbul`.
     This is the tool to create the genesis block. Create a directory named `ibft`
     and move the executable there.
+  id: totrans-167
   prefs: []
   type: TYPE_NORMAL
 - en: Creating a genesis block
+  id: totrans-168
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: IBFT tools can automate the creation of a genesis block. At the same time, it
     also generates node keys, addresses derived from node keys, and the `static-nodes.json`
     file.
+  id: totrans-169
   prefs: []
   type: TYPE_NORMAL
 - en: 'Run the following command to generate all these:'
+  id: totrans-170
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE23]'
+  id: totrans-171
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE23]'
 - en: 'And now, you will get a similar output:'
+  id: totrans-172
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE24]'
+  id: totrans-173
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE24]'
 - en: You will see different addresses, enodes, and so on. Now, create the `static-nodes.json`,
     `genesis.json`, and `enode` key files and place the preceding content in it. Set
     the node key file names as `enode_id_1`, `enode_id_2`, `enode_id_3`, and `enode_id_1`.
     Change the ports in the enode URLs to `23000`, `23001`, `23002`, and `23003`.
+  id: totrans-174
   prefs: []
   type: TYPE_NORMAL
 - en: 'Now, let''s generate an Ethereum account, and in the genesis block assign some
     ether to it. Ether is not generated dynamically, therefore we need to pre-supply.
     Use the following command to generate an Ethereum account:'
+  id: totrans-175
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE25]'
+  id: totrans-176
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE25]'
 - en: 'Now, change the name of the file in `accounts/keystore` to `key1`. And then
     copy the address, put it in the `genesis` file, and assign some balance. For example,
     if my newly generated account''s address is `0x65d8c00633404140986e5e23aa9de8ea689c1d05`,
     then my `genesis` file content will be as follows:'
+  id: totrans-177
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE26]'
+  id: totrans-178
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE26]'
 - en: Starting nodes
+  id: totrans-179
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'Now, before we start the nodes, we need to initialize them: create data directories
     for each node, copy the account keys to the data directory, copy the enode keys
     of the validators, and Bootstrap the blockchain with the genesis block.'
+  id: totrans-180
   prefs: []
   type: TYPE_NORMAL
 - en: 'Following are the commands to achieve these for all six nodes:'
+  id: totrans-181
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE27]'
+  id: totrans-182
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE27]'
 - en: 'The preceding commands are self-explanatory. For the last two nodes, we didn''t
     generate any enode keys because `geth` will automatically generate the if one
     doesn''t exist. Now, run the following commands to start the Quorum nodes. Run
     each command in a new shell window:'
+  id: totrans-183
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE28]'
+  id: totrans-184
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE28]'
 - en: 'Here is the meaning of the different options we just passed:'
+  id: totrans-185
   prefs: []
   type: TYPE_NORMAL
 - en: '`--mine` is required while running the validators.'
+  id: totrans-186
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`--istanbul.requesttimeout` is the maximum block time (`default: 10000ms`).'
+  id: totrans-187
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`--istanbul.blockperiod` is the minimum block time (`default: 1s`).'
+  id: totrans-188
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`--istanbul.blockpausetime` is the pause time when zero transactions in previous
     block. Values should be larger than `istanbul.blockperiod` (`default: 2s`).'
+  id: totrans-189
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: To get a list of all validators in the network. you can use the `istanbul.getValidators()`
     API.
+  id: totrans-190
   prefs: []
   type: TYPE_NORMAL
 - en: Adding or removing a validator dynamically
+  id: totrans-191
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'Let''s first see how to add a new validator dynamically. To add a validator,
     we first need to generate the node key and address of the new validator. Run the
     following command to generate it:'
+  id: totrans-192
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE29]'
+  id: totrans-193
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE29]'
 - en: 'This is the same command we used earlier. Now, we don''t need the `genesis`
     file or the `static-nodes.json` file. We just need the node key and address. Create
     a file named `node_id_5` and place the node key in it. Run the following commands
     to initialize the new validator:'
+  id: totrans-194
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE30]'
+  id: totrans-195
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE30]'
 - en: 'Now, after the preceding commands have run successfully, it''s time for (*2F+
     1*) other validators to agree on the insertion of the new validator. For this,
     run the following command in all the other validators:'
+  id: totrans-196
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE31]'
+  id: totrans-197
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE31]'
 - en: 'Replace the first argument with the new validator''s address you got. Now,
     start the new validator node using the following command:'
+  id: totrans-198
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE32]'
+  id: totrans-199
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE32]'
 - en: 'Now, you can run `istanbul.getValidators()` to check the list of all validators
     in the network. It should be five now. Let''s remove a validator from the network.
     Let''s assume that we want to remove the first validator. Run `eth.coinbase` in
     the console of the first validator to find its unique address. Then, run the following
     command in (*2F + 1*) validators to remove the first validator from the network:'
+  id: totrans-200
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE33]'
+  id: totrans-201
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE33]'
 - en: Here, replace the first argument with the address of the first validator you
     generated.
+  id: totrans-202
   prefs: []
   type: TYPE_NORMAL
 - en: At the time of removing or adding a validator, if some validating node is down
     then it will automatically come to know about these changes once it's up and running.
+  id: totrans-203
   prefs: []
   type: TYPE_NORMAL
 - en: Summary
+  id: totrans-204
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -1122,5 +1459,6 @@
     IBFT network. Now, you should be comfortable with the process of setting up a
     network. The next step is to learn about writing smart contracts, and deploy our
     first smart contracts. We will achieve this in the next chapter.
+  id: totrans-205
   prefs: []
   type: TYPE_NORMAL
