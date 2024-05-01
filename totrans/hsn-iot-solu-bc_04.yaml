@@ -1,365 +1,532 @@
 - en: Creating Your Own Blockchain Network
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建您自己的区块链网络
 - en: In this chapter, we'll create a blockchain network using Hyperledger Composer.
     We'll explore a simple use case in which the asset can be transferred between
     the networking participants. We'll learn how to quickly install Hyperledger Fabric
     version 1.1\. Also, we'll identify and implement a step-by-step guide for running
     your own business network.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将使用Hyperledger Composer创建一个区块链网络。我们将探索一个简单的用例，在其中资产可以在网络参与者之间转移。我们将学习如何快速安装Hyperledger
+    Fabric版本 1.1。此外，我们将确定并实现一本运行您自己业务网络的逐步指南。
 - en: 'We''ll learn all of this by exploring the following topics:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将通过探索以下主题来学习所有这些内容：
 - en: Pre-requisites for creating a blockchain network
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 创建区块链网络的先决条件
 - en: A brief overview of Hyperledger Composer
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 对Hyperledger Composer的简要概述
 - en: Exploring the Composer Playground to create a blockchain network
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 探索Composer Playground以创建区块链网络
 - en: Setting up a local Hyperledger Fabric/Composer development environment
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 设置本地Hyperledger Fabric/Composer开发环境
 - en: Prerequisites
+  id: totrans-7
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 先决条件
 - en: 'To complete the exercises in this chapter, please ensure you have the following
     installed on your computer:'
+  id: totrans-8
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了完成本章的练习，请确保您的计算机已安装以下内容：
 - en: curl
+  id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: curl
 - en: Node.js 8.9.x
+  id: totrans-10
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Node.js 8.9.x
 - en: Python 2.7
+  id: totrans-11
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Python 2.7
 - en: Git 2.9.x or higher
+  id: totrans-12
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Git 2.9.x或更高版本
 - en: Go
+  id: totrans-13
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Go
 - en: Windows 10/Ubuntu Linux 14.04/macOS 10.12
+  id: totrans-14
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Windows 10/Ubuntu Linux 14.04/macOS 10.12
 - en: For Windows 10, you'll need Windows Subsystem for Linux to run Ubuntu.
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于Windows 10，您将需要安装Windows子系统以运行Ubuntu。
 - en: Creating your own blockchain network with Hyperledger Composer
+  id: totrans-16
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用Hyperledger Composer创建自己的区块链网络
 - en: In [Chapter 3](fe11e1f3-8540-4126-ace5-2c877b06d6bf.xhtml),  *Explaining Blockchain
     Technology and Working with Hyperledger*, we looked at various frameworks that
     come under the umbrella of the Hyperledger distribution ledger. We then analyzed
     one of these, Hyperledger Composer, a powerful tool for developing a blockchain
     network.
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 在[第三章](fe11e1f3-8540-4126-ace5-2c877b06d6bf.xhtml)，*解释区块链技术和使用Hyperledger* 中，我们看了一些属于Hyperledger分布分类帐伞下的各个框架。我们随后分析了其中之一，即Hyperledger
+    Composer，一个开发区块链网络的强大工具。
 - en: In terms of blockchain, one of the biggest advantages of using Hyperledger Composer
     is the excellent documentation that comes with the framework, not just on the
     site itself, but also on the developer's website and other websites that hold
     examples of code and routines.
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: 在区块链方面，使用Hyperledger Composer的最大优势之一是该框架提供的出色文档，不仅限于网站本身，还包括开发者网站和其他提供代码和常规示例的网站。
 - en: Here, we'll look at a step-by-step guide of a slightly less common use case
     than the one found on Hyperledger Composer's tutorial site, which will demonstrate
     how simple it's to create a blockchain network. We're going to use Hyperledger
     Composer's platform, which is called Playground.
+  id: totrans-19
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们将看到一个比在Hyperledger Composer的教程网站上发现的稍微不太常见的用例的逐步指南，这将演示创建区块链网络是多么简单。我们将使用被称为Playground的Hyperledger
+    Composer平台。
 - en: Accessing Hyperledger Composer
+  id: totrans-20
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 访问Hyperledger Composer
 - en: 'The online Hyperledger Composer Playground enables us to explorer Hyperledger
     components without any installation. The following steps will guide you through
     a tour of the online Composer Playground:'
+  id: totrans-21
   prefs: []
   type: TYPE_NORMAL
+  zh: 在线Hyperledger Composer Playground使我们能够在没有任何安装的情况下探索Hyperledger组件。以下步骤将指导您游览在线Composer
+    Playground：
 - en: 'Let''s access the site at the following link: [http://composer-playground.mybluemix.net/login](http://composer-playground.mybluemix.net/login).
     As we can see in the following screenshot, the home page opens with a splash page:'
+  id: totrans-22
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 让我们访问以下链接的网站：[http://composer-playground.mybluemix.net/login](http://composer-playground.mybluemix.net/login)。正如我们在以下截图中看到的，主页会显示一个闪屏页面：
 - en: '![](img/9f0f55dc-7a74-45c8-a2fc-a9751cd2c9d3.png)'
+  id: totrans-23
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/9f0f55dc-7a74-45c8-a2fc-a9751cd2c9d3.png)'
 - en: 'When you click the Let''s Blockchain! button, you''ll reach the next page,
     which works as a dashboard:'
+  id: totrans-24
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '点击 Let''s Blockchain! 按钮后，将进入下一个页面，其作为仪表板使用:'
 - en: '![](img/cfaa923d-3ad6-4433-b9c9-f84f2351b970.png)'
+  id: totrans-25
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/cfaa923d-3ad6-4433-b9c9-f84f2351b970.png)'
 - en: On this page, you have the option of using the tutorial, which takes you through
     a very detailed step-by-step process. This is great for exploring Hyperledger
     Composer. For now, let's move on.
+  id: totrans-26
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这个页面上，您可以选择使用教程，该教程将带领您完成非常详细的逐步流程。这对于探索Hyperledger Composer非常有帮助。现在，让我们继续。
 - en: 'Click on the Get Started link. After a few loading screens, you''ll be taken
     to the editor, where you''ll be able to create your own blockchain network:'
+  id: totrans-27
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 点击Get Started链接。加载几个屏幕后，您将进入编辑器，在那里您将能够创建您自己的区块链网络：
 - en: '![](img/9b220e70-2ec7-4e20-b268-a616cc081bbd.png)'
+  id: totrans-28
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/9b220e70-2ec7-4e20-b268-a616cc081bbd.png)'
 - en: In our case, we'll have two participants and one asset, which can be a token
     that has a value. The idea will be to move this asset and the value between the
     participants of the network.
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们的情况下，我们将有两个参与者和一个资产，这可以是一个具有价值的令牌。这个想法是在网络的参与者之间移动这个资产和价值。
 - en: Exploring the structure of a sample blockchain network
+  id: totrans-30
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 探索样本区块链网络的结构
 - en: 'Let''s start with the `name.cto` model file. Model files define the assets,
     participants, transactions, and events in our business network. Remember that,
     after each step, you need to deploy the changes. Now we''ll see some screenshots
     that will illustrate the process:'
+  id: totrans-31
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 让我们从`name.cto`模型文件开始。模型文件定义了我们业务网络中的资产、参与者、交易和事件。请记住，每一步之后，您需要部署这些更改。接下来，我们将看到一些截图来说明这个过程：
 - en: '![](img/a682b58f-8f7e-4839-a40d-8bb10154eea7.png)'
+  id: totrans-32
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a682b58f-8f7e-4839-a40d-8bb10154eea7.png)'
 - en: 'Let''s use the following code to create the participants, transactions, and
     events:'
+  id: totrans-33
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 让我们使用以下代码来创建参与者、交易和事件：
 - en: '[PRE0]'
+  id: totrans-34
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: 'Let''s create a function to transfer the assets between the participants. We''ll
     use the `name.js` script file:'
+  id: totrans-35
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 让我们创建一个函数来在参与者之间转移资产。我们将使用`name.js`脚本文件：
 - en: '![](img/1df701d9-ce02-4564-8977-19e129f2d56d.png)'
+  id: totrans-36
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/1df701d9-ce02-4564-8977-19e129f2d56d.png)'
 - en: '![](img/8431598b-b8de-41ac-ac5d-29963fbc77c2.png)'
+  id: totrans-37
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/8431598b-b8de-41ac-ac5d-29963fbc77c2.png)'
 - en: 'Let''s look at the code that shows the algorithm/logic used here:'
+  id: totrans-38
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 让我们看一下这里使用的算法/逻辑的代码：
 - en: '[PRE1]'
+  id: totrans-39
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: 'The **A****ccess Control List** (**ACL**) is the feature that ensures a Hyperledger
     Composer blockchain network segregates access for the actions that participants
     can take on the assets. Now we''ll create a business rule to allow the members
     of the blockchain network to have the right access control. The basic file gives
     the current participant, the network admin, full access to the business network
     and system-level operations:'
+  id: totrans-40
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '**访问控制列表**（**ACL**）是确保Hyperledger Composer区块链网络对参与者在资产上可以执行的操作进行隔离访问的功能。现在我们将创建一个业务规则，允许区块链网络的成员有正确的访问控制。基本文件赋予当前参与者，即网络管理员，对业务网络和系统级操作的完全访问权。'
 - en: '![](img/fcda1af1-c4ad-43ed-bd41-89930f6a8f04.png)'
+  id: totrans-41
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/fcda1af1-c4ad-43ed-bd41-89930f6a8f04.png)'
 - en: 'Here we have some code that shows us how to create an access control:'
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里有一些代码，向我们展示如何创建访问控制：
 - en: '[PRE2]'
+  id: totrans-43
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: 'Define access to the access control''s assets as follows:'
+  id: totrans-44
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 如下所示，为访问控制的资产定义访问权限：
 - en: '[PRE3]'
+  id: totrans-45
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: 'Define a rule for `SystemACL`, whether network admin or user, as follows:'
+  id: totrans-46
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 为`SystemACL`定义一个规则，无论是网络管理员还是用户，如下所示：
 - en: '[PRE4]'
+  id: totrans-47
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: 'We''re now ready to test our blockchain network. Click on the Test tab at the
     top of your screen:'
+  id: totrans-48
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 我们现在准备测试我们的区块链网络。在屏幕顶部点击“测试”选项卡：
 - en: '![](img/1df701d9-ce02-4564-8977-19e129f2d56d.png)'
+  id: totrans-49
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/1df701d9-ce02-4564-8977-19e129f2d56d.png)'
 - en: 'Now create two participants for your blockchain network. The first participant
     is shown here:'
+  id: totrans-50
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在为您的区块链网络创建两个参与者。第一个参与者在这里显示：
 - en: '![](img/d4febc29-8c93-4578-b7a1-d371dc356c86.png)'
+  id: totrans-51
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/d4febc29-8c93-4578-b7a1-d371dc356c86.png)'
 - en: 'Use the following code to create the first participant:'
+  id: totrans-52
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用以下代码来创建第一个参与者：
 - en: '[PRE5]'
+  id: totrans-53
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'The second participant is shown here:'
+  id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 第二个参与者在这里显示：
 - en: '![](img/b9140319-5738-40b1-9424-8485890b01a7.png)'
+  id: totrans-55
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/b9140319-5738-40b1-9424-8485890b01a7.png)'
 - en: 'Use the following code to create the second participant:'
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用以下代码创建第二个参与者：
 - en: '[PRE6]'
+  id: totrans-57
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: 'Now let''s create an asset for participant 1\. Remember to add `participantId`, `assetId`,
     and `value`:'
+  id: totrans-58
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在让我们为参与者1创建一个资产。记得添加`participantId`、`assetId`和`value`：
 - en: '![](img/1a9701c4-ef27-49f1-b86b-248977bcdd67.png)'
+  id: totrans-59
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/1a9701c4-ef27-49f1-b86b-248977bcdd67.png)'
 - en: 'Use the following code to create an asset for participant 1:'
+  id: totrans-60
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 使用以下代码为参与者1创建一个资产：
 - en: '[PRE7]'
+  id: totrans-61
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: 'Repeat the approach used for participant 1 with participant 2:'
+  id: totrans-62
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 重复用于参与者1的方法，用于参与者2：
 - en: '![](img/567eea76-9a38-4918-a73d-c874f8918e1a.png)'
+  id: totrans-63
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/567eea76-9a38-4918-a73d-c874f8918e1a.png)'
 - en: 'Use the following code to create an asset for participant 2:'
+  id: totrans-64
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 使用以下代码为参与者2创建一个资产：
 - en: '[PRE8]'
+  id: totrans-65
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: 'We''re now ready to submit a transaction between the participants. Click on
     the Submit button and send an amount from participant 2 to participant 1\. In
     the following example, the value of the transaction is 300:'
+  id: totrans-66
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 我们现在准备在参与者之间提交一笔交易。点击“提交”按钮并从参与者2发送一笔金额给参与者1。在以下示例中，交易的价值为300：
 - en: '![](img/2146c1f3-b3e3-468a-b289-254c5298c23b.png)'
+  id: totrans-67
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/2146c1f3-b3e3-468a-b289-254c5298c23b.png)'
 - en: 'Use the following code to transfer an amount between the participants:'
+  id: totrans-68
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 使用以下代码在参与者之间转移一笔金额：
 - en: '[PRE9]'
+  id: totrans-69
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: 'Great job! You can see all of the transaction details by clicking on the records
     in the two following screenshots. The first one shows a list of all created assets:'
+  id: totrans-70
   prefs: []
   type: TYPE_NORMAL
+  zh: 做得好！通过点击以下两个截图中的记录，您可以看到所有交易的详细信息。第一个显示了所有创建的资产的列表：
 - en: '![](img/2f2209e4-7e4f-4aa8-8efe-04881b5a9ca8.png)'
+  id: totrans-71
   prefs: []
   type: TYPE_IMG
 - en: 'This second screenshot shows the history of transactions that have run on the
     blockchain network:'
+  id: totrans-72
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/9c0b2500-5a65-40a0-909a-2bd10a8f2244.png)'
+  id: totrans-73
   prefs: []
   type: TYPE_IMG
 - en: Now that you have validated a use case, you're ready to make a new proof of
     concept and present the full potential of the Hyperledger blockchain for members
     in the business network.
+  id: totrans-74
   prefs: []
   type: TYPE_NORMAL
 - en: Installing your own blockchain network using Hyperledger Fabric and Composer
+  id: totrans-75
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: In the previous section, we saw how easy it's to work with Hyperledger Composer
     using Playground. Now we'll install Composer in your own (local) machine.
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
 - en: 'We''ll start with the three most important stages of installing a blockchain
     network:'
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
 - en: Installing the prerequisites
+  id: totrans-78
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Installing Hyperledger Composer (the development environment)
+  id: totrans-79
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Updating the environment
+  id: totrans-80
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: We can install the blockchain network using Hyperledger Fabric by many means,
     including local servers, Kubernetes, IBM Cloud, and Docker. To begin with, we'll
     explore Docker and Kubernetes.
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
 - en: Setting up Docker
+  id: totrans-82
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Docker can be installed using information provided on [https://www.docker.com/get-started](https://www.docker.com/get-started).
+  id: totrans-83
   prefs: []
   type: TYPE_NORMAL
 - en: 'Hyperledger Composer works with two versions of Docker:'
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
 - en: Docker Composer version 1.8 or higher
+  id: totrans-85
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Docker Engine version 17.03 or higher
+  id: totrans-86
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 'If you already have Docker installed but you''re not sure about the version,
     you can find out what the version is by using the following command in the terminal
     or command prompt:'
+  id: totrans-87
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE10]'
+  id: totrans-88
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: 'Be careful: many Linux-based operating systems, such as Ubuntu, come with the
     most recent version of Python (Python 3.5.1). In this case, it''s important to
     get Python version 2.7\. You can get it here: [https://www.python.org/download/releases/2.7/](https://www.python.org/download/releases/2.7/).'
+  id: totrans-89
   prefs: []
   type: TYPE_NORMAL
 - en: Installing Hyperledger Composer
+  id: totrans-90
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -368,264 +535,383 @@
     Fabric, which can be used to run or deploy business networks locally. These business
     networks can be run on Hyperledger Fabric runtimes in some alternative places
     as well, for example, on a cloud platform.
+  id: totrans-91
   prefs: []
   type: TYPE_NORMAL
 - en: Make sure that you've not installed the tools and used them before. If you have,
     you'll them using this guide.
+  id: totrans-92
   prefs: []
   type: TYPE_NORMAL
 - en: Components
+  id: totrans-93
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'To successfully install Hyperledger Composer, you''ll need these components
     ready:'
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
 - en: CLI Tools
+  id: totrans-95
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Playground
+  id: totrans-96
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Hyperledger Fabric
+  id: totrans-97
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: An IDE
+  id: totrans-98
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Once these are set up, you can begin with the steps given here.
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
 - en: Step 1 – Setting up CLI Tools
+  id: totrans-100
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'CLI Tools, `composer-cli`, is a library with the most important operations,
     such as administrative, operational, and developmental tasks. We''ll also install
     the following tools during this step:'
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
 - en: '**Yeoman**: Frontend tool for generating applications'
+  id: totrans-102
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '**Library generator**: For generating application assets'
+  id: totrans-103
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '**REST server**: Utility for running a REST server (local)'
+  id: totrans-104
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 'Let''s start our setup of CLI Tools:'
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
 - en: 'Install CLI Tools:'
+  id: totrans-106
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE11]'
+  id: totrans-107
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: 'Install the library generator:'
+  id: totrans-108
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE12]'
+  id: totrans-109
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: 'Install the REST server:'
+  id: totrans-110
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE13]'
+  id: totrans-111
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: This will allow for integration with a local REST server to expose your business
     networks as RESTful APIs.
+  id: totrans-112
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将允许与本地 REST 服务器集成，将你的业务网络暴露为 RESTful API。
 - en: 'Install Yeoman:'
+  id: totrans-113
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 安装 Yeoman：
 - en: '[PRE14]'
+  id: totrans-114
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: Don't use the `su` or `sudo` commands with `npm` to ensure that the current
     user has all permissions necessary to run the environment by itself.
+  id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 不要使用`su`或`sudo`命令来使用`npm`，以确保当前用户有足够的权限来自己运行环境。
 - en: Step 2 – Setting up Playground
+  id: totrans-116
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 第二步 – 设置 Playground
 - en: Playground can give you a UI in your local machine if using your browser to
     run Playground. This will allow you to display your business networks, browse
     apps to test edit, and test your business networks.
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你在本地机器上使用浏览器运行 Playground，Playground 可以为你提供一个 UI。这将允许你显示你的业务网络，浏览应用程序以进行测试编辑，并测试你的业务网络。
 - en: 'Use the following command to install Playground:'
+  id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用以下命令安装 Playground：
 - en: '[PRE15]'
+  id: totrans-119
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: Now we can run Hyperledger Fabric.
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们可以运行 Hyperledger Fabric 了。
 - en: Step 3 – Hyperledger Fabric
+  id: totrans-121
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 第三步 – Hyperledger Fabric
 - en: 'This step will allow you to run a Hyperledger Fabric runtime locally and deploy
     your business networks:'
+  id: totrans-122
   prefs: []
   type: TYPE_NORMAL
+  zh: 这一步将允许你在本地运行 Hyperledger Fabric 运行时并部署你的业务网络：
 - en: Choose a directory, such as `~/fabric-dev-servers`.
+  id: totrans-123
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 选择一个目录，比如`~/fabric-dev-servers`。
 - en: 'Now get the `.tar.gz` file, which contains the tools for installing Hyperledger
     Fabric:'
+  id: totrans-124
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在获取包含安装 Hyperledger Fabric 工具的`.tar.gz`文件：
 - en: '[PRE16]'
+  id: totrans-125
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: You've downloaded some scripts that will allow the installation of a local Hyperledger
     Fabric v1.2 runtime.
+  id: totrans-126
   prefs: []
   type: TYPE_NORMAL
+  zh: 你已经下载了一些脚本，这些脚本将允许安装本地 Hyperledger Fabric v1.2 运行时。
 - en: 'To download the actual environment Docker images, run the following commands
     in your user `home` directory:'
+  id: totrans-127
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 要下载实际的环境 Docker 镜像，在你的用户`home`目录中运行以下命令：
 - en: '[PRE17]'
+  id: totrans-128
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE17]'
 - en: Well done! Now you have everything required for a typical developer environment.
+  id: totrans-129
   prefs: []
   type: TYPE_NORMAL
+  zh: 干得好！现在你拥有了一个典型的开发者环境所需的一切。
 - en: Step 4 – IDE
+  id: totrans-130
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 第四步 – IDE
 - en: Hyperledger Composer allows you to work with many IDEs. Two well-known ones
     are Atom and VS Code, which both have good extensions for working with Hyperledger
     Composer.
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Composer 允许你使用许多 IDE。其中两个知名的是 Atom 和 VS Code，它们都有很好的扩展可以用于与 Hyperledger
+    Composer 的工作。
 - en: 'Atom lets you use the `composer-atom` plugin ([https://github.com/hyperledger/composer-atom-plugin](https://github.com/hyperledger/composer-atom-plugin))
     for syntax highlighting of the Hyperledger Composer Modeling Language. You can
     download this IDE at the following link: [https://atom.io/.](https://atom.io/) Also,
     you can download VS Code at the following link: [https://code.visualstudio.com/download](https://code.visualstudio.com/download).'
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
+  zh: Atom可以让你使用`composer-atom`插件([https://github.com/hyperledger/composer-atom-plugin](https://github.com/hyperledger/composer-atom-plugin))对
+    Hyperledger Composer 建模语言进行语法高亮。你可以在以下链接下载这个 IDE：[https://atom.io/.](https://atom.io/)同时，你也可以在以下链接下载
+    VS Code：[https://code.visualstudio.com/download](https://code.visualstudio.com/download)。
 - en: Installing Hyperledger Fabric 1.3 using Docker
+  id: totrans-133
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 Docker 安装 Hyperledger Fabric 1.3
 - en: There are many ways to download the Hyperledger Fabric platform; Docker is the
     most used method. You can use an official repository. If you're using Windows,
     you'll want to use the Docker Quickstart Terminal for the upcoming terminal commands.
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 有许多下载 Hyperledger Fabric 平台的方法；Docker 是最常用的方法。你可以使用官方仓库。如果你使用的是 Windows，你将需要使用
+    Docker Quickstart 终端来运行接下来的终端命令。
 - en: 'If you''re using Docker for Windows, follow these instructions:'
+  id: totrans-135
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你在 Windows 上使用 Docker，请按照以下说明操作：
 - en: Consult the Docker documentation for shared drives, which can be found at [https://docs.docker.com/docker-for-windows/#shared-drives](https://docs.docker.com/docker-for-windows/#shared-drives),
     and use a location under one of the shared drives.
+  id: totrans-136
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 请参阅 Docker 文档以了解共享驱动器，文档地址为[https://docs.docker.com/docker-for-windows/#shared-drives](https://docs.docker.com/docker-for-windows/#shared-drives)，并在其中一个共享驱动器下使用一个位置。
 - en: 'Create a directory where the sample files will be cloned from the Hyperledger
     GitHub repository, and run the following commands:'
+  id: totrans-137
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 创建一个目录，从 Hyperledger GitHub 仓库克隆示例文件，并运行以下命令：
 - en: '[PRE18]'
+  id: totrans-138
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE18]'
 - en: 'To download and install Hyperledger Fabric on your local machine, you have
     to download the platform-specific binaries by running the following command:'
+  id: totrans-139
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 要在本地机器上下载并安装 Hyperledger Fabric，你必须通过运行以下命令下载平台特定的二进制文件：
 - en: '[PRE19]'
+  id: totrans-140
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE19]'
 - en: The complete installation guide can be found on the Hyperledger site: [https://hyperledger-fabric.readthedocs.io/en/release-1.3/install.html](https://hyperledger-fabric.readthedocs.io/en/release-1.3/install.html).
+  id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: 完整的安装指南可以在 Hyperledger 网站找到：[https://hyperledger-fabric.readthedocs.io/en/release-1.3/install.html](https://hyperledger-fabric.readthedocs.io/en/release-1.3/install.html)。
 - en: Deploying Hyperledger Fabric 1.3 to a Kubernetes environment
+  id: totrans-142
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 将 Hyperledger Fabric 1.3 部署到 Kubernetes 环境
 - en: This step is recommended for those of you who have the experience and skills
     to work with Kubernetes, a cloud environment, and networks and would like an in-depth
     exploration of Hyperledger Fabric 1.3.
+  id: totrans-143
   prefs: []
   type: TYPE_NORMAL
+  zh: 这一步骤建议给那些具有 Kubernetes、云环境和网络工作经验和技能，并且希望深入探索 Hyperledger Fabric 1.3 的人士。
 - en: Kubernetes is a container orchestration platform and is available on major cloud
     providers such as Amazon Web Services, Google Cloud Platform, IBM, and Azure.
     Marcelo Feitoza Parisi, one of IBM's brilliant cloud architects, has created and
     published a guide on GitHub on how to set up a Hyperledger Fabric production-level
     environment on Kubernetes.
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: Kubernetes 是一个容器编排平台，可在主要云服务提供商（如亚马逊网络服务、谷歌云平台、IBM 和 Azure）上使用。IBM 的杰出云架构师之一
+    Marcelo Feitoza Parisi 在 GitHub 上创建并发布了一份关于如何在 Kubernetes 上设置 Hyperledger Fabric
+    生产环境的指南。
 - en: The guide is available at [https://github.com/feitnomore/hyperledger-fabric-kubernetes](https://github.com/feitnomore/hyperledger-fabric-kubernetes).
+  id: totrans-145
   prefs: []
   type: TYPE_NORMAL
+  zh: 该指南可在 [https://github.com/feitnomore/hyperledger-fabric-kubernetes](https://github.com/feitnomore/hyperledger-fabric-kubernetes)
+    上找到。
 - en: Our special thanks to Marcelo!
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: 特别感谢 Marcelo！
 - en: Summary
+  id: totrans-147
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 摘要
 - en: In this chapter, we explored an online cloud deployment of Hyperledger Composer
     through Composer Playground. By using the online network editor, we saw how to
     create definitions of the network, run tests on the network, and access the historian,
     where we were able to visualize all of the transactions that were run on the blockchain
     network.
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这一章中，我们通过 Composer Playground 探索了 Hyperledger Composer 的在线云部署。通过使用在线网络编辑器，我们看到了如何创建网络定义、运行网络测试，并访问历史记录，我们能够可视化所有在区块链网络上运行的交易。
 - en: We also ran the installation of a local development environment and gave you
     a resource to use to set up a production-level Hyperledger setup running on Kubernetes.
+  id: totrans-149
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们还运行了本地开发环境的安装，并为您提供了一个资源，用于在 Kubernetes 上运行的生产级 Hyperledger 设置。
 - en: In the next chapter, we'll explore the main actors in the modern food chain
     and their current challenges. We'll then discuss how IoT and blockchain technology
     can help to solve these challenges.
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一章中，我们将探讨现代食品链中的主要参与者及其当前的挑战。然后我们将讨论物联网和区块链技术如何帮助解决这些挑战。
 - en: Further reading
+  id: totrans-151
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 进一步阅读
 - en: For more information about Composer, visit [https://hyperledger.github.io/composer/latest/tutorials/tutorials](https://hyperledger.github.io/composer/latest/tutorials/tutorials).
+  id: totrans-152
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 欲了解有关 Composer 的更多信息，请访问 [https://hyperledger.github.io/composer/latest/tutorials/tutorials](https://hyperledger.github.io/composer/latest/tutorials/tutorials)。
 - en: 'If you want to install the full stack of Hyperledger Fabric, follow the recommendations
     at this link: [https://github.com/feitnomore/hyperledger-fabric-kubernetes](https://github.com/feitnomore/hyperledger-fabric-kubernetes).'
+  id: totrans-153
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 如果您想安装完整的 Hyperledger Fabric 栈，请按照此链接的建议进行：[https://github.com/feitnomore/hyperledger-fabric-kubernetes](https://github.com/feitnomore/hyperledger-fabric-kubernetes)。
 - en: All installation processes and architecture for Hyperledger can be found here: [https://github.com/feitnomore/hyperledger-fabric-kubernetes](https://github.com/feitnomore/hyperledger-fabric-kubernetes).
+  id: totrans-154
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 所有关于 Hyperledger 的安装过程和架构都可以在此处找到：[https://github.com/feitnomore/hyperledger-fabric-kubernetes](https://github.com/feitnomore/hyperledger-fabric-kubernetes)。
 - en: 'A step-by-step guide to installing Hyperledger Composer can be found here:
     [https://medium.com/kago/tutorial-to-install-hyperledger-composer-on-windows-88d973094b5c](https://medium.com/kago/tutorial-to-install-hyperledger-composer-on-windows-88d973094b5c).'
+  id: totrans-155
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 关于安装 Hyperledger Composer 的逐步指南可以在此处找到：[https://medium.com/kago/tutorial-to-install-hyperledger-composer-on-windows-88d973094b5c](https://medium.com/kago/tutorial-to-install-hyperledger-composer-on-windows-88d973094b5c)。
