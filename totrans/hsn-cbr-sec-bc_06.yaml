@@ -3,6 +3,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用区块链部署基于PKI的身份
 - en: Organizations have several applications to manage, and these are hosted by different
     systems and servers. Organizations have deployed several ways to authenticate
     users based on methods such as multi-factor authentication system, one for each
@@ -16,35 +17,43 @@
   id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 组织有多个应用程序需要管理，这些应用程序托管在不同的系统和服务器上。 组织已经部署了多种身份验证用户的方式，例如多因素身份验证系统，每个系统/应用程序一个，**单点登录**（**SSO**），以及目录服务器；然而，在互联网上对用户进行身份验证是一种相对困难的机制。
+    在交换信息之前在互联网上建立信任是非常重要的，因为互联网对受信任和不受信任的各方都是开放的。 为了在公共网络上建立信任，需要一个独立的可信方。 **公钥基础设施**（**PKI**）是一个开放的框架，旨在解决互联网连接用户之间的信任因素。
 - en: 'In this chapter, we will learn about the following topics:'
   id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章中，我们将学习以下主题：
 - en: Public key infrastructure
   id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 公钥基础设施
 - en: Challenges of the existing PKI model
   id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 现有PKI模型的挑战
 - en: How blockchain technology can help?
   id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 区块链技术如何帮助？
 - en: Lab and test results
   id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 实验室和测试结果
 - en: PKI
   id: totrans-7
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: PKI
 - en: Organizations have hundreds of cloud-based applications to manage and maintain.
     Managing individual access control and authentication is a difficult daily task.
     When it comes to internet users and enormous web applications, it becomes difficult
@@ -54,6 +63,8 @@
   id: totrans-8
   prefs: []
   type: TYPE_NORMAL
+  zh: 组织有数百个基于云的应用程序需要管理和维护。 管理单个访问控制和身份验证是一项困难的日常任务。 当涉及到互联网用户和庞大的Web应用程序时，很难信任单个网站，并且用户往往会通过它们失去他们的隐私和机密信息。
+    PKI提供了一种安全的方式来验证个人的身份。
 - en: Businesses can simplify the deployment and management issues that are encountered
     with applications by employing a PKI. As businesses are moving more toward cloud-based
     applications, it is critical to protect security-sensitive applications from emerging
@@ -62,11 +73,13 @@
   id: totrans-9
   prefs: []
   type: TYPE_NORMAL
+  zh: 企业可以通过采用PKI来简化应用程序部署和管理问题。 随着企业越来越多地转向基于云的应用程序，保护安全敏感的应用程序免受新兴威胁的影响至关重要。 在线通信时存在几种安全威胁，例如身份盗窃，**中间人**（**MITM**）攻击和数据泄露。
 - en: PKI in a nutshell
   id: totrans-10
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: PKI简介
 - en: 'The internet allows anyone to connect to anyone else and, unlike the real world,
     geographical/physical barriers don''t exist. This makes it difficult to identify
     a person over the internet and establish trust for further communication. In the
@@ -75,10 +88,13 @@
   id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 互联网允许任何人连接到任何其他人，与现实世界不同，不存在地理/物理障碍。 这使得在互联网上识别一个人并建立进一步通信的信任变得困难。 在下图中，Alice想要通过互联网与Bob交流；
+    但是，Bob拒绝了，因为他没有任何手段验证Alice的身份：
 - en: '![](img/cd9c854c-a576-4f4f-8e81-02a79228a5ea.png)'
   id: totrans-12
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/cd9c854c-a576-4f4f-8e81-02a79228a5ea.png)'
 - en: The PKI solves this problem by appending a **trusted third party** (**TTP**)
     between Bob and Alice. So, before they can start getting to know each other, they
     have to establish a trust and the TTP helps to accomplish that. In the following
@@ -88,16 +104,20 @@
   id: totrans-13
   prefs: []
   type: TYPE_NORMAL
+  zh: PKI通过在Bob和Alice之间添加一个**受信任的第三方**（**TTP**）来解决这个问题。 因此，在他们开始相互了解之前，他们必须建立信任，而TTP有助于实现这一点。
+    在下图中，Alice与Bob共享数字证书，Bob使用来自受信任证书颁发机构的公钥来解密此签名并验证Alice。
 - en: '![](img/7f3b68d3-f0eb-43c6-aee7-8b5d909f5bfb.png)'
   id: totrans-14
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/7f3b68d3-f0eb-43c6-aee7-8b5d909f5bfb.png)'
 - en: 'In the preceding diagram, the TTP is the **certificate authority** (**CA**).
     This CA generates a certificate that helps an internet user show his/her identity
     over the internet:'
   id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面的图表中，TTP是**证书颁发机构**（**CA**）。 这个CA生成了一个证书，帮助互联网用户在互联网上展示他/她的身份：
 - en: '**PKI**: A PKI provides a hierarchical standard to manage the digital assets
     of an entity to establish a secure communication channel. It is not just limited
     to the users; it is also used by several different systems such as emails, web
@@ -106,43 +126,52 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**PKI：**PKI 提供了一个层次化的标准，用于管理实体的数字资产以建立安全的通信渠道。它不仅仅局限于用户；它也被多个不同的系统使用，如电子邮件、Web
+    应用程序、智能卡等，稍后将进行解释。'
 - en: '**Network devices**: A PKI is used to control access to routers and switches
     with 802.1X authentication.'
   id: totrans-17
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**网络设备：**PKI 用于通过 802.1X 认证控制对路由器和交换机的访问。'
 - en: '**Applications**: Applications need to get a signed certificate from CA to
     run in the OS.'
   id: totrans-18
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**应用程序：**应用程序需要从 CA 获取签名证书才能在操作系统中运行。'
 - en: '**IPsec tunnels:** Routers and firewalls use certificates to authenticate other
     endpoints over the internet.'
   id: totrans-19
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**IPsec 隧道：**路由器和防火墙使用证书来认证互联网上的其他端点。'
 - en: '**Radius servers:** An **Lightweight Directory Access Protocol** (**LDAP**)
     query is protected with PKI certificates.'
   id: totrans-20
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**半径服务器：**一个 **轻量级目录访问协议**（**LDAP**）查询受到 PKI 证书的保护。'
 - en: 'The following diagram shows PKI security architecture:'
   id: totrans-21
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下图表显示了 PKI 安全架构：
 - en: '![](img/11058a5a-be0e-46a7-a536-9ec46ed640cb.png)'
   id: totrans-22
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/11058a5a-be0e-46a7-a536-9ec46ed640cb.png)'
 - en: The evolution of PKI
   id: totrans-23
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: PKI 的演变
 - en: 'The X.509 design elaborates data formats and procedures for the storage and
     distribution of public keys through certificates that are digitally signed by
     CA. However, X.509 does not include a profile to specify supporting many of the
@@ -150,16 +179,20 @@
   id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: X.509 设计详细说明了通过 CA 数字签名的证书存储和分发公钥的数据格式和流程。然而，X.509 不包括一个规范来指定支持证书的许多子字段和扩展，如下所示：
 - en: '![](img/c8b1925f-55b6-495b-896b-03faa45d20f6.png)'
   id: totrans-25
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/c8b1925f-55b6-495b-896b-03faa45d20f6.png)'
 - en: The standard efforts prepared an outline for PKI of X.509 version 3 as well
     as version 2 certificate revocation lists. Before coming to RFC 2459, there were
     around 11 drafts to enhance the X.509 standard.
   id: totrans-26
   prefs: []
   type: TYPE_NORMAL
+  zh: 标准化工作准备了 X.509 第 3 版以及第 2 版证书吊销列表的 PKI 概述。在 RFC 2459 出现之前，有大约 11 个草案来增强 X.509
+    标准。
 - en: 'RFC 2510 was developed to specify a message protocol used in PKI. After this,
     there were two parallel developments with the need of an enrollment protocol and
     the preference to use the PKCS#10 message format. The following diagram explains
@@ -169,21 +202,27 @@
   id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: RFC 2510 是为了指定在 PKI 中使用的消息协议而制定的。在此之后，出现了两个并行发展，一个是需要一个注册协议，另一个是倾向于使用 PKCS#10
+    消息格式。以下图表解释了 PKI 标头的演变。在第 2 版中，标头添加了发行者唯一 ID 和主题唯一 ID。在第 3 版中，引入了一个扩展字段来标识策略和其他相关信息，如下所示：
 - en: '![](img/8f911fbf-3958-4e7f-a82c-f84065524253.png)'
   id: totrans-28
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/8f911fbf-3958-4e7f-a82c-f84065524253.png)'
 - en: Furthermore, the certificate request syntax was developed in S/MIME WG with
     PKCS#10\. With RFC 2510, a simple enrollment protocol was defined, but it did
     not use PKCS#10 as a certificate request format.
   id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 此外，证书请求语法是在 S/MIME WG 中使用 PKCS#10 开发的。通过 RFC 2510，定义了一个简单的注册协议，但它没有使用 PKCS#10
+    作为证书请求格式。
 - en: Components
   id: totrans-30
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 组件
 - en: PKI is a collection of a wide variety of components, applications, policies,
     and practices to combine and accomplish the three security principals which are
     integrity, authentication, and non-repudiation. Digital certificates are the main
@@ -192,11 +231,14 @@
   id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: PKI 是一个由各种组件、应用程序、策略和实践组成的集合，用于结合并实现三个安全原则，即完整性、身份验证和不可否认性。数字证书是 PKI 中的主要组件，因为它们在互联网上充当数字身份。PKI
+    的五个核心组件将在以下小节中解释。
 - en: Asymmetric key encryption
   id: totrans-32
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 非对称密钥加密
 - en: 'In cryptography, encryption is the process of encoding information so that
     only an intended party can see it. There are two methods of accomplishing this
     cryptography encryption—symmetric encryption and asymmetric encryption, defined
@@ -204,6 +246,7 @@
   id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 在密码学中，加密是将信息编码以使只有预期的一方能够看到的过程。有两种方法可以实现这种密码学加密，分别定义如下：
 - en: '**Symmetric encryption: **In symmetric encryption, the same key is used for
     the encryption and decryption of data. It is needed to ensure that both parties
     use the same key to encrypt and decrypt the data, shown as follows:'
@@ -590,22 +633,27 @@
   id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 根据**国家标准与技术研究院**（**NIST**）的说法，加密密钥生命周期是密钥管理的预操作、操作、后操作和删除阶段的组合。考虑到密钥的有效性总是有限的，因此重要的是考虑在账户中花费的时间。因此，加密周期用于记录特定密钥被授权使用的时间。加密周期是通过结合加密将适用的估计时间以及它将被解密以供使用的时间来确定的，如下所示：
 - en: '![](img/9caabd8a-c001-4cd5-aa90-3788741585a3.png)'
   id: totrans-89
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/9caabd8a-c001-4cd5-aa90-3788741585a3.png)'
 - en: 'The following diagram shows the crypto period flowchart with multiple keys:'
   id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下图示显示了具有多个密钥的加密周期流程图：
 - en: '![](img/5220d549-1714-4400-b5bb-349b55846bab.png)'
   id: totrans-91
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/5220d549-1714-4400-b5bb-349b55846bab.png)'
 - en: 'Now, we can examine the several stages in which a key is used and processed:'
   id: totrans-92
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们可以检查密钥使用和处理的几个阶段：
 - en: '**Key creation**: The encryption key is generated and stored on the key management
     server. The key manager generates the encryption key pair through the process
     of cryptography by using a secure random bit generator. Once the key pair is created,
@@ -618,6 +666,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**密钥生成**：加密密钥由密钥管理服务器生成并存储。密钥管理器通过使用安全的随机比特生成器进行加密过程生成加密密钥对。一旦密钥对被创建，它就会连同所有属性一起存储在密钥存储数据库中。这些属性通常包括名称、大小、实例、激活日期、滚动、镜像、密钥访问以及其他相关属性。密钥激活时间可以预定，也可以在创建时立即激活。加密密钥管理器跟踪加密密钥的当前和过去实例。'
 - en: '**Key use and rollover**: The key manager is responsible for allowing authorized
     users or the system to retrieve information and also allowing them to process
     encryption or decryption. It is also responsible for managing the state of an
@@ -630,6 +679,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**密钥使用和滚动**：密钥管理器负责允许授权用户或系统检索信息，并允许它们进行加密或解密处理。它还负责在整个生命周期和每个实例中管理加密密钥的状态。如果一个组织有一项政策规定每年使用一组新密钥，那么密钥管理器应保留密钥的先前版本并只分发当前版本。但是，仍然可以检索以前的版本以执行解密过程。'
 - en: '**Key revocation**: An administrator connects to a key manager to revoke a
     key so that it is no longer used for further encryption and decryption processes.
     If required, the administrator can even reactivate the key and use it for further
@@ -640,10 +690,12 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**密钥吊销**：管理员连接到密钥管理器以吊销密钥，以便不再用于进一步的加密和解密过程。如果需要，管理员甚至可以重新激活密钥并用于进一步的步骤。在一些情况下，管理员还可以使用以前加密的解密数据，例如旧备份。加密生命周期如下图所示：'
 - en: '![](img/c7d95681-8434-45e6-9da4-182ff6d75bef.png)'
   id: totrans-96
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/c7d95681-8434-45e6-9da4-182ff6d75bef.png)'
 - en: '**Back up (escrow)**: The NIST recommends an archive for all deactivated keys.
     This archive has to be protected from any unauthorized modification, deletion,
     and alteration. It is also recommended that it has a recoverable key mechanism
@@ -652,6 +704,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**备份（托管）**：NIST建议为所有停用的密钥建立档案。这个档案必须受到任何未经授权的修改、删除和更改的保护。建议在其加密周期结束后具有可恢复密钥机制。'
 - en: '**Key deletion (destruction)**: If the key is compromised or is not being used
     for a long period of time, the administrator should choose to delete the key from
     the key storage database of the encryption key manager. The key manager removes
@@ -947,23 +1000,27 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**撤销签名**：这是任何 PKI 解决方案所需的最关键功能之一，用于撤销属性或实体上的数字签名。当用户丢失密钥或密钥被 compromis 时，撤销变得极为重要。智能合约可以配置为调用撤销事件并撤销特定实体上的签名。'
 - en: Requirements
   id: totrans-133
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 要求
 - en: 'In the DPKI deployment, the registrar still has a role in the infrastructure,
     but it is restricted as follows to ensure that identities to entities are represented
     in the network:'
   id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 DPKI 部署中，注册员仍然在基础架构中发挥作用，但受到以下限制，以确保实体的身份在网络中得到代表：
 - en: It is required to ensure that software is always under the control of principals
     and corresponding keys.
   id: totrans-135
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 必须确保软件始终在主体及其相应密钥的控制下。
 - en: Private keys have to be generated in a decentralized way to ensure that they
     remain under control of the principal. The generation of a key pair on behalf
     of a principal has to be strictly prohibited.
@@ -971,23 +1028,27 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 私钥必须以分散的方式生成，以确保它们始终在主体的控制下。代表主体生成密钥对必须严格禁止。
 - en: There has to be no single entity that can change other entities without consent
     from the principal.
   id: totrans-137
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 不能有任何单个实体可以在未经主体同意的情况下更改其他实体。
 - en: Once a namespace is created within a blockchain through an Ethereum smart contract,
     it can't be destroyed.
   id: totrans-138
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 通过以太坊智能合约在区块链内创建命名空间后，无法销毁它。
 - en: The registration and renewal of identifiers has to be transparent.
   id: totrans-139
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 标识符的注册和续订必须是透明的。
 - en: By default, software that manages identifiers must ensure that all activities
     such as creating, updating, renewing, or deleting identifiers is forwarded through
     a decentralized mechanism.
@@ -995,27 +1056,32 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 默认情况下，管理标识符的软件必须确保所有活动（如创建、更新、续订或删除标识符）都通过分散的机制转发。
 - en: Lab
   id: totrans-141
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 实验
 - en: 'We will begin the lab by first turning up the Node.js and Ganache-CLI framework.
     Installation of  `ganache-cli` has to be performed carefully as it creates the
     entire Ethereum environment in our local system. Take the following steps:'
   id: totrans-142
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将首先启动 Node.js 和 Ganache-CLI 框架来开始实验。必须小心执行 `ganache-cli` 的安装，因为它在我们的本地系统中创建整个以太坊环境。按照以下步骤进行：
 - en: Install Node.js using the commands shown in the website at [https://nodejs.org/uk/download/package-manager/#arch-linux](https://nodejs.org/uk/download/package-manager/#arch-linux).
   id: totrans-143
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 使用网站上显示的命令安装 Node.js，网址为 [https://nodejs.org/uk/download/package-manager/#arch-linux](https://nodejs.org/uk/download/package-manager/#arch-linux)。
 - en: 'Run the following command in the Terminal:'
   id: totrans-144
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在终端中运行以下命令：
 - en: '[PRE1]'
   id: totrans-145
   prefs: []
@@ -1026,10 +1092,12 @@
   id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们通过终端中显示的命令启动测试网络：
 - en: '![](img/43765ced-32ce-4175-9b04-1ba8507ddab5.png)'
   id: totrans-147
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/43765ced-32ce-4175-9b04-1ba8507ddab5.png)'
 - en: 'We now have to enable the developer mode to see the browser content in detail.
     We also have to enable the LOAD UNPACKED extension, as shown in the following
     screenshot:'
@@ -1037,15 +1105,18 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 我们现在必须启用开发者模式以详细查看浏览器内容。我们还必须启用加载未打包的扩展，如下面的截图所示：
 - en: '![](img/49195490-22c4-4b5e-be73-a733b1e3868f.png)'
   id: totrans-149
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/49195490-22c4-4b5e-be73-a733b1e3868f.png)'
 - en: Testing
   id: totrans-150
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测试
 - en: 'CAs can issue **Reaction Policies** (**RP**) which take effect if an unauthorized
     certificate for a domain is issued. In the process of testing, we need to register
     **Domain Certificate Policies** (**DCPs**) and create RPs. The testing can be
@@ -1053,40 +1124,49 @@
   id: totrans-151
   prefs: []
   type: TYPE_NORMAL
+  zh: CA 可以发行**反应策略**（**RP**），如果为域发行了未经授权的证书，则其生效。在测试过程中，我们需要注册**域证书策略**（**DCP**）并创建
+    RP。可以在本地系统上执行以下步骤进行测试：
 - en: 'We need first add a detector and register it. The following script is required
     to add detector by defining its detector ID:'
   id: totrans-152
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 我们首先需要添加一个检测器并将其注册。以下脚本用于通过定义其检测器 ID 添加检测器：
 - en: '![](img/dc30f1fc-9bea-403b-a991-1e124ed1180d.png)'
   id: totrans-153
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/dc30f1fc-9bea-403b-a991-1e124ed1180d.png)'
 - en: 'We will now register a CA used by the domain owner to issue certificates. It
     is required to define CA ID, CA owner address and  name shown as follows:'
   id: totrans-154
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 我们现在将注册一个 CA，由域所有者用于发行证书。需要定义 CA ID、CA 拥有者地址和名称，如下所示：
 - en: '![](img/21ad23c1-12fc-4a2e-86d2-10ae98b83d0b.png)'
   id: totrans-155
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/21ad23c1-12fc-4a2e-86d2-10ae98b83d0b.png)'
 - en: 'Register DCP with CAs, shown as follows:'
   id: totrans-156
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 注册 DCP 到 CA，如下所示：
 - en: '![](img/b4080b4e-6626-411e-814d-adf57d35802c.png)'
   id: totrans-157
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/b4080b4e-6626-411e-814d-adf57d35802c.png)'
 - en: 'Create an associated RP under the smart contract, shown as follows:'
   id: totrans-158
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在智能合约下创建关联的 RP，如下所示：
 - en: '![](img/9662ef9f-8784-4404-bdeb-2384943dd7ba.png)'
   id: totrans-159
   prefs: []

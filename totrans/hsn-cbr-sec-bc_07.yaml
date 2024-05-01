@@ -1,7 +1,9 @@
 - en: Two-Factor Authentication with Blockchain
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链的双因素认证
 - en: Every organization has hundreds of applications and databases, and its employees
     access them every day using their credentials (that is, their username and password).
     An attacker with such valid credentials can bypass the existing security solutions,
@@ -9,63 +11,87 @@
     2016, more than 63% of successful breaches involved compromised credentials. **Two-factor
     authentication** (**2FA**) provides an added layer to the existing credential-based
     system protection as a solution to this drastically growing problem.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个组织都拥有数百个应用程序和数据库，员工每天都使用自己的凭据（即他们的用户名和密码）访问它们。拥有这些有效凭据的攻击者可以绕过现有的安全解决方案，因为它们看起来像合法用户。根据2016年Verizon数据泄露报告，超过63%的成功入侵事件涉及受损的凭据。**双因素认证**(**2FA**)提供了额外的层次来保护现有的基于凭据的系统，作为解决这一急剧增长问题的解决方案。
 - en: 'In this chapter, we will cover the following topics:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: What is 2FA?
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 什么是2FA？
 - en: Blockchain for 2FA
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 区块链用于2FA
 - en: Lab
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 实验室
 - en: What is 2FA?
+  id: totrans-6
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 什么是2FA？
 - en: With several data-breach incidents, we've witnessed a massive increase in the
     number of social and professional website accounts being hacked. Sometimes, even
     a simple human error can cause huge trouble globally. Sometimes, it's easy to
     predict the password of a user based on their daily activity, behavior, or even
     name. Users still tend to use plain text passwords to protect their account, and
     among the worst are `password`, `123456`, and `abcde`.
+  id: totrans-7
   prefs: []
   type: TYPE_NORMAL
+  zh: 随着几起数据泄露事件，我们目睹了社交和专业网站账户遭到大规模黑客攻击的大幅增加。有时，甚至简单的人为错误都可能在全球造成巨大麻烦。有时，根据用户的日常活动、行为甚至姓名，预测用户的密码可能很容易。用户仍然倾向于使用明文密码来保护他们的账户，最糟糕的包括`password`、`123456`和`abcde`。
 - en: '2FA is an extra layer of security that''s used to ensure that only the legitimate
     owner can access to their account. In this method, the user will first enter a
     combination of a username and password, and, instead of directly getting into
     their account, the user will be required to provide other information. This other
     piece of information can come in the form of one of the following ways:'
+  id: totrans-8
   prefs: []
   type: TYPE_NORMAL
+  zh: 2FA是用于确保只有合法所有者可以访问其账户的额外安全层。在这种方法中，用户首先输入用户名和密码的组合，而不是直接进入他们的账户，用户将需要提供其他信息。这其他信息可能以以下形式之一出现：
 - en: '**Something that the user knows**: This could be information such as a password,
     an answer to a secret question, or maybe a **personal identification number**
     (**PIN**).'
+  id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**用户所知道的信息**：这可能是密码、秘密问题的答案，或者像**个人识别号码**(**PIN**)这样的信息。'
 - en: '**Something that the user has**: This method includes the second level of authentication
     based on card details, through smartphones, other hardware, or a software token.'
+  id: totrans-10
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**用户所拥有的东西**：这种方法包括基于卡片详细信息、通过智能手机、其他硬件或软件令牌的第二级身份验证。'
 - en: '**Something that the user is**: This is one the most effective ways to verify
     the user on the second step, and this is accomplished with biometric data such
     as keystroke dynamics and mouse behavior.'
+  id: totrans-11
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**用户所拥有的东西**：这是验证用户第二步的最有效方式之一，通过生物特征数据（如按键动态和鼠标行为）来实现。'
 - en: Evolution of user authentication
+  id: totrans-12
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 用户认证的演变
 - en: 'Several organizations constantly struggle to find a better way to achieve more
     effective and reliable authentication systems. From the birth of the internet
     to the expansion of the public and hybrid cloud, authentication factors have been
@@ -74,85 +100,115 @@
     and inter-operable. The following diagram explain how the authentication system
     has been evolved from a **single-factor authentication** (**SFA**) to a **multi-factor
     authentication** (**MFA**) system:'
+  id: totrans-13
   prefs: []
   type: TYPE_NORMAL
+  zh: 几个组织不断努力寻找更有效和可靠的身份验证系统。从互联网的诞生到公共和混合云的扩展，身份验证因素一直在并驾齐驱。选择支持强大身份验证解决方案的解决方案非常重要。组织确保系统具备未来性，并具有互操作性。以下图表解释了身份验证系统如何从**单因素身份验证**（SFA）演变为**多因素身份验证**（MFA）系统：
 - en: '**SFA**: It is based on the user''s pre-shared information of a PIN or a password,
     or, most likely, a security question. However, this is sometimes disturbed, as
     a user may forget this preshared information if the user is not regularly accessing
     the application.'
+  id: totrans-14
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**SFA**：它基于用户的预共享PIN或密码的信息，或者最可能是一个安全问题。然而，有时会受到干扰，因为用户可能会忘记这些预共享信息，如果用户不经常访问应用程序。'
 - en: '**2FA**: This is to overcome the user''s tendency of forgetting the preshared
     information based on what they know. It has methods such as smartphone, key-card,
     or **one-time password** (**OTP**) verification. In this factor, the second step
     of authentication is dynamic in nature, and users don''t have to share anything
     with the application''s owner. This also avoids the risk of the account being
     compromised due to stolen credentials.'
+  id: totrans-15
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**2FA**：这是为了克服用户忘记基于所知道的预先共享信息的倾向。它有智能手机、钥匙卡或**一次性密码**（OTP）验证等方法。在这一因素中，第二步身份验证是动态的，用户不必与应用程序的所有者分享任何信息。这也避免了因被盗凭据而导致帐户被入侵的风险。'
 - en: '**MFA**: This has several methods to authenticate users on the second level
     such as voice biometrics, facial recognition, hand geometry, ocular-based methodology,
     fingerprint scanning, geographical location, thermal image recognition, and many
     more. However, this chapter is limited to only exploring 2FA.'
+  id: totrans-16
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**多重因素身份验证**（MFA）：这有几种方法来对第二级用户进行身份验证，例如语音生物识别、面部识别、手部几何形状、眼部方法、指纹扫描、地理位置、热图像识别等。但是，本章仅限于探索2FA。'
 - en: 'The following diagram shows the evolution of authentication:'
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下图表显示了身份验证的演变：
 - en: '![](img/6d9ca8b1-d2fc-4fc2-ac1f-db1724482767.png)'
+  id: totrans-18
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/6d9ca8b1-d2fc-4fc2-ac1f-db1724482767.png)'
 - en: Why 2FA?
+  id: totrans-19
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 为什么要使用2FA？
 - en: '2FA helps both end users and business security, and there are several benefits  of
     using it, which are as follows:'
+  id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: 2FA有助于终端用户和业务安全，并且使用它有几个好处，如下所示：
 - en: '**Better security**: By integrating a second level of authentication, SMS-based
     OTP reduces the risk of attackers impersonating legitimate users. This reduces
     the risk of account theft and data breaches. Even if the hacker gets the user''s
     credentials from the dark web, they won''t have the second piece of information
     required to completely authenticate.'
+  id: totrans-21
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**更好的安全性**：通过集成第二层身份验证，基于短信的一次性密码（OTP）减少了攻击者冒充合法用户的风险。这降低了账户被盗和数据泄露的风险。即使黑客从暗网获取了用户的凭据，他们也不会有完全验证所需的第二个信息。'
 - en: '**Increase in productivity**: Mobile 2FA helps global businesses to use the
     second level of authentication seamlessly. Employees can securely access corporate
     applications, documents, and third-party systems from any device or location without
     sharing any confidential information.'
+  id: totrans-22
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**提高生产力**：移动2FA帮助全球企业无缝地使用第二级身份验证。员工可以安全地从任何设备或位置访问企业应用程序、文档和第三方系统，而无需共享任何机密信息。'
 - en: '**Reduction in fraud and increase in trust**: Most of the fraud victims avoid
     going to certain retailers, even if the merchant wasn''t responsible for the data
     breach. 2FA builds a greater layer of trust with the user and also reduces fraud
     attempts on merchant sites.'
+  id: totrans-23
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**减少欺诈，增加信任**：大多数欺诈受害者避免去某些零售商，即使该商家不负责数据泄露。2FA为用户建立了更高的信任层，并且还减少了商家网站上的欺诈尝试。'
 - en: How does it work?
+  id: totrans-24
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 它是如何工作的？
 - en: '2FA can be deployed in two modes—a **cloud-based solution** and an **on-premise
     solution**. We will understand both solutions and understand which fits better
     for what kind of deployment:'
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 2FA可以以两种方式部署——**基于云的解决方案**和**本地解决方案**。我们将了解这两种解决方案，并了解哪种更适合哪种部署：
 - en: '**Cloud-based solution**: This is heavily used by E-commerce, online banking,
     and other online service-related web applications. Take a look at the following
     diagram:'
+  id: totrans-26
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**基于云的解决方案**：这在电子商务、在线银行和其他在线服务相关的网络应用中被广泛使用。看一下下面的图表：'
 - en: '![](img/d819aec2-2ee4-429d-9afa-573c458c8c51.png)'
+  id: totrans-27
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/d819aec2-2ee4-429d-9afa-573c458c8c51.png)'
 - en: '**On-premise solution**: Organizations hesitate to allow cloud-based security
     solutions and tend to prefer on-premise solutions where an employee accessing
     the web applications puts in a combination of a username and password. Now this
@@ -162,16 +218,22 @@
     through mobile applications. This model helps achieve privacy for an organization,
     as it doesn''t have to share the credentials with a third-party 2FA provider.
     Take a look at the following diagram:'
+  id: totrans-28
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**本地解决方案**：组织在允许基于云的安全解决方案时存在犹豫，并倾向于更喜欢本地解决方案，其中员工访问网络应用程序时输入用户名和密码的组合。现在这些信息发送到内部VPN集成器，该集成器处理凭据并在组织与第三方2FA提供商之间交换密钥。第三方2FA提供商将生成OTP并通过短信或移动应用程序与员工共享此信息。这种模型有助于组织实现隐私，因为它不必与第三方2FA提供商共享凭据。看一下下面的图表：'
 - en: '![](img/36881310-e39e-4823-9add-1c77cbe3485e.png)'
+  id: totrans-29
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/36881310-e39e-4823-9add-1c77cbe3485e.png)'
 - en: Challenges
+  id: totrans-30
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 挑战
 - en: In 2FA, the first level of authentication is a combination of a username and
     a password, but for the second level of authentication, this piece of information
     is provided from a central repository. This central repository is responsible
@@ -180,317 +242,471 @@
     the drawback of having the centralized database storing a list of secret user
     information. The central database can be tampered with or corrupted by targeted
     threats, and this can lead to massive data breaches.
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 2FA 中，第一层身份验证是用户名和密码的组合，但对于第二层身份验证，这部分信息由中央存储库提供。该中央存储库负责存储所有必要的信息以验证用户身份。尽管
+    2FA 通过第二层身份验证增加了安全性，但它仍然存在存储用户秘密信息的中央数据库的缺点。中央数据库可能会被定向威胁篡改或损坏，这可能导致大规模的数据泄露。
 - en: Blockchain for 2FA
+  id: totrans-32
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 基于区块链的 2FA
 - en: Blockchain is being hailed as one of the most revolutionary and disruptive technologies
     out there. Blockchain has been disrupting the cyber security solutions-based CIA
     security triad principal. 2FA have been critical in security measures for several
     years; however, attackers sometimes manage to compromise these systems. We will
     understand how blockchain can transform the 2FA system to achieve an improved
     security method.
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链被誉为最具革命性和颠覆性的技术之一。区块链一直在扰乱基于网络安全解决方案的 CIA 安全三要素。多年来，2FA 在安全措施中一直是关键；然而，有时攻击者能够成功入侵这些系统。我们将了解区块链如何转变
+    2FA 系统，以实现改进的安全方法。
 - en: How blockchain can transform 2FA?
+  id: totrans-34
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链如何转变 2FA？
 - en: By design, blockchain is a decentralized technology that allows transactions
     of any kind of value among multiple participants without the involvement of a
     third-party. By leveraging blockchain, we can ensure that this sensitive information
     never remains on one database; however, it can be within blockchain nodes that
     have immutability and can't be modified or deleted. The following diagram shows
     the blockchain-based 2FA.
+  id: totrans-35
   prefs: []
   type: TYPE_NORMAL
+  zh: 从设计上看，区块链是一种去中心化技术，允许多个参与者之间进行任何类型的价值交易，而无需第三方的参与。通过利用区块链，我们可以确保这些敏感信息永远不会留在一个数据库中；相反，它可以存储在具有不可变性且无法修改或删除的区块链节点中。下图展示了基于区块链的
+    2FA。
 - en: In this user devices will be authenticated by third party 2FA provider through
     blockchain network. Each party in the blockchain network will hold the endpoint
     information securely and will activate 2FA system to generate the second-level
     password.
+  id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: 在此情况下，用户设备将通过区块链网络由第三方 2FA 提供商进行身份验证。区块链网络中的每个参与方都将安全地保存端点信息，并激活 2FA 系统以生成第二级密码。
 - en: 'This can either be deployed in the public domain or even the private network
     with third party API call:'
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 这可以部署在公共领域，甚至是通过第三方 API 调用的私有网络中：
 - en: '![](img/97fcd830-efcb-44b7-8689-f30d3c2b3249.png)'
+  id: totrans-38
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/97fcd830-efcb-44b7-8689-f30d3c2b3249.png)'
 - en: Solution architecture
+  id: totrans-39
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 解决方案架构
 - en: 'Being the latest technology, blockchain is still in its testing phase with
     several organizations. For this chapter, we will be using the Ethereum blockchain
     to turn up the 2FA system. Ethereum allows an application to be programmed with
     a smart contract. In the following diagram, the basic flow between the user, the
     web application, and the Ethereum-based repository is depicted:'
+  id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: 作为最新的技术，区块链仍在多个组织的测试阶段。在本章中，我们将使用以太坊区块链来启用 2FA 系统。以太坊允许通过智能合约编程应用程序。下图展示了用户、Web
+    应用程序和基于以太坊的存储库之间的基本流程：
 - en: '![](img/8e528135-1e55-4dc0-837b-99aa8ad575db.png)'
+  id: totrans-41
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/8e528135-1e55-4dc0-837b-99aa8ad575db.png)'
 - en: 'A user accesses the web portal and enters the first level of credentials. A
     web application will communicate to the Ethereum-based repository to generate
     the OTP and shares this with the user. Finally, the user enters the same OTP and
     gains access to the web application. Let''s gain some more insight into the Ethereum
     blockchain through the following diagram:'
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 用户访问 Web 门户并输入第一层凭据。Web 应用程序将与基于以太坊的存储库通信，生成 OTP 并与用户共享。最后，用户输入相同的 OTP 并获得 Web
+    应用程序的访问权限。让我们通过下图进一步了解以太坊区块链：
 - en: '![](img/d1d434ca-683e-4976-a9f0-0fac87266a75.png)'
+  id: totrans-43
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/d1d434ca-683e-4976-a9f0-0fac87266a75.png)'
 - en: Lab
+  id: totrans-44
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 实验
 - en: To turn up the entire project, we will have to deploy the subcomponent of this
     project. The source has been taken from GitHub, which can be found at the following
     link at [https://github.com/hoxxep/Ethereum-2FA.](https://github.com/hoxxep/Ethereum-2FA)
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了启动整个项目，我们将不得不部署该项目的子组件。源代码已从 GitHub 获取，可以在以下链接找到：[https://github.com/hoxxep/Ethereum-2FA.](https://github.com/hoxxep/Ethereum-2FA)
 - en: 'This has the following files in it:'
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 它包含以下文件：
 - en: '![](img/cde78e84-6b59-43ad-a9a0-2b78aa50996e.png)'
+  id: totrans-47
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/cde78e84-6b59-43ad-a9a0-2b78aa50996e.png)'
 - en: 'The files in the preceding screenshot are explained as follows:'
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 前面截图中的文件解释如下：
 - en: '`contracts`: This folder include our smart contract, `TwoFactorAuth.sol`.'
+  id: totrans-49
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`contracts`：该文件夹包括我们的智能合约，`TwoFactorAuth.sol`。'
 - en: '`migrations`: This folder consists of migration files to deploy the contract
     to the blockchain.'
+  id: totrans-50
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`migrations`：该文件夹包含用于将合约部署到区块链的迁移文件。'
 - en: '`test`: This folder consists of `server.js`, which is responsible for event
     authentication in our contract.'
+  id: totrans-51
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`test`：该文件夹包含`server.js`，负责验证我们合约中的事件。'
 - en: '`node_modules`: This folder include all the libraries.'
+  id: totrans-52
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`node_modules`：该文件夹包括所有库。'
 - en: '`truffle.js`: This configuration file consists of a set of configurations to
     connect to the blockchain.'
+  id: totrans-53
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`truffle.js`：此配置文件包含一组配置，用于连接到区块链。'
 - en: '`package.json`: This is where we specify a configuration of our project, such
     as name and scripts.'
+  id: totrans-54
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`package.json`：这是我们项目的配置，如名称和脚本。'
 - en: Components
+  id: totrans-55
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 组件
 - en: 'The following are the three core components of this project as shown in the
     following diagram:'
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是该项目的三个核心组件，如下图所示：
 - en: A blockchain network (which we will develop by Ganache CLI)
+  id: totrans-57
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 一个区块链网络（我们将通过 Ganache CLI 开发）
 - en: Smart contract
+  id: totrans-58
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 智能合约
 - en: A server communicating with blockchain
+  id: totrans-59
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 一个与区块链通信的服务器
 - en: 'Take a look at the following diagram:'
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 查看以下图表：
 - en: '![](img/68b40ffb-549e-468c-810d-b24d79cda621.png)'
+  id: totrans-61
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/68b40ffb-549e-468c-810d-b24d79cda621.png)'
 - en: Preparation
+  id: totrans-62
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 准备工作
 - en: It is important to develop the blockchain network before we even start configuring
     any other parameter. First, let's start by developing our **decentralized applications**
     (**dApps**) on a local Ethereum called `testrpc`. In our case, we are using the
     Ganache CLI, and it uses EthereumJS to simulate full client behavior and make
     Ethereum development easier and safer. It also includes all well-known RPC functions
     and features.
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 在开始配置任何其他参数之前，开发区块链网络至关重要。首先，让我们在本地以太坊上开发我们的**去中心化应用程序**（**dApps**）叫做`testrpc`。在我们的情况下，我们使用
+    Ganache CLI，它使用 EthereumJS 模拟完整的客户端行为，使以太坊开发更加简单和安全。它还包括所有知名的 RPC 函数和特性。
 - en: Installing Node.js
+  id: totrans-64
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 安装 Node.js
 - en: 'We will first install the Node.js package on to our local system. The code
     can be downloaded from the following link: [https://nodejs.org/uk/download/package-manager/#arch-linux](https://nodejs.org/uk/download/package-manager/#arch-linux).'
+  id: totrans-65
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将首先在本地系统上安装 Node.js 包。代码可以从以下链接下载：[https://nodejs.org/uk/download/package-manager/#arch-linux](https://nodejs.org/uk/download/package-manager/#arch-linux).
 - en: Turning up Ethereum
+  id: totrans-66
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 启动以太坊
 - en: 'The steps for turning up Ethereum are as follows:'
+  id: totrans-67
   prefs: []
   type: TYPE_NORMAL
+  zh: 启动以太坊的步骤如下：
 - en: 'First, we need to install the `ganache-cli` on our system:'
+  id: totrans-68
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 首先，我们需要在系统上安装`ganache-cli`：
 - en: '[PRE0]'
+  id: totrans-69
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: 'Next, run the entire suite with the following command:'
+  id: totrans-70
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 接下来，使用以下命令运行整个套件：
 - en: '[PRE1]'
+  id: totrans-71
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: 'After the previously mentioned command execution, we will get 10 default accounts
     and 10 default private keys. Now we will have a local Ethereum, `testrpc`, running
     on `http://localhost:8545`, as you can see in the following screenshot:'
+  id: totrans-72
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面提到的命令执行后，我们将获得 10 个默认账户和 10 个默认私钥。现在我们将有一个本地以太坊`testrpc`，运行在`http://localhost:8545`上，如您在以下截图中所见：
 - en: '![](img/f3f4d354-1994-4e70-a569-97f17a9a94e3.png)'
+  id: totrans-73
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/f3f4d354-1994-4e70-a569-97f17a9a94e3.png)'
 - en: Turning up the smart contract
+  id: totrans-74
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 启动智能合约
 - en: 'We will now run `server.js` with the following command:'
+  id: totrans-75
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们将使用以下命令运行`server.js`：
 - en: '[PRE2]'
+  id: totrans-76
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: 'After the execution of the previous command, we will see the following screen
     that also shows the web address of 2FA:'
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
+  zh: 在执行前面的命令后，我们将看到以下屏幕，该屏幕还显示了 2FA 的网址：
 - en: '![](img/a8ac53a1-81ce-4104-911a-b42eba6bc29b.png)'
+  id: totrans-78
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a8ac53a1-81ce-4104-911a-b42eba6bc29b.png)'
 - en: 'Now let''s open Google Chrome and access the localhost on port `3000`, as mentioned
     in the previous screenshot. Take a look at the following screenshot:'
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在让我们打开 Google Chrome 并访问端口`3000`上的本地主机，如前面的截图所述。查看以下截图：
 - en: '![](img/a927870c-fcec-4a39-b10d-94aacd91f0d7.png)'
+  id: totrans-80
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a927870c-fcec-4a39-b10d-94aacd91f0d7.png)'
 - en: Testing and verification
+  id: totrans-81
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测试和验证
 - en: 'Testing and verification is done by following these steps:'
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: 测试和验证按以下步骤进行：
 - en: '**Calling the authentication function**: We need to run the smart contract
     code on the Ethereum IDE, which is accessible with [https://remix.ethereum.org](https://remix.ethereum.org).
     The following process adds the Solidity code to the remix:'
+  id: totrans-83
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '**调用身份验证功能**：我们需要在以太坊 IDE 上运行智能合约代码，该 IDE 可以通过 [https://remix.ethereum.org](https://remix.ethereum.org)
+    访问。以下过程在 remix 中添加了 Solidity 代码：'
 - en: Click on the + sign in the upper left corner, and add a new filename called `TwoFactorAuth.sol`
+  id: totrans-84
   prefs:
   - PREF_UL
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 单击左上角的 + 号，添加一个名为 `TwoFactorAuth.sol` 的新文件
 - en: Copy and paste the code to our remix instance file
+  id: totrans-85
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 复制并粘贴代码到我们的 remix 实例文件
 - en: Now, choose TwoFactorAuth and click on the Compile option
+  id: totrans-86
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在，选择 TwoFactorAuth 并单击 Compile 选项
 - en: Next, go to the Run tab
+  id: totrans-87
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 接下来，转到 Run 选项卡
 - en: 'We need to call the `authenticate()` function to authenticate the contract,
     as shown in the following screenshot :'
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们需要调用 `authenticate()` 函数来验证合约，如下截图所示：
 - en: '![](img/3985c339-d8b1-4de6-b7af-2884ed5a5551.png)'
+  id: totrans-89
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3985c339-d8b1-4de6-b7af-2884ed5a5551.png)'
 - en: '**Verifying authentication**: In this step, we need to verify whether the authentication
     worked. To accomplish this, follow these steps:'
+  id: totrans-90
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '**验证身份验证**：在这一步中，我们需要验证身份验证是否成功。为了实现这一点，请按照以下步骤操作：'
 - en: We need to set the environment field to the Web3 Provider option.
+  id: totrans-91
   prefs:
   - PREF_UL
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 我们需要将环境字段设置为 Web3 Provider 选项。
 - en: 'Now choose the TwoFactorAuth option, provide the contract address in the placeholder
     with Load contract and then click at the At Address button, as shown in the following
     screenshot:'
+  id: totrans-92
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 现在选择 TwoFactorAuth 选项，在占位符中提供合约地址并使用 Load contract，然后单击 At Address 按钮，如下截图所示：
 - en: '![](img/75707a8e-3d91-40e9-a06a-ef9f80b8f546.png)'
+  id: totrans-93
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/75707a8e-3d91-40e9-a06a-ef9f80b8f546.png)'
 - en: '**Successful authentication**: Our server subscribes to the contract, and when
     we call the `authenticate()` method, the server reads that from the blockchain
     and returns with a successful authentication:'
+  id: totrans-94
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '**成功的身份验证**：我们的服务器订阅了合约，当我们调用 `authenticate()` 方法时，服务器从区块链中读取并返回成功的身份验证：'
 - en: '![](img/1d98020a-1d63-4c11-be03-5058b1131ece.png)'
+  id: totrans-95
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/1d98020a-1d63-4c11-be03-5058b1131ece.png)'
 - en: Summary
+  id: totrans-96
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 概要
 - en: In this chapter, you learned how 2FA is one of the most vital security measurements.
     However, the central repository can be at risk of being compromised by sophisticated
     cyber attacks. We studied how blockchain helps decentralize the database between
     multiple nodes and reduces the chance of being a victim of a data breach. The
     Ethereum smart contract is a truly great component of accomplishing a 2FA system,
     which provides the flexibility to program the entire system.
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，您了解了 2FA 如何是最关键的安全措施之一。然而，中央存储库可能会面临复杂的网络攻击风险。我们研究了区块链如何帮助在多个节点之间分散数据库，并减少成为数据泄露的受害者的几率。以太坊智能合约是实现
+    2FA 系统的真正强大组件，它提供了对整个系统进行编程的灵活性。
 - en: Questions
+  id: totrans-98
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 问题
 - en: 'We have topics regarding understanding 2FA, types, and methods to authenticate,
     and a lab to demonstrate how Ethereum can be used to create a 2FA infrastructure.
     There are some questions that are important to explore, such as these:'
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们有关于理解 2FA、认证类型和方法以及演示以太坊如何用于创建 2FA 基础设施的主题。有一些值得探索的重要问题，比如：
 - en: Can we also achieve MFA with Ethereum and if so, how?
+  id: totrans-100
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 我们还可以通过以太坊实现 MFA 吗？如果可以，如何实现？
 - en: How can we integrate SMS-based 2FA with the Ethereum smart contract?
+  id: totrans-101
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 我们如何将基于短信的 2FA 与以太坊智能合约集成？
 - en: Further reading
+  id: totrans-102
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 进一步阅读
 - en: To explore more about the NIST *multi-factor authentication (MFA)* guidelines,
     look at the following link at [https://www.nist.gov/itl/tig/back-basics-multi-factor-authentication](https://www.nist.gov/itl/tig/back-basics-multi-factor-authentication).
+  id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 要了解更多关于 NIST 多因素认证（MFA）准则的信息，请查看以下链接：[https://www.nist.gov/itl/tig/back-basics-multi-factor-authentication](https://www.nist.gov/itl/tig/back-basics-multi-factor-authentication)。
