@@ -808,6 +808,8 @@
   id: totrans-95
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 `upgradeChannel` 函数中，有用于创建客户端和通道对象的样板代码，读者应该已经熟悉。通道升级过程需要从每个现有组织的管理用户（在我们的网络中为
+    4 个）收集对新配置的签名，就像通道创建过程中一样。但是在生成和收集签名之前需要许多额外的步骤。首先，我们需要从订购者获取最新的配置块。我们在代码中使用以下函数调用执行此操作：
 - en: '[PRE9]'
   id: totrans-96
   prefs: []
@@ -821,6 +823,8 @@
   id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将返回一个名为 `configuration_block` 的区块，其中的 config 字段包含当前的通道配置。可以从配置的 sequence 字段中提取此配置的版本，方法如下：`configuration_block.config.sequence`。完整的配置规范在
+    Fabric 源代码中定义为一个 protobuf（`common.Config`），读者可以自行查阅。
 - en: 'In the code, we now create a folder to store temporary files that will be created
     in the subsequent steps. These files are created using the `configtxlator` tool,
     which we use in the absence of equivalent API functions in the Fabric SDK Node
@@ -828,6 +832,8 @@
   id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: 在代码中，我们现在创建一个文件夹来存储随后步骤中将创建的临时文件。这些文件是使用 `configtxlator` 工具创建的，我们在 Fabric SDK
+    Node API 中没有等效的 API 函数时使用该工具：
 - en: '[PRE10]'
   id: totrans-99
   prefs: []
@@ -838,6 +844,7 @@
   id: totrans-100
   prefs: []
   type: TYPE_NORMAL
+  zh: 获得配置后，我们需要将其以 protobuf 格式转储到文件中：
 - en: '[PRE11]'
   id: totrans-101
   prefs: []
@@ -849,6 +856,7 @@
   id: totrans-102
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来，我们需要使用 `configtxlator` 将此配置解码为 JSON 格式。我们这样做纯粹是为了方便，因为解析 JSON 并将我们的预期配置更改应用于其中更容易：
 - en: '[PRE12]'
   id: totrans-103
   prefs: []
@@ -860,6 +868,7 @@
   id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将导致在 `temporary` 文件夹中创建一个名为 `config.json` 的文件。如果您查看此文件的内容，您将看到通道的基础配置结构以及可以更新的各种属性。
 - en: 'Now we need to append the configuration of the new (exporting entity) organization
     to it. The latter is contained in the file `exportingEntityOrg.json`, created
     using the `configtxgen` tool earlier in this section and saved to `network/channel-artifacts`.
@@ -868,6 +877,8 @@
   id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们需要将新的（导出实体）组织的配置附加到其中。后者包含在文件 `exportingEntityOrg.json` 中，此文件在本节前面使用 `configtxgen`
+    工具创建，并保存到 `network/channel-artifacts`。我们使用 `jq` 工具如下创建新的附加配置 `modified_config.json`：
 - en: '[PRE13]'
   id: totrans-106
   prefs: []
@@ -881,6 +892,9 @@
   id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果您查看 `modified_config.json` 的内容，您会发现它在结构上与 `config.json` 非常相似；区别在于它包含了 5 个组织的定义，而
+    `config.json` 只包含了 4 个。我们现在将此新配置转换为 protobuf 格式（`modified_config.pb`），以便 `configtxlator`
+    可以处理它：
 - en: '[PRE14]'
   id: totrans-108
   prefs: []
@@ -891,11 +905,13 @@
   id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，我们使用了与从订购者获取的配置解码时相同的 protobuf 架构（common.Config）。
 - en: 'Finally, we will use `configtxlator` to compute the delta (or difference) between
     the original and the new configuration protobufs:'
   id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，我们将使用 `configtxlator` 计算原始和新配置 protobuf 之间的差异（或区别）：
 - en: '[PRE15]'
   id: totrans-111
   prefs: []
@@ -1804,6 +1820,9 @@
   id: totrans-234
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，区块链应用程序的性能受到影响与影响传统的基于 DBMS 的事务处理应用程序类似的因素。首先，我们必须不断监视托管应用程序组件的硬件资源的健康状况。对于每台运行对等方、排序者或
+    CA 的计算机，我们需要跟踪基本健康指标，如 CPU 使用率、内存使用率、磁盘 I/O 速度、网络带宽、延迟和抖动以及可用存储空间（这不是详尽列表）。这些因素，特别是对于处理密集型系统的
+    CPU 使用率，决定了应用程序是否以最佳性能水平运行。
 - en: As we have seen in this book, a Fabric network can be started in a variety of
     configurations, from a single dedicated machine (physical or virtual) for each
     peer and orderer to a single-machine setup running each component in an isolated
@@ -1817,12 +1836,16 @@
   id: totrans-235
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如本书中所看到的，Fabric 网络可以以各种配置启动，从为每个对等方和排序者分别分配的单个专用机器（物理或虚拟）到在单个机器上运行每个组件的单机设置，每个组件都在一个隔离的
+    `docker` 容器中（就像本书中的交易网络设置）。在后一种情况下，您将需要监视每个容器的健康状况，而不仅仅是机器的健康状况。还要记住，每个 Fabric
+    链码实例始终在 docker 容器中运行，而不是在专用机器上运行。此外，当涉及理解（或分析）应用程序时，应用程序组件的 CPU、内存和 I/O 使用情况最为重要。我们将在本节后面介绍一些用于测量容器和应用程序性能的工具。
 - en: 'Moving from the external factors to the application itself, the performance
     of a Fabric application (just like any other transaction processing application)
     is defined by two characteristic metrics:'
   id: totrans-236
   prefs: []
   type: TYPE_NORMAL
+  zh: 从外部因素转向应用程序本身，Fabric 应用程序的性能（就像任何其他事务处理应用程序一样）由两个特征性指标定义：
 - en: '**Throughput**: This is the number of transactions per unit time that your
     system can yield. As Fabric is a loosely coupled system and a transaction has
     multiple stages (see *[Chapter 5](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)*, *Exposing
@@ -1838,6 +1861,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**吞吐量**：这是系统每单位时间可以产生的交易数量。由于 Fabric 是一个松散耦合的系统，而且一个交易有多个阶段（参见 *[第 5 章](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)*，*暴露网络资产和交易*，例如我们的交易场景），我们可以测量不同阶段的吞吐量。但是，从客户端构造交易提案以获得认可到接收到表示账本提交的事件的时间的整体吞吐量，提供了关于您的应用程序性能的最佳整体图片。另一方面，如果我们只想衡量排序者的吞吐量，我们需要仅收集客户端将经认可的交易信封发送到排序者并收到响应的部分的统计信息。'
 - en: '**Latency**: As most Fabric applications will ultimately be user-facing, it''s
     not just the processing capacity or volume that will matter in a real-world scenario
     but also how long each transaction takes. As in the case of throughput, we can
@@ -2023,6 +2047,7 @@
   id: totrans-260
   prefs: []
   type: TYPE_NORMAL
+  zh: 要获取概要文件，我们可以使用`go tool`命中此服务器并获取数据。例如，如果您的应用程序在端口`6060`上运行服务器，您可以通过运行以下命令获取堆概要文件：
 - en: '[PRE48]'
   id: totrans-261
   prefs: []
@@ -2033,6 +2058,7 @@
   id: totrans-262
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以在前述命令中将`localhost`替换为适当的主机名或 IP 地址。要获取 30 秒的 CPU 概要文件，请运行：
 - en: '[PRE49]'
   id: totrans-263
   prefs: []
@@ -2047,6 +2073,8 @@
   id: totrans-264
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric 提供了对此类分析的内置支持（[https://github.com/hyperledger-archives/fabric/wiki/Profiling-the-Hyperledger-Fabric](https://github.com/hyperledger-archives/fabric/wiki/Profiling-the-Hyperledger-Fabric)），至少在
+    Fabric 对等体上是这样。要启用分析（或运行 HTTP 服务器），我们需要适当地配置对等体（或在我们的案例中，运行对等体的`docker`容器）。回想一下，我们示例交易网络中每个对等体的核心配置在`network/base/peer-base.yaml`中定义。请注意以下行：
 - en: '[PRE50]'
   id: totrans-265
   prefs: []
@@ -2058,6 +2086,7 @@
   id: totrans-266
   prefs: []
   type: TYPE_NORMAL
+  zh: 还要记住，我们的对等方的容器和主机之间的端口映射在`network/base/docker-compose-base.yaml`中定义。出口商和进口商组织对等方的示例如下所示：
 - en: '[PRE51]'
   id: totrans-267
   prefs: []
@@ -2069,6 +2098,7 @@
   id: totrans-268
   prefs: []
   type: TYPE_NORMAL
+  zh: 虽然在它们的容器内，但概要文件服务器在端口`6060`上运行，在主机机器上，`pprof`将命中端口`7055`以捕获出口组织对等体的概要文件，并命中端口`8055`以捕获进口组织对等体的概要文件。
 - en: 'As an example, let us capture a 30-second CPU profile of the exporter organization''s
     peer. We can start up the trade network and run the channel creation and chaincode
     installation steps using `middleware/createTradeApp.js`. In a different terminal
@@ -2076,6 +2106,8 @@
   id: totrans-269
   prefs: []
   type: TYPE_NORMAL
+  zh: 作为示例，让我们捕获出口组织对等体的 30 秒 CPU 概要文件。我们可以启动交易网络，并使用 `middleware/createTradeApp.js`
+    运行频道创建和链码安装步骤。在另一个终端窗口中，我们可以运行：
 - en: '[PRE52]'
   id: totrans-270
   prefs: []
@@ -2086,6 +2118,7 @@
   id: totrans-271
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将最终在 `~/pprof` 生成一个文件，并在您的控制台上产生以下内容：
 - en: '[PRE53]'
   id: totrans-272
   prefs: []
@@ -2097,6 +2130,7 @@
   id: totrans-273
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，该工具留下一个`pprof` shell 以运行各种分析命令，以分析获得的转储。例如，要获取前五个最活跃的函数或 goroutine：
 - en: '[PRE54]'
   id: totrans-274
   prefs: []
@@ -2107,6 +2141,7 @@
   id: totrans-275
   prefs: []
   type: TYPE_NORMAL
+  zh: '`tree`命令以文本形式显示整个调用图，其中一个部分看起来像这样：'
 - en: '[PRE55]'
   id: totrans-276
   prefs: []
@@ -2117,6 +2152,7 @@
   id: totrans-277
   prefs: []
   type: TYPE_NORMAL
+  zh: 您还可以以图形方式查看图表，可以是在网页上，也可以是生成文件：
 - en: '[PRE56]'
   id: totrans-278
   prefs: []
@@ -2126,15 +2162,18 @@
   id: totrans-279
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面的示例显示了生成的调用图作为 PNG 图像：
 - en: '![](img/184dd700-f7cb-4c7c-9a0e-f51f6c4e3f2f.png)'
   id: totrans-280
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/184dd700-f7cb-4c7c-9a0e-f51f6c4e3f2f.png)'
 - en: 'Figure 9.4: A section a call graph representing the functions executed in a
     peer node within a 30-second period'
   id: totrans-281
   prefs: []
   type: TYPE_NORMAL
+  zh: 第 9.4 图：一个呈现在 30 秒内在对等节点中执行的函数的调用图部分。
 - en: This is a section of the call graph image, which each box representing a function
     and the box's size indicating the frequency of that function (that is, the number
     of profile samples in which that function was running). Directed graph edges indicate
@@ -2143,16 +2182,19 @@
   id: totrans-282
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是调用图像的一个部分，其中每个框代表一个函数，框的大小表示该函数的频率（即运行该函数的概要样本数量）。有向图边表示从一个函数调用另一个函数，边表示在进行这种调用时所花费的时间。
 - en: For more `pprof` options and analytical tools, the reader is encouraged to read
     the documentation.
   id: totrans-283
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于更多`pprof`选项和分析工具，建议读者阅读文档。
 - en: Measuring application performance
   id: totrans-284
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测量应用程序性能
 - en: Measuring throughput and latency of your application is somewhat less arcane
     than many of the tools described previously; it will involve instrumenting your
     code to collect and record timing information. In your code, you will need to
@@ -2228,6 +2270,8 @@
   id: totrans-292
   prefs: []
   type: TYPE_NORMAL
+  zh: Fabric 架构和交易流水线现在应该对本书的读者非常熟悉。这是一个复杂的分布式系统，其性能取决于许多因素，从与 Fabric 交互的应用程序的架构到共识实现、交易大小、区块大小、Fabric
+    网络大小，以及底层硬件和物理网络介质的能力。
 - en: At the time of writing this book, performance measurements reveal that Fabric
     can yield a throughput of several thousand transactions per second ([https://arxiv.org/abs/1801.10228](https://arxiv.org/abs/1801.10228).).
     The caveat our readers need to keep in mind is that these measurements were carried
@@ -2242,11 +2286,14 @@
   id: totrans-293
   prefs: []
   type: TYPE_NORMAL
+  zh: 在编写本书时，性能测量显示 Fabric 可以产生每秒数千个交易的吞吐量（[https://arxiv.org/abs/1801.10228](https://arxiv.org/abs/1801.10228)）。我们的读者需要记住的一个警告是，这些测量是使用执行非常简单操作的链码进行的，并使用可能不代表典型生产区块链网络的应用程序和网络配置。Fabric
+    的性能受特定用例和底层硬件的限制。例如，IBM Z 系统上的性能超过其他平台，这是由于优化的 Go 编译器利用了硬件加速功能，例如用于加密算法等。良好的性能取决于足够的资源和适当的配置；我们将在本节后面详细讨论配置。
 - en: System bottlenecks
   id: totrans-294
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 系统瓶颈
 - en: A simple inspection of the Fabric architecture and transaction stages will reveal
     the possible bottleneck components. The ordering service is a prime and obvious
     example. Every transaction MUST pass through this service and get included in
@@ -2261,6 +2308,8 @@
   id: totrans-295
   prefs: []
   type: TYPE_NORMAL
+  zh: 对 Fabric 架构和交易阶段进行简单检查将揭示可能的瓶颈组件。排序服务是一个主要而明显的例子。每个交易必须通过此服务，并被包含在一个区块中才能有机会提交账本。但请记住，在提交时仍然无法保证交易不会被拒绝。因此，排序服务的性能在某种程度上为应用程序的性能设定了基准。显然，增加排序器资源，无论是通过添加更多节点还是增加每个个体节点的容量，都可能导致更好的性能。还可以使用其他排序机制来代替当前
+    Fabric 默认的 Kafka。随着 Fabric 平台的发展，预计会看到更好、更快的排序算法。
 - en: Another system bottleneck lies at the ledger commitment stage when the transactions
     have to be evaluated both for authenticity of endorsements and to enforce database
     (ledger) consistency by managing read and write conflicts. Cryptographic operations
@@ -2273,6 +2322,8 @@
   id: totrans-296
   prefs: []
   type: TYPE_NORMAL
+  zh: 另一个系统瓶颈位于账本提交阶段，当交易必须被评估以确保认证背书的真实性，并通过管理读写冲突来执行数据库（账本）一致性。加密操作本质上是繁重的，而 Fabric
+    的最新更改（例如在 *v1.1* 中）已经使签名验证更有效。作为开发人员或网络工程师，您可以通过最小化由于无效签名或交易间冲突而导致的交易失败的可能性来简化性能。对于前者，在背书阶段和向排序器生成请求期间进行更好的验证应该可以减少失败的机会。
 - en: To reduce conflicts, one needs to experiment with varying block sizes (remember
     that checks are made for conflicts among transactions within a block). Though
     larger blocks may result in higher throughput, conflicts may have the opposite
@@ -2284,11 +2335,15 @@
   id: totrans-297
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了减少冲突，需要尝试不同的区块大小（请记住，在一个区块中检查事务之间的冲突）。虽然更大的区块可能会导致更高的吞吐量，但冲突可能会产生相反的效果。您还可以设计您的链码，以减少不同调用事务之间冲突的可能性。有关
+    Fabric 如何检测和处理区块中的冲突的解释，请参见[*第 4 章*](a557efde-d161-4451-b5ee-cb3e481010be.xhtml)，*使用
+    Golang 设计数据和事务模型，* 在 *多版本并发控制* 部分。
 - en: Configuration and tuning
   id: totrans-298
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 配置和调整
 - en: Continuing from our previous discussion, you can configure various parameters
     to optimize your application’s performance. Many of these parameters are outcomes
     of the system requirements such as the network size.  But a few parameters in
@@ -2306,6 +2361,9 @@
   id: totrans-299
   prefs: []
   type: TYPE_NORMAL
+  zh: 从我们之前的讨论中继续，您可以配置各种参数来优化您应用程序的性能。这些参数中的许多是系统要求的结果，例如网络大小。但是您核心 Fabric 配置中的一些参数（请参见*[第
+    3 章](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml)*，*通过业务场景设置舞台,* 在 网络组件配置文件* 部分）可以调整以最大化性能。其中之一是区块大小。通过实验（或调整参数直到达到最佳吞吐量和延迟）可以确定应为您的应用程序设置的精确区块大小（以字节和事务数量）。例如，在一个名为
+    Fabcoin 的加密货币应用程序上的测量结果显示，最佳区块大小为 2 MB ([https://arxiv.org/abs/1801.10228](https://arxiv.org/abs/1801.10228)）。但读者必须牢记前一节讨论中的权衡，即一个区块中的更多事务数量也可能导致更高的冲突率和事务拒绝。
 - en: Your selection of transaction endorsement policy will also have a significant
     performance impact. The more the signatures that need to be collected from endorsing
     peers, the more time it will take to validate the signatures at commitment time.
@@ -2318,6 +2376,7 @@
   id: totrans-300
   prefs: []
   type: TYPE_NORMAL
+  zh: 你选择的交易认可策略也会对性能产生重大影响。从背书节点收集的签名越多，验证签名的时间就越长。此外，策略越复杂（即它包含的子句越多），验证速度就越慢。现在需要做出权衡。更多的背书者和更复杂的策略通常会提供更高的保证（可靠性和信任），但这会以性能（吞吐量和延迟）为代价。因此，区块链应用程序管理员必须确定所需的服务水平和信任水平，并相应调整参数。
 - en: 'There are various other factors that could affect the performance of a Fabric
     application: this includes overhead due to the *gossip* protocol among the peers
     to sync the ledger contents, the number of channels you use in your application,
@@ -2332,11 +2391,17 @@
   id: totrans-301
   prefs: []
   type: TYPE_NORMAL
+  zh: 还有各种其他因素可能会影响 Fabric 应用程序的性能：这包括由对等体之间的*八卦*协议引起的开销，用于您的应用程序的通道数量以及交易生成率。在硬件级别，性能取决于组件可用的
+    CPU 的数量和性能。一般而言，可以说增加 CPU 的数量会提高组件和整体区块链网络的性能。如果您对此感兴趣，可以阅读一篇关于这个主题的好论文：<q>Hyperledger
+    Fabric：面向许可的区块链的分布式操作系统，EuroSys '18 ([https://dl.acm.org/citation.cfm?id=3190538](https://dl.acm.org/citation.cfm?id=3190538))</q>，也可在
+    [https://arxiv.org/pdf/1801.10228v1.pdf](https://arxiv.org/pdf/1801.10228v1.pdf)
+    上找到。
 - en: Ledger data availability and caching
   id: totrans-302
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 分类帐数据的可用性和缓存
 - en: You can further improve the performance of your distributed Fabric application
     by optimizing the availability of data (that is, retrieval time) stored in the
     ledger. There are several strategies to do this, and we will outline two of them
@@ -2344,11 +2409,13 @@
   id: totrans-303
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以通过优化存储在分类帐中的数据的可用性（即检索时间）进一步提高分布式 Fabric 应用程序的性能。有几种策略可以做到这一点，我们在这里将概述其中的两种。
 - en: Redundant committing peer
   id: totrans-304
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 冗余的提交对等体
 - en: To increase data availability to client applications, an additional committing
     peer (or multiple peers) may be deployed topologically closer to the client application
     or to middleware components accessing the data. The committing peer receives newly
@@ -2362,11 +2429,13 @@
   id: totrans-305
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了增加客户端应用程序对数据的可用性，可以在拓扑上更靠近客户端应用程序或访问数据的中间件组件部署一个或多个额外的提交对等体。提交对等体接收新创建的区块并维护最新的分类帐。它不参与背书过程，因此不会收到来自客户端的交易提案请求。因此，对等体的性能完全用于维护分类帐并响应数据请求。在网络性能和系统安全配置方面的重要考虑因素是选择和设置位置，使得提交对等体可以无阻碍地连接到通道，并且网络吞吐量允许以低延迟接收新创建的区块。
 - en: Data caching
   id: totrans-306
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 数据缓存
 - en: Data retrieved from a peer may be stored in an application cache so that future
     requests for that data can be served faster. To maintain the data in the cache
     up to date, the application must monitor changes in the underlying ledger and
@@ -2378,11 +2447,13 @@
   id: totrans-307
   prefs: []
   type: TYPE_NORMAL
+  zh: 从对等体检索到的数据可以存储在应用程序缓存中，以便将来对该数据的请求可以更快地提供。为了保持缓存中的数据最新，应用程序必须监视底层分类帐的更改，并使用新状态修改更新缓存数据。如前所述，对等体会发出关于新提交到分类帐的事务的事件通知。客户端可以拦截通知，并通过检查事务的内容确定是否应该使用新值更新缓存。
 - en: Fabric performance measurement and benchmarking
   id: totrans-308
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Fabric 性能测量和基准测试
 - en: We hope this section of the book has given the reader an understanding of why
     performance measurement and analysis are important, and some clues about how to
     make his/her application provide adequate level of service. We will conclude by
@@ -2392,6 +2463,8 @@
   id: totrans-309
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们希望本书的这一部分能让读者理解为什么性能测量和分析是重要的，并提供一些关于如何使他/她的应用程序提供足够服务水平的线索。最后，我们将读者指向当前存在于
+    Hyperledger 框架中的工具，以使用样本基准应用程序来测量性能（主要是吞吐量、延迟和资源利用率）。
 - en: For an in-depth and comprehensive performance measurement tools suite, you should
     look at `fabric-test` ([https://github.com/hyperledger/fabric-test/](https://github.com/hyperledger/fabric-test/).)
     In particular, PTE ([https://github.com/hyperledger/fabric-test/tree/master/tools/PTE](https://github.com/hyperledger/fabric-test/tree/master/tools/PTE))
@@ -2400,6 +2473,7 @@
   id: totrans-310
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于深入和全面的性能测量工具套件，您应该查看`fabric-test`（[https://github.com/hyperledger/fabric-test/](https://github.com/hyperledger/fabric-test/)）。特别是，PTE（[https://github.com/hyperledger/fabric-test/tree/master/tools/PTE](https://github.com/hyperledger/fabric-test/tree/master/tools/PTE)）是一个灵活的工具，可以使用样本链码驱动参数化事务负载。
 - en: Hyperledger Cello ([https://www.hyperledger.org/projects/cello](https://www.hyperledger.org/projects/cello))
     is not a performance measurement tool but rather a blockchain provisioning and
     management system that enables the launching of networks on different platforms
@@ -2408,6 +2482,7 @@
   id: totrans-311
   prefs: []
   type: TYPE_NORMAL
+  zh: '[Hyperledger Cello](https://www.hyperledger.org/projects/cello)（[https://www.hyperledger.org/projects/cello](https://www.hyperledger.org/projects/cello)）不是一个性能测量工具，而是一个区块链供应和管理系统，它可以在不同平台（虚拟机、云和容器集群）上启动网络。它可以作为一种辅助工具，在尝试生产部署之前启动、测试和测量样本网络。'
 - en: Hyperledger Caliper ([https://www.hyperledger.org/projects/caliper](https://www.hyperledger.org/projects/caliper))
     is another project that is currently developing a benchmarking framework to allow
     users to measure the performance of a specific blockchain implementation with
@@ -2417,17 +2492,20 @@
   id: totrans-312
   prefs: []
   type: TYPE_NORMAL
+  zh: '[Hyperledger Caliper](https://www.hyperledger.org/projects/caliper)（[https://www.hyperledger.org/projects/caliper](https://www.hyperledger.org/projects/caliper)）是另一个项目，目前正在开发一个基准测试框架，允许用户使用一组预定义的用例来衡量特定区块链实现的性能，并生成报告。读者应该记住，这些项目都还在进行中，应该密切关注由区块链性能基准测试领域的研究推动的进一步发展。'
 - en: Summary
   id: totrans-313
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 摘要
 - en: Maintaining and augmenting a blockchain application is possibly even more challenging
     than creating and bootstrapping it, as one needs to be skilled in monitoring and
     analytics and also in assessing the impact of changes.
   id: totrans-314
   prefs: []
   type: TYPE_NORMAL
+  zh: 维护和增强区块链应用可能比创建和引导它更具挑战性，因为需要熟练掌握监控和分析，还需要评估变更的影响。
 - en: In this chapter, we described the various ways in which a Hyperledger Fabric
     application can and will inevitably change over its lifetime. We described in
     detail, using our canonical trade application as an example, how organizations
@@ -2437,6 +2515,7 @@
   id: totrans-315
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们描述了 Hyperledger Fabric 应用程序在其生命周期内可能发生的各种方式。我们详细描述了如何使用我们的典型贸易应用程序作为示例，如何向运行中的网络添加组织和对等方，如何增加通道配置，如何升级平台，以及如何修改智能合约（链码）而不会对应用程序状态造成不利影响。
 - en: In a later part of the chapter, we gave an overview of the tools a developer
     of system administrator can use to measure, analyze, and improve the performance
     of a Fabric blockchain application. We also provided guidelines to engineering
@@ -2444,6 +2523,7 @@
   id: totrans-316
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章的后面部分，我们概述了开发人员或系统管理员可以使用的工具，来测量、分析和改善 Fabric 区块链应用程序的性能。我们还提供了为了更好地性能而设计系统的指导方针。
 - en: With further research and development, the Hyperledger suite will no doubt be
     augmented with more and better mechanisms for system changes and monitoring. This
     chapter should serve as a handy guide for the typical Fabric developer or administrator
