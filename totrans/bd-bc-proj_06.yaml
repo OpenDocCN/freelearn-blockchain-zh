@@ -3,6 +3,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 构建智能合约部署平台
 - en: Some clients may need to compile and deploy contracts at runtime. In our proof-of-ownership
     DApp, we deployed the smart contract manually and hardcoded the contract address
     in the client-side code. But some clients may need to deploy smart contracts at
@@ -14,50 +15,61 @@
   id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 一些客户端可能需要在运行时编译和部署合约。在我们的拥有权 DApp 中，我们手动部署了智能合约，并在客户端代码中硬编码了合约地址。但是一些客户端可能需要在运行时部署智能合约。例如，如果客户端允许学校在区块链中记录学生的出勤情况，那么每次注册新学校时都需要部署一个智能合约，以便每个学校完全控制其智能合约。在本章中，我们将学习如何使用
+    web3.js 编译智能合约，并使用 web3.js 和 EthereumJS 部署它。
 - en: 'In this chapter, we''ll cover the following topics:'
   id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: Calculating the nonce of a transaction
   id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 计算交易的 nonce
 - en: Using the transaction pool JSON-RPC API
   id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用交易池 JSON-RPC API
 - en: Generating data of a transaction for contract creation and method invocation
   id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 生成用于合约创建和方法调用的交易数据
 - en: Estimating the gas required by a transaction
   id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 估算交易所需的 gas
 - en: Finding the current spendable balance of an account
   id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 查找账户的当前可花费余额
 - en: Compiling smart contracts using solcjs
   id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用 solcjs 编译智能合约
 - en: Developing a platform to write, compile, and deploy smart contracts
   id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 开发一个平台来编写、编译和部署智能合约
 - en: Calculating a transaction's nonce
   id: totrans-10
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 计算交易的 nonce
 - en: For the accounts maintained by geth, we don't need to worry about the transaction
     nonce because geth can add the correct nonce to the transactions and sign them.
     While using accounts that aren't managed by geth, we need to calculate the nonce
@@ -65,6 +77,8 @@
   id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于由 geth 维护的账户，我们不需要担心交易 nonce，因为 geth 可以为交易添加正确的 nonce 并对其进行签名。当使用 geth 不管理的账户时，我们需要自己计算
+    nonce。
 - en: To calculate the nonce ourselves, we can use the `getTransactionCount` method
     provided by geth. The first argument should be the address whose transaction count
     we need and the second argument is the block until we need the transaction count.
@@ -82,6 +96,10 @@
   id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 要自己计算 nonce，我们可以使用 geth 提供的 `getTransactionCount` 方法。第一个参数应该是我们需要交易计数的地址，第二个参数是我们需要交易计数直到的区块。我们可以提供
+    `"pending"` 字符串作为区块，以包括当前正在挖掘的区块中的交易。正如我们在之前的章节中讨论的那样，geth 维护一个交易池，其中包含挂起和排队的交易。为了挖掘一个区块，geth
+    从交易池中取出挂起的交易并开始挖掘新的区块。直到区块没有被挖掘，挂起的交易仍然保留在交易池中，一旦被挖掘，已挖掘的交易就会从交易池中删除。在挖掘一个区块时接收到的新进交易被放入交易池，并在下一个区块中被挖掘。因此，当我们在调用
+    `getTransactionCount` 时提供 `"pending"` 作为第二个参数时，它不会查看交易池内部；相反，它只考虑挂起区块中的交易。
 - en: So if you are trying to send transactions from accounts not managed by geth,
     then count the total number of transactions of the account in the blockchain and
     add it with the transactions pending in the transaction pool. If you try to use
@@ -91,6 +109,8 @@
   id: totrans-13
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，如果您试图从 geth 不管理的账户发送交易，则需计算区块链中账户的总交易数，并将其与交易池中挂起的交易相加。如果尝试使用挂起区块中的挂起交易，则在几秒钟的间隔内发送交易到
+    geth，您将无法获得正确的 nonce，因为平均需要 12 秒才能将交易包含在区块链中。
 - en: In the previous chapter, we relied on the hooked-web3-provider to add nonce
     to the transaction. Unfortunately, the hooked-web3-provider doesn't try to get
     the nonce the correct way. It maintains a counter for every account and increments
@@ -116,17 +136,25 @@
   id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: 在上一章中，我们依赖`hooked-web3-provider`来为交易添加 nonce。不幸的是，`hooked-web3-provider`没有以正确的方式获取
+    nonce。它为每个账户维护一个计数器，并在你从该账户发送交易时递增该计数器。如果交易无效（例如，如果交易尝试发送的以太币多于它拥有的），则不会递减计数器。因此，该账户的其余交易将排队，并永远不会被挖掘，直到`hooked-web3-provider`被重置，即客户端被重新启动。如果你创建多个`hooked-web3-provider`实例，那么这些实例无法将一个账户的
+    nonce 与彼此同步，因此你可能会得到不正确的 nonce。但在你将 nonce 添加到交易之前，`hooked-web3-provider`总是获取到
+    pending 区块的交易计数，并将其与其计数器进行比较，并使用较大者。因此，如果由`hooked-web3-provider`管理的账户的交易是从网络中的另一个节点发送的，并包含在
+    pending 区块中，则`hooked-web3-provider`可以看到它。但总的来说，不能依赖`hooked-web3-provider`来计算 nonce。它非常适用于快速原型设计客户端应用程序，并适用于在用户可以看到并重新发送交易（如果它们未广播到网络并且`hooked-web3-provider`经常被重置）的应用程序中使用。例如，在我们的钱包服务中，用户会频繁加载页面，因此会频繁创建新的`hooked-web3-provider`实例。如果交易未被广播、无效或未被挖掘，那么用户可以刷新页面并重新发送交易。
 - en: Introducing solcjs
   id: totrans-15
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 介绍 `solcjs`
 - en: solcjs is a Node.js library and command-line tool that is used to compile solidity
     files. It doesn't use the solc command-line compiler; instead, it compiles purely
     using JavaScript, so it's much easier to install than solc.
   id: totrans-16
   prefs: []
   type: TYPE_NORMAL
+  zh: '`solcjs` 是一个用于编译 solidity 文件的 Node.js 库和命令行工具。它不使用 solc 命令行编译器；相反，它纯粹使用 JavaScript
+    进行编译，因此比 solc 更容易安装。'
 - en: Solc is the actual Solidity compiler. Solc is written in C++. The C++ code is
     compiled to JavaScript using emscripten. Every version of solc is compiled to
     JavaScript. At [https://github.com/ethereum/solc-bin/tree/gh-pages/bin](https://github.com/ethereum/solc-bin/tree/gh-pages/bin),
@@ -136,16 +164,22 @@
   id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: Solc 是实际的 Solidity 编译器。Solc 是用 C++ 编写的。这个 C++ 代码使用 emscripten 编译成 JavaScript。每个
+    solc 版本都被编译成 JavaScript。在 [https://github.com/ethereum/solc-bin/tree/gh-pages/bin](https://github.com/ethereum/solc-bin/tree/gh-pages/bin)，你可以找到每个
+    solidity 版本的基于 JavaScript 的编译器。`solcjs`只是使用这些基于 JavaScript 的编译器之一来编译 solidity
+    源代码。这些基于 JavaScript 的编译器可以在浏览器和 Node.js 环境中运行。
 - en: The browser Solidity uses these JavaScript-based compilers to compile the Solidity
     source code.
   id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: 浏览器 Solidity 使用这些基于 JavaScript 的编译器来编译 Solidity 源代码。
 - en: Installing solcjs
   id: totrans-19
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 安装 `solcjs`
 - en: 'solcjs is available as an npm package with the name `solc`. You can install
     the `solcjs` npm package locally or globally just like any other npm package.
     If this package is installed globally, then `solcjs`, a command-line tool, will
@@ -153,6 +187,8 @@
   id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: '`solcjs` 作为一个名为 `solc` 的 npm 包可供使用。你可以像安装其他任何 npm 包一样，本地或全局安装 `solcjs` npm
+    包。如果全局安装了此包，则将可用一个名为 `solcjs` 的命令行工具。因此，为了安装命令行工具，请运行此命令：'
 - en: '[PRE0]'
   id: totrans-21
   prefs: []
@@ -163,6 +199,7 @@
   id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，请继续运行此命令以查看如何使用命令行编译器编译Solidity文件：
 - en: '[PRE1]'
   id: totrans-23
   prefs: []
@@ -173,6 +210,7 @@
   id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们不会探索solcjs命令行工具；而是学习如何使用solcjs API来编译Solidity文件。
 - en: By default, solcjs uses compiler version matching as its version. For example,
     if you install solcjs version 0.4.8, then it will use the 0.4.8 compiler version
     to compile by default. solcjs can be configured to use some other compiler versions
@@ -180,11 +218,13 @@
   id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 默认情况下，solcjs将使用匹配其版本的编译器版本。例如，如果您安装了solcjs版本0.4.8，则默认情况下将使用0.4.8编译器版本进行编译。solcjs还可以配置为使用其他编译器版本。在撰写本文时，solcjs的最新版本是0.4.8。
 - en: solcjs APIs
   id: totrans-26
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: solcjs API
 - en: solcjs provides a `compiler` method, which is used to compile solidity code.
     This method can be used in two different ways depending on whether the source
     code has any imports or not. If the source code doesn't have any imports, then
@@ -194,10 +234,12 @@
   id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: solcjs提供了一个`compiler`方法，用于编译Solidity代码。该方法可以根据源代码是否有任何导入来以两种不同的方式使用。如果源代码没有任何导入，则它需要两个参数；即，第一个参数是Solidity源代码作为字符串，第二个参数是一个布尔值，表示是否优化字节码。如果源字符串包含多个合约，则它会将它们全部编译。
 - en: 'Here is an example to demonstrate this:'
   id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里有一个示例来演示这一点：
 - en: '[PRE2]'
   id: totrans-29
   prefs: []
@@ -211,6 +253,7 @@
   id: totrans-30
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果您的源代码包含导入，则第一个参数将是一个对象，其键是文件名，值是文件的内容。因此，每当编译器看到一个导入语句时，它不会在文件系统中查找文件；相反，它会通过与键匹配的文件名在对象中查找文件内容。以下是一个演示示例：
 - en: '[PRE3]'
   id: totrans-31
   prefs: []
@@ -223,6 +266,7 @@
   id: totrans-32
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果您想在编译过程中从文件系统读取导入的文件内容，或者解析编译过程中的文件内容，则编译器方法支持第三个参数，该参数是一个方法，接受文件名并应返回文件内容。以下是一个演示示例：
 - en: '[PRE4]'
   id: totrans-33
   prefs: []
@@ -233,6 +277,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用不同的编译器版本
 - en: In order to compile contracts using a different version of solidity, you need
     to use the `useVersion` method to get a reference of a different compiler. `useVersion`
     takes a string that indicates the JavaScript filename that holds the compiler,
@@ -240,6 +285,7 @@
   id: totrans-35
   prefs: []
   type: TYPE_NORMAL
+  zh: 要使用不同版本的Solidity编译合约，您需要使用`useVersion`方法获取不同编译器的引用。`useVersion`接受一个字符串，指示保存编译器的JavaScript文件名，并在`/node_modules/solc/bin`目录中查找该文件。
 - en: solcjs also provides another method called `loadRemoteVersion`, which takes
     the compiler filename that matches the filename in the `solc-bin/bin` directory
     of the `solc-bin` repository ([https://github.com/ethereum/solc-bin](https://github.com/ethereum/solc-bin))
@@ -247,15 +293,18 @@
   id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: solcjs还提供了另一个方法称为`loadRemoteVersion`，它接受与`solc-bin`存储库的`solc-bin/bin`目录中的文件名匹配的编译器文件名，并下载并使用它。
 - en: Finally, solcjs also provides another method called `setupMethods`, which is
     similar to `useVersion` but can load the compiler from any directory.
   id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，solcjs还提供了另一个方法称为`setupMethods`，它类似于`useVersion`但可以从任何目录加载编译器。
 - en: 'Here is an example to demonstrate all three methods:'
   id: totrans-38
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里有一个示例来演示所有三种方法：
 - en: '[PRE5]'
   id: totrans-39
   prefs: []
@@ -269,26 +318,31 @@
   id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: 要运行上述代码，您首先需要从`solc-bin`存储库下载`v0.4.7.commit.822622cf.js`文件，并将其放置在`node_modules/solc/bin`目录中。然后，您需要下载Solidity版本0.4.8的编译器文件，并将其放置在文件系统的某个位置，并将路径指向`setupMethods`调用中的该目录。
 - en: Linking libraries
   id: totrans-41
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 链接库
 - en: If your solidity source code references libraries, then the generated byte code
     will contain placeholders for the real addresses of the referenced libraries.
     These have to be updated via a process called linking before deploying the contract.
   id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你的 Solidity 源代码引用了库，那么生成的字节码将包含引用库的真实地址的占位符。这些必须通过一个称为链接的过程来更新，然后再部署合约。
 - en: solcjs provides the `linkByteCode` method to link library addresses to the generated
     byte code.
   id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: solcjs 提供了`linkByteCode`方法来将库地址链接到生成的字节码上。
 - en: 'Here is an example to demonstrate this:'
   id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里是一个示例来演示这一点：
 - en: '[PRE6]'
   id: totrans-45
   prefs: []
@@ -299,6 +353,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 更新 ABI
 - en: The ABI of a contract provides various kinds of information about the contract
     other than implementation. The ABI generated by two different versions of compilers
     may not match as higher versions support more solidity features than lower versions;
@@ -312,11 +367,15 @@
   id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 合约的 ABI 提供了除实现以外的各种关于合约的信息。由于高版本支持更多的 Solidity 特性，因此两个不同版本的编译器生成的 ABI 可能不匹配；因此，它们会在
+    ABI 中包含额外的内容。例如，回退函数是在 Solidity 0.4.0 版本中引入的，因此使用版本低于 0.4.0 的编译器生成的 ABI 将不包含有关回退函数的信息，这些智能合约的行为就像它们有一个空主体和一个可支付修饰符的回退函数一样。因此，API
+    应该进行更新，以便依赖于较新 Solidity 版本的 ABI 的应用程序能够获得更好的合约信息。
 - en: 'solcjs provides an API to update the ABI. Here is an example code to demonstrate
     this:'
   id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: solcjs 提供了一个 API 来更新 ABI。下面是一个示例代码来演示这一点：
 - en: '[PRE7]'
   id: totrans-49
   prefs: []
@@ -328,10 +387,13 @@
   id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里，0.3.6表示 ABI 是使用 0.3.6 版本的编译器生成的。由于我们使用的是 solcjs 版本 0.4.8，因此 ABI 将被更新以匹配由
+    0.4.8 编译器版本生成的 ABI，而不是更新到更高版本。
 - en: 'The output of the preceding code will be as follows:'
   id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: 上述代码的输出将如下所示：
 - en: '[PRE8]'
   id: totrans-52
   prefs: []
@@ -342,6 +404,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 构建合约部署平台
 - en: Now that we have learned how to use solcjs to compile solidity source code,
     it's time to build a platform that lets us write, compile, and deploy contracts.
     Our platform will let users provide their account address and private key, using
@@ -349,6 +412,7 @@
   id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们已经学会了如何使用 solcjs 编译 Solidity 源代码，是时候建立一个平台，让我们能够编写、编译和部署合约了。我们的平台将允许用户提供他们的账户地址和私钥，使用这些信息，我们的平台将部署合约。
 - en: 'Before you start building the application, make sure that you are running the
     geth development instance, which is mining, has `rpc` enabled, and exposes `eth`,
     `web3`, and `txpool` APIs over the HTTP-RPC server. You can do all these by running
@@ -356,6 +420,8 @@
   id: totrans-55
   prefs: []
   type: TYPE_NORMAL
+  zh: '在开始构建应用程序之前，请确保你正在运行 geth 开发实例，该实例正在挖矿，启用了`rpc`，并通过 HTTP-RPC 服务器公开了`eth`、`web3`和`txpool`
+    API。你可以通过运行以下命令来完成所有这些操作： '
 - en: '[PRE9]'
   id: totrans-56
   prefs: []
@@ -366,6 +432,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 项目结构
 - en: In the exercise files of this chapter, you will find two directories, that is,
     `Final` and `Initial`. `Final` contains the final source code of the project,
     whereas `Initial` contains the empty source code files and libraries to get started
@@ -373,17 +440,20 @@
   id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章的练习文件中，你会找到两个目录，即`Final`和`Initial`。`Final`包含了项目的最终源代码，而`Initial`包含了空的源代码文件和库，可以快速开始构建应用程序。
 - en: To test the `Final` directory, you will need to run `npm install` inside it
     and then run the app using the `node app.js` command inside the `Final` directory.
   id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 要测试`Final`目录，你需要在其中运行`npm install`，然后在`Final`目录内使用`node app.js`命令运行应用程序。
 - en: In the `Initial` directory, you will find a `public` directory and two files
     named `app.js` and `package.json`. The `package.json` file contains the backend
     dependencies on our app. `app.js` is where you will place the backend source code.
   id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 在`Initial`目录中，你会找到一个`public`目录和两个文件，分别命名为`app.js`和`package.json`。`package.json`文件包含了我们应用程序的后端依赖关系。`app.js`是你将放置后端源代码的地方。
 - en: The `public` directory contains files related to the frontend. Inside `public/css`,
     you will find `bootstrap.min.css`, which is the bootstrap library, and you will
     also find the `codemirror.css` file, which is CSS of the codemirror library. Inside
@@ -394,21 +464,28 @@
   id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: '`public` 目录包含与前端相关的文件。在 `public/css` 中，你会找到 `bootstrap.min.css`，这是 bootstrap
+    库，你还会找到 `codemirror.css` 文件，这是 codemirror 库的 CSS。在 `public/html` 中，你会找到 `index.html`，你会在这里放置我们应用的
+    HTML 代码，在 `public/js` 目录中，你会找到 codemirror 和 web3.js 的 `.js` 文件。在 `public/js` 中，你还会找到一个
+    `main.js` 文件，你会在这里放置我们应用的前端 JS 代码。'
 - en: Building the backend
   id: totrans-62
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 构建后端
 - en: Let's first build the backend of the app. First of all, run `npm install` inside
     the `Initial` directory to install the required dependencies for our backend.
   id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们首先构建应用的后端。首先，在 `Initial` 目录中运行 `npm install` 安装我们后端所需的依赖项。
 - en: 'Here is the backend code to run an express service and serve the `index.html`
     file and static files:'
   id: totrans-64
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是运行 express 服务并提供 `index.html` 文件和静态文件的后端代码：
 - en: '[PRE10]'
   id: totrans-65
   prefs: []
@@ -421,6 +498,7 @@
   id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 前述代码不言自明。现在让我们进一步进行。我们的应用将有两个按钮，即编译和部署。当用户单击编译按钮时，合约将被编译，当用户单击部署按钮时，合约将被部署。
 - en: We will be compiling and deploying contracts in the backend. Although this can
     be done in the frontend, we will do it in the backend because solcjs is available
     only for Node.js (although the JavaScript-based compilers it uses work on the
@@ -428,17 +506,21 @@
   id: totrans-67
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将在后端进行编译和部署合约。虽然这可以在前端完成，但我们将在后端完成，因为 solcjs 仅适用于 Node.js（尽管它使用的基于 JavaScript
+    的编译器可以在前端工作）。
 - en: To learn how to compile on the frontend, go through the source code of solcjs,
     which will give you an idea about the APIs exposed by the JavaScript-based compiler.
   id: totrans-68
   prefs: []
   type: TYPE_NORMAL
+  zh: 要了解如何在前端编译，请查看 solcjs 的源代码，这将让你了解 JavaScript-based 编译器暴露的 API。
 - en: 'When the user clicks on the compile button, the frontend will make a `GET`
     request to the `/compile` path by passing the contract source code. Here is the
     code for the route:'
   id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: 当用户单击编译按钮时，前端将通过传递合约源代码向 `/compile` 路径发出 `GET` 请求。以下是路由的代码：
 - en: '[PRE11]'
   id: totrans-70
   prefs: []
@@ -452,6 +534,8 @@
   id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先，我们在这里导入 solcjs 库。然后，我们定义 `/compile` 路由，在路由回调中，我们只是编译客户端发送的源代码，并启用优化器。然后，我们只需将
+    `solc.compile` 方法的返回值发送到前端，让客户端检查编译是否成功。
 - en: When the user clicks on the deploy button, the frontend will make a `GET` request
     to the `/deploy` path by passing the contract source code and constructor arguments
     from the address and private key. When the user clicks on this button, the contract
@@ -459,10 +543,12 @@
   id: totrans-72
   prefs: []
   type: TYPE_NORMAL
+  zh: 当用户单击部署按钮时，前端将通过传递合约源代码和构造函数参数从地址和私钥向 `/deploy` 路径发出 `GET` 请求。当用户单击此按钮时，将部署合约并将事务哈希返回给用户。
 - en: 'Here is the code for this:'
   id: totrans-73
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是此代码的代码：
 - en: '[PRE12]'
   id: totrans-74
   prefs: []
@@ -472,12 +558,15 @@
   id: totrans-75
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是前述代码的工作方式：
 - en: At first, the Web imports the `web3.js`, `BigNumber.js`, `ethereumjs-util`,
     and `ethereumjs-tx` libraries. Then, we create an instance of `Web3`.
   id: totrans-76
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 首先，Web 导入 `web3.js`、`BigNumber.js`、`ethereumjs-util` 和 `ethereumjs-tx` 库。然后，我们创建了
+    `Web3` 的实例。
 - en: Then, we define a function named `etherInSpentPendingTransactions`, which calculates
     the total ether that's being spent in the pending transactions of an address.
     As `web3.js` doesn't provide JavaScript APIs related to the transaction pool,
@@ -492,6 +581,8 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后，我们定义一个名为`etherInSpentPendingTransactions`的函数，它计算地址的待处理交易中所花费的总以太币。由于`web3.js`不提供与事务池相关的JavaScript
+    API，我们使用`web3.currentProvider.sendAsync`来做一个原始的JSON-RPC调用。`sendAsync`用于异步进行原始的JSON-RPC调用。如果你想以同步的方式进行此调用，那么请使用`send`方法而不是`sendAsync`。在计算地址的待处理事务中的总以太币时，我们寻找事务池中的待处理事务而不是待处理区块，因为前面我们讨论的问题。在计算总以太币时，我们将每个交易的值和gas添加，因为gas也会减少以太币余额。
 - en: Next, we define a function called `getNonce`, which retrieves the nonce of an
     address using the technique we discussed earlier. It simply adds the total number
     of mined transactions to the total number of pending transactions.
@@ -499,6 +590,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 接下来，我们定义一个名为`getNonce`的函数，使用我们之前讨论的技术来检索地址的nonce。它只是将已挖掘交易的总数加上待处理交易的总数。
 - en: Finally, we declare the `/deploy` endpoint. At first, we compile the contract.
     Then, we deploy only the first contract. Our platform is designed to deploy the
     first contract if multiple contracts are found in the provided source code. You
@@ -508,6 +600,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 最后，我们声明了`/deploy`端点。首先，我们编译合同。然后，我们只部署第一个合同。如果在提供的源代码中发现了多个合同，我们的平台设计为只部署第一个合同。你可以稍后增强应用程序来部署所有已编译的合同，而不仅仅是第一个合同。然后，我们使用`web3.eth.contract`创建一个合同对象。
 - en: As we aren't using the hooked-web3-provider or any hack to intercept `sendTransactions`
     and convert them into the `sendRawTransaction` call, in order to deploy the contract,
     we now need to generate the data part of the transaction, which will have the
@@ -526,12 +619,19 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 由于我们没有使用 hooked-web3-provider 或任何拦截 `sendTransactions` 并将其转换为 `sendRawTransaction`
+    调用的方法，在部署合同时，我们现在需要生成交易数据部分，其中将合同字节码和构造函数参数组合并编码为十六进制字符串。实际上，合同对象让我们生成交易的数据。这可以通过调用具有函数参数的
+    `getData` 方法来完成。如果你想要获取部署合同的数据，然后调用 `contract.new.getData`，如果你想调用合同的一个函数，那么调用
+    `contract.functionName.getData`。在这两种情况下，提供参数给 `getData` 方法。因此，要生成交易的数据，你只需要合同的
+    ABI。要了解如何组合和编码函数名称和参数以生成数据，你可以查看[https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI＃examples](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI＃examples)，但如果你有合同的
+    ABI 或知道如何手动创建 ABI，则这将不需要。
 - en: Then, we use `web3.eth.estimateGas` to calculate the amount of gas that would
     be required to deploy the contract.
   id: totrans-81
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后，我们使用`web3.eth.estimateGas`来计算部署合同所需的gas量。
 - en: Later, we check whether the address has enough ether to pay for the gas required
     to deploy the contract. We find this out by retrieving the balance of the address
     and subtracting it with the balance spent in the pending transactions and then
@@ -541,17 +641,20 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 稍后，我们检查地址是否有足够的以太来支付部署合约所需的gas。我们通过检索地址的余额并将其减去在未决交易中花费的余额来找到这一点，然后检查剩余余额是否大于或等于所需gas的以太数量。
 - en: And finally, we get the nonce, signing and broadcasting the transactions. We
     simply return the transaction hash to the frontend.
   id: totrans-83
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 最后，我们获取nonce，签名并广播交易。我们简单地将交易哈希返回给前端。
 - en: Building the frontend
   id: totrans-84
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 构建前端
 - en: Now let's build the frontend of our application. Our frontend will contain an
     editor, using which the user writes code. And when the user clicks on the compile
     button, we will dynamically display input boxes where each input box will represent
@@ -561,16 +664,19 @@
   id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在让我们构建应用程序的前端。我们的前端将包含一个编辑器，用户使用该编辑器编写代码。当用户单击编译按钮时，我们将动态显示输入框，每个输入框将表示一个构造函数参数。当单击部署按钮时，将从这些输入框中获取构造函数参数值。用户将需要在这些输入框中输入JSON字符串。
 - en: We will be using the codemirror library to integrate the editor in our frontend.
     To learn more about how to use codemirror, refer to [http://codemirror.net/](http://codemirror.net/).
   id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将使用codemirror库来集成编辑器到我们的前端。要了解更多关于如何使用codemirror的信息，请参考[http://codemirror.net/](http://codemirror.net/)。
 - en: 'Here is the frontend HTML code of our app. Place this code in the `index.html`
     file:'
   id: totrans-87
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是我们应用程序的前端HTML代码。将此代码放入`index.html`文件中：
 - en: '[PRE13]'
   id: totrans-88
   prefs: []
@@ -582,11 +688,13 @@
   id: totrans-89
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，您可以看到我们有一个`textarea`。`textarea`标签将保存用户在codemirror编辑器中输入的内容。前面代码中的其他内容都是不言自明的。
 - en: 'Here is the complete frontend JavaScript code. Place this code in the `main.js`
     file:'
   id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是完整的前端JavaScript代码。将此代码放入`main.js`文件中：
 - en: '[PRE14]'
   id: totrans-91
   prefs: []
@@ -596,12 +704,14 @@
   id: totrans-92
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是前面代码的工作方式：
 - en: At first, we add the code editor to the web page. The code editor will be displayed
     in place of `textarea` and `textarea` will be hidden.
   id: totrans-93
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 首先，我们将代码编辑器添加到网页中。代码编辑器将显示在`textarea`的位置，而`textarea`将被隐藏。
 - en: Then we have the compile button's click event handler. Inside it, we save the
     editor, which copies the content of the editor to `textarea`. When the compile
     button is clicked on, we make a request to the `/compile` path, and once we get
@@ -613,6 +723,7 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后我们有编译按钮的点击事件处理程序。在其中，我们保存编辑器，将编辑器的内容复制到`textarea`中。当单击编译按钮时，我们向`/compile`路径发出请求，一旦获得结果，我们解析它并显示输入框，以便用户可以输入构造函数参数。在这里，我们只读取第一个合约的构造函数参数。但是，如果有多个合约，则可以增强UI以显示所有合约的构造函数的输入框。
 - en: And finally, we have the deploy button's click event handler. Here, we read
     the constructor arguments' value, parsing and putting them in an array. And then
     we add a request to the `/deploy` endpoint by passing the address, key, code,
@@ -622,30 +733,36 @@
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 最后，我们有部署按钮的点击事件处理程序。在这里，我们读取构造函数参数的值，解析并将它们放入一个数组中。然后，我们通过传递地址、密钥、代码和参数值向`/deploy`端点添加一个请求。如果有错误，则我们在弹出窗口中显示错误；否则，我们在弹出窗口中显示交易哈希。
 - en: Testing
   id: totrans-96
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测试
 - en: 'To test the app, run the `app.js` node inside the `Initial` directory and visit
     `localhost:8080`. You will see what is shown in the following screenshot:'
   id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 要测试应用程序，请在`Initial`目录内运行`app.js`节点，并访问`localhost:8080`。您将看到以下截图中显示的内容：
 - en: '![](img/image_06_001.png)'
   id: totrans-98
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/image_06_001.png)'
 - en: 'Now enter some solidity contract code and press the compile button. Then, you
     will be able to see new input boxes appearing on the right-hand side. For example,
     take a look at the following screenshot:'
   id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在输入一些Solidity合约代码并按编译按钮。然后，您将能够看到新的输入框出现在右侧。例如，看一下以下截图：
 - en: '![](img/image_06_002.png)'
   id: totrans-100
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/image_06_002.png)'
 - en: 'Now enter a valid address and its associated private key. And then enter values
     for the constructor arguments and click on deploy. If everything goes right, then
     you will see an alert box with the transaction hash. For example, take a look
