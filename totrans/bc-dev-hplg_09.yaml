@@ -1,15 +1,19 @@
 - en: Life in a Blockchain Network
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链网络中的生活
 - en: Your Fabric network should now be set up and running your application connecting
     different entities through a smart contract and serving users through a web interface.
     In addition, to help your developers and system administrators maintain code,
     push updates, and manage network configuration, you should have instituted a process
     whereby system testing and maintenance can be done with safeguards in place and
     no interruption to service.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 您的Fabric网络现在应该已经设置并运行了通过智能合约连接不同实体并通过Web界面为用户提供服务的应用程序。此外，为了帮助您的开发人员和系统管理员维护代码、推送更新并管理网络配置，您应该建立了一个流程，该流程可以在保护措施的情况下进行系统测试和维护，而不会中断服务。
 - en: Yet, this will not be the terminal state of your application. Needs and expectations
     evolve, and this is especially true for an application that involves multiple
     collaborating entities, all of whom will have differing requirements at different
@@ -19,8 +23,11 @@
     be applied to any Hyperledger Fabric application) must be prepared for the nature
     and numbers of end-users to increase or decrease over time, necessitating changes
     in both hardware and software resource allocation.
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 然而，这并不会是您应用程序的终极状态。需求和期望会不断发展，这对于涉及多个协作实体的应用程序尤其如此，每个实体在不同时间点都将具有不同的要求。此外，预计即使应用程序的性质和功能保持不变，软件本身也将不断变化和演变。最后，任何分布式服务型应用程序（这个描述可以应用于任何Hyperledger
+    Fabric应用程序）都必须为终端用户的性质和数量随时间增加或减少做好准备，从而需要对硬件和软件资源分配进行更改。
 - en: 'Over the lifetime of your blockchain application, you will therefore see many
     changes that necessitate updates to code and configuration. The kinds of changes
     listed previously are not unique to Fabric networks, or even blockchains in general,
@@ -34,58 +41,85 @@
     In the backend of the chapter, we will delve into system maintenance: monitoring
     the health of your application and system resources and designing or upgrading
     your system to ensure high performance.'
+  id: totrans-3
   prefs: []
   type: TYPE_NORMAL
+  zh: 在您的区块链应用程序的生命周期内，您将看到许多变化，需要对代码和配置进行更新。之前列出的变化类型并不是Fabric网络或甚至区块链一般所特有的，但我们将需要使用的机制以及选择这些机制的考虑因素非常具体。因此，这将是本章的主要，尽管不是唯一的焦点。我们将首先探讨您的Fabric应用程序可能需要进行修改的不同方式，通过示例代码和配置来说明具体的场景，并提供规划系统升级的指南。然后，我们将讨论应用程序和网络成员变化以及适用于行业规模区块链应用程序的相关考虑因素。在本章的后端，我们将深入了解系统维护：监控应用程序和系统资源的健康状况，并设计或升级系统以确保高性能。
 - en: 'The following topics will be covered in this chapter:'
+  id: totrans-4
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章将涵盖以下主题：
 - en: Modifying or upgrading a Hyperledger Fabric application
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 修改或升级Hyperledger Fabric应用程序
 - en: Fabric blockchain and application life cycle
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Fabric区块链和应用程序的生命周期
 - en: Adding the new organization to the network
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将新组织添加到网络中
 - en: Modification in chaincode logic
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 链码逻辑的修改
 - en: Dependency upgrades in chaincode
+  id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 链码依赖升级
 - en: Endorsement policy update
+  id: totrans-10
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 背书策略更新
 - en: System monitoring and performance
+  id: totrans-11
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 系统监控和性能
 - en: Profiling containers and applications
+  id: totrans-12
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 容器和应用程序的配置文件
 - en: Measuring application performance
+  id: totrans-13
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 应用程序性能的衡量
 - en: Modifying or upgrading a Hyperledger Fabric application
+  id: totrans-14
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 修改或升级Hyperledger Fabric应用程序
 - en: 'The design of a generic Hyperledger Fabric application presented in [*Chapter
     5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing Network Assets and
     Transactions*, offers hints about the types of upgrades that may be required during
     its lifetime. Let us examine the various ways in which the requirements of a Fabric
     network and its users change over time:'
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 在[*第5章*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)，*暴露网络资产和交易*中提供的通用Hyperledger
+    Fabric应用程序的设计，提供了关于其生命周期中可能需要的升级类型的提示。让我们来看看随着时间推移，Fabric网络及其用户的需求如何发生变化的各种方式：
 - en: '**Software updates**: Changes and upgrades are an integral part of software
     maintenance. More frequently, modifications are required to fix bugs, performance
     inefficiencies, and security flaws (for example, think of the Windows Update Service).
@@ -93,9 +127,12 @@
     made to software to handle unanticipated challenges. Also, given that most applications
     depend on other (third-party) software, any upgrades in the latter trigger corresponding
     changes in the former. Think of Windows Service Packs as an analogy.'
+  id: totrans-16
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**软件更新**：变更和升级是软件维护的重要组成部分。更频繁地，修改是为了修复错误、提高性能效率和解决安全漏洞（例如，想想Windows Update服务）。较少地，但几乎同样不可避免的是，必须对软件进行重大设计更改以应对未预料到的挑战。另外，考虑到大多数应用程序依赖于其他（第三方）软件，后者的任何升级都会触发前者的相应更改。可以把Windows
+    Service Packs类比一下。'
 - en: In the Hyperledger Fabric world, you as an application developer or system administrator
     must support both application-level upgrades and platform-level upgrades. The
     former involves bug fixes and changes in application logic and bug fixes, and
@@ -104,9 +141,11 @@
     5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing Network Assets and
     Transactions*; for testing and reliable failover apply to bug fixing and general
     maintenance as well.
+  id: totrans-17
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 在Hyperledger Fabric世界中，作为应用程序开发人员或系统管理员，你必须支持应用程序级别的升级和平台级别的升级。前者涉及错误修复和应用逻辑的更改，后者涉及底层Fabric软件的更改。软件更新流程是众所周知的，一些技术在[*第5章*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)，*暴露网络资产和交易*中已经讨论过；对于故障修复和常规维护，一些测试和可靠的故障转移技术同样适用。
 - en: If you recall the 3-layer architecture of our canonical Fabric application,
     the upper layers, which consist of the middleware (exercising the Fabric SDK),
     the web servers, and user interfaces, are typically under the control of a single
@@ -118,13 +157,17 @@
     must also be consensus-driven, and it is not as straightforward as just pushing
     through an update after testing. We will describe the chaincode upgrade process
     through examples later in this section.
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你还记得我们的典型Fabric应用程序的3层架构，那么上层，包括中间件（使用Fabric SDK）、Web服务器和用户界面，通常由单个组织控制，因此可以通过该组织内部制定的流程进行更新。但是，正如我们在[*第8章*](112a5075-378d-4bb0-9b9e-db81c18a35f5.xhtml)中所看到的，*区块链网络中的敏捷性*，智能合约或链代码是一个特例，因为它是所有参与组织共同同意并开发的一段软件。因此，对链代码的任何更新也必须是基于共识的，并且不像只需测试后推送更新那么简单。我们将在本节稍后的示例中描述链代码升级过程。
 - en: Finally, upgrades to the Fabric software have the potential to impact functionality
     and data and therefore must be done with care. We will describe the mechanisms
     and the pitfalls later in this section.
+  id: totrans-19
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，Fabric软件的升级可能会影响功能和数据，因此必须小心进行。我们将在本节后面描述机制和风险。
 - en: '**Changing resource requirements**: The resources you allocate to run an application
     in the beginning of its life cycle, just like the application code, are unlikely
     to satisfy changing user requirements. It is very likely that your application
@@ -133,9 +176,11 @@
     RAS (see [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
     Network Assets and Transactions*), proper functioning of a distributed application
     requires redundancy, failover, and load balancing across your system resources.'
+  id: totrans-20
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**资源需求变更**：在应用程序生命周期的开始阶段分配的资源，就像应用程序代码一样，不太可能满足不断变化的用户需求。随着时间的推移，你的应用程序很可能会接收到越来越多的用户流量，而硬件的限制是没有任何软件改进可以弥补的。同样地，如果我们回顾一下RAS的要求（参见[*第5章*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)，*暴露网络资产和交易*），一个分布式应用程序的正常运行需要在系统资源之间实现冗余、故障转移和负载均衡。'
 - en: In Fabric terms, what this translates to is that you may have to add more nodes
     to your network. You may need more peers to serve transaction endorsement requests,
     and the network as a whole may need more orderer nodes to handle and balance the
@@ -146,9 +191,12 @@
     cost). Regardless of the reason for additions and removals of nodes in your network,
     you as a Fabric developer or administrator must support upgrades of this nature,
     and we will see how this can be done later in this section.
+  id: totrans-21
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 在 Fabric 的术语中，这意味着你可能需要向你的网络添加更多节点。您可能需要更多的同行来处理交易背书请求，整个网络可能需要更多的排序节点来处理当前瓶颈的排序服务的负载和平衡（另一方面，如果流量太小，可以删除节点以节省成本）。否则，您可能需要额外的同行节点在组织中仅用于背书证实或额外的排序节点以获得更可靠的分布式共识（尽管这可能会带来性能成本）。无论添加和删除网络中的节点的原因是什么，作为
+    Fabric 开发人员或管理员，您必须支持这种升级，我们将在本节的后面看到如何做到这一点。
 - en: '**Changing user memberships**: Besides variations in user traffic, one must
     be prepared for changes in user memberships for system access over time. In Fabric
     terms, this implies adding or removing users or clients who are permitted to send
@@ -159,9 +207,11 @@
     in [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing Network
     Assets and Transactions*, and later in this section, we will see how channel policies
     can be updated using runtime configurations.'
+  id: totrans-22
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**更改用户成员资格**：除了用户流量的变化外，我们必须为系统访问权限随时间的变化做好准备。在 Fabric 中，这意味着添加或移除可发送请求到应用程序并查看应用程序状态的用户或客户端。在一个组织内，总会有需要添加或移除被允许访问区块链的用户，并提升或降低对现有用户授予的特权。我们已经在[*第5章*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)中讨论了成员创建和授权的例子，*暴露网络资产和交易*，在本节的后面，我们将看到如何使用运行时配置更新通道策略。'
 - en: '**Changing application policies**: Transactions (chaincode invocations) in
     a Hyperledger Fabric application must satisfy endorsement policies, which are
     collectively decided on by the participants. It is possible, and even expected,
@@ -172,9 +222,12 @@
     the flipside, the policy can be made more stringent to overcome the lack of trust
     among the blockchain participants. The mechanisms Fabric offer to modify endorsement
     policies will be discussed through examples later in this section.'
+  id: totrans-23
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**更改应用程序策略**：Hyperledger Fabric 应用程序中的交易（链码调用）必须满足背书策略，这些策略由参与者共同决定。这样的策略会随着时间的推移出于多种不同的原因而改变，包括性能（我们将在本章的后部分讨论）。例如，用于批准每个组织成员的背书策略可能会放宽为只需要两个组织的背书要求。另一方面，策略也可以变得更为严格，以克服区块链参与者之间缺乏信任的问题。Fabric
+    提供的修改背书策略的机制将通过后面本节中的示例进行讨论。'
 - en: '**Changing network configurations**: Finally, there will always be a need to
     modify the blockchain network itself to meet enhanced expectations. More organizations
     may want to participate in the application as time goes by, especially if the
@@ -199,31 +252,43 @@
     coverage of channel configuration use cases is beyond the scope of this chapter,
     we will see how to push a reconfiguration in a Fabric network through examples
     later in this section.'
+  id: totrans-24
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**更改网络配置**：最后，总会有对区块链网络本身进行修改以满足增强期望的需要。随着时间的推移，更多组织可能希望参与应用，特别是如果应用的初始版本证明了其价值。一些组织可能也会因为各种原因而想要离开。即使在一个给定的组织中，也可能需要扩展或重新平衡用于特定应用的资源。尽管大多数分布式应用都面临这些需要增强和资源重新配置的情况，但由于其独特的性质，区块链应用有特殊的需求。请记住，区块链是一个共享分类账，必须由每个参与的网络对等方使用共同约定的规则进行验证和接受。因此，网络的结构和属性本身必须得到共同的认可并记录在分类账上。在Hyperledger
+    Fabric术语中，一个应用是建立在一个或多个通道（区块链实例）上的，其规则和内容对应用参与者是私有的。因此，网络中的任何变化都需要将配置更改应用到一个通道上。添加具有自己对等节点集的新组织或删除一个组织将需要通道重新配置，如对等方或orderer地址的更改，以及组织内锚定对等方的选择。其他示例包括通道的核心属性，例如区块大小和超时；用于读取、写入和管理操作的通道访问策略；哈希机制；以及用于排序服务的共识模式。虽然对通道配置用例的全面覆盖超出了本章的范围，但我们将在本节后面的示例中看到如何通过示例推进Fabric网络中的重新配置。'
 - en: To summarize, changes to a Fabric application require not just the usual software
     maintenance procedures of code and configuration changes, tests and updates, but
     consensus-driven operations that are specific to blockchains. In the remainder
     of this section, we will focus on the two main modes of application updates supported
     by Hyperledger Fabric.
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 总结，对Fabric应用的更改不仅需要常规的软件维护程序，包括代码和配置更改、测试和更新，还需要适用于区块链的基于共识的操作。在本节的其余部分，我们将重点介绍Hyperledger
+    Fabric支持的两种主要应用更新模式。
 - en: '**Channel configuration updates**: This covers addition and removal of organizations,
     resource changes (addition, removal, or modifications to peer and orderer nodes),
     changes in channel properties (policy and block creation rules, hashing, and consensus
     mechanisms).'
+  id: totrans-26
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**通道配置更新**：这涵盖了组织的添加和移除，资源更改（对等方和orderer节点的添加、移除或修改），通道属性的更改（策略和区块创建规则，哈希和共识机制）。'
 - en: '**Smart contract updates**: This covers changes to chaincode and transaction
     endorsement policy.'
+  id: totrans-27
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**智能合约更新**：这涵盖了对链码和交易背书策略的更改。'
 - en: Later, we will briefly touch on upgrades to the Fabric platform software.
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: 后面，我们将简要介绍对Fabric平台软件的升级。
 - en: To implement such upgrades, we will need to augment the application and set
     of tools that we created from chapters 3 to 7, with suitable mechanisms. Fortunately,
     the designers of the Fabric platform anticipated the kinds of evolutions we have
@@ -232,12 +297,16 @@
     Network Assets and Transactions*) offers the capabilities necessary to build these
     mechanisms. Before we turn to implementation details, let us revisit the Fabric
     transaction pipeline and modify it to incorporate updates.
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 要实现这种升级，我们需要通过适当的机制来扩展我们从第3到7章创建的应用程序和工具集。幸运的是，Fabric平台的设计者已经预见到了我们在本章讨论过的这些演进类型，并且我们用来构建交易应用程序初始版本的SDK（参见[*第5章*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)，*暴露网络资产和交易*）提供了构建这些机制所需的功能。在我们转向实施细节之前，让我们重温Fabric事务管道并修改它以包含更新。
 - en: Fabric blockchain and application life cycle
+  id: totrans-30
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Fabric区块链和应用程序生命周期
 - en: 'Consider the trade scenario that we have realized as a Fabric application,
     with the stages illustrated in *Figure 5.3: The stages in the creation and operation
     of a blockchain application* (see [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
@@ -245,18 +314,26 @@
     updates, is illustrated in *Figure 9.1: The stages in the lifecycle of a blockchain
     application* (we omit the ledger and event emissions in the diagram for convenience,
     as they are not required to explain the application stages):'
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: 考虑我们已经实现的作为Fabric应用程序的交易场景，其中在修改以包含通道和链码更新时，所示阶段在*图5.3：区块链应用程序创建和操作阶段*（见[*第5章*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)，*暴露网络资产和交易*）中有所说明，在*图9.1：区块链应用程序生命周期阶段*中呈现（为了方便起见，我们在图表中省略了账本和事件发出，因为这些并不是解释应用程序阶段所必需的）：
 - en: '![](img/43b286bd-04d5-43db-a41f-5309822a67cf.png)'
+  id: totrans-32
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/43b286bd-04d5-43db-a41f-5309822a67cf.png)'
 - en: 'Figure 9.1: The stages in the life cycle of a blockchain application'
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 图9.1：区块链应用程序生命周期阶段
 - en: This diagram is not meant to be an exhaustive representation of all possible
     stages of a Fabric application, but rather of the most salient ones.
+  id: totrans-34
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个图表并不是要对Fabric应用程序的所有可能阶段进行详尽的表示，而是对最显著的阶段进行表示。
 - en: As we can see, some types of updates require many more operations than others.
     Any additions of endorsing peer nodes, either within existing organizations or
     in newly added ones, requires the explicit joining of those peers to the channel
@@ -273,21 +350,29 @@
     be skipped and the upgraded chaincode version will be installed directly. We will
     describe how to augment our trade application to implement such a system upgrade
     in the next subsection.
+  id: totrans-35
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们所看到的，某些类型的更新需要比其他类型的更新更多的操作。任何新增的认可对等节点，无论是在现有组织内还是在新增加的组织中，都需要将这些对等节点明确地加入到通道中，并在这些对等节点上安装当前版本的链码。这些对等节点不需要明确的实例化；网络对等体之间的八卦协议最终将在新增加的对等体上同步共享账本的最新副本。然而，智能合约的修改过程将需要在对等节点上安装新版本的链码之后进行明确的通道范围升级。这种升级步骤等同于原始实例化，尽管它作用于当前状态而不是空账本上。在某些情况下，链码升级和背书政策可能会紧随通道重新配置以添加新组织；在这种情况下，可以跳过在新对等体上安装当前版本的链码，并直接安装升级后的链码版本。我们将描述如何扩展我们的交易应用程序以实现这样一个系统升级，在接下来的小节中。
 - en: 'Before we proceed, let us understand what the blockchain looks like when the
     system undergoes different kinds of changes. *Figure 9.2* illustrates the sections
     of a blockchain with different kinds of blocks added for different application
     operations:'
+  id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: 在继续之前，让我们了解系统在不同类型更改时的区块链外观。*图9.2* 说明了区块链的各个部分，添加了不同类型的区块以进行不同的应用操作：
 - en: '![](img/d1e3dbd1-5736-4bba-a607-b1b1ce1e7231.png)'
+  id: totrans-37
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/d1e3dbd1-5736-4bba-a607-b1b1ce1e7231.png)'
 - en: 'Figure 9.2: A section of a blockchain with configuration blocks, blocks containing
     deployment transactions, and regular chaincode transactions'
+  id: totrans-38
   prefs: []
   type: TYPE_NORMAL
+  zh: 图9.2：具有配置块、包含部署事务的区块以及常规链码交易的区块的区块链部分
 - en: As we can see, our blockchain (or in other words, the shared ledger transaction
     log) begins with a genesis block (the first configuration block on the channel),
     which contains the initial configuration of the channel. The next step is the
@@ -301,12 +386,16 @@
     transactions can be bundled in a block and appended to the chain. Let us now see
     how to augment our trade application to implement the features we have discussed
     in this chapter thus far.
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们所看到的，我们的区块链（或者换句话说，共享账本事务日志）从创世区块开始（通道上的第一个配置块），其中包含了通道的初始配置。下一步是部署和实例化链码的初始版本，随后是常规操作（链码调用）。在某个时刻，可以添加具有对等节点的新组织，这导致另一个配置块被添加到链中，覆盖先前的配置块。类似地，可以创建和升级链码的新版本，并记录升级过程在一个区块中。在这些配置和部署区块之间，可以发生常规链码交易，并且根据配置的区块大小，一个或多个交易可以捆绑在一个区块中并附加到链中。现在让我们看看如何增强我们的交易应用程序，以实现我们迄今讨论过的功能。
 - en: Channel configuration updates
+  id: totrans-40
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 通道配置更新
 - en: As mentioned earlier in this chapter, there are many reasons why a channel configuration
     may have to be changed. As channel behavior is completely dictated by its configuration,
     and any update is recorded on the blockchain, hence overriding the earlier configuration,
@@ -317,8 +406,10 @@
     of channel configuration changes is beyond the scope of this book, but we will
     show the mechanism of updates and a way to wrap those mechanisms in our application;
     this mechanism and process can be applied to any configuration change.
+  id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如本章前面提到的，通道配置可能需要更改的原因有很多。由于通道行为完全由其配置所决定，并且任何更新都被记录在区块链上，因此覆盖先前的配置，这是一个非常敏感的操作，必须限制在特权用户之内，就像我们应用程序创建步骤的初始部分一样，比如通道创建和加入（参见[*第5章*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)，*公开网络资产和事务*）。本书不会详尽讨论和演示通道配置更改的细节，但我们将展示更新机制以及一种将这些机制包装在我们应用程序中的方法；这种机制和过程可以应用于任何配置更改。
 - en: For demonstration, we will use the common situation where a new organization
     and peers must be added to the application. Consider our trade scenario where
     thus far, an exporter and its bank have shared an organization whose MSP and peer
@@ -334,58 +425,84 @@
     to continue to participate in the trade channel and wrapping application, but
     in its own organization, running its own MSP and its own network peer, independent
     of the bank.
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了演示，我们将使用一个常见情况，即需要向应用程序添加新组织和对等体。考虑到我们的贸易情景，迄今为止，出口商及其银行共享一个组织，由后者维护其 MSP
+    和对等体。进口商及其银行也属于同一个组织，其逻辑是银行有更多的动机和资源来维护对等体和 MSP。但是这种逻辑可能不会持续下去。假设我们的出口商，最初是一个小规模运营商，随着时间的推移获得了更高的利润和更高的诚信度以及质量。现在，作为原材料的大规模出口商，在市场上有着巨大的现金储备和影响力，它有动机作为对等体而不是银行的依赖加入区块链贸易网络。它还在不同的银行维护银行账户，因此有需要和潜力同时参与多个区块链（通道）。它希望继续参与贸易通道和封装应用程序，但是在自己的组织中运行自己的
+    MSP 和自己的网络对等体，独立于银行。
 - en: 'The resulting network that we must create is illustrated in *Figure 9.3: The
     augmented trade network with an organization, MSP, and peer for an exporter (or
     exporting entity)*:'
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们必须创建的结果网络如图 *9.3：具有组织、MSP 和对等体的增强贸易网络，适用于出口商（或出口实体）* 所示：
 - en: '![](img/3773e176-e3a7-4843-adc4-dc1c00a5f0fd.png)'
+  id: totrans-44
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3773e176-e3a7-4843-adc4-dc1c00a5f0fd.png)'
 - en: 'Figure 9.3: The augmented trade network with an organization, MSP, and peer
     for an exporter (or exporting entity)'
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 图 9.3：具有组织、MSP 和对等体的增强贸易网络，适用于出口商（或出口实体）
 - en: We'll call the new organization `ExportingEntityOrg`, its MSP `ExportingEntityOrgMSP`,
     and the peer exporting entity. This is because the names exporter, `ExporterOrg`,
     and `ExporterOrgMSP` have already been taken in our network to represent the exporter's
     bank; new organizations and peers must have unique names.
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将新组织称为 `出口实体组织`，其 MSP 为 `ExportingEntityOrgMSP`，对等体为出口实体。这是因为在我们的网络中，名为出口商、`ExporterOrg`
+    和 `ExporterOrgMSP` 的名称已被占用，用于表示出口商的银行；新组织和对等体必须具有唯一名称。
 - en: Prerequisites for adding a new organization to the network
+  id: totrans-47
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 向网络添加新组织的先决条件
 - en: 'The tools you need to upgrade your network are similar to the ones that were
     used in *[Chapter 3](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml)*, *Setting the
     Stage with a Business Scenario*:'
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 您升级网络所需的工具与在[*第 3 章*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml)中使用的工具类似，*用业务场景设定舞台*：
 - en: 'Clone the Fabric source code repository:'
+  id: totrans-49
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 克隆 Fabric 源代码存储库：
 - en: Run `make docker` to build Docker images for the peers and orderers.
+  id: totrans-50
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 运行 `make docker` 以构建对等体和排序者的 Docker 镜像。
 - en: Run `make configtxlator` to generate tools necessary to run the network creation
     commands described in this section (we will use `configtxlator` when we turn our
     attention to the middleware code)
+  id: totrans-51
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 运行 `make configtxlator` 生成运行本节描述的网络创建命令所需的工具（当我们转向中间件代码时，我们将使用 `configtxlator`）
 - en: In addition, we assume that the reader followed the procedures described in
     [*Chapter 3*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml), *Setting the Stage
     with a Business Scenario*, and has already created the channel configuration and
     crypto material files for the earlier 4-organization network.
+  id: totrans-52
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 此外，我们假设读者按照[*第 3 章*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml)中描述的程序进行操作，*用业务场景设定舞台*，并且已经为之前的
+    4 个组织网络创建了通道配置和加密材料文件。
 - en: If you recall, in [*Chapter 3*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml), *Setting
     the Stage with a Business Scenario*, we created channel artifacts and crypto material
     for the four organizations, consisting of the genesis block, the initial channel
@@ -399,56 +516,80 @@
     the original ones intact. That way, it'll be easy for an administrator to track
     the evolution of the organization structure and resources. Our incremental configuration
     files are defined in the `network/add_org/` folder.
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你还记得，在[*第 3 章*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml)中，*通过业务场景设定舞台*，我们为四个组织创建了通道构件和加密材料，包括起始块、初始通道配置、每个组织的锚点对等配置，以及涉及对等方、客户端和MSP的所有网络操作的证书和签名密钥。这些配置分别在网络文件夹中的`configtx.yaml`和`crypto-config.yaml`中定义，并使用`configtxgen`和`cryptogen`工具处理。显然，这些配置必须被修改以添加一个新组织，但是更改配置可能会很混乱。好消息是，我们可以通过创建额外的配置文件并保持原始文件不变来逐步增加我们的网络。这样，管理员就可以轻松跟踪组织结构和资源的演变。我们的增量配置文件定义在`network/add_org/`文件夹中。
 - en: Generating network cryptographic material
+  id: totrans-54
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 生成网络加密材料
 - en: 'The `crypto-config.yaml` file contains information only about the new organization,
     sufficient to generate certificates and signing keys:'
+  id: totrans-55
   prefs: []
   type: TYPE_NORMAL
+  zh: '`crypto-config.yaml`文件只包含关于新组织的信息，足以生成证书和签名密钥：'
 - en: '[PRE0]'
+  id: totrans-56
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: 'As we can see, the specification is identical to the ones we defined for our
     initial four organizations, except that the MSP name and organization domain reflect
     the nature of the exporting entity organization. To generate the crypto material
     just for this organization, run the `cryptogen` command as in [*Chapter 5*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml), *Exposing
     Network Assets and Transactions*, but this time using the configuration file defined
     in the `add_orgs` folder:'
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们所见，规范与我们为初始的四个组织定义的规范相同，只是MSP名称和组织域反映了导出实体组织的性质。要仅为这个组织生成加密材料，可以像[*第 5 章*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml)中那样运行`cryptogen`命令，但这次使用`add_orgs`文件夹中定义的配置文件：
 - en: '[PRE1]'
+  id: totrans-58
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: The output is saved to `crypto-config/peerOrganizations`, where you will see
     a folder named `exportingentityorg.trade.com` in addition to the existing organization's
     folders. This folder contains the keys and certificates for our new organization.
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 输出保存到`crypto-config/peerOrganizations`，你将看到一个名为`exportingentityorg.trade.com`的文件夹，除了现有组织的文件夹。这个文件夹包含我们新组织的密钥和证书。
 - en: Generating channel artifacts
+  id: totrans-60
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 生成通道构件
 - en: 'Similarly, the `configtx.yaml` contains only the specification of the exporting
     entity''s organization in the organizations section, as follows:'
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 同样，`configtx.yaml`仅包含在组织部分中导出实体组织的规范，如下所示：
 - en: '[PRE2]'
+  id: totrans-62
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: 'This specification essentially replicates that of every other organization
     and peer; only the names and paths are modified to identify and set up the new
     organization (that this assumes a `crypto-config` folder to have already been
     generated in the current directory). To build the incremental channel configuration,
     run the following command:'
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个规范本质上复制了每个其他组织和对等方的规范；只是名称和路径被修改以识别和设置新组织（这假设当前目录中已经生成了一个`crypto-config`文件夹）。要构建增量通道配置，运行以下命令：
 - en: '[PRE3]'
+  id: totrans-64
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: Here, we encounter our first difference from the procedure followed in [*Chapter
     3*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml), *Setting the Stage with a Business
     Scenario**;* instead of building separate files for configuration blocks, anchor
@@ -457,58 +598,84 @@
     and the TLS root for the exporting entity's organization, and save it to the `channel-artifacts`
     folder. Later in this section, we will use this JSON in our channel configuration
     update procedure.
+  id: totrans-65
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们遇到了与[*第3章*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml)中所遵循的程序的第一个不同之处，*通过业务场景设定舞台*；我们不再为配置块、锚定节点等构建单独的文件，而是构建一个包含所有相关信息的JSON规范，包括管理员用户、CA根、导出实体组织的TLS根的策略规范和证书，并将其保存到`channel-artifacts`文件夹中。在本节的后面，我们将在我们的通道配置更新过程中使用这个JSON。
 - en: To ensure that `configtxgen` looks for the `configtx.yaml` in the `add_org`
     directory, we must temporarily change the `FABRIC_CFG_PATH` environment variable.
+  id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了确保`configtxgen`在`add_org`目录中查找`configtx.yaml`，我们必须临时更改`FABRIC_CFG_PATH`环境变量。
 - en: Generating the configuration and network components in one operation
+  id: totrans-67
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在一个操作中生成配置和网络组件
 - en: 'You can also carry out all the preceding operations using the trade.sh script.
     Just run the following command from within the `network` folder:'
+  id: totrans-68
   prefs: []
   type: TYPE_NORMAL
+  zh: 你也可以使用`trade.sh`脚本执行所有前面的操作。只需从`network`文件夹内运行以下命令：
 - en: '[PRE4]'
+  id: totrans-69
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: The channel name is implicitly assumed to be `tradechannel`.
+  id: totrans-70
   prefs: []
   type: TYPE_NORMAL
+  zh: 通道名称默认假设为`tradechannel`。
 - en: 'This command, in addition to creating cryptographic material and channel configuration,
     generates a docker-compose configuration for just for the new organization in
     `add_org/docker-compose-exportingEntityOrg.yaml`. It runs the following services:'
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 此命令除了创建加密材料和通道配置外，还为`add_org/docker-compose-exportingEntityOrg.yaml`中的新组织生成了一个docker-compose配置。它运行以下服务：
 - en: One instance of a Fabric peer for the exporting entity's organization
+  id: totrans-72
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 一个导出实体组织的Fabric peer实例
 - en: One instance of a Fabric CA for the exporting entity's organization
+  id: totrans-73
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 一个导出实体组织的Fabric CA实例
 - en: 'The specification and the dependencies are like those we encountered in `docker-compose-e2e.yaml`
     in [*Chapter 3*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml), *Setting the Stage
     with a Business Scenario*, as follows:'
+  id: totrans-74
   prefs: []
   type: TYPE_NORMAL
+  zh: 规范和依赖项与我们在[*第3章*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml)中遇到的`docker-compose-e2e.yaml`类似，*通过业务场景设定舞台*，如下所示：
 - en: '[PRE5]'
+  id: totrans-75
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: This file is generated using the template YAML `add_org/docker-compose-exportingEntityOrg-template.yaml`,
     with the CA key filename (denoted by the variable `EXPORTINGENTITY_CA_PRIVATE_KEY`)
     in both the `FABRIC_CA_SERVER_TLS_KEYFILE` and in the command replaced with the
     secret key filename in `crypto-config/peerOrganizations/exportingentityorg.trade.com/ca/`,
     which in our example preceding is `fc435ccfdaf5d67251bd850a8620cde6d97a7732f89170167a02970c754e5450_sk`.
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 此文件是使用模板YAML`add_org/docker-compose-exportingEntityOrg-template.yaml`生成的，其中CA密钥文件名（由变量`EXPORTINGENTITY_CA_PRIVATE_KEY`表示）在`FABRIC_CA_SERVER_TLS_KEYFILE`和命令中均替换为`crypto-config/peerOrganizations/exportingentityorg.trade.com/ca/`中的秘密密钥文件名，在我们的例子中是`fc435ccfdaf5d67251bd850a8620cde6d97a7732f89170167a02970c754e5450_sk`。
 - en: This key filename will vary with every instance of execution of the `cryptogen`
     tool.
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
+  zh: 此关键文件名将随着每次`cryptogen`工具的执行实例而变化。
 - en: In addition, note that the certificate filename in the environment variables
     `exportingentity-ca:FABRIC_CA_SERVER_TLS_CERTFILE` and the paths specified in
     the volumes section match what was generated using `cryptogen`. The IDs, hostnames,
@@ -516,56 +683,83 @@
     we ensure that the container ports are mapped to unique ports (in the 11,000s
     range) to avoid conflicts with the ports exposed by the containers of the peers
     and MSPs of the older organizations.
+  id: totrans-78
   prefs: []
   type: TYPE_NORMAL
+  zh: 此外，请注意环境变量`exportingentity-ca:FABRIC_CA_SERVER_TLS_CERTFILE`中的证书文件名和卷部分中指定的路径与使用`cryptogen`生成的内容匹配。ID、主机名和端口值与`congfigtx.yaml`文件中指定的内容匹配。最后，我们确保容器端口映射到唯一端口（在11,000s范围内），以避免与旧组织的peer和MSP的容器暴露的端口发生冲突。
 - en: Launching the network components for the new organization
+  id: totrans-79
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 启动新组织的网络组件
 - en: 'To start the peer and MSP for our new organization, just run the following
     command:'
+  id: totrans-80
   prefs: []
   type: TYPE_NORMAL
+  zh: 要启动我们新组织的peer和MSP，只需运行以下命令：
 - en: '[PRE6]'
+  id: totrans-81
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: 'You can run this as a background process and redirect the standard output to
     a log file if you choose. Otherwise, you will see the various containers starting
     up and logs from each displayed on the console. From a different terminal window,
     if you run `docker ps -a`, you will see the following two additional containers:'
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可以将此作为后台进程运行，并将标准输出重定向到日志文件中。否则，你将看到各容器启动并从每个容器在控制台上显示的日志。从另一个终端窗口，如果你运行`docker
+    ps -a`，你将看到以下两个额外的容器：
 - en: '[PRE7]'
+  id: totrans-83
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: 'You can launch the network using the script file in the repository as follows:'
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可以使用存储库中的脚本文件启动网络，方法如下：
 - en: '[PRE8]'
+  id: totrans-85
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: The channel name is implicitly assumed to be `tradechannel`.
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 通道名称默认为`tradechannel`。
 - en: This will start the containers in the background, and you can view the logs
     in `logs/network-neworg.log`. Now our network has 5 peers, 5 MSPs, and an orderer
     running in separate containers. We are now ready to begin the process of reconfiguring
     the channel to accept the new organization.
+  id: totrans-87
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将在后台启动容器，并且你可以在`logs/network-neworg.log`中查看日志。现在我们的网络有5个对等点，5个MSP和一个运行在独立容器中的订购者。我们现在准备开始重新配置通道以接受新组织的过程。
 - en: To stop the containers associated with the exporting entity's organization,
     you can just run `./trade.sh stopneworg`.
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 要停止与出口实体组织相关的容器，只需运行`./trade.sh stopneworg`。
 - en: This will not clear out all the volumes (run docker volume is to check) as the
     containers of the initial 4-org network are still running. Only after you bring
     the own entire network, you will be able to clear out the remaining active volumes.)
+  id: totrans-89
   prefs: []
   type: TYPE_NORMAL
+  zh: 这不会清除所有卷（运行`docker volume is to check`）因为初始的4个组织网络的容器仍在运行。只有在你启动整个网络之后，才能清除剩余的活动卷。
 - en: Updating the channel configuration
+  id: totrans-90
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 更新通道配置
 - en: Now we will turn our attention to the middleware. In [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
     Network Assets and Transactions*, when we created `tradechannel`, the blockchain
     was initialized with the genesis block created using the `configtxgen` tool. The
@@ -576,24 +770,33 @@
     be overridden, as we assume that no other changes have been made since our channel
     was created and made ready for use in [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
     Network Assets and Transactions*.
+  id: totrans-91
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们将把注意力转向中间件。在[*第5章*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)，*公开网络资产和交易*中，当我们创建`tradechannel`时，区块链是使用`configtxgen`工具初始化的创世区块。创世区块恰好是通道的第一个配置块。后续通道配置更改涉及将新的配置块附加到通道中，每个都有唯一的版本，并且最新的配置块将覆盖先前的配置块。在升级场景中，将覆盖创世区块中的配置，因为我们假设自从我们的通道创建并在[*第5章*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)，*公开网络资产和交易*中准备使用以来，没有进行其他更改。
 - en: 'The logic to upgrade channel configurations lies in `upgrade-channel.js` in
     the `middleware` folder in our code repository, and it is based on the Fabric
     SDK Node API. The following prerequisites are also required:'
+  id: totrans-92
   prefs: []
   type: TYPE_NORMAL
+  zh: 升级通道配置的逻辑位于我们代码存储库中`middleware`文件夹中的`upgrade-channel.js`中，并且基于Fabric SDK Node
+    API。还需要满足以下先决条件：
 - en: '`configtxlator`: This was built from the Fabric source code earlier in this
     chapter. Please ensure that it lies in your system path.'
+  id: totrans-93
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`configtxlator`：这是在本章的早些时候从Fabric源代码构建的。请确保它在你的系统路径中。'
 - en: '`jq`: This is a command-line JSON processor, for creating and parsing JSON
     objects. On an Ubuntu system, you can install this using `apt-get install jq`.
     Please ensure that it lies in your system path too.'
+  id: totrans-94
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`jq`：这是一个命令行JSON处理器，用于创建和解析JSON对象。在Ubuntu系统上，你可以使用`apt-get install jq`来安装。请确保它也在你的系统路径中。'
 - en: 'In the `upgradeChannel` function, there is boilerplate code to create client
     and channel objects, which the reader should already be familiar with. The channel
     upgrade procedure requires the collection of signatures over the new configuration
@@ -602,45 +805,59 @@
     before signatures can be generated and collected. First, we will need to fetch
     the latest configuration block from the orderer. We do this in the code using
     the following function call:'
+  id: totrans-95
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE9]'
+  id: totrans-96
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: 'This returns a block `configuration_block`, whose config field contains the
     current channel configuration. The version of this configuration can be extracted
     from the sequence field of the configuration as follows: `configuration_block.config.sequence`.
     The full configuration spec is defined in the Fabric source code as a protobuf
     (`common.Config`), and its examination is left as an exercise to the reader.'
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
 - en: 'In the code, we now create a folder to store temporary files that will be created
     in the subsequent steps. These files are created using the `configtxlator` tool,
     which we use in the absence of equivalent API functions in the Fabric SDK Node
     API:'
+  id: totrans-98
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE10]'
+  id: totrans-99
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: 'Having obtained the configuration, we need to dump it in the protobuf format
     to a file:'
+  id: totrans-100
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE11]'
+  id: totrans-101
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: 'Next, we need to decode this configuration into JSON format using `configtxlator`.
     We do this purely for convenience because it is easier to parse a JSON and apply
     our intended configuration changes to it:'
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE12]'
+  id: totrans-103
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: This results in the creation of a file named `config.json` in the `temporary`
     folder. If you view the contents of this file, you will see the underlying configuration
     structure of the channel and the various properties that can be updated.
+  id: totrans-104
   prefs: []
   type: TYPE_NORMAL
 - en: 'Now we need to append the configuration of the new (exporting entity) organization
@@ -648,179 +865,256 @@
     using the `configtxgen` tool earlier in this section and saved to `network/channel-artifacts`.
     We create the new appended configuration `modified_config.json` using the `jq`
     tool as follows:'
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE13]'
+  id: totrans-106
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: 'If you view the contents of `modified_config.json`, you will see that it is
     very similar in structure to `config.json`; the difference is that it contains
     the definitions of 5 organizations where the latter contains only 4\. We now convert
     this new configuration to protobuf format (`modified_config.pb`) so `configtxlator`
     can process it:'
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE14]'
+  id: totrans-108
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: Note that we use the same protobuf schema (common.Config) that we used to decode
     the configuration obtained from the orderer.
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
 - en: 'Finally, we will use `configtxlator` to compute the delta (or difference) between
     the original and the new configuration protobufs:'
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE15]'
+  id: totrans-111
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: The generated protobuf `exportingEntityOrg_update.pb` contains full definitions
     of the `exportingentityOrg` and pointers to the existing 4 organizations. This
     is sufficient for a channel configuration update as the full definitions of the
     other organizations are already contained in the previous configuration block
     (in our example, the genesis block).
+  id: totrans-112
   prefs: []
   type: TYPE_NORMAL
+  zh: 生成的protobuf `exportingEntityOrg_update.pb`包含`exportingentityOrg`的完整定义和指向现有4个组织的指针。对于通道配置更新而言，这已经足够了，因为其他组织的完整定义已经包含在先前配置块中（在我们的示例中为创世块）。
 - en: 'Now all we have to do is read the delta configuration and get admin signatures
     from each of the existing four organizations. The code for this is similar to
     the code we examined in the channel creation stage:'
+  id: totrans-113
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们所要做的就是读取增量配置并从现有的四个组织中获取管理员签名。这段代码类似于我们在通道创建阶段检查的代码：
 - en: '[PRE16]'
+  id: totrans-114
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: 'All we need to do now is create an update request and send it to the orderer:'
+  id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们所需做的就是创建一个更新请求并将其发送给订购者：
 - en: '[PRE17]'
+  id: totrans-116
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE17]'
 - en: The request structure can contain either a config or an envelope field. The
     latter has the common.Envelope protobuf format and is a wrapper around the configuration
     we just created. The Fabric orderer will accept either. Using envelope instead
     of config is left as an exercise to the reader.
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 请求结构可以包含配置或信封字段。后者具有`common.Envelope`的protobuf格式，并且是我们刚刚创建的配置的包装器。Fabric订购者将接受任一。使用信封而不是配置留给读者作为练习。
 - en: 'To push the channel configuration update, just run:'
+  id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 要推送通道配置更新，只需运行：
 - en: '[PRE18]'
+  id: totrans-119
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE18]'
 - en: Please ensure that the original 4-org network from *[Chapter 5](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)*, *Exposing
     Network Assets and Transactions* is up and running, and that the channel creation
     step (see `middleware/createTradeApp.js` for an example) has already been performed.
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: 请确保来自*[第5章](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)*，*暴露网络资产和交易*的原始4组织网络正在运行，并且已经执行了通道创建步骤（有关示例，请参见`middleware/createTradeApp.js`）。
 - en: Adding the new organization to the network
+  id: totrans-121
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 将新组织添加到网络中
 - en: 'The new organization is logically added to the channel through a configuration
     update. To physically add it to our trade network and make it participate in shared
     ledger transactions, we need to:'
+  id: totrans-122
   prefs: []
   type: TYPE_NORMAL
+  zh: 新组织通过配置更新逻辑地添加到通道中。要将其实际添加到我们的交易网络并使其参与共享账本交易，我们需要：
 - en: Join the exporting entity organization's peers to tradechannel
+  id: totrans-123
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将出口实体组织的对等体加入到tradechannel
 - en: Install the current version of the chaincode on the newly added peers
+  id: totrans-124
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在新添加的对等方上安装当前版本的链代码
 - en: The good news is that there is nothing new to be done here. We have already
     implemented functions for both these procedures (`joinChannel` in `join-channel.js`
     and `installChaincode` in `install-chaincode.js`, respectively), and we just need
     to exercise them on behalf of the new organization's resources.
+  id: totrans-125
   prefs: []
   type: TYPE_NORMAL
+  zh: 好消息是这里没有什么新的要做的。我们已经为这两个过程（分别是`join-channel.js`中的`joinChannel`和`install-chaincode.js`中的`installChaincode`）实现了功能，并且我们只需要代表新组织的资源运行它们。
 - en: 'Before running these steps, we must augment the network configuration used
     by the middleware. Earlier, we used `config.json` in the `middleware` folder to
     represent the 4-organization network. We will now replace that with `config_upgrade.json`
     in the same folder. All this file contains is one extra property in trade-network
     called `exportingentityorg` (which is how the middleware code will recognize our
     new organization) as follows:'
+  id: totrans-126
   prefs: []
   type: TYPE_NORMAL
+  zh: 在运行这些步骤之前，我们必须增强中间件使用的网络配置。早期，我们在`middleware`文件夹中使用`config.json`表示4组织网络。现在，我们将使用同一文件夹中的`config_upgrade.json`替换它。该文件中唯一包含的是在`trade-network`中有一个额外属性`exportingentityorg`（这是中间件代码将识别我们的新组织的方式），如下所示：
 - en: '[PRE19]'
+  id: totrans-127
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE19]'
 - en: Note that the ports indicated previously match those specified in the docker-compose-exportingEntityOrg.yaml
     file we used to start the MSP and peer for this organization. The path to the
     certificate matches what was generated using `cryptogen` earlier in this section,
     and the names match what was specified in the `configtx.yaml`. The organization
     has just one peer, which is exactly what we specified in the latter file.
+  id: totrans-128
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，先前指定的端口与我们用于启动此组织的MSP和对等体的`docker-compose-exportingEntityOrg.yaml`文件中指定的端口匹配。证书路径与此节早期使用`cryptogen`生成的路径匹配，名称与`configtx.yaml`中指定的名称匹配。该组织只有一个对等体，这正是我们在后者文件中指定的。
 - en: 'To ensure that the middleware functions load the right configuration, we need
     to change the value of the `networkConfig` variable in `constants.js` from `config.json`
     to `config_upgrade.json`. We do that in the file `new-org-join-channel.js` as
     follows:'
+  id: totrans-129
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了确保中间件函数加载正确的配置，我们需要将 `constants.js` 中的 `networkConfig` 变量的值从 `config.json`
+    更改为 `config_upgrade.json`。我们在文件 `new-org-join-channel.js` 中这样做：
 - en: '[PRE20]'
+  id: totrans-130
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE20]'
 - en: 'Now we are ready to run the channel join procedure for the single peer belonging
     to the exporting entity''s organization. The code for this in `new-org-join-channel.js`
     is as follows:'
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们准备为属于出口实体组织的单个对等体运行通道加入程序。 `new-org-join-channel.js` 中的代码如下：
 - en: '[PRE21]'
+  id: totrans-132
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE21]'
 - en: 'The call to `joinChannel` has the effect of joining the peer whose details
     are specified in the `trade-network:exportingentityorg:peer1` section in `config_upgrade.js`
     to `tradechannel`. To execute this operation, just run the following:'
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
+  zh: 对 `joinChannel` 的调用会将在 `config_upgrade.js` 的 `trade-network:exportingentityorg:peer1`
+    部分中指定详细信息的对等体加入到 `tradechannel` 中。要执行此操作，只需运行以下命令：
 - en: '[PRE22]'
+  id: totrans-134
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE22]'
 - en: The new peer is now part of the channel and will eventually sync the contents
     of the shared ledger for the channel through the gossip protocol from the existing
     network peers.
+  id: totrans-135
   prefs: []
   type: TYPE_NORMAL
+  zh: 新对等体现在已经是通道的一部分，并将通过现有网络对等体使用 gossip 协议最终同步通道的共享账本内容。
 - en: Similarly, we can install the chaincode on this peer by calling the `installChaincode`
     function in `install-chaincode.js`. But as it happens, we would like to demonstrate
     the chaincode upgrade capability at this time. So instead of running the installation
     procedure twice, we can straightaway install the new version on all 5 peers. We
     will describe that procedure in the next section.
+  id: totrans-136
   prefs: []
   type: TYPE_NORMAL
+  zh: 类似地，我们可以通过调用 `install-chaincode.js` 中的 `installChaincode` 函数在此对等体上安装链码。但恰巧的是，此时我们想演示链码升级功能。因此，我们可以直接在所有
+    5 个对等体上安装新版本，而不是两次运行安装过程。我们将在下一节中描述该过程。
 - en: Smart contract and policy updates
+  id: totrans-137
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 智能合约和策略更新
 - en: As we observed in the early part of this chapter, the smart contract binding
     peers on a shared channel is subject to change for a variety of reasons ranging
     from code fixes to evolving needs of the participants. Regardless of the reason,
     the mechanism offered by Hyperledger Fabric and the semantics of the change remain
     constant. The mechanism is what we we'll demonstrate in this section.
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们在本章的早期部分观察到的那样，绑定在共享通道上的智能合约受到多种原因的影响，从代码修复到参与者不断发展的需求。无论原因如何，Hyperledger
+    Fabric 提供的机制和变化的语义都保持不变。我们将在本节中演示的就是这种机制。
 - en: Closely associated with the smart contract, at least in the Fabric view of a
     blockchain, is the endorsement policy that must be satisfied for the result of
     a transaction to be committed to the shared ledger. As we will see, the same mechanism
     that can upgrade a smart contract can be used to modify the endorsement policy
     too.
+  id: totrans-139
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Hyperledger Fabric 视图中与智能合约密切相关的是必须满足的背书策略，以使交易结果提交到共享账本中。正如我们将看到的，可以升级智能合约的相同机制也可以用于修改背书策略。
 - en: Modification in chaincode logic
+  id: totrans-140
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 链码逻辑修改
 - en: 'Let us first consider a scenario that requires us to update (or upgrade) our
     trade chaincode. The addition of a new organization, which we just carried out
     in the previous section, necessitates certain changes in chaincode. As an example,
     let us consider the following code snippet in the `acceptTrade` function in `chaincode/src/github.com/trade_workflow/tradeWorkflow.go`:'
+  id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们首先考虑一个需要我们更新（或升级）贸易链码的情景。在上一节中刚刚完成的添加新组织，需要在链码中进行某些更改。例如，让我们考虑 `chaincode/src/github.com/trade_workflow/tradeWorkflow.go`
+    中 `acceptTrade` 函数中的以下代码片段：
 - en: '[PRE23]'
+  id: totrans-142
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE23]'
 - en: The preceding access control logic dictates that only a member of the exporter's
     organization may accept a trade. In our earlier 4-organization network, this made
     sense because both the exporter and the exporter's bank were part of one organization,
@@ -830,33 +1124,48 @@
     its bank (referring to the exporter now as an exporting entity), we ought to change
     the access control logic accordingly. And this is not the only function that requires
     such a modification in access control logic.
+  id: totrans-143
   prefs: []
   type: TYPE_NORMAL
+  zh: 前述访问控制逻辑规定，只有出口商组织的成员才能接受贸易。在我们之前的4个组织网络中，这是有道理的，因为出口商和出口商的银行都是一个组织的一部分，我们依赖更高层次的访问控制来区分银行家和其客户以执行链码操作的目的。但现在，我们已经添加了一个组织来满足出口商独立于其银行的需求（现在将出口商称为出口实体），我们应相应地更改访问控制逻辑。并且这不是唯一需要对其进行修改的功能。
 - en: 'Therefore, we need to produce a new version of the chaincode. In our code repository,
     this can be found in `chaincode/src/github.com/trade_workflow_v1/`. The contents
     of the code, it will look almost identical to the original version except for
     some of these access control filter rules. Let''s look at a similar code snippet
     in the `acceptTrade` function in `chaincode/src/github.com/trade_workflow_v1/tradeWorkflow.go`:'
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，我们需要生成链码的新版本。在我们的代码存储库中，这可以在 `chaincode/src/github.com/trade_workflow_v1/`
+    中找到。代码内容看起来几乎与原始版本相同，只是一些访问控制过滤规则有所不同。让我们看看 `chaincode/src/github.com/trade_workflow_v1/tradeWorkflow.go`
+    中 `acceptTrade` 函数的类似代码片段：
 - en: '[PRE24]'
+  id: totrans-145
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE24]'
 - en: Note that the function `authenticateExporterOrg` has been replaced with `authenticateExportingEntityOrg`.
     If you view the contents of the `accessControlUtils.go` file, you will notice
     that the definition for the latter function has been added.
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: 注意，`authenticateExporterOrg` 函数已被替换为 `authenticateExportingEntityOrg`。 如果您查看
+    `accessControlUtils.go` 文件的内容，您会注意到已添加了后者函数的定义。
 - en: In a real-world application involving various organizations, changes in chaincode
     would have to be made through collaboration and consultation, passed around to
     the different stakeholders though an out-of-band mechanism, examined, vetted,
     and tested, before they are deemed to be ready for deployment to the network.
+  id: totrans-147
   prefs: []
   type: TYPE_NORMAL
+  zh: 在涉及各种组织的真实应用中，通过协作和咨询进行链码的更改，通过非核心机制传递给不同的利益相关者，经过检查、审核和测试，然后才准备部署到网络。
 - en: Dependency upgrades in chaincode
+  id: totrans-148
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 链码中的依赖升级
 - en: 'Access control logic is not the only thing we will need to change in the chaincode.
     We use a somewhat contrived scenario where the initial version of the chaincode
     was created when only an early version of Fabric (say v1.0) was available. If
@@ -865,26 +1174,39 @@
     to the submitter of the chaincode transaction, it is done manually using the standard
     Go libraries. This is illustrated in the following code snippet in the `getTxCreatorInfo`
     function in `chaincode/src/github.com/trade_workflow/accessControlUtils.go`:'
+  id: totrans-149
   prefs: []
   type: TYPE_NORMAL
+  zh: 访问控制逻辑并不是我们在链码中需要更改的唯一内容。我们使用了一个有些刻意的场景，即当只有一个早期版本的Fabric（例如v1.0）可用时，创建了链码的初始版本。如果您检查逻辑以从发出交易的组织中提取MSP标识以及在发出链码交易的提交者的证书中提取公共名称，这是使用标准的Go库手动完成的。这在
+    `chaincode/src/github.com/trade_workflow/accessControlUtils.go` 中的 `getTxCreatorInfo`
+    函数中有示例代码：
 - en: '[PRE25]'
+  id: totrans-150
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE25]'
 - en: 'When the Fabric platform was upgraded to v1.1, a new package called **cid**
     was implemented to perform the preceding operations and hide details of the protobuf
     structure and the certificate parsing. To make our chaincode cleaner and more
     aligned with Fabric changes, it is necessary to upgrade our preceding logic to
     use the new package. This is what we do in our upgraded version of chaincode in
     `chaincode/src/github.com/trade_workflow_v1/accessControlUtils.go`:'
+  id: totrans-151
   prefs: []
   type: TYPE_NORMAL
+  zh: 当Fabric平台升级到v1.1时，实施了一个名为**cid**的新包来执行前述操作并隐藏protobuf结构和证书解析的细节。为了使我们的链码更清洁，并且更符合Fabric的更改，有必要将我们的前述逻辑升级为使用新包。这就是我们在
+    `chaincode/src/github.com/trade_workflow_v1/accessControlUtils.go` 中的升级版本中所做的：
 - en: '[PRE26]'
+  id: totrans-152
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE26]'
 - en: Ledger resetting
+  id: totrans-153
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 分类帐重置
 - en: 'A chaincode upgrade is like instantiation, and both result in the execution
     of the `Init` function. In the initial version of the chaincode, many ledger values
     were initialized, but unless we change that logic, those initial values will overwrite
@@ -893,108 +1215,160 @@
     no-op, but we also leave the original logic intact to ensure that values can be
     overwritten during an upgrade if there is a business need to do so, as the following
     code snippet illustrates:'
+  id: totrans-154
   prefs: []
   type: TYPE_NORMAL
+  zh: 链码升级类似于实例化，两者都会执行`Init`函数。在链码的初始版本中，许多账本值被初始化，但除非我们改变该逻辑，否则这些初始值将覆盖账本的当前状态。因此，我们在`chaincode/src/github.com/trade_workflow_v1/tradeWorkflow.go`的`Init`函数中添加代码来模拟一个空操作，但我们也保留了原始逻辑以确保在升级时可以覆盖值，如果有业务需要这样做，如以下代码片段所示：
 - en: '[PRE27]'
+  id: totrans-155
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE27]'
 - en: Endorsement policy update
+  id: totrans-156
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 背书策略更新
 - en: 'Our original transaction endorsement policy required a member of each of the
     4 organizations to endorse (sign) a chaincode invocation transaction. Now that
     we have added a new organization, we must update that policy to require a signature
     from a member of each of the 5 organizations. In the `middleware` folder, this
     new policy is defined in `constants.js` as follows:'
+  id: totrans-157
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们最初的事务背书策略要求每个4个组织的成员对链码调用事务进行背书（签名）。现在我们已经添加了一个新的组织，我们必须更新该策略以要求每个5个组织的成员签名。在`middleware`文件夹中，这个新策略在`constants.js`中定义如下：
 - en: '[PRE28]'
+  id: totrans-158
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE28]'
 - en: To switch the endorsement policy in our middleware, we just need to change the
     value of the `TRANSACTION_ENDORSEMENT_POLICY` variable in `constants.js` from
     `ALL_FOUR_ORG_MEMBERS` to `ALL_FIVE_ORG_MEMBERS`.
+  id: totrans-159
   prefs: []
   type: TYPE_NORMAL
+  zh: 要在我们的中间件中切换背书策略，我们只需要将`constants.js`中的`TRANSACTION_ENDORSEMENT_POLICY`变量的值从`ALL_FOUR_ORG_MEMBERS`更改为`ALL_FIVE_ORG_MEMBERS`。
 - en: Upgrading chaincode and endorsement policy on the trade channel
+  id: totrans-160
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在交易通道上升级链码和背书策略
 - en: 'Now we are ready to carry out the upgrade process, which will require two steps:'
+  id: totrans-161
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们准备执行升级过程，这将需要两个步骤：
 - en: The installation of the new version of chaincode on the network peers
+  id: totrans-162
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在网络对等方上安装新版本的链码
 - en: The upgrade of the chaincode and endorsement policy on the channel
+  id: totrans-163
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 通道上的链码和背书策略升级
 - en: 'The code to perform these steps can be found in `middleware/upgrade-chaincode.js` and
     simply involves calling functions we have already implemented (see [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
     Network Assets and Transactions*). The following code snippet shows what we need
     to do for installation:'
+  id: totrans-164
   prefs: []
   type: TYPE_NORMAL
+  zh: 执行这些步骤的代码可以在`middleware/upgrade-chaincode.js`中找到，并且只是简单地调用我们已经实现的函数（参见[*第5章*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)，*公开网络资产和交易*）。以下代码片段显示了我们需要在安装过程中做的事情：
 - en: '[PRE29]'
+  id: totrans-165
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE29]'
 - en: 'Note in the preceding code that the 5-organization network configuration is
     used and so is the 5-organization endorsement policy. The new path and version
     of the chaincode are set in `constants.js` as follows:'
+  id: totrans-166
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，在上述代码中使用了5个组织的网络配置以及5个组织的背书策略。链码的新路径和版本在`constants.js`中设置如下：
 - en: '[PRE30]'
+  id: totrans-167
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE30]'
 - en: The path is relative to the chaincode/src folder in the repository, as the `GOPATH`
     is temporarily set to wherever the `chaincode/` folder has been copied to (see
     `constants.js` and `install-chaincode.js`). The version is set to v1 as opposed
     to the initiation version, which was v0.
+  id: totrans-168
   prefs: []
   type: TYPE_NORMAL
+  zh: 路径相对于存储库中的链码/src文件夹，因为`GOPATH`临时设置为`chaincode/`文件夹被复制到的位置（参见`constants.js`和`install-chaincode.js`）。版本设置为v1，而不是初始版本v0。
 - en: The chaincode version ID you choose `MUST` be unique in the lifetime of the
     chaincode; that is, it must not have been used for any previous version.
+  id: totrans-169
   prefs: []
   type: TYPE_NORMAL
+  zh: 您选择的链码版本ID在链码的生命周期中`必须`是唯一的；也就是说，它不能被用于任何以前的版本。
 - en: 'Triggering the upgrade is the next step, which is almost identical to the instantiation
     step from the developer''s perspective:'
+  id: totrans-170
   prefs: []
   type: TYPE_NORMAL
+  zh: 触发升级是下一步，从开发者的角度来看，几乎与实例化步骤相同：
 - en: '[PRE31]'
+  id: totrans-171
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE31]'
 - en: As we can see preceding, we exercise the option of leaving the ledger state
     as it currently stands by passing an empty argument's list. In the function `instantiateOrUpgradeChaincode`
     in `instantiate-chaincode.js`, after a proposal is built, `channel.sendUpgradeProposal(request,
     300000)` is called instead of `channel.sendInstantiateProposal(request, 300000)`
     to send the request to the orderer. As in the case of instantiation, we register
     event listeners to tell us whether the request succeeded.
+  id: totrans-172
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们所看到的，我们选择通过传递空参数列表将账本状态保留在当前状态。在 `instantiate-chaincode.js` 中的 `instantiateOrUpgradeChaincode`
+    函数中，构建提案后调用 `channel.sendUpgradeProposal(request, 300000)` 来将请求发送给订购者，而不是调用 `channel.sendInstantiateProposal(request,
+    300000)` 进行实例化。与实例化一样，我们注册事件侦听器以告诉我们请求是否成功。
 - en: 'To push the chaincode upgrade, run:'
+  id: totrans-173
   prefs: []
   type: TYPE_NORMAL
+  zh: 要推送链代码升级，请运行：
 - en: '[PRE32]'
+  id: totrans-174
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE32]'
 - en: 'To test the new chaincode, run:'
+  id: totrans-175
   prefs: []
   type: TYPE_NORMAL
+  zh: 要测试新的链代码，请运行：
 - en: '[PRE33]'
+  id: totrans-176
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE33]'
 - en: This will run a sequence of trade operations (invocations and queries on the
     chaincode) involving the various parties from the request of a trade to the final
     payment for delivery of a shipment.
+  id: totrans-177
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将运行一系列交易操作（对链代码的调用和查询），涉及从交易请求到最终付款交付货物的各方。
 - en: Platform upgrades
+  id: totrans-178
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 平台升级
 - en: Your distributed blockchain application must anticipate and support changes
     made to the platform components. Focusing on the components we have created and
     launched in our sample trade network, these include the Fabric peer, orderer,
@@ -1005,8 +1379,12 @@
     component gets upgraded, you need to replace those components in your running
     system without disrupting the life cycle of your application. In this section,
     we will demonstrate how to do that.
+  id: totrans-179
   prefs: []
   type: TYPE_NORMAL
+  zh: 您的分布式区块链应用程序必须预见并支持对平台组件所做的更改。专注于我们在样本交易网络中创建和启动的组件，其中包括 Fabric peer、orderer
+    和 CA（或 MSP）。就像应用程序链代码可能因为错误和新要求而改变一样，平台也会随着时间的推移而改变。自 2015 年底诞生以来，Fabric 已经多次改变，每次改变都被推送为具有新版本的升级，当前版本为
+    1.1。每当平台组件升级时，您都需要在不干扰应用程序生命周期的情况下替换正在运行的系统中的这些组件。在本节中，我们将演示如何执行此操作。
 - en: 'You can run your network components in different configuration, one way using
     docker containers, which is the approach we have demonstrated in this book. To
     upgrade platform components running in docker containers, the first thing you
@@ -1015,151 +1393,224 @@
     and building the images natively using make docker; the latter approach is what
     we have followed in this book. To see the entire list of Hyperledger Fabric images
     downloaded to your system, you can run something as follows:'
+  id: totrans-180
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以以不同的配置运行您的网络组件，一种方式是使用 docker 容器，这是我们在本书中演示的方法。要升级在 docker 容器中运行的平台组件，您需要做的第一件事是为各种组件生成新的图像。这可以通过从
+    Docker Hub 下载相关图像或下载源代码并使用 make docker 本地构建图像来完成；后一种方法是我们在本书中采用的方法。要查看已下载到您系统的
+    Hyperledger Fabric 图像的完整列表，您可以运行如下内容：
 - en: '[PRE34]'
+  id: totrans-181
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE34]'
 - en: 'You will see a long list of image entries, most of them duplicated, with the
     latest tag being a pointer to one of the images with a specific tag name. Since
     our docker-compose YAML files in the network folder (`docker-compose-e2e.yaml`,
     `base/docker-compose-base.yaml`, and `base/peer-base.yaml`) depend only on the
     images for fabric-peer, fabric-orderer, and fabric-ca, let us examine just those:'
+  id: totrans-182
   prefs: []
   type: TYPE_NORMAL
+  zh: 你会看到一个很长的图像条目列表，其中大多数是重复的，最新的标签是指向具有特定标签名称的图像之一的指针。由于我们在网络文件夹（`docker-compose-e2e.yaml`、`base/docker-compose-base.yaml`
+    和 `base/peer-base.yaml`）中的 docker-compose YAML 文件仅依赖于 fabric-peer、fabric-orderer
+    和 fabric-ca 的图像，让我们仅检查这些：
 - en: '[PRE35]'
+  id: totrans-183
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE35]'
 - en: You will see something like the preceding when you run the `docker images` command.
     The Docker images listed here were built natively from the release-1.1 branches
     of the Fabric and Fabric CA source code. If you download a different version of
     the source code and build the images using make docker, you will see a third image
     entry for each of the preceding components, and your latest image tag will be
     linked to the one that you just created.
+  id: totrans-184
   prefs: []
   type: TYPE_NORMAL
+  zh: 运行 `docker images` 命令时会看到类似于上面的内容。这里列出的 Docker 映像是从 Fabric 和 Fabric CA 源代码的
+    release-1.1 分支本地构建的。如果您下载了不同版本的源代码，并使用 make docker 构建映像，您将看到每个前面组件的第三个映像条目，并且您的最新映像标签将链接到您刚刚创建的映像。
 - en: 'We will go through an following example where the trade network''s orderer
     and peers are upgraded. We will leave upgrading fabric-ca as an exercise to the
     user. To do this in a running application, you will need to perform the following
     sequence of steps:'
+  id: totrans-185
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将通过以下示例进行演示，其中交易网络的 orderer 和 peer 将进行升级。我们将升级 fabric-ca 留给用户作为练习。要在运行中的应用程序中执行此操作，您需要执行以下一系列步骤：
 - en: Download or build new versions of platform component images
+  id: totrans-186
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 下载或构建平台组件映像的新版本
 - en: Stop the components
+  id: totrans-187
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 停止组件
 - en: (Optional) make a backup of your ledger contents for safety
+  id: totrans-188
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: （可选）为了安全起见备份您的账本内容
 - en: Stop the running chaincode containers
+  id: totrans-189
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 停止运行的链码容器
 - en: Remove the chaincode container images from your system
+  id: totrans-190
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 从系统中删除链码容器映像
 - en: Ensure that the image tags referenced in the docker-compose YAML files are linked
     to the new versions of the components
+  id: totrans-191
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 确保 docker-compose YAML 文件中引用的映像标签与组件的新版本链接在一起
 - en: Start the components
+  id: totrans-192
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 启动组件
 - en: You can also choose to stop, upgrade, and start each component in turn rather
     than all at once. You will need to stop all incoming requests to the system while
     this upgrade is going on, which should be a simple matter of shutting down your
     application web servers.
+  id: totrans-193
   prefs: []
   type: TYPE_NORMAL
+  zh: 您也可以选择逐个停止、升级和启动每个组件，而不是一次性全部执行。在执行此升级时，您需要停止系统的所有传入请求，这应该只是关闭应用程序 Web 服务器的简单事情。
 - en: 'There is sample code to upgrade our trade network in this manner in the upgradeNetwork
     function in network/trade.sh in the code repository. Here, we assume that the
     user will either:'
+  id: totrans-194
   prefs: []
   type: TYPE_NORMAL
+  zh: 在代码存储库的 network/trade.sh 中的 upgradeNetwork 函数中，有以这种方式升级我们的交易网络的示例代码。在这里，我们假设用户将执行以下操作之一：
 - en: Pass the new image tag (such as `x86_64-1.1.1-snapshot-c257bb3` in the preceding
     list) as a command-line parameter using the `-i` switch, or
+  id: totrans-195
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用 `-i` 开关作为命令行参数传递新映像标签（例如在上述列表中的 `x86_64-1.1.1-snapshot-c257bb3`），
 - en: Link the latest tag to the new image
+  id: totrans-196
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将最新标签链接到新映像
 - en: 'Before calling the function. Now we must stop the orderer and peers:'
+  id: totrans-197
   prefs: []
   type: TYPE_NORMAL
+  zh: 在调用该函数之前。现在我们必须停止 orderer 和 peer：
 - en: '[PRE36]'
+  id: totrans-198
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE36]'
 - en: As we can see preceding code, the docker-compose YAML file used to start the
     network must be used to stop individual components too.
+  id: totrans-199
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们在前面的代码中所看到的，用于启动网络的 docker-compose YAML 文件也必须用于停止各个组件。
 - en: The preceding example assumes that only the first 4 organizations are part of
     the network.
+  id: totrans-200
   prefs: []
   type: TYPE_NORMAL
+  zh: 上述示例假设只有前 4 个组织是网络的一部分。
 - en: 'Once the containers are stopped, we can choose to backup the ledger data as
     follows:'
+  id: totrans-201
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦容器停止，我们可以选择备份分类帐数据如下：
 - en: '[PRE37]'
+  id: totrans-202
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE37]'
 - en: The contents of the ledger on the peers as well as the orderer are now backed
     up to your local machine in the ledgers-backup folder.
+  id: totrans-203
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在将对等方以及 orderer 上的分类帐内容备份到您的本地机器上的 ledgers-backup 文件夹中。
 - en: 'Now we should remove all the chaincode images because new ones need to be created
     by the new fabric-peer images, and the presence of old images will block that
     creation:'
+  id: totrans-204
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们应该删除所有的链码映像，因为新的映像需要由新的 fabric-peer 映像创建，并且旧映像的存在将阻止该创建：
 - en: '[PRE38]'
+  id: totrans-205
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE38]'
 - en: Note that we must first check to see if the chaincode containers are running,
     and stop them if they are, otherwise the images cannot be removed.
+  id: totrans-206
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，我们必须首先检查链码容器是否正在运行，如果正在运行，则停止它们，否则将无法删除映像。
 - en: 'Now we can restart the stopped orderer and peer containers. When running docker-compose
     up, the orderer and peer containers will be started with the new image:'
+  id: totrans-207
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们可以重新启动已停止的 orderer 和 peer 容器。在运行 docker-compose up 时，orderer 和 peer 容器将使用新映像启动：
 - en: '[PRE39]'
+  id: totrans-208
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE39]'
 - en: 'You can run the entire upgrade process in one shot by running the script in
     either of the following ways:'
+  id: totrans-209
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以通过以下任一方式之一来一次性运行整个升级过程：
 - en: '[PRE40]'
+  id: totrans-210
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE40]'
 - en: If the `<imagetag>` is not specified, it will default to latest, as mentioned
     earlier.
+  id: totrans-211
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果未指定 `<imagetag>`，它将默认为最新版本，如前面所述。
 - en: You can now continue to run your distributed trade application. Note that platform
     changes may also be accompanied by changes in chaincode and SDK API, which may
     necessitate an upgrade to your chaincode or your middleware or both. As we have
     demonstrated examples of those in previous sections, the reader should not be
     fully equipped to upgrade both the application and the underlying blockchain platform
     at any point during the application's and network's life cycle.
+  id: totrans-212
   prefs: []
   type: TYPE_NORMAL
+  zh: 您现在可以继续运行您的分布式交易应用程序。请注意，平台更改可能伴随着链码和 SDK API 的更改，这可能需要升级您的链码或中间件，或者两者都需要升级。正如我们在前面的部分中演示的示例一样，读者应该在应用程序和底层区块链平台的整个生命周期中随时具备升级这两者的能力。
 - en: System monitoring and performance
+  id: totrans-213
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 系统监视和性能
 - en: You have now built your application and instituted various processes and mechanisms
     in anticipation of changes over its lifetime. An additional, but no less essential,
     process that you must have in place and carry out from time to time is monitoring
@@ -1169,8 +1620,10 @@
     how your application performs and trying to improve its performance is a key maintenance
     task; any dereliction in this task may result in your application having a short
     shelf life.
+  id: totrans-214
   prefs: []
   type: TYPE_NORMAL
+  zh: 您现在已经构建了您的应用程序，并为其寿命内的变化预期制定了各种流程和机制。另一个同样重要的过程是，您必须具备并不时进行监视和性能测量。您为现实世界的用户和机构构建的任何生产应用程序都必须满足某些性能目标，以对其用户实用，并且应用程序的利益相关者也会受到影响。因此，了解您的应用程序的性能并尝试提高其性能是一个关键的维护任务；忽视这项任务可能会导致您的应用程序寿命短暂。
 - en: The art (and science) of system performance measurement and analytics is a broad
     and extensive set of topics, and it is not our intention to cover these topics
     deeply or exhaustively in this book. To obtain such a coverage, the interested
@@ -1180,46 +1633,66 @@
     into a blockchain application entails, and offer some hints and suggestions about
     the tools and techniques a developer or system administrator can utilize for these
     purposes.
+  id: totrans-215
   prefs: []
   type: TYPE_NORMAL
+  zh: 系统性能测量和分析的艺术（以及科学）是一个广泛而深入的话题，我们并不打算在本书中深入或全面地涵盖这些话题。为了获得这样的涵盖，我们鼓励感兴趣的读者阅读其他关于这一主题的经典文献（例如，[https://www.amazon.com/Systems-Performance-Enterprise-Brendan-Gregg/dp/0133390098](https://www.amazon.com/Systems-Performance-Enterprise-Brendan-Gregg/dp/0133390098)）。相反，我们将提供性能测量和洞察到区块链应用程序所需的预览，并提供开发人员或系统管理员可以利用的工具和技术的一些建议。
 - en: 'Broadly speaking, systems maintenance for performance involves three, roughly
     sequential, categories of tasks, though these tasks can collectively repeat in
     cycles over the lifetime of a system:'
+  id: totrans-216
   prefs: []
   type: TYPE_NORMAL
+  zh: 广义上说，系统维护性能主要涉及三种大致顺序的任务类别，尽管这些任务可以在系统的整个生命周期中循环重复：
 - en: Observation and measurement
+  id: totrans-217
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 观察和测量
 - en: Evaluation (or analysis) and gaining insight (or understanding)
+  id: totrans-218
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 评估（或分析）和洞察（或理解）
 - en: Restructuring, redesign, or reimplementation for improvement
+  id: totrans-219
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 重构、重设计或重新实施以改进
 - en: 'In our discussion in this section, we will mainly focus on some aspects of
     the following:'
+  id: totrans-220
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本节的讨论中，我们将主要关注以下一些方面：
 - en: What is important to measure in a Fabric application
+  id: totrans-221
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在 Fabric 应用程序中需要测量的重要内容
 - en: The mechanisms a Fabric application developer or administrator can use for measurement
+  id: totrans-222
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Fabric 应用程序开发人员或管理员可以用于测量的机制
 - en: The performance-inhibiting aspects of Fabric that an application designers and
     developers should be aware of
+  id: totrans-223
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 应用程序设计人员和开发人员应该注意 Fabric 的性能抑制方面
 - en: Measurement and analytics
+  id: totrans-224
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测量和分析
 - en: Before discussing Hyperledger Fabric in particular, let's understand what measurement
     and analytics means for a distributed system, of which a blockchain application
     is an example. The process begins with a comprehensive understanding of the architecture
@@ -1233,8 +1706,10 @@
     used to ensure that the system is working at a desired level of performance, and
     to detect when it is not, something which is of high (if not critical) importance
     to user-facing systems.
+  id: totrans-225
   prefs: []
   type: TYPE_NORMAL
+  zh: 在特定讨论Hyperledger Fabric之前，让我们了解对于分布式系统（其中区块链应用是一个例子）而言，什么是测量和分析的意义。该过程始于对系统架构、各个组件以及这些组件之间的耦合程度和性质的全面了解。下一步是建立机制来监视各个组件并收集对性能有关联的数据属性，无论是持续地还是在定期间隔内。这些数据必须被收集和传输到一个模块，该模块随后可以分析这些数据以生成系统性能的有意义表示，并可能提供对应用程序运行和其现有效率的工作更深入的洞察。分析过的数据也可以用于确保系统正以期望的性能水平运行，并且检测当系统没有达到该水平时，这对面向用户的系统是非常重要（如果不是至关重要的）。
 - en: 'Such techniques and processes are well known in the world of distributed systems
     analytics, and also in mobile analytics (which can be considered to be a special
     case of the former.) Agents can be configured to observe or monitor a system component,
@@ -1249,8 +1724,10 @@
     referred to as **extract-transform-load** (**ETL**). If the volume and frequency
     of data generation is very high, and if the number of data sources is very large,
     such analytics is also referred to as **big data analytics**.'
+  id: totrans-226
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些技术和流程在分布式系统分析领域以及移动分析领域（可视为前者的特例）中是众所周知的。代理可以配置为主动或被动地观察或监控系统组件：在前者中，系统可以被仪器化（例如，通过插入特殊的数据收集代码）以使其自我监视其活动并收集信息，而在后者中，数据收集可以由一个外部于被监控组件的软件来完成。存在一条管道将这些数据连续或周期性地传输到一个中央存储库，数据可以被累积以供以后处理，或立即被处理和消费。该管道可能修改数据以使其适合分析。在数据分析术语中，这种管道通常被称为**提取-转换-加载**（**ETL**）。如果数据生成的数量和频率非常高，并且数据来源的数量非常大，则这种分析也被称为**大数据分析**。
 - en: ETL processes or big data analytics are beyond the scope of this chapter and
     book, but the takeaway for a serious blockchain developer or administrator is
     that there exist frameworks to perform such analytics, either for distributed
@@ -1261,28 +1738,42 @@
     and Google Analytics ([https://developers.google.com/analytics/solutions/mobile](https://developers.google.com/analytics/solutions/mobile)).
     The same frameworks can be used or adapted to monitor and analyze blockchain applications
     too.
+  id: totrans-227
   prefs: []
   type: TYPE_NORMAL
+  zh: ETL流程或大数据分析超出了本章和本书的范围，但对于严肃的区块链开发人员或管理员来说，需要牢记的一点是存在执行这样的分析的框架，不管是为了配置了服务器和数据库的分布式系统的（Fabric区块链应用就是一个示例）比如Splunk
+    ([https://www.splunk.com/en_us/solutions/solution-areas/business-analytics.html](https://www.splunk.com/en_us/solutions/solution-areas/business-analytics.html))
+    或Apteligent ([http://www.apteligent.com/](http://www.apteligent.com/))，还是为了移动应用程序比如Tealeaf
+    ([https://www.ibm.com/in-en/marketplace/session-replay-and-interaction-analytics](https://www.ibm.com/in-en/marketplace/session-replay-and-interaction-analytics))和Google
+    Analytics ([https://developers.google.com/analytics/solutions/mobile](https://developers.google.com/analytics/solutions/mobile))。这些相同的框架也可以用于监视和分析区块链应用。
 - en: What should we measure or understand in a Fabric application
+  id: totrans-228
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在Fabric应用程序中，我们应该度量或了解什么
 - en: An application built on Hyperledger Fabric and its associated tools is, in effect,
     a **distributed transaction processing system**.
+  id: totrans-229
   prefs: []
   type: TYPE_NORMAL
+  zh: 基于Hyperledger Fabric及其相关工具构建的应用实际上是一个**分布式事务处理系统**。
 - en: Blockchain applications vis-à-vis traditional transaction processing applications
+  id: totrans-230
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链应用与传统交易处理应用程序
 - en: Think about what a traditional transaction processing system looks like. You
     will have a database at the backend to store, process, and serve data; this database
     may be centralized or distributed, and in the latter case, maintain replicas or
     partitions. In front of the database, you will have one or more web servers or
     application servers to manage and run your application logic; and further in front,
     you will have one or more interfaces for interaction with users.
+  id: totrans-231
   prefs: []
   type: TYPE_NORMAL
+  zh: 想象一下传统的交易处理系统是什么样的。您在后台会有一个数据库来存储、处理和提供数据；这个数据库可以是集中式的，也可以是分布式的，在后一种情况下，会维护副本或分区。在数据库前面，您会有一个或多个Web服务器或应用服务器来管理和运行您的应用逻辑；在更前面，您会有一个或多个用于与用户交互的界面。
 - en: Similarly, a Fabric blockchain application has peers maintaining a shared replicated
     ledger as the equivalent of a database. The smart contract code is analogous to
     stored procedures and views in a traditional database management system. The middleware
@@ -1291,12 +1782,16 @@
     servers. Finally, we can design web interfaces for user interaction just as we
     would for a traditional transaction processing application. Of course, we used
     `curl` as a substitute to test out our trade use case.
+  id: totrans-232
   prefs: []
   type: TYPE_NORMAL
+  zh: 同样，Fabric区块链应用拥有维护共享复制账本的对等节点，相当于数据库。智能合约代码类似于传统数据库管理系统中的存储过程和视图。我们为我们的交易应用程序演示了中间件和应用服务器的架构和工作方式，这些可以作为或者甚至由传统应用服务器承载。最后，我们可以设计用户交互的Web界面，就像我们为传统交易处理应用程序设计的那样。当然，我们使用`curl`作为交易用例的测试替代方法。
 - en: Metrics for performance analysis
+  id: totrans-233
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 用于性能分析的指标
 - en: Therefore, a blockchain application's performance is affected by similar factors
     to those affecting a traditional DBMS-based transaction processing application.
     First, we must constantly monitor the health of the hardware resources that are
@@ -1306,6 +1801,7 @@
     storage space (this is not meant to be an exhaustive list). These factors, especially
     CPU usage for processing-heavy systems, determine whether the application is running
     at optimal performance levels.
+  id: totrans-234
   prefs: []
   type: TYPE_NORMAL
 - en: As we have seen in this book, a Fabric network can be started in a variety of
@@ -1318,11 +1814,13 @@
     (or profiling) applications, the CPU, memory, and I/O usage of application components
     are of the most relevance. We will look at some tools to measure container and
     application performance later in this section.
+  id: totrans-235
   prefs: []
   type: TYPE_NORMAL
 - en: 'Moving from the external factors to the application itself, the performance
     of a Fabric application (just like any other transaction processing application)
     is defined by two characteristic metrics:'
+  id: totrans-236
   prefs: []
   type: TYPE_NORMAL
 - en: '**Throughput**: This is the number of transactions per unit time that your
@@ -1336,6 +1834,7 @@
     to measure just the orderer throughput, we would need to collect statistics just
     for the part where the client sends an endorsed transaction envelope to the orderer
     and gets back a response.'
+  id: totrans-237
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
@@ -1346,31 +1845,42 @@
     block creation, transaction validation and ledger commitment, and even event publishing
     and subscription. We can also measure inter-component communication latency in
     an effort to understand the limitations of the communication infrastructure.'
+  id: totrans-238
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**延迟**：由于大多数Fabric应用程序最终将面向用户，因此在真实场景中，不仅处理能力或容量很重要，而且每个交易所需的时间也很重要。与吞吐量的情况类似，我们可以测量不同的延迟
+    - 链码执行和背书、排序和区块创建、交易验证和账本提交，甚至事件发布和订阅的延迟。我们还可以测量组件间通信的延迟，以了解通信基础设施的限制。'
 - en: There are other important things to measure, such as the time taken to synchronize
     ledger states across peers (using the **gossip** protocol), but from a transaction
     processing perspective, the preceding two metrics are of prime importance. When
     we measure these factors, we get an understanding of how the overall application
     is performing, and also its constituent parts such as the ESCC and VSCC in a peer
     and the Kafka service in an orderer.
+  id: totrans-239
   prefs: []
   type: TYPE_NORMAL
+  zh: 还有其他重要的事情需要测量，比如在同行之间同步账本状态所需的时间（使用**gossip**协议），但从交易处理的角度来看，前面两个指标非常重要。当我们测量这些因素时，我们就能了解整体应用程序的表现，以及其组成部分，比如对等体中的ESCC和VSCC，以及订购者中的Kafka服务。
 - en: Measurement and data collection in a Fabric application
+  id: totrans-240
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在Fabric应用程序中的测量和数据收集
 - en: Now that we know what we ought to measure, let us look at some examples of hands-on
     measurement and data collection. We will use our single-VM (Linux), multiple-docker-container
     trade network for demonstrative purposes, and let the reader extrapolate those
     methods (with the help of more comprehensive texts on measurement) to other setups.
+  id: totrans-241
   prefs: []
   type: TYPE_NORMAL
+  zh: 既然我们知道应该测量什么，让我们来看一些动手测量和数据收集的例子。我们将使用我们的单个VM（Linux），多个docker容器交易网络作为示例，并让读者将这些方法推广到其他设置（借助更全面的测量文本的帮助）。
 - en: Collecting health and capacity information
+  id: totrans-242
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 收集健康和容量信息
 - en: 'A standard way to get information about CPU, memory, and other activity on
     your system is by examining info in `/proc`. In addition, an array of tools is
     available in Linux to obtain specific pieces of information. The `sysstat` package
@@ -1379,26 +1889,37 @@
     to collect similar statistics as `cron` jobs. Just as a sample, running `iostat`
     on a VM running the entire trade network and the chaincode yields the following
     CPU info and I/O statistics for the two virtual hard drives:'
+  id: totrans-243
   prefs: []
   type: TYPE_NORMAL
+  zh: 通过检查`/proc`中的信息是系统获取CPU、内存和其他活动信息的标准方法。此外，Linux中提供了一系列工具来获取特定的信息。`sysstat`包含其中许多，例如，`iostat`用于收集CPU和I/O统计信息，`pidstat`用于收集每个进程的健康统计信息，以及`sar`和`sadc`用于像`cron`一样收集类似的统计信息。举个例子，在运行整个交易网络和链码的VM上运行`iostat`，会得到如下两个虚拟硬盘的CPU信息和I/O统计信息：
 - en: '[PRE41]'
+  id: totrans-244
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE41]'
 - en: 'The `vmstat` tool similarly presents a summary of the virtual-machine-wide
     information as follows:'
+  id: totrans-245
   prefs: []
   type: TYPE_NORMAL
+  zh: '`vmstat`工具类似地提供了虚拟机范围内信息的摘要，内容如下：'
 - en: '[PRE42]'
+  id: totrans-246
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE42]'
 - en: For continuous per-process statistics, you can also use the well-known `top`
     command, and also `dstat`, which also generates output in CSV format for easy
     consumption. If you want to connect your measurement mechanisms to an ETL analytics
     pipeline, the `nmon` tool([http://nmon.sourceforge.net/pmwiki.php](http://nmon.sourceforge.net/pmwiki.php)),
     which does comprehensive performance data collection and reporting in well-known
     formats, may be the ideal tool.
+  id: totrans-247
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于持续的每个进程统计信息，您也可以使用众所周知的`top`命令，以及`dstat`，后者还会生成CSV格式的输出，易于消费。如果您希望将测量机制连接到ETL分析流水线，则可能是理想的工具，它以广为人知的格式进行全面的性能数据收集和报告，这个工具便是`nmon`
+    ([http://nmon.sourceforge.net/pmwiki.php](http://nmon.sourceforge.net/pmwiki.php))。
 - en: But we must also specifically profile the containers that are running the application
     components. The `perf` tool is very handy as a Linux performance counter and profiling
     tool. It can collect profiles on a per thread, per process, and per CPU (or processor)
@@ -1410,46 +1931,69 @@
     containers. Lastly, `perf stat` can be used to collect system-wide statistics.
     The `perf` Wiki ([https://perf.wiki.kernel.org/index.php/Main_Page](https://perf.wiki.kernel.org/index.php/Main_Page))
     gives more information about how to use this tool.
+  id: totrans-248
   prefs: []
   type: TYPE_NORMAL
+  zh: 但我们还必须专门对运行应用程序组件的容器进行分析。`perf` 工具作为 Linux 性能计数器和分析工具非常方便。它可以按线程、进程和 CPU（或处理器）的基础进行概要文件收集。通过使用`perf
+    report`命令和不同的开关进行数据收集，结果会被收集并存储在命令运行所在的文件夹中名为`perf.data`的文件中。此数据可以使用`perf report`命令进行分析。此外，可以使用`bindfs`（[https://bindfs.org/](https://bindfs.org/)）将`perf`报告中的符号映射到在
+    docker 容器内运行的进程。最后，`perf stat`可用于收集系统范围的统计信息。`perf`维基（[https://perf.wiki.kernel.org/index.php/Main_Page](https://perf.wiki.kernel.org/index.php/Main_Page)）提供了有关如何使用此工具的更多信息。
 - en: Profiling containers and applications
+  id: totrans-249
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 对容器和应用程序进行分析
 - en: 'Our application components must also be profiled to produce instruction-level
     information and call stacks for us to analyze, not just to track performance but
     also to debug application flaws. The strace tool can be used to record system
     calls made by a running docker container. As an example, get the process ID for
     our orderer container as follows:'
+  id: totrans-250
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的应用程序组件还必须进行分析，以产生我们分析所需的指令级信息和调用堆栈，这不仅用于跟踪性能，还用于调试应用程序缺陷。`strace` 工具可用于记录正在运行的
+    docker 容器所发出的系统调用。例如，获取我们的 orderer 容器的进程 ID 如下：
 - en: '[PRE43]'
+  id: totrans-251
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE43]'
 - en: 'Recall that our container was named `orderer.trade.com` in our docker-compose
     YAML file. The output will be a process ID; let''s call it `<pid>`. Now run `strace`
     on that process:'
+  id: totrans-252
   prefs: []
   type: TYPE_NORMAL
+  zh: 回想一下，我们在 docker-compose YAML 文件中将容器命名为`orderer.trade.com`。输出将是一个进程 ID；我们称其为`<pid>`。现在在该进程上运行`strace`：
 - en: '[PRE44]'
+  id: totrans-253
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE44]'
 - en: 'You should see a continuous output, something like the following:'
+  id: totrans-254
   prefs: []
   type: TYPE_NORMAL
+  zh: 您应该看到持续的输出，类似于以下内容：
 - en: '[PRE45]'
+  id: totrans-255
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE45]'
 - en: 'To analyze the output, read the canonical `strace` documentation. Note that
     this tool is available only on Linux systems. Also, in your docker-compose YAML
     file, you can configure a container to run `strace` internally. As an example,
     take the container definition of `peer0.exporterorg.trade.com in network/base/docker-compose-base.yaml`.
     You can augment it to enable `strace` as follows (added configuration italicized):'
+  id: totrans-256
   prefs: []
   type: TYPE_NORMAL
+  zh: 要分析输出，请阅读规范的`strace`文档。请注意，此工具仅在 Linux 系统上可用。另外，在您的 docker-compose YAML 文件中，您可以配置容器在内部运行`strace`。例如，获取`network/base/docker-compose-base.yaml`中`peer0.exporterorg.trade.com`的容器定义。您可以按如下方式扩展它以启用`strace`（添加的配置已用斜体表示）：
 - en: '[PRE46]'
+  id: totrans-257
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE46]'
 - en: 'Finally, for information more specific to the Fabric platform and the application
     you have developed on it, there is Go profiling to turn to. The Fabric components
     (peers, orderers, and CAs) are written in Golang, as is the chaincode, and finding
@@ -1460,96 +2004,135 @@
     your profiler.) To capture an application profile consisting of call graphs and
     run frequency (equivalent to CPU usage) of various functions in the graph, `pprof`
     requires a Go application to run an HTTP server as follows:'
+  id: totrans-258
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，针对 Fabric 平台和您在其上开发的应用程序的更具体信息，有 Go profiling 可以参考。Fabric 组件（peer、orderer
+    和 CA）以及链码均是用 Golang 编写的，了解程序的哪些部分使用了更多的时间和资源对于提高应用程序质量至关重要。为了进行这种分析，我们可以使用`pprof`（[https://golang.org/pkg/net/http/pprof/](https://golang.org/pkg/net/http/pprof/)），Golang
+    的内置分析工具（[https://blog.golang.org/profiling-go-programs](https://blog.golang.org/profiling-go-programs)）。
+    （请确保您已在打算运行分析器的系统上安装了`go`。）要捕获由各种函数的调用图和运行频率（相当于 CPU 使用情况）组成的应用程序概要文件，`pprof`
+    需要一个 Go 应用程序运行 HTTP 服务器，如下所示：
 - en: '[PRE47]'
+  id: totrans-259
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE47]'
 - en: 'To get a profile, we can use `go tool` to hit this server and fetch the data.
     As an example, if your application is running a server on port `6060`, you can
     get a heap profile by running:'
+  id: totrans-260
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE48]'
+  id: totrans-261
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE48]'
 - en: 'You can replace `localhost` with an appropriate host name or IP address in
     the preceding command. To get a 30-second CPU profile instead, run:'
+  id: totrans-262
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE49]'
+  id: totrans-263
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE49]'
 - en: 'Hyperledger Fabric provides built-in support for such profiling ([https://github.com/hyperledger-archives/fabric/wiki/Profiling-the-Hyperledger-Fabric](https://github.com/hyperledger-archives/fabric/wiki/Profiling-the-Hyperledger-Fabric)),
     at least on the Fabric peer. To enable profiling (or running the HTTP server),
     we need to configure the peer (or in our case, the `docker` container running
     the peer) suitably. Recall that the core configuration for each peer in our sample
     trade network is defined in `network/base/peer-base.yaml`. Notice the following
     lines:'
+  id: totrans-264
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE50]'
+  id: totrans-265
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE50]'
 - en: 'Also recall that our peer''s port mappings between the container and the host
     are defined in `network/base/docker-compose-base.yaml`. Examples of exporter and
     importer org peers are given as follows:'
+  id: totrans-266
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE51]'
+  id: totrans-267
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE51]'
 - en: Though within their containers, the profile server runs on port `6060`, on the
     host machine, `pprof` will hit port `7055` to capture the exporter organization
     peer's profile and port `8055` to capture the importer organization peer's profile.
+  id: totrans-268
   prefs: []
   type: TYPE_NORMAL
 - en: 'As an example, let us capture a 30-second CPU profile of the exporter organization''s
     peer. We can start up the trade network and run the channel creation and chaincode
     installation steps using `middleware/createTradeApp.js`. In a different terminal
     window, we can run:'
+  id: totrans-269
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE52]'
+  id: totrans-270
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE52]'
 - en: 'This will eventually generate a file in `~/pprof`, and spew something like
     the following on your console:'
+  id: totrans-271
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE53]'
+  id: totrans-272
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE53]'
 - en: 'Lastly, the tool leaves a `pprof` shell to run a variety of profiling commands
     from, to analyze the obtained dump. For example, to get the top five most active
     functions or goroutines:'
+  id: totrans-273
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE54]'
+  id: totrans-274
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE54]'
 - en: 'The `tree` command displays the entire call graph in textual form, a section
     of which looks something like this:'
+  id: totrans-275
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE55]'
+  id: totrans-276
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE55]'
 - en: 'You can also view the graph pictorially, either on a web page or by generating
     a file:'
+  id: totrans-277
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE56]'
+  id: totrans-278
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE56]'
 - en: 'The following example here shows the call graph generated as a PNG image:'
+  id: totrans-279
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/184dd700-f7cb-4c7c-9a0e-f51f6c4e3f2f.png)'
+  id: totrans-280
   prefs: []
   type: TYPE_IMG
 - en: 'Figure 9.4: A section a call graph representing the functions executed in a
     peer node within a 30-second period'
+  id: totrans-281
   prefs: []
   type: TYPE_NORMAL
 - en: This is a section of the call graph image, which each box representing a function
@@ -1557,13 +2140,16 @@
     of profile samples in which that function was running). Directed graph edges indicate
     calls made from one function to another, with the edges indicating the time spent
     in making such calls.
+  id: totrans-282
   prefs: []
   type: TYPE_NORMAL
 - en: For more `pprof` options and analytical tools, the reader is encouraged to read
     the documentation.
+  id: totrans-283
   prefs: []
   type: TYPE_NORMAL
 - en: Measuring application performance
+  id: totrans-284
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -1573,16 +2159,20 @@
     either add logging (or communication, for remote reporting) instructions to record
     when a particular operation is being performed, or add appropriate hooks that
     can enable or disable data collection as per requirement.
+  id: totrans-285
   prefs: []
   type: TYPE_NORMAL
+  zh: 测量应用程序的吞吐量和延迟要比前面描述的许多工具更为神秘；它将涉及为您的代码添加仪器测量来收集和记录定时信息。在您的代码中，您需要添加日志记录（或通信，用于远程报告）指令以记录何时执行特定操作，或添加适当的挂钩，可以根据需要启用或禁用数据收集。
 - en: Measuring latency is fairly straightforward; you can record the times of various
     operations such as client proposal submission, return of endorsement, orderer's
     acknowledgment of a request, ledger commitment time, and the time when the event
     was received. Collecting data for a large number of transactions will enable you
     to get overall transaction latency as well as the latency incurred in individual
     operations.
+  id: totrans-286
   prefs: []
   type: TYPE_NORMAL
+  zh: 测量延迟相当简单；您可以记录各种操作的时间，例如客户端提案提交，认可返回，订单处理程序对请求的确认，分类帐的提交时间以及接收事件的时间。收集大量事务的数据将使您能够获得总体事务延迟以及单个操作中所产生的延迟。
 - en: To get throughput information, you will need to generate transaction loads of
     different volumes and different frequencies. Then you can increase the load on
     your application up to the point when the observed frequency of transaction commitment
@@ -1591,8 +2181,10 @@
     transaction latencies. You can change different application parameters and characteristics
     and run such throughput measurements to determine application and resource characteristics
     for optimal performance.
+  id: totrans-287
   prefs: []
   type: TYPE_NORMAL
+  zh: 要获取吞吐量信息，您需要生成不同容量和不同频率的事务负载。然后，您可以增加对应用程序的负载，直到观察到的事务确认频率（或事件接收）低于事务负载生成频率。除此之外，您还需要像测量事务延迟那样为代码进行仪器测量。您可以更改不同的应用程序参数和特征，并运行这样的吞吐量测量，以确定最佳性能的应用程序和资源特征。
 - en: Given all the information we can collect using the tools described in this section,
     an application or network designer can conduct advanced analytics to determine
     what parts of the system (for example, from a `pprof` call graph) are performing
@@ -1603,28 +2195,37 @@
     Bottleneck detection and analysis is a very important topic in its own right,
     and the reader is encouraged to study texts and academic papers to gain a better
     understanding.
+  id: totrans-288
   prefs: []
   type: TYPE_NORMAL
+  zh: 利用本节中描述的工具所能收集的所有信息，应用程序或网络设计人员可以进行高级分析，以确定系统的哪些部分（例如，通过`pprof`调用图）的性能良好，以及哪些部分是瓶颈。然后可以尝试通过向“瓶颈”组件添加更多资源或重新实现系统使这些组件更有效来纠正性能限制。跨不同冗余资源的负载均衡是维持高性能水平的另一种广泛使用的技术。瓶颈的检测和分析本身就是一个非常重要的主题，鼓励读者学习文本和学术论文以获得更好的理解。
 - en: Fabric engineering guidelines for performance
+  id: totrans-289
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Fabric性能工程准则
 - en: We will now move from the general to the specific. In this section, we will
     offer a commentary on Hyperledger Fabric performance, discuss the salient characteristics
     of the platform that impact performance, and lay out guidelines for developers
     to extract the best performance from their applications.
+  id: totrans-290
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们现在将从总体概括转向具体问题。在本节中，我们将对Hyperledger Fabric的性能进行评论，讨论影响性能的平台显著特征，并为开发人员制定提取其应用程序最佳性能的指南。
 - en: Platform performance characteristics
+  id: totrans-291
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 平台性能特征
 - en: The Fabric architecture and transaction pipeline should be very familiar to
     the readers of this book by now. It is a complex distributed system and its performance
     depends on many factors, ranging from the architecture of the application interacting
     with Fabric to consensus implementation, transaction size, block size, Fabric
     network size, as well as capability of the underlying hardware and physical network
     medium.
+  id: totrans-292
   prefs: []
   type: TYPE_NORMAL
 - en: At the time of writing this book, performance measurements reveal that Fabric
@@ -1638,9 +2239,11 @@
     for cryptographic algorithms and others. Good performance depends on the availability
     of sufficient resources and proper configuration; we will discuss configuration
     at length later in this section.
+  id: totrans-293
   prefs: []
   type: TYPE_NORMAL
 - en: System bottlenecks
+  id: totrans-294
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -1655,6 +2258,7 @@
     Other ordering mechanisms may also be used in place of the current Fabric default,
     which is Kafka. As the Fabric platform evolves, expect to see better and faster
     ordering algorithms.
+  id: totrans-295
   prefs: []
   type: TYPE_NORMAL
 - en: Another system bottleneck lies at the ledger commitment stage when the transactions
@@ -1666,6 +2270,7 @@
     because of invalid signatures or inter-transaction conflict. For the former, better
     validation at endorsement stage and during the request generation for the orderer
     should decrease the chances of failure.
+  id: totrans-296
   prefs: []
   type: TYPE_NORMAL
 - en: To reduce conflicts, one needs to experiment with varying block sizes (remember
@@ -1676,9 +2281,11 @@
     detects and handles conflicts in blocks see [*Chapter 4*](a557efde-d161-4451-b5ee-cb3e481010be.xhtml),
     *Designing a Data and Transaction Model with Golang,* in the *Multiversion concurrency
     control* section.
+  id: totrans-297
   prefs: []
   type: TYPE_NORMAL
 - en: Configuration and tuning
+  id: totrans-298
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -1696,6 +2303,7 @@
     But the reader must keep in mind the trade-off discussed in the previous section
     whereby a larger number of transactions in a block may also result in higher conflict
     rates and transaction rejections.
+  id: totrans-299
   prefs: []
   type: TYPE_NORMAL
 - en: Your selection of transaction endorsement policy will also have a significant
@@ -1707,6 +2315,7 @@
     well as trust), but it will come at a cost to performance (both throughput and
     latency). Therefore, a blockchain application administrator must determine what
     service level as well as trust level are required and tweak the parameters accordingly.
+  id: totrans-300
   prefs: []
   type: TYPE_NORMAL
 - en: 'There are various other factors that could affect the performance of a Fabric
@@ -1720,9 +2329,11 @@
     Fabric: A Distributed Operating System for Permissioned Blockchains, EuroSys ''18
     ([https://dl.acm.org/citation.cfm?id=3190538](https://dl.acm.org/citation.cfm?id=3190538))</q>,
     also available at [https://arxiv.org/pdf/1801.10228v1.pdf](https://arxiv.org/pdf/1801.10228v1.pdf).'
+  id: totrans-301
   prefs: []
   type: TYPE_NORMAL
 - en: Ledger data availability and caching
+  id: totrans-302
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -1730,9 +2341,11 @@
     by optimizing the availability of data (that is, retrieval time) stored in the
     ledger. There are several strategies to do this, and we will outline two of them
     here.
+  id: totrans-303
   prefs: []
   type: TYPE_NORMAL
 - en: Redundant committing peer
+  id: totrans-304
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -1746,9 +2359,11 @@
     performance and system security configuration is to choose and set up the location
     such that the committing peer can unobstructed connect to the channel and the
     network throughput allows to receive newly created blocks with a low delay.
+  id: totrans-305
   prefs: []
   type: TYPE_NORMAL
 - en: Data caching
+  id: totrans-306
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -1760,9 +2375,11 @@
     The notification can be intercepted by the client and by inspecting the content
     of the transaction, the client can determine whether the cache should be updated
     with new values.
+  id: totrans-307
   prefs: []
   type: TYPE_NORMAL
 - en: Fabric performance measurement and benchmarking
+  id: totrans-308
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -1772,6 +2389,7 @@
     pointing the reader to tools that currently exist within the Hyperledger framework
     to measure performance (mainly throughout, latency, and resource utilization)
     using sample benchmark applications.
+  id: totrans-309
   prefs: []
   type: TYPE_NORMAL
 - en: For an in-depth and comprehensive performance measurement tools suite, you should
@@ -1779,6 +2397,7 @@
     In particular, PTE ([https://github.com/hyperledger/fabric-test/tree/master/tools/PTE](https://github.com/hyperledger/fabric-test/tree/master/tools/PTE))
     is a flexible tool that can be used to drive parameterized transaction load using
     sample chaincodes.
+  id: totrans-310
   prefs: []
   type: TYPE_NORMAL
 - en: Hyperledger Cello ([https://www.hyperledger.org/projects/cello](https://www.hyperledger.org/projects/cello))
@@ -1786,6 +2405,7 @@
     management system that enables the launching of networks on different platforms
     (virtual machines, clouds, and container clusters). It can be used as an aid to
     launch, test, and measure sample networks before attempting a production deployment.
+  id: totrans-311
   prefs: []
   type: TYPE_NORMAL
 - en: Hyperledger Caliper ([https://www.hyperledger.org/projects/caliper](https://www.hyperledger.org/projects/caliper))
@@ -1794,15 +2414,18 @@
     a set of predefined use cases, and produce reports. The reader should keep in
     mind that these projects are works-in-progress, and should keep an eye on further
     developments driven by research in the areas of blockchain performance benchmarking.
+  id: totrans-312
   prefs: []
   type: TYPE_NORMAL
 - en: Summary
+  id: totrans-313
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Maintaining and augmenting a blockchain application is possibly even more challenging
     than creating and bootstrapping it, as one needs to be skilled in monitoring and
     analytics and also in assessing the impact of changes.
+  id: totrans-314
   prefs: []
   type: TYPE_NORMAL
 - en: In this chapter, we described the various ways in which a Hyperledger Fabric
@@ -1811,17 +2434,21 @@
     and peers can be added to a running network, how channel configurations can be
     augmented, how platforms can be upgraded, and how the smart contract (chaincode)
     itself can be modified without adversely affecting the application state.
+  id: totrans-315
   prefs: []
   type: TYPE_NORMAL
 - en: In a later part of the chapter, we gave an overview of the tools a developer
     of system administrator can use to measure, analyze, and improve the performance
     of a Fabric blockchain application. We also provided guidelines to engineering
     the system for better performance.
+  id: totrans-316
   prefs: []
   type: TYPE_NORMAL
 - en: With further research and development, the Hyperledger suite will no doubt be
     augmented with more and better mechanisms for system changes and monitoring. This
     chapter should serve as a handy guide for the typical Fabric developer or administrator
     to maintaining their production application.
+  id: totrans-317
   prefs: []
   type: TYPE_NORMAL
+  zh: 随着进一步的研究和发展，Hyperledger套件毫无疑问将会增加更多更好的系统变更和监控机制。本章应该为典型的Fabric开发人员或管理员维护他们的生产应用提供一个方便的指南。

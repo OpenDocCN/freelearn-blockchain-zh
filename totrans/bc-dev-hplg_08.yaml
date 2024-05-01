@@ -1539,18 +1539,22 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**评论**：您可能想使用评论框来指示此身份的目的（签署GitHub提交）'
 - en: 'Make sure that the email matches the entries of your GitHub profile, or else
     the system will not be able to reconcile the identity to the commit. Remember
     that case matters for GitHub: `yourID@email.com` is not the same email as `yourID@email.com`.'
   id: totrans-230
   prefs: []
   type: TYPE_NORMAL
+  zh: 确保电子邮件与您的GitHub配置文件中的条目匹配，否则系统将无法将身份与提交进行协调。 请记住，对于GitHub来说，大小写很重要：`yourID@email.com` 和
+    `yourID@email.com`不是相同的电子邮件。
 - en: 'Finally, the tool will ask for a passphrase to protect the private key and
     ask you to generate entropy by moving the mouse around. After a few seconds, you
     should see an output such as the following:'
   id: totrans-231
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，工具会要求输入密码来保护私钥，并要求您通过移动鼠标来生成熵。 几秒钟后，您应该会看到以下输出：
 - en: '[PRE12]'
   id: totrans-232
   prefs: []
@@ -1561,6 +1565,7 @@
   id: totrans-233
   prefs: []
   type: TYPE_NORMAL
+  zh: 创建了`gpg`之后，我们现在需要以GitHub能够理解的格式导出该密钥。 为此，我们运行以下命令：
 - en: '[PRE13]'
   id: totrans-234
   prefs: []
@@ -1571,6 +1576,7 @@
   id: totrans-235
   prefs: []
   type: TYPE_NORMAL
+  zh: 工具将在控制台直接输出公钥，并应如下所示：
 - en: '[PRE14]'
   id: totrans-236
   prefs: []
@@ -1582,6 +1588,7 @@
   id: totrans-237
   prefs: []
   type: TYPE_NORMAL
+  zh: 将整个密钥复制到剪贴板上，包括标头，并使用您的浏览器转到您的GitHub配置文件，并从左侧菜单中选择**SSH和GPG keys** 选项卡。
 - en: 'You should see two sections—SSH and GPG. Click the New GPG Key button and paste
     the contents of your clipboard in the entry field that shows up. Finally, click
     the Add GPG Key button, and, if everything goes well, GitHub should show you a
@@ -1589,19 +1596,23 @@
   id: totrans-238
   prefs: []
   type: TYPE_NORMAL
+  zh: 您应该会看到两个部分—SSH和GPG。 单击“New GPG Key”按钮，并粘贴剪贴板中的内容到显示的输入字段中。 最后，单击“Add GPG Key”按钮，如果一切顺利，GitHub应该显示类似的条目：
 - en: '![](img/3198fcc7-4ca2-47cd-9cfa-cd5254f2668c.png)'
   id: totrans-239
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3198fcc7-4ca2-47cd-9cfa-cd5254f2668c.png)'
 - en: Take note and copy the Key ID to your clipboard. We will reuse that key to configure
     our Git client.
   id: totrans-240
   prefs: []
   type: TYPE_NORMAL
+  zh: 注意并复制密钥ID到剪贴板。 我们将重复使用该密钥来配置我们的Git客户端。
 - en: 'Back in the console, type the following command:'
   id: totrans-241
   prefs: []
   type: TYPE_NORMAL
+  zh: 回到控制台，键入以下命令：
 - en: '[PRE15]'
   id: totrans-242
   prefs: []
@@ -1612,95 +1623,112 @@
   id: totrans-243
   prefs: []
   type: TYPE_NORMAL
+  zh: 此时，您应该已经拥有完全配置的流水线和受保护的Git存储库。 我们现在准备开始测试我们的配置。
 - en: To facilitate the testing steps in the next section, we have not activated the
     `gpg` signing configuration in our Git client. We will activate it in the next
     section.
   id: totrans-244
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了简化下一节中的测试步骤，我们还没有在Git客户端中激活`gpg`签名配置。 我们将在下一节中激活它。
 - en: Testing the end-to-end process
   id: totrans-245
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测试端到端流程
 - en: With all of the configuration done, we will run through a simple scenario that
     will allow us to test our configuration and ensure that everything is working
     smoothly.
   id: totrans-246
   prefs: []
   type: TYPE_NORMAL
+  zh: 所有配置都完成后，我们将通过一个简单的场景来测试我们的配置，并确保一切顺利运行。
 - en: 'The scenario will consist of addressing the need to add a new transaction.
     In order to deliver this new feature, we will perform the following steps/tests:'
   id: totrans-247
   prefs: []
   type: TYPE_NORMAL
+  zh: 场景将包括解决添加新交易的需求。 为了提供这个新功能，我们将执行以下步骤/测试：
 - en: 'Create a new transaction for our business network. Once we are done coding,
     we will then try to do the following:'
   id: totrans-248
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 为我们的业务网络创建一个新的交易。 完成编码后，我们将尝试执行以下操作：
 - en: Push a commit to the master branch directly
   id: totrans-249
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 直接向主分支推送一个提交
 - en: Submit a pull request with an unsigned commit
   id: totrans-250
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 提交一个未签名的提交的拉取请求
 - en: 'Add test cases to cover our new transaction:'
   id: totrans-251
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 添加测试用例以覆盖我们的新交易：
 - en: Amend our commit to be signed
   id: totrans-252
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 修改我们的提交以进行签名
 - en: Add our test case and submit an additional signed commit
   id: totrans-253
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 添加我们的测试用例并提交另一个已签名的提交
 - en: Release the new version of the business network
   id: totrans-254
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 发布业务网络的新版本
 - en: Merge the pull request on the master branch
   id: totrans-255
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 将拉取请求合并到主分支
 - en: Create a new release and check that the BNA is published
   id: totrans-256
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 创建一个新的发布版本并检查BNA是否已发布
 - en: Creating a new transaction
   id: totrans-257
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建一个新的交易
 - en: 'For the purpose of our tests, we will keep the new transaction relatively simple:
     our transaction will merge two assets into one, adding their value in the process.'
   id: totrans-258
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了我们的测试目的，我们将使新交易相对简单：我们的交易将合并两个资产为一个，同时增加它们的价值。
 - en: 'To declare the new transaction, we will edit the model file and add this new
     declaration:'
   id: totrans-259
   prefs: []
   type: TYPE_NORMAL
+  zh: 要声明新交易，我们将编辑模型文件并添加此新声明：
 - en: '[PRE16]'
   id: totrans-260
   prefs: []
@@ -1710,6 +1738,7 @@
   id: totrans-261
   prefs: []
   type: TYPE_NORMAL
+  zh: 定义创建完成后，让我们在`/lib/logic.js`文件中添加逻辑：
 - en: '[PRE17]'
   id: totrans-262
   prefs: []
