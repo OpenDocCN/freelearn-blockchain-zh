@@ -3,6 +3,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用Quorum构建区块链
 - en: In the previous chapter, we saw what a DApp, DLT, and blockchain are. We also
     saw an overview of some popular blockchain-based DApps. At present, Ethereum is
     the most popular public DApp after Bitcoin. In this chapter, we will learn how
@@ -13,45 +14,54 @@
   id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 在上一章中，我们了解了什么是DApp、DLT和区块链。我们还看到了一些流行的基于区块链的DApp的概述。目前，以太坊是继比特币之后最流行的公共DApp。在本章中，我们将学习如何使用Quorum构建基于权限的区块链DApp。我们将通过探索Quorum支持的所有不同共识协议、其权限和隐私功能以及最后能够快速部署Quorum网络的工具来深入了解Quorum。
 - en: 'In this chapter, we will cover the following topics:'
   id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: User accounts in Ethereum
   id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 以太坊用户账户
 - en: What is a Merkle tree and what is it used for in blockchain?
   id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Merkle树是什么以及在区块链中如何使用它？
 - en: How do **Istanbul Byzantine Fault Tolerant** (**IBFT**) and Raft work?
   id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**伊斯坦布尔拜占庭容错**（**IBFT**）和Raft如何工作？'
 - en: Various mechanisms supported by Quorum to achieve privacy
   id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Quorum支持的各种机制，以实现隐私
 - en: Setting up constellation, Raft, and IBFT networks
   id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 设置星座、Raft和IBFT网络
 - en: Various third-party tools or libraries related to Quorum
   id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 与Quorum相关的各种第三方工具或库
 - en: Overview of Quorum
   id: totrans-9
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Quorum概述
 - en: Quorum is a permissioned decentralized platform that allows us to deploy DApps
     on top of it. DApps are created using one or more smart contracts. Smart contracts
     are programs that run exactly as programmed without any possibility of downtime,
@@ -62,6 +72,7 @@
   id: totrans-10
   prefs: []
   type: TYPE_NORMAL
+  zh: Quorum是一个允许我们在其上部署DApp的权限分散平台。DApp是使用一个或多个智能合约创建的。智能合约是按照程序编写的、没有任何停机、审查、欺诈或第三方接口可能性的程序。在Quorum中，智能合约可以用Solidity、LLL或Serpent编写。Solidity是首选。一个智能合约可以有多个实例。每个实例由唯一地址标识，并且您可以在同一Quorum网络上部署多个DApp。
 - en: In Ethereum, there is an internal currency called **ether**. To deploy or execute
     smart contracts, you need to pay ether to the miners and as Quorum is a fork of
     Ethereum, the same thing exists here too. But in Quorum, ether is valueless and
@@ -76,6 +87,7 @@
   id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 在以太坊中，有一种名为**以太**的内部货币。要部署或执行智能合约，您需要向矿工支付以太，而Quorum是以太坊的一个分叉，这里也存在同样的情况。但在Quorum中，以太是无价值的，并且在**创世块**生成了固定数量的以太，之后不会再生成更多的以太。用户账户和智能合约都可以持有以太。在Quorum中，您需要一些以太来执行网络上的交易，但不会扣除以太，并且向另一个账户发送以太也不会扣除以太，因此可以说，在Quorum中，以太提供了一种跟踪账户所有者的方法，如果有任何可疑情况通过跟踪以太转账并提供一种方式使您需要从网络成员中获取一些以太才能进行交易的话，这就是，从一个允许的成员获取一些以太。
 - en: 'Currently, Quorum supports three consensus protocols: QuorumChain, IBFT, and
     Raft. In this book, we will learn only about Raft and IBFT as they are the most-used
     ones. For privacy, it supports two mechanisms: the zero-knowledge security layer
@@ -84,11 +96,13 @@
   id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 目前，Quorum支持三种共识协议：QuorumChain、IBFT和Raft。在本书中，我们将只学习Raft和IBFT，因为它们是最常用的。对于隐私，它支持两种机制：零知识安全层协议和私有合约。我们将学习私有合约，但不会涵盖ZSL，因为它仍未达到生产就绪状态。
 - en: Ethereum accounts
   id: totrans-13
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 以太坊账户
 - en: To create an account, we just need an asymmetric key pair. There are various
     algorithms, such as **Rivest–Shamir–Adleman** (**RSA**) and **E****lliptic Curve
     Cryptography** (**ECC**) for generating asymmetric key pairs. Ethereum uses ECC.
@@ -99,46 +113,54 @@
   id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: 要创建一个账户，我们只需要一个非对称密钥对。有各种算法，例如**Rivest–Shamir–Adleman**（**RSA**）和**椭圆曲线密码学**（**ECC**）用于生成非对称密钥对。以太坊使用ECC。ECC有各种曲线。这些曲线具有不同的速度和安全性。以太坊使用**secp256k1**曲线。深入了解ECC及其曲线需要数学知识，但深入理解它并不是构建使用以太坊的DApps所必需的。
 - en: Ethereum uses 256-bit encryption. An Ethereum private and public key is a 256-bit
     number. As processors cannot represent such big numbers therefore it's always
     encoded as a hexadecimal string of length 64.
   id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊使用256位加密。以太坊的私钥和公钥是一个256位的数字。由于处理器无法表示如此大的数字，因此它总是被编码为长度为64的十六进制字符串。
 - en: 'Every account is represented by an address. Once we have the keys we need to
     generate the address, here is the procedure to generate the address, and here
     is the procedure to generate the address from the public key:'
   id: totrans-16
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个账户都由一个地址表示。一旦我们有了生成地址所需的密钥，这里是生成地址的步骤，以及从公钥生成地址的步骤：
 - en: First, generate the **Keccak-256** hash of the public key. It will give you
     a 256-bit number.
   id: totrans-17
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 首先，生成公钥的**Keccak-256**哈希值。它将给你一个256位的数字。
 - en: Drop the first 90 bits and 12 bytes. You should now have 160 bits of binary
     data (20 bytes).
   id: totrans-18
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 丢弃前90位和12字节。现在，您应该有160位的二进制数据（20字节）。
 - en: Now, encode the address as a hexadecimal string. So, finally, you will have
     a byte string of 40 characters, which is your account address.
   id: totrans-19
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在，将地址编码为十六进制字符串。因此，最后，您将得到一个40个字符的字节字符串，这就是您的账户地址。
 - en: Now, anyone can send ether to this address, and then you can sign and send transactions
     from this address.
   id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，任何人都可以向这个地址发送以太币，然后您可以签名并从这个地址发送交易。
 - en: What are Ethereum transactions?
   id: totrans-21
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 以太坊交易是什么？
 - en: A transaction is a data package to transfer ether from an account to another
     account or contract, invoke methods of a contract, or deploy a new contract. A
     transaction is using **Elliptic Curve Digital Signature Algorithm** (**ECDSA**),
@@ -151,6 +173,7 @@
   id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: 交易是一个数据包，用于将以太币从一个账户转移到另一个账户或合约，调用合约的方法，或部署一个新的合约。交易使用**椭圆曲线数字签名算法**（**ECDSA**），这是一种基于ECC的数字签名算法。一笔交易包含一个标识发送者并证明其意图的签名，要转移的以太币金额，交易执行允许的最大计算步骤数（称为**燃气限额**），以及发送交易的人愿意支付的每个计算步骤的成本（称为**燃气价格**）。用燃气使用量乘以燃气价格得到的乘积称为**交易费用**。
 - en: In permissioned networks, ether is valueless. In a Quorum network, ether is
     supplied in the genesis block and is not generated dynamically at runtime. You
     need to supply ether in the genesis block. You need to provide gas to prevent
@@ -159,6 +182,7 @@
   id: totrans-23
   prefs: []
   type: TYPE_NORMAL
+  zh: 在受权限控制的网络中，以太币是无价值的。在Quorum网络中，以太币在创世块中提供，并且不是在运行时动态生成的。您需要在创世块中提供以太币。您需要提供燃气以防止攻击，例如无限循环。交易被挖掘时，以太币不会从账户中扣除。
 - en: If the transaction's intention is to invoke a method of a contract, it also
     contains input data, or if its intention is to deploy a contract, then it can
     contain the initialization code. To send ether or to execute a contract method,
@@ -167,6 +191,7 @@
   id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果交易的意图是调用合约的方法，它还包含输入数据，或者如果它的意图是部署一个合约，那么它可以包含初始化代码。要发送以太币或执行合约方法，您需要向网络广播一个交易。发送者需要用其私钥签名交易。
 - en: A transaction is said to be confirmed if we are sure that it will always appear
     in the blockchain at the same place. In Ethereum's proof of work, it's recommended
     to wait for the transaction to appear 15 blocks below the newest block (that is,
@@ -177,11 +202,14 @@
   id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果我们确信一笔交易将始终出现在区块链的同一位置，我们就说该交易已确认。在以太坊的工作证明中，建议在最新区块的下方等待该交易出现 15 个区块（即等待
+    15 个确认）再假定该交易已确认，因为存在分叉的可能性，交易可能从区块链中消失。但是，在 Quorum 的 Raft 或 IBFT 中，一旦交易出现在其中一个区块中，我们就可以说它已确认，因为没有分叉的可能性。
 - en: What is a Merkle tree?
   id: totrans-26
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 什么是 Merkle 树？
 - en: Before we get into what a Merkle root in blocks of blockchain is, let's understand
     the structure of blockchain. A block is made up of two parts; the first part is
     the block header and the second part is the set of transactions of that block.
@@ -191,6 +219,8 @@
   id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们深入了解区块链中区块的 Merkle 根之前，让我们先了解区块链的结构。一个区块由两部分组成；第一部分是区块头，第二部分是该区块的交易集。区块头包含诸如上一个区块哈希（实际上是上一个区块头的哈希）、时间戳、Merkle
+    根以及与达成共识相关的信息。
 - en: At the time of sync, while downloading a block a node downloads the block header
     and the block's transactions. Now, how would the receiving node know that these
     transactions are actually part of that block and are in the correct order? Every
@@ -204,6 +234,7 @@
   id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: 在同步时，当一个节点下载一个区块时，该节点下载区块头和区块的交易。那么，接收节点如何知道这些交易实际上是该区块的一部分，并且按正确的顺序排列的呢？每个区块都由唯一的哈希标识，但是区块哈希不是区块头的一部分，并且是每个节点在下载区块后独立计算的唯一哈希；因此我们不能使用区块哈希的概念。相反，我们可以依赖类似交易哈希的东西；一个存储在区块头中的哈希，通过组合所有交易并对其进行哈希计算得到。这个想法将完美地发挥作用，并且我们可以检测到是否有任何交易丢失或额外交易包含在内，或者交易是否按正确的顺序。
 - en: 'Well, a Merkle root is an alternative to the transactions hash approach but
     provides another major advantage: it allows the network to have light nodes. We
     can, of course, have blockchain implemented without Merkle root, but if there
@@ -215,6 +246,8 @@
   id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 嗯，Merkle 根是交易哈希方法的一种替代方法，但提供了另一个主要优势：它允许网络拥有轻节点。当然，我们可以实现没有 Merkle 根的区块链，但如果网络需要轻节点，则必须使用
+    Merkle 根。轻节点是仅下载区块头而不下载交易的节点，但仍应能够为客户端提供所有 API。例如：智能手机无法拥有完整的区块链，因为它可能非常庞大；因此，我们可以在智能手机中安装轻客户端。
 - en: 'Let''s first understand what a binary Merkle tree is with respect to blockchain. A
     hash tree or Merkle tree is a tree in which every leaf node is a hash of a transaction,
     and every non-leaf node is a hash of the hashes of its child nodes. Hash trees
@@ -225,10 +258,14 @@
   id: totrans-30
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们首先了解二进制 Merkle 树在区块链中是什么。哈希树或 Merkle 树是一种树，其中每个叶节点是一个交易的哈希，每个非叶节点是其子节点的哈希的哈希。哈希树允许高效和安全地验证哪些交易是区块的一部分。每个区块都形成自己的
+    Merkle 树。当每个父节点都有两个子节点时，Merkle 树被称为**二进制 Merkle 树**。二进制 Merkle 树是区块链中使用的树。以下是二进制
+    Merkle 树的示例：
 - en: '![](img/6ec86d17-12ee-40b8-93ec-182de6126017.png)'
   id: totrans-31
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/6ec86d17-12ee-40b8-93ec-182de6126017.png)'
 - en: In the preceding diagram, at first the individual hash of every transaction
     is calculated. Then, they are grouped into two. And then, a hash of the two hashes
     is calculated for each pair. This process will continue until we have a single
@@ -237,6 +274,7 @@
   id: totrans-32
   prefs: []
   type: TYPE_NORMAL
+  zh: 在上面的图表中，首先计算每个交易的单独哈希。然后，它们被分成两组。然后，对于每一对，计算两个哈希的哈希。这个过程将持续进行，直到我们有一个称为**默克尔根**的单一哈希。如果交易数量为奇数，最后一个交易会被复制，以使交易总数为偶数。
 - en: Now, at the time of downloading a complete block, the block header, and transactions
     of the block, a node can verify whether the set of transactions is correct or
     not by forming the binary Merkle tree and checking that the generated Merkle root
@@ -245,6 +283,7 @@
   id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，在下载完整区块、区块头和区块的交易时，节点可以通过形成二叉默克尔树并检查生成的默克尔根是否与包含在区块头中的默克尔根相同，来验证交易集是否正确。当然，这也可以在没有默克尔树的情况下完成，正如前面讨论过的。
 - en: A light node can take advantage of the Merkle tree to serve requests to the
     client. For example, a light node can make a request to a full node asking if
     a particular transaction is committed in a block or not, and the full node replies
@@ -266,6 +305,8 @@
   id: totrans-34
   prefs: []
   type: TYPE_NORMAL
+  zh: 轻节点可以利用默克尔树为客户端提供服务。例如，轻节点可以向完整节点发出请求，询问特定交易是否已经在某个区块中提交，完整节点会回复区块编号和默克尔证明，以证明交易是否已经在某个区块中提交。然而，轻节点不能仅仅相信完整节点提供的区块编号，因此完整节点还需提供默克尔证明。为了理解什么是默克尔证明，让我们来看看前面的图表以及轻节点询问完整节点
+    *TxD* 是否已提交的情况。现在，完整节点返回区块编号以及一个子树，其中包括 *H[ABCD]*、*H[AB]*、*H[CD]*、*H[C]* 和 *H[D]*。这个子树就是默克尔证明。现在，轻客户端可以拿到这个默克尔证明并验证它。验证将包括检查默克尔证明是否构造正确以及默克尔证明的默克尔根是否与完整节点声称交易所在的区块头中的默克尔根相同。你可能会想，如果一个完整节点声称交易已提交，但实际上尚未提交，该怎么办呢？在这种情况下，解决这个问题的唯一方法是请求多个完整节点，而且它们都不太可能撒谎。没有默克尔树，这个功能是无法实现的。
 - en: 'Ethereum blockchain is more complicated. Now, suppose an Ethereum light node
     wants to know the balance of an account, read data from a smart contract, find
     the gas estimation for a transaction, and so on, then with this simple transactions
@@ -275,22 +316,26 @@
   id: totrans-35
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊区块链更加复杂。现在，假设以太坊轻节点想要知道某个账户的余额、从智能合约中读取数据、找到交易的燃气估算值等等，那么通过这种简单的交易二叉默克尔树将无法提供这种功能。因此，在以太坊中，每个区块头不仅包含一个默克尔树，而是包含三个默克尔树，用于三种类型的对象：
 - en: Transactions
   id: totrans-36
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 交易
 - en: Transaction receipts (essentially, pieces of data showing the effect of each
     transaction)
   id: totrans-37
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 交易收据（基本上是显示每个交易效果的数据片段）
 - en: State
   id: totrans-38
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 状态
 - en: 'As we now have three trees, let''s take an advanced query example that a light
     node would make to a full node. The query is *pretend to run this transaction
     on this contract. What would the transaction receipt and new state be**?* This
@@ -314,6 +359,8 @@
   id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们有了三棵树，让我们来看一个轻节点向完整节点提出的高级查询示例。查询是*假装在这个合约上运行这个交易。交易收据和新状态会是什么？* 这由状态树处理，但计算方式更为复杂。在这里，我们需要构造一个**Merkle
+    状态**转换证明。基本上，它是一种证明，宣称：如果在具有根*S*的状态上运行交易*T*，则结果将是具有根*S'*的状态，其中包括交易收据*R*。为了计算状态交易证明，完整节点在本地创建一个虚假块，将状态设置为*S*，并假装成为一个轻节点，同时应用交易。也就是说，如果应用交易的过程需要轻节点确定账户余额，则轻节点进行余额查询。如果轻节点需要检查特定合约的存储中的特定项目，则轻节点进行该查询，依此类推。完整节点*正确响应*自己的所有查询，但跟踪发送回的所有数据。然后完整节点将来自所有这些请求的组合数据作为证明发送给轻节点。然后轻客户端执行完全相同的过程，但使用提供的证明作为其数据库，而不是向完整节点发出请求，如果其结果与完整节点声称的相同，则轻客户端接受输出为完整节点所声称的输出。
 - en: For state, Ethereum uses the Merkle Patricia tree instead of the binary tree.
     For the state tree, the situation is more complex. The state in Ethereum essentially
     consists of a key-value map, where the keys are addresses and the values are account
@@ -322,22 +369,27 @@
   id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于状态，以太坊使用**Merkle Patricia 树**而不是二叉树。对于状态树，情况更加复杂。以太坊中的状态基本上由键值映射组成，其中键是地址，值是每个账户的账户余额、nonce、代码和存储（其中存储本身是一棵树）。要了解Merkle
+    Patricia 树的工作原理，请访问[https://easythereentropy.wordpress.com/2014/06/04/understanding-the-ethereum-trie/.](https://easythereentropy.wordpress.com/2014/06/04/understanding-the-ethereum-trie/)
 - en: In enterprise blockchains, there is no use of light clients as the nodes represent
     an enterprise, and enterprises have infrastructure to run full nodes.
   id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: 在企业区块链中，不使用轻客户端，因为节点代表一个企业，而企业有基础设施来运行完整节点。
 - en: What is forking in blockchain?
   id: totrans-42
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链中的分叉是什么？
 - en: 'A fork is said to have happened when there is a conflict among the nodes regarding
     the validity of the blockchain, that is, more than one blockchain happens to be
     in the network. There are three kinds of fork: regular, soft, and hard.'
   id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: 当节点之间关于区块链的有效性存在冲突时，即网络中存在多个区块链时，就会发生分叉。分叉有三种类型：常规、软分叉和硬分叉。
 - en: A regular fork is said to be happening when there are two or more blocks at
     the same height. It is a temporary conflict and is resolved automatically. This
     is resolved by nodes by selecting the most accurate blockchain. For example, in
@@ -347,6 +399,7 @@
   id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: 当同时存在两个或更多个相同高度的区块时，就会发生常规分叉。这是一种暂时的冲突，会自动解决。节点通过选择最准确的区块链来解决这个问题。例如，在工作量证明中，如果两个矿工同时挖出一个区块，那么就会创建一个常规分叉。这是通过选择具有最高难度的区块链来解决的，因为它被认为是最准确的一个。
 - en: A soft fork, by contrast, is any change to the blockchain protocol that's backward-
     compatible. Say, instead of 2 MB blocks, a new rule might only allow 1 MB blocks. Non-upgraded
     nodes will still see the new transactions as valid (1 MB is less than 2 MB in
@@ -419,6 +472,8 @@
   id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: 网络中的每个节点都会保留网络中所有其他节点的列表，无论它们是否正在运行。Raft 集群中的服务器可以是领导者或追随者，并且在选举时可能是候选者，这种情况发生在领导者不可用时。每次只能有一个领导者。领导者负责创建和发送区块给追随者。它通过定期发送心跳消息来告知追随者自己的存在。每个追随者都有一个超时（通常在150和300毫秒之间），称为**选举超时**，在此期间它期望来自领导者的心跳。每个节点都使用在120-300
+    ms范围内的随机选举超时。收到心跳后，选举超时会被重置。如果没有收到心跳，追随者会将其状态更改为候选者，并开始领导者选举，以选举网络中的新领导者。当候选者启动领导者选举时，它基本上将自己提出为新领导者，并且如果超过50%的节点投票支持它，它就成为领导者。如果在一定的超时内没有选举出领导者，则会启动新的领导者选举过程。深入理解领导者选举过程并非必要。
 - en: Raft is designed in such a way that a Raft network requires more than 50% of
     the nodes to be available for new transactions to get committed to the blockchain;
     if the cluster has *2 * F + 1* nodes it can tolerate *F* failures and still function
@@ -429,6 +484,7 @@
   id: totrans-52
   prefs: []
   type: TYPE_NORMAL
+  zh: Raft 的设计是这样的，一个 Raft 网络需要超过50%的节点可用，才能将新的交易提交到区块链；如果集群有*2 * F + 1*个节点，则可以容忍*F*个故障并仍然正常运行。如果超过*F*个节点失败，则应用程序将失败，并且一旦集群再次有超过F个节点正常工作，它将再次正确地恢复工作。即使领导者选举也会在网络中超过50%的节点不可用时失败。
 - en: Every transaction from every node is sent to every other node in the network. The
     leader is responsible for creating and broadcasting blocks. When a leader creates
     a block, it will first send the block to all the followers, and once more than
@@ -442,6 +498,7 @@
   id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个节点的每笔交易都会发送到网络中的每个其他节点。领导者负责创建和广播区块。当领导者创建一个区块时，它首先将区块发送给所有的追随者，一旦超过50%的追随者接收到了该区块，领导者将把该区块提交到其区块链中，然后向追随者发送一个提交消息，以便追随者也将该区块提交到其区块链中。在追随者不可用的情况下，领导者会无限期地重试请求，直到所有的追随者最终都提交了该区块。这个过程确保了一旦一个区块提交到区块链上，就无法撤销。即使领导者选举过程也确保了谁被选为领导者，其区块链是最新的。
 - en: In Quorum, the default block time is 50 ms, and you can change that according
     to your needs. So, every 50 ms, a block is created, but remember that if there
     are no transactions then blocks are not created; empty blocks are not created
@@ -985,17 +1042,22 @@
   id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: 在运行此命令时，它将要求输入密码以加密帐户。 您可以按两次 *Enter* 键跳过。 这将使空字符串成为解密帐户的密码。 在这里，`--datadir`
+    选项用于指定在哪里存储密钥。 基本上，在 `accounts/keystore` 目录中，您将找到一个格式为 `UTC--DATE-TIME--ADDRESS`
+    的文件。 将此文件重命名为 `key1`。 此文件存储帐户的私钥和地址。 打开文件并复制地址，因为您在创建创世块时将需要它。
 - en: Creating the genesis block
   id: totrans-124
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建创世块
 - en: 'Now, the last step is to create the genesis block. The genesis block is always
     hardcoded in the network. Here is the genesis block content. Create a `genesis.json`
     file and place the following code in it:'
   id: totrans-125
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，最后一步是创建创世块。 创世块始终在网络中硬编码。 以下是创世块的内容。 创建一个 `genesis.json` 文件并将以下代码放入其中：
 - en: '[PRE14]'
   id: totrans-126
   prefs: []
@@ -1007,17 +1069,22 @@
   id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，请确保用您的帐户地址 `0x65d8c00633404140986e5e23aa9de8ea689c1d05` 替换帐户地址。 在这里，我们向
+    `0x65d8c00633404140986e5e23aa9de8ea689c1d05` 帐户提供了以太币。
 - en: If you want to get rid of ether in a Quorum network, you can use the `--gasPrice
     0` option while starting `geth`. Therefore, you will not need to supply ether
     in the genesis block. But, ether gives the advantage of traceability.
   id: totrans-128
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果您想在 Quorum 网络中摆脱以太币，可以在启动 `geth` 时使用 `--gasPrice 0` 选项。 因此，您将不需要在创世块中提供以太币。
+    但是，以太币具有可追溯性的优势。
 - en: Starting nodes
   id: totrans-129
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 启动节点
 - en: Now, before we start the nodes, we need to initialize them and create data directories
     for each node; copy the `static-nodes.json` file in each node's data directory,
     copy the account keys to the data directory, and Bootstrap the blockchain with
@@ -1025,6 +1092,7 @@
   id: totrans-130
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，在我们启动节点之前，我们需要初始化它们并为每个节点创建数据目录；将 `static-nodes.json` 文件复制到每个节点的数据目录中，将帐户密钥复制到数据目录中，并使用创世块引导区块链。
 - en: An Ethereum node's data directory structure includes `geth` and `keystore` directories,
     and also, a `static-nodes.json` file. The `keystore` directory contains accounts
     files and the `geth` directory contains all other data related to Ethereum, such
@@ -1032,11 +1100,14 @@
   id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊节点的数据目录结构包括 `geth` 和 `keystore` 目录，还有一个 `static-nodes.json` 文件。 `keystore`
+    目录包含帐户文件，而 `geth` 目录包含与以太坊相关的所有其他数据，例如区块链交易、状态和 enode 密钥。
 - en: 'Following are the commands to do all the initialize operations for all the
     nodes:'
   id: totrans-132
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是对所有节点执行所有初始化操作的命令：
 - en: '[PRE15]'
   id: totrans-133
   prefs: []
@@ -1047,6 +1118,7 @@
   id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 上述命令是不言自明的。 现在，运行以下命令以启动 Quorum 节点。 在新的 shell 窗口中运行每个命令：
 - en: '[PRE16]'
   id: totrans-135
   prefs: []
@@ -1056,6 +1128,7 @@
   id: totrans-136
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是我们提供的不同选项的含义：
 - en: '`PRIVATE_CONFIG`: This variable is used to make `geth` aware of the constellation
     node which it needs to send the private payload to. It points to the constellation
     node''s configuration file.'
@@ -1063,32 +1136,39 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`PRIVATE_CONFIG`：此变量用于使 `geth` 知道需要将私有负载发送到的 constellation 节点。 它指向 constellation
+    节点的配置文件。'
 - en: '`--datadir`: Data directory to store state, transactions, accounts, and so
     on.'
   id: totrans-138
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--datadir`：用于存储状态、交易、帐户等的数据目录。'
 - en: '`--raft`: This is used to specify that we want to run a Raft consensus.'
   id: totrans-139
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--raft`：用于指定我们要运行 Raft 共识。'
 - en: '`--port`: The port to bind for the Ethereum transport.'
   id: totrans-140
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--port`：用于绑定以太坊传输的端口。'
 - en: '`--raft-port`: The port to bind for the Raft transport.'
   id: totrans-141
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--raft-port`：用于绑定 Raft 传输的端口。'
 - en: '`--ipcpath`: Filename for the IPC socket and pipe. IPC is enabled by default.'
   id: totrans-142
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--ipcpath`：IPC 套接字和管道的文件名。 IPC 默认已启用。'
 - en: '`geth` provides JSON-RPC APIs for clients to communicate with it. `geth` serves
     JSON-RPC APIs using HTTP, WS, and IPC. The APIs provided by JSON-RPC are divided
     into various categories. `geth` also provides an interactive JavaScript console
@@ -1222,16 +1302,21 @@
   id: totrans-161
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 IBFT 中，每个验证者都是通过从其节点密钥派生的以太坊账户唯一标识的。类似于 Raft，在设置网络之前，我们在 IBFT 中必须决定网络中的验证者总数，然后为每个验证者生成一个
+    enode。然后，我们创建一个列出所有验证节点 enode 的 `static-nodes.json` 文件，并将此文件提供给网络中的每个验证者。之后，从节点
+    ID 派生以太坊地址。最后，我们构造 `extraData` 字段并创建 `genesis` 文件。
 - en: In the case of IBFT, creating the `static-nodes.json` file is not necessary.
     You can connect nodes using the `admin.addPeer(url)` API too.
   id: totrans-162
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于 IBFT，创建 `static-nodes.json` 文件并非必需。你也可以使用 `admin.addPeer(url)` API 连接节点。
 - en: Installing IBFT tools
   id: totrans-163
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 安装 IBFT 工具
 - en: The IBFT software contains tools for configuring the IBFT network, generating
     enodes, generating addresses derived from the node key, creating genesis blocks,
     and so on. Creating a genesis block for IBFT is not as simple as creating it for
@@ -1240,10 +1325,13 @@
   id: totrans-164
   prefs: []
   type: TYPE_NORMAL
+  zh: IBFT 软件包含配置 IBFT 网络、生成 enode、从节点密钥生成地址、创建创世块等工具。为 IBFT 创建创世块并不像为 Raft 创建那样简单，因为创世块中需要包含一个编码的
+    `extraData` 字段，其中列出了验证者列表。
 - en: 'Following are the steps to install IBFT tools:'
   id: totrans-165
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是安装 IBFT 工具的步骤：
 - en: '[PRE22]'
   id: totrans-166
   prefs: []
@@ -1255,21 +1343,25 @@
   id: totrans-167
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，在 `~/go/bin` 目录中，你会找到一个名为 `istanbul` 的可执行文件。这是用于创建创世块的工具。创建一个名为 `ibft` 的目录，并将可执行文件移动到那里。
 - en: Creating a genesis block
   id: totrans-168
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建一个创世块
 - en: IBFT tools can automate the creation of a genesis block. At the same time, it
     also generates node keys, addresses derived from node keys, and the `static-nodes.json`
     file.
   id: totrans-169
   prefs: []
   type: TYPE_NORMAL
+  zh: IBFT 工具可以自动创建创世块。同时，它还会生成节点密钥、从节点密钥生成的地址和 `static-nodes.json` 文件。
 - en: 'Run the following command to generate all these:'
   id: totrans-170
   prefs: []
   type: TYPE_NORMAL
+  zh: 运行以下命令以生成所有这些内容：
 - en: '[PRE23]'
   id: totrans-171
   prefs: []
@@ -1279,6 +1371,7 @@
   id: totrans-172
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，你会得到类似的输出：
 - en: '[PRE24]'
   id: totrans-173
   prefs: []
@@ -1291,12 +1384,16 @@
   id: totrans-174
   prefs: []
   type: TYPE_NORMAL
+  zh: 你会看到不同的地址、enode 等。现在，创建 `static-nodes.json`、`genesis.json` 和 `enode` 密钥文件，并将前述内容放入其中。将节点密钥文件名设为
+    `enode_id_1`、`enode_id_2`、`enode_id_3` 和 `enode_id_1`。将 enode URL 中的端口更改为 `23000`、`23001`、`23002`
+    和 `23003`。
 - en: 'Now, let''s generate an Ethereum account, and in the genesis block assign some
     ether to it. Ether is not generated dynamically, therefore we need to pre-supply.
     Use the following command to generate an Ethereum account:'
   id: totrans-175
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，让我们生成一个以太坊账户，并在创世块中分配一些以太币给它。以太币不是动态生成的，因此我们需要预先提供。使用以下命令生成以太坊账户：
 - en: '[PRE25]'
   id: totrans-176
   prefs: []
@@ -1309,6 +1406,8 @@
   id: totrans-177
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，将 `accounts/keystore` 目录中的文件名更改为 `key1`。然后将地址复制，放入 `genesis` 文件中，并分配一些余额。例如，如果我新生成的账户地址是
+    `0x65d8c00633404140986e5e23aa9de8ea689c1d05`，那么我的 `genesis` 文件内容将如下所示：
 - en: '[PRE26]'
   id: totrans-178
   prefs: []
@@ -1319,16 +1418,19 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 起始节点
 - en: 'Now, before we start the nodes, we need to initialize them: create data directories
     for each node, copy the account keys to the data directory, copy the enode keys
     of the validators, and Bootstrap the blockchain with the genesis block.'
   id: totrans-180
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，在我们启动节点之前，我们需要初始化它们：为每个节点创建数据目录，将账户密钥复制到数据目录，复制验证者的 enode 密钥，并使用创世块引导区块链。
 - en: 'Following are the commands to achieve these for all six nodes:'
   id: totrans-181
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是为所有六个节点实现这些的命令：
 - en: '[PRE27]'
   id: totrans-182
   prefs: []
@@ -1341,6 +1443,8 @@
   id: totrans-183
   prefs: []
   type: TYPE_NORMAL
+  zh: 上述命令是不言自明的。对于最后两个节点，我们没有生成任何 enode 密钥，因为 `geth` 如果不存在，则会自动生成一个。现在，运行以下命令启动 Quorum
+    节点。在新的 shell 窗口中运行每个命令：
 - en: '[PRE28]'
   id: totrans-184
   prefs: []
@@ -1350,43 +1454,51 @@
   id: totrans-185
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面是我们刚刚传递的不同选项的含义：
 - en: '`--mine` is required while running the validators.'
   id: totrans-186
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在运行验证者时需要 `--mine`。
 - en: '`--istanbul.requesttimeout` is the maximum block time (`default: 10000ms`).'
   id: totrans-187
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--istanbul.requesttimeout` 是最大区块时间（默认值：`10000ms`）。'
 - en: '`--istanbul.blockperiod` is the minimum block time (`default: 1s`).'
   id: totrans-188
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--istanbul.blockperiod` 是最小区块时间（默认值：`1s`）。'
 - en: '`--istanbul.blockpausetime` is the pause time when zero transactions in previous
     block. Values should be larger than `istanbul.blockperiod` (`default: 2s`).'
   id: totrans-189
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--istanbul.blockpausetime` 是前一个区块中没有交易时的暂停时间。值应大于 `istanbul.blockperiod`（默认值：`2s`）。'
 - en: To get a list of all validators in the network. you can use the `istanbul.getValidators()`
     API.
   id: totrans-190
   prefs: []
   type: TYPE_NORMAL
+  zh: 要获取网络中所有验证者的列表，您可以使用 `istanbul.getValidators()` API。
 - en: Adding or removing a validator dynamically
   id: totrans-191
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 动态添加或移除验证者
 - en: 'Let''s first see how to add a new validator dynamically. To add a validator,
     we first need to generate the node key and address of the new validator. Run the
     following command to generate it:'
   id: totrans-192
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们首先看看如何动态添加新的验证节点。要添加验证节点，我们首先需要生成新验证节点的节点密钥和地址。运行以下命令生成它：
 - en: '[PRE29]'
   id: totrans-193
   prefs: []
@@ -1399,6 +1511,8 @@
   id: totrans-194
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是我们之前使用的相同命令。现在，我们不需要 `genesis` 文件或 `static-nodes.json` 文件。我们只需要节点密钥和地址。创建一个名为
+    `node_id_5` 的文件，并将节点密钥放入其中。运行以下命令初始化新的验证者：
 - en: '[PRE30]'
   id: totrans-195
   prefs: []
@@ -1410,6 +1524,7 @@
   id: totrans-196
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，在上述命令成功运行后，是时候让 (*2F+ 1*) 其他验证者同意插入新的验证者了。为此，在所有其他验证者中运行以下命令：
 - en: '[PRE31]'
   id: totrans-197
   prefs: []
@@ -1420,6 +1535,7 @@
   id: totrans-198
   prefs: []
   type: TYPE_NORMAL
+  zh: 将第一个参数替换为您获得的新验证节点地址。现在，使用以下命令启动新的验证节点：
 - en: '[PRE32]'
   id: totrans-199
   prefs: []
@@ -1433,6 +1549,8 @@
   id: totrans-200
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，您可以运行 `istanbul.getValidators()` 来检查网络中所有验证者的列表。现在应该有五个。让我们从网络中移除一个验证者。假设我们想要移除第一个验证者。在第一个验证者的控制台中运行
+    `eth.coinbase` 找到其唯一地址。然后，在 (*2F + 1*) 个验证者中运行以下命令以从网络中移除第一个验证者：
 - en: '[PRE33]'
   id: totrans-201
   prefs: []
@@ -1443,16 +1561,19 @@
   id: totrans-202
   prefs: []
   type: TYPE_NORMAL
+  zh: 在此处，使用您生成的第一个验证节点的地址替换第一个参数。
 - en: At the time of removing or adding a validator, if some validating node is down
     then it will automatically come to know about these changes once it's up and running.
   id: totrans-203
   prefs: []
   type: TYPE_NORMAL
+  zh: 在移除或添加验证节点时，如果某个验证节点宕机，那么一旦它重新运行起来，它将自动了解到这些更改。
 - en: Summary
   id: totrans-204
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 概要
 - en: In this chapter, we started with the basics of Ethereum blockchain in general,
     and then we jumped into the features and consensus protocols of Quorum. Then,
     we got our first hands-on with Quorum by setting up a constellation, Raft, and
@@ -1462,3 +1583,5 @@
   id: totrans-205
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们从以太坊区块链的基础知识开始，然后深入探讨了Quorum的特性和共识协议。然后，通过设置星座、Raft 和 IBFT 网络，我们第一次实践了
+    Quorum。现在，您应该对设置网络的过程感到满意了。下一步是学习编写智能合约，并部署我们的第一个智能合约。我们将在下一章中实现这一点。
