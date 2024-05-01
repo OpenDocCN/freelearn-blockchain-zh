@@ -1,0 +1,90 @@
+# 前言
+
+区块链技术被誉为当今最具革命性和颠覆性的创新之一。区块链技术最初是在世界上最流行的数字货币比特币中被识别出来的，但现在已经改变了许多组织的看法，并赋予他们甚至将其用于价值存储和转移的能力。
+
+本书将首先向您介绍常见的网络威胁景观和常见攻击，如恶意软件、钓鱼、内部威胁和DDoS。接下来的章节将帮助您了解区块链技术、以太坊和Hyperledger架构的运作方式，以及它们如何适应网络安全生态系统。这些章节还将帮助您在以太坊区块链和Hyperledger Fabric框架上编写您的第一个分布式应用程序。稍后，您将了解安全三重性及其与区块链的适应性。最后一组章节将带您了解网络安全的核心概念，如DDoS保护、基于PKI的身份验证、双因素认证和DNS安全。您将了解区块链在从根本上转变网络安全解决方案方面起到了至关重要的作用。
+
+在书的最后，您将了解区块链在安全案例中的真实部署示例，并了解短期挑战和区块链与网络安全未来的发展。
+
+# 本书适合谁
+
+本书面向网络安全专业人士，或任何与网络安全相关的利益相关者，他们希望了解如何使用区块链来提升基础设施的安全性的下一层次。对区块链的基本理解可能是一个额外的优势。
+
+# 要充分利用本书
+
+硬件要求如下：
+
++   Ubuntu 16.04
+
+软件要求如下：
+
++   Linux
+
++   Node.js
+
++   Truffle
+
++   Ganache-CLI
+
+# 下载彩色图片
+
+我们还提供了一个PDF文件，其中包含本书中使用的截图/图表的彩色图像。您可以从[https://www.packtpub.com/sites/default/files/downloads/HandsOnCybersecuritywithBlockchain_ColorImages.pdf](https://www.packtpub.com/sites/default/files/downloads/HandsOnCybersecuritywithBlockchain_ColorImages.pdf)下载。
+
+# 使用惯例
+
+在本书中使用了许多文本约定。
+
+`CodeInText`：指示文本中的代码词、数据库表名、文件夹名、文件名、文件扩展名、路径名、虚拟URL、用户输入和Twitter句柄。这是一个例子：“这个文件夹包括我们的智能合约，`TwoFactorAuth.sol`。”
+
+代码块设置如下：
+
+```
+forward-zones=bit.=127.0.0.1:5333,dns.=127.0.0.1:5333,eth.=127.0.0.1:5333,p2p.=127.0.0.1:5333
+export-etc-hosts=off
+allow-from=0.0.0.0/0
+local-address=0.0.0.0
+local-port=53
+```
+
+当我们希望引起您对代码块的特定部分的注意时，相关的行或项目将以粗体显示：
+
+```
+$ node registerAdmin.js 
+//File Structure Tuna-app/tuna-chaincode.go 
+```
+
+任何命令行输入或输出都以以下形式编写：
+
+```
+sudo apt-get update
+sudo apt-get install git npm
+sudo apt-get install nodejs-legacy
+```
+
+**粗体**：表示新术语、重要单词或屏幕上看到的单词。例如，菜单中的单词或对话框中的单词会在文本中显示为这样。这是一个例子：“我们需要将环境字段设置为 Web3 Provider 选项。”
+
+警告或重要说明会以这种方式显示。
+
+实用提示和技巧如下所示。
+
+# 联系我们
+
+我们随时欢迎读者的反馈。
+
+**一般反馈**：请发送电子邮件至`feedback@packtpub.com`并在主题中提及书名。如果您对本书的任何方面有疑问，请发送邮件至`questions@packtpub.com`与我们联系。
+
+**勘误**：虽然我们已竭尽全力确保内容的准确性，但错误还是会发生。如果您在本书中发现错误，我们将不胜感激。请访问[www.packtpub.com/submit-errata](http://www.packtpub.com/submit-errata)，选择您的书籍，点击勘误提交表格链接，并输入详细信息。
+
+**盗版**：如果您在互联网上发现我们的任何作品的非法复制，请您提供给我们位置地址或网站名称，我们将不胜感激。请发送电子邮件至`copyright@packtpub.com`并附上材料链接。
+
+**如果您有兴趣成为作者**：如果您在某个专业领域有专业知识，并且有意撰写或为书籍贡献内容，请访问[authors.packtpub.com](http://authors.packtpub.com/)。
+
+# 评论
+
+请留下您的评论。在阅读和使用本书后，不妨在购买书籍的网站上留下您的评论？潜在的读者可以看到并使用您中立的意见来做出购买决策，而我们在 Packt 则可以了解到您对我们产品的看法，我们的作者也可以看到您对他们书籍的反馈。谢谢！
+
+欲了解更多有关 Packt 的信息，请访问[packtpub.com](https://www.packtpub.com/)。
+
+# 免责声明
+
+本书中的信息仅供以合乎道德的方式使用。如果您没有设备所有者的书面许可，请勿使用本书中的任何信息。如果您从事非法行为，您可能会被逮捕并受到法律的严厉制裁。如果您滥用本书中的任何信息，Packt Publishing 不承担任何责任。本书中的信息只能在获得适当人员的书面授权后在测试环境中使用。
