@@ -1,6 +1,4 @@
-# 第七章：7
-
-# [Amrita Vishwa Vidyapeetham](https://www.amrita.edu/)人工智能研究主任**B. Rajathilagam 博士**接受采访
+# 第七章：Amrita Vishwa Vidyapeetham人工智能研究主任**B. Rajathilagam 博士**的采访
 
 我在**Amrita Vishwa Vidyapeetham（AVVP）**获得了工程学士学位。我在 2003 年毕业，并搬到孟买开始我的第一份软件顾问工作。如果有人问我是否有一段我想要重温的生活时光，那毫无疑问就是我在这个了不起的机构度过的时光。多年来，我毕业后，AVVP 只变得更好，我为现在的学生感到嫉妒！
 
