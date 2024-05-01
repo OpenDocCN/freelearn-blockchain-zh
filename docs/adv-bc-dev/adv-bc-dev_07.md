@@ -1,4 +1,4 @@
-# 开始使用 web3.js
+# 第七章：开始使用 web3.js
 
 在本章中，我们将学习 web3.js 以及如何在 Node.js 或客户端 JavaScript 中导入、连接到 geth 并使用它。我们还将学习如何使用 web3.js 构建 web 客户端。
 

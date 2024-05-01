@@ -1,4 +1,4 @@
-# 探索 Hyperledger Fabric
+# 第二章：探索 Hyperledger Fabric
 
 本章重点讨论 Hyperledger Fabric 项目——其组件、设计、参考架构以及企业就绪性。我们还将讨论由**Linux Foundation**（**LF**）托管的 Hyperledger 项目的整体目标以及开源和开放标准的重要性。目标是建立对各种 Hyperledger 项目的多样性以及哪些框架和工具可能适合特定企业用例和软件消费模型的理解。尽管区块链技术领域不断变化，但 Hyperledger 项目代表着一种支持成熟和经过同行评审的技术结构，旨在供企业使用，并由多样化的人才和社区利益推动。
 

@@ -1,4 +1,4 @@
-# Solidity 编程概述
+# 第十四章：Solidity 编程概述
 
 **Solidity** 是一种智能合约编程语言。它由 Gavin Wood、Christian Reitwiessner、Alex Beregszaszi 和几位以太坊核心贡献者开发。它是一种类似 JavaScript 的通用语言，旨在针对 **以太坊虚拟机**（**EVM**）。Solidity 是以太坊协议中的四种语言之一，与 Serpent（类似于 Python）、**LLL**（**类 Lisp 语言**）、Vyper（实验性）和 Mutan（已弃用）处于同一抽象层级。社区逐渐趋同于 Solidity。通常，今天任何人谈论以太坊的智能合约时，都隐含地指的是 Solidity。
 

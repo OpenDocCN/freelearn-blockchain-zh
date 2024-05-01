@@ -1,4 +1,4 @@
-# Hyperledger Fabric 安全性
+# 第十一章：Hyperledger Fabric 安全性
 
 Hyperledger Fabric 是一个模块化的区块链系统。它经过设计允许一组已知的参与者在区块链网络中参与并执行操作（所谓的**许可区块链**）。由于其模块化的特性，它可以在许多不同的配置中部署。Hyperledger Fabric 的不同部署配置对网络操作者及其用户具有不同的安全影响。
 

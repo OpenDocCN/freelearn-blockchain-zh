@@ -1,0 +1,8 @@
++   [前言](hsn-bc-dev-7d_0.md)
++   [第一章：Day One - 应用程序介绍、安装和设置](hsn-bc-dev-7d_1.md)
++   [第二章：第二天 - Solidity 变量和数据类型](hsn-bc-dev-7d_2.md)
++   [第三章：第三天 - 在您的智能合约中实现业务逻辑](hsn-bc-dev-7d_3.md)
++   [第四章：第四天 - 创建测试](hsn-bc-dev-7d_4.md)
++   [第五章：第五天 - 构建用户界面](hsn-bc-dev-7d_5.md)
++   [第六章：第六天 - 使用钱包](hsn-bc-dev-7d_6.md)
++   [第七章：第七天 - 部署到网络](hsn-bc-dev-7d_7.md)

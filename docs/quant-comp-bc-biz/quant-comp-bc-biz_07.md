@@ -1,4 +1,4 @@
-# 7
+# 第七章：7
 
 # [Amrita Vishwa Vidyapeetham](https://www.amrita.edu/)人工智能研究主任**B. Rajathilagam 博士**接受采访
 
