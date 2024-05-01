@@ -1,0 +1,1874 @@
+- en: Business Networks
+  id: totrans-0
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 商业网络
+- en: This chapter introduces and explores a new concept—**a business network.** By
+    understanding what business networks are and how they function, you'll be able
+    to understand how blockchain technology can radically improve them. A blockchain,
+    and in particular a Hyperledger Fabric blockchain, provides significant benefits
+    for business networks because it radically simplifies the information and processes
+    that knit businesses together, both reducing cost and creating new opportunities
+    for the businesses within the network.
+  id: totrans-1
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 本章介绍并探讨了一个新概念——**商业网络**。通过理解什么是商业网络以及它们如何运作，您将能够理解区块链技术如何彻底改善它们。特别是，区块链，尤其是超级账本
+    Fabric 区块链，对商业网络提供了重大好处，因为它彻底简化了将企业联系在一起的信息和流程，既降低了成本，又为网络内的企业创造了新机遇。
+- en: We'll see how the concept of a business network allows you to analyze a business
+    by looking at the counterparties with which it interacts. And although business
+    networks are industry specific, a single network can be used to support multiple
+    use cases, and linked to other business networks to form networks of networks.
+  id: totrans-2
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们将看到商业网络的概念允许您通过查看其与之交互的交易对手来分析企业。虽然商业网络是特定于行业的，但单个网络可以用于支持多个用例，并链接到其他商业网络以形成网络之间的网络。
+- en: We'll spend some time introducing the vocabulary of business network, introducing
+    key terms such as **participants**, **assets**, **transactions** and **events.**
+    These elements are then combined to define the behaviour of the business problem
+    being analyzed. We're able to use business requirement to create a technology
+    blueprint that can be used to implement the solution. By the end of this chapter,
+    you'll be ready to use Hyperledger Fabric and Hyperledger Composer to implement
+    these ideas, which you will do in the following chapter.
+  id: totrans-3
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们将花一些时间介绍商业网络的词汇，介绍关键术语如**参与者**、**资产**、**交易**和**事件**。然后将这些元素组合起来来定义正在分析的商业问题的行为。我们能够使用业务需求来创建一个技术蓝图，该蓝图可用于实施解决方案。通过本章的学习，您将准备好使用超级账本
+    Fabric 和 Hyperledger Composer 来实施这些想法，而您将在接下来的章节中做到这一点。
+- en: While the idea of a business network is necessary to understand before you implement
+    a blockchain network, you'll find it a helpful concept for wider issues such as
+    performing blockchain analytics, integrating with existing systems, and how to
+    structure your application and enterprise architectures. In this sense, this chapter
+    can be read stand-alone without implementing a network afterwards.
+  id: totrans-4
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 尽管在实施区块链网络之前理解商业网络的概念是必要的，但您会发现它对更广泛的问题很有帮助，例如执行区块链分析、与现有系统集成以及如何构建应用程序和企业架构。从这个意义上说，本章可以单独阅读，而不必在之后实施网络。
+- en: 'We will be covering the following topics in this chapter:'
+  id: totrans-5
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
+- en: A language for business networks
+  id: totrans-6
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+  zh: 商业网络的语言
+- en: The concept of a business network
+  id: totrans-7
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+  zh: 商业网络的概念
+- en: Defining business networks
+  id: totrans-8
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+  zh: 定义商业网络
+- en: Introducing participants
+  id: totrans-9
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+  zh: 介绍参与者
+- en: Introducing assets
+  id: totrans-10
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+  zh: 介绍资产
+- en: Introducing transactions
+  id: totrans-11
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+  zh: 介绍交易
+- en: Introducing events
+  id: totrans-12
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+  zh: 介绍事件
+- en: Implementing a business network
+  id: totrans-13
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+  zh: 实施商业网络
+- en: A busy world of purposeful activity
+  id: totrans-14
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 一个充满有意义的活动的繁忙世界
+- en: Imagine for a moment that we're flying in a plane over a large city. We can
+    see factories, banks, schools, hospitals, retail stores, car showrooms, ships
+    and boats at the port, and so on. These are the structures that define the city.
+  id: totrans-15
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 想象一下我们正在一架飞机上飞越一个大城市。我们可以看到工厂、银行、学校、医院、零售店、汽车展厅、港口的船只等等。这些是定义城市的结构。
+- en: If we look carefully, we'll see things happening within and between these structures.
+    Lorries might be delivering iron ore to the factory, customers might be withdrawing
+    money from banks, students might be sitting exams—it's a busy world down there!
+  id: totrans-16
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 如果我们仔细观察，就会看到在这些结构内部和之间发生的事情。卡车可能正在向工厂运送铁矿石，客户可能正在从银行提取资金，学生可能正在参加考试——这是一个繁忙的世界！
+- en: And, if we could look a little closer, we would see that all these people and
+    organizations are involved in meaningful activity with each other. Students receiving
+    assessments from their teachers that will subsequently help them get into college.
+    Banks giving loans to clients who can then move home. Factories making components
+    from raw materials, which are assembled into complex objects by their customers.
+    People buying used cars from dealerships that they use to get them to work every
+    day, or go on vacation!
+  id: totrans-17
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 而且，如果我们能再仔细一点看，我们会看到所有这些人和组织都在与彼此进行有意义的活动。学生从老师那里接受评估，随后这将帮助他们进入大学。银行向可以搬家的客户提供贷款。工厂从原材料中制造组件，然后客户将其组装成复杂的物体。人们从经销商那里购买二手车，他们用来每天上班或度假！
+- en: We might marvel at the diversity of all these structures and the processes between
+    them. We might even wonder how it all manages to work together so effortlessly!
+  id: totrans-18
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们可能会对所有这些结构和它们之间的过程的多样性感到惊叹。我们甚至可能会想知道它是如何如此轻松地共同运作的！
+- en: We might then reflect upon all these diverse activities, and wonder whether
+    they all have something in common? Are there repeatable patterns that allow us
+    to make sense of all this complexity? Is there a resolution at which all this
+    activity looks the same? Are all these people and organizations, in some sense,
+    doing the same thing?
+  id: totrans-19
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 然后我们可能会反思所有这些多样化的活动，并想知道它们是否都有共同之处？是否有可重复的模式可以让我们理解所有这些复杂性？是否有一种分辨率，在这种活动看起来都一样？所有这些人和组织，在某种意义上，是在做同样的事情吗？
+- en: The answer, of course, is yes! The following section gives us a better explanation.
+  id: totrans-20
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 答案当然是肯定的！接下来的一节将会给我们一个更好的解释。
+- en: Why a language for business networks?
+  id: totrans-21
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 为什么要有一种用于商业网络的语言？
+- en: A business network is a way of thinking that allows us to look at all these
+    activities and describe it in a very simple language. And, because we're trying
+    to formulate the world in a language that makes sense to a blockchain, and since
+    blockchain is a simple technology, we expect the vocabulary of that language to
+    be simple. In the next section, you'll see that it is!
+  id: totrans-22
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 商业网络是一种思维方式，它允许我们审视所有这些活动，并用非常简单的语言描述它。而且，由于我们试图用一种对区块链有意义的语言来描述世界，而区块链是一种简单的技术，我们期望那种语言的词汇是简单的。在下一节中，你将会看到它就是这样！
+- en: But before we dive in, let's ask ourselves *why* we want to create a language
+    that a blockchain can understand? Well, if we can, then we can bring all the benefits
+    of the blockchain to the world described by that language. And, we can summarize
+    these benefits neatly—increased trust.
+  id: totrans-23
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 但在我们深入探讨之前，让我们问一下*为什么*我们想要创造一种区块链能够理解的语言？嗯，如果我们可以的话，我们就可以将区块链的所有好处带到用那种语言描述的世界。而且，我们可以简洁地总结这些好处——增加的信任。
+- en: Increased trust means that the student can show their high school certificates
+    to their college, who can be confident about the veracity of the qualifications.
+    It means that the bank can provide a loan to its customer at the lowest rates
+    because it can be confident about the financial well-being of its client. It means
+    that the component manufacturer can charge a higher price for their output because
+    their customers in turn can be sure of the quality of the raw materials, knowing
+    their provenance. And finally, the the buyer of the used car can be confident
+    about their purchase because they can prove that it previously only had one, careful,
+    owner!
+  id: totrans-24
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 增加的信任意味着学生可以向他们的大学展示他们的高中证书，大学可以对资格的真实性感到放心。它意味着银行可以以最低的利率向客户提供贷款，因为它可以对客户的财务状况感到放心。它意味着组件制造商可以为他们的产品收取更高的价格，因为他们的客户可以确信原材料的质量，知道它们的来源。最后，购买二手车的买家可以对他们的购买感到放心，因为他们可以证明它以前只有一个细心的车主！
+- en: Defining business networks
+  id: totrans-25
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 定义商业网络
+- en: 'We can summarize all these idea using the concept of a business network:'
+  id: totrans-26
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们可以用商业网络的概念总结所有这些想法：
+- en: A business network is a collection of participants and assets than undergo a
+    life cycle described by transactions. Events occur when transactions complete.
+  id: totrans-27
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 商业网络是一组参与者和资产，经历由交易描述的生命周期。当交易完成时，事件发生。
+- en: You may wonder what this means. After all that build-up, we're telling you that
+    a couple of apparently simple sentences describe all this complexity?
+  id: totrans-28
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 你可能会想知道这意味着什么。经过所有这些铺垫之后，我们告诉你几个看似简单的句子描述了所有这些复杂性？
+- en: The simple answer is yes—and we'll soon explain by describing in more detail
+    what we mean by **participants**, **assets**, **transactions**, and **events**.
+    Then, you'll see that all this rich behavior can be described by a relatively
+    simple language vocabulary.
+  id: totrans-29
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 简单的答案是肯定的——我们很快会通过更详细地描述**参与者**、**资产**、**交易**和**事件**来解释。然后，你会发现所有这些丰富的行为都可以用相对简单的语言词汇来描述。
+- en: A deeper idea
+  id: totrans-30
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 更深层次的想法
+- en: In fact, there is a deeper idea behind business networks—that the language and
+    vocabulary of technology should closely match that of the business domain, removing
+    the need for significant translation between business concepts, and technology
+    concepts. Business networks move away from the idea of disconnected technology
+    by describing the underlying technology in the same language as the business.
+    It makes it easier to reason about the world and more accurately translate ideas
+    into a fully operational system.
+  id: totrans-31
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 实际上，在业务网络背后有一个更深层次的想法——即技术的语言和词汇应与业务领域的语言和词汇紧密匹配，消除业务概念和技术概念之间的重大翻译需求。业务网络通过用与业务相同的语言描述基础技术，摆脱了断开连接的技术概念。这使得更容易思考世界，并更准确地将思想转化为一个完全运作的系统。
+- en: Practically speaking, it means that while our initial vocabulary for business
+    networks is simple, it is the beginning of a language that can become very rich
+    in structure over time, so long as it describes the details and nuances of what
+    happens in the real world. We'll come back to this idea later, but for now let's
+    start by understanding participants.
+  id: totrans-32
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 在实践上，这意味着虽然我们对业务网络的初始词汇很简单，但它是一个可以随着时间逐渐丰富的语言的开端，只要它描述了发生在现实世界中的细节和细微差别。我们以后会回到这个想法，但现在让我们从了解参与者开始。
+- en: Introducing participants
+  id: totrans-33
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 介绍参与者
+- en: William Shakespeare said that the world is a stage on which men and women are
+    the actors. In a similar way, a business network has a cast—a set of actors who
+    are interacting with each other for some form of mutual benefit. We call these
+    actors the participants in a business network. For example, the participants in
+    an education network might be students, teachers, schools, colleges, examiners,
+    or government inspectors. The participants in an insurance network might be policyholders,
+    brokers, underwriters, insurers, insurance syndicates, regulators, or banks.
+  id: totrans-34
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 威廉·莎士比亚说，世界是一个舞台，在这个舞台上男人和女人是演员。以类似的方式，业务网络有一个演员阵容——一组相互交互以获得某种形式互惠的演员。我们称这些演员为业务网络中的参与者。例如，教育网络中的参与者可能是学生、教师、学校、大学、考官或政府检查员。保险网络中的参与者可能是投保人、经纪人、承保人、保险公司、保险联合体、监管机构或银行。
+- en: 'The idea of a participant is crucial to understanding business networks. You
+    might find the term a little daunting at first, but there''s really nothing to
+    worry about. The key to understanding is in the name— participants *take* *part*
+    in a business network. It''s their actions that we are interested in. Different
+    forms of the word are used to emphasize different aspects of their interactions:
+    participant, party, and counter-party, for example. All these forms have their
+    roots in the idea of action. As usual, we find that the bard knew a thing or two
+    about how the world works!'
+  id: totrans-35
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 参与者的概念对于理解业务网络至关重要。起初，你可能会觉得这个术语有点令人生畏，但实际上没有什么可担心的。理解的关键在于名字——参与者*参与*了业务网络。我们感兴趣的是他们的行动。用不同形式的词来强调他们相互作用的不同方面：参与者、当事人和交易对手，例如。所有这些形式都源自行动的概念。和往常一样，我们发现诗人对世界运作的方式了解一二！
+- en: Learn to love this word, because it's a door-opener! It's shorthand that you
+    understand the founding principle of business—that who you do business with is
+    of paramount importance. It's more important than this though; identifying the
+    participants in a business network is the first thing that you do when determining
+    whether there's an opportunity to benefit from the use of a blockchain. You need
+    to understand the cast before you can really understand what's going on. And,
+    as you learn more about the interactions between the participants, you'll be able
+    to improve your understanding of what it means to be a particular participant.
+  id: totrans-36
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 学会喜欢这个词，因为它是一个开启大门的词！这是你理解业务的创立原则的简称——与谁做生意至关重要。但它比这更重要；确定业务网络中的参与者是确定是否有机会从区块链的使用中获益的第一件事情。你需要先了解人员构成，才能真正了解发生了什么。而且，随着你了解参与者之间的互动，你将能够提高对成为特定参与者意味着什么的理解。
+- en: Types of participant
+  id: totrans-37
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 参与者类型
+- en: There are different *types* of participants in a business network, and we group
+    them into three broad categories. Surprisingly, we're not going to describe the
+    most important category first!
+  id: totrans-38
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 商业网络中有不同*类型*的参与者，我们将它们分为三大类。令人惊讶的是，我们不会首先描述最重要的类别！
+- en: Individual participants
+  id: totrans-39
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 个人参与者
+- en: Hopefully, this category is a fairly obvious one—the teacher, student or bank
+    customer are all examples of individual participants. Whether you call them individuals,
+    people, or even humans, this first category is what we would intuitively think
+    of as a participant because we associate them with ourselves.
+  id: totrans-40
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 希望这个类别是一个相当明显的类别——教师、学生或银行客户都是个人参与者的例子。无论你把它们称为个体、人员，甚至是人类，这个第一个类别是我们直觉上会认为是参与者的，因为我们将它们与自己联系起来。
+- en: You might think that individuals are the most important participants in a network.
+    After all, businesses exist to serve individuals, don't they? Well, yes they do,
+    but it's a little more subtle than that. While a business network usually exists
+    to serve the needs of individual end-consumers, blockchain is a technology that
+    is more valuable for the businesses in the network. That's because it allows them
+    to better coordinate their activities with each other, resulting in lower costs,
+    and the opportunity for new goods and services for end-consumers. That's why you'll
+    hear people utter sentences such as Blockchain is more important for B2B than
+    B2C, or C2C—they're trying to communicate that the big win for business networks
+    is to use blockchain as a pervasive fabric for efficient and creative business-to-business
+    interactions.
+  id: totrans-41
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 你可能认为个人是网络中最重要的参与者。毕竟，企业的存在是为了服务个人，不是吗？是的，他们是，但情况比较微妙。虽然商业网络通常存在是为了满足个体最终消费者的需求，但区块链是一种对于网络中的企业更有价值的技术。这是因为它使它们能够更好地协调彼此的活动，从而降低成本，并为最终消费者提供新的商品和服务的机会。这就是为什么你会听到人们说出类似区块链对于B2B比B2C或C2C更重要的句子——他们试图传达的是商业网络的重大成功是将区块链用作高效和创新的企业间交互的普遍基础。
+- en: Of course, individual participants are important. Businesses need to know their
+    end-consumers, and often end-consumers are interacting with each other using the
+    services provided by the business network. For example, if I wish to transfer
+    money to you via a banking network, our respective banks need to know who we both
+    are, so that the transaction can be properly validated and routed.
+  id: totrans-42
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 当然，个人参与者也很重要。企业需要了解他们的最终消费者，而最终消费者通常使用商业网络提供的服务与彼此互动。例如，如果我希望通过银行网络向你转账，我们各自的银行就需要知道我们是谁，以便能够正确验证和路由交易。
+- en: Finally, it's a fair rule of thumb that there are more individuals known to
+    a business network than there are businesses in the network. Nothing too surprising
+    here—it's just worth pointing this out so that your understanding of what it means
+    to be an individual participant is complete!
+  id: totrans-43
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 最后，一个合理的经验法则是，商业网络中认识的个人要比网络中的企业多。这并不令人太惊讶——只是值得指出这一点，以便你对什么是个人参与者的理解是完整的！
+- en: Organizational participants
+  id: totrans-44
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 组织参与者
+- en: Organizational participants are the most important actors in a business network.
+    The car dealership, the bank, the school, and the insurance company are all examples
+    of organizational participants. When we first think about a particular business
+    network, we identify these participants, followed by the goods and services they
+    provide to each other and end-consumers. These organizational participants provide
+    the infrastructure for the business network—the people, processes, and technology
+    that make it work.
+  id: totrans-45
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 组织参与者是商业网络中最重要的角色。汽车经销商、银行、学校和保险公司都是组织参与者的例子。当我们首次思考特定的商业网络时，我们会识别这些参与者，然后是它们互相以及最终消费者提供的商品和服务。这些组织参与者为商业网络提供基础设施——使其运作的人员、流程和技术。
+- en: While organizations are made up of individuals, they are conceptually quite
+    separate to them. An organization has its own identity, and its own purpose. It
+    exists in a very real sense, independently to the individuals which belong to
+    it. Organizations provide business networks with a sense of permanence. While
+    individuals within an organization may change over time, and the number of individuals
+    within the organization may grow or shrink, and even different roles within the
+    organization may come and go, the organization remains constant; it is a structure
+    with a much longer lifetime than any individual's membership of it.
+  id: totrans-46
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 虽然组织由个体构成，但在概念上与它们是完全分开的。一个组织有着自己的身份和目的。它以非常实际的方式存在，独立于属于它的个体。组织为商业网络提供了一种永恒感。虽然组织内的个体可能随着时间变化，组织内的个体数量可能增加或减少，甚至组织内的不同角色可能来来去去，但组织保持不变；它是一个比任何个人成员的寿命都要长得多的结构。
+- en: The final point to note about the nature of the relationship between individuals
+    and their organization is that it is individuals who perform the functions of
+    the organization, as defined by the individual's organizational role. When a bank
+    makes a loan to a customer, it is performed by a bank employee on behalf of the
+    bank. In this way, the individuals are the agents of the organization, and an
+    individual's role determines the set of tasks it can perform. For example, a school
+    teacher can set a homework assignment for a student, but it requires a school
+    principal to hire a new teacher. In a nutshell, individuals act on behalf of the
+    organization, and with the authority of that organization.
+  id: totrans-47
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 关于个体与他们的组织之间关系性质的最后一点需要注意的是，是个体执行组织的功能，如个体的组织角色所定义的。当银行向客户提供贷款时，是银行员工代表银行执行的。通过这种方式，个体是组织的代理人，并且个体的角色决定了它可以执行的任务集。例如，学校教师可以给学生布置家庭作业，但需要学校校长来聘请新教师。简而言之，个体代表组织行事，并且代表该组织的权威。
+- en: System or device participants
+  id: totrans-48
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 系统或设备参与者
+- en: System or device participants represent the technology components in the business
+    network. They are really a special kind of individual participant, and if you
+    find it helpful, you can just think of them that way. There are however, two reasons
+    why we call them out separately.
+  id: totrans-49
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 系统或设备参与者代表商业网络中的技术组件。实际上，它们是一种特殊类型的个体参与者，如果你觉得有用，可以这样认为。然而，我们之所以单独将它们列出来，有两个原因。
+- en: Firstly, there are a lot of technology components in today's business networks!
+    For example, there are ERP systems, payment engines, reservation systems, transaction
+    processors, and much, much more. In fact, most of the heavy-lifting inside today's
+    business networks is done by these systems. These systems are associated with
+    organizations that own them, and just like the individuals we discussed earlier,
+    these systems act on behalf of their owning organizations—they too are its agents.
+  id: totrans-50
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 首先，如今的商业网络中有很多技术组件！例如，有ERP系统、支付引擎、预订系统、交易处理器等等。事实上，今天商业网络中的大部分重活都是由这些系统完成的。这些系统与拥有它们的组织相关联，就像我们之前讨论过的个体一样，这些系统代表它们的拥有组织行事——它们也是其代理人。
+- en: The incorporation of a blockchain into a business network is going to add more
+    system participants with whom the other participants (individual, organizational,
+    and system/device) can interact. It's important to be aware of these blockchain
+    system participants because they are going to provide very useful services to
+    the business network!
+  id: totrans-51
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 将区块链纳入商业网络将增加更多的系统参与者，其他参与者（个体、组织和系统/设备）可以与之互动。了解这些区块链系统参与者是很重要的，因为它们将为商业网络提供非常有用的服务！
+- en: Secondly, devices are becoming a more important part of the business world.
+    And, while many devices today are relatively simple, there's no doubt that devices
+    are acquiring more characteristics of being autonomous. We've all heard of the
+    expected emergence of self-driving vehicles, and it's in this spirit that we introduce
+    the concept of **device participants**. It may be increasingly important to think
+    of these devices playing a larger role in business networks. So, while we don't
+    expect cars to become intelligent anytime soon (whatever that might mean!), it's
+    helpful to call out these increasingly autonomous devices as active rather than
+    passive entities in a network.
+  id: totrans-52
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 其次，设备正变得成为业务世界中更为重要的一部分。而且，尽管今天许多设备相对简单，毫无疑问，设备正在获得更多自主特性。我们都听说过预期出现自动驾驶车辆，正是出于这种精神，我们引入**设备参与者**的概念。逐渐重要的可能是将这些设备视为业务网络中更为积极的角色。因此，虽然我们不指望汽车很快就变得智能（不管那意味着什么！），但将这些越来越自主的设备称为网络中的活跃实体而不是被动实体是有帮助的。
+- en: Participants are agents
+  id: totrans-53
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 参与者是代理
+- en: Our examination of participant types shows us that they all have one thing in
+    common—they have a significant degrees of agency—they actively do things. Although
+    systems and devices have a level of autonomy that is limited by their programming
+    and algorithms, it is nonetheless helpful to think of them this way. And, the
+    interactions between these relatively autonomous actors serves as a prompt to
+    the next concept in a business network, namely **assets**. We'll see later that
+    the entities that move between participants—assets—have none of this autonomy.
+    These are subject to the forces placed upon them by participants. More on this
+    later.
+  id: totrans-54
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们对参与者类型的考察告诉我们一个共同点——它们都拥有一定程度的主动性——它们积极地做事情。虽然系统和设备的自主程度受其程序和算法的限制，但将它们这样地看待仍然是有帮助的。而且，这些相对自主的参与者之间的交互作用成为业务网络中下一个概念的引导，即**资产**。我们稍后会看到，在参与者之间移动的实体——资产——没有这种自主性。这些都受到参与者施加在它们身上的力量的影响。稍后再详述此点。
+- en: Participants and identity
+  id: totrans-55
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 参与者和身份
+- en: Finally, and very importantly, participants have **identity**. For example,
+    a student has a student ID, a driver has a driving license, and a citizen has
+    a social security number. It's obvious that there is a difference between a participant
+    and what's used to identify a participant. And, it's really important to hold
+    these two concepts as closely related, but separate to each other.
+  id: totrans-56
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 最后，但非常重要的是，参与者有**身份**。例如，一个学生有学生证，一个司机有驾驶执照，一个公民有社会保障号码。显而易见，参与者和用于识别参与者的东西之间有区别。而且，将这两个概念紧密联系但分开是非常重要的。
+- en: For example, a participant might have different identities to participate in
+    different business networks—it might be the *same* bank which participates in
+    an insurance network, and a mortgage network, but it will have different identities
+    in these two networks. Moreover, even within a single network, a participant might
+    have their current identity compromised, allowing them to be impersonated. In
+    this case, their compromised identity will be revoked and a replacement issued
+    for use by the true participant, denying the impersonator, allowing trust to be
+    restored. Different identities, but the same participant—that's the take-away
+    message.
+  id: totrans-57
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 例如，参与者可能有不同的身份参与不同的业务网络——可能是*同样*的银行参与了保险网络和抵押网络，但它在这两个网络中有不同的身份。此外，即使在一个单一网络中，参与者的当前身份可能会被
+    compromise，允许他们被冒充。在这种情况下，他们被 compromise 的身份将被吊销，并发放一个替代身份供真正的参与者使用，拒绝冒名顶替者，恢复信任。不同身份，但是同一参与者——这就是要传达的信息。
+- en: It's because of this concern over impersonation that certain identities are
+    deliberately expired periodically. For example, X.509 digital certificates have
+    an expiry date, after which they are no longer valid. However, just because the
+    certificate has expired, it cannot be assumed that the participant is no longer
+    present.
+  id: totrans-58
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 正是因为对冒充的担忧，某些身份会定期被故意过期。例如，X.509 数字证书有一个到期日期，过了这个日期，它们将不再有效。然而，仅仅因为证书已经过期，并不意味着参与者不再存在。
+- en: In fact, it's quite the opposite. The relative permanence of a participant compared
+    to its identity means that it can be used to provide a long-term historical reference
+    of who does what in a business network. The consistency of identity provided by
+    a participant over time helps us reason about the history of interactions in a
+    business network. We could do this without the concept of a participant—just using
+    identities, and keeping a clear head about how and when they changed in relation
+    to each other, but it would be less intuitive.
+  id: totrans-59
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 实际上，情况恰恰相反。参与者相对于它的身份的相对永久性意味着它可以用来提供业务网络中谁做了什么的长期历史参考。参与者随时间提供的身份的一致性帮助我们推理业务网络中的交互历史。我们可以不使用参与者的概念就做到这一点——只使用身份，并清楚地了解它们如何以及何时相互之间改变，但这将不那么直观。
+- en: That's just about it on the topic of participants; you're now an expert! As
+    you can tell, participants are probably the most important thing about a business
+    network, which is why we spent quite a bit of time discussing them. Let's now
+    turn our attention to the objects that move between participants, namely assets.
+  id: totrans-60
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 关于参与者的内容就到这儿了；你现在是专家了！正如你所看到的，参与者可能是业务网络中最重要的事情，这就是为什么我们花了相当多的时间讨论它们。现在让我们把注意力转向在参与者之间流动的对象，即资产。
+- en: Introducing assets
+  id: totrans-61
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 介绍资产
+- en: We've seen how a business network is defined by the participants who operate
+    within it. These participants are the active agents who perform meaningful interactions
+    within the network, and its their transactions which are of paramount importance.
+    We now ask ourselves the question, *What flows between participants?* To which
+    the simple answer is assets.
+  id: totrans-62
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们已经看到业务网络是由在其中运作的参与者定义的。这些参与者是在网络中进行有意义交互的积极主体，他们的交易至关重要。现在我们要问自己一个问题，*参与者之间流动的是什么？*答案很简单，是资产。
+- en: 'To understand what we mean by an asset, let''s look at some examples. We notice
+    that a student receives coursework from their tutor. That same student may subsequently
+    show their educational certificate to a university. A car dealer sells a car to
+    a buyer. An insurance company insures that same car for a policyholder, issuing
+    a policy. A policyholder makes a claim. These examples all contains assets: coursework,
+    education certificate, car, policy, and claim.'
+  id: totrans-63
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 要理解我们所说的资产是什么，让我们看一些例子。我们注意到，学生从导师那里接收课程作业。同一个学生随后可能向大学展示他们的教育证书。汽车经销商向买家出售一辆汽车。保险公司为投保人提供汽车保险，签发一份保单。投保人提出索赔。这些例子都包含了资产：课程作业、教育证书、汽车、保单和索赔。
+- en: Assets flow between participants
+  id: totrans-64
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 资产在参与者之间流动
+- en: We can see that assets are the objects that flow between participants. Whereas
+    participants have a significant degree of autonomy, assets are quite passive.
+    This property of assets is foundational—assets tend to have the most meaning to
+    the counter-parties who exchange them. That's not to say that other participants
+    aren't interested in these assets, but it does emphasize the passive nature of
+    assets. So what makes assets so important? Why are we bothering to talk about
+    these passive objects?
+  id: totrans-65
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们可以看到，资产是在参与者之间流动的对象。而参与者有相当大的自治度，资产则相当被动。这种资产的性质是基础的——资产往往对于交换它们的交易对手来说意义重大。这并不是说其他参与者对这些资产不感兴趣，但这确实强调了资产的被动性质。那么，是什么让资产如此重要呢？我们为什么要讨论这些被动的对象呢？
+- en: 'The answer lies in our choice of word—asset. An asset is a thing of *value*.
+    Even though assets are relatively passive, they represent the value that is exchanged
+    between participants. Look at these example assets again with this value-based
+    lens: coursework, education certificate, car, policy, and claim. Coursework is
+    valuable to the teacher and student; an education certificate is valuable to the
+    student and university; a car is valuable to the dealership and buyer; a policy
+    is valuable to the insurance company and policy holder; a claim is valuable to
+    the claimant and insurance company. Hopefully, it''s now clear why assets are
+    important, and why they are called assets!'
+  id: totrans-66
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 答案就在我们选择的词——资产。资产是一个有*价值*的东西。尽管资产相对被动，但它们代表着在参与者之间交换的价值。再用这种基于价值的视角看一下这些示例资产：课程作业、教育证书、汽车、保单和索赔。课程作业对老师和学生有价值；教育证书对学生和大学有价值；汽车对经销商和买家有价值；保单对保险公司和投保人有价值；索赔对申请人和保险公司有价值。希望现在清楚了为什么资产很重要，以及为什么它们被称为资产！
+- en: As a minor note, don't think that because we have assets, we must have liabilities—we're
+    not quite using the term this way. It's absolutely true that if we were to measure
+    objects as counting for us, or counting against us, we would term them assets
+    or liabilities, but that's not quite what's happening here—we're using asset as
+    a concrete noun, rather than as a quality or abstract noun.
+  id: totrans-67
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 作为一个小注，不要认为因为我们有资产，我们就必须有负债——我们并不是完全按照这种方式使用这个术语。完全正确的是，如果我们要将对象作为为我们服务或反对我们的对象进行计量，我们将把它们称为资产或负债，但这不完全是这里发生的情况——我们使用资产作为具体名词，而不是作为质量或抽象名词。
+- en: Tangible and intangible assets
+  id: totrans-68
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 有形资产和无形资产
+- en: Let's continue our understanding of assets by considering tangible and intangible
+    assets. Tangible assets are things we can touch and feel—cars, paper money, or
+    coursework. Intangible assets are things such as mortgages, intellectual property
+    rights, insurance policies, and music files. In an increasingly digital world,
+    we're going to see a lot more intangible assets. You'll hear people say that objects
+    are becoming *de-materialized*, and the idea of an intangible assets nicely captures
+    this concept.
+  id: totrans-69
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 让我们通过考虑有形和无形资产来继续了解资产。有形资产是我们可以触摸和感受的东西——汽车、纸币或课程作业。无形资产是诸如抵押贷款、知识产权、保险单和音乐文件等东西。在一个日益数字化的世界中，我们将会看到更多的无形资产。你会听到人们说物体正在变得*非物质化*，而无形资产的概念很好地捕捉了这个概念。
+- en: A couple of small points should be noted to avoid confusion on our usage of
+    the word intangible. Firstly, as we're dealing with a digital ledger, in some
+    trivial sense, everything on a blockchain is intangible. What's interesting is
+    the nature of the object itself—using the word intangible helps you to remember
+    to look out for things that you cannot see in the physical world.
+  id: totrans-70
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 几个小点需要注意，以避免混淆我们对无形一词的使用。首先，由于我们正在处理数字分类帐，在某种微不足道的意义上，区块链上的一切都是无形的。有趣的是对象本身的性质——使用无形这个词可以帮助你记住要注意在物理世界中看不见的东西。
+- en: Secondly, the use of intangible is not intended as a statement of value. Often,
+    in accounting systems, we use this term when we have trouble defining something,
+    such as goodwill. Again, we're not using the word in this sense; our intangible
+    assets have a more concrete, definite, and exchangeable form than this, because
+    they are things of value, even if you cannot touch them.
+  id: totrans-71
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 其次，使用无形一词并不意味着对价值的陈述。在会计系统中，当我们难以定义某物时，例如商誉，我们经常使用这个术语。同样，我们并不是用这个词的这个意义；我们的无形资产比这更具有具体、明确和可交换的形式，因为它们是有价值的东西，即使你不能触摸它们。
+- en: The structure of assets
+  id: totrans-72
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 资产的结构
+- en: Let's now re-focus to look at the structure of assets. An asset has a set of
+    attributes called **properties** and a set of attributes called **relationships**.
+    Property attributes are easy to understand—they are the characteristics of an
+    object. For example, a car has a date of manufacture, a color, and an engine size.
+    Or, a mortgage has a value, lifetime, and repayment schedule. A particular asset
+    is identified by a particular set of property **values**. For example, my car
+    might be manufactured in 2015, be white in color and have a 1.8-litre engine.
+    Another example—your mortgage might be worth 100,000 USD, have a lifetime of 25
+    years, and be payable monthly. It's important to distinguish this difference—between
+    the structure of an asset *in general,* its **type,** and *particular* **instance**
+    of an asset.
+  id: totrans-73
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 现在让我们重新聚焦，看看资产的结构。资产具有一组称为**属性**的属性集和一组称为**关系**的属性集。属性属性易于理解——它们是对象的特征。例如，汽车有制造日期、颜色和发动机尺寸。或者，抵押贷款有价值、寿命和还款计划。特定资产由特定的一组属性**值**标识。例如，我的汽车可能是2015年生产的，是白色的，有1.8升的发动机。另一个例子——你的抵押贷款可能价值10万美元，寿命25年，并且每月付款。区分这种差异很重要——在资产的结构*一般*、**类型**和资产的*特定*
+    **实例**之间。
+- en: Secondly, an asset also has a set of attributes called **relationships**. A
+    relationship is a special kind of property—it's a reference to another asset!
+    You can see instantly why this is important. For example, a car has an insurance
+    document. The car is an object of value, and the insurance document is an object
+    of value. Moreover, an insurance document names a policy holder. In our examples,
+    both the subject and the object are assets, and they relate to each other in a
+    way that provides essential meaning.
+  id: totrans-74
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 第二，资产还有一组被称为**关系**的属性。关系是一种特殊类型的属性—它是对另一个资产的引用！你可以立即看出这为什么很重要。例如，一辆汽车有一个保险文件。汽车是一个有价值的对象，保险文件也是一个有价值的对象。此外，保险文件命名了一个保单持有人。在我们的例子中，主体和客体都是资产，并且它们以提供基本含义的方式相互关联。
+- en: We'll see later that describing or **modeling** these relationships is an extremely
+    important activity, because we're describing how the world works. In the previous
+    example, we made a deliberate mistake—yes, really! That's because in the real
+    world, it's actually the policy document that is central, as it names the car
+    and the policy holder. In modeling, we call this an associative relationship,
+    and we'll see why it's really important to get this kind of thing right. For example,
+    nowhere in the nature of a car will you find an insurance document—a car is insured
+    by virtue of the fact that it is named in a valid policy document. Moreover, if
+    I want to insure more people to drive the car, I add their name to the policy
+    document, not to the car! Much more on this later—for now, it's enough to remember
+    that assets have properties and references, and particular objects have concrete
+    values for these attributes.
+  id: totrans-75
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 后面我们会看到，描述或**建模**这些关系是一项极其重要的活动，因为我们在描述世界是如何运作的。在前面的例子中，我们故意犯了一个错误—是的，真的！这是因为在现实世界中，实际上是政策文件是核心，因为它命名了汽车和保单持有人。在建模中，我们称之为关联关系，并且我们将看到为什么正确理解这种事情非常重要。例如，在汽车的性质中，你不会找到保险文件—汽车是在有效的保单文件中命名而被保险的。此外，如果我想要让更多的人驾驶汽车，我会将他们的名字添加到保单文件中，而不是汽车！关于这一点，以后会有更多的讨论—现在，记住资产具有属性和引用，特定对象对这些属性具有具体的值就足够了。
+- en: 'It''s also worth a brief mention on the nature of what makes an asset attribute
+    a property rather than a reference to another asset. A simple answer is: when
+    properties get too *big*, break them out into an asset reference! Of course, that''s
+    a very unsatisfactory answer! Why? Because I didn''t tell you what defines big!
+    A better answer is that a reference is required when a property satisfies a separate
+    concern. This principle—**separation of concerns**—is a key design principle in
+    any system. For example, the policy validity date is not a separate concern for
+    an insurance policy, but the car and named drivers are separate concerns. This
+    principle helps us to reason about insurance policies, cars, and drivers independently
+    of each other, which in turn allows us to model the real world more realistically.
+    Finally, on this aspect of assets, property and relationship attributes are **domain-specific**—they
+    relate to the nature of the problem at hand. So, for a car manufacturer, color
+    might be an attribute of a car—but for a paint manufacturer color is most definitely
+    an asset type!'
+  id: totrans-76
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 也值得简要提及使资产属性成为属性而不是对另一个资产的引用的性质。一个简单的答案是：当属性变得太**大**时，将它们拆分成资产引用！当然，这是一个非常不满意的答案！为什么呢？因为我没有告诉你什么定义了大！一个更好的答案是，当属性满足单独的关注时，需要引用。这个原则—**关注分离**—是任何系统中的关键设计原则。例如，对于保险政策，政策的有效日期不是一个单独的关注点，但汽车和命名的驾驶员是单独的关注点。这个原则帮助我们独立地思考保险政策、汽车和驾驶员，从而更真实地建模现实世界。最后，在资产的这个方面，属性和关系属性是**领域特定**的—它们与手头问题的性质有关。所以，对于汽车制造商，颜色可能是汽车的属性—但对于油漆制造商，颜色绝对是一种资产类型！
+- en: Ownership is a special relationship
+  id: totrans-77
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 所有权是一种特殊的关系。
+- en: There's one particular kind of relationship that's particularly important in
+    a business network, and that's the concept of **ownership**. Ownership is an associative
+    relationship such as the insurance policy document we discussed earlier. Let's
+    think about a specific example—a person owns a car. Is the owner an attribute
+    of the car? Is the car an attribute of the person? After a little thinking, we
+    might realize that neither statement captures what it means to *own* something.
+    Ownership is a mapping between the person and the car. Ownership is a concept
+    that's quite separate to the car and its owner.
+  id: totrans-78
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 有一种特定的关系在商业网络中尤为重要，那就是**所有权**的概念。所有权是一种关联关系，例如我们之前讨论过的保险单文件。让我们考虑一个具体的例子——一个人拥有一辆车。车主是车的属性吗？车是人的属性吗？经过一点思考，我们可能意识到，这两种说法都没有捕捉到*拥有*某物的含义。所有权是人和车之间的映射。所有权是一个与车和车主完全不同的概念。
+- en: It's important to understand this way of thinking about ownership, because in
+    many cases we model the ownership relationship via the car, or via the owner,
+    and that's sufficient for many purposes. But, the *nature* of an ownership relationship
+    is an associative one, and it's important to realize this—because blockchains
+    are often used to record ownership and transfer of ownership in a business network.
+    For example, governments often hold ownership records—for land or vehicles. In
+    these cases, the primary assets under consideration are ownership relationships.
+    When a vehicle or land is transferred between participants, it's this ownership
+    record that changes rather than the assets. That's important because we're often
+    interested in the the history of a vehicle or piece of land, and while the vehicle
+    or land itself may not change, it's ownership most definitely does. It's important,
+    therefore, to be clear whether we're talking about the history of the asset, or
+    the history of ownership. These kinds of history are often called **provenance**—they
+    tell us who has owned an asset, and how it has changed over time. Both aspects
+    are important because knowing the provenance of an asset increases our confidence
+    in it.
+  id: totrans-79
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 了解这种关于所有权的思考方式很重要，因为在许多情况下，我们通过车或车主来建模所有权关系，而这对许多目的来说已经足够了。但是，所有权关系的*本质*是一种关联关系，意识到这一点很重要——因为区块链经常用于记录商业网络中的所有权和所有权转移。例如，政府经常持有土地或车辆的所有权记录。在这些情况下，考虑的主要资产是所有权关系。当车辆或土地在参与者之间转移时，改变的是这些所有权记录，而不是资产本身。这很重要，因为我们经常对车辆或土地的历史感兴趣，而车辆或土地本身可能不会改变，但它的所有权肯定会改变。因此，清楚地知道我们是在谈论资产的历史，还是在谈论所有权的历史很重要。这些历史通常被称为**溯源**——它们告诉我们谁拥有了一个资产，以及它如何随着时间的推移而改变。这两个方面都很重要，因为了解资产的溯源可以增加我们对其的信心。
+- en: Asset life cycles
+  id: totrans-80
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 资产生命周期
+- en: This idea of provenance leads us very naturally to the concept of an **asset
+    life cycle**. If we consider the history of an asset, then in some very meaningful
+    sense, an asset is created, changed over time, and eventually ceases to exist.
+    For example, consider a mortgage. It comes into existence when a bank agrees to
+    lend a sum of money to a customer. It remains in existence for the term of the
+    mortgage. As the interest rate changes, it determines the monthly repayment amount
+    according to a fixed or a variable rate of interest. The term of the mortgage
+    may be changed with the agreement of both the bank and the mortgage holder. Finally,
+    at the end of the mortgage, it ceases to exist, although a historic record of
+    it may be kept. The mortgage may be terminated early if the customer wishes to
+    pay it off early (maybe they move home), or less fortunately if they default on
+    the loan. In some sense, we see that the mortgage was created, the term was periodically
+    changed, and then the mortgage was completed either normally or unexpectedly.
+    This concept of a life cycle is incredibly important in a business network, and
+    we'll discuss it in detail later, when we discuss **transactions**.
+  id: totrans-81
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 这种出处的想法自然地将我们带到了**资产生命周期**的概念。如果我们考虑一下资产的历史，那么从某种非常有意义的意义上讲，资产是被创建的，随着时间的推移而发生变化，并最终停止存在的。例如，考虑一笔抵押贷款。当银行同意向客户借出一笔钱时，它就产生了。它在抵押贷款的期限内存在。随着利率的变化，它根据固定利率或浮动利率确定每月偿还金额。抵押贷款的期限可以在银行和抵押贷款持有人的同意下更改。最后，在抵押贷款到期时，它停止存在，尽管可能会保留其历史记录。如果客户希望提前支付抵押贷款（也许他们搬家了），或者不幸地，如果他们违约了，抵押贷款可能会被提前终止。在某种意义上，我们看到抵押贷款被创建了，期限定期更改了，然后抵押贷款以正常或意外的方式完成了。这种生命周期的概念在业务网络中非常重要，我们将在后面详细讨论它，当我们讨论**交易**时。
+- en: Returning to assets, we can see that during their life cycle, assets can also
+    be **transformed**. This is a very important idea, and we consider two aspects
+    of asset transformation—namely whether the the transformation involves **division**
+    or **aggregation**, and whether it is a **homogeneous** or **heterogeneous** transformation.
+    These terms sound a little intimidating, but they are very simple to understand,
+    and best described using an example of each.
+  id: totrans-82
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 回到资产，我们可以看到在它们的生命周期中，资产也可以被**转化**。这是一个非常重要的想法，我们考虑资产转化的两个方面——即转化是否涉及**分割**或**聚合**，以及它是否是**均匀**或**不均匀**的转化。这些术语听起来有点吓人，但它们非常容易理解，并且最好使用每个方面的一个示例来描述。
+- en: In the first example, we consider a precious gemstone that has been mined. In
+    general, a mined gemstone is too large for any jeweler to use in a single piece
+    of jewellery. It must be broken into smaller stones, each of which may be used
+    for single item of jewellery. If we were to look at the history of a large, mined
+    gemstone, we would see that it underwent a process of division. The initial asset
+    was a gemstone, and it was transformed into a set of smaller gemstones, each of
+    which was related to the original gemstone. We can see that the asset transformation
+    is homogeneous, because although the smaller gemstones are most definitely different
+    assets, they are the **same type** as the original asset. A similar process of
+    homogeneous transformation often occurs with intangible assets, for example, when
+    a large commercial loan or insurance request is syndicated among several companies
+    to diversify risk, or when a stock is split.
+  id: totrans-83
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 在第一个例子中，我们考虑了一颗被开采出来的珍贵宝石。一般来说，一颗开采出来的宝石对于任何珠宝商来说都太大了，无法用于制作单件珠宝。它必须被分割成更小的石头，每个石头可以用于制作单件珠宝。如果我们看一下一颗大的被开采出来的宝石的历史，我们会发现它经历了一个分割的过程。最初的资产是一颗宝石，它被转化为一组更小的宝石，每个宝石都与原始宝石相关。我们可以看到资产转化是均匀的，因为尽管更小的宝石绝对是不同的资产，但它们与原始资产是**相同类型**的。类似的均匀转化过程经常发生在无形资产中，例如，当一笔大型商业贷款或保险请求被分散到几家公司中以分散风险时，或者当股票被拆分时。
+- en: In our next example, we consider the jeweler using a smaller gemstone. We imagine
+    they use the gemstone to create a fine ring for a customer. To make the ring,
+    they use all their skills to set the gemstone in a mounting on a bezel connected
+    to a hoop via a shoulder. A jeweler's craft is to be admired—they transform a
+    small block of silver and a gemstone into a valuable piece of jewellery. Let us
+    consider for a moment the assets under consideration. We can see that the metal
+    block and gemstone have been combined, or **aggregated**, to form the ring. We
+    also note that the ring is a different asset to the gemstone or silver block,
+    which served as inputs. We can see that these inputs have undergone a **heterogeneous
+    transformation** because the output asset is of a different type.
+  id: totrans-84
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 在我们的下一个例子中，我们考虑使用较小的宝石的珠宝商。我们想象他们使用宝石为客户制作精美的戒指。为了制作戒指，他们运用所有的技能将宝石镶嵌在一个通过肩连接到环上的镶座上。珠宝商的手艺值得赞美——他们将一小块银和一颗宝石变成了一件有价值的珠宝。让我们再思考一下正在考虑的资产。我们可以看到金属块和宝石已经被结合或**聚合**成戒指。我们还注意到戒指是一种不同于作为输入的宝石或银块的资产。我们可以看到这些输入经历了**异质转换**，因为输出资产是不同类型的。
+- en: These processes of aggregation and division are seen in many asset life cycles.
+    It's very popular in manufacturing life cycles, but with intangible assets. For
+    example, we see it in **mergers**, where companies can be combined together, or
+    **acquisitions**, where one company ceases to exist by being incorporated into
+    another company. The reverse processes of **de-merger** or **spin-off** is neatly
+    described as asset division.
+  id: totrans-85
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 这些聚合和分割过程在许多资产的生命周期中都可以看到。在制造业生命周期中非常流行，但使用无形资产。例如，我们在**并购**中看到它，其中公司可以合并在一起，或者**收购**，其中一家公司通过并入另一家公司而停止存在。**分拆**或**分立**的反向过程被清晰地描述为资产的分割。
+- en: Describing asset's life cycles in detail with transactions
+  id: totrans-86
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 详细描述交易中资产的生命周期
+- en: Let's consider *how* assets move through their life cycle. We have learned that
+    assets are created, transformed, and eventually cease to exist. Although life
+    cycle is a very useful concept, these steps seems somewhat limited. Surely there
+    are richer descriptions for the set of steps an asset goes through in its life
+    cycle? The answer is yes! **Transactions** define a rich, domain-specific vocabulary
+    for describing how assets evolve over time. For example, an insurance policy is
+    requested, refined, signed, delivered, claimed-against, paid-out against, invalidated,
+    or renewed. Each step of this life cycle is a transaction—we're going to talk
+    a lot more about transactions in the next section.
+  id: totrans-87
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 让我们考虑资产*如何*在它们的生命周期中移动。我们已经学到资产是如何创建、转化和最终停止存在的。尽管生命周期是一个非常有用的概念，但这些步骤似乎有些受限。毫无疑问，对资产在其生命周期中经历的一系列步骤进行更丰富的描述是有可能的。答案是肯定的！**交易**为描述资产随时间演变提供了丰富的、特定领域的词汇。例如，保险单被要求、完善、签署、交付、申报索赔、支付索赔、失效或续约。这个生命周期的每一步都是一个交易——我们将在下一节中更详细地讨论交易。
+- en: Finally, as with assets, participants can go through a life cycle, described
+    by transactions. So, you might wonder, what is the difference between assets and
+    participants? Well, it really comes down to thinking about form versus function.
+    Just because assets can have a life cycle described by transactions, and likewise
+    participants, does not make them the same thing. In the same way that birds, insects,
+    and bats can fly, they are definitely not related. In a general sense, we think
+    of participants and assets as as resources—they are related only in the most general
+    sense.
+  id: totrans-88
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 最后，与资产一样，参与者可以通过交易来描述生命周期。那么，你可能会想，资产和参与者之间有什么区别呢？嗯，这实际上归结为思考形式与功能。仅仅因为资产和参与者都可以通过交易来描述生命周期，并且同样如此，这并不意味着它们是相同的东西。就像鸟类、昆虫和蝙蝠都能飞行一样，它们绝对不是相关的。在一般意义上，我们认为参与者和资产是资源——它们仅在最一般的意义上相关。
+- en: That ends our discussion on assets! As we saw towards the end of the topic,
+    **transactions** are of paramount importance in describing the asset and participant
+    life cycles, so let's now turn to this subject!
+  id: totrans-89
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 这就结束了我们对资产的讨论！正如我们在话题末尾看到的那样，**交易**对于描述资产和参与者的生命周期至关重要，所以现在让我们转向这个主题吧！
+- en: Introducing transactions
+  id: totrans-90
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 介绍交易
+- en: Our journey so far has involved understanding the fundamental nature of a business
+    network—that it is comprised of participants involved in the meaningful exchange
+    of assets. Let's now focus on the most important concept in business networks—exchange.
+  id: totrans-91
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 到目前为止，我们的旅程涉及了理解商业网络的基本特性——即它由参与者组成，这些参与者参与资产的有意义交换。现在让我们专注于商业网络中最重要的概念——交换。
+- en: Change as a fundamental concept
+  id: totrans-92
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 变化作为一个基本概念
+- en: Why is exchange the most important idea? Well, without it, participants and
+    assets have no purpose!
+  id: totrans-93
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 为什么交换是最重要的理念呢？嗯，没有它，参与者和资产就没有了目的！
+- en: This seems like an excessively hyperbolic statement! However, if you think about
+    it for a moment, participants only meaningfully exist in the sense that they exchange
+    goods and services (collectively known as assets) with each other. If a participant
+    does not exchange with another participant, they don't exist in any meaningful
+    way. It's the same with assets—if they aren't exchanged between participants,
+    then they don't exist in any meaningful way either. There's no point in an asset
+    having a life cycle if it doesn't move between different participants, because
+    the asset is private to a participant and serves no purpose in the business network
+    outside the participant's private context.
+  id: totrans-94
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 这似乎是一个过度夸张的说法！然而，如果你稍微思考一下，参与者只有在彼此交换商品和服务（统称为资产）的意义上才有意义存在。如果一个参与者不与另一个参与者交换，那么他们在任何有意义的方式下都不存在。资产也是一样——如果它们不在参与者之间交换，那么它们也不存在任何有意义的方式。如果资产在不同参与者之间不移动，那么资产具有的生命周期就没有意义，因为该资产对参与者来说是私有的，在参与者的私人背景之外对商业网络没有任何意义。
+- en: '**Change**, therefore, is the fundamental principle in business networks. When
+    we think about exchange, transfers, commerce, buying, selling, agreement, and
+    contracts, all of these motivational ideas are concerned with the business and
+    the effects of change. Change gives the world of business motion and direction.
+    The way we capture change is via a transaction. That''s why transaction is the
+    most important concept in a business network—it defines and records change—change
+    of asset; change of asset ownership; change of participants. Whenever anything
+    changes in a business network, there''s a transaction to account for it.'
+  id: totrans-95
+  prefs: []
+  type: TYPE_NORMAL
+  zh: '**变化**，因此，是商业网络中的基本原则。当我们考虑交换、转移、商业、买卖、协议和合同时，所有这些激励性的想法都与商业及其变化的影响有关。变化赋予了商业世界动力和方向。我们捕捉变化的方式是通过交易。这就是为什么交易是商业网络中最重要的概念——它定义并记录了变化——资产的变化；资产所有权的变化；参与者的变化。每当商业网络中发生任何变化时，都会有一笔交易来记录。'
+- en: Transaction definition and instance
+  id: totrans-96
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 交易定义和实例
+- en: The term transaction is often used in two closely related, but different ways,
+    and it's important to be conscious of this difference. We sometimes use the term
+    transaction to describe in general terms what happens in a transaction. For example,
+    we might define that a property transaction involves a buyer paying an agreed
+    amount to the owner of the property in exchange for possession of the property,
+    and exchange of the deeds of title. (Almost always, the buyer also acquires the
+    rights to subsequently sell the property.) In this sense, the term transaction
+    is used to describe in general the process of exchange in the terms of the participants
+    and assets involved.
+  id: totrans-97
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 术语“交易”通常有两种密切相关但不同的用法，意识到这种差异很重要。我们有时使用术语“交易”来一般性地描述交易中发生的事情。例如，我们可能定义房地产交易涉及买方支付一定金额给房产所有者，以换取房产的所有权和产权的转移。（几乎总是，买方还获得了随后出售房产的权利。）在这种意义上，术语“交易”用于一般性地描述交换过程，描述参与者和资产涉及的交换过程。
+- en: The other sense in which the word transaction is used is as a description of
+    a particular transaction. For example, we might say that on 10 May 2018, Daisy
+    bought a bicycle from the Winchester bicycle shop for 300 GBP. We're using the
+    term transaction here to describe a particular instance of a transaction. These
+    two usages are very closely related, and the context almost always makes it clear
+    which one we're talking about.
+  id: totrans-98
+  prefs: []
+  type: TYPE_NORMAL
+  zh: “交易”一词的另一个用法是描述特定交易。例如，我们可能会说，2018年5月10日，黛西从温彻斯特自行车店以300英镑的价格购买了一辆自行车。我们在这里使用术语“交易”来描述特定交易的一个实例。这两种用法非常密切相关，上下文几乎总是清楚表明我们在谈论哪一种。
+- en: The fundamental difference between the two usages is that the former defines
+    what it means to be a transaction, and the latter captures a particular instance
+    of a transaction. In the real world, we see examples of transaction instances
+    all the time—whenever we go into a shop to buy some goods, we are offered a receipt!
+    In our previous example, Daisy probably got a receipt for her bicycle. The receipt
+    might be made of paper, though nowadays it is often sent to our phone or email
+    address. This receipt is a copy of the transaction—it's Daisy's personal record
+    of what happened. The bicycle shop also keeps a copy of the transaction record
+    themselves for their own accounting purposes.
+  id: totrans-99
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 两种用法之间的基本区别在于前者定义了交易的含义，而后者捕捉了交易的特定实例。在现实世界中，我们经常看到交易实例的例子——每当我们进入商店购买商品时，我们都会收到收据！在我们之前的例子中，黛西可能为她的自行车收到了一张收据。收据可能是纸质的，尽管现在它经常发送到我们的手机或电子邮件地址。这张收据是交易的副本——它是黛西对发生的事情的个人记录。自行车店也会保存交易记录的副本，以供他们自己的会计目的使用。
+- en: Implicit and explicit transactions
+  id: totrans-100
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 隐式和显式交易
+- en: Note that you don't often see an explicit transaction definition for a transaction
+    like this; the definition is encoded in the people, processes, and technology
+    that you interact with. For low-consequence transactions such as Daisy's, the
+    transaction definition is implicit. Only if there's a dispute do we get to find
+    out how the transaction is defined. For example, if Daisy's bicycle chain snaps
+    after a couple of days, she might reasonably expect that the chain would be fixed
+    free of charge, or the bicycle replaced, or she would get her money back. This
+    is the point at which Daisy determines the true nature of her transaction with
+    the Winchester bicycle shop.
+  id: totrans-101
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 请注意，像这样的交易通常不会看到显式的交易定义；定义被编码在您与之互动的人、流程和技术中。对于像黛西这样的低风险交易，交易定义是隐式的。只有在存在争议时，我们才能了解交易是如何定义的。例如，如果黛西的自行车链条在几天后断裂，她可能合理地期望链条会免费修复，或者自行车会被更换，或者她会退款。这是黛西确定与温彻斯特自行车店的交易的真实性质的时刻。
+- en: It looks like this kind of implicit transaction definition only has downsides—but
+    in fact that's not the case. Firstly, every country's laws have explicit notions
+    of a fair transaction that would give Daisy reasonable expectations as she entered
+    the transaction. In most countries this is called something such as a Sale of
+    Goods Act, and it specifies the rights and responsibilities of all counter-parties
+    involved in any commercial transaction. Secondly, the lack of an explicit contract
+    simplifies the interaction between Daisy and the bicycle shop. Given that, in
+    most cases, bicycles perform well for an extended period after purchase, a receipt
+    is sufficient for most practical purposes. It would be both costly and timely
+    to re-state what everyone knows to be true every time a simple purchase was made.
+    This kind of simplification is an example of what people often call **reducing
+    friction**.
+  id: totrans-102
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 看起来这种隐式交易定义只有缺点，但事实上并非如此。首先，每个国家的法律都有关于公平交易的显式概念，这将使黛西在进入交易时有合理的期望。在大多数国家，这被称为诸如《货物销售法》之类的东西，它规定了任何商业交易中涉及的所有交易对手的权利和责任。其次，缺乏显式合同简化了黛西和自行车店之间的互动。鉴于在大多数情况下，自行车在购买后都能表现良好一段时间，收据对于大多数实际目的来说已经足够了。每次进行简单购买时重新陈述每个人都知道的真相既费钱又费时。这种简化是人们经常称之为**减少摩擦**的一个例子。
+- en: For high-consequence transactions, or those with special conditions, the situation
+    is very different—it is vital that the transaction definition is made explicit,
+    in advance. If we look at Daisy's transaction again, we can see that if there
+    was a dispute, there would have been other follow-up transactions—for example,
+    the bicycle might have had its chain replaced, or in an extreme circumstance she
+    might have got her money back. We can see that, in general, we would require several
+    conditional transactions to describe a satisfactory interaction between participants
+    for such a transaction. It means that if Daisy had been getting a mortgage, rather
+    than a bicycle, it would have been necessary to specify several transactions and
+    the conditions under which they could be executed. You've probably heard of a
+    term for such a collection of transactions and conditions—a **contract**.
+  id: totrans-103
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 对于高风险交易或具有特殊条件的交易，情况大不相同——事先明确交易定义至关重要。如果我们再次看Daisy的交易，我们会发现，如果存在争议，就会有其他跟进交易—例如，自行车可能已经更换了链条，或在极端情况下，她可能已经拿回了她的钱。我们可以看到，一般来说，我们需要多个条件交易来描述参与者之间对这种交易的满意互动。这意味着如果Daisy得到的是一笔抵押贷款，而不是一辆自行车，就有必要指定若干交易和可执行条件。你可能已经听说过一个用来描述这种交易和条件集合的术语——**合同**。
+- en: The importance of contracts
+  id: totrans-104
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 合同的重要性
+- en: For high value assets, it's important to have a contract. It defines a related
+    set of transactions and conditions under which they occur. A contract normally
+    centers around a particular asset type and involves a well-defined set of participant
+    types. If you look at a real-world contract, it includes a combination of statements
+    about instances and statements about definitions. At the top of the contract,
+    all the assets and participants will be laid out with particular values—namely
+    Daisy (the buyer), Winchester bicycles (the seller), 300 GBP (the price), 10 May
+    2018 ( the date of purchase) and so on. It's only after all these type-to-instance
+    mappings have been laid out, that the contract is then defined in terms of these
+    types, transactions, and conditions under which they occur, without reference
+    to the particular instance values. This is what makes contracts a little strange
+    to read at first—but once you can see the structure in terms of participants,
+    assets, and transactions, and their respective values, they are actually quite
+    easy to understand, and all the more powerful for this structure.
+  id: totrans-105
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 对于高价值资产，拥有一份合同是很重要的。它定义了一组相关的交易和它们发生的条件。合同通常围绕着特定资产类型展开，并涉及一组明确定义的参与者类型。如果你看一份现实世界的合同，它包括了一系列关于实例和定义的陈述。在合同的顶部，所有的资产和参与者将被列出，并注明了特定的价值—比如Daisy（买方）、Winchester自行车（卖方）、300英镑（价格）、2018年5月10日（购买日期）等等。只有在所有这些类型到实例的映射都被列出之后，合同才会在这些类型、交易和在这些类型发生的条件下定义，而不涉及特定实例值。这就是使合同在一开始看起来有点奇怪的地方—但一旦你能看到参与者、资产、交易及其相应价值的结构，它们实际上是相当容易理解的，这种结构使它们更加强大。
+- en: Signatures
+  id: totrans-106
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 签名
+- en: The final thing we see in a contract is at the bottom of it—the signatures!
+    In many ways, signatures are the most important part of a contract because they
+    represent the fact that all counter-parties have agreed to the information contained
+    within it. And of course, we see lots of signatures in the real world. Daisy's
+    shop receipt normally has her signature on it—either physical or digital, via
+    a private key. In simple transactions, the store's signature is actually implicit—they
+    put a transaction code on a branded receipt, and keep a copy for their purposes—this
+    satisfies the purposes of a signature.
+  id: totrans-107
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 在合同中我们最后看到的是其底部——签名！签名在许多方面是合同中最重要的部分，因为它代表了所有交易对手对其中包含的信息达成一致的事实。当然，在现实世界中我们会看到许多签名。Daisy的商店收据通常上面有她的签名—可以是实物的，或者是通过私钥的数字签名。在简单交易中，商店的签名实际上是隐含的—他们会在品牌收据上放置交易代码，并保留一份副本用于自己的目的—这满足签名的目的。
+- en: However, for higher-consequence transactions, all counter-parties will be required
+    to explicitly sign a contract. Even more pointedly, to ensure that every party
+    is entering the contract with their *eyes open*, an independent third-party such
+    as a solicitor, notary, or regulator, may be required to sign the contract to
+    verify the willing, and free, participation of those counter-parties explicitly
+    involved in the transaction.
+  id: totrans-108
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 然而，对于高风险交易，所有交易方都需要明确签署一份合同。更为明确地，为了确保每个交易方都是*睁大眼睛*参与合同，可能需要一个独立的第三方，如律师、公证人或监管机构，签署合同以验证明交易明确涉及的各方自愿而自由地参与其中。
+- en: Smart contracts for multi-party transaction processing
+  id: totrans-109
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 多方交易处理的智能合约
+- en: It's absolutely vital to understand these ideas. They are not particularly complicated,
+    especially if you relate them to things you do every day! When it comes to understanding
+    how a blockchain helps multiple counter-parties create and agree low-friction
+    transactions related to high-value assets, we need to understand these terms,
+    and their importance, both stand-alone and in relationship to each other.
+  id: totrans-110
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 彻底理解这些概念是绝对至关重要的。它们并不特别复杂，特别是如果你将它们与你每天做的事情联系起来！当涉及理解区块链如何帮助多个交易方创建并就高价值资产相关低摩擦交易达成一致时，我们需要理解这些术语及其重要性，无论是作为独立存在还是相互关联。
+- en: Now, when we look at a business network, we can see that it is full of multi-party
+    transactions governed by contracts! It's why transactions are the most important
+    concept in a business network; they define and capture the agreed exchanges of
+    valuable assets between different counter-parties.
+  id: totrans-111
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 现在，当我们看一个商业网络时，我们可以看到它充满了由合同管理的多方交易! 这就是为什么交易是商业网络中最重要的概念；它们定义并捕捉了不同交易方之间有价值资产的约定交换。
+- en: Now, let's use a term you've probably heard many times when it comes to blockchains—**smart
+    contracts**. They are simply a digital manifestation of these ideas. Smart contracts
+    are a digital form of a contract—meaning that they can be easily interpreted and
+    executed by a computer system. In reality, all computer systems that implement
+    high- or low-consequence transactions implement contracts. But, unlike blockchains,
+    these systems do not have a technology with a built-in vocabulary that makes the
+    translation of these ideas into a technology platform a straightforward exercise.
+  id: totrans-112
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 现在，让我们来使用一个你在谈论区块链时可能听过很多次的术语——**智能合约**。它们只是这些概念的数字化表现。智能合约是合同的数字形式——意味着它们可以被计算机系统轻松解释和执行。实际上，所有实现高风险或低风险交易的计算机系统都实现了合同。但是，不同于区块链，这些系统没有内建具有使这些概念转化为技术平台的词汇表。
+- en: Digital transaction processing
+  id: totrans-113
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 数字交易处理
+- en: As we mentioned at the beginning of this chapter, that's the big idea of business
+    networks implemented on blockchains. They make the translation from the real-world
+    into a computer system as simple as possible. Hyperledger Fabric, in particular,
+    makes all these ideas quite explicit, so that we can easily model and implement
+    a business network. It keeps all the existing ideas intact, but implements them
+    in a fundamentally **digital** manner—using computer processes, networks, and
+    storage.
+  id: totrans-114
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 正如我们在本章的开头所提到的，这就是基于区块链实现的商业网络的大思想。它们使得从现实世界到计算机系统的转换尽可能简单。尤其是 Hyperledger Fabric
+    将所有这些想法都表现得非常明确，这样我们就可以轻松地对商业网络进行建模和实现。它保持所有现有概念完整，但是以基本上**数字**的方式实现它们——使用计算机进程、网络和存储。
+- en: Transactions are at the center of a business network because they act on assets
+    and participants. However, it's more than this. Even if we add more concepts to
+    the business network, they must always be subject to transactions. Transactionality
+    is the universal property that relates to all aspects of the business network.
+    It's like the ability to fly that we mentioned earlier in the chapter—every object
+    in the business network is subject to, and must be the subject of, transactions.
+  id: totrans-115
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 交易是商业网络的核心，因为它们作用于资产和参与者。然而，它不仅仅如此。即使我们向商业网络添加更多概念，它们仍然必须始终受到交易的约束。交易性是涉及商业网络所有方面的通用属性。这就像我们在本章前面提到过的能够飞行的能力——商业网络中的每个对象都受到交易的约束，并且必须是交易的主体。
+- en: Initiating transactions
+  id: totrans-116
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 发起交易
+- en: Coming up for air for a moment, we can see that transactions are usually initiated
+    by one participant in a business network. This participant is usually the consumer
+    of a service available from a particular service provider. For example, Daisy
+    wishes to consume the services provided by Winchester bicycles, when it comes
+    to buying a bicycle.
+  id: totrans-117
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 暂时停下来，我们可以看到交易通常是由业务网络中的一个参与者发起的。这个参与者通常是从特定服务提供商那里获得服务的消费者。例如，黛西希望在购买自行车时消费Winchester
+    bicycles提供的服务。
+- en: Most transactions initiated by participants are concerned with the change in
+    state of an asset, but in some cases transactions can involve the change in state
+    of a participant. For example, if I change my name by deed poll, then in some
+    sense the asset being transformed is me—the participant. This reinforces the central
+    nature of transactions—that they capture change no matter what the object.
+  id: totrans-118
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 大多数参与者发起的交易涉及资产状态的变化，但在某些情况下，交易可以涉及参与者状态的变化。例如，如果我通过正式文件更改我的姓名，那么从某种意义上说，被转变的资产就是我——参与者。这强调了交易的核心特性——无论对象如何，它们都捕捉到变化。
+- en: Transaction history
+  id: totrans-119
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 交易历史
+- en: When we previously discussed the provenance of assets, we saw that the history
+    of an asset was important—it provided confidence to participants in a network—and
+    this increased trust. Likewise, transaction history is important, because it too
+    increases trust. Why? Well, it comes back to those signatures. Any change must
+    agreed by all the participants involved in the transaction, and the signatures
+    in each transaction provide confidence that every counter-party consented to the
+    exchange. A history of transactions is even better—it shows that all all points
+    in time, every participant in the network has agreed with every change described
+    by every transaction!
+  id: totrans-120
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 当我们之前讨论资产的来源时，我们看到资产的历史很重要——它为网络中的参与者提供了信心，并增加了信任。同样，交易历史也很重要，因为它也增加了信任。为什么？嗯，这归结于那些签名。任何变化都必须得到涉及交易的所有参与者的同意，而每个交易中的签名提供了信心，即每个交易方都同意了交换。交易历史更好——它显示了在所有时间点，网络中的每个参与者都同意了每笔交易描述的每个变化！
+- en: A blockchain history contains a sequenced order of transactions. Although, an
+    order seems to imply that transactions occur in a time-defined sequence, this
+    is only partially true. For example, if I pay money into my bank account at 11.00
+    a.m., and then make a payment from my bank account at 11.30 a.m., there is a very
+    real sense in which the first transaction happened before the second.
+  id: totrans-121
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 区块链历史包含一系列交易的顺序。尽管顺序似乎意味着交易按时间顺序发生，但这只是部分正确的。例如，如果我在上午11点向我的银行账户存钱，然后在上午11点30分从我的银行账户支付款项，那么第一笔交易发生在第二笔交易之前是非常真实的。
+- en: Likewise, if you pay money into your bank account at 11.00 a.m., and then you
+    make a payment at 11.30 a.m., there is a definite ordering of your transactions.
+    However, let's now ask whether our 11.00 a.m. transactions happened before or
+    after each other? Or, our 11.30 a.m. transactions? Does it matter whether my 11.00
+    a.m. transaction is recorded after your 11.30 a.m. transaction, even though it
+    may have occurred, in some sense, before it?
+  id: totrans-122
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 同样，如果你在上午11点向你的银行账户存钱，然后在上午11点30分支付款项，你的交易就有了明确的顺序。但是，现在让我们问一下，我们的上午11点的交易是先发生还是后发生的？或者我们的上午11点30分的交易呢？即使在某种意义上，我的上午11点的交易在你的上午11点30分的交易之后记录，这是否重要？
+- en: Transaction streams
+  id: totrans-123
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 交易流
+- en: This example shows us that it's the dependency of transactions that matters
+    when discussing transaction history; transactions that are dependent on previous
+    transactions are recorded after them. For **independent transaction streams**,
+    this ordering is much less important. We have to be a little bit careful, because
+    transactions have a nasty habit of becoming entangled with each other. For example,
+    if your 11.30 a.m. transaction made its payment into my bank account, then two
+    seemingly independent transaction streams have started to interfere with each
+    other. This means that we cannot arbitrarily delay the recording of transactions.
+  id: totrans-124
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 这个例子告诉我们，在讨论交易历史时，交易的依赖性是重要的；依赖于先前交易的交易在其之后记录。对于**独立交易流**，这种排序就不那么重要了。我们必须小心一点，因为交易有一个讨厌的习惯，就是它们会彼此纠缠在一起。例如，如果你的上午11点30分的交易将款项支付到我的银行账户，那么两个看似独立的交易流就开始相互干扰了。这意味着我们不能随意延迟交易的记录。
+- en: Notice that we're not talking about the actual occurrence of the transaction—at
+    a particular time, or in a particular place—but rather the recording of that transaction
+    in a transaction history. It's a bit like a strange, but comprehensive history
+    book that records Napoleon's excursion to Italy in 1800, at the same time as noting
+    the United States Library of Congress founding in 1800, while also mentioning
+    the completion of the literary work Kojiki-den by Motoori Norinaga in Japan in
+    1800\. What's important is that these events are recorded—their east order in
+    the book with respect to each other is not of crucial importance, as long as they
+    appear at roughly the same time.
+  id: totrans-125
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 请注意，我们谈论的不是交易的实际发生——在特定时间或特定地点——而是该交易记录在交易历史中。这有点像一本奇怪但全面的历史书，记录了拿破仑在1800年前往意大利的行程，同时也记录了1800年美国国会图书馆的成立，以及日本人物本居宣长完成的文学作品《古事记传》。重要的是这些事件被记录下来——它们在书中相对于彼此的顺序并不是至关重要的，只要它们大致同时出现即可。
+- en: Separating transactions into different business networks
+  id: totrans-126
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 将交易分开到不同的商业网络
+- en: This seemingly contrived example of transaction history actually provides us
+    with a deep insight into the design of business networks—that one record of all
+    interactions in a network of complex interactions is not a good idea. The example
+    starts to illustrate that it might be better design to associate a business network
+    with a particular concern, rather than trying to combine all history into a single
+    network. In our analogy, it would be better to have different history books for
+    French, United States, and Japanese history and cross-reference them with each
+    other!
+  id: totrans-127
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 这个看似刻意的交易历史例子实际上为我们提供了对商业网络设计的深刻见解——复杂交互网络中所有互动的一条记录并不是一个好主意。这个例子开始说明，将商业网络与特定关注点相关联可能是更好的设计，而不是试图将所有历史记录合并到一个网络中。在我们的类比中，最好为法国历史、美国历史和日本历史各有不同的历史书，并相互交叉参考！
+- en: This idea has concrete and important consequences for how you approach blockchain
+    networks. It's not just good design, but essential design to separate business
+    networks into those of separate concerns, and then link them together. It will
+    lead to simpler, more comprehensible, more scalable, more extensible, and more
+    resilient systems. You will be able to start small and grow, and be confident
+    that no matter how things evolve you can cope with change. You'll see Hyperledger
+    Fabric explicitly supports the idea of multiple business networks using concepts
+    called networks and channels, and we'll discuss these in more detail later.
+  id: totrans-128
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 这个想法对于如何处理区块链网络有具体且重要的影响。将商业网络分开成不同的关注点，并将它们链接在一起不仅是良好的设计，而且是必要的设计。这将导致更简单、更易理解、更可扩展、更可扩展和更具韧性的系统。你将能够从小处开始，然后逐步发展，并且有信心无论事物如何演变，你都能应对变化。你将看到Hyperledger
+    Fabric明确支持使用称为网络和通道的概念的多个商业网络的想法，我们稍后会更详细地讨论这些内容。
+- en: Transaction history and asset states
+  id: totrans-129
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 交易历史与资产状态
+- en: Examining business network history in more detail, we can see that there are
+    two elements to the history of an asset (or participant), namely, its current
+    value, and the sequenced set of transactions that led to this value. We can generate
+    the value of the asset at all points in time if we sequentially apply from an
+    arbitrary point in time all the transactions that affected it. Effectively, we
+    think of transaction history as a set of transaction **events** that occur at
+    different times and places in the business network, thereby determining its state
+    at any given point in time.
+  id: totrans-130
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 更详细地审视商业网络历史，我们可以看到一个资产（或参与者）历史的两个元素，即其当前值和导致该值的一系列序列化交易。如果我们按照影响它的所有交易依次从任意时间点进行应用，我们可以生成资产在所有时间点的价值。事实上，我们将交易历史视为一系列在商业网络中不同时间和地点发生的交易**事件**，从而确定其在任何给定时间点的状态。
+- en: We will see these two aspects of business networks explicitly expressed in Hyperledger
+    Fabric via the concepts of a ledger **world state** and a ledger blockchain. The
+    world state holds the latest value of an asset in a business network, whereas
+    the blockchain holds the record of all transactions in the business network. This
+    makes Hyperledger Fabric a little more powerful than other blockchains—like them,
+    it records all the transactions in a blockchain. Additionally, it also calculates
+    the current value of an asset, making it very easy to be confident that you're
+    working with the the most up-to-date state. These most-recent values tend to be
+    the most important because they represent the current state of the world. And,
+    that's what most participants are interested in when it comes to initiating new
+    transactions.
+  id: totrans-131
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们将在 Hyperledger Fabric 中通过账本**世界状态**和账本区块链的概念明确表达商业网络的这两个方面。世界状态保存了商业网络中资产的最新值，而区块链则保存了商业网络中所有交易的记录。这使得
+    Hyperledger Fabric 比其他区块链更强大一些——像它们一样，它记录了区块链中的所有交易。此外，它还计算了资产的当前值，使得非常容易确信你正在处理最新的状态。这些最新的值往往是最重要的，因为它们代表了世界的当前状态。而且，当涉及到发起新交易时，大多数参与者都对此感兴趣。
+- en: A business network as a history of transactions
+  id: totrans-132
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 商业网络作为交易历史
+- en: In a very real sense, we can consider the business network as being a history
+    of transactions. What do we mean by this? Well, we've seen that business networks
+    are comprised of participants involved in multi-party transactional asset exchange
+    defined by contracts. However, if we re-orient ourselves slightly, we see that
+    the network is a product of its transaction history, which in turn cannot be separated
+    from the assets and participants who initiated the transactions.
+  id: totrans-133
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 从一个非常真实的意义上来说，我们可以将商业网络视为交易的历史。我们这样说是什么意思呢？好吧，我们已经看到，商业网络由参与多方交易资产交换的参与者组成，这些交易由合同定义。然而，如果我们稍微重新调整一下自己的思路，我们会发现，网络是其交易历史的产物，而这又与发起交易的资产和参与者无法分开。
+- en: All these concepts are part of a whole, which supports and reinforces itself.
+    Participants were just our first step to understanding—an entrance into the world
+    of business networks. By learning more, we realize that transactions are in fact
+    central, while at the same time being meaningless unless they refer to the assets
+    and participants inside the network they both create, change, and describe! It's
+    the transaction history that brings everything together into a coherent whole,
+    and in this sense, it is the business network.
+  id: totrans-134
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 所有这些概念都是一个整体的组成部分，彼此支持和加强。参与者只是我们理解的第一步——进入商业网络世界的入口。通过学习更多，我们意识到交易实际上是中心，同时也是毫无意义的，除非它们涉及到网络内部的资产和参与者，它们既创造又改变并描述了！正是交易历史将一切联系在一起形成一个连贯的整体，从这个意义上说，它就是商业网络。
+- en: Regulators and business networks
+  id: totrans-135
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 监管机构和商业网络
+- en: A final word on a special kind of participant that is common to just about every
+    kind of business network—the **regulator**. The nature of most business networks
+    is that there is a participant whose role is to ensure that the transactions obey
+    certain **rules**. For example, in the United States, the **Securities and Exchange
+    Commission** (**SEC**) ensures that the participants performing transactions involving
+    the securities assets do so according to agreed laws and rules, giving investors
+    trust in the stock market. Or, in the United Kingdom, the **Driver and Vehicle
+    Licensing Agency** (**DVLA**) ensures that vehicles are properly insured, taxed,
+    and exchanged according to UK law. Another example is in South Africa, where the
+    **Association for Food Science and Technology** (**SAAFoST**) ensure that transactions
+    involving farming, food distribution, food processing, and food retail comply
+    with appropriate South African law.
+  id: totrans-136
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 关于一种特殊类型的参与者的最后一句话，这种参与者几乎在每一种商业网络中都很常见——**监管机构**。大多数商业网络的性质是存在一种角色的参与者，其职责是确保交易遵守某些**规则**。例如，在美国，**证券交易委员会**（**SEC**）确保执行涉及证券资产的交易的参与者按照约定的法律和规则进行，使投资者对股票市场充满信心。或者，在英国，**驾驶员和车辆许可局**（**DVLA**）确保车辆按照英国法律进行适当的保险、税收和交换。另一个例子是在南非，**南非食品科学与技术协会**（**SAAFoST**）确保涉及农业、食品分销、食品加工和食品零售的交易符合适当的南非法律。
+- en: Every business network has a regulator of some kind to ensure proper oversight.
+    Simply put, the regulator ensures that everyone plays the game according to the
+    rules of the business network. We can see that a business network in which all
+    the transactions are recorded digitally on a blockchain actually allows the regulator
+    to do their job in a more efficient and timely manner.
+  id: totrans-137
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 每个商业网络都有某种形式的监管机构来确保适当的监督。简单来说，监管机构确保每个人都按照商业网络的规则来玩游戏。我们可以看到，在所有交易都以数字形式记录在区块链上的商业网络中，监管机构实际上可以更有效地和及时地执行他们的工作。
+- en: Of course, one might ask why we need a regulator if all the transactions are
+    available to the appropriately authorized participants who can prove correct or
+    incorrect behavior? The answer is that regulators have the ability to sanction
+    certain participants in the network—specifically to exclude them from the network,
+    and confiscate their assets or those which they have illegally transacted upon.
+    These sanctions are the most powerful transactions in the network as they provide
+    ultimate power, and must accordingly be used only in extreme circumstances.
+  id: totrans-138
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 当然，人们可能会问，如果所有交易对适当授权的参与者都可见，并且能够证明行为的正确性或错误性，那么我们为什么需要监管机构呢？答案是监管机构有权制裁网络中的某些参与者——特别是将他们排除在网络之外，并没收他们的资产或非法交易的资产。这些制裁是网络中最强大的交易，因为它们提供了最终的权力，并且必须仅在极端情况下使用。
+- en: 'Congratulations! Given you''ve reached this far, you''ve really understood
+    the fundamental nature of business networks. Even better, there''s really only
+    one more concept to cover in our discussion of business networks: events. Let''s
+    move on to the final aspect of business networks that you''ll find empowering
+    to understand.'
+  id: totrans-139
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 祝贺！既然你已经走到了这一步，你真正理解了商业网络的基本性质。更好的是，我们在讨论商业网络时真正需要涵盖的概念只剩下一个：事件。让我们继续讨论你会发现非常有力的商业网络的最后一个方面。
+- en: Discussing events from the perspective of designing a business network using
+    Composer
+  id: totrans-140
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 从使用 Composer 设计商业网络的角度讨论事件
+- en: We've seen so far that the vocabulary of business networks contains a compact
+    set of inextricably linked concepts—participants, assets, and transactions. Though
+    small in number, these concepts are very expressive—they contain big ideas, with
+    lots of aspects to them, which support and reinforce each other.
+  id: totrans-141
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 到目前为止，我们已经看到商业网络的词汇包含一组紧密联系的概念——参与者、资产和交易。尽管数量不多，但这些概念非常具有表现力——它们包含着重要的想法，有许多方面支持和加强彼此。
+- en: It's not that there's something *missing*, but by adding one extra concept,
+    we're going to significantly increase the descriptive and design power of this
+    vocabulary. This final concept is **event**—the last ingredient in the mix! The
+    good news is that you've probably heard the term before, and many of the ideas
+    that it supports are quite obvious. But make no mistake, events are a hugely powerful
+    concept, and worth a little time to master—your investment in this topic will
+    be handsomely rewarded.
+  id: totrans-142
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 并不是说有什么*缺失*，而是通过添加一个额外的概念，我们将显著增加这个词汇的描述和设计能力。这个最后的概念是**事件**——混合物中的最后一种成分！好消息是，你可能以前听过这个术语，并且它支持的许多想法是相当明显的。但不要误解，事件是一个非常强大的概念，值得花点时间来掌握——你对这个话题的投资将得到丰厚的回报。
+- en: A universal concept
+  id: totrans-143
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 一个通用的概念
+- en: We think of an event as denoting the occurrence or happening of a particular
+    fact. For example, *The President arrived in Australia*, or *The stock market
+    closed 100 points up today*, or *The truck arrived at the distribution center* are
+    all examples of events. The fundamental idea seems quite simple—an event is a
+    point in time when something significant happens. An event represents some kind
+    of transition—moving the world from one state to a quite different state. This
+    is the nature of events—history is transformed from a smooth line to a set of
+    joined-up dots—where each dot represents a significant event.
+  id: totrans-144
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们将事件视为表示特定事实发生或发生的事件。例如，*总统抵达澳大利亚*，或者*股市今天收盘上涨100点*，或者*卡车抵达配送中心*都是事件的示例。基本想法似乎相当简单——事件是发生重要事情的时刻。事件代表某种过渡——将世界从一个状态转移到完全不同的状态。这就是事件的本质——历史从一条平滑的线变成了一组连接的点——其中每个点代表一个重要事件。
+- en: In the domain of business networks, we can see events *everywhere*. Participants
+    initiating transactions are events. Assets undergoing a series of transformations
+    are events. Likewise, assets being exchanged between participants are events.
+    An asset's life cycle is nothing but a series of events! We now see participants
+    joining and leaving the business network as events. Think about transaction history,
+    we see it as a set of events about participants and assets. Goodness, once we
+    open our eyes, events really are everywhere! If we're not careful, were going
+    to get overwhelmed by these little space invaders!
+  id: totrans-145
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 在商业网络领域，我们可以随处看到*事件*。发起交易的参与者算作事件。资产经历一系列变化也算作事件。同样地，资产在参与者之间交换也算作事件。资产的生命周期不过是一系列事件的历程！我们现在看到参与者加入和离开业务网络也算作事件。考虑一下交易历史，我们把它看作关于参与者和资产的一系列事件。天哪，一旦我们睁开眼睛，事件真的无处不在！如果我们不小心，这些小空间入侵者会让我们不知所措！
+- en: Messages carry event notifications
+  id: totrans-146
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 消息携带着事件通知
+- en: We think of messages as the carriers of event notifications. In the real world,
+    we are notified of events via sent by text messages, or email, or maybe a newsfeed.
+    We therefore make a distinction between an event and the communication of it.
+    This is a very important distinction to make, because it illustrates that we are
+    coupled to the event via a medium.
+  id: totrans-147
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们将消息视为事件通知的载体。在现实世界中，我们通过短信、电子邮件或可能是新闻源接收到事件的通知。因此，我们区分事件和其通信。这是一个非常重要的区分，因为它说明我们通过媒介与事件耦合在一起。
+- en: Let us now plant the idea—which we will return to later—that although there
+    is a singular event, multiple participants can be notified via separate message
+    notifications. We see that there is a loose coupling between event-producer and
+    event-consumer. It all means events have a slightly intangible quality—their slightly
+    abstract nature makes them hard to pin down except through the messages through
+    which they are perceived.
+  id: totrans-148
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 让我们现在种下这个想法——我们之后会回到这个想法——即使有一个单独的事件，多个参与者可以通过单独的消息通知。我们看到事件生成者和事件消费者之间存在松散耦合。这一切意味着事件具有稍微难以捉摸的特质——它们稍微抽象的本质使它们难以捉摸，除非通过感知它们的消息。
+- en: A word of mild caution might be appropriate now—we can loose focus on what's
+    important if we obsess about events. Firstly, it's obvious that we need to consider
+    only significant events—events that will likely result in some kind of action.
+    Everything other than the event is just noise—we don't need to consider it. And
+    of course, what constitutes significant is going to be domain-, and problem-,
+    specific—a stock market price rise is significant in a financial network, but
+    not an educational network. So for now, let's use events as a tool for when significant
+    things happen in a business network, when we need to understand what prompts participants
+    to act. Let's see how that tool can be used.
+  id: totrans-149
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 现在可能需要有点小心了——如果我们过于沉迷于事件，就会失去对重要事情的关注。首先，显而易见的是，我们只需要考虑重大事件——可能会导致某种行动的事件。除了事件之外的一切都只是噪音——我们不需要考虑它。当然，什么算作重大事件将是与领域和问题特定相关的——在金融网络中，股市价格的上涨是重大的，但在教育网络中不是。所以现在，让我们把事件作为一种工具，用于在商业网络中发生重大事情时，当我们需要了解是什么促使参与者行动时。让我们看看如何利用这个工具。
+- en: An example to illustrate event structure
+  id: totrans-150
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 一个例子阐述事件结构
+- en: 'Take an example of a stock market event. Every time a stock goes up or down
+    in price, we can represent this as an event. For example:'
+  id: totrans-151
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 以股票市场事件为例。每当一支股票的价格上涨或下跌，我们可以将其表示为一个事件。例如：
+- en: '| **At UTC: 2018-11–05T13:15:30:34.123456+09:00 ** **The stock MZK increased
+    in price by 800 from 13000 JPY** |'
+  id: totrans-152
+  prefs: []
+  type: TYPE_TB
+  zh: '| **在UTC时间: 2018-11-05T13:15:30:34.123456+09:00 ** **股票MZK从13000日元上涨了800日元**
+    |'
+- en: We can see that this is a description of an event where the stock ABC increased
+    by 800 Yen at a very specific time on 5 Nov 2018.
+  id: totrans-153
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们可以看到，这是一个关于股票ABC在2018年11月5日某个非常特定的时间上涨了800日元的事件描述。
+- en: 'Just like assets and participants, we can see the term event can refer to the
+    type or instance of an event. In our example, we''ve shown the type and instance
+    information folded into one. The event has a type **Stock Market** **Tick** with
+    a structure comprising **time**: 2018-11–05T13:15:30:34.123456+09:00, **symbol**:
+    MZK, **currency**: JPY **previous**: 13000, **change**: +800\. For each element
+    in the structure, we''ve shown the particular instance for this event. We can
+    see very clearly from this event what happened in a structured form.'
+  id: totrans-154
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 就像资产和参与者一样，我们可以看到术语“事件”既可以指事件的类型，也可以指事件的实例。在我们的示例中，我们将类型和实例信息合并在一起。该事件具有类型**股票市场**
+    **标记**，结构包括**时间**：2018-11-05T13:15:30:34.123456+09:00，**符号**：MZK，**货币**：JPY，**前值**：13000，**变化**：+800。对于结构中的每个元素，我们显示了此事件的特定实例。从这个事件中，我们可以清楚地看到以结构化形式发生了什么。
+- en: Events and transactions
+  id: totrans-155
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 事件和交易
+- en: We can see that events are very closely related to transactions. Indeed, because
+    an event often describes a transaction, it's not uncommon to see the terms used
+    interchangeably. However, events describe a broader class of activity than transactions.
+    Specifically, while events describe a change, transactions capture the recorded
+    elements of the change. Transactions are often the result of an **external** event—one
+    that does not happen as the result of the action of a particular participant or
+    asset. In this case, a resulting transaction uses a subset of information from
+    the external event as input. But, the event itself is not part of the transaction,
+    other than in this limited sense. This requires a little thought—we're really
+    picking apart some subtle, but important, differences.
+  id: totrans-156
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们可以看到，事件与交易密切相关。事实上，因为事件通常描述一笔交易，因此常见到这些术语互换使用。然而，事件描述的活动类别比交易更广泛。具体来说，事件描述了一种变化，而交易则捕获了变化的记录要素。交易往往是**外部事件**的结果——这是不由特定参与者或资产行动引起的事件。在这种情况下，所产生的交易使用外部事件的信息子集作为输入。但是，事件本身不是交易的一部分，除了在这种有限意义上。这需要一点思考——我们真的在剖析一些微妙但重要的差异。
+- en: 'In what might appear to be a contradiction, transactions can also generate
+    events! Goodness, this appears to be getting complicated! But think for a moment—events
+    simply describe something happening, and sometimes events are **explicitly** created
+    by transactions, rather than happening due to a force outside any transaction.
+    In our stock tick example, a transaction might generate an event to signal that
+    the MZK stock has increased by over 5% in a single tick! This event might be **Rapid
+    Stock Rise** with a structure **symbol**: MZK, **gain**: *6.1%*—it is *explicitly*
+    generated by the transaction. The transaction embodies the part of a business
+    process whereby a high percentage stock change is identified and communicated.
+    The event is, in a very real sense, part of the transaction.'
+  id: totrans-157
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 在可能看起来是矛盾的情况下，交易也可以生成事件！天哪，这似乎变得很复杂！但是想一想——事件只是描述某事发生的情况，有时事件是由交易显式创建的，而不是由任何交易之外的力量引起的。在我们的股票标记示例中，交易可能会生成一个事件，以表示MZK股票在单个标记中增长超过5％！这个事件可能是**快速股票上涨**，其结构为**符号**：MZK，**增益**：*6.1％*
+    ——它是由交易*显式*生成的。交易体现了业务流程的一部分，即识别和传达高百分比股票变动。这个事件在很大程度上实际上是交易的一部分。
+- en: External versus explicit events
+  id: totrans-158
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 外部事件与显式事件
+- en: We can see, therefore, that events fall into two categories—**external events**
+    and **explicit events**. We don't often think of these two terms as opposites,
+    but they neatly describe the two different types of events in a business network.
+    Our first event type is an **external event**—it is generated externally to the
+    business network. This event will be processed by participants, and as such will
+    likely result in a transaction—don't forget, only think about significant events—ones
+    that will result in an action. With an external event, a significant amount of
+    the event content is captured as transaction input, but nothing else about the
+    event is remembered. If we want so save an external event, we generate an explicit
+    transaction to do so.
+  id: totrans-159
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 因此，我们可以看到，事件分为两类——**外部事件**和**显式事件**。我们不经常将这两个术语视为对立的，但它们完美地描述了业务网络中的两种不同类型的事件。我们的第一种事件类型是**外部事件**——它是在业务网络外部生成的。此事件将由参与者处理，因此可能会导致交易——不要忘记，只考虑重要事件——会导致行动的事件。对于外部事件，大部分事件内容都被捕获为交易输入，但除此之外的事件内容都不会被记住。如果我们想要保存一个外部事件，我们会生成一个显式交易来执行此操作。
+- en: '**Explicit events** are different. Because they are generated within a transaction,
+    they are automatically part of the transaction history. When the transaction is
+    committed to the ledger, then these events will be set free into the network—where
+    they will be consumed by any and all participants interested in them. In the case
+    of explicit events, the ledger itself is the event producer.'
+  id: totrans-160
+  prefs: []
+  type: TYPE_NORMAL
+  zh: '**显式事件**有所不同。因为它们在交易中生成，所以它们自动成为交易历史的一部分。当交易提交到账本时，这些事件将被释放到网络中 - 在那里它们将被任何对它们感兴趣的参与者消耗。在显式事件的情况下，总账本本身就是事件的产生者。'
+- en: Events cause participants to act
+  id: totrans-161
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 事件引起参与者采取行动
+- en: We can see, therefore, that events are important because they identify the change
+    that causes participants to act! Just like in the real world, when an event happens,
+    people and organizations hear about it, process the information in it, and generate
+    actions because of that processing. We can see that events provide one of the
+    primary motivational stimuli to participants to act—often by initiating new transactions
+    and sometimes by generating new events.
+  id: totrans-162
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 因此，我们可以看到事件之所以重要，是因为它们标识了导致参与者采取行动的变化！就像在现实世界中一样，当事件发生时，人们和组织会得知它，处理其中的信息，并因此产生行动。我们可以看到，事件为参与者采取行动提供了主要的激励刺激之一
+    - 通常是通过发起新交易，有时是通过生成新事件。
+- en: Loosely coupled design
+  id: totrans-163
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 松耦合设计
+- en: Let's now return to that idea of loose-coupling. Event producers and event consumers
+    do not directly know about each other—they are said to be loosely coupled. For
+    example, when a participant is added to a business network, existing participants
+    do not need to contact the new joiner to introduce themselves. Instead, the existing
+    participants listen for a new participant event if they are interested. Likewise,
+    if a participant joins a network, it doesn't need to reach out to everyone and
+    everything it is interested in, it just listens for events it thinks are significant—events
+    that might cause it to act. We can see that the event producers and event consumers
+    don't explicitly know about each other—they only know about events—and thus communication
+    can wax and wane very easily—it's much more scalable.
+  id: totrans-164
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 现在让我们回到松耦合的想法。事件生产者和事件消费者并不直接了解彼此 - 它们被称为松耦合。例如，当一个参与者被添加到业务网络时，现有参与者不需要联系新加入者介绍自己。相反，现有参与者如果感兴趣，就会监听新的参与者事件。同样，如果一个参与者加入一个网络，它不需要联系每个它感兴趣的人和事物，它只是监听它认为重要的事件
+    - 这些事件可能会导致它采取行动。我们可以看到事件生产者和事件消费者并不明确地了解彼此 - 他们只知道事件 - 因此，通信可以非常容易地增减 - 它更具可扩展性。
+- en: We are now seeing that loose-coupling is a major difference between events and
+    transactions. Transactions explicitly bind participants to each other—in a transaction,
+    we name all the counter-parties. In an event, we have absolutely no idea of how,
+    or even if, the producers and the consumers of the event are related. From a design
+    perspective, it means that we can create a very flexible system. Participants
+    can be coupled to each other in an almost infinitely flexible way via events,
+    and this really does mirror the richness we see in the real world.
+  id: totrans-165
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 现在我们看到，松耦合是事件和交易之间的一个主要区别。交易明确将参与者绑定在一起 - 在交易中，我们命名所有的交易对手。在事件中，我们根本不知道生产者和消费者之间是否以及如何相关。从设计的角度来看，这意味着我们可以创建一个非常灵活的系统。通过事件，参与者可以以几乎无限灵活的方式相互耦合，这确实反映了我们在现实世界中看到的丰富性。
+- en: The utility of events
+  id: totrans-166
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 事件的效用
+- en: We now see why we've added events to our definition of a business network. Events
+    allow the business network to be almost infinitely flexible. Revel in this little
+    bit of chaos—it might be in some sense a little less analyzable, and that's OK.
+    The real world isn't analyzable anyway—events provide a highly efficient coordination
+    mechanism between participants so that important change gets agreed and recorded
+    via multi-party transactions.
+  id: totrans-167
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 现在我们知道为什么我们将事件添加到了业务网络的定义中。事件使业务网络几乎具有无限的灵活性。欣赏这一点混沌 - 在某种意义上，这可能是不太可分析的，但没关系。现实世界本来就不可分析
+    - 事件为参与者之间提供了高效的协调机制，以便重要的变化通过多方交易得到协商和记录。
+- en: Congratulations! Remember that definition of a business network?
+  id: totrans-168
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 恭喜！记得业务网络的定义吗？
+- en: A business network is a collection of participants and assets than undergo a
+    life cycle described by transactions. Events occur when transactions complete.
+  id: totrans-169
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 业务网络是参与者和资产的集合，经历由交易描述的生命周期。当交易完成时，事件发生。
+- en: We've realized that those couple of sentences are maybe a little more powerful
+    than might first appear—they describe a very rich world indeed. Let's do a worked
+    example to see these ideas at work!
+  id: totrans-170
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们意识到这几句话可能比起初显得更加强大——它们描述了一个非常丰富的世界。让我们做一个实例来看看这些想法是如何发挥作用的！
+- en: Implementing a business network
+  id: totrans-171
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 实施商业网络
+- en: We've had a tour through the world of business networks, and we've seen the
+    importance of multi-party transaction processing of assets between participants—it's
+    the very lifeblood of these networks. Indeed, because of the importance of today's
+    business networks, a significant amount of technology is already deployed in their
+    pursuit. If you've worked in IT for a little while, you've probably heard of **Business-to-Business**
+    (**B2B**), and maybe even **Electronic Data Interchange** (**EDI**) [protocols].
+    These terms describe the idea and technology of how businesses exchange information
+    with each other. You might even have heard of, or have experience with, networking
+    protocols such as AS1, AS2, AS3, and AS4\. These define standard mechanisms about
+    how to exchange business data between two organizations. Don't worry if you haven't
+    heard these terms—the key take-away is that business networks exist today in a
+    very really sense, and have lots of technology applied to them.
+  id: totrans-172
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们已经在商业网络的世界里游览过了，并且看到了多方参与者之间资产的多方交易处理的重要性——这正是这些网络的生命线。事实上，由于当今商业网络的重要性，已经有大量技术被应用于它们的追求。如果你在IT领域工作过一段时间，你可能已经听说过**企业对企业**（**B2B**），甚至可能已经听说过**电子数据交换**（**EDI**）[协议]。这些术语描述了企业之间如何交换信息的想法和技术。你甚至可能听说过，或者有过，如AS1、AS2、AS3和AS4这样的网络协议。这些定义了两个组织之间如何交换业务数据的标准机制。如果你没有听说过这些术语也不要担心——关键的要点是，商业网络在今天在一个非常实质的意义上存在，并且有很多技术应用于它们。
+- en: What does implementing a business network mean? Well, when it comes to the exchange
+    of tangible assets such as cars or equipment or important documents, a blockchain
+    captures representations of the assets, participants, transactions, and events
+    in a business network. But, in the case of intangible assets it's a little different—in
+    some meaningful sense, the increasing de-materialization of assets means that
+    their representation inside a computer system is as real as the asset itself.
+  id: totrans-173
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 实施商业网络意味着什么呢？嗯，当涉及到诸如汽车或设备或重要文件等有形资产的交换时，区块链会在商业网络中捕获资产、参与者、交易和事件的表示。但是，对于无形资产来说，情况有所不同——在某种意义上，资产的不断去物质化意味着它们在计算机系统内的表示与资产本身一样真实。
+- en: The importance of de-materialization
+  id: totrans-174
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 去物质化的重要性
+- en: Consider the case of music. One hundred years ago, it would have been recorded
+    on bakelite, and then through a series of technological innovations, it moved
+    to vinyl, Compact Disc, digital mini-disc. Each step was cheaper than the previous,
+    and of higher quality. But, about 25 years ago, something different happened!
+    The first MP3 format was introduced to support high-fidelity audio capture.
+  id: totrans-175
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 考虑音乐的情况。一百年前，音乐可能会记录在*黄麻胶*上，然后通过一系列技术创新，转移到黑胶唱片、CD、数字迷你光盘。每一步都比上一步便宜，质量更高。但是，大约25年前，发生了一些不同的事情！第一个MP3格式被引入以支持高保真音频捕获。
+- en: This was the de-materialization step, and it was quite different to the other
+    steps. Yes, it was cheaper, and of higher quality, but critically it stopped music
+    having a physical representation. This de-materialization pattern is increasingly
+    common—financial products such as bonds, securities, swaps, mortgages, and such
+    are primarily represented digitally. More and more documents and forms are becoming
+    digitized—from trivial examples such as airplane and train tickets, to more important
+    education certificates, and employment and health records. This move towards digital
+    means that the blockchain has more relevance than we might otherwise assume.
+  id: totrans-176
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 这是去物质化的一步，与其他步骤完全不同。是的，它更便宜，质量更高，但至关重要的是，它停止了音乐的物理表现形式。这种去物质化模式越来越普遍——金融产品如债券、证券、互换、抵押贷款等主要是以数字形式表示的。越来越多的文件和表格正在数字化——从飞机和火车票等琐碎的例子，到更重要的教育证书、就业和健康记录。这种向数字化的转变意味着区块链比我们可能想象的更具相关性。
+- en: So, when we implement a business network on a blockchain, we are often close
+    to processing the actual assets in a business network. And, it's arguable that
+    even in the case of tangible assets, the information about assets is as important
+    as the asset itself! This seems like hyperbole, but think about it for a moment.
+    Let's say you own a car. The car needs to have petrol, it needs to be taxed, serviced,
+    and insured. It needs an annual test to make sure it is roadworthy. There's a
+    lot of economic activity centered around that car of yours! Which means that the
+    information about the car is very valuable —indeed, over the lifetime of a car,
+    the total running costs will usually be double the cost of the car. So, maybe
+    the information about the car is more valuable than the car!?
+  id: totrans-177
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 所以，当我们在区块链上实施商业网络时，通常会接近处理商业网络中的实际资产。而且，可以说即使在有形资产的情况下，关于资产的信息和资产本身一样重要！这似乎有些夸张，但请稍作思考。假设你拥有一辆车。这辆车需要加油，需要交税，需要维修和投保。它需要每年检测以确保上路安全性。你的车周围有许多经济活动！这意味着关于车辆的信息非常宝贵—事实上，在汽车的寿命内，总运行成本通常是汽车成本的两倍。也许关于车辆的信息比车本身更有价值！？
+- en: Blockchain benefits for B2B and EDI
+  id: totrans-178
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 区块链在B2B和EDI方面的益处
+- en: A blockchain can provide a simpler, more comprehensive, approach to **business-to-business**
+    (**B2B**) information processing across multiple organizations. Whereas **Electronic
+    Data Interchange** (**EDI**) protocols are only concerned with the exchange of
+    information, a blockchain can store data in a ledger, process data with smart
+    contracts, and **communicate and exchange** data via consensus. Blockchain provides
+    a holistic approach to multi-party transaction processing. In a blockchain, all
+    the processing, data, and communications in a business network are accessed from
+    one coherent system. That's in contrast to a traditional B2B approach where data,
+    processing, and exchange are managed by different systems. This separation directly
+    results in significant amounts processing to join-up information across these
+    systems, and a lack of overall transparency. This process is described as **reconciliation**—it
+    ensures that that there are not significant differences between the information
+    at different parts of the business network—it is timely and costly.
+  id: totrans-179
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 区块链可以为跨多个组织的**企业对企业**（**B2B**）信息处理提供更简单、更全面的方法。而**电子数据交换**（**EDI**）协议仅关注信息的交换，区块链可以在分类帐中存储数据，通过智能合同处理数据，以及通过共识**通信和交换**数据。区块链提供了对多方交易处理的整体方法。在区块链中，业务网络中的所有处理、数据和通信都可以从一个连贯的系统中访问。这与传统的B2B方法形成对比，传统方法中数据、处理和交换由不同的系统管理。这种分离直接导致了在这些系统之间加入信息的重大处理量，以及整体透明度的缺乏。这个过程被描述为**协调**—确保业务网络的不同部分之间没有重大差异—这是及时和昂贵的。
+- en: We now see the benefits of implementing a business network on a blockchain.
+    Rather than a set of different systems that record assets, and different programs
+    that operate on them, there is a shared view of the asset and its complete transactional
+    life cycle. Blockchain provides an explicit shared understanding of the asset
+    and its life cycle, of participants, transactions, and events. This shared nature
+    of blockchain provides increased trust through increased transparency, and that
+    radically simplifies and accelerates processing. For example, organizations don't
+    have to perform periodic reconciliation with other counterparts to make sure that
+    their systems tally—because everything tallies all the time, in a blockchain.
+  id: totrans-180
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们现在看到了在区块链上实施企业网络的好处。与记录资产的一组不同系统以及在其上运行的不同程序相比，现在有了资产及其完整交易生命周期的共享视图。区块链为资产及其生命周期，参与者、交易和事件提供了明确的共享理解。区块链的这种共享性通过增加透明度而增加了信任，并且彻底简化和加快了处理。例如，组织不必定期与其他对手进行协调，以确保他们的系统吻合—因为在区块链中一切始终吻合。
+- en: So, let's say we want to get the benefits of a blockchain for multi-party transaction
+    processing—how do we do this? That's what we're going to be concerned with in
+    the remainder of this chapter—the basic architectural approach, but mostly design
+    tools, that you can use to implement a blockchain technology platform for a business
+    network.
+  id: totrans-181
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 那么，假设我们希望获得区块链对多方交易处理的益处—我们该如何做呢？这将是我们在本章剩余部分关心的事情—基本的架构方法，但主要是设计工具，您可以使用这些工具在商业网络中实现区块链技术平台。
+- en: Participants that interact with the blockchain
+  id: totrans-182
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 与区块链进行交互的参与者
+- en: Firstly, which participants interact with the blockchain? The first thing to
+    say is that the primary beneficiaries of a blockchain in a business network are
+    the participants that hold the most data, and typically that is organizations.
+    It's not to say that individuals cannot host an instance of the blockchain ledger,
+    but its more likely that they will be interacting with a organization that manages
+    part of the blockchain. Indeed, they may not even know that they are consuming
+    a blockchain. Within an organization, although it is individuals using applications
+    that will be interacting with the blockchain, critically, they will be doing so
+    on behalf of the organization—they are the agents of the organization.
+  id: totrans-183
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 首先，哪些参与者与区块链进行交互？首先要说的是，在企业网络中，区块链的主要受益者是持有最多数据的参与者，通常是组织。这并不是说个人不能保存区块链账本的实例，但更有可能的是他们将与管理部分区块链的组织进行交互。实际上，他们甚至可能都不知道自己在使用区块链。在组织内部，虽然是个体使用应用程序与区块链进行交互，但至关重要的是，他们是代表组织行事的——他们是组织的代理人。
+- en: Likewise, when it comes to system and device participants, it's unlikely that
+    devices will host a copy of the blockchain ledger. In this way, devices are a
+    little more like individual participants. In contrast, systems in the network
+    can act either on behalf of an organization, or in some cases, actually represent
+    the organization. What does this mean, that a system represents an organization?
+    Well, if we think about a B2B system, then an organization really does appear
+    to the network as its B2B gateway—for all intents and purposes, the gateway is
+    the organization. It this way, we can see that it would make sense for a large
+    system to be very closely allied to an instance of the blockchain ledger.
+  id: totrans-184
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 同样，当涉及到系统和设备参与者时，设备很少会保存区块链账本的副本。这样，设备更像是个体参与者一样。相反，网络中的系统可以代表组织行事，或者在某些情况下，实际上代表组织。那么，系统代表组织意味着什么呢？如果我们想象一个B2B系统，那么组织在网络中看起来真的就像是它的B2B网关，实质上，网关就是这个组织。这样看来，一个大型系统与区块链账本实例之间有很密切的关联是有道理的。
+- en: Accessing the business network with APIs
+  id: totrans-185
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 通过API访问业务网络
+- en: 'Organizations, individuals, systems, and devices interact with the blockchain
+    via a set of business network APIs. We''ll see in a moment how these APIs are
+    created, but for now it''s enough to know that a blockchain network is consumed
+    like a regular IT system. The difference is internal—these APIs are implemented
+    on a blockchain infrastructure, and this ultimately provides a simpler and richer
+    set of APIs than would otherwise be practically possible. However, consumers of
+    blockchain APIs don''t need to worry about this—they just issue APIs, and the
+    services they require just happen. The trade-off that''s occurring is that the
+    blockchain infrastructure requires more coordination between the organizations
+    in the business network. They have to agree on participants, assets, transactions,
+    and events in advance, and how they evolve. While they can, and should, process,
+    store, and communicate information uniquely when outside the blockchain, they
+    must agree when it''s on the blockchain. That''s the trade-off: up-front agreement
+    for the promise of radical simplification of business processes in normal running.'
+  id: totrans-186
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 组织、个人、系统和设备通过一组业务网络API与区块链进行交互。我们马上就会看到这些API如何创建，但现在知道区块链网络就像普通的IT系统一样被消费。差异在于内部——这些API是在区块链基础设施上实现的，最终提供了比实际上可能实现的更简单和更丰富的API集。然而，区块链API的使用者不需要担心这些——他们只需发出API，并且所需的服务就会自动执行。正在发生的折衷是，区块链基础设施需要业务网络中的组织之间进行更多的协调。他们必须事先就参与者、资产、交易和事件达成一致，以及它们的发展方向。虽然他们在区块链外部可以唯一地处理、存储和传递信息，但他们必须在区块链上达成一致。这就是折衷：前期一致性换取正常运行时业务流程的极端简化的承诺。
+- en: At a high level, business network APIs are easy to understand. In a vehicle
+    network, we might have APIs such as `buyVehicle()`, `insureVehicle()`, `transferVehicle()`,
+    `registerVehicle()`, and so on. These APIs are domain-specific—the APIs just mentioned
+    would be very different to those in a commercial paper network—`issuePaper()`,
+    `movePaper()`, and `redeemPaper()`. It's important that APIs are domain-specific
+    because it makes them meaningful to the participants in the network who are using
+    them—such APIs speak the language of the participants.
+  id: totrans-187
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 从高层次来看，业务网络 API 很容易理解。在车辆网络中，我们可能有诸如 `buyVehicle()`、`insureVehicle()`、`transferVehicle()`、`registerVehicle()`
+    等 API。这些 API 是领域特定的——刚刚提到的 API 与商业票据网络中的 API `issuePaper()`、`movePaper()` 和 `redeemPaper()`
+    完全不同。API 必须是领域特定的，因为这样可以使它们对使用它们的网络中的参与者有意义——这些 API 讲述了参与者的语言。
+- en: A 3-tier systems architecture
+  id: totrans-188
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 一个 3 层系统架构
+- en: These APIs work inside a very standard systems architecture. Typically, end
+    users will have a presentation tier running on their web browser or mobile device.
+    This will communicate with an application server tier, using an API that is defined
+    by the application according to the overall solution being developed. This application
+    tier might be running in the cloud or on an on-premise system. It's where all
+    the application logic for the application resides, and it is the consumer of the
+    business network APIs provided by the blockchain. This application may be doing
+    other work, such as accessing a database, or performing analytics—but from our
+    perspective, it's the interaction point with the blockchain network. It consumes
+    the blockchain APIs, not the end-device. Summarized, these APIs operate within
+    a typical 3-tier systems architecture structure of presentation, application,
+    and resource management.
+  id: totrans-189
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 这些 API 在一个非常标准的系统架构内运作。通常，最终用户将在其 Web 浏览器或移动设备上运行一个展示层。这将与应用程序服务器层进行通信，使用根据正在开发的整体解决方案定义的
+    API。这个应用程序层可能在云中运行，也可能在本地系统上运行。这是应用程序的所有应用逻辑所在的地方，它是由区块链提供的业务网络 API 的消费者。该应用程序可能会执行其他工作，比如访问数据库或执行分析，但从我们的角度来看，它是与区块链网络的交互点。它使用区块链
+    API，而不是最终设备。总的来说，这些 API 在典型的 3 层系统架构结构中运作，包括展示层、应用程序层和资源管理层。
+- en: Alternatively, if we have a device or system interacting with the blockchain,
+    then it will not have a presentation tier—it will either use the application API
+    or blockchain APIs directly. In a very real sense, a device is the presentation
+    tier, and the system is the application tier. Again, this is all very standard.
+  id: totrans-190
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 或者，如果我们有一个设备或系统与区块链进行交互，那么它将没有展示层——它将直接使用应用程序 API 或区块链 API。从某种意义上说，设备是展示层，而系统是应用程序层。同样，这是非常标准的。
+- en: Hyperledger Fabric and Hyperledger Composer
+  id: totrans-191
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: Hyperledger Fabric 和 Hyperledger Composer
+- en: The basic design approach is likewise very straightforward. We use Hyperledger
+    Composer to model the participants, assets, transactions, and events in a particular
+    business network. We then use that model to generate both blockchain—smart contracts
+    and ledgers that implement these elements that are deployed to the blockchain
+    network created using Hyperledger Fabric. We also use the Hyperledger Composer
+    model to generate a set of domain-specific APIs to access the transactions that
+    manipulate them in the Hyperledger Fabric blockchain. As we've seen, these APIs
+    will be used by applications on behalf of individuals, organizations, systems,
+    and devices.
+  id: totrans-192
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 基本的设计方法同样非常简单。我们使用 Hyperledger Composer 对特定的业务网络中的参与者、资产、交易和事件进行建模。然后，我们使用该模型生成区块链智能合约和账本，实现这些元素，并将其部署到使用
+    Hyperledger Fabric 创建的区块链网络上。我们还使用 Hyperledger Composer 模型生成一组领域特定的 API，以访问在 Hyperledger
+    Fabric 区块链中操纵它们的交易。正如我们所见，这些 API 将由应用程序代表个人、组织、系统和设备使用。
+- en: Summary
+  id: totrans-193
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+  zh: 摘要
+- en: In this chapter, we've been introduced to business networks and explored them
+    in detail. By understanding the key components of participants, assets, transactions
+    and events, we've seen that in some sense all business networks share the same
+    concerns.
+  id: totrans-194
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 在本章中，我们已经介绍了业务网络并对其进行了详细的探讨。通过理解参与者、资产、交易和事件的关键组成部分，我们已经看到，在某种意义上，所有的业务网络都共享相同的关注点。
+- en: By classifying the different types of participants—individuals, organizations,
+    systems and devices, we are able to properly describe who initiates transactions
+    that capture change in the business network. By understanding the concept of an
+    asset—a thing of value, whether tangible or intangible—we were able to describe
+    and understand the resources that move between participants, and how they express
+    the reason participants interact with each other. Understanding participants and
+    assets allowed us to understand how changes to these are captured in transactions.
+    And finally, concept of an event allowed us to understand when significant change
+    to the network happened, and act upon it.
+  id: totrans-195
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 通过对不同类型的参与者进行分类——个人、组织、系统和设备，我们能够正确描述谁发起捕捉业务网络变化的交易。通过理解资产的概念——有形或无形的价值物品，我们能够描述和理解在参与者之间流动的资源，以及它们表达参与者相互交互的原因。理解参与者和资产使我们能够理解如何在交易中捕捉这些变化。最后，事件的概念使我们能够理解网络发生重大变化的时候，并对其采取行动。
+- en: We spent a few moments discussing how these concepts are consumed using APIs,
+    and in the next chapter, we're going focus much more on this aspect—how to demonstrate
+    all these ideas in a real-world example of a business network. We're going to
+    use Hyperledger Fabric and Hyperledger Composer in particular, so that you can
+    see how to apply these ideas in practice.
+  id: totrans-196
+  prefs: []
+  type: TYPE_NORMAL
+  zh: 我们花了一些时间讨论这些概念是如何使用API消耗的，在接下来的章节中，我们将更加专注于这个方面——如何在一个商业网络的真实示例中展示所有这些想法。我们将特别使用Hyperledger
+    Fabric和Hyperledger Composer，这样你就可以看到如何将这些想法应用于实践。
