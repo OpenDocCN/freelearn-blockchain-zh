@@ -1,0 +1,748 @@
+- en: Networking in Blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the previous chapters, we covered the cryptography concepts that are essential
+    for blockchain to function in a trustless network. But we haven't discussed what
+    a trustless network is. A decentralized network facilitates a trustless environment.
+    In this chapter, we will explore how blockchain achieves decentralization with
+    **peer-to-peer** (**P2P**) networking.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: P2P networking
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Network discovery
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Block synchronization
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building a simple blockchain in a P2P network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We know that blockchain was created to remove the trust in a single central
+    authority by building a trustless network that decentralizes all the tasks that
+    are otherwise centralized in a single entity. P2P networking is an architecture
+    style used to achieve this decentralization in blockchain applications. We'll
+    begin this chapter by exploring the definition, history, and architecture of P2P
+    networking.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Peer-to-peer (P2P) networking
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The basic definition of a P2P network is a network where groups of independent
+    computers called nodes are interconnected, sharing data without the assistance
+    of any centralized servers. It is an architecture on top of the internet. Participants
+    or nodes in this type of network are called peers because they are all equal and
+    have equal responsibility within the network. Since there are no special nodes
+    in a P2P network, each peer is both a service provider and a consumer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: History of P2P network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The early vision of the World Wide Web was aligned with the concept of P2P networking,
+    where each user would be an active editor of and contributor to the network. USENET,
+    first developed in 1979, enforced a decentralized model in which USENET servers
+    communicated with each other to share news articles.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Although the P2P model was used in the early days of the internet, its most
+    common use came about when it was implemented in file-sharing services. P2P in
+    filesharing was popularized by the music-sharing application Napster. However,
+    a number of music services followed that had a similar P2P filesharing model.
+    Although Napster was the pioneer, filesharing in P2P has gained a lot of attention
+    due to the BitTorrent protocol, which allows the filesharing of any digital media.
+  prefs: []
+  type: TYPE_NORMAL
+- en: P2P networking architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: P2P networking is an architecture where each peer acts as a server and a client
+    simultaneously. Since a blockchain network is often implemented on a public network,
+    it is difficult to create a physical topology that is suitable for P2P networking.
+    To create this kind of architecture, a virtual or logical network overlay has
+    to be constructed over the actual physical network topology. A logical network
+    is created to achieve a convenient index of resources and peer discovery in a
+    public network. Although an overlay is formed, data will be exchanged over the
+    TCP/IP network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Although the underlying physical network could follow any networking topology,
+    the logical network in a P2P architecture will form a mesh-like topology in order
+    to achieve better communication between the peers:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7d365af3-ab3a-4f6b-b4a8-9b5abda893cd.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 4.1: Partial physical mesh topology'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In a physical mesh topology, each node can establish communication with any
+    other peer, either directly or through some intermediate nodes. Each node will
+    be able to communicate directly if the topology is a full mesh, where each node
+    is linked to all the peers in the network. A partial mesh configuration is always
+    preferable because constructing a full-mesh topology is expensive.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There are two main classifications of a P2P network, based on how the nodes
+    are linked: **unstructured** and **structured P2P networks**.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In an unstructured network, the peers aren't linked to each other in an organized
+    way. Each node is randomly connected to the peers, forming a logical mesh. It
+    is easy to build unstructured networks, and they are very robust due to the redundant
+    distribution of nodes. However, these networks have drawbacks, such as the possibility
+    of request flooding, an effect caused by a lack of knowledge about the distribution
+    of resources.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A structured P2P network overlay is formed by following a specific network topology
+    to make sure that nodes can efficiently perform activities on the network. Creating
+    a structured network ensures that a resource can be fetched from somewhere on
+    the network in a certain time. A **distributed hash table** (**DHT**) is a widely
+    used structured network implementation that provides decentralized lookup service.
+    Resource information in a DHT can be retrieved from hash tables using the key
+    of a key/value pair stored in the table. The value associated with the key provides
+    information about the peer that owns the resource. DHTs are also used in the BitTorrent
+    filesharing protocol as a substitute for centralized lookup services, such as
+    trackers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: DHT is a lookup service that is maintained in a distributed system. Nodes in
+    a distributed system are responsible for maintaining the mapping from the keys
+    to the values, which provide resource information.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now that we have an overview of the P2P networking architecture, let's dive
+    into some of the concepts of blockchain technology that are used in P2P networks
+    to form a decentralized blockchain network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network discovery
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Network discovery in a P2P network is crucial. No network is defined when a
+    new node boots up. The new node must detect at least one blockchain node to be
+    a part of the network. There are several ways in which a node can identify peers
+    and thus discover a network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Different blockchain frameworks use their own protocols to perform peer discovery
+    and efficient routing. We're going to start by exploring basic P2P network discovery
+    by taking a look at Bitcoin's original implementation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The simplest way to find the list of peers to connect to is by hardcoding a
+    few of the well-known peers. Using a central server that maintains a list of peers
+    is another approach. Bitcoin holds information about DNS seeds, which provide
+    a high level of reliability when a node is initially set up, and will respond
+    with a list of the IP addresses of the Bitcoin nodes. Once a seed node is detected,
+    the node will establish a TCP connection to perform a handshake with that node.
+    The handshake validates the node by sending the version, the address, local blockchain
+    information, and any other relevant information.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once a connection is set up between peers that have been discovered by the node,
+    the node can query for information about other nodes that are connected to its
+    peer. Similarly, the node can broadcast its own address information to the connected
+    peers to improve its reachability. Each node also makes sure to maintain a threshold
+    for the number of active connections in order to avoid unnecessary bandwidth usage.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Some blockchain platforms, such as Ethereum, use a cryptographic P2P networking
+    protocol suite called RLPx, which provides a general-purpose transport and interface
+    for applications to communicate via a P2P network. RLPx utilizes a Kademlia-like
+    routing to ensure uniform network formation. After the initial node handshake,
+    packets are encapsulated as frames, which are then encrypted.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block synchronization
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Each node that joins the blockchain network needs to update its local copy of
+    the blockchain to synchronize its state with the global state of the rest of the
+    network. This is achieved by block synchronization. A node that needs to update
+    its blockchain sends a message consisting of blockchain height information. Any
+    peer that has a longer blockchain sends an inventory consisting of metadata about
+    the fixed number of blocks that needs to be added to the host node. Now the node
+    makes a request to all its peers to fetch individual blocks by referring to the
+    inventory it received. The node should make sure not to flood the network with
+    block requests by maintaining a cap on the number of block requests it sends.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block synchronization is a long process for a newly-joined node. However, once
+    all the blocks are up to date, it can verify the information in the block, such
+    as the transactions on assets. The block synchronization process can be reinitialized
+    whenever the node comes online after being inactive.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building a simple blockchain in a P2P network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In [Chapter 3](6d775eaf-4ee6-4463-b5e9-623f49c80aca.xhtml), *Cryptography in
+    Blockchain*, we explored how a consensus can be achieved in a decentralized network
+    with the help of algorithms such as proof-of-work. Since consensus algorithms
+    ensure that the Byzantine failure problem can be solved, a global truth can be
+    maintained in a decentralized network in which there is no trust between the peers.
+    Although consensus algorithms provide a convenient way to maintain a public ledger,
+    each node has to perform a set of operations to maintain the ledger in a distributed
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We have already created a simple blockchain application that can continuously
+    enlarge its records whenever we have new data to be inserted. Because our blockchain
+    application was deployed and the blocks were created in a single system, we have
+    not yet added any mechanisms to validate the blocks. But when we deploy the blockchain
+    as a public ledger, blocks need to be verified at each node whenever they arrive
+    from the node's peers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Each node has to perform the following processes in order to achieve a consensus
+    in the network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Validate each incoming block for integrity so that it can be appended to the
+    local blockchain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Select the longest valid chain published by a peer in the decentralized network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Create a valid block whenever there is some data that needs to be inserted into
+    the public ledger
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We're going to build a simple blockchain application that deploys the blockchain
+    in a P2P network. This application is a reference implementation that will help
+    us to understand the decentralization of the blockchain network. Although this
+    application performs network discovery, block synchronization, and block validation,
+    it doesn't follow all the required protocols for simplicity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's now explore a few of the design considerations we need to think about
+    in order to build the application before we dive into its implementation. The
+    following sections cover validation, block synchronization, and the basic interface
+    design used in this application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Validating a new block
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Although blocks are created by a miner node after validating all the previous
+    blocks in the chain, it is the responsibility of each node in the network to perform
+    a block validation to ensure that the block can be appended to the local copy
+    of the blockchain. Block validation is a simple process of checking whether the
+    latest block has a pointer or hash reference pointing to the previous block. When
+    a block includes complex data, such as a set of transactions, independent transactions
+    have to be verified to validate the block. Since we will not be dealing with any
+    complex data inside the block, verifying transactions is beyond the scope of this
+    chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Selecting the longest chain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Finding a global truth in the decentralized network is a strenuous task, and
+    a variety of consensus algorithms help to achieve it. The proof-of-work algorithm,
+    discussed in the previous chapter, is the first and one of the best solutions.
+    It ensures that the longest chain created has the most work contributed to it
+    by legitimate nodes in the network. No consensus algorithm will be included in
+    this application for the sake of simplicity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Conflict resolution
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Although selecting a block may seem an obvious task, there will be situations
+    when two or more nodes create a block at the same time that has different identities
+    due to the different content included in its block. When a node receives different
+    versions of a block of the same height, it will add one of them to the blockchain
+    based on the order of arrival and either rejects the other or keeps it in a memory
+    pool. Due to this, nodes in the network might end up with different versions of
+    the blockchain. This is called a temporary fork or a soft fork.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A soft fork is a type of fork in a blockchain where two or more different versions
+    of the blockchain are created due to simultaneous block creation, or some malfunction.
+    This fork is temporary and is rectified as soon as a longer blockchain propagates
+    through the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/08049e4a-ed85-4f68-a274-443311d1c912.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 4.2: A block conflict caused by simultaneous block creation'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Figure 4.2* shows how two blockchains have been created due to the simultaneous
+    creation of blocks of the same height. Both the blockchains have the same height
+    and the same blocks, up to index **11**. But there are two different versions
+    of block **12**. As we can see in the figure, one of the blocks has a hash that
+    ends with **...bfa9779618ff**, and the other hash ends with **...bce8564de9a8**.
+    Both blocks are valid because their previous hash value matches with the previous
+    block''s hash, **...ea758a8134b1**. At this stage, one of the blocks will be inserted
+    into the main chain, and the other will be rejected.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Although the conflict has been resolved on one node, there will be no global
+    truth of the blockchain throughout the network because other nodes may have decided
+    to accept a different block. This will create a temporary fork in the blockchain,
+    because some nodes have one version of the blockchain, and some have the other
+    version.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c416e6ca-9e67-40a2-a294-5380c15bcfe2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 4.3: Resolving the conflict by accepting the longer chain'
+  prefs: []
+  type: TYPE_NORMAL
+- en: This temporary fork will not survive for a long time. As soon as a longer blockchain
+    is created, and when a new block is appended to one of the chains, every node
+    will reject the smaller blockchain and replace their blockchain with the longer
+    one. *Figure 4.3* shows how the blockchain with the hash value **...bce8564de9a8**
+    at index **12** will be accepted as it has increased its blockchain with an additional
+    block, thus forming a longer chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block exchange between peers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Block exchange in this application is performed using both broadcasting query
+    messages and blocks. A newly-joined node goes through an initial block synchronization
+    process to update its local copy of the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Initial block synchronization
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: When a new node joins a network, it connects to one of the available peers in
+    the network; it then tries to exchange its block information with the peer, and
+    updates the local blockchain, if required.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/549c5734-6e17-455a-a03a-3a76236875f1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 4.4: Initial block synchronization'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The node sends a chain length or last block query message after connecting to
+    the peer. Requesting the chain length is equivalent to requesting the last block
+    to identify its index. If the received block cannot be appended to the local blockchain
+    due the hash mismatch, then the node sends a message to its peer asking it to
+    send all the blocks. The node can also broadcast a message requesting all the
+    blocks to ensure that it receives the longest chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Broadcasting scenarios
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Nodes communicate with each other in a P2P network by setting up multiple one-to-one
+    connections, because there is no single peer that is completely trustable. Maintaining
+    multiple connections forces each node to broadcast any information to its connected
+    peers in order to distribute data to the entire network and maintain the global
+    truth.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In our application, we will be broadcasting information for several scenarios,
+    as shown in the state transition diagram depicted in *Figure 4.5*:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a4c938a6-17a6-4aa1-9c78-bb07bd7a3db2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 4.5: State transition diagram for broadcasting'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A node in the network performs broadcasting in the following scenarios:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: When a node creates a new block, it has to broadcast it to all its connected
+    peers in order to spread the block's information
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: When a node receives a new block from its peer, it has to broadcast it in order
+    to propagate the block in the P2P network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: When a node receives a block that doesn't fit with the current blockchain, it
+    sends a query message to all its peers in order to find the longest chain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Application interfaces
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The application provides two user interfaces: an HTTP API interface to access
+    and manipulate blockchain information, and a WebSocket interface at all the nodes
+    to achieve bidirectional communication by creating a long-lived channel:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f7727fad-9068-4bae-b1f8-9ca76ae3fd74.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 4.6: Interfaces of the application'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Diving into the code
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are three different classes that form three separate parts of the application.
+    The first one is `Server`, which will be dealing with the P2P communication on
+    the blockchain network. The other two classes are `Blockchain` and `Block`, which
+    were covered in the previous chapter and perform basic blockchain operations.
+    The `Blockchain` class also performs enhanced functions in order to validate the
+    blocks received from the peers, as discussed in the application architecture.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The server interface
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The server interface is created using a Python web server framework called
+    `Sanic`, which helps to code the web server logic in an asynchronous way:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Background: Sanic is a lightweight web server framework that can be used to
+    build a high-speed web server. It supports asynchronous programming by supporting
+    Shiny async request handlers. It makes use of an event loop called `uvloop` to
+    achieve better performance.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding code snippet of the `Server` class creates four REST API interfaces
+    for displaying the blocks, mining (creating) a new block, displaying the node's
+    current peers, and adding a new peer. We will be using endpoints created using
+    the `add_route` methods to interact with our node.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will be using the WebSocket protocol to perform P2P communication between
+    the nodes because it allows bidirectional communication between the connected
+    nodes and maintains an active connection without creating too much load on the
+    web server.
+  prefs: []
+  type: TYPE_NORMAL
+- en: WebSocket is a communication protocol on top of TCP that provides a bidirectional
+    communication channel, unlike HTTP. It can be used in P2P communication because
+    both ends can send and receive messages simultaneously.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'All the API interfaces defined in the preceding snippet invoke the following
+    methods:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding method implements the functionality required to generate a new
+    block to append. Since it is an HTTP POST method, it accepts a parameter called
+    `data`, which was sent in the HTTP request body. This data is used to create the
+    new block. This method will broadcast the newly created block, as mentioned earlier
+    in the application design section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Blocks present in the local blockchain are formatted and returned by this method:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Whenever the user wants to add a peer explicitly, they will use the following
+    interface:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: This method adds an asynchronous `connect_to_peers` task to the event loop of
+    the web server. All the socket information of the connected peers are maintained
+    for future broadcasting.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following implementation fetches address and port information from socket
+    objects from all the peers that are maintained by the node after the initial connection:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `connect_to_peers` method initializes WebSocket connections with all known
+    peers. This method is also invoked when a new peer is added using the HTTP interface.
+    Initial block synchronization is performed using the `init_connection` function. `p2p-handler`
+    is a WebSocket handler that listens to the connection. It creates a socket and
+    performs block synchronization using `init_connection`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Socket information is removed when a peer gets disconnected:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Block synchronization is performed by the `init_connection` method by sending
+    a query message requesting the last block of the peer''s blockchain. It also adds
+    a message handler that continuously listens to the messages from its peers:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The message handler on each node listens for three types of message. Two of
+    them are query messages to which the node responds by querying the local blockchain.
+    The `RESPONSE_BLOCKCHAIN` message is a response received from the query made by
+    the local node. This message will be further processed by `handle_blockchain_response`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following methods serialize the response data to be sent to the peer for
+    its query message requests:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The entire blockchain is sent to the connected peer when it queries the blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following code snippet fetches the last block from the blockchain and formats
+    it into JSON so it can be sent via the socket channel:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following code snippets are the query request messages used to query connected
+    peers for the blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following method is invoked in the message handler that is continuously
+    listening to the peer''s requests and responses. This method is invoked to process
+    the blockchain information sent by the peers:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If the last index of the block is not greater than the local blockchain''s
+    last index, it will be rejected because the node is only interested in the longest
+    chain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The last block received is appended to the local blockchain if it satisfies
+    the hash conditions. If it is satisfied, then it''s broadcasted to all the peers:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: If the last block doesn't satisfy the hash condition, then the local blockchain
+    may be behind by more than one block. The local copy will then be replaced with
+    the received blockchain if it is a full chain. Otherwise, a message is broadcasted
+    to query the entire blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When a node receives a blockchain that is longer than the current local copy,
+    it will validate the entire blockchain and then replace the entire local blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `broadcast` method then sends all the requests and responses to every peer
+    connected to the node through the established socket connection:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: Block and blockchain interface
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The `Block` and `Blockchain` class methods are similar to those used in the
+    previous chapter to build a simple blockchain, with the only enhancement being
+    the validation methods used to validate the received blocks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following method is invoked to verify that every block is linked to its
+    previous block:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following condition validates the index of the new block:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This condition performs hash validation by comparing the hash values of the
+    blocks:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This condition checks the integrity of the newly added block by calculating
+    its digest:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following method is used to validate the entire blockchain when the node
+    wants to replace the local blockchain with the one retrieved from its peer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This condition validates the hardcoded genesis block:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: Every block of the received blockchain is validated iteratively by invoking
+    `is_valid_new_block`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Running the blockchain nodes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Although each node has two handlers, one each for the HTTP and WebSocket interfaces.
+    A single web server application instance is sufficient to serve both of them.
+    *Sanic* uses `uvloop` as a scheduler. It asynchronously handles the requests:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: The server application is instantiated, and a task is created to connect the
+    node to `initialPeers`, which is hardcoded by each node. The application will
+    use the default port to create a web server.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Each node will run the server application to join the network. As soon as the
+    node connects to one of the peers, its blockchain syncs with the updated blockchain
+    of the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We''re now going to run the application by creating three node instances: node1,
+    node2, and node3\. Node2 has node1 as its initial peer, and node3 has node2 as
+    its initial peer. When we run all three node instances, they form a ring-like
+    network.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s check the peer information of each node by calling the HTTP API endpoint
+    `/peers` for each node:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Node1**: ["127.0.0.1:51160"]'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Node2**: ["127.0.0.1:3001","127.0.0.1:35982"]'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Node3**: ["127.0.0.1:3002"]'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`3001` is the port number assigned to node1\. Node2 has port number `3002`,
+    and node3 has port number `3003`. The random port number is the port number of
+    the peer that tried to communicate with the node2\. The preceding information
+    clearly shows that node2 has added node1 as its peer and node3 has added node2
+    as its peer.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'All the nodes return the following result when we invoke the `/blocks` HTTP
+    API endpoint:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Let''s mine a new block at node2 by using the `/mineBlock` HTTP API endpoint
+    by sending a POST request with the payload `{"data": "created at node2"}`. Since
+    all the nodes are interconnected, forming a mesh, each node will receive the newly
+    broadcasted block and will update its local blockchain ledger. Now, each node
+    reflects the following blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Following this example: The entire P2P blockchain application can be found
+    in the book''s GitHub repository. It has a configuration that can be used to set
+    up a Docker cluster using Docker Compose. This will help you to set up any number
+    of blockchain nodes on a single machine.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter has covered the aspects of P2P networking that are used in blockchain
+    applications by building a simple P2P application with basic functionalities.
+    The basic architectural knowledge that you've gained from this chapter will help
+    you to understand the advanced networking concepts used in some blockchain platforms.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now that we have a strong background of the blockchain technology after covering
+    several cryptography and networking concepts, we will get introduced to the original
+    and one of the strongest use cases of blockchain technology – Cryptocurrency.
+    In the next chapter, we will apply most of the concepts introduced till now to
+    understand and implement the cryptocurrency use case.
+  prefs: []
+  type: TYPE_NORMAL

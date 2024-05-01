@@ -1,0 +1,1459 @@
+- en: Blockchain Optimizations and Enhancements
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Scalability is a crucial factor that is being talked about even before an application
+    has been created. Yet, even after the application is deployed, the application
+    will be required to be updated frequently to scale based on the application load.
+    While scalability has been one of the concerns even in the blockchain space, it
+    wasn't the first priority when the technology was first proposed. However, over
+    time and due to the increased interest in the technology, people are now working
+    toward the improvement of every aspect of blockchain technology.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this chapter, we will explore various optimizations that can be implemented
+    to help you achieve better performance or plan for scalability. We will also cover
+    a few of the enhancements on the existing blockchain applications to add interesting
+    functionalities. Most of the optimizations and enhancements discussed in this
+    chapter are either already implemented in some blockchain projects, or are in
+    the initial phase of implementation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we''ll be covering the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Blockchain optimizations:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transaction exchange
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Off-chain transactions
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Block size improvements
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Blockchain enhancements:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Sharding
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Consensus algorithms – PoS, PoA, BFT, and PoET
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Cross-chain network
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Privacy enhancement
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Since the original implementation of Bitcoin in 2009, it has improved tremendously
+    in order to withstand any attacks in the trustless public network. Bitcoin undergoes
+    improvements through a standard procedure by proposing the features through a
+    design document called **Bitcoin Improvement Proposals** (**BIP**), which was
+    first proposed in 2011 within the Bitcoin community. Bitcoin has nearly 200 improvement
+    proposals ([https://github.com/bitcoin/bips](https://github.com/bitcoin/bips)),
+    and these proposals are responsible for its resilience in the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We have come across several blockchain-based projects that evolved from Bitcoin's
+    concepts. Many other projects had to undergo huge implementation changes to shape
+    the application for their requirements. Most of the projects improved and enhanced
+    the existing implementation to address some of the challenges, such as scalability,
+    security, and adaptability. The enterprises are keen on taking advantage of this
+    technology to decentralize their existing architecture. They have been creating
+    Proof of Concept to overcome all the existing challenges before adopting the technology.
+    In this chapter, we'll be looking into some of the proposed optimizations and
+    enhancements in the technology that will eradicate the challenges faced by the
+    technology.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain optimizations
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Due to the decentralized nature of the blockchain applications, it is difficult
+    to make huge changes to the blockchain protocols of the functioning applications.
+    The existing protocols need to be optimized carefully to achieve improvements.
+    In this upcoming section, we will discuss a few of the possible optimizations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction exchange
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Communicating and exchanging data is the essence of a decentralized P2P network.
+    In a blockchain network, transactions are the main data that is exchanged between
+    nodes. Optimizing the exchange of transactions could be achieved by making use
+    of protocols that are suitable for transaction data. A few optimization techniques
+    are described in the following sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain relay networks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Although the nodes in the blockchain network are equal, the nodes could opt
+    to perform a variety of roles. A few nodes might function as fullnodes, maintaining
+    the entire blockchain, whereas a few others function as lightweight nodes by maintaining
+    only the required transactions. In addition to this, the nodes that are willing
+    to create new blocks will perform mining operations. When all these nodes communicate
+    with each other in a P2P fashion, there will be a network latency involved.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The mining nodes need to keep latency to a minimum since they are involved in
+    time-sensitive operations. Even during a critical financial transaction, a decentralized
+    system needs to keep latency as minimal as possible so that clients and merchants
+    can receive notifications quickly. The Bitcoin network uses a relay network to
+    minimize the latency during block exchange between peers, especially with mining
+    nodes that are competing to construct the next block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Relay nodes don't fully verify data before relaying the block/transaction to
+    the network. Although the relay nodes are quick at relaying most of the transactions,
+    they may not be accurate in delivering every transaction of the system. A Bitcoin
+    Core developer called Matt Corallo created a UDP-based relay network called **Fast
+    Internet Bitcoin Relay Engine** (**FIBRE**). It uses a compression technique provided
+    by the compact block, which was developed by Bitcoin Core. Since the FIBRE code
+    base is an extension to the Bitcoin Core, FIBRE nodes could be set up just like
+    the Bitcoin core nodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: More information about the protocol and node setup can be found at [http://bitcoinfibre.org](http://bitcoinfibre.org).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Another relay network, called **Falcon**, uses application-level cut-through
+    routing for faster block propagation. The optimized topology claims it is faster
+    than compression-based relay networks. These relay networks not only guarantee
+    that network nodes will achieve higher throughput but also promise future scalability
+    for the decentralized P2P network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: More details about the Falcon relay nodes can be found at [https://www.falcon-net.org](https://www.falcon-net.org).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Invertible bloom lookup tables
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Invertible bloom lookup tables can be used to efficiently find the difference
+    between the two datasets. This concept has been implemented in Bitcoin to achieve
+    lower transaction exchange latency between peers. Without any mechanism to find
+    the difference between two sets, each Bitcoin node had to keep transferring its
+    own transaction set to the network and expect other nodes to reply with transactions
+    that did not exist in the transaction set. This mechanism consumed a lot of Bitcoin
+    network bandwidth and time due to the large set of transactions in each node.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A solution is to transfer information that could be used to find the difference
+    between datasets efficiently. Invertible bloom lookup tables solve this by creating
+    smaller lookup tables that can find the transactional differences between the
+    two sets.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Invertible bloom lookup tables are a variant of bloom filters. They provide
+    a successful lookup of the key-value pairs with high probability. Unlike the bloom
+    filters, they not only allow you to look up a particular key but also list the
+    inserted key/value pairs. Lookup tables are a probabilistic data structure, and
+    the probability of successful lookup increases with the size of the lookup table.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A bloom filter is a probabilistic data structure that is used to check the existence
+    of an element in a set. Although non-existence of the element is never predicted
+    incorrectly (false negative), existence can be falsely predicted sometimes (false
+    positive). Bloom filters are used in Bitcoin's special kind of node, called a
+    lightweight or **Simple Payment Verification** (**SPV**) node that is used to
+    verify the existence of a particular transaction in a block without downloading
+    the entire block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Each node on the network will broadcast a lookup table for the transaction pool,
+    which will be recognized by the other nodes in the network. The nodes in the network
+    will only exchange the required transactions and thus reduce redundant communication.
+    Transactions in the pool can be synchronized quickly and securely with the help
+    of these lookup tables.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Off-chain transactions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A set of transactions that can be performed outside the blockchain is referred
+    to as off-chain transactions. Off-chain transactions rely on several methods of
+    validation that are different from the one used in the main blockchain. Although
+    the main motive of the off-chain transaction is to achieve increased transaction
+    speed, it also should provide basic security by making sure that the transactions
+    cannot be reversed by any participant.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Off-chain state channels** and **sidechains** are the popular off-chain solutions.
+    We will have a look at both of these off-chain transaction solutions.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Off-chain state channels
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A state channel is a two-way communication between the members of a system that
+    enables the members to perform a series of transactions without committing them
+    to the blockchain. Off-chain transactions tremendously increase the throughput
+    by avoiding blockchain confirmation for every transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Off-chain channels are ideal for micro-transactions where two parties communicate
+    their transactions by setting up a payment channel that is independent of the
+    blockchain state. The state channel can be closed once the transactions between
+    the parties are concluded. The final state of the channel is then sent to the
+    blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Figure 9.1* shows a payment channel that is created between Alice and Bob.
+    Alice and Bob will then perform a series of transactions whose state is written
+    to the blockchain only after the state channel is closed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/92ffb869-33ac-41fa-8c15-a044ab975514.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.1: State channel transactions between two users'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Lightning Network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Lightning Network is a second-layer payment protocol that operates on top
+    of the Bitcoin blockchain. At the time of writing, the implementation of this
+    protocol is running in beta mode on Bitcoin's mainnet. It is a routed bidirectional
+    network that was proposed to solve the Bitcoin transaction scalability problem.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Design**'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Lightning Network creates a routed payment channel network where communication
+    between the nodes is bidirectional. The design has been implemented by several
+    open source communities by following a set of standards.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A simple design of the Lightning Network involves the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Create a payment channel by committing the channel with the initial funds from
+    the parties
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Perform micropayment transactions and update the created funds of the channel
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Close the payment channel and broadcast the final state of the channel's funds
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**An example of a Lightning Network**'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's consider an example where Alice wants to perform several Bitcoin payment
+    transactions with Bob. Alice and Bob decide to open a payment channel using the
+    Lightning Network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Alice and Bob both create a channel, initially funding it with 2 bitcoins each.
+    The funds can be kept in a multi-signature address account, which will ensure
+    that both parties need to agree on the finalized fund distribution. A balance
+    sheet will be maintained, which will update the balances of Alice and Bob after
+    each transaction. The balance sheet is similar to the concept of keeping tabs
+    in a restaurant or bar; instead of paying for each order, a tab is maintained
+    that can be used to pay for all the orders together.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Alice wants to send 0.5 bitcoins to Bob, so she will create a transaction that
+    pays 0.5 bitcoins to Bob. Instead of appending this transaction to the blockchain,
+    the payment channel will update the balance sheet. Now the channel fund will reflect
+    1.5 bitcoins as Alice''s balance and 2.5 bitcoins as Bob''s balance:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/021d71fe-5d3a-4240-88f6-b382d39aed9b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.2: Lightning Network payment channel between Alice and Bob'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Alice and Bob can perform any number of transactions without waiting for the
+    state of the transaction because the payment channel is independent of the blockchain
+    state. The payment channel can be closed when there are no more transactions to
+    be performed on the created channel. The final state of the channel is then broadcasted
+    to the blockchain network so that it gets included in the blockchain in a single
+    transaction. The Lightning Network implementation, which securely performs off-chain
+    transactions, increases the total transaction throughput of the blockchain network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Routed payment network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A user in the Lightning Network doesn''t need to set up a direct payment channel
+    with every user to perform a transaction. A user can find several connected payment
+    channels to connect to the other user in order to set up a routed payment network.
+    Consider an example where Alice wants to set up a micro-payment channel with Carol.
+    Alice has earlier set up a channel with Bob. She also finds out that Bob has an
+    active channel with Carol. So, instead of setting up a new payment channel, Alice
+    decides to create a routing payment channel with Carol via Bob, as shown in *Figure
+    9.3*:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/262fd814-8085-449d-9289-e88552ddfcf2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.3: Routed payment network between Alice and Carol via Bob'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Routed payment channels are established between a number of trustless nodes,
+    and a node will not have information about the next hop in the route. Any payment
+    channel in the network might be invalidated at any time due to faulty behavior.
+    To tolerate faults in the network, there has to be an escrow set up for each channel
+    in the network. Time-based script extensions (smart contracts) such as **Hash
+    Time Lock Contract** (**HTLC**) can be used to set up an escrow in the payment
+    channel.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Hash time lock contracts**'
+  prefs: []
+  type: TYPE_NORMAL
+- en: HTLCs are a special type of smart contract that can be created using Bitcoin's
+    basic programming language (Script). The participants in the network will commit
+    their funds during a transaction with a secret that will be shared once the escrow
+    is set up.
+  prefs: []
+  type: TYPE_NORMAL
+- en: HTLC is similar to the locking script created during transaction creation, where
+    a secret key generated with asymmetric cryptography is used to unlock funds. Instead
+    of using a permanent secret key, HTLC uses a randomly generated secret that is
+    destroyed in each transaction. The receiver of the fund will initially create
+    a random secret, *R*, that is hashed using a one-way function such as SHA256\.
+    The computed hash, *H*, of the secret can then be shared with all the participants
+    involved in the transaction to create HTLC scripts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Although the fund committed to the HTLC script is redeemable by providing the
+    secret, R, it also has a time lock, which requires the secret owner to claim the
+    fund within a specified time. The time factor can also be specified in the number
+    of blocks. Bitcoin uses the `CheckLockTimeVerify` extension to time-lock a contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The final HTLC script is prepared by combining the hashing and the time-lock
+    conditions. Any node in the network that owns the secret could claim the fund
+    committed to the HTLC.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Routed payment example**'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's consider a scenario by building on our previous example, where Alice wants
+    to send 1 bitcoin to Carol instead of Bob. Since there is no active channel between
+    Alice and Carol, Alice and Bob create a payment channel via Bob, as discussed
+    before. Now, Carol creates a random secret, *S*, for the session. She creates
+    a hash of secret *S* and shares it with Alice, but the secret is protected without
+    disclosing it to anyone.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The payment channel between Alice and Bob is funded with 4 bitcoins. Similarly,
+    the channel between Bob and Carol is also funded with 4 bitcoins. Bob has a share
+    of 2 bitcoins on each of the payment channels. Alice begins the transaction by
+    creating an HTLC commitment with a value of 1.1 bitcoins, payable to Bob. The
+    additional 0.1 bitcoin is a transaction fee paid to Bob as brokerage. Bob will
+    not be able to claim the commitment as he doesn't own the secret. Bob is now instructed
+    to create a new transaction on the other channel. He creates an HTLC commitment
+    with a value of 1 bitcoin, payable to Carol. As Carol owns the secret key, she
+    claims the bitcoin and passes the key to Bob. Now Bob will be able to claim the
+    bitcoin in the HTLC.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'All the actors claim their assets without trusting the other nodes in the payment
+    network. The final balance of the payment channel can then be written to the blockchain
+    when any of the channels are closed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/64f667a0-6e33-48db-8b71-17765b8beea3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.4: Routed payment network between Alice and Carol via Bob'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Each node will perform route discovery whenever a transaction needs to be created.
+    The information for the route discovery is collected from all the nodes in the
+    network through the P2P networking model. Once a node has all the information,
+    the optimal path is constructed by the sender node. After the route is discovered
+    by the sender, each node involved in the discovered path will not be aware of
+    all the nodes. Each node will be informed only about the node with whom they have
+    set up a payment channel. This is achieved by implementing an onion routing protocol-based
+    system to preserve the privacy of the transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sidechains
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A sidechain is a blockchain that runs parallel to the main blockchain and is
+    attached to the main blockchain (also referred to as the main chain) using two-way
+    peg. Similar to the state channels, sidechains are a layer 2 solution to scale
+    the existing blockchain network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Any number of transactions on a set of assets can be performed on the sidechain
+    before committing the state to the main chain. Unlike the state channel, the sidechain
+    is a permanent chain that functions alongside the main chain. Any time an asset
+    needs to be sent to the sidechain, the same asset needs to be locked in the main
+    chain by transferring it to a special address. Once the asset has been locked
+    in the main chain, the same asset can be released to the sidechain. The sidechain
+    can then perform transactions on the asset as long as the asset is locked in the
+    main chain. A special group called **federation** serves as an intermediary between
+    the main chain and the sidechain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are several existing implementations of sidechains. Rootstock has created
+    a sidechain that has a two-way peg with the Bitcoin blockchain. Loom ([https://loomx.io/](https://loomx.io/))
+    has created a Proof of Stake based sidechain for the Ethereum network. Matic networks
+    ([https://matic.network/](https://matic.network/)) is another service that has
+    created a Proof of Stake side chain with an adapted version of the Plasma framework.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block size improvements
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A block of transactions is the basic component of any decentralized blockchain-based
+    application. Every blockchain-based implementation will define its own structure
+    of blocks. The Bitcoin block has a header and body section with a set of fields
+    defined. Few of the fields have a fixed limit, and so does the block size. Bitcoin's
+    block size is 1 MB, which was introduced in 2010\. This restricts the number of
+    transactions that can be included in a block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As the amount of activity in the Bitcoin network increased due to its popularity,
+    more transactions were created in each block. *Figure 9.5* shows how the average
+    number of transactions per block has grown over the years. From last year, most
+    Bitcoin blocks reached their threshold for the number of transactions in each
+    block. We can conclude from the graph that the average number of transactions
+    per block in recent years is around 2,500\. Since Bitcoin has a fixed block interval
+    of 10 minutes, the average transaction throughput that Bitcoin could achieve is
+    about 4-5 transactions per second, which is significantly less than PayPal or
+    Visa transactions, whose transaction throughputs are around 200 and 1,600 transactions
+    per second respectively:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e006273c-7531-4340-bf51-262996a815ca.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.5: Average Bitcoin transactions per block (source: www.blockchain.info)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A straightforward solution to increase the throughput of transactions is to
+    make full use of the block size. But, according to the graph in *Figure 9.6*,
+    Bitcoin blocks have recently been utilizing their entire 1 MB space for transactions.
+    Due to the increased number of recently mined blocks, there have been talks and
+    proposals regarding an increase in the block size at several occasions. Though
+    there was a lot of interests in the community, it failed to gain the majority
+    required to implement the updated protocol for blocks:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Some blocks in recent years have exceeded the limit of 1 MB, and this is due
+    to the protocol upgrade called **Segregated Witness**, which we will discuss in
+    a later section, *Proposed solutions*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/553c0ec9-ea2e-451b-af84-ed2ff6ca6d6c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.6: Average block size representation of Bitcoin (source: www.blockchain.info)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Motivations to increase the block size
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Increasing the block size is an obvious approach to achieve higher transaction
+    throughput. But there are several other factors that could motivate an increase
+    in block size:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Increased transaction activity may result in a bottleneck and thus clog the
+    blockchain network. Some transactions might get delayed or lost forever.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Increased waiting time for micro-payments would stop the innovation of the technology.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Currently, users are forced to pay higher transaction fees to prioritize transactions.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Concerns on increasing the block size
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Although increasing the block size is an intuitive approach to increase the
+    transaction throughput, there are some concerns with this approach. Here are some
+    of them:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Exchanging block data will become more difficult because of the increased size
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Increasing the block size is an immediate solution but not a permanent one
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Changing the block size will result in a hard fork and may risk consensus failures
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Larger blocks will require higher bandwidth to exchange data, which may not
+    excite ordinary full node users and may no longer maintain the full blockchain
+    due to the increased maintenance cost
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Proposed solutions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: From the very beginning of 2010, there have been attempts to increase the block
+    size with different proposals. There are even a number of **Bitcoin Improvement
+    Proposals** (**BIP**) that keep track of this issue. Some of them are BIP 100
+    - 103 and BIP 109, and all of them are either in a draft or a rejected state.
+  prefs: []
+  type: TYPE_NORMAL
+- en: One of the initial proposals, BIP 101 by Gavin Andreson, one of the initial
+    developers of the Bitcoin core, suggested increasing the block size to 8 MB and
+    doubling the limit every two years, with the size growing linearly during the
+    two years. Although the proposal gained support from a majority of the miners,
+    it failed to gain an economic majority as it required a hard fork. An alternate
+    Bitcoin client called **Bitcoin XT** implemented BIP 101 in 2015, but it failed
+    to gain consensus to implement BIP 101\. The BIP implementation was later removed
+    from Bitcoin XT.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Despite many proposed solutions, Bitcoin failed to gain a majority for new block
+    size approval. But a solution was proposed to increase the block capacity and
+    protect from transaction malleability in the shape of a protocol upgrade called
+    Segregated Witness. Segregated Witness defines a new structure called a witness
+    where all the signature information of the transaction is stored, separating it
+    from the transaction information in the block. The transaction's validity can
+    be verified from the information present in the witness structure.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Segregated Witness defined a new weight unit and permitted the creation of up
+    to 4 million units. 1 byte in the new witness structure was considered as 1 unit,
+    but 1-byte data in the old block zone was considered as 4 units. This allowed
+    the old blocks to have a limit of 1 MB, whereas the blocks created with the upgraded
+    protocol were not bound to the 1 MB limit. One of the biggest advantages of this
+    proposal was that it did not require a hard fork of the blockchain to reach a
+    consensus.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block size improvements are only a short-term solution for the scalability issue
+    of blockchain. The Bitcoin community continuously proposes better solutions so
+    that they can address the network scalability issue in the long run.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain enhancements
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Numerous enhancements have been built on top of the existing blockchain protocols
+    to function more efficiently or make the blockchain application suitable to implement
+    the desired functionality. We will discuss a few of the enhancements that require
+    major protocol modifications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sharding
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: One of the critical issues that Bitcoin and other existing blockchain platforms
+    face is scaling the applications in the blockchain network. Storage is the main
+    factor that is slowing down the scalability of decentralized applications. Every
+    full node in the blockchain stores the entire blockchain history to verify the
+    transaction. Instead of storing redundant data on every node, data can be distributed
+    cleverly on the network so that it will help to achieve scalability as well as
+    decentralization. Ethereum proposed a sharding mechanism to implement a distributed
+    behavior that could achieve scalability. We will discuss a few of the key concepts
+    of sharding proposed by Ethereum in this section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: More details about the Ethereum's sharding roadmap can be found at [https://github.com/ethereum/wiki/wiki/Sharding-roadmap](https://github.com/ethereum/wiki/wiki/Sharding-roadmap).
+  prefs: []
+  type: TYPE_NORMAL
+- en: The motivation for database sharding
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Sharding involves partitioning data to distribute it across multiple devices.
+    Sharding is not a new concept to achieve a distribution of computing resources.
+    It has been used to achieve scalability in databases. Database shards are created
+    by horizontally partitioning tables. Each partition, or shard, is often held in
+    a physically separated server to balance the load.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Partitioning the database table horizontally into shards will reduce the number
+    of rows and thus reduce the index size, which would optimize searching. If the
+    database partitioning is performed on real-world data segmentation, such as storing
+    data related to different countries on different shards, it would be easy to query
+    only the relevant shards.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Figure 9.7* shows how a database table that stores user details initially
+    in a global database can be partitioned:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/8e056145-b075-4ded-9e88-cf572dfbdbc9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.7: Database sharding based on physical location'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The database table is horizontally sharded into two different tables, each maintaining
+    the subset of the total rows in the original table. The tables are partitioned
+    on the basis that the first table contains details of users from Asia, and the
+    second table contains details of users from North America. Partitioning database
+    tables in this way will improve the performance of querying. The database tables
+    can also be partitioned and distributed across multiple servers by using a special
+    type of hashing known as **consistent hashing**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When a hash table of *N* slots is resized, a majority of the keys (K) need to
+    remapped to the slots. Consistent hashing is a special type of hashing where a
+    change in the number of slots requires only *K/N* keys to be remapped.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sharding in blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A decentralized blockchain network consists of a number of nodes in order to
+    achieve the highest possible level of decentralization. The security of the network
+    increases with the number of nodes added to the network. But the population of
+    nodes doesn't contribute to the scalability of the network. In fact, it is difficult
+    to scale with an increased number of nodes. Ethereum proposed a sharding technique
+    where the entire blockchain and its state is split into partitions called shards.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The sharding scheme in Ethereum can be partitioned into any number of shards
+    that maintain their own history and state. Let's consider a scheme where a blockchain
+    is partitioned into *K* shards based on some criteria. An example criterion for
+    sharding could be assets, where transactions belonging to different assets are
+    maintained on different shards. Since each shard maintains its own state, the
+    effect of the transaction created in a shard is limited to the state of that shard.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Components in a shard
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Each shard maintains data in a collation, which is analogous to the blocks
+    in the main blockchain. Each collation contains a collection of data in the form
+    of blobs. Each collator contains a header and body, similar to the blocks in the
+    main chain. *Figure 9.8* depicts how the blobs are transformed into chunks, and
+    then a Merkle proof is created for those chunks by building a Merkle tree that
+    consists of chunks as its leaves. A chain of collations is created, which is a
+    blockchain of the shard. The main chain still exists, which is processed by everyone,
+    but they only store the collation headers of the shards. The longest chain of
+    a shard is called canonical chain, and its headers will reside in the main chain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ea71ac2e-aabf-438f-adcd-41d05d2ff432.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.8: Collations and blobs in a shard'
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are nodes in the shard called **proposers**. These nodes can either choose
+    shards or select them randomly. The proposers are responsible for accepting the
+    blobs and creating the collation. Thus they also function as collators. The **notaries**
+    are the entities that download and verify the collations. They are assigned to
+    the shards and randomly shuffled to a new shard every period via a random beacon
+    chain (using some verifiable random function). They will also vote on the availability
+    of the collation data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A **committee** will check the votes and decide whether to include a collation
+    header in the main chain. The collation header will establish a link to the collation
+    data residing in the shards.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Design of a sharded blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Partitioning a blockchain and distributing it across different shards needs
+    a variety of actors, as described in the previous section. All these actors in
+    the network will make sure that the collation data of every shard is linked to
+    the main chain. The sharding architecture has several security concerns due to
+    the distributed shards and several types of actors in the decentralized network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The design of the blockchain is said to be secure if it can maintain an honest
+    majority where more than 50 percent of the validators follow the protocol honestly.
+    The value can be lower if there is an uncoordinated majority.
+  prefs: []
+  type: TYPE_NORMAL
+- en: An uncoordinated majority is an act of achieving a majority, but one where no
+    more than 50% (often between 20 to 50 percent) of validators are capable of coordinating
+    an action.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The design of a sharded blockchain isolates the transactions of one shard from
+    the rest of the shards in the network. If a node needs to perform a transaction
+    with a node present on the other shard, it is not as straightforward as the classic
+    blockchain design. Ethereum sharding uses a concept called receipt to perform
+    cross-shard communication.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cross-shard communication
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'There might be a scenario when a transaction needs to be shared between two
+    or more shards. Ethereum uses receipts created by nodes in one shard to confirm
+    the transaction. Let''s consider a scenario in which user *A* present in shard
+    *M* wants to send 100 coins to user *B* of shard *N*. Cross-shard communication
+    can be established with the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Create a transaction on shard *M* for deducting the coins.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Create a receipt for the transaction of 100 coins from user *A* to *B*. The
+    transaction won't be saved on the state, but the existence of the receipt can
+    be verified by the users in shard *N*.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Create and send a transaction on shard *N* that includes the Merkle proof of
+    the receipt. This transaction also confirms that the receipt is unspent. The balance
+    of user *B* is increased by 100 coins in shard *N*.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Some complex scenarios might result in communication across multiple shards
+    to query data from the state of other shards.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Evolution of the consensus algorithm
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We have come across Bitcoin's **Proof of Work** (**PoW**) consensus algorithm
+    in several sections of this book. The PoW algorithm is the backbone of the decentralized
+    networking protocol. Although Bitcoin's consensus algorithm has been proven to
+    be effective to achieve consensus in a trustless network, it is still not very
+    efficient in terms of cost due to the computational resources spent during the
+    mining process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A number of alternative consensus algorithms have been developed and implemented
+    to attain the same amount of confidence in decentralization without incurring
+    too much expense.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proof of Stake (PoS)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The PoS algorithm eradicates most of the issues of PoW by not depending on computational
+    resources to achieve consensus. **PoS** uses validators, which are in contrast
+    to the miners in PoW in that they don't perform any work to contribute to the
+    decentralization. The contribution of the PoS validators depends on their share
+    of the cryptocurrency coins from the total in circulation in the system. A validator
+    with three coins is three times more likely to contribute to the validation than
+    a validator owning a single coin. There are other factors that randomize the process
+    to avoid one validator with a major stake monopolizing the validation process.
+    Peercoin was the first to adopt PoS, followed by Nxt and BlackCoin. Ethereum is
+    currently using PoW, but PoS is in active development, and it has planned to implement
+    PoS in the mainnet in the near future.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Along with its wide-ranging benefits, it has its own set of issues in the implementation.
+    A white paper on PoS versus PoW ([https://bitfury.com/content/downloads/pos-vs-pow-
+  prefs: []
+  type: TYPE_NORMAL
+- en: 1.0.2.pdf](https://bitfury.com/content/downloads/pos-vs-pow-1.0.2.pdf)) published
+    by the BitFury group lists a few of the possible attacks, such as the long-range
+    attack, bribe attack, coin age accumulation attack, and precomputing attack. Ensuring
+    complete security in a public decentralized network isn't a picnic. Even the resilient
+    PoW is theoretically vulnerable to the 51% attack, which can result in double
+    spends (we will cover the security concerns of PoW in [Chapter 10](53dc28ad-de3d-463a-8244-e48d0d19d616.xhtml),
+    *Blockchain Security*). The PoS algorithm prevents validators from attacks by
+    penalizing the nodes upon bad behavior. Ethereum requires each node to possess
+    a minimum stake of 1,250 ethers to participate in validation. The minimum stake
+    deposit by the validators prevents them from being dishonest in the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proof of Activity (PoA)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Most cryptocurrencies and blockchain platforms that use PoW have a limited supply
+    of tokens. For example, Bitcoin will only mint 21 million coins, and the final
+    coin will be minted sometime during the year 2140\. Miners will have to solely
+    depend on transaction fees as their incentives when all the coins are minted.
+    According to the current difficulty level of Bitcoin, it would reach a level when
+    it may not be economical for miners to participate in the mining process. The
+    existing miners may try and perform dishonest acts and spoil the blockchain system
+    with invalid transactions for their own benefit. PoA was proposed as an alternative
+    consensus algorithm that could be adopted by Bitcoin. It is a hybrid approach
+    that combines PoW and PoS.
+  prefs: []
+  type: TYPE_NORMAL
+- en: During block creation, the mining nodes perform PoW by solving the hash puzzle
+    with computational resources. The PoW process will not add any transactions; instead,
+    they only create the block header with the miner's details. PoS is used to further
+    process the block by randomly selecting the validators based on the block header
+    information. This phase of consensus is handled in a similar way to PoS-based
+    systems. If not all the validators selected were able to sign the block, the next
+    best block is selected, and the same process of PoS validation is applied. After
+    each block has been included in the blockchain, both the PoW and PoS miners will
+    receive their incentives.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Decred is a cryptocurrency that was launched in February 2016 and makes use
+    of PoA to achieve the consensus in the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Byzantine Fault Tolerance (BFT) consensus models
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Consensus algorithms were designed in distributed systems to tolerate Byzantine
+    faults relating to the Byzantine generals' problem (refer to [Chapter 1](5ed0d7a8-0fa3-4f99-9d68-5ef2025ecd65.xhtml),
+    *Introduction*, for a definition of the Byzantine generals' problem). Though PoW
+    and PoS have tolerance to Byzantine faults, it comes at a cost. Several variants
+    of **Byzantine Fault Tolerance** (**BFT**) consensus models have been proposed
+    as solutions to this problem in untrusted distributed networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Practical Byzantine Fault Tolerance (PBFT)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The PBFT consensus algorithm was proposed by Miguel Castro and Barbara Liskov
+    as a practical solution to the Byzantine generals' problem in distributed systems.
+    It achieves consensus among nodes with a voting mechanism if the state changes.
+    This algorithm requires at least *3f+1* nodes in a system of *f* failing nodes.
+    PBFT poses an overall overhead of about 3% to the system, which is a great improvement
+    on the PoW consensus-based systems. Scaling PBFT in terms of nodes is still a
+    challenge, as it will result in a greater overhead as the number of nodes increases.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Hyperledger Fabric project uses the PBFT protocol to achieve high transaction
+    throughput in a permissioned blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Federated Byzantine Fault Tolerance (FBFT)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: FBFT is a variant of the BFT algorithm that has been implemented in payment-protocol-based
+    blockchain platforms such as Ripple and Stellar. Both of these platforms perform
+    critical transactions, such as cross-border payment, by dealing with fiat currencies.
+    Due to their criticality, the consensus model should be fault resistant to avoid
+    any attacks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Ripple consensus protocol**'
+  prefs: []
+  type: TYPE_NORMAL
+- en: An overview of the Ripple consensus protocol was covered in the previous chapter,
+    along with its platform's architecture. Each node implements the FBFT consensus
+    model by voting on the transactions. Each node in the network maintains a list
+    called a **Unique Node List** (**UNL**), comprising trusted Ripple nodes. Each
+    node broadcasts a set of transactions called a candidate set to its nodes in the
+    UNL. Each node will validate the transactions and broadcast their votes for each
+    transaction. Each node refines the candidate set based on the votes received for
+    each transaction. When a particular candidate set receives 80% of votes from all
+    the nodes in the UNL, all the transactions in the candidate set are confirmed
+    by adding it into the blockchain ledger. The Ripple ledger goes to a closed state,
+    and all the unconfirmed transactions will be carried over to the next round of
+    voting.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ripple performs a voting mechanism in rounds to achieve minimum consensus from
+    all the nodes before the transactions are committed. FBFT achieves higher transaction
+    rates even than a permissionless network. Hence it can be implemented in critical
+    financial systems that need higher scalability.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proof of Elapsed Time (PoET)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: PoET is a consensus algorithm designed to solve the performance issues faced
+    by existing consensus protocols. It solves the Byzantine Generals' problem using
+    the trusted execution environment. Due to its trusted execution model, it is only
+    suitable for a permissioned blockchain network. PoET consensus has been implemented
+    in Hyperledger's Sawtooth, which is a permissioned blockchain project backed by
+    Intel. The **trusted execution environment** (**TEE**) in the network is achieved
+    by Intel's **Software Guard Extensions** (**SGX**), which are instruction sets
+    that allow user code to allocate private memory regions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Similar to the PoS algorithm, PoET elects a random peer to construct the next
+    block with the exception that there is no staking involved. Instead, peers wait
+    for a random amount of time before they can participate in the block creation
+    process. Since each peer will have a random wait time, the first peer to finish
+    the wait time will create the block. Each peer has to prove a couple of things
+    to the network to qualify itself as the elected node:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Prove that the node has chosen a random wait time
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Prove that the node has waited for the chosen random wait time
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Each node satisfies these requirements by running the trusted code in a protected
+    environment with the help of Intel's SGX instruction set. The node participating
+    in the election obtains a wait time from a trusted function. The node with the
+    shortest time will be the leader for the next block to be created. A function,
+    say, `CreateTimer`, will set the timer and another function, say, `CheckTimer`,
+    will create an attestation when the timer expires. This attestation proves that
+    the node has waited for a specified wait time before creating the block. Every
+    node on the network will use this attestation to validate the block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Every node in the network will download the trusted code and perform an initial
+    handshake to set up a trusted network. As a part of the handshake, the nodes will
+    create a key pair for the trusted code and publish its public key to the entire
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: PoET promises higher performance with its time-based election mechanism to achieve
+    consensus, and it is ideal for private enterprise blockchain networks. But the
+    permissioned model isn't practical for a public network due to its requirement
+    for specialized hardware to create a protected execution environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cross-chain protocol
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A distributed blockchain ledger is an evolving space, and many applications
+    are implemented frequently. Just like any computer technology, which requires
+    updates from time to time, existing blockchain systems need to be updated to evolve
+    with the growing technology. Unlike other centralized systems, extensive changes
+    to an existing blockchain will lead to a hard fork due to the decentralization
+    of nodes. Existing blockchain systems suffer from restricted innovation or integration
+    with evolved protocols.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The cross-chain protocol was developed to integrate existing blockchain applications
+    with the newly evolved systems and enable multiple blockchain networks to communicate
+    with each other. The cross-chain communication protocol also helps to scale blockchain
+    networks by integrating multiple ledgers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Several projects have been working toward the implementation of the cross-chain
+    protocol. *Cosmos*, *Polkadot*, and *Interledger* are some of the projects implementing
+    the cross-chain protocol in their own way. Cosmos and Polkadot have their own
+    blockchain ecosystem with several components that can communicate with other independent
+    blockchain systems. Interledger is a protocol for making payments across payment
+    systems. In the following section, we will analyze the cross-chain protocol implementation
+    in payment systems using Interledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Interledger protocol (ILP)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: All the payment systems across the world are built to function in a single payment
+    network, and all the assets and transaction details are maintained by a single
+    ledger. Even digital currencies such as Bitcoin maintain all their transactions
+    in a single public ledger, even though copies of the ledger are distributed throughout
+    the network. The transactions can be easily maintained in a single ledger, but
+    it would be difficult to vertically scale such a ledger. We have analyzed the
+    scalability of a single ledger in the *Sharding* section of this chapter. In addition
+    to this, the diverse payment systems will never agree on a single distributed
+    ledger or its corresponding consensus mechanism. A protocol that can connect multiple
+    payment systems and perform inexpensive transactions across the network would
+    be a great solution to the vertical scaling of existing ledgers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The Interledger protocol provides a system to securely transfer value across
+    different ledgers, and it is also often used with other payment systems. Interledger
+    appoints connectors between the ledgers of the participants to perform transactions.
+    Unlike any existing payment gateway services, participants don''t need to trust
+    these connectors due to the escrow provided by the ledgers. The protocol not only
+    enables value transfer between the blockchain-based ledgers but can also create
+    connections with traditional payment systems such as PayPal:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d8931552-e534-4f23-822b-5b9e413c62ed.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.9: Interledger protocol (ILP) use case'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Interledger components
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Senders** send assets to the known receivers. They will initiate the payment
+    by selecting the connectors.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Receivers** will expect assets from particular senders. They need to be the
+    part of Interledger payment network.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Connectors** link senders with receivers to make ILP payments possible. Connectors
+    also link up with other connectors. This is done to connect as many senders with
+    receivers as possible, through chains of connectors that are built for each payment.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Ledgers** perform bookkeeping of the asset information of every participant
+    in the network:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/45ab231b-4824-4694-bc78-aee244a69498.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.10: Interledger components'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Design of Interledger
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Current payment systems provide a way to transfer value between different ledgers
+    in the form of payment gateways. They act as an intermediary between the payment
+    banks. The main concerns of existing systems are security and speed. The gateways
+    are managed by the third parties, and users need to rely on those entities to
+    ensure security. Transaction settlement in such a payment network is slower since
+    the gateway has to deal with multiple payment banks. Interledger introduces connectors
+    between the ledgers, which establish links between senders and receivers. The
+    ledger in this system creates an escrow, which is the cryptographic conditions
+    that will secure the funds when transacting across the ledgers. The cryptographic
+    conditions created by ledgers that act as an escrow guarantee the fund transfer
+    to connectors only after acknowledgment from the receiver:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d94f6719-eb41-483c-bc2b-0c19f7ae7c5f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.11: Transferring the funds to the connector (source: https://interledger.org)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A decentralized network suffers from the threat of faulty or bad actors. The
+    conditioned escrow of the funds is a major security feature that ensures that
+    the funds are transferred only after an acknowledgment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ledger escrows use cryptographic signatures. Anyone can then validate the signature
+    to check whether the condition has been met.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The payment process can be performed using two models in Interledger. These
+    are atomic payments and universal payments.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Atomic payments**'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Interledger payments guarantee that the transfer is either executed or aborted.
+    It uses a commitment protocol, where the readiness of the system is identified
+    before deciding on the execution or abortion of the transaction. The commitment
+    protocol in a decentralized system uses a set of transaction managers called notaries.
+    These notaries are used to achieve consensus among the untrusted Byzantine nodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When a payment network is created before the transactions, there might be more
+    than one connector involved between the sender and the recipient. The number of
+    connectors depends on the selected route between the participants, which is based
+    on the hop or the fee involved. *Figure 9.12* shows that there are `n-2` connectors
+    between `n-1` ledgers while transacting between nodes **p[1]** and **p[n]**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e1a76d17-54a4-4ea2-8bcd-146f973c15a8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.12: Payment route with multiple connectors (source: https://interledger.org)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: All the connectors in the payment network are Byzantine nodes that could exhibit
+    faulty behavior during the transaction. The elected group of notaries, *N*, need
+    to achieve consensus among the Byzantine nodes. The trustless notaries need to
+    be fault-tolerant in order to create an atomic transaction. The network should
+    make sure that there are no more than *f* faulty notary nodes among the *3f+1*
+    nodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Before a sender can begin a transfer, a path of connectors has to be selected
+    after considering their fees and exchange rate. Once the optimal path has been
+    selected, the following stages can be observed during the transaction:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A group of notaries is elected by the participants. The election should make
+    sure that the number of faulty notaries should be less than *f* out of a total
+    of *3f+1* notaries.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The payment sender proposes a transfer request to each connector. All the connectors
+    will verify whether the rate matches their exchange rate. The sender will start
+    the preparation for the transfer once all the connectors confirm their approval
+    of the proposal.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The sender prepares the transfer from the ledger to the connector and requests
+    the connector to prepare for the transfer from the next ledger to its adjacent
+    connector in the path. Each connector will prepare for the transfer as soon as
+    it gets confirmation that the funds have been escrowed.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The final receiver of the fund will sign the receipt once funds at each ledger
+    have been escrowed. If the notary receives the receipt on time, then the notary
+    will forward the execute message to all the all the participants in the transaction.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Universal payments**'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Unlike the atomic payment model, there are no notaries that act as transaction
+    managers in this model. It uses the participants inside the network to achieve
+    consensus. Although it removes interaction with the external coordinators, it
+    can ensure safety to only non-faulty participants in a known environment. Practical
+    consideration of universal payments is not straightforward due to the untrusted
+    participants of the network who display faulty behavior.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Other than providing a connection between multiple ledgers, Interledger doesn't
+    rely on any other system, so it provides the freedom to scale the system as required.
+    It also maintains the privacy of the transaction details. So, the cross-ledger
+    payment protocol provided by Interledger greatly eases the communication between
+    financial systems. More implementation details of the Interledger project can
+    be found at [https://github.com/interledger](https://github.com/interledger).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Privacy enhancement
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As we all know, Bitcoin maintains a history of the funds owned by accounts in
+    transactions stored in blocks. Each transaction contains sensitive information,
+    such as the sender's address, the recipient's address, and the value. All the
+    data is used by every node in the network to verify the transaction before the
+    block can be included in the blockchain. Bitcoin's decentralized verification
+    forces the transparency of the transaction as there is no central authority.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin's blockchain provides security against tampering with transactions even
+    though they are visible to everyone. Although the blockchain secures the transactions
+    from many attacks, it does not guarantee complete privacy to the account holders
+    like other payment services. Anyone on the Bitcoin network can trace a transaction's
+    history without performing any authentication. Disclosing a transaction's history
+    could expose sensitive information about a particular account, such as recent
+    transactions or the account balance. The limited privacy on the Bitcoin network
+    has been one of the core concerns for the users. Since most blockchain projects
+    evolved from Bitcoin, they followed a similar transparency model. The pseudo-anonymity
+    feature of most blockchain applications provides some level of privacy to its
+    users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Pseudo-anonymity (Pseudonymity) is the identity of an individual or a group
+    that does not disclose its true identity. Bitcoin users are identified by their
+    public address, which doesn't reveal their real identity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: An anonymous cryptocurrency called Zerocoin was proposed by researchers from
+    Hopkins University. Zerocoin used zero-knowledge proofs to provide an extension
+    to Bitcoin that enhanced its privacy by creating anonymous transactions. An improved
+    protocol called Zerocash was later introduced, which was an independent cryptocurrency
+    that utilized a special kind of zero-knowledge proofs called **zk-SNARKs**. Zerocash
+    was later developed into a fully-fledged digital cryptocurrency called **Zcash**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since the invention of Zcash, several applications were developed to provide
+    privacy by implementing a similar protocol. Monero, Dash, Verge, and even a fork
+    of Bitcoin called Bitcoin Private are some privacy-based cryptocurrencies that
+    were introduced later. We will explore Zcash in more detail, along with the underlying
+    protocol used to ensure the privacy of its transactions in this section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Zero-knowledge proof
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A zero-knowledge proof is an important cryptographic primitive used to achieve
+    anonymity in the implementation of Zcash. It is a method where one party, say,
+    Alice, who owns some secret information, can prove to the other party, Bob, that
+    she owns the information without actually revealing it. Every zero-knowledge proof
+    will have two parties, a prover, and a verifier. The prover will always possess
+    knowledge that is kept secret, and the verifier will verify the statement of the
+    prover. The prover should always make use of the secret knowledge while creating
+    the proof, which implies that the verifier should not be able to reproduce the
+    proof to other parties without the secret knowledge. Whenever a prover creates
+    a zero-knowledge proof, it should satisfy the following properties:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Completeness**: If the statement is true, an honest verifier should be convinced
+    by the statement of an honest prover.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Soundness**: If the statement is false, no dishonest prover can convince
+    the verifier that it is true. There might be a few exceptional cases that can
+    be neglected.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Zero knowledge**: If the statement is true, the verifier doesn''t learn anything
+    other than the statement itself.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Zero-knowledge proofs are probabilistic proofs. There is a small probability
+    of a soundness error, where a dishonest prover can convince the verifier of a
+    false statement.
+  prefs: []
+  type: TYPE_NORMAL
+- en: General examples
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's look at the zero-knowledge proof system with few examples.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**A card trickster**'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's consider an example of a card trickster who claims that they know a trick
+    where they can predict any card that was guessed by the spectator. In this example,
+    the trickster is the prover, the spectator is the verifier, and the magic trick
+    is the secret knowledge. The only way to prove that they know the trick is by
+    performing the act. The trickster asks the spectator to think of a card. After
+    the spectator thinks of a card, the trickster waves the magic wand and takes out
+    a card. The spectator confirms that it was the chosen card, and they now believes
+    that the trickster knows the trick. If the spectator still needs to confirm it,
+    they can ask the trickster to perform the trick again.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The example simulates the zero-knowledge proof system. The trickster is the
+    prover, and the spectator is the verifier. The trickster proves that they know
+    the trick without actually revealing the trick, which satisfies zero knowledge.
+    If the trickster knows the trick, they will be always able to perform the act,
+    thus proving the completeness. If the trickster falsely claims to know the trick,
+    performing the trick would reveal their false claim. There is a small probability,
+    though, that the trickster will predict the card without knowing the trick. The
+    probability is 1/52 (as there are 52 cards in a deck). This probability is small,
+    and it would be vanishingly small if the trick was performed multiple times.
+  prefs: []
+  type: TYPE_NORMAL
+- en: zk-SNARKs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**zk-SNARK** stands for **Zero-Knowledge Succinct Non-Interactive Argument
+    of Knowledge**. As the name suggests, it is a variant of zero-knowledge proofs
+    in which you can prove the possession of secret information without the interaction
+    between the prover and the verifier.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Many zero-knowledge proofs required the prover and verifier to communicate continuously
+    by setting up a channel in order to prove the knowledge. Even the example considered
+    earlier required the continuous participation of the prover and verifier. zk-SNARK
+    has an initial setup phase where a common string called the public parameter is
+    shared between the prover and verifier.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Zcash uses a forked implementation ([https://github.com/zcash/libsnark](https://github.com/zcash/libsnark))
+    of the `libsnarks` (implemented in C++) library to perform zk-SNARK operations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The zk-SNARK allows us to verify the correctness of the executed program without
+    having to learn what was executed. Although the concept might sound simple, the
+    internal working of the zk-SNARKs can be tricky to understand in the first glance.
+    We will break down the implementation of zk-SNARKs into four main ingredients
+    as suggested in the Ethereum blog:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Construction of quadratic arithmetic programs** (**QAPs**): The validation
+    performed by zk-SNARK on a transaction should return true or false without revealing
+    any of the information. This is achieved by transforming the logic of the transaction
+    into quadratic polynomial equations that can be evaluated without revealing sensitive
+    information.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Evaluation at a random point to achieve succinctness**: The polynomials used
+    in the equations can be quite large. Therefore, the polynomials are evaluated
+    by the verifier at a randomly chosen point. The random point chosen by the verifier
+    should be kept as secret. The prover might generate an invalid polynomial that
+    will satisfy only the selected point if the random point is disclosed.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Homomorphic encryption**: zk-SNARK also uses homomorphic encryption techniques
+    to evaluate the polynomials without knowing the secret point. Homomorphic encryption
+    technique ensures that performing an operation on the polynomial is the same as
+    performing on the secret point.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Zero knowledge**: The prover has to make sure that zero-knowledge is achieved
+    so that the sensitive information is not revealed and, at the same time, the transaction
+    can be evaluated.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Zcash transactions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Zcash transactions involve senders and receivers, who can either have shielded
+    or transparent addresses. A transaction can have any combination of addresses.
+    A transaction with both transparent addresses is a public transaction, whereas
+    a transaction with shielded addresses is private. In some cases, either the sender
+    or receiver address can be shielded. If either end of the transaction was shielded,
+    it requires the generation of a zero-knowledge proof:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c5778a5c-b152-4503-bd2d-f2d4de0bf6e5.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.13: Zcash transaction with different types of address'
+  prefs: []
+  type: TYPE_NORMAL
+- en: If a user performs a transaction with a transparent address, all the unspent
+    transaction outputs are visible to the public. A single shielded transaction address
+    between any number of transactions involving transparent addresses can break the
+    chain of the transaction. Thus it will be difficult to trace any transaction value
+    back to the actual source. Even a small number of shielded addresses could result
+    in a great deal of privacy in the blockchain network. Currently, Zcash has less
+    than 5% of shielded transactions in their network, which still provides a good
+    deal of privacy to its users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since a transaction with shielded addresses needs to create a zero-knowledge
+    proof, it requires more resources and time (up to 40 seconds). But the verification
+    time is negligible, which is ideal for decentralization since every node performs
+    verification. The resource and time cost for creating shielded transactions is
+    negligible compared to the improved privacy provided by it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private transactions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The main intention of zero-knowledge proofs and its variant, zk-SNARK, is to
+    make transactions private. In a plain transaction such as in Bitcoin, a transaction
+    value is claimed with unspent outputs (UTXOs). Each UTXO is described by the public
+    address of the owner and the value. Let''s consider that Alice has `1` bitcoin,
+    which is represented by `UTXO[1]`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`PK[1]` is the public key of Alice. A random number is also stored along with
+    each UTXO, which is later used by Alice to maintain privacy:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Let''s now store the UTXOs in hashes for better privacy:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: These hash values are stored on each node, even after they have been spent.
+    So, to distinguish between spent and UTXOs, a separate list called a nullifier
+    set is maintained.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Alice wants to transfer 1 bitcoin to Bob, whose public key is `PK[2]`. Alice
+    creates a new UTXO addressed to Bob after spending `UTXO[1]`, which has a value
+    of 1 bitcoin:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Alice creates a nullifier to spend `UTXO[1]`, `nf[1] = HASH (r[1])`. She also
+    creates a hash of the `UTXO[2]` and forwards it to all the public nodes (Carol
+    in *Figure 9.14*), along with the nullifier, `nf[1]`. She also forwards the newly
+    created `UTXO[2]` solely to Bob in a private channel as shown in *Figure 9.14*:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d0bc9035-fc07-49c0-89f4-ff8fb02a2598.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.14: Exchanging transactions in Zcash'
+  prefs: []
+  type: TYPE_NORMAL
+- en: When Bob receives the hash of **UTXO[2]** and the nullifier, **nf[1]**, he makes
+    sure that **UTXO[2]** hasn't already been spent by checking his local nullifier
+    set. He adds **nf[1]** to the nullifier set if it doesn't already exist. Although
+    Bob has verified that **UTXO[2]** is legitimate, he cannot be sure that it actually
+    belongs to Alice. The only way to make sure that the UTXO actually belongs to
+    Alice without revealing the secret key is with the help of zero-knowledge proof.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In addition to information forwarded by Alice, as shown in *Figure 9.14*, a
+    zero-knowledge proof string, *π*, is also published to convince all the nodes
+    that she knows about **PK[1]**, **sk[1]**, and **r[1]**, where **sk[1]** is the
+    private key corresponding to **PK[1]**. Though the *π* string proves the knowledge,
+    it will not reveal any of the secret information.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we have investigated most of the optimization and enhancement
+    techniques of blockchain for improving the scope of this technology. We began
+    with the basic scalability issues of Bitcoin and proposed some solutions. We covered
+    issues and proposed solutions for networking, consensus, and the application layer
+    of the blockchain applications. Blockchain enhancement ideas were discussed later
+    on in the chapter to explore future possibilities in the blockchain technology.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the coming chapter, we will be discussing the security aspect of the blockchain
+    technology in depth.
+  prefs: []
+  type: TYPE_NORMAL

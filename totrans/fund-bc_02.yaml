@@ -1,0 +1,1332 @@
+- en: A Bit of Cryptography
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This chapter will cover all the basics of cryptography that are required for
+    you to understand the vital role it plays in blockchain technology. We will delve
+    deeply into all the aspects of cryptography that blockchain relies on. We will
+    explain a few concepts in practical terms so that we can implement them with ease
+    in later chapters. These include the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cryptography in blockchain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Classical cryptography
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Cryptographic primitives
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Merkle trees
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Encoding schemes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Modern cryptography is the study of private or secure communication. The fundamental
+    objective of cryptography is to enable two people to communicate over an unsecure
+    medium. This is achieved by encrypting a plaintext from the sender to form a ciphertext
+    that can only be decrypted by the receiver, with whom the sender shares a secret.
+    However, third parties can access the channel by which the ciphertext is transported,
+    but the text doesn't have any meaning to it, so it doesn't matter whether the
+    channel is secure or not. Cryptography has evolved and can now be applied in a
+    wide variety of fields, including blockchain. We will start our overview of cryptography
+    with an underlying and fundamental cipher implementation, and then we will move
+    on to advanced and modern cryptography topics.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Cryptography is crucial for information security services such as authentication,
+    confidentiality, and integrity. In the 19th century, **Auguste Kerckhoffs** outlined
+    what has come to be known as Kerckhoffs''s principle: A cryptosystem should be
+    secure even if everything about the system, except the key, is public knowledge.
+    The key is the only asset in cryptography that has to be kept secret and protected
+    from intruder attacks.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cryptography in blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Although we have mentioned that cryptography is crucial to the success of blockchain
+    technology, we haven't explored any topic in particular. Most cryptographic primitives
+    have some role or other in the creation of a decentralized blockchain application.
+    We will study all the primitives that contribute to blockchain in this chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hashing is used in most blockchain applications to create links between blocks.
+    It is also used in consensus algorithms such as proof-of-work, which basically
+    exploits the hashing power of the computing systems that form the blockchain network.
+    Digital signatures are used to sign and verify events such as transactions. Asymmetric
+    key cryptography is a core concept in blockchain applications that gives identity
+    to the participants of the network or can prove the ownership of assets.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hence, cryptography is an excellent tool for accomplishing some of the tasks
+    required to replace trusted third parties and create a trustless environment in
+    a decentralized network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Classical cryptography
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this section, we''ll look at a number of cryptographical techniques that
+    have been used in historical ciphers. These ad hoc ciphers are not secure enough
+    to be used in modern applications, but because of their simplicity, they can encourage
+    us to learn more about cryptography. Exploring the weaknesses of classical cryptography
+    also helps us to learn more about some of the principles of cryptography. Take
+    a look at the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/007f3440-7362-4b07-a0a4-6692594d84a4.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 2.1: Model of conventional encryption'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Figure 2.1* shows the conventional encryption model used to encrypt a plaintext
+    using a secret key that is shared with the other user over a secure channel. The
+    user who wants to read the text will decrypt the ciphertext using the secret key,
+    which will return the original plaintext. The key is private, and the encryption
+    and decryption algorithms are made public because it is impossible to decrypt
+    the ciphertext without the key.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Two types of operation are used to transform plaintext to ciphertext: substitution
+    and transposition. Both of these techniques ensure that the operation is reversible,
+    and therefore they could be used in encryption algorithms.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A substitution cipher is an encryption method in which the characters in plaintext
+    are replaced by other characters in a fixed manner. The simplest example of a
+    substitution cipher is Caesar''s cipher, where plaintext letters are substituted
+    by shifting the alphabet by three places: the letter A is replaced with D, B with
+    E, and so on. The obvious problem with this cipher is that the method is fixed
+    and that there is no key involved. A variant of Caesar''s cipher, called the Shift
+    cipher, was introduced, where the amount of shift from the plaintext to the ciphertext
+    varies, and this amount of shift can act as a key. Although this solved the immediate
+    problem, it wasn''t practical enough as the key could be guessed with a brute-force
+    or an exhaustive search attack. The polyalphabetic cipher was the next stage in
+    the evolution of ciphers. This cipher introduced a number of substitutions at
+    different positions in the message.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A transposition cipher is an encryption method where the positions of plaintext
+    letters are shifted according to a known system. Only the order of plaintext is
+    altered. All the letters of the plaintext remain the same. The Rail Fence cipher
+    and the Route cipher are two well-known transposition ciphers. This kind of cipher
+    technique could be decrypted by finding the transposition patterns using anagramming.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cryptographic primitives
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Cryptographic primitives are low-level cryptographic algorithms that are used
+    to construct cryptographic protocols used by applications. These are the building
+    blocks of designing a cryptographic system. A designer planning to implement a
+    cryptographic protocol in a system doesn''t have to worry about the low-level
+    abstraction of the primitives and can concentrate entirely on building the application:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/4dbb211c-b98c-4fdf-80d7-a11207db5209.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 2.2: Taxonomy of cryptographic primitives'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Figure 2.2* shows a detailed classification of cryptographic primitives. Blockchain
+    technology makes use of most of these cryptographic primitives to achieve basic
+    blockchain functionalities and secure data on the decentralized network: asymmetric
+    cryptography for managing keys; digital signatures for transactions; and, most
+    importantly, hashing, which is the backbone of the blockchain, are some of the
+    most commonly used primitives of cryptography. We will cover all of these primitives,
+    along with some others, to get a clear insight into them.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Symmetric key cryptography
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The symmetric key is a key-based cryptography whose algorithms use the same
+    keys to perform encryption of plaintext and decryption of the ciphertext. These
+    keys are shared between two parties over a secure channel. Any participant owning
+    the shared key can perform both encryption and decryption operations on the data.
+    A symmetric key cipher can either be stream encrypted or block encrypted.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Symmetric key cryptography doesn't play any significant role in blockchain-based
+    applications. However, it will provide a better insight into key-based cryptography
+    before we look into asymmetric cryptography.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Stream cipher
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The stream cipher uses symmetric key cryptography. Each plaintext character
+    is encrypted one at a time, like a stream, to create the ciphertext. A keystream,
+    or stream of characters, is used to encrypt the plaintext characters. A pseudorandom
+    string is used, which acts as a keystream. This pseudorandom string is generated
+    from a random seed value using digital shift registers (generator) as shown in
+    *Figure 2.3*. The seed used is the secret key, which is also used to decrypt the
+    created ciphertext.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For a stream cipher to be secure, its pseudorandom generator should be unpredictable,
+    and its seed value used to generate the keystream should never be reused to reduce
+    the possible attacks. Stream ciphers are generally faster than block ciphers and
+    have low hardware requirements, as demonstrated in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2c8c166b-7ff7-4891-9986-7ea414bd8261.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 2.3: Flow diagram of the stream cipher'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block cipher
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A block cipher is a cipher in which encryption is performed on a fixed-length
+    block of characters from the plaintext. This cipher technique is widely used to
+    implement encryption on bulk data. The usual block sizes are 64 bits, 128 bits,
+    and 256 bits. For example, a 64-bit block cipher will take 64-bit plaintext as
+    input and give out 64-bit ciphertext. The plaintext will pad some of the blocks
+    in case some of the plaintext falls short of filling a block. Because the keys
+    used in block ciphers are considerably long, they are robust against brute-force
+    attacks. These ciphers are also the building blocks of other cryptographic protocols,
+    such as hash functions and random number generators. **Data Encryption Standard**
+    (**DES**), **Advanced Encryption Standard** (**AES**), **International Data Encryption
+    Algorithm** (**IDEA**), and **Blowfish** are some popular block cipher algorithms.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Data Encryption Standard
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: DES used to be the most widely used block cipher, and it was used as an industrial
+    standard as well. It's still popular, but it has been replaced by other advanced
+    block ciphers in many applications. DES uses 64-bit blocks with a 64-bit key.
+    8 bits in the key are used as parity bits for error detection, so the key size
+    is technically 56 bits. It's been proven to be vulnerable to brute-force attacks
+    and some cryptanalysis attacks, which is due to its limited key size. 3DES was
+    introduced to overcome this problem by running DES three times with different
+    56-bit keys. But 3DES proved to be slower than other block ciphers, such as AES.
+  prefs: []
+  type: TYPE_NORMAL
+- en: DES uses 8 bits of the key as parity bits for error detection while transmitting
+    or storing the keys. The bits in the 8th, 16th, 24th, ..., 64th positions are
+    used to calculate odd parity, that is, the number of 1s in each byte of the key
+    is odd.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Advanced Encryption Standard
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'AES is one of the most widely used block ciphers in modern applications. The
+    Rijndael algorithm was selected as the AES after a 5-year public competition to
+    choose a replacement for DES. It has a fixed block size of 128 bits and varying
+    key sizes of 128, 192, or 256 bits. AES is an iterated cipher: the number of rounds
+    of iteration depends on the key length.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: AES is secure against all known attacks. There appear to be no ways to attack
+    AES that are faster than exhaustive search. The best ways to attack AES only apply
+    to variants of the cipher that have the fewest iterations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: An example implementation of AES
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's implement the AES cipher technique using a Python cryptographic library
+    called `PyCryptodome`. We will be using the `PyCryptodome` library throughout
+    this chapter to implement other ciphers and hashing algorithms.
+  prefs: []
+  type: TYPE_NORMAL
+- en: PyCryptodome is a self-contained Python package of low-level cryptographic primitives.
+    PyCryptodome is a forked project of the `PyCrypto` library and is an active project
+    with extended primitive support. So, it is an almost drop-in replacement for the
+    old `PyCrypto` library.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We will use the AES module from `Crypto.Cipher` package and we will also import
+    a module from `Crypto.Random` package to generate a random key for AES, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The encrypting end will create the ciphertext by using a randomly selected
+    symmetric key. Once we have imported the required modules, a 16-byte key is generated
+    using the `Crypto.Random` package. This is written to a file, which needs to be
+    kept secret:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The AES cipher object is created by passing the key. Cipher mode EAX is used
+    in the code. This object is used to encrypt the data. Nonce, tag, and ciphertext
+    are stored and transmitted to the decryption end:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The decryption part of AES uses the same 16-byte symmetric key generated during
+    encryption. Ideally, this key has to be transferred over a secure channel to the
+    recipient. The received encrypted binary file is read to get the nonce, tag, and
+    the ciphertext itself. The AES cipher object is created using the same key and
+    nonce value. Finally, decryption is performed using the `decrypt_and_verify` method
+    by providing `cipher_text` and `tag`. The tag is provided to perform verification;
+    it checks for any modifications in the ciphertext:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'A successful execution of both the encryption and decryption operations will
+    produce the following output:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'When the encryption and decryption parts of the AES program are run, we get
+    the original data back after decryption. Any modification to the ciphertext would
+    result in a MAC check error, and Python would throw `ValueError: MAC check failed`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A detailed Jupyter Notebook and scripts included in this chapter can be found
+    in the GitHub repository for this book.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Asymmetric key cryptography
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Asymmetric key cryptography is a widely used encryption technique in modern
+    cryptography. It has a lot of applications other than encryption. It is also commonly
+    used in several elements of blockchain, so we will cover this cryptography technique
+    in depth, along with its primitives.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Symmetric key cryptography uses a shared key for both encryption and decryption.
+    The biggest problem with this is that the shared key needs to be exchanged between
+    participants over a secure channel, which can be quite hard to achieve. It also
+    defeats the objective of encryption if we have a secure channel for communication
+    in the first place. This is where asymmetric cryptography comes in. It uses a
+    pair of keys called a public/private pair. The public key is constructed from
+    the private key and can be freely broadcasted to other users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In 1978, Ronald Rivest, Adi Shamir, and Leonard Adleman created the first public-key
+    algorithm, known as the RSA algorithm.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Public-key algorithms enable the creation of a public key from a randomly generated
+    private key. The created public key could not be used to infer the private key.
+    In other words, the creation of the public key from the private key is a one-way
+    process. This is the concept on which the security of public-key cryptography
+    relies. The public-key algorithm not only performs encryption, but also provides
+    authentication functionality.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The holder of the private key can use this key to authenticate to a system
+    that is aware of the user''s public key, as demonstrated in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9be5dbd8-4fdd-45c6-a7fa-e2294268776b.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 2.4: Asymmetric key cryptography'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As we can see in the diagram, there is no need for a secure channel to share
+    the keys, unlike in symmetric cryptography. The encryption and decryption algorithms
+    are identical, and the constructed key pairs play a vital role in the encryption/decryption
+    process. As discussed earlier, asymmetric key algorithms can also be used to provide
+    authentication. One application of this mechanism is digital signatures: only
+    users with the private key could sign a message, and anyone possessing the public
+    key could verify the authenticity of the message. Digital signatures could be
+    used for non-repudiation as well. Blockchain applications, especially crypto currencies,
+    make use of digital signatures to sign transactions using a private key to prove
+    ownership. Thus, blockchain technology relies mainly on asymmetric cryptographic
+    algorithms. Diffie-Hellman key exchange, DSA, ElGamal, RSA, and **Elliptic-curve
+    cryptography** (**ECC**) are some  of the approaches to asymmetric key cryptography.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The strength of a public-key cryptography system depends on how feasible it
+    is to infer the private key from the publicly available information about the
+    key. Although it is infeasible, it is not impossible, and security relies solely
+    on the key size and key generation mechanism. Asymmetric keys are not widely used
+    due to their complexity and the time it takes to encrypt/decrypt large files.
+    They are commonly used in digital signatures or key exchange mechanisms rather
+    than in encryption protocols.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'All asymmetric key algorithms are based on a number theory problem that ensures
+    the characteristics required for key generation and the encryption and decryption
+    processes. Based on different ways of solving the mathematical problem in number
+    theory, asymmetrical key generation is broadly characterized in three ways: prime
+    factorization, discrete logarithm, and elliptic-curve. All public-private key
+    algorithms are based on these mathematical problems. All these problems are similar
+    in functionality to trapdoor functions.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A trapdoor function is a function where it is easy to compute the values in
+    one way but infeasible to find the inverse. This means that it is difficult to
+    find the original input values supplied to the function from the result. This
+    functionality is widely used in asymmetrical cryptography.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Prime factorization
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Prime factorization is a concept in number theory regarding the decomposition
+    of a number into the product of two prime numbers. Prime factorization is a subset
+    of integer factorization, in which a composite number is factored into the product
+    of any two integers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It is challenging to find the factors of semi-primes (numbers that result from
+    the product of two prime numbers) because they have only a single pair of factors,
+    and the complexity of finding the factors increases as the size of the prime number
+    used in the product increases. There is no known efficient factorization algorithm
+    for finding factors when numbers are of a certain size. RSA uses prime factorization,
+    presuming that it's really difficult to find the private key from the exposed
+    product of prime numbers. This presumed difficulty is the reason behind the use
+    of prime factorization in cryptography.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Discrete logarithm
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A discrete logarithm is based on the modular arithmetic settings on a discrete
+    logarithm where the solution is infeasible to find. The logarithm log[b]a is a
+    discrete logarithm that has the integer solution *x* so that *b^x = a*. There
+    is no efficient general method for finding the solution to a discrete logarithm.
+    When modular arithmetic is used with a discrete logarithm, it's known as modular
+    exponentiation, and this problem becomes really difficult. This problem is generally
+    used with the Diffie-Hellman key exchange algorithm.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s consider an example of modular exponentiation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: It is easy to find the result of the preceding function, which is 2, but it
+    is difficult to find the exponent value 3 from the result. The preceding modulo
+    operation can also be represented with a *congruence as 3³* *≅ 2 (mod 5)*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Suppose *a* and *b* are two integers, and *m* is a positive integer. Then the
+    phrase *a ≅ b (mod m)* is called **congruence** and is read as "a is congruent
+    to b modulo m," which states that *m divides a-b*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Elliptic-curve
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'An elliptic curve is a plane real algebraic curve with an equation in the form
+    *y² = x³ + ax +b*. An elliptic curve should be a non-singular curve, meaning no
+    cusps, self-intersections, or isolated points. An elliptic curve on a finite field
+    is used in the cryptography system. ECC is used in Bitcoin to generate private-public
+    key pair, so we will be covering this in depth in a later section of the chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9d29d8f3-1966-41d5-bf0c-3e7e9cce6b0d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 2.5: An elliptic curve (similar to that used in Bitcoin)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The public-private key concept in asymmetric cryptography is used in bitcoin
+    and other cryptocurrencies to identify the owner of the asset. Private keys are
+    used to represent the ownership of coins in cryptocurrency.
+  prefs: []
+  type: TYPE_NORMAL
+- en: RSA cryptosystem
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: RSA is one of the initial implementations of public-private cryptography. It
+    uses the principle of prime factorization to generate a public-private key pair,
+    which acts as a trapdoor function. Encryption is performed using the public key,
+    which is distributed to everyone, and decryption is performed using the secretly
+    kept private key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The idea of an asymmetric public-private key cryptosystem is attributed to Whitfield
+    Diffie and Martin Hellman, who published this concept in 1976.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The public and private key pair are computed with the help of two large prime
+    numbers. The public key is published to the user, and the private key is kept
+    secret. The prime numbers are also kept secret. As long as the prime numbers used
+    are large, it is infeasible to compute the private key from the public key. The
+    whole RSA cryptosystem is based on the number theory problem of integer factorization,
+    which ensures that the difficulty of prime factorization is proportional to the
+    size of the prime numbers used.
+  prefs: []
+  type: TYPE_NORMAL
+- en: RSA parameter generation
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Before looking at encryption and decryption using RSA, we need to consider
+    the RSA parameter generation process. Here are the steps involved in this process:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Select two distinct large prime numbers, *p*, and *q.*
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Compute *n = p***q* and *φ(n) = (p − 1)***(q − 1).*
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Choose a random integer *e*, such that *1 < e < φ(n)* and *gcd (e, φ(n)) = 1*,
+    that is, integer *e* and *φ(n)*, are coprime.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Find *d ≡ e^(-1) (mod φ(n))*, where e^(-1) is the modular multiplicative inverse
+    of *e*.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A modular multiplicative inverse of an integer *a* is an integer *x*, such that
+    the product *ax* is congruent to *1* with respect to the modulus *m*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: More clearly, find *d* such that *d***e* *≡ 1 (mod* *φ(n))*, meaning find a
+    value *d* such that *d***e* has a remainder of *1* when divided by *φ(n)*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The public key is denoted by *(e, n)* and the private key by *(d, p, q)*. Here,
+    *e* is called the public exponent, and *d* the private exponent.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Encryption and decryption using RSA
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Encryption is performed in RSA using the distributed public key. Message *M*
+    is converted to integer *m* such that *0 ≤ m < n*. Ciphertext *c* is computed
+    using the exposed public exponent, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*c ≡ m^e mod (n)*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Anyone who possesses the public exponent can perform encryption on the message
+    and transmit it to whoever possesses the private exponent. Whoever has access
+    to the ciphertext and private exponent can perform decryption as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*m ≡ c^d mod (n)*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Message *M* could be regenerated from the decrypted integer *m*. This is how
+    RSA makes use of the prime factorization technique to perform encryption and decryption.
+    The process could be performed reasonably quickly for small messages, but it is
+    not the preferred way of encryption for large messages. This is why RSA is widely
+    used in cryptographic primitives, such as digital signatures, rather than encryption.
+  prefs: []
+  type: TYPE_NORMAL
+- en: An example implementation of RSA
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The example uses the RSA packages in the Python `PyCryptodome` library. The
+    following packages are imported for RSA key generation and the encryption and
+    decryption operations:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'A 2048-bit RSA key is created using the `generate` method from the `RSA` package.
+    The public key is exported from this generated key and made public. The `key`
+    object should be kept secret. A cipher object is created using the public key,
+    and encryption is performed on the message using this object:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The decryption operation is performed in a similar way to the encryption operation,
+    but the private part of the key pair is used instead of the public part. The ciphertext
+    is given as input to the `decrypt` method, which decrypts it and gives back the
+    decrypted message:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'A successful execution of the preceding script will output the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: Elliptic-curve cryptography
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: ECC is a public-private cryptography based on the elliptic curve mentioned earlier.
+    It performs the addition of points on the elliptic curve to compute public-private
+    key pairs. ECC requires smaller key sizes than other asymmetric key cryptosystems,
+    such as RSA. ECC is widely used in key exchange mechanisms and digital signatures
+    and is rarely used in encryption systems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: ECC provides the same level of security as RSA, but has a smaller key size.
+    A 256-bit ECC key is equivalent to a 3,072-bit RSA key. Similarly, a 384-bit ECC
+    key provides the same level of security as a 7,680-bit RSA key, and so on. We
+    can clearly see the advantage of less computation time due to the smaller key
+    size in ECC.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Due to its key size advantage compared to RSA, ECC is used in *Bitcoin's* addressing
+    system, along with transaction signing operations. It is also popular in other
+    blockchain applications. Other applications of ECC are Tor, iMessages, SSH, and
+    SSL/TLS.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Before diving into the cryptography applications of ECC, let''s look at some
+    of its properties:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'An elliptic curve is represented by a cubic equation:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*y^(2 )= x³ + ax + b*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: An elliptic curve has horizontal symmetry
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A non-vertical line will intersect the curve at a maximum of three points
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: RSA cryptography uses prime factorization. The factorization of a semi-prime
+    number is really difficult. When used in this domain, it forms a trapdoor (one
+    way) function. Similarly, elliptic-curve-based algorithms can use discrete logarithms.
+    Finding the discrete logarithm of a random element on an elliptic curve with respect
+    to a point on the same curve is a severe problem. We will go through the step-by-step
+    procedure of constructing a public key from a private key and study the one-way
+    nature of the ECC key generation process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Operations on elliptic curves
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Elliptic curves used in cryptography are curves that are constructed in a finite
+    field. They have the following form:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*y^(2 )= x³ + ax + b mod (p)*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The modulus operation on *p* indicates that the curve is over a finite field
+    of prime numbers of the order *p*. We need to understand some terminology and
+    operations of elliptic curves before moving on to the cryptographic applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A finite field is a field with a finite number of elements defined by parameter
+    *p*, which is a prime number. Thus, the finite field is *F[p] = {0, . . ., p-1}*.
+    It is represented by modulo *p* in the equation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'All the elements used in ECC must be agreed upon by the cryptography actors.
+    These elements are called elliptical curve domain parameters. {*p*, *a*, *b*,
+    *G*, *n*, *h*} are the parameters used in ECC. These parameters are defined as
+    follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*p*: The finite field is defined by this prime number.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*a* and *b*: These are the constants used in the equation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*G*: The set of all points in the curve is defined by this generator, also
+    known as the base point.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*n*: This represents the order of the base point or generator G, a smallest
+    positive number *n* such that *nG = ∞*.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*h*: This is the cofactor, which is the ratio of the orders of the group and
+    sub group (*n*), and it must be small (*h <= 4*), usually *h=1*.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Bitcoin's **Elliptical Curve Digital Signature Algorithm**
+  prefs: []
+  type: TYPE_NORMAL
+- en: (**ECDSA**) curve uses a unique set of domain parameters defined in secp256k1\.
+    You can find the technical specifications of the curve used in secp256k1 in a
+    later section of this chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The operations performed on an elliptical curve are called dot operations,
+    and they are point addition and point doubling. We will explain both of these
+    operations using a geometrical approach to facilitate a clear understanding. Python
+    scripts and notebooks related to these operations can be found in the GitHub repository
+    for this book:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/85ced93e-f2f2-4b5d-a6b7-3e1cf63bd25e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 2.6: An elliptical graph with co-ordinates and grids (created using
+    www.desmos.com)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will use the elliptical curve in *Figure 2.6* to perform all the operations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Point addition
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s assume that *P* and *Q* are two points on the elliptic curve. *P* is
+    not equal to *Q*; they are two distinct points on the curve. Point addition is
+    explained geometrically as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/fc027fe5-a3ac-43e8-b1c6-7204a3029cea.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 2.7: Point addition of P and Q'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The following steps are performed on the elliptic curve as shown in *Figure
+    2.7* to add two points.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Draw a straight line between points *P (x1, y1)* and *Q (x2, y2)*
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The line will intersect the elliptic curve at point *R¹*
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A reflection of point *R¹* about the *x* axis gives point *R (x3, y3)*, which
+    is the result of the addition of *P* and **Q**
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Point doubling
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Point doubling is a similar operation to point addition, with the exception
+    that point *Q* is moved to the same location as point *P (P = Q)*:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/bf3a9138-80c3-4cd9-a245-f2da1fd15123.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 2.8: Point doubling of P'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following steps are performed on the elliptic curve as shown in *Figure
+    2.8* to compute point doubling:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Draw a tangent (since there is only one point) to the curve at point *P*
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: This line will intersect the curve at point *R¹*
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A reflection of point *R¹* about the *x* axis gives point *R*, and this is point
+    doubling or a multiple of *R* (*2R*)
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Point doubling is the concept used in ECC to construct the public key from the
+    private key. The following section explains in depth how point doubling is used
+    in the generation of the public key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Computing the public key
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that we have defined point doubling, we can calculate a point on the curve
+    that is the multiple of the given point generator, point G (for example, *4G =
+    G + G + G + G*), and this could be computed using point doubling.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's use this concept to compute a public-private key pair in an asymmetric
+    cryptography system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Every curve domain parameter is the same for a given specification. Refer to
+    the technical specifications of the secp256k1 standard in a later section of this
+    chapter that is used in Bitcoin and other blockchain applications'' digital signature
+    algorithms. Let''s say *k* is a randomly chosen private key, and *K* is the public
+    key to be generated. The generator of the curve, *G*, has a standard value. The
+    public key could be computed by performing the following operation on the curve:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*K = k*G*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We can generate the public key using this equation on an elliptic curve using
+    point doubling. Point doubling on an elliptic curve is a one-way operation. It
+    is, therefore, a challenging task to compute the multiplied value *k* after the
+    required point *K* has been found:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/235f76f6-7473-464a-8eb5-1626ec92bb8f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 2.9: Multiplying the generator by an integer using point doubling'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Figure 2.9* shows the process of multiplying an integer value by the base
+    point *G*. In this case, points *2G* and *4G* are derived using point doubling
+    of *G* on the given curve. This geometrical method could be used to generate the
+    public key, *K*, by multiplying the generator by the private key *k* times.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Technical details of secp256k1
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Bitcoin uses a specific elliptical curve, and the domain parameters used in
+    the curve are defined in the secp256k1 standard. This curve is represented by
+    the following cubic equation in a finite field of prime order *p*:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*y² mod (p) = x³ + 7 mod (p)*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/562e8165-cd73-45fa-8943-7f2258cc10f0.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 2.10: secp256k1''s elliptic curve over real numbers'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As the name suggests, secp256k1 can have a key size of up to 256 bits. The
+    details of the domain parameters used by secp256k1 are represented in hexadecimal
+    strings and are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Large prime numbers are used in the finite field.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*p = FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFE **FFFFFC2F*'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The preceding hexadecimal representation of *p* will have the following decimal
+    value:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*p = 2^(256) - 2^(32) - 2⁹ - 2⁸ - 2⁷ - 2⁶ - 2⁴ - 1*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Constants of the curve *y² = x³ + 7* are as follows:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*a = 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000*'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*b = 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000007*'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The original representation of base point *G* has a lengthier hexadecimal string,
+    but it can be represented in a compressed form as follows:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*G = 02 79BE667E F9DCBBAC 55A06295 CE870B07 029BFCDB 2DCE28D9 59F2815B **16F81798*'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The order *n* of *G* and the cofactor are as follows:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*n = FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFE BAAEDCE6 AF48A03B **BFD25E8C D0364141*'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*h = 01*'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: All these values remain the same for any computation in secp256k1\. And this
+    specification is strong enough to withstand brute-force attempts to compute the
+    private key from the public key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Digital signatures
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: So far, we have covered various different methods of encryption in the categories
+    of symmetric and asymmetric cryptography. We also had a look at a few of the advantages
+    of symmetric encryption techniques compared to asymmetric techniques. Thus, asymmetric
+    cryptography is a rarely used encryption methodology. But the distinct design
+    of asymmetrical keys makes it a suitable technique for applications other than
+    encryption, and digital signature is one of them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A digital signature is a method of providing proof of ownership of digital documents.
+    Public-private key cryptography is widely used in the field of digital signatures
+    due to their asymmetric key property. The owner can use the private key to sign
+    a message or document, and the verifier can verify their ownership using the public
+    key, which is distributed to everyone.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The process is similar to the handwritten signatures used in the real world,
+    where an owner of an asset can use their signature to perform any action on that
+    asset and anyone can verify the signature by comparing it with a signature that
+    was used previously. The digital signature is more secure than the hand-written
+    signature since it is infeasible to forge a signature without owning the private
+    key:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3d59ad92-75c0-45b2-a3d6-5bf8944a1296.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 2.11: Design diagram of a digital signature'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Digital signatures could be used as a mechanism for ensuring the authenticity,
+    non-repudiation, and integrity of an action. We can take an example of a software
+    company distributing updates to its clients. How do these clients ensure that
+    they can trust these software updates? This is where the digital signature helps
+    to provide authenticity and integrity for those updates by allowing clients to
+    verify them with the distributed public keys. Only the owners of the software
+    can sign the software updates because they possess the private key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: How does it work?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'As shown in *Figure 2.11*, the digital signature process consists of two parts:
+    signing, and verification. Unlike with encryption, the digital signature performs
+    the first operation, signing using the private key. Verification uses the public
+    key distributed by the signer.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A hashing algorithm generates a unique fixed length value that is used during
+    the construction and verification of a digital signature. Refer to the next section
+    for a detailed explanation of cryptographic hashing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Signing process
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The signing operation is performed by the owner of the message using the private
+    key to prove their authenticity. Let''s say Alice is the owner of a document that
+    has a message *m*, and wants to distribute it to others in the network. Now, Alice
+    will initially hash the message and use her private key to sign the document.
+    The signature is created as follows, where F[s] is the signature function, F[h]
+    is the hashing function, *m* is the message, and *dA* is Alice''s private key:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*S = F[s] (F[h] (m), dA)*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Alice will now distribute her signature, along with the message, to everyone
+    in the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Verification process
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Verification is a process performed by anyone who possesses information that
+    is made public by the owner. Public information usually has a public key, a message,
+    and the signature of the message. Let's assume that Bob possesses all the public
+    information and wishes to verify the message to check its authenticity. Bob uses
+    a signature verification algorithm, which requires a hash of the message, the
+    public key, and the signature. The algorithm will verify that the message hasn't
+    been tampered with by anyone. An implemented example of both the signing and verification
+    processes can be found later in the chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Elliptical Curve Digital Signature Algorithm (ECDSA)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: ECDSA is a digital signature algorithm that makes use of ECC to create the key
+    pairs used in the signing and verification process of the digital signature. Because
+    of the advantages of ECC compared to other public-key algorithms, it is commonly
+    used in blockchain applications to sign transactions or events.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'ECDSA makes use of temporary key pairs to calculate a signature pair, *R* and
+    *S*. A temporary private key *k* is chosen randomly on the elliptical curve, and
+    the corresponding public key is calculated as *P = k*G*. The signature is calculated
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*S = k^(-1) (Hash(m) + dA * R) mod (p)*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Variables used in the signing operation are defined as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*k* is the temporary private key'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*R* is the *x* coordinate of the temporary public key'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*dA* is the private key'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*m* is the message'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*p* is the prime order of the elliptic curve'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Verification is performed in ECDSA using the *R*, *S* pair and the public key.
+    The point *P* is derived as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*P = S^(-1)*Hash(m)*G + S^(-1)*R*Qa*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Variables used in the verification operation are defined as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Qa* is the public key of the signer'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*m* is the message'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*G* is the generator point of the elliptical curve'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: An ECDSA digital signature algorithm is used in Bitcoin to sign transactions
+    created by the owner by using their own private key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: ECDSA example to create and verify a digital signature
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following packages are used to perform hashing, ECC key creation, and signature
+    creation and verification:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The key is generated on the secp256k1 elliptical curve using the `ECC.generate`
+    method, and both public and private keys are exported:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Messages that need to be signed are hashed using the `SHA256` algorithm, and
+    then a signer object is created using the `DSS` package by providing a private
+    key. The hashed message is then signed by the owner:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Signature verification in the following code is similar to that of signing.
+    The received message is hashed initially since the hashing was performed at the
+    sender side as well. The distributed public key is imported and used to create
+    a new DSS object for verification. The hashed message and the received signature
+    are used for verification. The `verify` function throws a `ValueError` if the
+    message or signature was tampered with:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: Cryptographic hashing
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A cryptographic hash function is a type of function that maps arbitrary sized
+    data to a fixed size string called a hash. Hash functions possess certain properties
+    that make them ideal for use in cryptography.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hash functions are widely used in hash table data structures. A hash table stores
+    the data in a key-value pair. Hash tables are used when large keys need to be
+    converted into smaller keys using a hash function, and then the values are mapped
+    to these smaller keys. This makes the mapping of key to value quite easy, and
+    this could be achieved in O(1) time complexity. This is due to the fact that hash
+    functions have a constant time complexity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We have repeatedly mentioned that hashing is the backbone of blockchain architecture,
+    and it has several properties that make it really valuable and ideal for blockchain
+    implementation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Every hash function has the following properties:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Pre-image resistance: Given a computed hash *h = hash (m)*, where *m* is the
+    message, it should be infeasible to find the message from the given hash value.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Second pre-image resistance: Given a message *m1*, it should be infeasible
+    to find another message *m2* such that *hash (m1) = hash (m2)*.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Collision resistance: A hash is said to have collided when there are at least
+    two messages that produce the same hash value. It should be infeasible to find
+    two messages *m1* and *m2* where *hash (m1) = hash (m2)*, that is, it should be
+    challenging to find two messages that have the same hash value. This is similar
+    to the second pre-image resistance, but any two messages can be chosen here. So,
+    this property implies second pre-image resistance.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Although every hash function has these properties, a good hash function is
+    expected to possess additional properties in order to provide strong security:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A hash function should take a constant time for any input.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Any bit changed in the message should result in a completely new hash value
+    compared to the hash of the previous message. It should be very difficult to analyze
+    the hash value created by the hash function.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hashing is used in blockchain to create a unique identity string for each block
+    by computing its hash value. Each block will maintain the hash value of the previous
+    block and thus form a chain of blocks. Hashing provides integrity to the blocks
+    of the blockchain ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hashing algorithms
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hashing algorithms are categorized based on their implementation, resulting
+    digest size, and many other things. Some of the classifications include Message
+    Digest, **Secure Hashing Algorithms** (**SHA**), and **RACE Integrity Primitives
+    Evaluation Message Digest** (**RIPEMD**).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Message Digest
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This is one of the popular hashing algorithm groups used during the early 1990s.
+    They are 128-bit hash functions, and `md4` and `md5` are its variants. Many vulnerabilities
+    have been detected in the function since its adoption. Still, these functions
+    are used to create file digests to ensure their integrity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Secure Hash Algorithms (SHA)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: SHA-0 is the first version of the SHA algorithm. In 2004, several weaknesses
+    were exposed in this algorithm, resulting in the creation of a stronger version
+    of SHA-0 called SHA-1\. In 2005, an attack on SHA-1 reported that it would find
+    a collision in fewer hashing operations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: SHA-2 was created to overcome SHA-1's vulnerabilities, and it could be implemented
+    with a digest size of 224, 256, 384, and 512 bits. SHA-2 is a widely used standard
+    in modern cryptographic applications. Bitcoin uses the SHA-256 variant as a hashing
+    algorithm to solve proof-of-work puzzles.
+  prefs: []
+  type: TYPE_NORMAL
+- en: SHA-3 is the latest family of functions with 224-, 256-, 384-, and 512-bit variants.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hashing example using an SHA-256 algorithm
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following example script uses the SHA-256 hashing algorithm to compute
+    a digest of the message:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Let''s consider the output of the preceding script and make a few observations:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: As we can see, both the hash values in the output have 64 hexadecimal digits
+    (256 bits) irrespective of the size of the message. The first hash value has a
+    message "First," and the second one has "Firstd" (the update function appends
+    the new message to the previous one). Although there is a difference of one character
+    at the end, the entire SHA-256 hash value looks completely different. This property
+    of SHA-256 makes sure that it is pre-image resistant, and thus very difficult
+    to break.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Merkle hash trees
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A Merkle tree is a binary tree where all the leaf nodes represent hashes of
+    the data blocks. Each parent node has the hashed value of the hashes of its children.
+    Hashing continues until the root node of the tree. Merkle trees are used to summarize
+    bulk sets of data and create a fingerprint for each set.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A tree is a data structure in computer science that consists of a root node
+    and a subtree of parent and children nodes and is represented by positioning a
+    root node at the top. A binary tree is a tree where each parent has at most two
+    nodes. Merkle trees are used in Bitcoin, Ethereum, and other blockchain applications
+    to summarize all the transactions included in each block. SHA-256 is used as a
+    hash function in bitcoin''s Merkle tree, as can be seen in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e27f3eb7-42fd-4571-aca2-259db4221cd9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 2.12: Merkle tree that summarizes all the leaves'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A Merkle tree is constructed from the bottom up from the leaf nodes. In *Figure
+    2.12*, leaf nodes will consist only of hashed values of data blocks A, B, C, and
+    D represented by H[A], H[B], H[C], and H[D] respectively. Each parent node will
+    construct its hash by concatenating the hash values of the child nodes and hashing
+    them again:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*H[AB] = Hash (H[A] + H[B])*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: This process is continued until the root node hash value *H[ABCD]* is calculated.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since each Merkle tree node (other than leaf nodes) calculates its hash based
+    on its child nodes, it has to maintain a balanced tree, that is, each node (other
+    than leaf nodes) should have two child nodes. This could be achieved by duplicating
+    existing single child nodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Merkle trees not only provide a way of summarizing an entire data block, but
+    they can also efficiently verify whether a data block exists. Verification could
+    be achieved in just *log[2](n)* complexity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Encoding schemes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Encoding schemes are generally used in data storage or the transmission of textual
+    data over a medium. You can often observe the conversion of binary to text-encoding
+    schemes in primitive cryptographic implementations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Encoding schemes provide a compact way of representing long sequences of characters
+    using a base. For example, a decimal system uses base 10, which uses characters
+    from 0-9, and a hexadecimal system uses additional characters from A-F, along
+    with the numbers from the decimal system. The bigger the base of a system, the
+    smaller the size of the encoded string.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Base64 is an encoding scheme that is widely used to store and transmit large
+    files such as an image. It uses 26 lowercase letters, 26 uppercase letters, 10
+    numerical characters, and 2 special characters ("+" and "/").
+  prefs: []
+  type: TYPE_NORMAL
+- en: Base58 is an encoding scheme developed for Bitcoin and used in several blockchain
+    applications. Base58 is actually a subset of Base64 and was created with the intention
+    of providing better readability. The characters in Base64 that are omitted in
+    Base58 are 0 (zero), O (uppercase o), l (lowercase L), I (uppercase i), and the
+    special characters "+" and "/."
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Bitcoin''s 34-character Base58-encoded wallet address is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*16RhN7MhhTRMDdrS3szys5pEpmS2YGTMsk*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter covered all the essential cryptography topics, from classic cipher
+    techniques to advanced cryptographic primitives. We began the chapter by discussing
+    the classical cipher techniques. We explored both symmetric and asymmetric cryptography,
+    along with a few examples. Cryptographic primitives, such as hashing and digital
+    signatures, were covered in greater detail as they will act as the foundation
+    for the blockchain concepts covered throughout this book.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since we have covered some of the essential concepts in cryptography and looked
+    at their respective applications, in the next chapter, we will try to implement
+    some of the cryptography concepts that are applicable to the blockchain protocol
+    by looking at a simple blockchain example.
+  prefs: []
+  type: TYPE_NORMAL
