@@ -1,0 +1,1827 @@
+- en: Life in a Blockchain Network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Your Fabric network should now be set up and running your application connecting
+    different entities through a smart contract and serving users through a web interface.
+    In addition, to help your developers and system administrators maintain code,
+    push updates, and manage network configuration, you should have instituted a process
+    whereby system testing and maintenance can be done with safeguards in place and
+    no interruption to service.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Yet, this will not be the terminal state of your application. Needs and expectations
+    evolve, and this is especially true for an application that involves multiple
+    collaborating entities, all of whom will have differing requirements at different
+    points in time. In addition, it is expected that software itself will continually
+    change and evolve even if the nature and function of an application are kept intact.
+    Finally, any distributed service-oriented application (a description that can
+    be applied to any Hyperledger Fabric application) must be prepared for the nature
+    and numbers of end-users to increase or decrease over time, necessitating changes
+    in both hardware and software resource allocation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Over the lifetime of your blockchain application, you will therefore see many
+    changes that necessitate updates to code and configuration. The kinds of changes
+    listed previously are not unique to Fabric networks, or even blockchains in general,
+    but the mechanisms we will need to use and the considerations in selecting those
+    mechanisms are quite specific to the platform. These, then, will be the main,
+    though not sole, focus of this chapter. We will first examine the different ways
+    in which your Fabric application may need to be modified, with specific scenarios
+    illustrated through sample code and configurations and guidelines to plan for
+    system upgrades. We will then discuss application and network membership changes
+    and the relevant considerations that apply to industry-scale blockchain applications.
+    In the backend of the chapter, we will delve into system maintenance: monitoring
+    the health of your application and system resources and designing or upgrading
+    your system to ensure high performance.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following topics will be covered in this chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Modifying or upgrading a Hyperledger Fabric application
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Fabric blockchain and application life cycle
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Adding the new organization to the network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Modification in chaincode logic
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Dependency upgrades in chaincode
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Endorsement policy update
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: System monitoring and performance
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Profiling containers and applications
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Measuring application performance
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Modifying or upgrading a Hyperledger Fabric application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The design of a generic Hyperledger Fabric application presented in [*Chapter
+    5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing Network Assets and
+    Transactions*, offers hints about the types of upgrades that may be required during
+    its lifetime. Let us examine the various ways in which the requirements of a Fabric
+    network and its users change over time:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Software updates**: Changes and upgrades are an integral part of software
+    maintenance. More frequently, modifications are required to fix bugs, performance
+    inefficiencies, and security flaws (for example, think of the Windows Update Service).
+    Less frequently, though almost equally inevitably, major design changes must be
+    made to software to handle unanticipated challenges. Also, given that most applications
+    depend on other (third-party) software, any upgrades in the latter trigger corresponding
+    changes in the former. Think of Windows Service Packs as an analogy.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In the Hyperledger Fabric world, you as an application developer or system administrator
+    must support both application-level upgrades and platform-level upgrades. The
+    former involves bug fixes and changes in application logic and bug fixes, and
+    the latter involves changes to the underlying Fabric software. Software update
+    processes are well known, and some of the techniques are discussed in [*Chapter
+    5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing Network Assets and
+    Transactions*; for testing and reliable failover apply to bug fixing and general
+    maintenance as well.
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: If you recall the 3-layer architecture of our canonical Fabric application,
+    the upper layers, which consist of the middleware (exercising the Fabric SDK),
+    the web servers, and user interfaces, are typically under the control of a single
+    organization, and they can therefore be updated through processes instituted within
+    that organization. But, as we have seen in [*Chapter 8*](112a5075-378d-4bb0-9b9e-db81c18a35f5.xhtml),
+    *Agility in a Blockchain Network*, the smart contract, or the chaincode, is a
+    special case as it is a piece of software that is collectively agreed upon and
+    developed by all the participating organizations. Therefore, any update to chaincode
+    must also be consensus-driven, and it is not as straightforward as just pushing
+    through an update after testing. We will describe the chaincode upgrade process
+    through examples later in this section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finally, upgrades to the Fabric software have the potential to impact functionality
+    and data and therefore must be done with care. We will describe the mechanisms
+    and the pitfalls later in this section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Changing resource requirements**: The resources you allocate to run an application
+    in the beginning of its life cycle, just like the application code, are unlikely
+    to satisfy changing user requirements. It is very likely that your application
+    receives increasing user traffic as time goes by, and no software improvement
+    can make up for limits in hardware. Similarly, if we recall the requirements for
+    RAS (see [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
+    Network Assets and Transactions*), proper functioning of a distributed application
+    requires redundancy, failover, and load balancing across your system resources.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In Fabric terms, what this translates to is that you may have to add more nodes
+    to your network. You may need more peers to serve transaction endorsement requests,
+    and the network as a whole may need more orderer nodes to handle and balance the
+    load of a currently bottlenecked ordering service (on the flipside, nodes can
+    be removed to save on cost if traffic is too light). Otherwise, you may need extra
+    peer nodes in an organization just for endorsement corroboration or extra orderer
+    nodes for more reliable distributed consensus (though this may come at a performance
+    cost). Regardless of the reason for additions and removals of nodes in your network,
+    you as a Fabric developer or administrator must support upgrades of this nature,
+    and we will see how this can be done later in this section.
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '**Changing user memberships**: Besides variations in user traffic, one must
+    be prepared for changes in user memberships for system access over time. In Fabric
+    terms, this implies adding or removing users or clients who are permitted to send
+    requests to the application and view application state. Within an organization,
+    there will always be a need to add or remove users who are permitted to access
+    the blockchain and to elevate or decrease privileges granted to existing users.
+    We have already discussed examples of membership creations and authorizations
+    in [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing Network
+    Assets and Transactions*, and later in this section, we will see how channel policies
+    can be updated using runtime configurations.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Changing application policies**: Transactions (chaincode invocations) in
+    a Hyperledger Fabric application must satisfy endorsement policies, which are
+    collectively decided on by the participants. It is possible, and even expected,
+    that such policies will change over time for a variety of different reasons, including
+    performance (which we will discuss in the latter part of this chapter.) For example,
+    an endorsement policy for the approval of a member of every organization may be
+    relaxed to a requirement that requires just two organizational endorsements. On
+    the flipside, the policy can be made more stringent to overcome the lack of trust
+    among the blockchain participants. The mechanisms Fabric offer to modify endorsement
+    policies will be discussed through examples later in this section.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Changing network configurations**: Finally, there will always be a need to
+    modify the blockchain network itself to meet enhanced expectations. More organizations
+    may want to participate in the application as time goes by, especially if the
+    initial versions of the application prove their worth. Some organizations may
+    want to leave too, for several reasons. Even within a given organization, there
+    may be a need to expand or rebalance the resources devoted to the application
+    in question. Now, even though most distributed applications face these situations
+    requiring enhancements and resource reconfigurations, blockchain applications
+    have special needs because of their unique nature. Recall that a blockchain is
+    a shared ledger that must be validated and accepted by every participating network
+    peer using common, agreed-upon rules. Therefore, the structure and properties
+    of the network themselves must be commonly agreed upon and recorded on the ledger.
+    In Hyperledger Fabric terms, an application is built on one or more channels (blockchain
+    instance) whose rules and contents are private to application participants. Therefore,
+    any changes in the network requires configuration changes being applied to a channel.
+    The addition of a new organization with its own peer set or the removal of an
+    organization will require a channel reconfiguration, as would changes in peer
+    or orderer addresses, and the selection of anchor peers within organizations.
+    Other examples include core properties of the channel, such as block size and
+    timeouts; channel access policies for reads, writes, and administration operations;
+    hashing mechanisms; and consensus mode for ordering service. Although a comprehensive
+    coverage of channel configuration use cases is beyond the scope of this chapter,
+    we will see how to push a reconfiguration in a Fabric network through examples
+    later in this section.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To summarize, changes to a Fabric application require not just the usual software
+    maintenance procedures of code and configuration changes, tests and updates, but
+    consensus-driven operations that are specific to blockchains. In the remainder
+    of this section, we will focus on the two main modes of application updates supported
+    by Hyperledger Fabric.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Channel configuration updates**: This covers addition and removal of organizations,
+    resource changes (addition, removal, or modifications to peer and orderer nodes),
+    changes in channel properties (policy and block creation rules, hashing, and consensus
+    mechanisms).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Smart contract updates**: This covers changes to chaincode and transaction
+    endorsement policy.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Later, we will briefly touch on upgrades to the Fabric platform software.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To implement such upgrades, we will need to augment the application and set
+    of tools that we created from chapters 3 to 7, with suitable mechanisms. Fortunately,
+    the designers of the Fabric platform anticipated the kinds of evolutions we have
+    discussed in this chapter, and the SDK we used to build the initial version of
+    our trade application (see [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
+    Network Assets and Transactions*) offers the capabilities necessary to build these
+    mechanisms. Before we turn to implementation details, let us revisit the Fabric
+    transaction pipeline and modify it to incorporate updates.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fabric blockchain and application life cycle
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Consider the trade scenario that we have realized as a Fabric application,
+    with the stages illustrated in *Figure 5.3: The stages in the creation and operation
+    of a blockchain application* (see [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
+    Network Assets and Transactions*), when modified to incorporate channel and chaincode
+    updates, is illustrated in *Figure 9.1: The stages in the lifecycle of a blockchain
+    application* (we omit the ledger and event emissions in the diagram for convenience,
+    as they are not required to explain the application stages):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/43b286bd-04d5-43db-a41f-5309822a67cf.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.1: The stages in the life cycle of a blockchain application'
+  prefs: []
+  type: TYPE_NORMAL
+- en: This diagram is not meant to be an exhaustive representation of all possible
+    stages of a Fabric application, but rather of the most salient ones.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As we can see, some types of updates require many more operations than others.
+    Any additions of endorsing peer nodes, either within existing organizations or
+    in newly added ones, requires the explicit joining of those peers to the channel
+    and the subsequent installation of the current version of chaincode on those peers.
+    No explicit instantiation is needed on those peers; the gossip protocol among
+    the network peers will eventually sync the latest copy of the shared ledger on
+    the newly added ones. The smart contract modification process though will require
+    an explicit channel-wide upgrade following the installation of the new version
+    of the chaincode on the peers. This upgrade step is equivalent to the original
+    instantiation though it acts on the current state rather than on a blank ledger.
+    In some scenarios, the upgrade of chaincode and endorsement policies may immediately
+    follow a channel reconfiguration for the addition of a new organization; in this
+    case, the installation of the current version of chaincode on the new peers may
+    be skipped and the upgraded chaincode version will be installed directly. We will
+    describe how to augment our trade application to implement such a system upgrade
+    in the next subsection.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Before we proceed, let us understand what the blockchain looks like when the
+    system undergoes different kinds of changes. *Figure 9.2* illustrates the sections
+    of a blockchain with different kinds of blocks added for different application
+    operations:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d1e3dbd1-5736-4bba-a607-b1b1ce1e7231.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.2: A section of a blockchain with configuration blocks, blocks containing
+    deployment transactions, and regular chaincode transactions'
+  prefs: []
+  type: TYPE_NORMAL
+- en: As we can see, our blockchain (or in other words, the shared ledger transaction
+    log) begins with a genesis block (the first configuration block on the channel),
+    which contains the initial configuration of the channel. The next step is the
+    deployment and instantiation of the initial version of the chaincode and subsequently
+    regular operation (chaincode invocations) ensues. At some point, a new organization
+    with peers can be added, which results in another configuration block being added
+    to the chain, overriding the previous configuration block. Similarly, a new version
+    of chaincode can be created and upgraded, with the upgrade being recorded in a
+    block. In between these configuration and deployment blocks, regular chaincode
+    transactions can occur, and depending on the configured block size, one or more
+    transactions can be bundled in a block and appended to the chain. Let us now see
+    how to augment our trade application to implement the features we have discussed
+    in this chapter thus far.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Channel configuration updates
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As mentioned earlier in this chapter, there are many reasons why a channel configuration
+    may have to be changed. As channel behavior is completely dictated by its configuration,
+    and any update is recorded on the blockchain, hence overriding the earlier configuration,
+    this is a very sensitive operation that must be restricted to privileged users,
+    just like the initial portions of our application creation steps such as channel
+    creation and joining (see [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
+    Network Assets and Transactions*) were. An exhaustive discussion and demonstration
+    of channel configuration changes is beyond the scope of this book, but we will
+    show the mechanism of updates and a way to wrap those mechanisms in our application;
+    this mechanism and process can be applied to any configuration change.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For demonstration, we will use the common situation where a new organization
+    and peers must be added to the application. Consider our trade scenario where
+    thus far, an exporter and its bank have shared an organization whose MSP and peer
+    is maintained by the latter. The importer and its bank belong to a single organization
+    as well, the logic being that banks have more incentive as well as resources to
+    maintain peers and MSPs. But this logic may not hold forever. Let's say our exporter,
+    who started out as a small-scale operator, gains higher profit and a higher reputation
+    for honesty as well as quality over time. Now a large-scale exporter of raw material
+    with huge cash reserves and clout in the market, it has an incentive to join a
+    trade network on blockchain as a peer rather than a dependent of a bank. It also
+    maintains bank accounts with different banks and therefore has the need and potential
+    to participate in multiple blockchains (channels) simultaneously. It would like
+    to continue to participate in the trade channel and wrapping application, but
+    in its own organization, running its own MSP and its own network peer, independent
+    of the bank.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The resulting network that we must create is illustrated in *Figure 9.3: The
+    augmented trade network with an organization, MSP, and peer for an exporter (or
+    exporting entity)*:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3773e176-e3a7-4843-adc4-dc1c00a5f0fd.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.3: The augmented trade network with an organization, MSP, and peer
+    for an exporter (or exporting entity)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We'll call the new organization `ExportingEntityOrg`, its MSP `ExportingEntityOrgMSP`,
+    and the peer exporting entity. This is because the names exporter, `ExporterOrg`,
+    and `ExporterOrgMSP` have already been taken in our network to represent the exporter's
+    bank; new organizations and peers must have unique names.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Prerequisites for adding a new organization to the network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The tools you need to upgrade your network are similar to the ones that were
+    used in *[Chapter 3](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml)*, *Setting the
+    Stage with a Business Scenario*:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Clone the Fabric source code repository:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Run `make docker` to build Docker images for the peers and orderers.
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Run `make configtxlator` to generate tools necessary to run the network creation
+    commands described in this section (we will use `configtxlator` when we turn our
+    attention to the middleware code)
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: In addition, we assume that the reader followed the procedures described in
+    [*Chapter 3*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml), *Setting the Stage
+    with a Business Scenario*, and has already created the channel configuration and
+    crypto material files for the earlier 4-organization network.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: If you recall, in [*Chapter 3*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml), *Setting
+    the Stage with a Business Scenario*, we created channel artifacts and crypto material
+    for the four organizations, consisting of the genesis block, the initial channel
+    configuration, the anchor peer configuration for each organization, and certificates
+    and signing keys for all network operations involving the peers, clients, and
+    MSPs. The configurations were defined in `configtx.yaml` and `crypto-config.yaml`,
+    respectively in the network folder, and processed using the `configtxgen` and
+    `cryptogen` tools. Clearly, these configurations must be modified to add a new
+    organization, but changing configurations can be messy. The good news is that
+    we can increment our network by creating additional configuration files and keeping
+    the original ones intact. That way, it'll be easy for an administrator to track
+    the evolution of the organization structure and resources. Our incremental configuration
+    files are defined in the `network/add_org/` folder.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Generating network cryptographic material
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The `crypto-config.yaml` file contains information only about the new organization,
+    sufficient to generate certificates and signing keys:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'As we can see, the specification is identical to the ones we defined for our
+    initial four organizations, except that the MSP name and organization domain reflect
+    the nature of the exporting entity organization. To generate the crypto material
+    just for this organization, run the `cryptogen` command as in [*Chapter 5*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml), *Exposing
+    Network Assets and Transactions*, but this time using the configuration file defined
+    in the `add_orgs` folder:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: The output is saved to `crypto-config/peerOrganizations`, where you will see
+    a folder named `exportingentityorg.trade.com` in addition to the existing organization's
+    folders. This folder contains the keys and certificates for our new organization.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Generating channel artifacts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Similarly, the `configtx.yaml` contains only the specification of the exporting
+    entity''s organization in the organizations section, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This specification essentially replicates that of every other organization
+    and peer; only the names and paths are modified to identify and set up the new
+    organization (that this assumes a `crypto-config` folder to have already been
+    generated in the current directory). To build the incremental channel configuration,
+    run the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we encounter our first difference from the procedure followed in [*Chapter
+    3*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml), *Setting the Stage with a Business
+    Scenario**;* instead of building separate files for configuration blocks, anchor
+    peers, and so on, we just build a JSON spec that contains all the relevant information,
+    including policy specification and certificates for an admin user, the CA root,
+    and the TLS root for the exporting entity's organization, and save it to the `channel-artifacts`
+    folder. Later in this section, we will use this JSON in our channel configuration
+    update procedure.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To ensure that `configtxgen` looks for the `configtx.yaml` in the `add_org`
+    directory, we must temporarily change the `FABRIC_CFG_PATH` environment variable.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Generating the configuration and network components in one operation
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'You can also carry out all the preceding operations using the trade.sh script.
+    Just run the following command from within the `network` folder:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: The channel name is implicitly assumed to be `tradechannel`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This command, in addition to creating cryptographic material and channel configuration,
+    generates a docker-compose configuration for just for the new organization in
+    `add_org/docker-compose-exportingEntityOrg.yaml`. It runs the following services:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: One instance of a Fabric peer for the exporting entity's organization
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: One instance of a Fabric CA for the exporting entity's organization
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The specification and the dependencies are like those we encountered in `docker-compose-e2e.yaml`
+    in [*Chapter 3*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml), *Setting the Stage
+    with a Business Scenario*, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: This file is generated using the template YAML `add_org/docker-compose-exportingEntityOrg-template.yaml`,
+    with the CA key filename (denoted by the variable `EXPORTINGENTITY_CA_PRIVATE_KEY`)
+    in both the `FABRIC_CA_SERVER_TLS_KEYFILE` and in the command replaced with the
+    secret key filename in `crypto-config/peerOrganizations/exportingentityorg.trade.com/ca/`,
+    which in our example preceding is `fc435ccfdaf5d67251bd850a8620cde6d97a7732f89170167a02970c754e5450_sk`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This key filename will vary with every instance of execution of the `cryptogen`
+    tool.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In addition, note that the certificate filename in the environment variables
+    `exportingentity-ca:FABRIC_CA_SERVER_TLS_CERTFILE` and the paths specified in
+    the volumes section match what was generated using `cryptogen`. The IDs, hostnames,
+    and port values match what was specified in the `congfigtx.yaml` file. Finally,
+    we ensure that the container ports are mapped to unique ports (in the 11,000s
+    range) to avoid conflicts with the ports exposed by the containers of the peers
+    and MSPs of the older organizations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Launching the network components for the new organization
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To start the peer and MSP for our new organization, just run the following
+    command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can run this as a background process and redirect the standard output to
+    a log file if you choose. Otherwise, you will see the various containers starting
+    up and logs from each displayed on the console. From a different terminal window,
+    if you run `docker ps -a`, you will see the following two additional containers:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can launch the network using the script file in the repository as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: The channel name is implicitly assumed to be `tradechannel`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This will start the containers in the background, and you can view the logs
+    in `logs/network-neworg.log`. Now our network has 5 peers, 5 MSPs, and an orderer
+    running in separate containers. We are now ready to begin the process of reconfiguring
+    the channel to accept the new organization.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To stop the containers associated with the exporting entity's organization,
+    you can just run `./trade.sh stopneworg`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This will not clear out all the volumes (run docker volume is to check) as the
+    containers of the initial 4-org network are still running. Only after you bring
+    the own entire network, you will be able to clear out the remaining active volumes.)
+  prefs: []
+  type: TYPE_NORMAL
+- en: Updating the channel configuration
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now we will turn our attention to the middleware. In [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
+    Network Assets and Transactions*, when we created `tradechannel`, the blockchain
+    was initialized with the genesis block created using the `configtxgen` tool. The
+    genesis block happens to be the first configuration block of a channel. Subsequent
+    channel configuration changes involve appending new configuration blocks to the
+    channel, each uniquely versioned, and the latest overriding the previous ones.
+    In the upgrade scenario, it's the configuration in the genesis block that will
+    be overridden, as we assume that no other changes have been made since our channel
+    was created and made ready for use in [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
+    Network Assets and Transactions*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The logic to upgrade channel configurations lies in `upgrade-channel.js` in
+    the `middleware` folder in our code repository, and it is based on the Fabric
+    SDK Node API. The following prerequisites are also required:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`configtxlator`: This was built from the Fabric source code earlier in this
+    chapter. Please ensure that it lies in your system path.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`jq`: This is a command-line JSON processor, for creating and parsing JSON
+    objects. On an Ubuntu system, you can install this using `apt-get install jq`.
+    Please ensure that it lies in your system path too.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'In the `upgradeChannel` function, there is boilerplate code to create client
+    and channel objects, which the reader should already be familiar with. The channel
+    upgrade procedure requires the collection of signatures over the new configuration
+    from an administrative user of every existing organization (4 in our network)
+    just as in the channel creation procedure. But many additional steps are required
+    before signatures can be generated and collected. First, we will need to fetch
+    the latest configuration block from the orderer. We do this in the code using
+    the following function call:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This returns a block `configuration_block`, whose config field contains the
+    current channel configuration. The version of this configuration can be extracted
+    from the sequence field of the configuration as follows: `configuration_block.config.sequence`.
+    The full configuration spec is defined in the Fabric source code as a protobuf
+    (`common.Config`), and its examination is left as an exercise to the reader.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the code, we now create a folder to store temporary files that will be created
+    in the subsequent steps. These files are created using the `configtxlator` tool,
+    which we use in the absence of equivalent API functions in the Fabric SDK Node
+    API:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Having obtained the configuration, we need to dump it in the protobuf format
+    to a file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Next, we need to decode this configuration into JSON format using `configtxlator`.
+    We do this purely for convenience because it is easier to parse a JSON and apply
+    our intended configuration changes to it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: This results in the creation of a file named `config.json` in the `temporary`
+    folder. If you view the contents of this file, you will see the underlying configuration
+    structure of the channel and the various properties that can be updated.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now we need to append the configuration of the new (exporting entity) organization
+    to it. The latter is contained in the file `exportingEntityOrg.json`, created
+    using the `configtxgen` tool earlier in this section and saved to `network/channel-artifacts`.
+    We create the new appended configuration `modified_config.json` using the `jq`
+    tool as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If you view the contents of `modified_config.json`, you will see that it is
+    very similar in structure to `config.json`; the difference is that it contains
+    the definitions of 5 organizations where the latter contains only 4\. We now convert
+    this new configuration to protobuf format (`modified_config.pb`) so `configtxlator`
+    can process it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: Note that we use the same protobuf schema (common.Config) that we used to decode
+    the configuration obtained from the orderer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, we will use `configtxlator` to compute the delta (or difference) between
+    the original and the new configuration protobufs:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: The generated protobuf `exportingEntityOrg_update.pb` contains full definitions
+    of the `exportingentityOrg` and pointers to the existing 4 organizations. This
+    is sufficient for a channel configuration update as the full definitions of the
+    other organizations are already contained in the previous configuration block
+    (in our example, the genesis block).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now all we have to do is read the delta configuration and get admin signatures
+    from each of the existing four organizations. The code for this is similar to
+    the code we examined in the channel creation stage:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'All we need to do now is create an update request and send it to the orderer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: The request structure can contain either a config or an envelope field. The
+    latter has the common.Envelope protobuf format and is a wrapper around the configuration
+    we just created. The Fabric orderer will accept either. Using envelope instead
+    of config is left as an exercise to the reader.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To push the channel configuration update, just run:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: Please ensure that the original 4-org network from *[Chapter 5](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)*, *Exposing
+    Network Assets and Transactions* is up and running, and that the channel creation
+    step (see `middleware/createTradeApp.js` for an example) has already been performed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Adding the new organization to the network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The new organization is logically added to the channel through a configuration
+    update. To physically add it to our trade network and make it participate in shared
+    ledger transactions, we need to:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Join the exporting entity organization's peers to tradechannel
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Install the current version of the chaincode on the newly added peers
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The good news is that there is nothing new to be done here. We have already
+    implemented functions for both these procedures (`joinChannel` in `join-channel.js`
+    and `installChaincode` in `install-chaincode.js`, respectively), and we just need
+    to exercise them on behalf of the new organization's resources.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Before running these steps, we must augment the network configuration used
+    by the middleware. Earlier, we used `config.json` in the `middleware` folder to
+    represent the 4-organization network. We will now replace that with `config_upgrade.json`
+    in the same folder. All this file contains is one extra property in trade-network
+    called `exportingentityorg` (which is how the middleware code will recognize our
+    new organization) as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: Note that the ports indicated previously match those specified in the docker-compose-exportingEntityOrg.yaml
+    file we used to start the MSP and peer for this organization. The path to the
+    certificate matches what was generated using `cryptogen` earlier in this section,
+    and the names match what was specified in the `configtx.yaml`. The organization
+    has just one peer, which is exactly what we specified in the latter file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To ensure that the middleware functions load the right configuration, we need
+    to change the value of the `networkConfig` variable in `constants.js` from `config.json`
+    to `config_upgrade.json`. We do that in the file `new-org-join-channel.js` as
+    follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now we are ready to run the channel join procedure for the single peer belonging
+    to the exporting entity''s organization. The code for this in `new-org-join-channel.js`
+    is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The call to `joinChannel` has the effect of joining the peer whose details
+    are specified in the `trade-network:exportingentityorg:peer1` section in `config_upgrade.js`
+    to `tradechannel`. To execute this operation, just run the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: The new peer is now part of the channel and will eventually sync the contents
+    of the shared ledger for the channel through the gossip protocol from the existing
+    network peers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Similarly, we can install the chaincode on this peer by calling the `installChaincode`
+    function in `install-chaincode.js`. But as it happens, we would like to demonstrate
+    the chaincode upgrade capability at this time. So instead of running the installation
+    procedure twice, we can straightaway install the new version on all 5 peers. We
+    will describe that procedure in the next section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contract and policy updates
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As we observed in the early part of this chapter, the smart contract binding
+    peers on a shared channel is subject to change for a variety of reasons ranging
+    from code fixes to evolving needs of the participants. Regardless of the reason,
+    the mechanism offered by Hyperledger Fabric and the semantics of the change remain
+    constant. The mechanism is what we we'll demonstrate in this section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Closely associated with the smart contract, at least in the Fabric view of a
+    blockchain, is the endorsement policy that must be satisfied for the result of
+    a transaction to be committed to the shared ledger. As we will see, the same mechanism
+    that can upgrade a smart contract can be used to modify the endorsement policy
+    too.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Modification in chaincode logic
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let us first consider a scenario that requires us to update (or upgrade) our
+    trade chaincode. The addition of a new organization, which we just carried out
+    in the previous section, necessitates certain changes in chaincode. As an example,
+    let us consider the following code snippet in the `acceptTrade` function in `chaincode/src/github.com/trade_workflow/tradeWorkflow.go`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding access control logic dictates that only a member of the exporter's
+    organization may accept a trade. In our earlier 4-organization network, this made
+    sense because both the exporter and the exporter's bank were part of one organization,
+    and we relied on further access control at higher layers to distinguish bankers
+    from their clients for the purpose of executing chaincode operations. But now
+    that we have added an organization to serve the exporter's needs independent of
+    its bank (referring to the exporter now as an exporting entity), we ought to change
+    the access control logic accordingly. And this is not the only function that requires
+    such a modification in access control logic.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Therefore, we need to produce a new version of the chaincode. In our code repository,
+    this can be found in `chaincode/src/github.com/trade_workflow_v1/`. The contents
+    of the code, it will look almost identical to the original version except for
+    some of these access control filter rules. Let''s look at a similar code snippet
+    in the `acceptTrade` function in `chaincode/src/github.com/trade_workflow_v1/tradeWorkflow.go`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: Note that the function `authenticateExporterOrg` has been replaced with `authenticateExportingEntityOrg`.
+    If you view the contents of the `accessControlUtils.go` file, you will notice
+    that the definition for the latter function has been added.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In a real-world application involving various organizations, changes in chaincode
+    would have to be made through collaboration and consultation, passed around to
+    the different stakeholders though an out-of-band mechanism, examined, vetted,
+    and tested, before they are deemed to be ready for deployment to the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Dependency upgrades in chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Access control logic is not the only thing we will need to change in the chaincode.
+    We use a somewhat contrived scenario where the initial version of the chaincode
+    was created when only an early version of Fabric (say v1.0) was available. If
+    you examine the logic to extract the MSP identity of the organization from which
+    the transaction was issued as well as the common name in the certificate issued
+    to the submitter of the chaincode transaction, it is done manually using the standard
+    Go libraries. This is illustrated in the following code snippet in the `getTxCreatorInfo`
+    function in `chaincode/src/github.com/trade_workflow/accessControlUtils.go`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'When the Fabric platform was upgraded to v1.1, a new package called **cid**
+    was implemented to perform the preceding operations and hide details of the protobuf
+    structure and the certificate parsing. To make our chaincode cleaner and more
+    aligned with Fabric changes, it is necessary to upgrade our preceding logic to
+    use the new package. This is what we do in our upgraded version of chaincode in
+    `chaincode/src/github.com/trade_workflow_v1/accessControlUtils.go`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: Ledger resetting
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A chaincode upgrade is like instantiation, and both result in the execution
+    of the `Init` function. In the initial version of the chaincode, many ledger values
+    were initialized, but unless we change that logic, those initial values will overwrite
+    the current state of the ledger. Therefore, we add code to the `Init` function
+    in `chaincode/src/github.com/trade_workflow_v1/tradeWorkflow.go` to emulate a
+    no-op, but we also leave the original logic intact to ensure that values can be
+    overwritten during an upgrade if there is a business need to do so, as the following
+    code snippet illustrates:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: Endorsement policy update
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Our original transaction endorsement policy required a member of each of the
+    4 organizations to endorse (sign) a chaincode invocation transaction. Now that
+    we have added a new organization, we must update that policy to require a signature
+    from a member of each of the 5 organizations. In the `middleware` folder, this
+    new policy is defined in `constants.js` as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: To switch the endorsement policy in our middleware, we just need to change the
+    value of the `TRANSACTION_ENDORSEMENT_POLICY` variable in `constants.js` from
+    `ALL_FOUR_ORG_MEMBERS` to `ALL_FIVE_ORG_MEMBERS`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Upgrading chaincode and endorsement policy on the trade channel
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now we are ready to carry out the upgrade process, which will require two steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The installation of the new version of chaincode on the network peers
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The upgrade of the chaincode and endorsement policy on the channel
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The code to perform these steps can be found in `middleware/upgrade-chaincode.js` and
+    simply involves calling functions we have already implemented (see [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
+    Network Assets and Transactions*). The following code snippet shows what we need
+    to do for installation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Note in the preceding code that the 5-organization network configuration is
+    used and so is the 5-organization endorsement policy. The new path and version
+    of the chaincode are set in `constants.js` as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: The path is relative to the chaincode/src folder in the repository, as the `GOPATH`
+    is temporarily set to wherever the `chaincode/` folder has been copied to (see
+    `constants.js` and `install-chaincode.js`). The version is set to v1 as opposed
+    to the initiation version, which was v0.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The chaincode version ID you choose `MUST` be unique in the lifetime of the
+    chaincode; that is, it must not have been used for any previous version.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Triggering the upgrade is the next step, which is almost identical to the instantiation
+    step from the developer''s perspective:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: As we can see preceding, we exercise the option of leaving the ledger state
+    as it currently stands by passing an empty argument's list. In the function `instantiateOrUpgradeChaincode`
+    in `instantiate-chaincode.js`, after a proposal is built, `channel.sendUpgradeProposal(request,
+    300000)` is called instead of `channel.sendInstantiateProposal(request, 300000)`
+    to send the request to the orderer. As in the case of instantiation, we register
+    event listeners to tell us whether the request succeeded.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To push the chaincode upgrade, run:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To test the new chaincode, run:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: This will run a sequence of trade operations (invocations and queries on the
+    chaincode) involving the various parties from the request of a trade to the final
+    payment for delivery of a shipment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Platform upgrades
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Your distributed blockchain application must anticipate and support changes
+    made to the platform components. Focusing on the components we have created and
+    launched in our sample trade network, these include the Fabric peer, orderer,
+    and CA (or MSP.) Just like the application chaincode is subject to change to account
+    for bugs and new requirements, so can the platform change over time. Fabric, since
+    its genesis in late 2015, has changed many times, each change being pushed as
+    an upgrade with a new version, and the current version is 1.1\. Whenever a platform
+    component gets upgraded, you need to replace those components in your running
+    system without disrupting the life cycle of your application. In this section,
+    we will demonstrate how to do that.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can run your network components in different configuration, one way using
+    docker containers, which is the approach we have demonstrated in this book. To
+    upgrade platform components running in docker containers, the first thing you
+    need to do is generate new images for the various components. This can be done
+    either by downloading the relevant images from Docker Hub or downloading the source
+    and building the images natively using make docker; the latter approach is what
+    we have followed in this book. To see the entire list of Hyperledger Fabric images
+    downloaded to your system, you can run something as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You will see a long list of image entries, most of them duplicated, with the
+    latest tag being a pointer to one of the images with a specific tag name. Since
+    our docker-compose YAML files in the network folder (`docker-compose-e2e.yaml`,
+    `base/docker-compose-base.yaml`, and `base/peer-base.yaml`) depend only on the
+    images for fabric-peer, fabric-orderer, and fabric-ca, let us examine just those:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE35]'
+  prefs: []
+  type: TYPE_PRE
+- en: You will see something like the preceding when you run the `docker images` command.
+    The Docker images listed here were built natively from the release-1.1 branches
+    of the Fabric and Fabric CA source code. If you download a different version of
+    the source code and build the images using make docker, you will see a third image
+    entry for each of the preceding components, and your latest image tag will be
+    linked to the one that you just created.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We will go through an following example where the trade network''s orderer
+    and peers are upgraded. We will leave upgrading fabric-ca as an exercise to the
+    user. To do this in a running application, you will need to perform the following
+    sequence of steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Download or build new versions of platform component images
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Stop the components
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: (Optional) make a backup of your ledger contents for safety
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Stop the running chaincode containers
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Remove the chaincode container images from your system
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Ensure that the image tags referenced in the docker-compose YAML files are linked
+    to the new versions of the components
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Start the components
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: You can also choose to stop, upgrade, and start each component in turn rather
+    than all at once. You will need to stop all incoming requests to the system while
+    this upgrade is going on, which should be a simple matter of shutting down your
+    application web servers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There is sample code to upgrade our trade network in this manner in the upgradeNetwork
+    function in network/trade.sh in the code repository. Here, we assume that the
+    user will either:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Pass the new image tag (such as `x86_64-1.1.1-snapshot-c257bb3` in the preceding
+    list) as a command-line parameter using the `-i` switch, or
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Link the latest tag to the new image
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Before calling the function. Now we must stop the orderer and peers:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE36]'
+  prefs: []
+  type: TYPE_PRE
+- en: As we can see preceding code, the docker-compose YAML file used to start the
+    network must be used to stop individual components too.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The preceding example assumes that only the first 4 organizations are part of
+    the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Once the containers are stopped, we can choose to backup the ledger data as
+    follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE37]'
+  prefs: []
+  type: TYPE_PRE
+- en: The contents of the ledger on the peers as well as the orderer are now backed
+    up to your local machine in the ledgers-backup folder.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now we should remove all the chaincode images because new ones need to be created
+    by the new fabric-peer images, and the presence of old images will block that
+    creation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE38]'
+  prefs: []
+  type: TYPE_PRE
+- en: Note that we must first check to see if the chaincode containers are running,
+    and stop them if they are, otherwise the images cannot be removed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now we can restart the stopped orderer and peer containers. When running docker-compose
+    up, the orderer and peer containers will be started with the new image:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE39]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can run the entire upgrade process in one shot by running the script in
+    either of the following ways:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE40]'
+  prefs: []
+  type: TYPE_PRE
+- en: If the `<imagetag>` is not specified, it will default to latest, as mentioned
+    earlier.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can now continue to run your distributed trade application. Note that platform
+    changes may also be accompanied by changes in chaincode and SDK API, which may
+    necessitate an upgrade to your chaincode or your middleware or both. As we have
+    demonstrated examples of those in previous sections, the reader should not be
+    fully equipped to upgrade both the application and the underlying blockchain platform
+    at any point during the application's and network's life cycle.
+  prefs: []
+  type: TYPE_NORMAL
+- en: System monitoring and performance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: You have now built your application and instituted various processes and mechanisms
+    in anticipation of changes over its lifetime. An additional, but no less essential,
+    process that you must have in place and carry out from time to time is monitoring
+    and performance measurement. Any production application you build for real-world
+    users and institutions must meet certain performance goals to be useful to its
+    users, and by implication, the application's stakeholders. Therefore, understanding
+    how your application performs and trying to improve its performance is a key maintenance
+    task; any dereliction in this task may result in your application having a short
+    shelf life.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The art (and science) of system performance measurement and analytics is a broad
+    and extensive set of topics, and it is not our intention to cover these topics
+    deeply or exhaustively in this book. To obtain such a coverage, the interested
+    reader is encouraged to read other canonical texts on the topic (for example,
+    [https://www.amazon.com/Systems-Performance-Enterprise-Brendan-Gregg/dp/0133390098](https://www.amazon.com/Systems-Performance-Enterprise-Brendan-Gregg/dp/0133390098).)
+    Instead, we will offer a preview of what performance measurement and gaining insight
+    into a blockchain application entails, and offer some hints and suggestions about
+    the tools and techniques a developer or system administrator can utilize for these
+    purposes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Broadly speaking, systems maintenance for performance involves three, roughly
+    sequential, categories of tasks, though these tasks can collectively repeat in
+    cycles over the lifetime of a system:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Observation and measurement
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Evaluation (or analysis) and gaining insight (or understanding)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Restructuring, redesign, or reimplementation for improvement
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'In our discussion in this section, we will mainly focus on some aspects of
+    the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: What is important to measure in a Fabric application
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The mechanisms a Fabric application developer or administrator can use for measurement
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The performance-inhibiting aspects of Fabric that an application designers and
+    developers should be aware of
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Measurement and analytics
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before discussing Hyperledger Fabric in particular, let's understand what measurement
+    and analytics means for a distributed system, of which a blockchain application
+    is an example. The process begins with a comprehensive understanding of the architecture
+    of the system, its various components, and the degrees and natures of coupling
+    among those components. The next step is to institute mechanisms to monitor the
+    various components and collect data attributes that have any bearing on performance,
+    either continuously or at periodic intervals. This data must be collected and
+    communicated to a module that can then analyze it to generate meaningful representations
+    of system performance, and possibly provide more insight into the workings of
+    the applications and its existing inefficiencies. The analyzed data can also be
+    used to ensure that the system is working at a desired level of performance, and
+    to detect when it is not, something which is of high (if not critical) importance
+    to user-facing systems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Such techniques and processes are well known in the world of distributed systems
+    analytics, and also in mobile analytics (which can be considered to be a special
+    case of the former.) Agents can be configured to observe or monitor a system component,
+    either actively or passively: in the former, systems can be instrumented (for
+    example, by inserting special data collection code) to make them self-monitor
+    their activities and gather information, whereas in the latter, data collection
+    can be done by a piece of software that is external to the component being monitored.
+    A pipeline exists to communicate this data on a continuous or periodic basis to
+    a central repository, where the data can be accumulated for later processing,
+    or is immediately processed and consumed. The pipeline may modify the data to
+    make it read for analytics too. In data analytics parlance, this pipeline is typically
+    referred to as **extract-transform-load** (**ETL**). If the volume and frequency
+    of data generation is very high, and if the number of data sources is very large,
+    such analytics is also referred to as **big data analytics**.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: ETL processes or big data analytics are beyond the scope of this chapter and
+    book, but the takeaway for a serious blockchain developer or administrator is
+    that there exist frameworks to perform such analytics, either for distributed
+    systems configured with servers and databases at their backends (and a Fabric
+    blockchain application is an example of this) such as Splunk ([https://www.splunk.com/en_us/solutions/solution-areas/business-analytics.html](https://www.splunk.com/en_us/solutions/solution-areas/business-analytics.html))
+    or Apteligent ([http://www.apteligent.com/](http://www.apteligent.com/)), or for
+    mobile applications such as Tealeaf ([https://www.ibm.com/in-en/marketplace/session-replay-and-interaction-analytics](https://www.ibm.com/in-en/marketplace/session-replay-and-interaction-analytics))
+    and Google Analytics ([https://developers.google.com/analytics/solutions/mobile](https://developers.google.com/analytics/solutions/mobile)).
+    The same frameworks can be used or adapted to monitor and analyze blockchain applications
+    too.
+  prefs: []
+  type: TYPE_NORMAL
+- en: What should we measure or understand in a Fabric application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: An application built on Hyperledger Fabric and its associated tools is, in effect,
+    a **distributed transaction processing system**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain applications vis-à-vis traditional transaction processing applications
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Think about what a traditional transaction processing system looks like. You
+    will have a database at the backend to store, process, and serve data; this database
+    may be centralized or distributed, and in the latter case, maintain replicas or
+    partitions. In front of the database, you will have one or more web servers or
+    application servers to manage and run your application logic; and further in front,
+    you will have one or more interfaces for interaction with users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Similarly, a Fabric blockchain application has peers maintaining a shared replicated
+    ledger as the equivalent of a database. The smart contract code is analogous to
+    stored procedures and views in a traditional database management system. The middleware
+    and application server, whose architecture and workings we have demonstrated for
+    our trade application, can be equivalents of or even hosted by traditional application
+    servers. Finally, we can design web interfaces for user interaction just as we
+    would for a traditional transaction processing application. Of course, we used
+    `curl` as a substitute to test out our trade use case.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Metrics for performance analysis
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Therefore, a blockchain application's performance is affected by similar factors
+    to those affecting a traditional DBMS-based transaction processing application.
+    First, we must constantly monitor the health of the hardware resources that are
+    hosting the application components. For every machine that is running a peer or
+    orderer or CA, we need to track basic health indicators, such as CPU usage, memory
+    usage, disk I/O speeds, network bandwidth, latency, and jitter, and available
+    storage space (this is not meant to be an exhaustive list). These factors, especially
+    CPU usage for processing-heavy systems, determine whether the application is running
+    at optimal performance levels.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As we have seen in this book, a Fabric network can be started in a variety of
+    configurations, from a single dedicated machine (physical or virtual) for each
+    peer and orderer to a single-machine setup running each component in an isolated
+    `docker` container (like our trade network setup in this book). In the latter
+    case, you will need to monitor the health of not only the machines but also each
+    container. Also remember that each Fabric chaincode instance always runs in a
+    docker container rather than on a dedicated machine. Plus, when it comes to understanding
+    (or profiling) applications, the CPU, memory, and I/O usage of application components
+    are of the most relevance. We will look at some tools to measure container and
+    application performance later in this section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Moving from the external factors to the application itself, the performance
+    of a Fabric application (just like any other transaction processing application)
+    is defined by two characteristic metrics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Throughput**: This is the number of transactions per unit time that your
+    system can yield. As Fabric is a loosely coupled system and a transaction has
+    multiple stages (see *[Chapter 5](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)*, *Exposing
+    Network Assets and Transactions*, for examples in our trade scenario), we can
+    measure throughputs for the different stages. But the overall throughput, from
+    the time a client constructs a transaction proposal for endorsement up to the
+    time when an event indicating ledger commitment is received, provides the best
+    overall picture of how your application performs. On the other hand, if we want
+    to measure just the orderer throughput, we would need to collect statistics just
+    for the part where the client sends an endorsed transaction envelope to the orderer
+    and gets back a response.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Latency**: As most Fabric applications will ultimately be user-facing, it''s
+    not just the processing capacity or volume that will matter in a real-world scenario
+    but also how long each transaction takes. As in the case of throughput, we can
+    measure different latencies—chaincode execution and endorsement, ordering and
+    block creation, transaction validation and ledger commitment, and even event publishing
+    and subscription. We can also measure inter-component communication latency in
+    an effort to understand the limitations of the communication infrastructure.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: There are other important things to measure, such as the time taken to synchronize
+    ledger states across peers (using the **gossip** protocol), but from a transaction
+    processing perspective, the preceding two metrics are of prime importance. When
+    we measure these factors, we get an understanding of how the overall application
+    is performing, and also its constituent parts such as the ESCC and VSCC in a peer
+    and the Kafka service in an orderer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Measurement and data collection in a Fabric application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that we know what we ought to measure, let us look at some examples of hands-on
+    measurement and data collection. We will use our single-VM (Linux), multiple-docker-container
+    trade network for demonstrative purposes, and let the reader extrapolate those
+    methods (with the help of more comprehensive texts on measurement) to other setups.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Collecting health and capacity information
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A standard way to get information about CPU, memory, and other activity on
+    your system is by examining info in `/proc`. In addition, an array of tools is
+    available in Linux to obtain specific pieces of information. The `sysstat` package
+    contains many of them, for example, `iostat` to collect CPU and I/O statistics,
+    `pidstat` to collect health statistics for each process, and `sar` and `sadc`
+    to collect similar statistics as `cron` jobs. Just as a sample, running `iostat`
+    on a VM running the entire trade network and the chaincode yields the following
+    CPU info and I/O statistics for the two virtual hard drives:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE41]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `vmstat` tool similarly presents a summary of the virtual-machine-wide
+    information as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE42]'
+  prefs: []
+  type: TYPE_PRE
+- en: For continuous per-process statistics, you can also use the well-known `top`
+    command, and also `dstat`, which also generates output in CSV format for easy
+    consumption. If you want to connect your measurement mechanisms to an ETL analytics
+    pipeline, the `nmon` tool([http://nmon.sourceforge.net/pmwiki.php](http://nmon.sourceforge.net/pmwiki.php)),
+    which does comprehensive performance data collection and reporting in well-known
+    formats, may be the ideal tool.
+  prefs: []
+  type: TYPE_NORMAL
+- en: But we must also specifically profile the containers that are running the application
+    components. The `perf` tool is very handy as a Linux performance counter and profiling
+    tool. It can collect profiles on a per thread, per process, and per CPU (or processor)
+    basis. Data collection is done by using the `perf report` command with different
+    switches, which results in data being collected and stored in a file called `perf.data`
+    in the folder the command was run in. This data can them be analyzed using the
+    `perf report` command. In addition, `bindfs` ([https://bindfs.org/](https://bindfs.org/))
+    can be used to map symbols in a `perf` report to processes running inside docker
+    containers. Lastly, `perf stat` can be used to collect system-wide statistics.
+    The `perf` Wiki ([https://perf.wiki.kernel.org/index.php/Main_Page](https://perf.wiki.kernel.org/index.php/Main_Page))
+    gives more information about how to use this tool.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Profiling containers and applications
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Our application components must also be profiled to produce instruction-level
+    information and call stacks for us to analyze, not just to track performance but
+    also to debug application flaws. The strace tool can be used to record system
+    calls made by a running docker container. As an example, get the process ID for
+    our orderer container as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE43]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Recall that our container was named `orderer.trade.com` in our docker-compose
+    YAML file. The output will be a process ID; let''s call it `<pid>`. Now run `strace`
+    on that process:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE44]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You should see a continuous output, something like the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE45]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To analyze the output, read the canonical `strace` documentation. Note that
+    this tool is available only on Linux systems. Also, in your docker-compose YAML
+    file, you can configure a container to run `strace` internally. As an example,
+    take the container definition of `peer0.exporterorg.trade.com in network/base/docker-compose-base.yaml`.
+    You can augment it to enable `strace` as follows (added configuration italicized):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE46]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, for information more specific to the Fabric platform and the application
+    you have developed on it, there is Go profiling to turn to. The Fabric components
+    (peers, orderers, and CAs) are written in Golang, as is the chaincode, and finding
+    out which parts of the program use more time and resources are of critical importance
+    in improving the quality of your application. For such profiling, we can use `pprof` ([https://golang.org/pkg/net/http/pprof/](https://golang.org/pkg/net/http/pprof/)),
+    Golang''s built-in profiler ([https://blog.golang.org/profiling-go-programs](https://blog.golang.org/profiling-go-programs)).
+    (Please ensure you have `go` installed on the system in which you intend to run
+    your profiler.) To capture an application profile consisting of call graphs and
+    run frequency (equivalent to CPU usage) of various functions in the graph, `pprof`
+    requires a Go application to run an HTTP server as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE47]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To get a profile, we can use `go tool` to hit this server and fetch the data.
+    As an example, if your application is running a server on port `6060`, you can
+    get a heap profile by running:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE48]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can replace `localhost` with an appropriate host name or IP address in
+    the preceding command. To get a 30-second CPU profile instead, run:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE49]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Hyperledger Fabric provides built-in support for such profiling ([https://github.com/hyperledger-archives/fabric/wiki/Profiling-the-Hyperledger-Fabric](https://github.com/hyperledger-archives/fabric/wiki/Profiling-the-Hyperledger-Fabric)),
+    at least on the Fabric peer. To enable profiling (or running the HTTP server),
+    we need to configure the peer (or in our case, the `docker` container running
+    the peer) suitably. Recall that the core configuration for each peer in our sample
+    trade network is defined in `network/base/peer-base.yaml`. Notice the following
+    lines:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE50]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Also recall that our peer''s port mappings between the container and the host
+    are defined in `network/base/docker-compose-base.yaml`. Examples of exporter and
+    importer org peers are given as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE51]'
+  prefs: []
+  type: TYPE_PRE
+- en: Though within their containers, the profile server runs on port `6060`, on the
+    host machine, `pprof` will hit port `7055` to capture the exporter organization
+    peer's profile and port `8055` to capture the importer organization peer's profile.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As an example, let us capture a 30-second CPU profile of the exporter organization''s
+    peer. We can start up the trade network and run the channel creation and chaincode
+    installation steps using `middleware/createTradeApp.js`. In a different terminal
+    window, we can run:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE52]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This will eventually generate a file in `~/pprof`, and spew something like
+    the following on your console:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE53]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Lastly, the tool leaves a `pprof` shell to run a variety of profiling commands
+    from, to analyze the obtained dump. For example, to get the top five most active
+    functions or goroutines:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE54]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `tree` command displays the entire call graph in textual form, a section
+    of which looks something like this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE55]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can also view the graph pictorially, either on a web page or by generating
+    a file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE56]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following example here shows the call graph generated as a PNG image:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/184dd700-f7cb-4c7c-9a0e-f51f6c4e3f2f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 9.4: A section a call graph representing the functions executed in a
+    peer node within a 30-second period'
+  prefs: []
+  type: TYPE_NORMAL
+- en: This is a section of the call graph image, which each box representing a function
+    and the box's size indicating the frequency of that function (that is, the number
+    of profile samples in which that function was running). Directed graph edges indicate
+    calls made from one function to another, with the edges indicating the time spent
+    in making such calls.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For more `pprof` options and analytical tools, the reader is encouraged to read
+    the documentation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Measuring application performance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Measuring throughput and latency of your application is somewhat less arcane
+    than many of the tools described previously; it will involve instrumenting your
+    code to collect and record timing information. In your code, you will need to
+    either add logging (or communication, for remote reporting) instructions to record
+    when a particular operation is being performed, or add appropriate hooks that
+    can enable or disable data collection as per requirement.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Measuring latency is fairly straightforward; you can record the times of various
+    operations such as client proposal submission, return of endorsement, orderer's
+    acknowledgment of a request, ledger commitment time, and the time when the event
+    was received. Collecting data for a large number of transactions will enable you
+    to get overall transaction latency as well as the latency incurred in individual
+    operations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To get throughput information, you will need to generate transaction loads of
+    different volumes and different frequencies. Then you can increase the load on
+    your application up to the point when the observed frequency of transaction commitment
+    (or receiving of an event) decreases below the transaction load generation frequency.
+    Apart from that, you will need to instrument the code the way you did to measure
+    transaction latencies. You can change different application parameters and characteristics
+    and run such throughput measurements to determine application and resource characteristics
+    for optimal performance.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Given all the information we can collect using the tools described in this section,
+    an application or network designer can conduct advanced analytics to determine
+    what parts of the system (for example, from a `pprof` call graph) are performing
+    well, and what parts are bottlenecks. One can then try to remedy performance limitations
+    by adding more resources to "bottlenecked" components or reimplement the system
+    to make those components more efficient. Load balancing across different redundant
+    resources is another widely used technique to maintain high performance levels.
+    Bottleneck detection and analysis is a very important topic in its own right,
+    and the reader is encouraged to study texts and academic papers to gain a better
+    understanding.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fabric engineering guidelines for performance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We will now move from the general to the specific. In this section, we will
+    offer a commentary on Hyperledger Fabric performance, discuss the salient characteristics
+    of the platform that impact performance, and lay out guidelines for developers
+    to extract the best performance from their applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Platform performance characteristics
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Fabric architecture and transaction pipeline should be very familiar to
+    the readers of this book by now. It is a complex distributed system and its performance
+    depends on many factors, ranging from the architecture of the application interacting
+    with Fabric to consensus implementation, transaction size, block size, Fabric
+    network size, as well as capability of the underlying hardware and physical network
+    medium.
+  prefs: []
+  type: TYPE_NORMAL
+- en: At the time of writing this book, performance measurements reveal that Fabric
+    can yield a throughput of several thousand transactions per second ([https://arxiv.org/abs/1801.10228](https://arxiv.org/abs/1801.10228).).
+    The caveat our readers need to keep in mind is that these measurements were carried
+    out using chaincodes that performed very simple operations, and using application
+    and network configurations that may not represent a typical production blockchain
+    network. Fabric performance is bound to the specific use case and the underlying
+    hardware. For example, performance on IBM Z systems exceeds other platforms due
+    to optimized Go compilers leveraging hardware acceleration capabilities such as
+    for cryptographic algorithms and others. Good performance depends on the availability
+    of sufficient resources and proper configuration; we will discuss configuration
+    at length later in this section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: System bottlenecks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A simple inspection of the Fabric architecture and transaction stages will reveal
+    the possible bottleneck components. The ordering service is a prime and obvious
+    example. Every transaction MUST pass through this service and get included in
+    a block to have a chance at ledger commitment. But keep in mind that there is
+    still no guarantee that a transaction will not be rejected at commitment time. Therefore,
+    the performance of the ordering service, in a way, sets the baseline for your
+    application's performance. Clearly, increasing orderer resources, either by adding
+    more nodes or adding capacity to each individual node, may result in better performance.
+    Other ordering mechanisms may also be used in place of the current Fabric default,
+    which is Kafka. As the Fabric platform evolves, expect to see better and faster
+    ordering algorithms.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Another system bottleneck lies at the ledger commitment stage when the transactions
+    have to be evaluated both for authenticity of endorsements and to enforce database
+    (ledger) consistency by managing read and write conflicts. Cryptographic operations
+    are heavy by nature, and recent changes to Fabric (in *v1.1*, for example) have
+    made signature validations more efficient. As a developer or a network engineer,
+    you can streamline performance by minimizing the possibility of transaction failures
+    because of invalid signatures or inter-transaction conflict. For the former, better
+    validation at endorsement stage and during the request generation for the orderer
+    should decrease the chances of failure.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To reduce conflicts, one needs to experiment with varying block sizes (remember
+    that checks are made for conflicts among transactions within a block). Though
+    larger blocks may result in higher throughput, conflicts may have the opposite
+    effect. You can also design your chaincode in ways that will minimize the possibility
+    of conflicts among different invoke transactions. For explanation of how Fabric
+    detects and handles conflicts in blocks see [*Chapter 4*](a557efde-d161-4451-b5ee-cb3e481010be.xhtml),
+    *Designing a Data and Transaction Model with Golang,* in the *Multiversion concurrency
+    control* section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuration and tuning
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Continuing from our previous discussion, you can configure various parameters
+    to optimize your application’s performance. Many of these parameters are outcomes
+    of the system requirements such as the network size.  But a few parameters in
+    your core Fabric configuration (see *[Chapter 3](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml)*,
+    *Setting the Stage with a Business Scenario*,* in Network Components' Configuration
+    Files* section) can be adjusted to maximize performance. One of them is the block
+    size. It’s possible to determine the precise block size (both in bytes and in
+    the number of transactions) that you should set for your application through experimentation
+    (or adjustment of the parameter until you achieve optimal throughput and latency).
+    For example, measurements on a crypto-currency application called Fabcoin revealed
+    an optimal block size of 2 MB ([https://arxiv.org/abs/1801.10228](https://arxiv.org/abs/1801.10228)).
+    But the reader must keep in mind the trade-off discussed in the previous section
+    whereby a larger number of transactions in a block may also result in higher conflict
+    rates and transaction rejections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Your selection of transaction endorsement policy will also have a significant
+    performance impact. The more the signatures that need to be collected from endorsing
+    peers, the more time it will take to validate the signatures at commitment time.
+    Also, the more complex your policy (namely the more clauses it has), the slower
+    the validation will be. Now there is a trade-off to be made here. More endorsers
+    and a more complex policy will usually provide higher assurance (reliability as
+    well as trust), but it will come at a cost to performance (both throughput and
+    latency). Therefore, a blockchain application administrator must determine what
+    service level as well as trust level are required and tweak the parameters accordingly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There are various other factors that could affect the performance of a Fabric
+    application: this includes overhead due to the *gossip* protocol among the peers
+    to sync the ledger contents, the number of channels you use in your application,
+    and the transaction generation rates. At the hardware level, performance is determined
+    by the number and performance of CPUs available to the components. Generally,
+    it can be stated that increasing the number of CPUs yields an increase in the
+    performance of the components and of the overall blockchain network. If you are
+    interested in more details, a good paper to read on this topic is <q>Hyperledger
+    Fabric: A Distributed Operating System for Permissioned Blockchains, EuroSys ''18
+    ([https://dl.acm.org/citation.cfm?id=3190538](https://dl.acm.org/citation.cfm?id=3190538))</q>,
+    also available at [https://arxiv.org/pdf/1801.10228v1.pdf](https://arxiv.org/pdf/1801.10228v1.pdf).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ledger data availability and caching
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: You can further improve the performance of your distributed Fabric application
+    by optimizing the availability of data (that is, retrieval time) stored in the
+    ledger. There are several strategies to do this, and we will outline two of them
+    here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Redundant committing peer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To increase data availability to client applications, an additional committing
+    peer (or multiple peers) may be deployed topologically closer to the client application
+    or to middleware components accessing the data. The committing peer receives newly
+    created blocks and maintains up to date ledger. It does not participate in the
+    endorsement process and thus does not receive transaction proposal requests from
+    clients. The performance of the peer is thus fully dedicated to maintaining ledger
+    and responding to requests for data. An important considerations in terms of network
+    performance and system security configuration is to choose and set up the location
+    such that the committing peer can unobstructed connect to the channel and the
+    network throughput allows to receive newly created blocks with a low delay.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Data caching
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Data retrieved from a peer may be stored in an application cache so that future
+    requests for that data can be served faster. To maintain the data in the cache
+    up to date, the application must monitor changes in the underlying ledger and
+    update the cached data with new state modifications. As discussed earlier, the
+    peer emits event notifications about newly committed transactions into the ledger.
+    The notification can be intercepted by the client and by inspecting the content
+    of the transaction, the client can determine whether the cache should be updated
+    with new values.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fabric performance measurement and benchmarking
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We hope this section of the book has given the reader an understanding of why
+    performance measurement and analysis are important, and some clues about how to
+    make his/her application provide adequate level of service. We will conclude by
+    pointing the reader to tools that currently exist within the Hyperledger framework
+    to measure performance (mainly throughout, latency, and resource utilization)
+    using sample benchmark applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For an in-depth and comprehensive performance measurement tools suite, you should
+    look at `fabric-test` ([https://github.com/hyperledger/fabric-test/](https://github.com/hyperledger/fabric-test/).)
+    In particular, PTE ([https://github.com/hyperledger/fabric-test/tree/master/tools/PTE](https://github.com/hyperledger/fabric-test/tree/master/tools/PTE))
+    is a flexible tool that can be used to drive parameterized transaction load using
+    sample chaincodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Cello ([https://www.hyperledger.org/projects/cello](https://www.hyperledger.org/projects/cello))
+    is not a performance measurement tool but rather a blockchain provisioning and
+    management system that enables the launching of networks on different platforms
+    (virtual machines, clouds, and container clusters). It can be used as an aid to
+    launch, test, and measure sample networks before attempting a production deployment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Caliper ([https://www.hyperledger.org/projects/caliper](https://www.hyperledger.org/projects/caliper))
+    is another project that is currently developing a benchmarking framework to allow
+    users to measure the performance of a specific blockchain implementation with
+    a set of predefined use cases, and produce reports. The reader should keep in
+    mind that these projects are works-in-progress, and should keep an eye on further
+    developments driven by research in the areas of blockchain performance benchmarking.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Maintaining and augmenting a blockchain application is possibly even more challenging
+    than creating and bootstrapping it, as one needs to be skilled in monitoring and
+    analytics and also in assessing the impact of changes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this chapter, we described the various ways in which a Hyperledger Fabric
+    application can and will inevitably change over its lifetime. We described in
+    detail, using our canonical trade application as an example, how organizations
+    and peers can be added to a running network, how channel configurations can be
+    augmented, how platforms can be upgraded, and how the smart contract (chaincode)
+    itself can be modified without adversely affecting the application state.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In a later part of the chapter, we gave an overview of the tools a developer
+    of system administrator can use to measure, analyze, and improve the performance
+    of a Fabric blockchain application. We also provided guidelines to engineering
+    the system for better performance.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With further research and development, the Hyperledger suite will no doubt be
+    augmented with more and better mechanisms for system changes and monitoring. This
+    chapter should serve as a handy guide for the typical Fabric developer or administrator
+    to maintaining their production application.
+  prefs: []
+  type: TYPE_NORMAL

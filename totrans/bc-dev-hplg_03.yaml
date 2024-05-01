@@ -1,0 +1,1168 @@
+- en: Setting the Stage with a Business Scenario
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The first two chapters were focused on setting the stage and defining the landscape
+    of a blockchain project. We now understand how the technology works within a business
+    framework and how the various Hyperledger projects aim to solve the problem of
+    time and trust.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With an understanding of the components that make up Hyperledger Fabric, we
+    will now delve into application design and implementation considerations. The
+    next few chapters will take you through the steps of creating your very own smart
+    contract and then integrating it to an application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In order to make these exercises relevant, we will leverage a business use
+    case with its roots in some older civilizations: trading and letters of credit.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The chapter's objective will be to introduce the business concept of letter
+    of credit, walk you through the sample scenario we selected, and conclude by setting
+    up our development environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Explore letters of credit
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Review our simplified business scenario
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Set up our development environment
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Trading and letter of credit
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Step back in history to a time when merchants traveled across continents to
+    buy cloth in one country to sell in another country. As a Florentine wool merchant,
+    you might make a journey to Amsterdam to buy fine wool in that newly formed city-state,
+    whose port collected resources from the whole of Northern Europe and beyond. You
+    could then transport the wool to Florence, where it could be sold to tailors making
+    fine garments for their wealthy clients. We're talking about 1300 AD—a time when
+    it was not safe to carry gold or other precious metals as a form of currency to
+    buy and sell goods. What was necessary was a form of currency that worked across
+    country boundaries, one that could be used in Amsterdam and Florence, or anywhere!
+  prefs: []
+  type: TYPE_NORMAL
+- en: Marco Polo had been to China and had seen how commerce was conducted in that
+    thriving economy. At the heart of the successful Khan empire were advanced financial
+    techniques that we would recognize today. Fiat currencies, paper money, promissory
+    notes, and letters of credit all arrived in Europe by way of China. Marco Polo
+    brought these ideas back to Europe—they helped form and grow a merchant banking
+    industry for a Europe emerging after the fall of the Roman Empire.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The importance of trust in facilitating trade
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Our Florentine merchant could now contact his banker to say that he wanted to
+    buy wool in Amsterdam, and the bank would in return give him a letter of credit,
+    in exchange for payment on account. This letter could have various stipulations,
+    such as the maximum amount for the trade, how it would be paid (at once or in
+    parts), what goods it could be used for, and so forth. The merchant would now
+    travel to Amsterdam, and after selecting wool from a wool merchant, he would offer
+    the letter or credit as payment. The Amsterdam merchant would happily exchange
+    the wool for the letter because Florentine bankers were famed throughout Europe
+    as being trustworthy when it came to money. The Amsterdam merchant could bring
+    the letter of credit to his banker, who in turn would credit their account. Of
+    course, the Florentine and Amsterdam bankers charged their respective clients—the
+    merchants—for this service! It was good for everyone.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Periodically, Amsterdam bankers and the Florentine bankers would meet up to
+    settle their accounts, but this was of no importance to the wool trader and wool
+    merchant. Effectively, what was happening was that the Florentine and Amstel merchants
+    were using the trust between their respective bankers to establish a trust relationship
+    with each other—a very sophisticated idea when you think about it. This is why
+    the letter of credit process remains a fundamental way of conducting business
+    worldwide to this day.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The letter of credit process today
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: However, over time, due to massive globalization of trade and the explosion
+    of the financial industry, the number of financial institutions involved in the
+    letter of credit process has exploded! Nowadays, there could be over 20 intermediary
+    financial institutions involved in the process. This requires coordination of
+    many people and systems, resulting in excessive time, cost, and risk throughout
+    the process for both merchants and banks alike.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The promise of blockchain is to provide a logically singular but physically
+    distributed system that provides a platform for a low-friction letter of credit
+    process. The characteristics of such a system would include greater transparency,
+    timeliness, and automation (resulting in lower cost), and new features such as
+    incremental payment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Business scenario and use case
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: International trade includes the kinds of situations that illustrate the inefficiencies
+    and distrust in real-world processes that blockchains were designed to mitigate.
+    So, we have selected an element of an import-export scenario with simplified versions
+    of transactions carried out in the real world as our canonical use case for practical
+    exercises in the next few chapters.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Overview
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The scenario we will describe involves a simple transaction: the sale of goods
+    from one party to another. This transaction is complicated by the fact that the
+    buyer and the seller live in different countries, so there is no common trusted
+    intermediary to ensure that the exporter gets the money he was promised and the
+    importer gets the goods. Such trade arrangements in today''s world rely on:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Intermediaries that facilitate payments and physical transfer of goods
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Processes that have evolved over time to enable exporters and importers to hedge
+    their bets and reduce the risks involved
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Real-world processes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The intermediaries that facilitate payment are the respective banks of the exporter
+    and the importer. In this case, the trade arrangement is fulfilled by the trusted
+    relationships between a bank and its client, and between the two banks. Such banks
+    typically have international connections and reputations to maintain. Therefore,
+    a commitment (or promise) by the importer's bank to make a payment to the exporter's
+    bank is sufficient to trigger the process. The goods are dispatched by the exporter
+    through a reputed international carrier after obtaining regulatory clearances
+    from the exporting country's government.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proof of delivery to the carrier is sufficient to clear payment from the importer's
+    bank to the exporter's bank, and such clearance is not contingent on the goods
+    reaching their intended destination (it is assumed that the goods are insured
+    against loss or damage in transit.) The promise made by the importer's bank to
+    pay the exporter's bank specifies a list of documents that are required as proof
+    of dispatch, and the precise method of payment to be made immediately or over
+    a period. Various regulatory requirements must be fulfilled by the exporter before
+    getting documentary clearances that allow them to hand off the goods to the carrier.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Simplified and modified processes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Our use case will follow a simplified version of the preceding process, with
+    certain variations to demonstrate the value of blockchain in facilitating this
+    trade. A payment promise is made by the importer's bank to the exporter's bank
+    in two installments. The exporter obtains a clearance certificate from the regulatory
+    authority, hands off the goods to the carrier, and then obtains a receipt. The
+    production of the receipt triggers the first payment installment from the importer's
+    bank to the exporter's bank. When the shipment has reached the destination port,
+    the second and final payment installments are made, and the process concludes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Terms used in trade finance and logistics
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following terms are used to refer to certain instruments and artifacts
+    that are in play in our trade scenario. The application we will build in this
+    chapter uses very simplified forms of these instruments:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Letter of credit**: As we have seen at the beginning of the chapter, this
+    refers to a bank''s promise to pay an exporter upon presentation of documentary
+    proof of goods having been shipped. Called **L/C** for short, this document is
+    issued by the importer''s bank at the request of its client: the importer. The
+    L/C states the list of documents that constitute proof of shipment, the amount
+    to be paid, and the beneficiary (the exporter in our case) of that amount. A sample
+    L/C is illustrated in the following screenshot:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/fe15c7ed-b9ff-4c76-8ccf-4b449ac61d4c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: We will introduce small variations in our use case to make this instrument comprehensible
+    to the reader. Firstly, the L/C will be issued to the exporter's bank rather than
+    directly to the exporter. Secondly, the L/C states that payment will be made in
+    two identical installments, the first upon production of two documents and the
+    second upon the goods reaching the destination.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Export license**: This refers to the approval given by the regulatory authority
+    in the exporter''s country for the shipment of the specified goods. In this book,
+    we will refer to it as E/L for short. A sample E/L is illustrated in the following
+    screenshot:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/622d2a54-2b10-4c02-a572-ecbc0b11e235.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: '**Bill of lading**: This is a document issued by the carrier to the exporter
+    once it takes possession of the shipment. Called B/L for short, it simultaneously
+    serves as a receipt, a contract obliging the carrier to transport the goods to
+    a specified destination in return for a fee, and a title of ownership of the goods.
+    This document is also listed in the L/C and serves as proof of shipment that will
+    automatically trigger a payment clearance. A sample B/L is illustrated in the
+    following screenshot:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/3646e790-419d-4fee-9b46-057afb898445.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Shared process workflow
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Every instance of a test case scenario presented in this chapter takes a long
+    period of time to complete, involves interactions among different sets of entities
+    at different times, and has many different moving parts that are difficult to
+    keep track of. We hope to simplify this process using our workflow. Implemented
+    on a blockchain, the sequences of transactions described in the following steps
+    (and illustrated in the following diagram) can be carried out in an irrevocable
+    and non-repudiable manner. In this sequence of events, we assume a straight, linear
+    narrative where parties are in agreement with each other and nothing untoward
+    happens; guards are built in the process only to catch errors.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The transactions in our workflow are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Importer requests goods from the exporter in exchange of money
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Exporter accepts the trade deal
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Importer asks its bank for an L/C in favor of the exporter
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The importer's bank supplies an L/C in favor of the exporter, and payable to
+    the latter's bank
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The exporter's bank accepts the L/C on behalf of the exporter
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Exporter applies for an E/L from the regulatory authority
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Regulatory authority supplies an E/L to the exporter
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Exporter prepares a shipment and hands it off to the carrier
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The carrier accepts the goods after validating the E/L, and then supplies a
+    B/L to the exporter
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The exporter's bank claims half the payment from the importer's bank
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The importer's bank transfers half the amount to the exporter's bank
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The carrier ships the goods to the destination
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The importer's bank pays the remaining amount to the exporter's bank
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Here is a diagram to explain the transaction workflow:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/27afe277-63bb-4a67-b8c5-ba3abd1d32e0.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Shared assets and data
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The participants in the previous workflow must have some information in common
+    that gives them a view into the trade arrangement and its progress at any given
+    moment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following is a table of the assets owned by the participants, which are
+    shared with each other to drive the process from one stage to the next. This includes
+    documentary and monetary assets:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Asset type** | **Asset attributes** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Letter of credit | ID, issue date, expiration date, issuer, beneficiary,
+    amount, and a list of documents |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Bill of lading | ID, shipper (exporter), consignee (importer), party to notify
+    (importer''s bank), places of receipt and delivery, description of goods, and
+    freight amount |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Export license | ID, issue date, expiration date, beneficiary, license holder,
+    and description of goods |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Payment | Amount in standard currency units |'
+  prefs: []
+  type: TYPE_TB
+- en: 'The following are the data elements that circumscribe the options available
+    to participants in each stage:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Data type** | **Data attributes** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Trade agreement | Requested by importer and accepted by exporter |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Letter of credit | Requested by importer, issued by importer''s bank, and
+    accepted by exporter''s bank |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Export license | Requested by exporter and issued by regulatory authority
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Shipment | Prepared by exporter, accepted by carrier, and current position
+    or location |'
+  prefs: []
+  type: TYPE_TB
+- en: Participants' roles and capabilities
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'There are six categories of participants in our scenario: which are exporter,
+    importer, exporter''s bank, importer''s bank, carrier, and regulatory authority.
+    The terms in this set refer to the roles an entity can assume in a trade deal;
+    for example, a company exporting goods in one instance may be an importer in another.
+    The capabilities and restrictions of each role are also detailed in the following
+    list:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Only an importer may apply for an L/C
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Only an importer's bank may supply an L/C
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Only an exporter's bank may accept an L/C
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Only an exporter may request an E/L
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Only a regulatory authority may supply an E/L
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Only an exporter may prepare a shipment
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Only a carrier may supply a B/L
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Only a carrier may update a shipment location
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Only an importer's bank may send money, and only an exporter's bank may receive
+    money
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Benefits of blockchain applications over current real-world processes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The risks inherent in transferring goods or making payments in the absence of
+    safeguards (such as a trusted mediator) inspired the involvement of banks and
+    led to the creation of the letter of credit and bill of lading. A consequence
+    of these processes was not just additional cost (banks charge commission to issue
+    letters of credit) or additional overhead. Applying and waiting for export licenses
+    to be awarded also increases the turnaround time. In an ideal trade scenario,
+    only the process of preparing and shipping the goods would take time. Recently,
+    the adoption of SWIFT messaging over manual communication has made the document
+    application and collection processes more efficient, but it has not fundamentally
+    changed the game. A blockchain, on the other hand, with its (almost) instantaneous
+    transaction commitments and assurance guarantees, opens possibilities that did
+    not previously exist.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As an example, the one variation we introduced in our use case was payment by
+    installments, which cannot be implemented in the legacy framework because there
+    is no guaranteed way of knowing and sharing information about a shipment's progress.
+    Such a variation would be deemed too risky in this case, which is why payments
+    are linked purely to documentary evidence. By getting all participants in a trade
+    agreement on a single blockchain implementing a common smart contract, we can
+    provide a single shared source of truth that will minimize risk and simultaneously
+    increase accountability.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In subsequent chapters, we will demonstrate in detail how our use case is implemented
+    on the Hyperledger Fabric and Composer platforms. The reader will be able to appreciate
+    both the simplicity and elegance of the implementation, which can then be used
+    as a guide for other applications to revamp their archaic processes using this
+    exciting new technology. However, before jumping into the code, we will look at
+    the design of a Hyperledger network and we will set up our development environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting up the development environment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As you already know by now, an instance of a Hyperledger Fabric blockchain is
+    referred to as a channel, which is a log of transactions linked to each other
+    in a cryptographically secure manner. To design and run a blockchain application,
+    the first step is to determine how many channels are required. For our trade application,
+    we will use one channel, which will maintain the history of trades carried out
+    among the different participants.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A Fabric peer may belong to multiple channels, which from the application's
+    perspective will be oblivious to each other, but which help a single peer run
+    transactions in different applications on behalf of its owners (or clients). A
+    channel may run multiple smart contracts, each of which may be an independent
+    application or linked together in a multi-contract application. In this chapter,
+    and in this book, we will walk the reader through the design of a single-channel,
+    single-contract application for simplicity's sake. It is up to the reader to design
+    more complex applications, relying on the information provided in this book as
+    well as in the Fabric documentation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Before we delve into the mechanics of setting up our system to install an application
+    and run transactions on our smart contract, we will describe how to create and
+    launch a network on which the application will be installed. A sample network
+    structure will be used to illustrate  trade operations throughout this chapter
+    (in [Chapter 9](72e0e4f7-a8e3-49e6-935f-2c478d0ac891.xhtml), *Life in a Blockchain
+    Network*, you will see how this sample network can be modified as the requirements
+    change and evolve).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Designing a network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The first step in determining a Hyperledger Fabric network structure for one's
+    application is listing the participating organizations. Logically, an organization
+    is a security domain and a unit of identity and credentials. It governs one or
+    more network peers, and depends on a **membership service provider** (**MSP**)
+    to issue identities and certificates for the peers as well as clients for smart
+    contract access privileges. The ordering service, which is the cornerstone of
+    a Fabric network, is typically assigned its own organization. The following diagram
+    illustrates a typical peer network structure with clients, MSPs, and logical organization
+    groupings.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The criterion for the approval of a transaction (or invocation) is an endorsement
+    policy (which we will revisit later in this chapter). It is framed in terms of
+    the organizations that are participating in the application network, and not the
+    peers themselves:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e3e28e91-f5b4-4fbf-b3f8-aebe4c48484d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 3.1: Blockchain network with peers distributed among organizations,
+    and clients obtaining credentials from organizations to submit queries and invocations
+    to the chaincode'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The set of peers, the organizations they belong to, and the membership service
+    providers serving each organization must be decided beforehand so that the appropriate
+    services can be installed and run on those machines.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Our sample trade network will consist of four organizations, representing the
+    exporter, importer, carrier, and regulator, respectively. The latter two represent
+    the carrier and regulator entities, respectively. The exporter organization, however,
+    represents both the exporting entity and its bank. Similarly, the importer organization
+    represents the importing entity and its bank. Grouping entities with parties they
+    trust into a single organization makes sense from both the perspective of security
+    and cost. Running a Fabric peer is a heavy and costly business, so it is sufficient
+    for a bank, which likely has more resources and a large clientele, to run such
+    a peer on behalf of itself and its clients. A trading entity obtains the right
+    to submit transactions or read the ledger state from its organizations in the
+    role of a client. Our blockchain network therefore needs four peers, each belonging
+    to a different organization. Apart from the peers, our network consists of one
+    MSP for each of the four organizations, and an ordering service running in solo
+    mode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In a production application, the ordering service should be set up as a Kafka
+    cluster on Zookeeper, but for the purpose of demonstrating how to build a blockchain
+    application, the ordering service can be treated as a black box.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The ordering service belongs to its own separate organization with an MSP.
+    The Organizations with their MSPs, peers, and clients of our trading network are
+    illustrated in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/15b368be-5e82-465d-a331-c1ced9891873.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 3.2: A trade network with peers, an orderer, and clients in their respective
+    organizations'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The reader may wonder how, if a trading party and its banker belong to the
+    same organization, the application can distinguish the two (the exporter from
+    the exporter’s bank, and the importer from importer’s bank) for the purpose of
+    controlling access to the smart contract and ledger. Two ways of doing this are
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Embedding access control logic in the middleware and application layers (which
+    we will describe later in this chapter), whereby users can be distinguished by
+    their IDs (or login names) and an access control list mapping IDs to permitted
+    chaincode functions is maintained.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Having an organization’s MSP, acting as a CA server, embed distinguishing attributes
+    within the certificates it issues to members of an organization. The access control
+    logic can be implemented in the middleware or even in the chaincode to parse the
+    attributes and permit or disallow an operation as per application policy.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: These mechanisms are not implemented in our application, in which bankers and
+    clients are indistinguishable to the smart contract and the middleware layers.
+    But the reader may treat this as an exercise, which should be straightforward
+    for someone skilled at developing secure client-server applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing prerequisites
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'With the design of the network in hand, let''s install the pre-requisite tools:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Ensure that you have the latest version of:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Docker using [https://docs.docker.com/install/](https://docs.docker.com/install/)
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Docker-Compose using: [https://docs.docker.com/compose/install/ ](https://docs.docker.com/compose/install/)'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We will be using GitHub to share the source code of our tutorial. To access
+    GitHub, the Git client needs to be installed and configured with authentication
+    to GitHub. For more information, visit GitHub's official website at [https://help.github.com/articles/set-up-git/](https://help.github.com/articles/set-up-git/).
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Install the software required for the business network example: [https://hyperledger.github.io/composer/latest/installing/installing-prereqs](https://hyperledger.github.io/composer/latest/installing/installing-prereqs).'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The instructions above are for the Mac and Linux. Note that when using Windows,
+    we recommend the use of a solution like Vagrant to run the development environment
+    in a virtual machine.
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: 'Fabric is implemented in the Go language. Note that:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Go is syntactically similar to C++
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We will also use Go to write chaincodes
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Go can be installed from [https://golang.org/](https://golang.org/)
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Note that the setup of Hyperledger Fabric and testing of the tutorial application
+    in this book was done using Go 1.9, so the reader is advised to install and use
+    1.9 or a higher version
+  prefs: []
+  type: TYPE_NORMAL
+- en: Next, we need to set up our environmental variables.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '`GOPATH` points to a workspace for the `go` source code, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`PATH` needs to include the Go `bin` directory used to store libraries and
+    executables, as we can see in the following snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: Verify whether you have `make` installed on your system. On a Debian/Ubuntu
+    system, you can install it using `sudo` `apt-get install make`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Forking and cloning the trade-finance-logistics repository
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now we need to get our own copy of the original source code by forking the
+    repository on GitHub. Then, we can clone the source code into a local machine
+    directory with the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**In GitHub, navigate to the following repository**: [https://github.com/HyperledgerHandsOn/trade-finance-logistics](https://github.com/HyperledgerHandsOn/trade-finance-logistics)'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Fork the repository**: Use the Fork button at the top-right corner of the
+    page to create a copy of the source code to your account'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Get the clone URL**: Navigate to your fork of the trade-finance-logistics
+    repository. Click on the Clone or download button, and copy the URL'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Clone the repository**: In the Go workspace, clone the repository as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: We now have a local copy of all the trade-finance-logistics tutorial materials.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating and running a network configuration
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The code to configure and launch our network can be found in the network folder
+    in our repository (this is an adaptation of [fabric-samples/first-network](https://github.com/hyperledger/fabric-samples/tree/master/first-network)).
+    For this exercise, we will run the entire network on a single physical or virtual
+    machine, with the various network elements running in suitably configured Docker
+    containers. It is assumed that the reader has a basic familiarity with containerization
+    using Docker and configurations using Docker-compose. Once the prerequisites listed
+    in the previous section are met, it is sufficient to run the commands in that
+    section without any extra knowledge or configuration required of the reader.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Preparing the network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To build Fabric and Fabric-CA, you may need to install certain dependencies
+    if they are missing. These include the `gcc`, `libtool`, and `ltdl` libraries.
+    (On a Ubuntu Xenial system, all of the necessary prerequisites can be installed
+    by running `sudo apt-get install libltdl-dev`. It is left to the reader to look
+    for equivalents on other systems). We need to perform the following steps before
+    generating network cryptographic material.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The tutorial application was developed on Hyperledger Fabric version 1.1, so
+    you will need to fetch and build components for that version.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Clone the Fabric ([https://github.com/hyperledger/fabric/tree/release-1.1](https://github.com/hyperledger/fabric/tree/release-1.1))
+    source code repository. If you are using the `git clone` command, add the parameter
+    `-b release-1.1`. Make sure the cloned `fabric` folder is either present, or symbolically
+    linked, in `$GOPATH/src/github.com/hyperledger/`. When you attempt to build Fabric,
+    it will look for libraries in this path.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Run `make docker` to build Docker images for the peers and orderers
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Run `make configtxgen cryptogen` to generate the necessary tools to run the
+    network creation commands described in this section
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Clone the Fabric-CA ([https://github.com/hyperledger/fabric-ca/tree/release-1.1](https://github.com/hyperledger/fabric-ca/tree/release-1.1))
+    source code repository. (If you are using the `git clone` command, add the parameter
+    `-b release-1.1`. Make sure the cloned `fabric-ca` folder is either present, or
+    symbolically linked, in `$GOPATH/src/github.com/hyperledger/`. When you attempt
+    to build Fabric-CA, it will look for libraries in this path.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Run `make docker` to build the Docker images for the MSPs
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Generating network cryptographic material
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The first step in the configuration of a network involves the creation of certificates
+    and signing keys for the MSP of each peer and orderer organization, and for TLS-based
+    communication. We also need to create certificates and keys for each peer and
+    orderer node to be able to communicate with each other and with their respective
+    MSPs. The configuration for this must be specified in a `crypto-config.yaml` file
+    in the `network` folder in our code repository. This file contains the organization
+    structure (see more details in the channel artifacts configuration section later),
+    the number of peers in each organization, and the default number of users in an
+    organization for whom certificates and keys must be created (note that an `admin`
+    user is created by default). As an example, see the definition of the Importer’s
+    organization in the file as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: This configuration indicates that the organization labeled `ImporterOrg` will
+    contain one peer. Two non-admin users will also be created. The organization domain
+    name to be used by the peer is also defined.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To generate cryptographic material for all the organizations, run the `cryptogen`
+    command as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: The output is saved to the `crypto-config` folder.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Generating channel artifacts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To create a network according to an organization''s structure, and to bootstrap
+    a channel, we will need to generate the following artifacts:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A genesis block, containing organization-specific certificates that serve to
+    initialize the Fabric blockchain.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Channel configuration information.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Anchor peer configurations for each organization. An anchor peer serves as a
+    fulcrum within an organization, for cross-organization ledger syncing using the
+    Fabric gossip protocol.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Like the `crypto-config.yaml` file, channel properties are specified in a file
+    labeled `configtx.yaml`, which in our source code can be found in the `network`
+    folder. The high-level organization of our trade network can be found in the `Profiles`
+    section as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'As we can see, the channel we are going to create is named `FourOrgsTradeChannel`,
+    which is defined in the profile. The four organizations participating in this
+    channel are labeled `ExporterOrg`, `ImporterOrg`, `CarrierOrg`, and `RegulatorOrg`,
+    each of which refers to a subsection defined in the `Organizations` section. The
+    orderer belongs to its own organization called `TradeOrdererOrg`. Each organization
+    section contains information about its MSP (ID as well as the location of the
+    cryptographic material, such as keys and certificates), and the hostname and port
+    information for its anchor peers. As an example, the `ExporterOrg` section contains
+    the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, the `MSPDir` variable (representing a folder) in this specification
+    references the cryptographic material we generated earlier using the `cryptogen`
+    tool.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To generate the channel artifacts, we use the `configtxgen` tool. To generate
+    the genesis block (which will be sent to the orderer during network bootstrap),
+    run the following command from the `network` folder:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `FourOrgsTradeOrdererGenesis` keyword corresponds to the profile name in
+    the `Profiles` section. The genesis block will be saved in the `genesis.block`
+    file in the `channel-artifacts` folder. To generate the channel configuration,
+    run the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The channel we will create is named `tradechannel`, and its configuration is
+    stored in `channel-artifacts/channel.tx`. To generate the anchor peer configuration
+    for the exporter organization, run:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: The same process should be repeated for the other three organizations, while
+    changing the organization names in the preceding command.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The environment variable `FABRIC_CFG_PATH` must be set to point to the folder
+    that contains the `configtx.yaml` file in order for the `configtxgen` tool to
+    work. The script file `trade.sh` (which we will use later) contains the following
+    line to ensure that the `YAML` file is loaded from the folder in which the command
+    is run:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`export FABRIC_CFG_PATH=${PWD}`'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Generating the configuration in one operation
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'For convenience, the `trade.sh` script is configured to generate the channel
+    artifacts as well as the cryptographic material using the commands and configuration
+    files described previously. Just run the following command from within the `network`
+    folder:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: Although you can specify any channel name here, note that the configurations
+    used to develop the middleware later in this chapter will depend on that name.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `GOPATH` variable is set to `/opt/gopath` in the container that runs the
+    peer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Composing a sample trade network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The last command also has the effect of generating a network configuration
+    file, `docker-compose-e2e.yaml`, which is used to start the network as a set of
+    Docker containers using the docker-compose tool. The file itself depends on the
+    statically configured files `base/peer-base.yaml` and `base/docker-compose-base.yaml`.
+    These files collectively specify services and their attributes, and enable us
+    to run them all in one go within Docker containers, rather than having to manually
+    run instances of these services on one or more machines. The services we need
+    to run are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Four instances of a Fabric peer, one in each organization
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: One instance of a Fabric orderer
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Five instances of a Fabric CA, corresponding to the MSPs of each organization
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Docker images for each can be obtained from the Hyperledger project on Docker
+    Hub ([https://hub.docker.com/u/hyperledger/](https://hub.docker.com/u/hyperledger/)),
+    with the images being `hyperledger/fabric-peer`, `hyperledger/fabric-orderer`, `hyperledger/fabric-ca
+    for peers`, `orderers`, and MSPs, respectively.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The base configuration of a peer can be as follows (see `base/peer-base.yaml`):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: Fabric configuration parameters can be set here, but if you use the pre-built
+    Docker image for `fabric-peer`, the defaults are sufficient to get a peer service
+    up and running. The command to run the peer service is specified in the last line
+    of the configuration as `peer node start`; if you wish to run a peer by downloading
+    the Fabric source and building it on your local machine, this is the command you
+    will have to run (see [*Chapter 4*](a557efde-d161-4451-b5ee-cb3e481010be.xhtml),
+    *Designing a Data and Transaction Model with Golang*, for examples). Also make
+    sure you configure the logging level appropriately using the `CORE_LOGGING_LEVEL`
+    variable. In our configuration, the variable is set to `INFO`, which means that
+    only informational, warning, and error messages will be logged. If you wish to
+    debug a peer and need more extensive logging, you can set this variable to `DEBUG`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `IMAGE_TAG` variable is set to latest in the `.env` file in the `network`
+    folder, though you can set a specific tag if you wish to pull older images.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Furthermore, we need to configure the hostnames and ports for each peer, and
+    sync the cryptographic material generated (using `cryptogen`) to the container
+    filesystem. The peer in the exporter organization is configured in `base/docker-compose-base.yaml`
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: As indicated by the `extends` parameter, this extends the base configuration.
+    Note that the ID (`CORE_PEER_ID`) matches that which is specified for this peer
+    in `configtx.yaml`. This identity is the hostname for the peer running in the
+    exporter organization, and will be used in the middleware code later in this chapter.
+    The volumes section indicates the rules for copying the cryptographic material
+    generated in the `crypto-config` folder to the container. The peer service itself
+    listens on port `7051`, and the port that clients can use to subscribe to events
+    is set to `7053`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the file, you will see that the in-container ports are identical across peers,
+    but are mapped to distinct ports on the host machine. Lastly, note that the MSP
+    ID specified here also matches that specified in `configtx.yaml`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The configuration of the orderer service is similar, as the following snippet
+    from `base/docker-compose-base.yaml` indicates:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: The command to start the orderer is simply `orderer`, as the code indicates.
+    The logging level can be configured using the `ORDERER_GENERAL_LOGLEVEL` variable,
+    and is set to `INFO` in our configuration.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The actual network configuration that we will run is based on a file named `docker-compose-e2e.yaml`.
+    This file does not exist in the repository but is rather created by the command
+    `./trade.sh generate -c tradechannel`, which we ran earlier to generate channel
+    and cryptographic material. This file depends on `base/docker-compose-base.yaml`
+    (and indirectly `base/peer-base.yaml`) as you can see by examining the file contents.
+    It is actually created from a template `YAML` file named `docker-compose-e2e-template.yaml`,
+    which you can find in the `network` folder. The template file contains variables
+    as stand-ins for key filenames that are generated using `cryptogen`. When `docker-compose-e2e.yaml`
+    is generated, those variable names are replaced with actual filenames within the
+    `crypto-config` folder.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For example, consider the `exporter-ca` section in `docker-compose-e2e-template.yaml`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, look at the same section in the generated file `docker-compose-e2e.yaml`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, the variable `EXPORTER_CA_PRIVATE_KEY` has been replaced with
+    `cc58284b6af2c33812cfaef9e40b8c911dbbefb83ca2e7564e8fbf5e7039c22e_sk`, both in
+    the environment variable and in the command. If you now examine the contents of
+    the `crypto-config` folder, you will notice that there exists a file named `cc58284b6af2c33812cfaef9e40b8c911dbbefb83ca2e7564e8fbf5e7039c22e_sk`
+    in the folder `crypto-config/peerOrganizations/exporterorg.trade.com/ca/`. This
+    file contains the exporter organization’s MSP’s private (secret) signing key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The preceding code snippet contains the result of a sample run. The key filename
+    will vary whenever you run the cryptographic material generation tool.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let us now look at the configuration of an MSP in more detail, taking the example
+    of the exporter organization MSP, as specified in `docker-compose-e2e.yaml`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: The service that will run in the MSP is the `fabric-ca-server`, listening on
+    port `7054`, bootstrapped with the certificates and keys created using `cryptogen`,
+    and using the default login and password (`admin` and `adminpw`, respectively)
+    configured in the `fabric-ca` image. The command to start an instance of a Fabric
+    CA server is `fabric-ca-server start …`, as you can see in the preceding code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Peers as well as CAs are configured for TLS-based communication, as indicated
+    in the preceding configurations. The reader must note that if TLS is disabled
+    in one, it must be disabled in the other too.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Also, as can be observed by examining `docker-compose-e2e.yaml`, we do not create
+    a Fabric CA server (and container) for the orderer’s organization. For the exercise
+    we will go through in this book, statically created admin users and credentials
+    for the orderer are sufficient; we will not be registering new orderer organization
+    users dynamically, so a Fabric CA server is not needed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network components' configuration files
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We have demonstrated how peers, orderers, and CAs can be configured in docker-compose
+    YAML files. But such configurations are meant to override settings that have already
+    been made by default in the components’ respective images. Though a detailed description
+    of these configurations is beyond the scope of this book, we will list the respective
+    files and mention how a user may make changes to them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For a peer, a `core.yaml` file ([https://github.com/hyperledger/fabric/blob/release-1.1/sampleconfig/core.yaml](https://github.com/hyperledger/fabric/blob/release-1.1/sampleconfig/core.yaml))
+    contains all of the important runtime settings, including but not limited to addresses,
+    port numbers, security and privacy, and the gossip protocol. You can create your
+    own file and sync it to the container using a custom `Dockerfile` instead of the
+    one that is used by the `hyperledger/fabric-peer` image by default. If you log
+    in to a running peer container (let’s take the Exporter organization’s peer''s
+    container from the network we just launched):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: Then you will find the `core.yaml` file in the folder `/etc/hyperledger/fabric/`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Similarly, an orderer’s default configuration lies in an `orderer.yaml` file
+    ([https://github.com/hyperledger/fabric/blob/release-1.1/sampleconfig/orderer.yaml](https://github.com/hyperledger/fabric/blob/release-1.1/sampleconfig/orderer.yaml)),
+    which is also synced to `/etc/hyperledger/fabric/` on the container running the `hyperledger/fabric-orderer` image.
+    Keep in mind that both the `core.yaml` and `orderer.yaml` files are synced to
+    the peer and orderer containers, so if you wish to create custom files, you will
+    need to sync these YAML files to both these containers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A Fabric CA server also has a configuration file called `fabric-ca-server-config.yaml` ([http://hyperledger-fabric-ca.readthedocs.io/en/latest/serverconfig.htm](http://hyperledger-fabric-ca.readthedocs.io/en/latest/serverconfig.htm)),
+    which is synced to `/etc/hyperledger/fabric-ca-server/` on the container running
+    the `hyperledger/fabric-ca` image. You can create and sync custom configurations
+    as you would for a peer or an orderer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Launching a sample trade network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'So, now that we have all the configuration for our network, and also the channel
+    artifacts and cryptographic material required to run it, all we need to do is
+    start the network using the `docker-compose` command, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: You can run this as a background process and redirect the standard output to
+    a `log` file if you so choose. Otherwise, you will see the various containers
+    starting up and logs from each displayed on the console.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Note that on some OS configurations, setting up Fabric can be tricky. If you
+    run into problems, consult the documentation. A detailed description of how to
+    install a Fabric network and examples is provided at [https://hyperledger-fabric.readthedocs.io/en/release-1.1/samples.html](https://hyperledger-fabric.readthedocs.io/en/release-1.1/samples.html).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The network can be launched in the background using our trade.sh script as
+    well; just run:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'From a different terminal window, if you run `docker ps -a`, you will see something
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: We have four peers, four MSPs, and an orderer running in separate containers.
+    Our trade network is up and ready to run our application!
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To view the running logs of a given container, note the container ID (first
+    column in the preceding list) and simply run:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To bring the network down, you can use either the docker-compose command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`docker-compose -f docker-compose-e2e.yaml down`'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Or our `trade.sh` script:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`./trade.sh down`'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we introduced the business use case that our follow-on chapters
+    will leverage to create a context around the code we will write. We have also
+    deployed our first Hyperledger Fabric network and have now transitioned from theory
+    to practice. Well done!
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The next chapters will take you through the development of a blockchain application
+    from two perspectives: (1) Foundation API using chaincode and the Fabric SDK (2) Business
+    network implementation using Hyperledger Composer.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Through these two perspectives, we hope to give you an understanding of the
+    flexibility of the solution and the ability to leverage each tool in the right
+    context. To get ready for the next chapter, you should now stop your network using
+    `./trade.sh` down.
+  prefs: []
+  type: TYPE_NORMAL

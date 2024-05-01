@@ -1,0 +1,1191 @@
+- en: Exploring an Enterprise Blockchain Application Using Hyperledger Fabric
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The previous chapter, we discussed the Ethereum blockchain. Ethereum is a public
+    blockchain; anyone can read the blockchain data and make legitimate changes. Anyone
+    can write a new block into the chain. Ethereum is fully autonomous and is not
+    controlled by anyone. The smart contract is written in Solidity, as a nearly Turing
+    complete language, that can run on the **Ethereum virtual machine** (**EVM**)
+    to execute various transactions. Developers can build and deploy **d****ecentralized
+    applications** (**DApps**) using these smart contracts. Ether is a cryptocurrency in
+    Ethereum, and acts as fuel for every operation in Ethereum, including executing
+    smart contracts, DApps, transactions, and so on. However, this is not the only
+    way to build a blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchains that require an access control layer built into the blockchain nodes
+    to read restricted information on the blockchain can be created. This will limit
+    the number of participants in the network who can transact in the consensus mechanism
+    of the blockchain's network. This kind of blockchain is called a permissioned
+    blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The differences between public and permissioned blockchains are shown in the
+    following table:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '|  | **Permissionless** | **Permissioned** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Public | Everyone can read the transaction data.Everyone can validate a transaction
+    in the block.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Speed**: Poor'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consensus**: Proof-of-Work'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain**: Bitcoin, Ethereum'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Token**: Needed'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '| Everyone can read the transaction data.Only predefined users can validate
+    a transaction.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Speed**: Good'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consensus**: Proof-of-Work'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain**: Ethereum after Casper'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Token**: Needed'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '|'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| Private | Only predefined users can read transaction data.Only predefined
+    users can validate a transaction.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Speed**: Good'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consensus**: **Federated byzantine agreement** (**FBA**)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Token**: Not needed'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '| Only predefined users can read transaction data.Only entitled users can validate
+    a transaction.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Speed**: Good'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consensus**: **Practical Byzantine Fault Tolerance Algorithm** (**PBFT**)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain**: Hyperledger Fabric'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Token**: Not needed'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '|'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric is one such private permissioned blockchains. In this chapter,
+    we will discuss the Hyperledger Fabric blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric is an open source enterprise blockchain technology. The project
+    was initially contributed by IBM and digital asset. Hyperledger Fabric is one
+    of the blockchain projects hosted by the Linux foundation. The smart contract
+    in Hyperledger Fabric is called *chaincode*, which defines the business logic
+    for Fabric applications. The modular architecture design enables Fabric to support
+    high degrees of confidentiality, resiliency, flexibility, and scalability. The
+    components in Fabric, such as consensus and membership services, can be plug and
+    play.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Issuance claim
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Setting up a Hyperledger Fabric environment
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Write a chaincode
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Configuring Hyperledger Fabric
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Issuance claim
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we will explore and implement an issuance claim use case.
+  prefs: []
+  type: TYPE_NORMAL
+- en: No one wants to have an insurance claim, but when things do go wrong and accidents
+    happen, this may result in financial losses. These losses will be covered by your
+    insurance policy. The traditional insurance claims process has stayed the same
+    for decades, as there are a number of key issues in the process, including false
+    claims, fraud detection, slow and complex claims processing, human error, undesirable
+    customer experience, and inefficient information flows in reinsurance.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With blockchain, the transaction record in the ledger is immutable and the state
+    data can only be updated when all parties agree. The record in the blockchain
+    can be shared in real time. This allows insurers to move quickly, as most of the
+    required information for claims verification can be processed in no time. Insurers
+    can track the use of asset data in the blockchain. The paperwork can be eliminated
+    and customers can submit claims via a web application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s take a look at the insurance claim process, as shown in the following
+    screenshot. For demonstration purposes, we simplified the claim process, as it
+    can be much more complex in a real-world use case:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2e09b04a-3c1a-43fb-be57-fcd9ef2b82db.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'For the preceding process, the steps are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: An insuree reports a claim to a broker
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A broker provides requested information
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A broker submits a claim to an issuer
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: An issuer confirms the claim
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: An issuer process and approves the claim
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Setting up a Hyperledger Fabric environment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: So far, we have learned about the key concepts of Hyperledger Fabric. In this
+    section, we will set up a Hyperledger Fabric development environment. Before continuing
+    with the installation steps, let's take a look at the prerequisites for fabric
+    installation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installation prerequisites
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The following are the prerequisites for installing the required development
+    tools.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| Ubuntu Linux 14.04 / 16.04 LTS (both 64-bit), or macOS 10.12 | Docker Engine:
+    Version 17.03 or higher |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Docker-Compose: Version 1.8 or higher | Node: 8.9 or higher (note version
+    9 is not supported) |'
+  prefs: []
+  type: TYPE_TB
+- en: '| npm: v5.x | git: 2.9.x or higher |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Python: 2.7.x |  |'
+  prefs: []
+  type: TYPE_TB
+- en: 'We will use Ubuntu for our development environment. We can download the prerequisites
+    using the following commands:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: It may prompt for your password, since it uses `sudo` during its execution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing Hyperledger Fabric
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Create and navigate to the project folder called `insurance-claim`, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Enter the following command to install the Hyperledger Fabric platform-specific
+    binaries:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'After this executes, it downloads the following platform-specific binaries
+    in the `bin` folder, which is located under the `fabric-samples` folder. You can
+    set `fabric-samples/bin` as a `PATH` variable as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We also provide `bootstrap-hyperledger.sh` from the code files in this book,
+    and you can download it from the Packt site. Once you get the file, you can directly
+    run the following script, and it will create a bin folder and download binaries
+    to this folder:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e37a3890-b4e9-4004-b6c6-d1d6f293c437.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: These components will be part of our Hyperledger Fabric network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Writing chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Chaincode is similar to a *smart contract*. It defines and executes the business
+    logic invoked by authorized participants in a specific network. A chaincode is
+    written in Go or Node.js. In our example, we will use Go.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are many IDEs and tools to support Golang. Here are some popular IDEs
+    that work great with Golang.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Development tools
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are various tools that support Go development. Some popular IDEs are listed
+    in the following sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: LiteIDE
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: LiteIDE is an open source Go IDE that was directly designed for Golang. There
+    are a bunch of useful features available for Go developers, including a configurable
+    code editor, customized build commands, many building options, and Golang support.
+  prefs: []
+  type: TYPE_NORMAL
+- en: JetBrains Gogland
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Gogland has a powerful built-in autocomplete engine, errors detection, code
+    refactoring tools, and more.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Visual Studio Code
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: You can install Go extension in Visual Studio Code. It provides code hints and
+    the ability to debug code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will use LiteIDE to develop our chaincode. Follow the official
+    LiteIDE installation guide to set up your local IDE environment, which is available
+    from the following link:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[https://github.com/visualfc/liteide/blob/master/liteidex/deploy/welcome/en/install.md](https://github.com/visualfc/liteide/blob/master/liteidex/deploy/welcome/en/install.md).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincode key concept and APIs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'There are three important functions in Fabric chaincode: `Init`, and `Invoke`,
+    `Query`. Every chaincode program must implement the chaincode interface, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`Init()` is called when the application initializes its internal data for other
+    chaincode functions to use. It is triggered when a chaincode receives an instantiate
+    or upgrade transaction.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: When the application client proposes an update or query transaction, the `Invoke()`;
+    function is called.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`Query()` is called when a chaincode queries a chaincode state. Hyperledger
+    Fabric uses LevelDB (key/value store) as the default database to store world;state
+    data. You can use a key to get the current ledger state data. The query function
+    reads the value of a chaincode state by passing in the key value.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The shim package provides APIs for the chaincode to access its state variables,
+    transaction context, and call other chaincodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`ChaincodeStubInterface` is one of the important interfaces. It provides various
+    functions that let you query, update, and delete assets in the ledger. These are
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| `GetState(key string) ([]byte, error)` | `GetState` returns the value of
+    the specified key from the ledger |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `PutState(key string, value []byte) error` | `PutState` puts the specified
+    key and value into the transaction''s writeset as a data-write proposal |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `DelState(key string) error` | `DelState` records the specified key to be
+    deleted in the writeset of the transaction proposal |'
+  prefs: []
+  type: TYPE_TB
+- en: Defining an issuance claim
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s write a chaincode. Open LiteIDE and create a new file called `claimcontract.go`,
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d95fe9a2-5608-4e08-89f7-0f366490d8ee.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'In the insurance claim use case analysis, we analysed the participants in the
+    issuance claim process. There are three participants for whom we need to define
+    a chaincode: insuree, broker, and insurer, as shown in the following example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: In `Insuree`, we define `Id`, `firstname`, `LastName`, `SSN`, and `policyNumber`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In Go language, it allows the first letter of a field name as to be either
+    uppercase or lowercase. When we need an exported field to be public for any piece
+    of code to use it, it needs to be a capitalized letter. You can use encoding in
+    the JSON package to unmarshal data into struct, which defines the field name in
+    JSON as the `firstName` key, as shown in the following format:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The broker and insurers data models are similar and only different in type.
+    We define them as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In the issuance claim process, `Insuree` initializes a claim request. The claim
+    document will keep track of each step of the process in the blockchain. It records
+    all necessary information, including status, user claim description, `insueeId`,
+    `brokerId`, `insurerId`, process time at each step, and comments entered from
+    an authorized party, as shown in the following example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: Initializing the chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Next, we''ll implement the `Init` function. `Init()` allows the chaincode to
+    initialize the insuree data to start the claim request. In our case, we will set
+    up and register the insuree person information, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`ChaincodeStubInterface.GetStringArg` gets the input arguments. It expects
+    that the length of the arguments should be 5\. With all required insurer data,
+    we build Insurer JSON data and encode it to JSON byte strings –`json.Marshal(insureeData`.
+    Then, we store the key and the value on the ledger. If all went well, it returns
+    a `peer.Response` object with success to Fabric''s `client.c`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Invoking the chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To trigger the invoke function, you can call the name of the chaincode application
+    function and pass `shim.ChaincodeStubInterface` as the signature. In the insurance
+    claim case, we defined several functions to support our use case, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`AddCompany`, `ReportLost`, `RequestedInfo`, `SubmitClaim`, `ConfirmClaimSubmission`,
+    `ApproveClaim`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We also defined a query to keep track of the current claim request and `getHistory`
+    to get all of the historical claim transaction records, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: AddCompany
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '`AddCompany` is similar to how we added insuree at the Init step. Chaincode
+    can register brokers and insurers through this function. The company type can
+    be a *broker* or *insurer*, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: ReportLost
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this step, the insuree reports the lost item to the broker with all the
+    claim information. This function also records the current system process time
+    at the `processAt` field. `currentts.Format(2006-01-02 15:04:05)` is a Go custom
+    format; it will convert the current time into YYYY-MM-dd hh:mm:ss format, as shown
+    in the following example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: RequestedInfo
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'After the insuree reports a loss, the next step is for the broker to return
+    `RequestedInfo`, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: Since the remaining process functions are quite similar, we define `UpdateClaim`
+    as a common function to share with the remaining steps.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `UpdateClaim` function first gets `claimId` and the current participant
+    comment from input arguments. It then queries and gets a claim from the blockchain
+    to decode the claim data and turns it into a JSON string—`json.Unmarshal(claimBytes,
+    &claim)`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Before updating the claim content, it will validate the input claim status and
+    make sure it is on the expected step. If all goes well, we will update the claim
+    status, participant comment, and process time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finally, we update the claim data with `claimId` as a key on the ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: SubmitClaim, ConfirmClaimSubmission, ApproveClaim
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Submitting, confirming, and approving the claim are very similar to `RequestedInfo`,
+    and these steps are called by the `UpdateClaim` function. Only the comment, status,
+    and process time values are different.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Query
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Queries are how you read data from the ledger. The query function is used to
+    query the chaincode''s state. As we put claim data in the ledger with `claimId`,
+    in order to read the current claim, we call `GetState`, passing `claimId` as key,
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: getHistory
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As its name indicates, the `gethistory` function reads a claim of all historical
+    values records for a key, as well as the `TxId` and claim value.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We first define the `AuditHistory` struct, which has `TxId` and value. `GetHistoryForKey`
+    returns the list of results with `resultsIterator`, which contains all historical
+    transaction records. We iterate through these records and add them to an array
+    of `AuditHistory`. Later, we convert it to JSON byte and send the data back as
+    a response, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: This covers our issuance claim chaincode. We will learn about Hyperledger Fabric
+    configuration in the next section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuring Hyperledger Fabric
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'There are three entities in the insurance claim network—insuree, broker, and
+    insurer. All of these participants will register in Fabric as a peer node. The
+    following table describes the three peer roles and MSP information:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **User ID** | **Role** | **Organization MSP ID** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `user_001` | INSUREE | Org1MSP |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `broker_001` | BROKER | Org2MSP |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `insurer_001` | INSURER | Org3MSP |'
+  prefs: []
+  type: TYPE_TB
+- en: We have one insuree who joins the organization with MSP ID org1, one broker
+    who joins the organization with MSP ID org2, and one insurer who joins the organization
+    with MSP ID org3\. For bootstrapping the fabric network, we need to first generate
+    crypto material for all three components that we need to run.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Generating the certificate
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We need to define `crypto-config.yaml` and use the cryptogen tool to generate
+    the certificates for each peer. Cryptogen is available in the tools image. `crypto-config.yaml`
+    contains the following information:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**OrdererOrgs**: Definition of organizations managing orderer nodes'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**PeerOrgs**: Definition of organizations managing peer nodes'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'OrdererOrgs contains the following information about the ordered node in the
+    cluster:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Name**: Name of the orderer'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Domain**: Domain URL for orderer; in our case, it is ic.com'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hostname**: Hostname for the orderer'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Here is an example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'PeerOrgs contains the following information about the peer node in the cluster:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Name**: Name of the organization; we have three different orgs : `Org1`,
+    `Org2`, and `Org3`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Template count**: Number of peer nodes for an organization'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Users count**: Number of users for an organization'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Here is an example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following is the command thats used to generate the crypto material:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'After running the cryptogen tool, you should see the following output in the
+    console:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f372e012-65e2-4067-a56e-eb6f5df2e836.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Generating an orderer genesis block
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'After generating the certificate, the next step in the process is to generate
+    the orderer genesis block. The `configtxgen` command allows users to create and
+    inspect channel config. The `configtxgen` tool''s output is largely controlled
+    by the content of `configtx.yaml`, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We defined three organizations in the `Organizations` section of the `configtx`
+    file; we specified each organization name, `ID`, `MSPDir`, and `AnchorPeers`.
+    `MSPDir` describes cryptogen generated output MSP directories. `AnchorPeers` points
+    to the peer node''s host and port. It updates transactions in order to enable
+    communication between peers of different organizations and finds all active participants
+    of the channel, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'An output similar to the following will be displayed on the console:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a5b82468-8507-471d-826c-776cb47d8500.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Generating a channel configuration transaction
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '`configtxgen` writes a channel creation transaction to `channel.tx` by executing
+    a channel configuration transaction, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'An output similar to the following will be displayed on the console:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2cc154e6-09db-4255-ba74-2b39c82e620d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Output for executing channel configuration transaction
+  prefs: []
+  type: TYPE_NORMAL
+- en: Overview of Hyperledger Fabric Docker composer configuration files
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Hyperledger Fabric utilizes Docker compose to define fabric application services.
+    The `docker-compose-cli.yaml` service section is the place for defining all peer
+    services and related containers. Hyperledger Fabric''s *first-network* provides
+    a `.yaml` template to help you quickly start to create yaml files from scratch:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[https://github.com/hyperledger/fabric-samples/tree/release-1.2/first-network](https://github.com/hyperledger/fabric-samples/tree/release-1.2/first-network).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In `docker-compose-cli.yaml`, we define the following information:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`networks`: Definition of the blockchain network name. In our case, it is `icn`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`services`: Definition of all peer services and related Docker containers'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`cli`: Definition of the Cli container that is used to replace the SDK client,
+    and environment variables for Docker compose command-line behavior'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Here is an example configuration for the network and service section:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'As you can see, there is a file extension directory: `base/docker-compose-base.yaml`.
+    Docker compose supports sharing common configuration for individual services with
+    the *extends *field. We will discuss more on `docker-compose-base.yaml` later.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example of configuration for `cli` section:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `docker-compose` tool uses the `docker-compose-cli.yaml` file to initialize
+    the fabric runtime environment. Blow are some of the most common commands you
+    will use when using `docker-compose-cli.yaml` file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| `TTY` | TTY basically means *a console*, and we set it as true. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Image` | Points to the fabric-tools image directory. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `Environment` | Specifies environment variables, for example, GOPATH, a TLS-related
+    file location generated by the cryptogen tool. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `working_dir` | Sets the working directory for the peer. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `command` | Specifies the command that is issued when the container starts.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `volumes` | Maps the directories that are being used in the environment configurations.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `depends_on` | Starts services in dependency order. |'
+  prefs: []
+  type: TYPE_TB
+- en: It then generates four fabric-peer transaction node containers, one fabric-order
+    orderer node container, and one fabric-tools cli container.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fabric project directory structure
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In our Fabric sample first-network, the project structure is similar to the
+    following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/401e9804-ae43-4ca3-88db-b4998ae19425.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'As we discussed previously, the `docker-compose-cli.yaml` service extends from
+    `base/docker-compose-base.yaml`. There are two file base directories: `peer-base.yaml`
+    and `docker-compose-base.yaml`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Docker-compose-base.yaml
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This file contains the base configurations, including each peer and orderer
+    container environment and port number. This defines the overall topology of the
+    insurance claim network, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: Peer-base.yaml
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This file defines peer network configuration for the insurance claim `docker-compose-base.yaml`,
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: The command in the peer gets the peer to install the system chaincode and other configurations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We have an overview of the critical Hyperledger Fabric configuration files,
+    so let''s start our insurance claim network using the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: Starting the Hyperledger Fabric network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now, it is time to bring up our Hyperledger Fabric network. We will use Docker
+    commands to kick off the new Docker compose initially:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The Docker container will trigger the command defined in `docker-compose-cli.yaml`,
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`script.sh` is a script that contains a series of instructions to fabric deployment
+    and test commands. We also define some business-specific shell script functions
+    in `utils.sh`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a channel
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'First, we need to create a channel to build a genesis block. Run the following
+    command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This command reads a genesis block from `channel.tx` that is then used to join
+    the channel and creates the icchannel channel. Here is the result on the console:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3eab0ba7-884e-42ac-a4be-6c2ea65d69eb.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Output for the console that joins and creates the channel
+  prefs: []
+  type: TYPE_NORMAL
+- en: Joining channels
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'After the ordering service creates the channel, we can add the peers to the
+    channel, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is the result on the console:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f00ebe02-5fe4-4dbb-87fa-e93f6d014dc4.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Adding peers to the channel
+  prefs: []
+  type: TYPE_NORMAL
+- en: We can see that `peer0.org1`, `peer0.org2`, and `peer0.org3` are joined in the
+    channel.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Updating the anchor
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The last operation that we need to complete before we start to interact with
+    our issuance claim network is to update the anchor peers. Anchor peers receive
+    and broadcast transaction updates to the other peers in the organization. Anchor
+    peers are searchable in the network. Therefore, any peer registered as an anchor
+    peer can be discovered by an order peer or any other peer, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is the console output for this step:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/cfd90e65-7700-481b-a9cc-662ecea8a326.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Getting discovered by an order peer or any other peer
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'After the previous steps, we are almost ready to use our issuance claim blockchain
+    application. However first, we need to install `claimcontract.go` chaincode on
+    our network, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We will see the output of the preceding command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/05e22867-8162-4128-807b-21a8278e9152.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Installing chaincode to our network
+  prefs: []
+  type: TYPE_NORMAL
+- en: Instantiating the chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'After installing the chaincode, we need to instantiate it. As we discussed
+    previously, we will onboard insuree in the `init()` chaincode. Therefore, we need
+    to pass the required arguments to create an insuree participant, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is the output for this step:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/18f3917e-a0af-4a2f-bdc1-72c3b2e9e038.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Creating an insuree participant
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We query the insuree to verify that the record has been created in the blockchain,
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We can see from this output that the insuree (`user_001`) was added in our
+    blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e4cceefe-13f3-4adc-a553-7878bc339945.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Insuree added in our block chain
+  prefs: []
+  type: TYPE_NORMAL
+- en: Invoking add broker
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s onboard a broker to our insurance claim blockchain, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE35]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is the result:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7b9827ae-e4d0-4ce7-bfe8-b7edbf36b36e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Onboarding a broker to our insurance claim blockchain
+  prefs: []
+  type: TYPE_NORMAL
+- en: Invoking add insurer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Add the last party insurer to the insurance claim blockchain, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE36]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The output that''s displayed is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/23f1a783-2301-4690-b9d4-40d56b144e28.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Adding a last party insurer to insurance claim blockchain
+  prefs: []
+  type: TYPE_NORMAL
+- en: Invoking ReportLost
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: All of the participants have joined the network, and it is time to start the
+    insurance claim process. An insuree reports a claim to a broker, Here is the command
+    to invoke 'ReportLost' chaincode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE37]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following output will be displayed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/72710c2b-a755-42f4-baf1-f02358711cd3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Isuree reporting a claim to a broker
+  prefs: []
+  type: TYPE_NORMAL
+- en: Invoking RequestedInfo
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A broker provides the requested information, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE38]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following output will be displayed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/8c75a8ea-a6f4-4dfd-b4b9-03bb13fde591.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Providing the requested information
+  prefs: []
+  type: TYPE_NORMAL
+- en: Invoking SubmitClaim
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A broker submits a claim to an issuer, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE39]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following output will be displayed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3d8fdace-39c9-4fb7-b588-13449e5e709b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Submitting a claim to the issuer
+  prefs: []
+  type: TYPE_NORMAL
+- en: Invoking ConfirmClaimSubmission
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'An issuer confirms the claim, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE40]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following output will be displayed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/26f3b52b-577f-4cf7-993e-a271992d55fa.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Confirming the claim
+  prefs: []
+  type: TYPE_NORMAL
+- en: Invoking ApproveClaim
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'An issuer processes and approves a claim, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE41]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following output will be displayed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/62b5c939-cc78-4331-81a2-0cf836ecd4d5.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Processing and approving the claim
+  prefs: []
+  type: TYPE_NORMAL
+- en: Querying claim history
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'After an issuer approves the claim, the entire process flow is done and we
+    can use the Fabric API to query the entire life cycle of the claim, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE42]'
+  prefs: []
+  type: TYPE_PRE
+- en: From the output obtained from this query, we can see the entire Fabric transaction
+    history of the claim request.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This ends our test execution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: End-to-end test execution
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We have gone over each step of insurance claim fabric execution. To simplify
+    the entire end-to-end application flow, you can navigate to the `insurance-claim`
+    folder and then run the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE43]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The output result will be as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/62d8148f-3987-43b4-8a66-8be30fe451b8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Simplifying the entire end to end application flow
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The final output is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/327ba575-e472-423e-9311-acb735d11d70.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Insurance claim End to End Test completes
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we have learned about the basics of Hyperledger Fabric's. After
+    setting up a development environment, we wrote a chaincode for an insurance claim
+    use case. We then studied fabric composer configuration. Finally, we ran the end-to-end
+    fabric test execution for our insurance claim application. We can see that it
+    is quite complex to use Hyperledger Fabric to implement an insurance claim application.
+    In the next chapter, we will learn how to use Hyperledger Composer to quickly
+    write an insurance claim application.
+  prefs: []
+  type: TYPE_NORMAL

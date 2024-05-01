@@ -1,0 +1,826 @@
+- en: Implementing Business Networks Using Hyperledger Composer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Composer is a high-level toolset and framework that was made to
+    quickly build and run applications on top of a Hyperledger Fabric blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We learned about Hyperledger Fabric in the previous chapter, so you already
+    know that developing a Fabric-based application is quite complex as it needs to
+    handle many configurations at the network level.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will discuss the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Composer—a quick overview
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Setting up a Hyperledger Composer environment
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Analyzing business scenarios
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The business network archive
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Implementing business transaction functions
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Composer – a quick overview
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Composer is a set of JavaScript-based high-level toolsets and frameworks
+    that simplify and quickly build and run an application on top of a Hyperledger
+    Fabric blockchain. Business owners and developers can quickly create smart contracts
+    and applications via the composer tool. The composer tool generates a RESTful
+    endpoint to interact with fabric channels. Instead of writing chaincode using
+    Golang, Composer uses model language to generate a business network archive (`.BNA`)
+    file for the blockchain network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example of a Hyperledger Composer solution architecture:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/27d227e0-508b-492e-b94e-175d434871e8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Hyperledger Composer contains the components that are listed in the following
+    sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Yeoman generator
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The npm module generator-hyperledger-composer in Yeoman is used to make templates
+    for Hyperledger Composer. It supports and generates three different types of templates:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: CLI application
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Angular 2 application
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Skeleton business network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You can use Yeoman's generated angular skeleton to connect to the Hyperledger Composer
+    REST server.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Composer REST server
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Composer's REST server utilizes a standalone Node.js process and exposes a set
+    of RESTful API endpoints from a deployed composer business network. These generated
+    APIs can interact with fabric chaincode. The side code can then trigger **create**,
+    **read**, **update**, **delete** (**CRUD**) for assets, participants, and transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: LoopBack connector
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The LoopBack connector utilises the Node.js LoopBack framework to expose GET/POST/PUT/DELETE
+    operations for the assets, participants, and transactions defined in the business
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: JavaScript SDK
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The JavaScript SDK API is used to interact with the deployed business network.
+    It is comprised of the client and admin APIs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The client APIs provide query, create, update, and delete resources (asset and
+    participant), and submit transactions from client applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The admin API is used to deploy the business network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Composer playground
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Hyperledger Composer playground is a browser-based interface to create and
+    test business networks. You can use the playground to build and test your business
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Composer-cli
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Composer-cli is a command-line tool that lets you deploy and manage business
+    networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is a list of some commands:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Command** | **Description** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `composer archive create` | Command to create a business network archive
+    file (`nba`). |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `composer archive list` | Verifies the contents of a business network archive.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `composer card create` | Creates a business network card from individual
+    components. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `composer card delete` | Deletes a business network card from individual
+    components. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `composer card list` | Lists all business network cards stored in the local
+    wallet. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `composer network deploy` | Deploys a business network archive from local
+    disk to a Hyperledger Fabric network. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `composer network list` | Lists the details of the business network card.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `composer network ping` | Tests the connection to a deployed business network.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: Setting up a Hyperledger Composer environment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We just reviewed the Hyperledger Composer solution architecture. In this section,
+    we will set up the Hyperledger development environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installation prerequisites
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before we install the composer tools, make sure you have the required prerequisites
+    by following the *Setup of Hyperledger Fabric environment—installing prerequisites*
+    section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing the development environment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following are the installation commands for developing the environment:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Installing the CLI tools:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Installing `composer-rest-server`:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Installing Hyperledger Composer generator:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Installing Yeoman:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Installing playground:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Installing fabric runtime:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Download and install fabric runtime for the composer as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: At this step, you have installed everything required for the typical composer
+    development environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Analyzing business scenarios
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In *[Chapter 16](d750faf6-ca67-49d3-b78b-5837c3789633.xhtml)*, *Exploring an
+    Enterprise Blockchain Application Using Hyperledger Fabric*, we discussed the
+    blockchain use case for the insurance claim. It includes the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: An insuree reports a claim to a broker
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A broker provides requested information
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A broker submits a claim to an issuer
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: An issuer confirms the claim
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: An issuer processes and approves the claim
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: In this chapter, we will use the same insurance claim use case, but also build
+    the end-to-end application via Hyperledger Composer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Business network archive
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Composer business is comprised of four different types of files: model file
+    (`.cto`), script file (`.js`), access control list (ACL) file (`.acl`), and query
+    file (`.qry`).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network model file (.cto)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A CTO file is composed of the following elements:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Element** | **Description** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| A single namespace | Defines the composer model namespace; every `.cto` model
+    file requires a namespace. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Resources - asset | Anything of value that can be exchanged between parties.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Resources - participant | Business network member. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Resources - enum | A data type consisting of a set of named values. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Resources - concept | Any object you want to model that is not one of the
+    other types. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Resources - transactions | Defines the blockchain business logic. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Resources - events | Blockchain transaction notification. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Import | Imports resources from other namespaces. |'
+  prefs: []
+  type: TYPE_TB
+- en: The composer model language, like other programming languages, has data types
+    including String, Double, Integer, and so on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's see some samples of assets, participants, transactions, and events.
+  prefs: []
+  type: TYPE_NORMAL
+- en: IBM Bluemix provides a browser version playground without installation; we can
+    use this tool to do a quick prototype. Here is the link: [https://composer-playground.mybluemix.net/](https://composer-playground.mybluemix.net/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f9a2bf09-9240-4f49-91db-595676081718.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Connect to basic-sample-network. Playground will generate some default sample
+    assets, participants, transactions, and events for you, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'A `namespace org.example.basic` was defined in `sample.cto.SampleAsset` and
+    is an example of an `Asset` class. It defines an asset whose name is followed
+    by an identifying `field.o` `String assetId`: a field of the `SampleAsset`.`-->
+    SampleParticipant owner`:  field point to `SampleParticipant` `instance.SampleParticipant`
+    is an example of a `Participant` class, the syntax is similar to `SampleAsset.SampleTransaction`
+    is an example of a transaction `class.SampleEvent` is an example of an event class.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Script file (.js)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We define transactions and events in the model file, a script file that implements
+    these transaction functions. Decorators within *comments* are used to annotate
+    the functions with metadata required for transaction processing, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: In the `sampleTransaction` function, the `@param` tag is followed by the resource
+    name of the transaction that triggers the transaction processor function. `@transaction`
+    marks this function as a transaction processor function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Access control list (ACL) file (.acl)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'An ACL file defines the permission of the participants in the business network,
+    for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: In the preceding ACL example, it specifies that the participant is `SampleParticipant`.
+    Any instance registered as `SampleParticipant` can perform `ALL` operations on
+    all instances of `org.example.SampleAsset`. This transaction is triggered when
+    the `SampleAsset` owner is the same as the participant who submitted a transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Query file (.qry)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A query file defines the queries that are used to return data about the blockchain
+    world state. The query syntax is quite similar to SQL language, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: Designing business models
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that we have reviewed the basic composer model language and structure, it
+    is time to implement an insurance claim using Hyperledger Composer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For simplicity''s sake, we will allow participants to have permission to read
+    and write for all resources in this example. Remove the sample resource related
+    to ACL and update the rule as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'With simplified ACL, we start to work on our model file as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Rename `sample.cto` as `insurance-claim.cto`
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Change namespace to `com.packt.quickstart.claim` and remove the remaining code
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Define the participants and assets
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'We wrote a chaincode called `claimcontract.go` in [*Chapter 16*](d750faf6-ca67-49d3-b78b-5837c3789633.xhtml), *Exploring
+    an Enterprise Blockchain Application using Hyperledger Fabric*, that defines a
+    struct for insuree, broker insurer, and claim. We can define participants and
+    assets similar to this struct. It is quite straightforward, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Define the transactions and events. By using the `Init` function, we onboard
+    insuree, as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: Composer's JavaScript API provides CRUD to create resources, including the participant.
+    For the insurer and broker, we will use this approach. We will explain this in
+    more detail when we do testing.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Define `ReportLost`: An insuree reports a claim to a broker—this starts a claim,
+    as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Define `RequestedInfo`: A broker provides the requested information, as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Define `SubmitClaim`: A broker submits a claim to an issuer.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Define `ConfirmClaimSubmission`: An issuer confirms the claim.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Define `ApproveClaim`: An issuer process and approves the claim.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Step 8, 9, and 10 are transaction functions, and are very similar to step 7.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We have defined all of our transactions, participants, and assets in the model
+    file. As a next step, we will implement the transaction we defined in the model
+    file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Implementing the business transaction function
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We learned how to implement a transaction function in the previous section by
+    reviewing `SampleTransaction`. Following a similar approach, we will implement
+    an insurance claim transaction function. Rename `sample.js` to `logic.js`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Implement the `Init` function, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Implement `ReportLost` and, set up and create a claim, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Implement `RequestedInfo` to verify and update the claim status, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: Implement `SubmitClaim`, `ConfirmClaimSubmission`, and `ApproveClaim`. These
+    functions are similar to `RequestedInfo`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing in the playground
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We just implemented all model and logic files in the previous section, so it
+    is time to test our composer application:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Click on the Deploy changes button on the left bottom panel of the playground.
+    This will deploy the composer code.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Click Test link on the top navigation bar. It will pop up the submit transaction
+    page.  Select the  init method from the transaction type drop down. Enter the
+    JSON value, as shown in the following screenshot; the input data is the same as
+    what we tested in *[Chapter 16](d750faf6-ca67-49d3-b78b-5837c3789633.xhtml)*,
+    *Exploring an Enterprise Blockchain Application using Hyperledger Fabric*.  Instantiate
+    the fabric chaincode step. Submit the transaction, as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/ade5d17a-471c-4b00-b442-19f15a8df835.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'If transaction submission is successful, we will be able to see that the insuree
+    participant has been created, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3e4a61dc-1d58-4057-b796-0ab40df02d0b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now, let''s onboard the broker and insurer. Click company in the participant
+    section and click Create New Participant. Enter the broker data in, the same way
+    that we did it for the `chaincodeInvokeAddBroker` step in [*Chapter 16*](d750faf6-ca67-49d3-b78b-5837c3789633.xhtml), *Exploring
+    an Enterprise Blockchain Application using Hyperledger Fabric*. Click Create New, as
+    follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/afef3a92-82ec-41e6-9b7e-3c0a09325620.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'If the transaction submission succeeds, this will onboard the broker. Repeat
+    this same step to onboard the insurer, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c8586ea8-2954-48ef-a5eb-bf817085a477.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Submit `ReportLost`, as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/f75916ac-c3a1-4a37-86e6-f5dfb8cee350.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Here is the result:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/caaca3a7-320c-4f2f-a4e9-ed695393111f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Test `RequestedInfo` with the following result:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/7ce12e84-562c-4888-9674-18aac15154d1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The remaining steps (`SubmitClaim`, `ConfirmClaimSubmission`, and `ApproveClaim`)
+    are very similar to `RequestedInfo`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Deploying a business network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We have tested the composer application in the playground, so next we will
+    deploy it to the blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Create a folder called `insurance-claim-network`, and navigate to the folder.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Generate a business network project template, as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'It will prompt a few questions. Enter `insurance-claim-network` as the network
+    name and choose the empty template network, as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d5a8d81c-eb8e-4ed6-bc0f-8d6ab44dfecf.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This will generate a few files with a default template. Replace the contents
+    of `com.packt.quickstart
+  prefs: []
+  type: TYPE_NORMAL
+- en: .claim.cto` with our earlier tested model file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Create a new folder called `lib`, under the `lib` folder, and copy the tested
+    `logic.js` in here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Replace `permissions.acl` with the tested `acl` file, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d5be1d79-2180-4395-b6e3-7c2a45192f5f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Start Hyperledger Fabric, as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This will create `PeerAdminCard`, as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/219ceaff-176a-4400-bc92-f00cab9c992a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Generate a business network archive. From the `insurance-claim-network` directory,
+    run the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: This will generate `insurance-claim-network@0.0.1.bna`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Install the business network. From the `insurance-claim-network` directory,
+    run the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Start the business network. From the `insurance-claim-network` directory, run
+    the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Import the network admin card. From the `insurance-claim-network` in directory,
+    run the following command. This will import `insurance-claim-network` to the network:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Check if the business network has been deployed successfully. From the `insurance-claim-network`
+    directory, run the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The result should look as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3c254c5e-e792-4b67-b58c-e23ddb966d9c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Checking if the business network been deployed successfully
+  prefs: []
+  type: TYPE_NORMAL
+- en: Integrating with REST server
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We just deployed `insurance-claim-network` in the fabric network. The next step
+    is to build an insurance-claim client API to interact with the smart contract
+    function in the network. The Hyperledger Composer REST server can be used to generate
+    a REST API. A REST client can call these end point functions and interact with
+    the business network chaincode from the Fabric blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Generating the Hyperledger Composer REST API
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Run the following command to generate a composer server API:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Enter `admin@insurance-claim-network` from the business network card, as shown
+    in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0560aa28-be3c-4859-87c6-bb1dbd231d07.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Entering business network card
+  prefs: []
+  type: TYPE_NORMAL
+- en: This will a generate the REST API and expose it as `http://serverIP:3000` and
+    `http:// serverIP:3000/explorer`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Open the explore URL. You will see the generated REST endpoints, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ed44ad1c-4331-47d1-b643-c4ab503c1b71.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Let's try a number of methods to demonstrate how these endpoints interact with
+    the fabric network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Select the `init Post` method from endpoints, provide the post JSON data, and
+    click the  Try it out! button. The example of JSON data is shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is a screenshot that shows the result after clicking the Try it out! button:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7c0c3f7c-85ce-43b3-9c53-43395bda5c3f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Example of JSON data
+  prefs: []
+  type: TYPE_NORMAL
+- en: The API will call the `Init` chaincode in the fabric network and return the
+    response to the browser.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Select a company using a post method to create an insuree. Enter this JSON
+    request as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You should see a successful response, similar to the one shown in the following
+    screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/90c1faae-273d-4137-ae1e-fbbdf8423c48.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Selecting a company using a post method to create insuree, enter this JSON request
+  prefs: []
+  type: TYPE_NORMAL
+- en: Select the `ReportLost Post` method from endpoints, provide the post JSON data,
+    and click **T**ry it out!**:**
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: You should see a success response back from the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To verify that the claim was successfully created in the network, you can select
+    the claim get method and click Try it out! You should be able to get the claim
+    result, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/309cda11-a8a9-469a-94b6-2413fd67ca36.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Verifying if the claim was sucessfully created in the network
+  prefs: []
+  type: TYPE_NORMAL
+- en: Other insurance claims endpoint APIs will be quite similar to the ones we have
+    explored.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We have reached the end of this chapter. In this chapter, we have overviewed
+    Hyperledger Composer and installed the related tools. We used composer model language
+    to develop the same insurance claim use case as in [*Chapter 16*](d750faf6-ca67-49d3-b78b-5837c3789633.xhtml), *Exploring
+    an Enterprise Blockchain Application Using Hyperledger Fabric*, and deployed it
+    to the fabric network. Lastly, we integrated the application with a composer REST
+    server to generate a client API and interacted with these APIs from the web.
+  prefs: []
+  type: TYPE_NORMAL
+- en: At this point, you should be comfortable working with Hyperledger Composer.
+    Now that we're at the end of this chapter, we have learned about the two most
+    popular public and enterprise blockchains. As a blockchain developer, you should
+    have the basic blockchain knowledge to be able to write your blockchain application.
+    In the next chapter, we will discuss the various real world blockchain use cases.
+  prefs: []
+  type: TYPE_NORMAL

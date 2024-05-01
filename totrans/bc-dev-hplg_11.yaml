@@ -1,0 +1,899 @@
+- en: Hyperledger Fabric Security
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric is a modular blockchain system. It has been designed to allow
+    a known set of actors to participate and perform actions in a blockchain network
+    (the so-called **permissioned blockchain**). Due to its modular nature, it can
+    be deployed in many different configurations. Different deployment configurations
+    of Hyperledger Fabric have different security implications for the operator of
+    the network, as well its users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: At its core, Hyperledger Fabric is a **public key infrastructure** (**PKI**)
+    system and thus it inherits the security (and complexity) associated with such
+    systems. At the time of writing this book, Hyperledger Fabric v1.1 has been released.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The security aspects of designing and implementing a blockchain network has
+    been discussed in earlier application chapters, we intend to give a broader as
+    well as a more in-depth view of the security features of Hyperledger Fabric here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We will be covering the following topics in this chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Design goals impacting security
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric architecture recap
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Network bootstrap and governance – the first step towards security
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Strong identities – the key to the security of the Hyperledger Fabric network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Chain code security
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Common security threats and how Hyperledger Fabric mitigates them
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric and quantum computing
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: General data protection regulation (GDPR) considerations
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric design goals impacting security
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To understand the security of Hyperledger Fabric, it is important to state
+    the key design goals that impact security:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Existing members should determine how to add new members in the network**: The
+    admission of new entities in the network must be agreed upon by existing entities
+    in the network. This principle is at the foundation of creating a permissioned
+    blockchain. Instead of allowing any entity to download software and connect to
+    the network, network members must agree upon a policy to admit new members (e.g.,
+    by majority vote), which is then enforced by Hyperledger Fabric. Upon a successful
+    vote, the digital credentials of a new member can be added to an existing network.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Existing members should determine how to update configuration/smart contract**: Similar
+    to the first item, any change in the configuration of the network or deploying
+    or instantiating a smart contract has to be agreed upon by the network members.
+    Taken together, the first and second points give Hyperledger Fabric the capability
+    to perform a permissioned blockchain.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**The ledger and its associated smart contracts (chaincode) may be scoped to
+    relevant peers to meet broader privacy and confidentiality requirements**: In
+    public blockchain networks, all nodes have a copy of the blockchain ledger and
+    execute smart contracts. To maintain confidentiality and scoping, it is necessary
+    to create groups of peers that store the ledger associated with their transactions
+    (channels and channel private data in Hyperledger Fabric). The smart contracts
+    (chaincode in Hyperledger Fabric) that update such a ledger will be scoped to
+    the members of such a group.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Only members participating in a channel have to determine how to update the
+    configuration of that channel.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Smart contracts can be written in a general purpose language**: One of the
+    main design goals of Hyperledger Fabric is to allow smart contracts to be written
+    in general purpose languages such as Go and JavaScript. Obviously, allowing general
+    purpose languages for smart contract execution exposes the system to a variety
+    of security issues if there is no governance and process in place to verify and
+    deploy smart contracts before execution. Even then, smart contracts written in
+    a general purpose language should be reasonably isolated to limit the harm they
+    may inadvertently cause.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Transaction integrity must be ensured**: A transaction is an execution of
+    smart contract. The transactions must be created and stored in a way which will
+    prevent them from being tampered with by other peers or will make it easy to detect
+    any tampering. Typically, ensuring transaction integrity requires the use of cryptographic
+    primitives.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Industry standards should be leveraged**: The system should leverage industry
+    standards for asserting digital identities (for example, X.509 certificates),
+    as well as for communication among peers (for example, TLS and gRPC).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consensus separation from transaction execution and validation**: Existing
+    blockchain networks combine transaction execution and validation with achieving
+    consensus among nodes of a blockchain network. This tight coupling makes it difficult
+    to achieve pluggability of the consensus algorithm.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Pluggability everywhere**: The system should have a modular design, and each
+    module should be pluggable through standard interfaces. The ability to plug in
+    modules specific to a network gives Hyperledger Fabric the flexibility to be used
+    in a variety of settings. However, this pluggability also implies that two different
+    instantiations of blockchain networks based on Hyperledger Fabric may possess
+    different security properties.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To understand how these principles impact the security of Hyperledger Fabric,
+    we will briefly explain the architecture of Hyperledger Fabric. Refer to earlier
+    chapters for an in-depth architecture.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The Hyperledger Fabric architecture can be illustrated as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/df02a5fc-f6f4-4f1f-87c3-9bc2e5b08967.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Hyperledger Fabric architecture
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fabric CA or membership service provider
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The **membership service provider** (**MSP**) is responsible for creating digital
+    identities for peers and users of the organization. The identities of peers must
+    be configured in an existing network in order for a new entity to participate
+    in the channel.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fabric CA is an implementation of the MSP and provides a mechanism for registering
+    users from a network member and issuing them digital identities (X.509 certificates).
+    Fabric CA typically runs inside a Docker container. Each Fabric CA is configured
+    with a backend database (the default being SQLite, with other options, such as
+    PostgreSQL or MySQL) which stores the registered identities, as well as their
+    X.509 certificates. Fabric CA does not store the private keys of the users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Peer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A peer is an entity that participates in a Hyperledger Fabric network. Its identity
+    is determined from its corresponding membership service provider. A peer is responsible
+    for deploying and instantiating chaincode, updating the ledger, interacting with
+    other peers to share private data associated with transactions, and interacting
+    with the ordering service as well as smart contracts (chain code, in the preceding
+    screenshot) that it runs. Similar to Fabric CA, a peer also typically runs inside
+    a Docker container.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contract or chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Smart contract** (**SC**) is application logic, written in a high-level language,
+    such as Go or JavaScript; when successfully executed, it reads or writes data
+    that eventually gets committed to the ledger. A smart contract does not have direct
+    access to the ledger. A peer can deploy zero or more smart contracts that run
+    as Docker containers. A peer can also deploy multiple versions of a smart contract.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ledger
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Each peer maintains a digital ledger, which contains a record of all committed
+    transactions that a peer has received. The entries in the ledger are stored as
+    key/value pairs. Updates to the same key will replace the current value of a key
+    with a new value. The old value, of course, will stay in the ledger. To provide
+    efficient querying of the latest value of a key, a node can store the latest value
+    of each key in a database such as `CouchDB`. This database is referred to as a
+    world state in Hyperledger Fabric.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Note that a peer will only receive blocks to commit to its ledger from the channels
+    that it participates in.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A peer can be part of zero or more channels— the channels are not shown in the
+    preceding diagram showing Hyperledge Fabric architecture.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private data
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: With Hyperledger Fabric v1.1, peers can choose to selectively share private
+    data with a subset of peers in the channel through the chain private data experimental
+    feature ([https://jira.hyperledger.org/browse/FAB-1151](https://jira.hyperledger.org/browse/FAB-1151)).
+    The blocks on the ledger only contain hashes of such data, while the private data
+    is stored off the ledger in a private state database.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ordering service
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The ordering service is responsible for receiving the executed transactions
+    from peers, combining them into blocks, and broadcasting them to other peers on
+    the same channel. The peers receiving the transaction blocks then validate it
+    before committing it to their ledger. It is the responsibility of the ordering
+    service to not mix the blocks intended for one channel on another channel.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In version 1.0 of Hyperledger Fabric, the peers would send a transaction (keys
+    and associated values, along with the read/write set) to the ordering service.
+    Thus, the ordering service had visibility into all data associated with transactions,
+    which had implications from a confidentiality standpoint. In version 1.1 of Hyperledger
+    Fabric, the client can send hashes of the transaction data (input and read/write
+    set) to the ordering service while transferring the data associated with a transaction
+    directly to the relevant peers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Presently, the ordering service is implemented using Kafka and is **crash fault
+    tolerant** (**CFT**), but not **Byzantine Fault Tolerant** (**BFT**). But this
+    is a point in time statement as HyperLedger is purported to be pluggable that
+    includes the consensus service. Pluggability implies that in future other consensus
+    models may be available.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Although now shown in the diagram depicting Hyperledger Fabric architecture,
+    peers, orderers, and fabric use a pluggable cryptography service provider, which
+    allows them to plug in new crypto algorithms as well as hardware security modules
+    (HSMs) ([https://en.wikipedia.org/wiki/Hardware_security_module](https://en.wikipedia.org/wiki/Hardware_security_module))
+    for managing crypto keys.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network bootstrap and governance – the first step towards security
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'When organizations decide to form a permissioned private blockchain network
+    using Hyperledger Fabric, they need to consider several governance aspects, which
+    will ultimately determine the overall security posture of the network. These governance
+    aspects include, but are not limited to the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**How shall the network be bootstrapped and the members verified to create
+    the network?** Network bootstrap is the first step in creating a blockchain network.
+    Different entities may come together to create a network. The entities may have
+    an out-of-band communication to agree upon with the first set of members and establish
+    governance policies, which will be discussed next.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**What is the process for a new entity to join the network (or a channel)?** Defining
+    a policy for admitting new members in the network is paramount and is governed
+    by the business needs of the network.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Who can deploy and upgrade chaincodes on peers in the network?** Defining
+    a process is important to prevent a malicious or buggy chaincode from being installed
+    on one or more peers (see [*Chapter 7*](2e166a5f-eff3-4317-9a8f-fb74bdb68915.xhtml),
+    *A Business Network Example*).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**What is the data model that will be stored on the blockchain?** Members must
+    agree upon a common data model that will be stored in the blockchain; the blockchain
+    cannot be useful to its members otherwise. The data model should be devised so
+    that it does not run afoul of any compliance regulations, such as **general data
+    protection regulations** (**GDPR**) ([https://gdpr-info.eu/](https://gdpr-info.eu/)).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Creating the network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'When entities decide to create a network, they must decide on the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Who will run the ordering service
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How many different instances of ordering service will be in the network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The role of the ordering service is critical because, depending on the configuration,
+    it has visibility into transaction hashes or the transaction data across all channels
+    that flow through it. Thus, the entities deciding to form a network may choose
+    to trust one of the entities to act as the ordering service; they may also decide
+    to trust a neutral third party to run the ordering service.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The ordering service can view all transactions (hashes or key/value pairs) across
+    all channels that it serves. Thus, if it is necessary to hide the transaction
+    data from the ordering service, only hashes of the read/write set in a transaction
+    should be sent to the ordering service while exchanging the data directly between
+    peers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once an ordering service has been established for a network, it must be configured
+    with the digital identities of peers of founding members. This is typically done
+    by configuring the digital certificates of peers in the ordering service genesis
+    blocks. The peers must also be configured with the digital identity of the ordering
+    service.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Adding new members
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The founding members at the time of creation of a network or a channel must
+    also define the policy on how new members will be admitted into the network or
+    a channel. By default, this policy is simply the one chosen by the majority (namely
+    two out of two, two out of three, three out of four, and so on). The members may
+    decide on any other policy for admitting new members in the network. Any change
+    in the policy to admit new members will typically be decided through a business
+    agreement. Once an agreement is reached, the channel configuration can be updated
+    per the current policy to reflect the new policy for admitting new members.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The creation of the genesis block, as well as subsequent transactions to update
+    configurations, are privileged operations, and must be approved by the peer administrator
+    before being confirmed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Deploying and updating chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Once members have decided to participate in a channel, they may choose to deploy
+    and instantiate chaincode (a.k.a smart contract). A chaincode defines how key/value
+    pairs which are scoped to a channel will be updated or read from. A chaincode
+    can define its endorsement policy—that is, it may require a digital signature
+    from some or all peers in the network. Due to the permissioned nature of Hyperledger
+    Fabric, a chaincode requiring a digital signature from a peer (endorsement) must
+    be installed and instantiated on a peer. See [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml), *Exposing
+    Network Assets and Transactions* and *[Chapter 7](2e166a5f-eff3-4317-9a8f-fb74bdb68915.xhtml)*, *A
+    Business Network Example*, for more details on deploying chaincode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Before deploying chaincode on a channel, it is expected that network members
+    will want to review the chaincode to ensure that it conforms to their policy.
+    This process can be formalized into chaincode governance to require mandatory
+    reviews from all relevant members who will instantiate the chaincode on their
+    nodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Establish a process for deploying chaincode on your peer, including manual reviews
+    and the verification of a digital signature of the chaincode author.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Data model
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The entities must agree upon a data model that will be stored in a blockchain,
+    which in turn is determined by the chaincode. The founding members of a network
+    or a channel deploying a chaincode will determine the key/value pairs that get
+    stored in a channel. Furthermore, the member will decide which data they will
+    share with other members, and which data they will keep private to themselves
+    or a subset of members. The data model should be devised so that it is useful
+    for the business functions that members desire to accomplish, is reasonably future-proof,
+    and does not inadvertently leak information. Recall that all participating peers
+    in a channel store the committed transactions (and their key/value pairs).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Establish a process for defining the data model that will be stored in a channel.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The preceding steps can be summarized as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Determine who will run the ordering service
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Configure digital identities of founding members in the ordering service
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Create channels and determine the channel policy for admitting new members
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Define the governance for writing, distributing, deploying, and instantiating
+    chaincode
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Establish the data model
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Strong identities – the key to the security of the Hyperledger Fabric network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Strong identities are at the heart of Hyperledger Fabric security. Creating,
+    managing, and revoking these identities is critical to the operational security
+    of Hyperledger Fabric-based deployment. The identities are issued by a MSP. As
+    shown in the previous Hyperledger Fabric architecture diagram, one logical MSP
+    is typically associated with one peer. An MSP can issue any appropriate cryptographically
+    signed identities. Hyperledger Fabric ships with a default MSP, (Fabric CA), which
+    issues X.509 certificates to the authenticated entities.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bootstrapping Fabric CA
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Fabric CA can be configured with a LDAP server or run in a standalone mode.
+    When running in a standalone mode, it must be configured with a bootstrap identity
+    that gets stored in the backend database of Fabric CA. By default, a SQLite database
+    is used but, for production usages, a PostgreSQL or a MySQL database can be configured.
+    Typically, the connection between the Fabric CA server and its database is over
+    TLS if a standalone server is used.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For the rest of the chapter, we will refer to the bootstrap entity when running
+    without the LDAP server as the `ca-admin`. The `ca-admin` and its password must
+    be supplied on a bootstrap of the Fabric CA, when running without LDAP server.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In order for the `ca-admin` to interact with the server, it must submit a **certificate
+    signing request** (**CSR**) to the Fabric CA server to obtain a X.509 certificate.
+    This process is called **enrolling an identity**, or simply **enroll**. With a
+    X.509 certificate in possession, the `ca-admin` can then add other users, which
+    we will explain next.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Keep the password of the admin user in a safe and secure place since this is
+    the `root` user of your organization. Treat it as securely as you would treat
+    the password of a `root` Linux user. Use it to create a new user with appropriate
+    permissions, but never use this user for any other operation, except in the case
+    of a security breach, where this user can be used to revoke the certs of all enrolled
+    entities.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fabric CA provides two key operations in the system, namely register and enroll.
+    We will explain these operations next.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Register
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The register operation adds a new entity specified by an identifier to Fabric
+    CA. The register operation does not create a X.509 certificate for the user; that
+    happens in the enroll operation. It is up to the administrator of the Fabric CA
+    to define the policies and procedures for adding new users to the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There are some important points to consider while registering the users:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: If a policy is to register an email address then, upon subsequent enrollment,
+    the user's email address will be encoded in the certificate. In Hyperledger Fabric,
+    the certificate of the user issuing the transaction is stored in the ledger along
+    with the committed transaction. Anyone can decode the certificate and determine
+    the email address.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Carefully determine how new entities will be registered within a Fabric CA,
+    as their digital certificates will end up in the ledger when these entities issue
+    transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Another important point to consider is how many enrollments are allowed for
+    that user. Each enrollment results in a new certificate being issued to the user.
+    In Hyperledger Fabric, a new user being registered can be enrolled a finite number
+    of times, or can have unlimited enrollments. Typically, a new entity being enrolled
+    should not be configured with unlimited number of enrollments.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It is best to set the maximum number of enrollments to 1 for a new user. This
+    setting ensures that there is 1-1 correspondence between an entity and its digital
+    certificate, thus making management of entity revocation easier.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With Hyperledger Fabric 1.1, it is now possible to define attributes for entities
+    at the time of their registration. These attributes are then encoded in the X.509
+    certificate of an entity.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: When used in standalone mode, upon successful registration, Fabric CA will create
+    a unique password (if not supplied during registration). The `ca-admin` can then
+    pass this password to the entity being registered, which will then use it to create
+    a CSR and obtain a certificate through the enroll operation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Default Fabric roles
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To register an entity in the Fabric CA, an entity should have a set of roles.
+    Fabric CA is configured with the following default roles:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'A Fabric CA can register any entity that has one of these roles:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'A Fabric CA can revoke a role:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'A Fabric CA can also register an intermediate CA:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: To register an identity in Fabric CA, an entity must have the `hf.Registrar`.
+    Roles are attributed with a comma-separated list of values, where one of the values
+    equals the type of identity being registered.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Secondly, the affiliation of the invoker's identity must be equal to or a prefix
+    of the affiliation of the identity being registered. For example, an invoker with
+    an affiliation of `a.b` may register an identity with an affiliation of `a.b.c`,
+    but may not register an identity with an affiliation of `a.c`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Enroll
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The entity in possession of an ID and secret can then enroll itself with Fabric
+    CA. To do so, it generates a public/private key pair, creates a CSR, and sends
+    that to Fabric CA along with the registered ID and secret in the `Authorization`
+    header. Upon successful authentication, the server returns an X.509 certificate
+    to the entity being enrolled. The entity sending the enroll request is responsible
+    for managing the private key. These private keys should be stored in a secure
+    fashion (such as a hardware security module).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Which crypto protocols are allowed in certificate signing requests?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The CSR can be customized to generate X.509 certificates and keys that support
+    the **Elliptic Curve Digital Signature Algorithm** (**ECDSA**). The following
+    key sizes and algorithms are supported:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Size** | **ASN1 OID** | **Signature Algorithm** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| --- | --- | --- |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 256 | prime256v1 | ecdsa-with-SHA256 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 384 | secp384r1 | ecdsa-with-SHA384 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 521 | secp521r1 | ecdsa-with-SHA512 |'
+  prefs: []
+  type: TYPE_TB
+- en: Revoking identities
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Since Hyperledger Fabric is a PKI system, identities that must be removed from
+    the system have to be explicitly revoked. This is done through standard **certificate
+    revocation lists** (**CRLs**). The CRLs need to be synchronized across all organizations
+    to ensure that everyone detects the revoked certificate. The distribution of CRLs
+    to other peers requires out of band mechanisms.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Practical considerations in managing users in Fabric CA
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Typically, an organization has its own identity (LDAP) server for managing its
+    employees. An organization may choose to participate in one or more Hyperledger
+    Fabric networks, but only a subset of its employees may be onboarded to each network.
+    The administrator of Fabric CA for each network may choose to register a subset
+    of employees in each network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since an employee must generate and manage a private key to successfully participate
+    in a Hyperledger Fabric network, the responsibility of managing the private key
+    and its corresponding digital certificate lies with the employee of an organization.
+    Managing private keys and digital certificates is non-trivial, and this can place
+    an undue burden on an employee and may lead to inadvertent key exposures by the
+    employee. Since an employee needs to remember their organization issued credentials
+    (e.g., username and password) to log on to the organization systems, an organization
+    can choose to manage the private keys and certificates on behalf of its employees
+    that participate in one or more Hyperledger Fabric networks. Depending on the
+    industry, the private keys may be stored in hardware security modules, which will
+    make it infeasible to tamper with the keys. The precise configuration of hardware
+    security modules is beyond the scope of this chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincode security
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In Fabric, smart contracts, also known as **chaincode**, can be written in Go
+    or JavaScript. The chaincodes must be installed on a peer and then explicitly
+    initiated. When initiated, each code runs in a separate Docker container. The
+    previous versions of chaincode also run in separate Docker containers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Docker container running the chaincode has access to the virtual network
+    as well as the entire networking stack. If care is not taken in carefully reviewing
+    the chaincode before it gets installed on the peer, and isolating the network
+    access for that chaincode, it could result in a malicious or misconfigured node
+    probing or attaching the peer attached to the same virtual network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: An operator can configure a policy to disable all outgoing or incoming network
+    traffic on the chaincode Docker containers, except white-listed nodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: How is chaincode shared with other endorsing peers?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Organizations must establish a process for sharing chaincode with other other
+    organizations participating in a Hyperledger Fabric network. Since the chaincode
+    must be installed on all endorsing peers, it is necessary to ensure the integrity
+    of the chaincode through cryptographic mechanisms while sharing it with other
+    peers. Please refer to [*Chapter 8*](112a5075-378d-4bb0-9b9e-db81c18a35f5.xhtml),
+    *Agility in a Blockchain Network*, for more details on the approach to share the
+    chaincode This issue was also highlighted in the security assessment of Hyperledger
+    Fabric conducted by Nettitude  [https://wiki.hyperledger.org/_media/security/technical_report_linux_foundation_fabric_august_2017_v1.1.pdf](https://wiki.hyperledger.org/_media/security/technical_report_linux_foundation_fabric_august_2017_v1.1.pdf)
+  prefs: []
+  type: TYPE_NORMAL
+- en: Who can install chaincode?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To install chaincode on a peer, an entity's certificate must be installed on
+    the node (stored in the local MSP) of the peer. Since installing chaincode is
+    a highly privileged operation, care should be taken that only entities with administrative
+    capabilities have the ability to perform this operation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincode encryption
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: An entity can choose to encrypt the key/value pairs by using an AES encryption
+    key at the time of chaincode invocation ([https://github.com/hyperledger/fabric/tree/master/examples/chaincode/go/enccc_example](https://github.com/hyperledger/fabric/tree/master/examples/chaincode/go/enccc_example)).
+    The encryption key is passed to the chaincode, which then encrypts the values
+    before sending them in a proposal. The entities that need to decrypt the value
+    (for example, to endorse a transaction) must be in possession of a key. It is
+    expected that such encryption keys are then shared with other peers in an out-of-band
+    manner.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Attribute-based access control
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As you may remember from [*Chapter 4*](a557efde-d161-4451-b5ee-cb3e481010be.xhtml),
+    *Designing a Data and Transaction Model with Golang*, one of the new features
+    added with Hyperledger 1.1 is attribute-based access control. At the time of registering
+    an entity, attributes can be specified for an entity, which then are added to
+    the X.509 certificate upon enrollment. Examples of attributes include a role name
+    such as an "auditor" that is agreed upon by the organizations participating in
+    the network. When chaincode is executed, it can check if an identity has certain
+    attributes before the invoke or query operation. At a simple level, this allows
+    application-level attributes to be passed down into chaincode through a X.509
+    certificate.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Pros and cons of attribute-based access control
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Encoding attributes in certificates has its own set of pros and cons. On one
+    hand, all the information associated with an identity is encoded in the certificate,
+    thus decisions can be made based on attributes. On the other hand, if an attribute
+    has to be updated, for example, a user moves to a different department, the existing
+    certificate must be revoked, and a new certificate has to be issued with a new
+    set of attributes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Common threats and how Hyperledger Fabric mitigates them
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Hyperledger Fabric provides protection against some of the most common security
+    threats, and assumes a shared responsibility model for addressing others. In the
+    following table, we will summarize the most common security threats, whether Hyperledger
+    Fabric addresses them and how or whether it is the responsibility of a node/network
+    operator to address them:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Threat** | **Description** | **Hyperledger Fabric** | **Network/Node Operator**
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Spoofing | Use of a token or other credential to pretend to be an authorized
+    user, or compromise a user''s private key. | Fabric certificate authority generates
+    X.509 certificates for its members. | Manage certificate revocation list distribution
+    among network participants to ensure that revoked members can no longer access
+    the system. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Tampering | Modify information (for example, an entry in the database). |
+    Use of cryptographic measures (SHA256, ECDSA) make tampering infeasible. | Derived
+    from Fabric. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Repudiation | An entity cannot deny who did what. | Tracks who did what using
+    digital signatures. | Derived from Fabric. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Replay attacks | Replay the transactions to corrupt the ledger. | Hyperledger
+    Fabric uses read/write sets to validate the transaction. A replay of transactions
+    will fail due to an invalid read set. | Derived from Fabric. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Information disclosure | Data exposed through intentional breach or accidental
+    exposure. | Hyperledger Fabric provides support for using TLSv1.2 for in-transit
+    encryption. It does not encrypt ledger data at rest (the operator''s responsibility).Information
+    about all peers in the system and their transactions is exposed to the ordering
+    service. | It is the operator''s responsibility to prevent information disclosure
+    by following information security best practices as well as at-rest encryption.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Denial of service | Makes it difficult for legitimate users to access the
+    system. | It is the operator''s responsibility. | It is the operator''s responsibility
+    to prevent denial of service to the system. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Elevation of Privileges | Gain high level access to the application. | Issued
+    identities cannot upgrade their access (for example, create an identity) without
+    manual review of access. | Hyperledger Fabric runs chaincode in Docker containers.
+    It is the responsibility of the network/node operator to limit access and run
+    chaincode containers with appropriate restrictions. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Ransomware | Using cryptographic or other means to prevent access to data
+    on the file system. | It is the operator''s responsibility. | It is the operator''s
+    responsibility to ensure that ransomware cannot prevent access to a node''s ledger.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: Transaction privacy in Hyperledger Fabric
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: One of the main design considerations for Hyperledger Fabric is to provide privacy
+    and confidentiality of transactions. Hyperledger Fabric provides a number of knobs
+    to achieve these goals.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Channels
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A Hyperledger Fabric node that only intends to share data with a subset of nodes
+    in the network can do so through channels. In these cases, only peers that participate
+    in the channel can store transaction data; the peers that are not part of the
+    channel do not have visibility into the transaction data, and thus cannot store
+    it. However, this data is exposed to the ordering service. A robust Channel design
+    will address the isolation, data privacy and confidentiality between participants
+    and controlled/permissioned access with robust audit capability.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private data
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Peers in a channel can choose to determine which other peers they will share
+    their data with. The private transaction data is passed peer-to-peer between the
+    peers, while only the hashes of the transaction data are broadcasted to the ordering
+    services and to peers with whom this data is not shared with.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Encrypting transaction data
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Peers can also choose to encrypt the transaction data before sending it for
+    endorsements. However, it may be necessary for peers endorsing the transaction
+    to view the data. An out-of-band mechanism must be used to exchange encryption
+    keys between such peers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric and Quantum Computing
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric uses elliptic curve cryptography for digitally signing that
+    transactions. The elliptic curve cryptography relies on mathematical techniques
+    which can be sped up using quantum computing ([https://en.wikipedia.org/wiki/Post-quantum_cryptography](https://en.wikipedia.org/wiki/Post-quantum_cryptography)).
+    However, Hyperledger Fabric provides a pluggable cryptographic provider, which
+    allows replacing these algorithms for digital signatures with others. Moreover,
+    per the director of Information Technology Lab at NIST, the impact of quantum
+    computing on the security of blockchain systems is at least 15 to 30 years from
+    becoming a reality ([https://www.coindesk.com/dc-blockchain-hearing-sees-call-for-congressional-commission/](https://www.coindesk.com/dc-blockchain-hearing-sees-call-for-congressional-commission/)).
+  prefs: []
+  type: TYPE_NORMAL
+- en: General data protection regulation (GDPR) considerations
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**General Data Protection Regulation** (**GDPR**) ([https://gdpr-info.eu/](https://gdpr-info.eu/))
+    is an EU law that defines how personal data is acquired, processed, and ultimately
+    erased from a computing system. The definition of personal data in GDPR is quite
+    broad—examples include name, email address, and IP address.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain, by design, creates an immutable, permanent, and replicated record
+    of the data. A blockchain network based on Hyperledger Fabric will obviously encompass
+    these three properties. Thus storing personal data on a blockchain network which
+    cannot be deleted or modified can be challenging from the perspective of GDPR.
+    Similarly, it is important to know who that personal data is shared with.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The channel and the channel private data feature of Hyperledger Fabric provides
+    a mechanism for determining the entities with which data is shared. In the case
+    of channel private data, the data is never stored on a blockchain, but its cryptographic
+    hashes are stored on the chain. Though a governance process, peers can determine
+    the other peers to share this data with. The channel private data feature in Hyperledger
+    Fabric can potentially provide a mechanism to store personal data off the chain,
+    determining who this data is shared with, while maintaining the integrity of this
+    data through cryptographic hashes stored in the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric also stores the X.509 certificate of the entity creating
+    the transaction in the digital ledger. These X.509 certificates can contain personal
+    data. With version 1.1, Hyperledger Fabric provides a mechanism to prove the identity
+    based on zero knowledge proofs, while hiding the actual value of the attribute.
+    These zero-knowledge proof-based credentials are then stored in the ledger in
+    lieu of a traditional X.509 certificate and can potentially help towards GDPR
+    compliance.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we first covered design goals of Hyperledger Fabric that are
+    tied to security. All the sets of points which were described are considered to
+    keep Fabric security in mind. We briefly studied the Hyperledger Fabric Security
+    and understood how strong identities are at the heart of Fabric security. We also
+    took a look at chaincode security.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger, by itself, is adept at handling threats. We dove into the common
+    Hyperledger security threats and how Fabric mitigates them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We also briefly looked at the impact of quantum computing on Hyperledger Fabric.
+  prefs: []
+  type: TYPE_NORMAL

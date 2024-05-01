@@ -1,0 +1,2154 @@
+- en: Exposing Network Assets and Transactions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: If you have reached this far, congratulations! You have built the core of your
+    blockchain application and the smart contract that directly reads, and more importantly,
+    manipulates, the ledger that is the System-of-Record for your network. But, you
+    are not close to finishing yet. As you can imagine, the contract is a sensitive
+    piece of code that must be protected from misuse or tampering.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To produce a robust and secure application that is safe to release to business
+    users, you must wrap the smart contract with one or more layers of protection
+    and engineer it as a service that clients can access remotely through appropriate
+    safeguards. In addition, the various stakeholders that wish to share a ledger
+    and a smart contract may have unique and specific business logic needs that only
+    they, and not the others, need to implement over and above the contract. For this
+    reason, one blockchain application running one smart contract may end up offering
+    different views and capabilities to different stakeholders.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this chapter, you will first learn how to build a complete blockchain application
+    from the ground up using our trade application as a guide and example. Later,
+    you will learn about the various considerations that go into designing this application
+    for a scenario of your choice and how to integrate that application with existing
+    systems and processes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The topics that will be covered in this chapter are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building a complete application
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Integrating the application with existing systems and processes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building a complete application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, you will learn how to build a complete application around the
+    core smart contract that can be readily used by the business entities that have
+    joined together to form a network. We will begin with a recap of the Hyperledger
+    Fabric transaction pipeline to remind the reader what (and how) a blockchain application
+    does from the perspective of the user (or client). Using code samples, we will
+    show you how to build, design, and organize a network around the needs of business
+    entities, create appropriate configurations, and effect the different stages of
+    a blockchain transaction from start to finish. At the end of this process, the
+    reader will understand how to engineer a Fabric application and expose its capabilities
+    through a simple web interface. The only asset we need to possess in the beginning
+    of this chapter is the contract, or chaincode, which was developed using either
+    hands-on Go programming (see [*Chapter 4*](a557efde-d161-4451-b5ee-cb3e481010be.xhtml), *Designing
+    a data and transaction model with Golang*).
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the back-end of this chapter, we will guide the experienced enterprise developer
+    through more advanced topics, such as service design patterns, reliability, and
+    other common engineering concerns. Although these concerns apply to every distributed
+    application, we will discuss the special needs and issues of blockchain-based
+    applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The nature of a Hyperledger Fabric application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In earlier chapters, we saw how Hyperledger Fabric can be viewed as a distributed
+    transaction processing system, with a staged pipeline of operations that may eventually
+    result in a change to the state of the shared replicated ledger maintained by
+    the network peers. To the developer, a blockchain application is a collection
+    of processes through which a user may submit transactions to, or read state from,
+    a smart contract. Under the cover, the developer must channel a user request into
+    the different stages of the transaction pipeline and extract results to provide
+    feedback at the end of the process. Essentially, it is the application developer's
+    job to implement one or more layers of wrappers around the smart contract, regardless
+    of whether the contract was implemented by hand (see [*Chapter 4*](a557efde-d161-4451-b5ee-cb3e481010be.xhtml), *Designing
+    a data and transaction model with Golang*) or using Hyperledger Composer (see
+     [*Chapter 6*](a016f64e-9db7-44d4-a393-f9797d0b1e6f.xhtml), *Business Networks*).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'An application developed with the smart contract (or the asset-entity model)
+    at its core can be viewed as a transaction-processing database application with
+    a set of views or a service API. However, the developer must keep in mind that
+    every Hyperledger Fabric transaction is asynchronous, that is, the result of the
+    transaction will not be available in the same communication session that it was
+    submitted in. This is because, as we have seen in previous chapters, a transaction
+    must be collectively approved by the peers in the network through consensus. As
+    such, consensus may potentially take an unbounded amount of time, and the communication
+    of a transaction result is designed as a publish/subscribe mechanism. The following
+    diagram illustrates the blockchain application and transaction pipeline from the
+    perspective of the developer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/89fa0e47-d4c1-475e-9c6f-1d256edffb9b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 5.1: The stages in the creation and operation of a blockchain application'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next section, the operations mentioned in this diagram will be described
+    in more detail and mapped to specific Fabric mechanisms.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Application and transaction stages
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The first step in the creation of an application is the instantiation of the
+    blockchain, or the shared ledger itself. In Fabric parlance, an instance of a
+    blockchain is referred to as a channel, and therefore the first step in a blockchain
+    application is the creation of a channel and the bootstrapping of the network
+    ordering service with the channel's genesis block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The next step is the initialization of the peer network, whereby all the peer
+    nodes selected to run the application must be joined to the channel, a process
+    that allows each peer to maintain a copy of the ledger, which is initialized to
+    a blank key-value store. Every peer that's joined to the channel will possess
+    ledger commitment privileges and may participate in a gossip protocol in order
+    to sync ledger state with each other.
+  prefs: []
+  type: TYPE_NORMAL
+- en: After the creation of the peer network comes the installation of the smart contract
+    on that network. A subset of the peers joined to the channel preceding it will
+    be selected to run the smart contract; in other words, they will possess endorsement
+    privileges. The contract code will be deployed to these peers and built for subsequent
+    operation. As you know, by this point, the contract is referred to as chaincode
+    in Fabric parlance, and that is the term that will be used for the rest of this
+    chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once the chaincode has been installed on the endorsing peers, it will be initialized
+    as per the logic that has been embedded in it (see [*Chapter 4*](a557efde-d161-4451-b5ee-cb3e481010be.xhtml), *Designing
+    a Data and Transaction Model with Golang*, for examples).
+  prefs: []
+  type: TYPE_NORMAL
+- en: At this point, unless something has gone wrong in one or more of the preceding
+    steps, the application is up and running. Now, transactions may be sent to the
+    chaincode to either update the state of the ledger (invocations) or to read the
+    ledger state (queries) for the lifetime of the application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The application may change or evolve over time, requiring special operations
+    to be carried out that are not captured in *Figure 5.1: The stages in the creation
+    and operation of a blockchain application.* Those will be described in [*Chapter
+    9*](72e0e4f7-a8e3-49e6-935f-2c478d0ac891.xhtml), *Life In A Blockchain Network*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the section titled <q>Building the Application</q> and onward, we will show
+    how a trade application can be built around the chaincodes developed in [*Chapter
+    4*](a557efde-d161-4451-b5ee-cb3e481010be.xhtml), *Designing a Data and Transaction
+    Model with Golang*, using suitable code and instructions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Application model and architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The process of writing a Fabric application begins with chaincode, but ultimately
+    the developer must make judicious decisions about how an end user or a software
+    agent must interface with that chaincode. How the assets of the chaincode, and
+    the operations of the blockchain network running that chaincode, ought to be exposed
+    to the user is a question that ought to be dealt with carefully. Significant damage
+    is possible if these capabilities are exposed without restriction, especially
+    the ones involving blockchain bootstrapping and configurations. Proper operation
+    of the chaincode itself relies not just on its internal logic, but suitable access
+    controls being built above it. As we saw in the previous section, setting up an
+    application and preparing it for use is a complex process. In addition, the asynchronous
+    nature of ledger-update transactions requires an arbitration layer between the
+    chaincode and the user. To allow the user to focus on transactions that impact
+    the application rather than the details of the network modules, all this complexity
+    ought to be hidden as much as possible. It is for this reason that a three-layer
+    architecture has evolved as the standard for a Fabric application, as illustrated
+    in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f51a2b7c-1eaf-409a-a9c4-be83b96bb12a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Figure 5.2 Typical three-layer architecture of a Hyperledger Fabric application
+  prefs: []
+  type: TYPE_NORMAL
+- en: At the lowest layer lies the smart contract that operates directly on the shared
+    ledger, which may be written using one or more chaincode units. These chaincodes
+    run on the network peers, exposing a service API for invocations and queries,
+    and publishing event notifications of transaction results, as well as configuration
+    changes occurring on the channel.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the middle layer lies the functions to orchestrate the various stages of
+    a blockchain application (see *Figure 5.1: The stages in the creation and operation
+    of a blockchain application*). Hyperledger Fabric provides an SDK (currently available
+    in `Node.js` as well as in Java) to perform functions such as channel creation
+    and joining, registration, and enrollment of users, as well as chaincode operations.
+    In addition, the SDK offers mechanisms to subscribe to transaction and configuration-related
+    events emanating from the network. Depending on application needs, an off-chain
+    database may be maintained for convenience, or as a cache of ledger state.
+  prefs: []
+  type: TYPE_NORMAL
+- en: At the topmost layer lies a user-facing application that exports a service API
+    consisting mostly of application-specific capabilities, though administrative
+    operations such as channel and chaincode operations may also be exposed for system
+    administrators. Typically, a user interface should also be provided for ease of
+    use, though a well-defined API may suffice if the user is a software agent. We
+    refer to this layer simply as the application, as this is what the end user (or
+    agent) will see. Also, given that any blockchain application and network is an
+    agglomeration of diverse participants, this layer will often consist of multiple
+    application stacks tailored to the different participants.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This architecture should not be set in stone; it is meant to serve purely as
+    a guideline for developers. Depending on the complexity of the application, both
+    the number of layers and the verticals (or distinct applications) may vary. For
+    a very simple application that has a small number of capabilities, the developer
+    may even choose to compress the middleware and application layers into one. More
+    generally though, this decoupling enables different sets of capabilities to be
+    exposed to different network participants. For example, in our trade use case,
+    a regulator and an exporter would view the blockchain in different ways and have
+    diverging needs, and therefore it would be useful to build distinct service sets
+    for them rather than force-fit all capabilities into one monolithic application
+    with a uniform interface. Yet both these applications ought to hide the complexities
+    of network operations, such as the creation and joining of channels, or privileged
+    operations such as the installation of chaincode onto peers in similar ways, which
+    would therefore benefit from a common middleware layer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The ways in which the application layers the users directly interact with can
+    be designed present many choices and complexities, and we will delve into those
+    in the latter part of this chapter. First, though, we will describe how to implement
+    the guts of a Fabric application, focusing on the essential elements. For instructive
+    purposes, our topmost layer will be a simple web server exposing a *RESTful* service
+    API.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The thinking behind this architecture and the principles driving it are independent
+    of the underlying blockchain technology. To implement an identical application
+    on a different blockchain platform than Hyperledger Fabric, only the smart contract
+    and some parts of the middleware have to be reimplemented. The rest of the application
+    can remain untouched with the end user not noticing any difference.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building the application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that we have understood not just the methodology of designing a layered
+    Fabric application but also the philosophy behind it, we can dive into the implementation.
+    In the previous two chapters, we discussed how to implement and test the lowest
+    layer, or the chaincode. Therfore, we can assume that the reader is now ready
+    to add the middleware and application layers, which is what we will demonstrate
+    in the following sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A prerequisite for the testing of middleware and application code is a running
+    network. Before proceeding to the next section, please ensure that the sample
+    four-organization network we configured and launched in the *Setting up the development
+    environment section* in [*Chapter 3*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml),
+    *Setting the stage with a business scenario*, is still up and running.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Middleware – wrapping and driving the chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following diagram maps the transaction stages discussed in the <q>Application
+    and Transaction Stages</q> section and illustrated in *Figure 5.1: The stages
+    in the creation and operation of a blockchain application,* to Fabric terms and
+    using Fabric terminology:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3111cf77-037e-44bd-b5fd-8f6b70d31d27.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 5.3: The stages in the creation and operation of a blockchain application'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Fabric peers, orderers, and CAs (or MSPs) communicate using gRPC ([https://grpc.io/](https://grpc.io/)),
+    as well as the process spawned by the peer to run the chaincode (the process is
+    really a Docker container). This process exports a service endpoint implementing
+    the JSON RPC 2.0 specification ([http://www.jsonrpc.org/specification](http://www.jsonrpc.org/specification))
+    for channel and chaincode operations. We can write a wrapper application that
+    communicates directly with chaincode using the service specification, but then
+    we would have to write logic to parse and interpret the payload as well. With
+    the Fabric platform and its specification likely to change in the future, this
+    is not necessarily the best and most maintainable way to write an application,
+    especially for production purposes. Fortunately, Hyperledger Fabric provides the
+    means to run chaincode operations while hiding the details of the interface specifications
+    and the communication protocol, in two different ways:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Command-Line Interface** (**CLI**): Fabric provides commands that can be
+    run from a Terminal to perform the various operations indicated in *Figure 5.3: The
+    stages in the creation and operation of a blockchain application*. The tool to
+    run these commands is `peer`, which is generated upon downloading the Fabric source
+    code and building it (using `make`, or just `make peer`). Different switches can
+    be used with this command to perform different channel and chaincode operations,
+    and you will see some examples in this section.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Software Development Kit** (**SDK**): Hyperledger provides a toolkit and
+    set of libraries for the easy development of applications to wrap the channel
+    and chaincode operations in multiple languages, such as Node.js, Java, Go, and
+    Python. These SDKs also provide functions to interact with MSPs, or instances
+    of the Fabric CA.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Although CLI tools can be used for testing and demonstration purposes, they
+    are inadequate for application development. The SDK libraries, in addition to
+    the functions mentioned previously, provide the ability to subscribe to events
+    emanating from the network, communicating information about state changes that
+    are needed to drive the application logic. We will use the Node.js SDK to demonstrate
+    how to build both our middleware and the higher-layer application. It is left
+    to the reader to build equivalent applications in other languages of their choice
+    using one of the other SDKs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installation of tools and dependencies
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The functions that we will show how to build as part of our middleware can be
+    found in the middleware folder in the code repository.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Prerequisites for creating and running the middleware
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The reader is expected to be familiar with Node.js/JavaScript programming (especially
+    the `Promise` pattern) and with the usage of the Node.js and `npm` tools:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Install Node.js ([https://nodejs.org/en/download/](https://nodejs.org/en/download/))
+    and `npm` ([https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm)).
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Install the `fabric-client` and `fabric-ca-client npm` libraries:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'You can install these packages from the `npm` registry, either manually by
+    running `npm install <package-name>` or by setting the names and versions in your
+    `package.json` file. As an example, the `package.json` in the middleware folder
+    contains the following entries in the dependencies section:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`fabric-ca-client`: ^1.1.0'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`fabric-client`: ^1.1.0'
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'This instructs `npm` to install versions 1.1.0 of both of these packages:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Alternatively, you can clone the Fabric SDK node ([https://github.com/hyperledger/fabric-sdk-node/](https://github.com/hyperledger/fabric-sdk-node/))
+    source code repository and import the two libraries locally as follows:'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Run `npm` install in the `fabric-client` and `fabric-ca-client` folders
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Install these packages as dependencies, either manually by specifying the path
+    to the preceding folders in middleware/`package.json`, or by using the `npm` link
+    command to add symbolic links to the packages in middleware/`node_modules`
+  prefs:
+  - PREF_IND
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In the following sections, we will use the `fabric-client` library to perform
+    channel and chaincode operations involving the peer and the orderer, and the `fabric-ca-client`
+    library to perform user registration and enrolment operations involving the CA
+    (or MSP).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installation of dependencies
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Run `npm` install in the middleware folder to install the packages (libraries)
+    specified in the `package.json` and their dependencies. You should see the packages
+    downloaded to the `node_modules` folder.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A cleaner way of installing dependencies and configuring the middleware for
+    regular operation is automated building using `Makefile`. You can simply run `make`
+    in the `middleware` folder; see [*Chapter 8*](112a5075-378d-4bb0-9b9e-db81c18a35f5.xhtml),
+    *Agility In A Blockchain Network*, for more details on setting up and building
+    your development and testing environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating and running the middleware
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We will now write functions to execute and orchestrate the stages illustrated
+    in *Figure 5.3: The stages in the creation and operation of a blockchain application*.
+    But first, we will give an overview of the various configuration parameters that
+    must be set for the application to work as intended
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network configuration
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The first step in writing middleware is collecting all the configuration information
+    necessary to identify and connect to the various elements of the network we created
+    and launched in the previous section. It is useful, especially when writing code
+    in JavaScript, to express such configurations in JSON format. In our sample code,
+    the `config.json` file serves this purpose. This file contains the description
+    of a network, whose attributes are contained in the trade-network object. Each
+    property of this object describes the configuration of each unique organization
+    that is part of the network, except for a property called the orderer, which simply
+    refers to the orderer node. (Note: this is sufficient for our simple network containing
+    just one orderer node.) Let''s examine what must be specified in each organization''s
+    description by taking the `Exporterorg` property as an example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `mspid` value must match the one specified in `network/configtx.yaml` for
+    our middleware to be compatible with the channel artefacts and cryptographic material
+    created for the network. The name and port information for the CA must match what
+    was specified in `network/docker-compose-e2e.yaml`. Since we have just one peer
+    in each organization, we name it peer for convenience, though one can easily define
+    a different schema for a multi-peer organization setup. Note that the peer exports
+    services for peer requests as well as for event subscriptions, and the ports match
+    those exposed in `network/base/docker-compose-base.yaml`. The `server-hostname`
+    must also match that specified in both `configtx.yaml` and the docker-compose
+    configurations. As our network elements connect using TLS, the path to the peer's
+    TLS certificate must also be specified here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Lastly, if you compare the preceding schema snippet with the configurations
+    of the other organizations, you will notice that the ports listed exactly matches
+    those exposed in the docker-compose configurations. For example, the peers in
+    the exporter, importer, carrier, and regulator organizations listen for requests
+    on ports `7051`, `8051`, `9051`, and `10051`, respectively. The hostnames in the
+    URLs simply refer to localhost, as that is where all our network element's containers
+    are running.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Endorsement policy
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The next step is to frame an endorsement policy for our chaincode that will
+    be committed to the ledger during the instantiation. This endorsement policy dictates
+    how many peers, belonging to what roles and organizations, need to endorse a ledger
+    commitment transaction (or invocation). In the sample code, different endorsement
+    policies are listed in `constants.js`, which contains various settings and keywords
+    used by our middleware. The one that we will employ is `ALL_FOUR_ORG_MEMBERS`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: The list of principals is specified in the identities attribute of the policy
+    and refers to member (or ordinary) users of the four peer organizations, as well
+    as administrator users of the orderer organization. The policy attribute here
+    states that an endorsement is required from a member of each of the four peer
+    organizations; in all, four signatures will be required.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The variable `TRANSACTION_ENDORSEMENT_POLICY` is set to `ALL_FOUR_ORG_MEMBERS`
+    in `constants.js` by default, and will be used to configure the channel endorsement
+    policy later in this section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: User records
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'For both the channel world state and the user keys and certificates for the
+    respective organizations, we will use a file-based store, as specified in `clientUtils.js`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In `constants.js`, `tempdir` is initialized as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: Alternatively, you can also set the storage location to lie in the temporary
+    folder designated by your operating system using the `os.tmpdir()` function; you
+    will just need to create a subfolder there(say `<folder-name>`.) On a typical
+    Linux, system, this storage location will default to `/tmp/<folder-name>/`, and
+    folders will be created there for each organization. As we run the various operations,
+    we will see these folders getting generated and files getting added to them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Client registration and enrollment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Although cryptographic material for organization users can be created statically
+    using the cryptogen tool, we must build capabilities in the middleware to dynamically
+    create user identities and credentials, and enable those users to sign in to the
+    network to submit transactions and query the ledger state. These operations require
+    the mediation of users with privileged access (or administrators), who must be
+    created when `fabric-ca-server` is started. By default, an administrative user
+    is given the ID admin and the password `adminpw`, which is what we will use for
+    our exercise in this section. The network that we created and launched uses these
+    defaults, and it is left to the reader to modify them in `fabric-ca-server` and
+    start commands in `network/docker-compose-e2e.yaml` (the following is from the
+    `exporter-ca` section):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The steps to create a user through an administrator are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Load administrative user credentials from the local storage
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: If thee credentials don't exist, enroll, or sign in, the administrator to the
+    Fabric CA server and obtain their credentials (private key and enrollment certificate)
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Have the administrative user register another user with a given ID, specifying
+    roles and affiliations, with the Fabric CA server
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Using a secret returned upon registration, enroll the new user and obtain credentials
+    for that user
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Save the credentials to the local storage
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Sample code for this can be found in `clientUtils.js`, with the following code
+    snippets mostly being from the `getUserMember` function, which takes administrator
+    credentials, the name of the organization to which the user must be enrolled,
+    and the name/ID of the user to enroll. A handle to a client (an instance of `fabric-client`,
+    or a client object ([https://fabric-sdk-node.github.io/Client.html](https://fabric-sdk-node.github.io/Client.html))
+    must also be passed to the function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The preceding code associates the client handle with the local store, partitioned
+    by organization, to store the credentials of  the administrator and other users
+    created on the fly:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This code ensures that the administrator user handle will be associated with
+    our store:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we use the `fabric-ca-client` library to connect to the `fabric-ca-server`
+    instance associated with a given organization (whose URL can be obtained from
+    our `config.json`; for example, the `caUrl` for the exporter organization will
+    be `https://localhost:7054`). The enroll function allows the administrator to
+    log in with the MSP, and obtain the enrollment key and certificate.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now that we have a handle to the administrator user in the form of the member
+    object, we can use it to enroll a new user with the user ID, which is represented
+    by their username, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: During registration, we can specify what the user's roles will be, which in
+    the preceding code is client, allowing the username to submit invocations and
+    queries to the chaincode. The affiliation specified here is one of the subdivisions
+    within an organization that are specified in a Fabric CA server's configuration
+    ([http://hyperledger-fabric-ca.readthedocs.io/en/latest/serverconfig.html](http://hyperledger-fabric-ca.readthedocs.io/en/latest/serverconfig.html))
+    (updating this configuration is left as an exercise to the reader; here, we will
+    use the default affiliation). Using the returned secret, the username is now enrolled
+    with the server, and its key and enrollment certificate are saved.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The call to `client.setUserContext` associates this user with the client handle,
+    and `client.saveUserToStateStore` saves the user's credentials to our local store
+    on the file system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Similar functions to get handles to administrator users are `getAdmin` and `getMember`,
+    also defined in `clientUtils.js`. The former retrieves an administrator user whose
+    credentials were created using `cryptogen`, whereas the latter creates a new `admin`
+    member dynamically.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a channel
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To create our trade channel, we first need to instantiate a `fabric-client`
+    instance and a handle to the orderer using the configuration in `config.json`
+    (see the `createChannel` function in `create-channel.js`):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We use a file-based key-value store to save the ledger world state as follows
+    (it is left as an exercise to the reader to try out other types of store, such
+    as `CouchDB`, using `CouchDBKeyValueStore.js`):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Next, we must enroll an administrator user for the orderer (using the mechanisms
+    discussed in the previous segment). After a successful enrollment, the channel
+    configuration that we created using the `configtxgen` tool (see `network/channel-artifacts/channel.tx`)
+    must be extracted. The path to this configuration file is set in `constants.js`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We now need to enroll an administrator user for each of our four organizations.
+    Each of these four admins, as well as the orderer admin, must sign the channel
+    configuration, and the signatures collected as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `getSubmitter` function is defined in `clientUtils.js`, and is an indirect
+    way of associating a member (either ordinary or administrator) of a given organization
+    with the client object. In other words, it associates the client object with the
+    *signing identity* (credentials and MSP identifications) of a user. Underneath,
+    `getSubmitter` uses the functions `getAdmin`, `getUserMember`, and `getMember`,
+    which we described in an earlier section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`getOrderAdminSubmitter` is analogous to `getSubmitter` and returns a handle
+    to an `admin` user of the orderer’s organization.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, we are ready to build a channel creation request and submit it to
+    the orderer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: The actual creation of the channel may take a few seconds, so the application
+    logic should wait for a while before returning a successful result. The `channel_name`
+    parameter is set in `clientUtils.js` to `tradechannel`, which is what we set it
+    to when we launched our network (see `network/trade.sh`).
+  prefs: []
+  type: TYPE_NORMAL
+- en: The channel creation step involves initializing the blockchain with the genesis
+    block we created earlier in this chapter using `configtxgen`. The genesis block
+    is just the first *configuration block* that is appended to the chain. A configuration
+    block consists a specification of the channel and the organizations that are part
+    of it, among other things; such a block contains no chaincode transactions. We
+    will deal with configuration blocks again in [*Chapter 9*](72e0e4f7-a8e3-49e6-935f-2c478d0ac891.xhtml),
+    *Life in a Blockchain Network*, when we discuss how to augment networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, all we need to do to create a channel is call the `createChannel(''tradechannel'')` function
+    and wait for the result. This is the first step in our test code, `createTradeApp.js`,
+    which executes the basic sequence of operations illustrated in *Figure 5.3: The
+    stages in the creation and operation of a blockchain application*:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: The code we use to associate different signing identities with a common client
+    object, and then sign a channel configuration, all in a single process, is purely
+    for demonstrative purposes. In a real-life production application, the signing
+    identities of different users belonging to different organizations are private
+    and must be guarded; hence there is no question of pooling them together in a
+    common location. Instead, the channel configuration must be signed independently
+    by different organizations’ administrators and passed around using some out-of-band
+    mechanism to accumulate the signatures (and also verify them.) Similar mechanisms
+    must be employed when a configuration is updated (see [*Chapter 9*](72e0e4f7-a8e3-49e6-935f-2c478d0ac891.xhtml), *Life
+    in a Blockchain Network*) Independent, decentralized procedures must also be followed
+    for channel joining and chaincode installation, though we demonstrate the basic
+    mechanisms using centralized processes for convenience.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Joining a channel
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now that `tradechannel` has been created, our four peers, one in each organization,
+    must be joined to the channel, a step that initializes the ledger on each node
+    and prepares the peer to run chaincode and transactions on it. For this, we will
+    need to reuse the client handle created in the previous step or instantiate one
+    using a similar sequence of operations. In addition, we must instantiate a handle
+    to the channel, register the orderer, and obtain the genesis block (implicitly
+    sent to the orderer in the creation step using the channel configuration), as
+    indicated by the following code snippets from the `joinChannel` function in `join-channel.js`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The transaction ID argument is optional in the preceding `getGenesisBlock`
+    call. Now, for each organization, we must obtain a handle to an administrator
+    user who will then submit a channel joining request for the peer belonging to
+    that organization:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: As in the channel creation process, the `getSubmitter` function associates the
+    signing identity of an administrator of a particular organization with the client
+    object before submitting the channel join request. This request contains the genesis
+    block as well as the configuration of every peer in that organization (loaded
+    from the attributes containing the `peer` prefix within each organization in `config.json`,
+    as you can see in the above code.)
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A generous wait time of 40 seconds is indicated above as this process can take
+    a while to complete. This join process needs to be executed independently by an
+    administrator in each organization; hence, the function `joinChannel(<org-name>)`
+    is called 4 times in sequence the main function `processJoinChannel`, which is
+    called in our test script in `createTradeApp.js` as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: In a typical production network, each organization will independently run the
+    join process, but only for its peers. The orchestration code (`processJoinChannel`
+    in `join-channel.js`) that we use in our repository is meant for convenience and
+    testing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installation of chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Installation of chaincode results in the copying of source code to the peers
+    we have selected to be endorsers, and every installation is associated with a
+    user-defined version. The main function `installChaincode` is implemented in `install-chaincode.js`.
+    This function in turn calls the `installChaincodeInOrgPeers` function for each
+    of the 4 organizations in sequence; the latter function installs chaincode on
+    the peers of a given organization. As in the case of a channel join, we create
+    both client and channel handles for a given organization, enroll an administrator
+    user for that organization, and associate that user with the client handle. This
+    next step is to create an installation proposal and submit it to the orderer as
+    follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The targets refer to the configurations of the endorsing peers in the organization,
+    and are loaded from `config.json`. `chaincodeId` and `chaincodeVersion` can be
+    set by the caller (and defaults are set in `constants.js` as `tradecc` and `v0`,
+    respectively), but the `chaincodePath` must refer to a location that contains
+    the source code. In our scenario, the location refers to a path on the local file
+    system: `github.com/trade_workflow`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Internally in the SDK, the installation request packages the chaincode’s source
+    code into a prescribed format called `ChaincodeDeploymentSpec` (CDS)([https://github.com/hyperledger/fabric/blob/release-1.1/protos/peer/chaincode.proto](https://github.com/hyperledger/fabric/blob/release-1.1/protos/peer/chaincode.proto)).
+    This package is then signed (by the organization administrator associated with
+    the client object) to create a `SignedChaincodeDeploymentSpec`([https://github.com/hyperledger/fabric/blob/release-1.1/protos/peer/signed_cc_dep_spec.proto](https://github.com/hyperledger/fabric/blob/release-1.1/protos/peer/signed_cc_dep_spec.proto)),
+    which is then sent to the *lifecycle system chaincode* (LSCC) for installation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The above procedure describes the *simple* case where each instance of a Signed
+    CDS has only the signature of the identity associated with the client that issues
+    the installation request. A more *complex* scenario is supported by Fabric whereby
+    a CDS can be passed (out-of-band) to different clients (of the various organizations)
+    and signed by each before the installation requests are received. The reader is
+    encouraged to try out this variation using the available API functions and Fabric
+    data structures([http://hyperledger-fabric.readthedocs.io/en/latest/chaincode4noah.html](http://hyperledger-fabric.readthedocs.io/en/latest/chaincode4noah.html)).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The success of an installation request is determined by checking the proposal
+    response from each target peer as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, to orchestrate the installation on the entire network, we call the
+    `installChaincode` function defined in `install-chaincode.js`. For the `fabric-client`
+    to know where to load the `chaincode` source from, we temporarily set the `GOPATH`
+    in the process to point to the right location in our project, which is the `chaincode`
+    folder:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: This only works for `chaincode` written in Go
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: For a successful installation, the `chaincode` folder must contain a subfolder
+    named `src`, within which the `chaincode` path sent in the installation proposal
+    must point to the actual code. As you can see, this finally resolves to `chaincode/src/github.com/trade_workflow`
+    in our code repository, which indeed contains the source code we developed in
+    *[Chapter 4](a557efde-d161-4451-b5ee-cb3e481010be.xhtml)*, *Designing a Data and
+    Transaction Model with Golang*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In our `createTradeApp.js` script, we can now simply call:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: In a typical production network, each organization will independently run the
+    installation process (defined in the `installChaincodeInOrgPeers` function), but
+    only for its endorsing peers. The orchestration code (`installChaincode` in `install-chaincode.js`)
+    that we use in our repository is meant for convenience and testing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Instantiation of chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that the endorsing peers in the network have the chaincode, we must instantiate
+    that chaincode across our channel to ensure that all copies of the ledger are
+    initialized with the right dataset (or key-value pairs). This is the final step
+    in the setup of our smart contract before we can open it up for regular operation.
+    Instantiation is a transaction that invokes the LSCC to initialize a chaincode
+    on a channel, thereby binding the two and isolating the former’s state to the
+    latter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This operation should be triggered centrally by any of the organizations authorized
+    to initialize the chaincode (in our sample code, we use the administrator of the
+    Importer's organization). Again, this follows the simple scenario (described in
+    the installation section earlier) where the chaincode package is signed by a single
+    organization administrator.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The default channel instantiation policy requires any channel MSP administrator
+    to trigger the operation, but a different policy can be set in the Signed CDS
+    structure if required.) In addition, the entity that triggers the instantiation
+    operation must also be configured as a writer on the channel. Our procedure to
+    create a channel configuration using `configtxgen` implicitly gave write permissions
+    to administrators of the 4 organizations. (A detailed discussion of channel configuration
+    policy is beyond the scope of this book.)
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The main function to implement chaincode instantiation is implemented in `instantiate-chaincode.js`
+    as `instantiateOrUpgradeChaincode`. This function can be used both to instantiate
+    a newly deployed chaincode or update one that has already been running on the
+    channel (see [*Chapter 9*](72e0e4f7-a8e3-49e6-935f-2c478d0ac891.xhtml), *Life
+    in a Blockchain Network*) As in the previous stages, we must create client and
+    channel handles, and associate the channel handle with the client. In addition,
+    all the endorsing peers in the network must be added to the channel, and then
+    the channel object must be initialized with the MSPs associated with the channel
+    (from each of the four organizations):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This sets up the channel to verify certificates and signatures, for example,
+    from endorsements received from the peers. Next, we build a proposal for instantiation
+    and submit it to all of the endorsing peers on the channel (snippet from the `buildChaincodeProposal`
+    function):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The path to the chaincode, and the ID and version, must match what was supplied
+    in the installation proposal. In addition, we must supply the function name and
+    argument list that will be sent to the chaincode and executed. (In our chaincode,
+    this will execute the `Init` function.) Also note that the proposal contains the
+    endorsement policy (`Constants.TRANSACTION_ENDORSEMENT_POLICY`) we set earlier,
+    which requires a member from each of the four organizations to endorse a chaincode
+    invocation. The proposal responses (one for each endorsing peer) returned by the
+    orderer must be validated in the same way as in the installation stage. Using
+    the result of the preceding `channel.sendInstantiateProposal` call, we must now
+    build an instantiation transaction request and submit it to the orderer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: A successful response to `channel.sendTransaction` will allow our middleware
+    to proceed on the basis that the instantiation was successfully submitted. This
+    does not indicate, though, that the instantiation will successfully conclude with
+    a commitment to the shared ledger; for that, our code will have to subscribe to
+    events, and we will see how to do that later in this section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Our script in `createTradeApp.js` triggers chaincode instantiation as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: The last parameter is set to `false`, indicating that an instantiation must
+    be performed and not an upgrade. The first parameter (`Constants.IMPORTER_ORG`)
+    indicates that the instantiation request must be submitted by a member (administrator
+    in this context) of the importer’s organization.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If the instantiation was successful, the chaincode will be built in Docker
+    containers, one corresponding to each endorsing peer, and deployed to receive
+    requests on behalf of their peers. If you run `docker ps -a`, you should see something
+    like this in addition to the ones created upon launching the network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: Invoking the chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that we have finished setting up our channel and installing chaincode for
+    trade, we need to implement functions to execute chaincode invocations. Our code
+    for this lies in the `invokeChaincode` function in `invoke-chaincode.js`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The procedure to invoke the `chaincode` is the same as we did for instantiation,
+    and the code is similar as well. The caller must build a transaction proposal
+    consisting of the name of the `chaincode` function to be invoked and the arguments
+    to be passed to it. Just providing the `chaincode` ID (`tradecc` in our implementation)
+    is sufficient to identify the `chaincode` process to guide the request to:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'One difference with the instantiation proposal is that this operation does
+    not typically require an administrative user in the organization; any ordinary
+    member may suffice. This proposal must be sent to enough endorsing peers to collect
+    the right set of signatures to satisfy our endorsement policy. This is done by
+    adding all four peers in our network to the channel object (which must be created
+    and initialized in the same way as in the previous stages). Once the proposal
+    responses have been collected and validated in the same way as the instantiation
+    proposals were, a transaction request must be built and sent to the orderer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We call `invokeChaincode` from our test script in `createTradeApp.js`. The
+    chaincode function we would like to execute is `requestTrade`, which chronologically
+    is the first function that ought to be invoked by a user in an importer''s role
+    (recall that we built access control logic within our `chaincode` to ensure that
+    only a member of the Importer''s organization may submit a `requestTrade`):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: The last parameter (`'Importer'`) simply indicates the ID of the user in the
+    importer’s organization who is to submit this transaction request. In the code,
+    the credentials for this user are loaded if the user has already enrolled with
+    the CA, otherwise a new user with that ID is registered using the `clientUtils.getUserMember`
+    function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As in the instantiation case, a successful `channel.sendTransaction` call simply
+    indicates that the orderer accepted the transaction. Only subscribing to an event
+    will tell us whether the transaction was successfully committed to the ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Querying the chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A chaincode query is somewhat simpler to implement as it involves the entire
+    network, but simply requires communication from client to peer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Client and channel handles should be created as in the previous stages, but
+    this time, we will select just one or more peers from the caller''s (or client''s)
+    organization to associate with the channel object. Then, we must create a query
+    request (identical to an invocation proposal request) and submit it to the selected
+    peers:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The responses to the query can be collected and compared before being returned
+    to the caller. The complete implementation can be found in the `queryChaincode`
+    function in `query-chaincode.js`. We test this function by running a `getTradeStatus`
+    chaincode query in our `createTradeApp.js` script:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'As with an invocation, we specify a user ID (`‘Exporter’`) and organization:
+    here we want a member of the exporter’s organization to check the status of a
+    trade request.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since a query is local to the client and its associated peers, the response
+    is returned immediately to the client and does not have to be subscribed to (as
+    in the case of invocation).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Completing the loop – subscribing to blockchain events
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'As we have seen in previous chapters, commitments to the shared ledger on a
+    permissioned blockchain require a consensus among the network peers. Hyperledger
+    Fabric in its v1 incarnation has an even more unique process to commit to the
+    ledger: the transaction execution, ordering, and commitment processes are all
+    decoupled from each other and framed as stages in a pipeline where endorsers,
+    orderers, and committers carry out their tasks independent of each other. Therefore,
+    any operation that results in a commitment of a block to the ledger is asynchronous
+    in the Fabric scheme of things. Three of the operations we have implemented in
+    our middleware fall into that category:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Channel join
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Chaincode instantiation
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Chaincode invoke
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In our description of these operations, we stopped at the point where a request
+    is successfully sent to the orderer. But to complete the operation loop, any application
+    that uses our middleware needs to know the final result of the request to drive
+    the application logic forward. Fortunately, Fabric provides a publish/subscribe
+    mechanism for the communication of results of asynchronous operations. This includes
+    events for the commitment of a block, the completion of a transaction (successfully
+    or otherwise), as well as custom events that can be defined and emitted by a chaincode.
+    Here, we will examine block and transaction events, which cover the operations
+    we are interested in.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fabric offers a mechanism for event subscription in the SDK through an `EventHub`
+    class, with the relevant subscription methods being `registerBlockEvent`, `registerTxEvent`,
+    and `registerChaincodeEvent`, respectively, to which callback functions can be
+    passed for actions to perform at the middleware layer (or higher) whenever an
+    event is available.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s see how we can catch the event of a successful join in our middleware
+    code. Going back to the `joinChannel` function in `join-channel.js`, the following
+    code instantiates an `EventHub` object for a given peer, whose configuration is
+    loaded from `config.json`. For example, to subscribe to events from the exporter
+    organization''s sole peer, the URL our `fabric-client` instance will listen to
+    (under the covers) is `grpcs://localhost:7053`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The listener, or callback, for each block event is defined as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Whenever a block event is received, the code matches the expected channel name
+    (`tradechannel` in our scenario) with the one extracted from the block. (The block
+    payloads are constructed using standard schemas available in the Fabric source
+    code, in the `protos` folder. Understanding and playing with these formats is
+    left as an exercise to the reader.) We will set a timeout in the code (40 seconds
+    here) to prevent our event subscription logic from waiting indefinitely and holding
+    up the application. Finally, the outcome of a channel join is made contingent,
+    not just on the success of a `channel.joinChannel` call, but also on the availability
+    of block events, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'For instantiation and invocation, we register callbacks not for blocks but
+    for specific transactions, which are identified by IDs set during the transaction
+    proposal creation. Code for the subscription can be found in the `instantiateChaincode`
+    and `invokeChaincode` functions, in `instantiate-chaincode.js` and `invoke-chaincode.js`
+    respectively. A code snippet from the latter illustrates the basic working of
+    transaction event handling:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE35]'
+  prefs: []
+  type: TYPE_PRE
+- en: The parameters passed to the callback include a handle to the transaction and
+    a status code, which can be checked to see whether the chaincode invocation result
+    was successfully committed to the ledger. Once the event has been received, the
+    event listener is unregistered to free up system resources (our code may also
+    listen to block events in lieu of specific transaction events, but it will then
+    have to parse the block payload and find and interpret information about the transaction
+    that was submitted).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Putting it all together
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The sequence of steps described previously can be run in one go through a suitably
+    coded script. As mentioned earlier, `createTradeApp.js` contains such a script,
+    which results in the creation of `tradechannel`, the joining of the four peers
+    to that channel, the installation of the `trade_workflow` chaincode on all four
+    peers, and its subsequent instantiation on the channel, which finally concludes
+    with the creation of a trade request from the importer to the exporter and a follow-up
+    querying the request status. You can run the following command and see the various
+    steps being conducted on your console:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE36]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Just as an exercise, and to test out both the middleware library functions
+    and the chaincode, you can complete the trade scenario that the createTradeApp.js
+    script began by starting with a trade request acceptance by an exporter and culminating
+    with full payment made to the exporter by the importer for a successfully delivered
+    shipment. To view this in operation, run the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE37]'
+  prefs: []
+  type: TYPE_PRE
+- en: User application – exporting the service and API
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The exercise in creating a set of functions for our middleware lays down the
+    plumbing for a user-facing application we can build on top. Although we can architect
+    the application in different ways, the set of capabilities it should offer will
+    remain the same. Before demonstrating an approach to building an application for
+    a blockchain user, we will discuss the salient features such an application should
+    possess.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Applications
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Referring to *Figure 5.2: Typical three-layer architecture of a Hyperledger
+    Fabric application,* and our discussion in the <q>Application Model and Architecture</q>
+    section of this chapter, different users of a Hyperledger Fabric application may
+    need different and distinct applications. Our trade scenario is an example of
+    this: users representing trading parties, banks, shippers, and governmental authorities
+    may need different things from our application, even while they are collectively
+    participating in the trade network and endorsing smart contract operations.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are common operations that administrators of the different organizations
+    must have the capability to perform. This includes the stages from the creation
+    of a channel up to the instantiation of chaincode. Therefore, if we need to build
+    different applications for each network participant, we should expose these capabilities
+    to every instance of those applications. Once we get to the application itself,
+    which consists of the set of invoke and query functions offered by the chaincode,
+    we must create space for differentiation. An application designed for the trading
+    parties and their banks must expose trade and Letter of Credit operations to the
+    users. However, there is no need to expose these operations to a carrier, and
+    therefore an application designed for the latter can and ought to limit the capabilities
+    offered to those that impact the carrier's role, such as the functions to create
+    Bills of Lading and to record the location of a shipment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Here, for simplicity, we will amalgamate all the applications into one and demonstrate
+    how to make it work. Diversification based on user roles and requirements is left
+    as an exercise for the reader. Our amalgamated application will be implemented
+    as a web server, loosely connecting the smart contract and the middleware, sounding
+    it from the end users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: User and session management
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The design of any service-oriented application requires the determination of
+    users who will be allowed to access the application and perform various actions.
+    For a Hyperledger Fabric application, special consideration ought to be given
+    to the differentiation between user classes. Every Fabric network has a set of
+    privileged users (who we have been referring to as administrators of organizations)
+    and ordinary members. This differentiation of roles must be reflected in the design
+    of the user-facing application, too.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The application must have an authentication layer as well as a mechanism for
+    session management, allowing an already-authenticated user to exercise the application,
+    limited by their role. In our example application, we will use **JSON Web Tokens**
+    (**JWT**) for this purpose.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Designing an API
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Before building our application, we must design a service API to cover the
+    capabilities exposed by our middleware. We will design our API to be `RESTful`,
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`POST/login`: Register a new user (administrative or ordinary) or log in as
+    an existing one'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '`POST/channel/create`: Create a channel'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '`POST/channel/join`: Join the network peers to the channel created in this
+    user''s session'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '`POST/chaincode/install`: Install the `chaincode` on the peers'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '`POST/chaincode/instantiate`: Instantiate the `chaincode` on the channel'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '`POST/chaincode/:fcn`: Invoke the `chaincode` function `fcn` with passed arguments
+    (in the body); examples for `fcn` are `requestTrade`, `acceptLC`, and so on'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '`GET/chaincode/:fcn`: Query the `chaincode` function `fcn` with passed arguments
+    (in the body); examples for `fcn` are `getTradeStatus`, `getLCStatus`, and so
+    on'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Collectively, these API functions cover the transaction stages in *Figure 5.3: The
+    stages in the creation and operation of a blockchain application*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating and launching a service
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We will implement an express ([https://expressjs.com/](https://expressjs.com/))
+    web application in Node.js to expose the preceding API. The code lies in the application
+    folder in our repository, with the source code in `app.js` and the dependencies
+    defined in `package.json`. As a prerequisite to running the web application, the
+    dependencies must be installed either by running `npm install` or `make` (see
+    [*Chapter 8*](112a5075-378d-4bb0-9b9e-db81c18a35f5.xhtml), *Agility In A blockchain
+    network*) within that folder.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following code snippet shows how to instantiate and run the *express* server:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE38]'
+  prefs: []
+  type: TYPE_PRE
+- en: To summarize, a web server is launched to listen for HTTP requests on port `4000`.
+    Middleware is configured to enable CORS, automatically parsing both JSON payloads
+    and forming data in POST requests.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Our web server listens to requests over an insecure HTTP. In a production application,
+    we would start an HTTPS server for secure, confidential communication with clients.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, let's see how to configure the various express routes to implement our
+    service API functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: User and session management
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Before performing a network (channel) or chaincode operation, a user must establish
+    an authenticated session. We will implement the `/login` API function as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Create a JWT token for a user with an expiration time of 60 seconds
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Register or log the user in
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: If successful, return the token to the client
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The server expects the name of a user and an organization name for registration
+    or login to be provided as form data in the request body. An administrative user
+    is simply identified by the admin username. The request body format is:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE39]'
+  prefs: []
+  type: TYPE_PRE
+- en: A password must be supplied, but only if the `<username>` is `admin`. In that
+    case, the middleware will simply check whether the supplied password matches the
+    one that was used to start the `fabric-ca-server` for the organization's MSP.
+    As mentioned earlier in this chapter, our MSP administrator passwords were set
+    to the default `adminpw`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This is a naïve implementation, but as web application security is not the focus
+    of this tutorial, this will suffice to show how a server and frontend can be implemented
+    over a smart contract and middleware.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The code for JWT token creation and user registration/login can be found in
+    the following express route configured in `app.js`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE40]'
+  prefs: []
+  type: TYPE_PRE
+- en: The reader may experiment with other mechanisms of session management, such
+    as session cookies, in lieu of JWT tokens.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Our web application can now be tested. First, bring up the Fabric network using
+    `docker-compose` (or `trade.sh`), as shown earlier in this chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If you created fresh cryptographic keys and certificates for the organizations
+    using `cryptogen` (or the `trade.sh` script), you MUST clear the temporary folder
+    used by the middleware to save world state and user info, otherwise you may see
+    errors if you try to register users with IDs that were used in a previous run
+    of your application. For example: if the temporary folder is `network/client-certs`
+    on your machine, you can simply run `rm -rf client-certs` from the `network` folder
+    to clear the contents.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In a different terminal window, start the web application by running the following
+    command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE41]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In a third terminal window, send a request to the web server using the `curl`
+    command to create an ordinary user named `Jim` in the `importerorg` organization
+    (this is the organization name specified in `middleware/config.json`):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE42]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You should see an output like the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE43]'
+  prefs: []
+  type: TYPE_PRE
+- en: In the middleware, the function that gets executed here is `getUserMember` in
+    `clientUtils.js`, which was discussed earlier in this chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To create an administrative user in the same organization, run:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE44]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You should see an output as follows (the admin user was already registered,
+    so this ended up being a login call):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE45]'
+  prefs: []
+  type: TYPE_PRE
+- en: In the middleware, the function that gets executed here is `getMember` in `clientUtils.js`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network administration
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'As you can see in `app.js`, the API functions from channel creation to chaincode
+    instantiation are implemented as express routes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE46]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To exercise these routes, the end user must log in as an administrator and
+    use the returned token. Taking the output from the previous call, we can request
+    channel creation as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE47]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Note that the format for the authorization header is `Bearer <JWT token value>`.
+    The web server implicitly assumes that the channel name is `tradechannel`, which
+    is set in `middleware/constants.js`. (You may augment the server API to accept
+    a channel name in the request body if you wish.) The output ought to be as follows
+    if everything goes well:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE48]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Similar queries can be run by an administrator for channel join, chaincode
+    installation, and chaincode instantiation. As an example, the instantiation API
+    endpoint expects the chaincode path, chaincode version, and a list of arguments
+    for the chaincode as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE49]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The output, if everything goes well, will be:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE50]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In the implementation of each of these routes, a check is made to ensure that
+    the user (identified by the JWT token) is an administrative user, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE51]'
+  prefs: []
+  type: TYPE_PRE
+- en: If we were to use the token for the user registered as Jim, the web server would
+    return a `403` error code to the client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Exercising the application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Once the chaincode has been initialized by an administrative user, our application
+    is open for business. Now, any ordinary user (such as Jim in the importer''s organization)
+    may request a chaincode invocation or query. For example, a trade request can
+    be made as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE52]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Note that the chaincode version must be supplied in the request body. The output,
+    if all goes well, will be:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE53]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Subsequently, the status of the trade can be queried (again by `Jim`):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE54]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, the output ought to contain the chaincode response:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE55]'
+  prefs: []
+  type: TYPE_PRE
+- en: User/client interaction modes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Although running curl commands is sufficient to test our web application, the
+    proper way to expose the application to the user would be through one or more
+    web pages, with widgets for the user to trigger those commands.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As we saw in the middleware implementation section, various operations, including
+    chaincode invocations, are asynchronous. In our implementation, we masked this
+    asynchronous behavior by making the wrapper function return to the caller, but
+    only when the request had been successfully sent to the orderer and the events
+    subscribed for had been received and validated. We can also choose to expose this
+    asynchronous behavior to the web application client. Using Web Sockets ([https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)),
+    the contents of a web interface presented to the end user may be dynamically updated
+    whenever the event notification arrives at the callback registered with the event
+    hub.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Designing good web interfaces is beyond the scope of this book, and it is left
+    to the reader to leverage other sources of knowledge to build ones suitable for
+    their applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing the Middleware and Application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We have shown how to exercise the Node JS-based middleware and application capabilities
+    using sample scripts and `curl` commands. By observing the console output, you
+    can find out if the application works as expected. For a production application,
+    you will need a more robust and maintainable testing methodology that can evaluate
+    correctness of the library functions and API endpoints on an ongoing basis. Both
+    unit tests and integration tests should be part of your evaluation process. A
+    hands-on demonstration of such testing is beyond the scope of this chapter, and
+    writing unit and integration tests is left as an exercise to the reader. Mocha,
+    which is a feature-rich JavaScript framework for asynchronous testing([https://mochajs.org/](https://mochajs.org/)),
+    can be used for this purpose.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Integration with existing systems and processes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: When discussing end-to-end solutions with customers, we often explain that blockchain-related
+    components represent a very small percentage of the overall footprint. This is
+    still a very important set of components, but nonetheless they represent a small
+    footprint.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This section will focus on the touch point between our traditional systems and
+    the Hyperledger Fabric and Composer API.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will explore the various patterns of integration we have leveraged and see
+    how some of the non-functional requirements can influence the integration deployment.
+    Finally, we will explore some additional considerations that integrators will
+    need to keep in mind when designing their integration layer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In short, in this section, you will:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understand the design consideration of the integration layer
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Review the integration design patterns
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Explore the impact of non-functional requirements on the integration
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Design considerations
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: By now, you have experience with Fabric SDK and by the end of [*Chapter 7*](2e166a5f-eff3-4317-9a8f-fb74bdb68915.xhtml),
+    *A Business Network Example*, you will have experienced using the `Composer REST`
+    gateway. While those are certainly the main tools of the trade when it comes to
+    integration, they are part of an ecosystem, and there needs to be an alignment
+    of the business processes of the enterprise to make sure the integration makes
+    sense.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As per the design considerations, we will look at the following aspects:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Impact of decentralization
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Process alignment
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Message affinity
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Service discovery
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Identity mapping
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Decentralization
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Many attempts have been made to standardize IT functions and capabilities, but
+    the reality is that no two organizations have the same IT landscape. Even for
+    those who have selected the same ERP vendor, the systems will have been customized
+    to meet the organization processes and needs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This means that when planning your integration design, you should keep in mind
+    that each organization may have their own way of invoking smart contracts and
+    may not have the same IT capabilities or policies.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As an example, exposing events through Web Socket may make sense for an organization
+    who is familiar with cloud-based technologies, but other organizations may not
+    have the skills, or their IT security policies may not allow them to use the protocol.
+  prefs: []
+  type: TYPE_NORMAL
+- en: While it may seem surprising to some, keep in mind that a network can be a mix
+    of Fortune 500 organizations and start-ups. Consider the supply-chain industry
+    for a moment; you will find some trucking company with little to no IT infrastructure,
+    all the way to industry behemoths. Clearly, one size may not fit all.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Having said that, from a network perspective, you should consider the degree
+    of support the network wants to provide to joining organizations. There are two
+    possible approaches:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**The network provides an integration asset**: This can take the form of a
+    gateway that each participant deploys in their own infrastructure. The gateway
+    is standard for everyone and manages the invocation of the smart contracts in
+    a consistent manner.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: This can provide the benefit of accelerating the on-boarding process, but requires
+    consideration about who owns, manages, and supports this IT component. Furthermore,
+    some organizations may not want to deploy this piece of infrastructure due to
+    trust issues.
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '**Each participant builds their own integration layer**: The obvious downside
+    of this approach is the recreation of the wheel by all participants, but it reduces
+    the potential support issues created by deploying a common component in every
+    organization.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: This may also be the preferred approach for use cases requiring deep system
+    integration to achieve the benefit of process optimizations.
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: Process alignment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The integration layer will have to deal with two different viewpoints:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Organization IT system and business process viewpoint**: An organization
+    business process may be hosted in an ERP such as SAP. In such a situation, when
+    a specific business event warrants the invocation of a smart contract, this may
+    be issued through a **Business API** (**BAPI**) call from the SAP system. The
+    API call from the ERP may contain a variety of data structures, some of which
+    will be completely irrelevant to the blockchain network.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Smart contract viewpoint**: This viewpoint has the particularity of having
+    a data representation that is application agnostic. This means that all participants
+    of the network will understand the nature of the data being processed.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'It is up to the integration layer to reconcile the two and ensure that the
+    proper semantic of the transaction is maintained in both systems. This may imply:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Mapping**: Moving data from one field name to the another'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Transformation**: Aggregating, splitting, or computing a new value based
+    on input'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Cross-referencing**: Leveraging a reference table to map application-specific
+    codes to values recognized by the network'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The point here is that even if your network agrees to use the Hyperledger Composer
+    REST gateway presented in [Chapter 7](2e166a5f-eff3-4317-9a8f-fb74bdb68915.xhtml),
+    *A Business Network Example*, there is still work that needs to be done by each
+    participant to ensure that the integration fits into the overall business processes
+    of the organization.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Message affinity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: While this is not an issue often discussed, ignoring it can lead to serious
+    issues that will typically surface during integration or performance testing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We refer to message affinity as a situation that occurs when a system issues
+    a series of inter-dependent transactions, which are issued in a short period of
+    time. Because each transaction is issued separately, they are subject to be processed
+    in a different order than when they are issued by the client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The result may be unpredictable, as the following example shows. To make it
+    concrete, let''s look at an Order process that would issue three separate transactions,
+    as shown in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/05a9b3bf-eb3a-4aec-94ff-da5d84218061.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 5.4: Processing service requests in order'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Because the Service Provider is multi-threaded, the order of processing can
+    vary depending on the load at the time. A potential result is illustrated in the
+    following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0c721e3c-759b-45cc-b086-fc5fdba9fa3b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 5.5: Potential service processing result'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The first item being processed out of order would be rejected because the order
+    object hasn't been created yet. However, the two subsequent objects would succeed
+    and leave the system in a state where the order is recorded as having a single
+    item instead of two.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The challenge with this situation is that it is hard to troubleshoot. An unaware
+    developer may not be able to reproduce this behavior on his/her development platform.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, you may be wondering, how does that relate to blockchain and Hyperledger
+    Fabric? Considering that Fabric transactions are asynchronously processed and
+    that they are validated against every world state, this situation can arise. The
+    client will issue the transaction and may asynchronously receive a message saying
+    that the transaction was invalid because it did not correspond to the world state.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The moral of the story here is that when designing an API, make sure that they
+    are at a granularity level that completely describes a business event. Too many
+    fine-grained transactions only leads to message affinity, increased latency, and
+    the potential for issues, as described here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Service discovery
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In the context of the integration to Hyperledger Fabric and Composer, the concept
+    of service discovery is focussed on documenting and exposing the artifacts from
+    Fabric: CA, peers, and orderers to the calling application.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: As we now have experienced, in order for the application to get a transaction
+    endorsed and added to the ledger, it needs to be able to interact with numerous
+    components of these types. Having a way to maintain this information as a service
+    configuration element will enable teams to quickly adapt to the evolving nature
+    of the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Currently, when developing client applications using the Fabric SDK, the developer
+    is responsible for managing and applying this service configuration.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Part of the roadmap of Hyperledger Fabric is the intent to facilitate this configuration.
+  prefs: []
+  type: TYPE_NORMAL
+- en: One of the benefits of relying on a component such as the  `Composer REST` gateway
+    is that service discovery is provided by the gateway. Concretely, as you will
+    soon discover, it provides the concept of a business card which contains both
+    the identity information along with a  connection profile, which has the list
+    of Hyperledger Fabric services that can be used to execute transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Identity mapping
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Identity mapping is the process of converting the identity of an individual
+    or an organization to an identity that is recognized on the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When looking at the solution from a business network perspective, what is the
+    granularity of the identity that needs to be recognized? Will other organizations
+    care whether Bob or Ann from ACME issued the transaction? In most cases, the answer
+    will be no. Knowing that the transaction was issued by ACME will be sufficient.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Why is that, you may wonder. It is directly related to the concept of trust.
+    Remember the concepts presented in [*Chapter 1*](ccf97c50-561e-41ae-99fa-784b3217619d.xhtml), *Blockchain
+    – Enterprise and Industry Perspective*; blockchain solves the problem of time
+    and trust. Understanding where the trust issues come from helps us rationalize
+    what identities should be used to transact on the network. In most cases, our
+    experience has been that trust issues occur between organizations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you think about a use case where a bank customer transacts through their
+    bank portal, the customer will not care about the backend systems; they trust
+    their bank's security system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Having said that, there are situations where an identity will need to be mapped:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Business partners transacting through the integration layer of the organization
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Different departments with varying levels of privilege
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Users with different roles that drive different access privileges
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In this case, the integration layer will need to convert the inbound credentials
+    (API Key, User ID and Password, JTW token, and so on) into a Hyperledger Fabric
+    identity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When working with the Hyperledger `Composer REST` gateway, you can configure
+    it to support multiple users. The server leverages the node passport framework
+    to manage this authentication. This provides the flexibility of supporting different
+    models (for example, user ID/password, JWT, and OAUTH).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once the client is authenticated to the server, there is an additional step
+    that consists of loading the Hyperledger Composer business card into the server's
+    user repository. There needs to be implicit trust between the client and the server,
+    as the business card contains the private key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Integration design pattern
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We will now look at some of the viable integration patterns we have seen in
+    the industry. The list is by no means exhaustive, and given that we are still
+    in the early days of the Hyperledger Fabric and Composer solutions, we expect
+    that new patterns will emerge as people and organizations become more comfortable
+    with the technology.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Enterprise system integration
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this category, we consider any organization's pre-existing systems that predate
+    the joining of the network. As such, these systems have their own concepts and
+    paradigms, and we will require a form of abstraction to reconcile the two worlds.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Integrating with an existing system of record
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Following is a diagram to illustrate the blockchain network to an existing
+    system of record:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ace45f87-b12c-4ea7-9b2d-0011fd97732d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 5.6: Integrating the blockchain network to an existing system of record'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Most large enterprises looking at joining with a business network will eventually
+    aim at integrating their system of record to make sure that they benefit from
+    the real-time transparent distribution of transactions. In these circumstances,
+    the process alignment we previously mentioned will be tremendously important.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As depicted in the preceding diagram, the approach will consist of leveraging
+    an adaptor pattern to act as a data mapper between the two worlds. The adaptor
+    will adopt the enterprise system application protocol and data structure to receive
+    transaction requests. Optionally, it can also leverage existing foundations such
+    as messaging services to propagate ledger events.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The important thing to note here is that this type of integration will be specific
+    to an organization, and very little reuse will be possible.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As a variant of this pattern, some organizations will break the adaptor into
+    two parts:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**REST gateway**: Exposing a REST interface aligned with the Fabric smart contract'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Integration bus**: Mapping the fields and connecting the enterprise systems'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: While in this variant reuse is higher, the same considerations only get moved
+    one layer down.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Integrating with an operational data store
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Here is a diagram that illustrates integrating the blockchain network to an
+    operational data store:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b7b1f220-6a7b-4734-9cf6-bd325cf463d7.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 5.7: Integrating the blockchain network to an operational data store'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Oftentimes, organizations are looking at ways of running analytics on the information
+    from their ledgers. However, issuing multiple/large queries against the organization's
+    peers will only impact the online performance of the system. Generally, the recognized
+    approach in enterprise system design is to move the data to an operational data
+    store. The data can then be easily queried. Additional views on the data can be
+    created by enriching the data using different data sources.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this pattern, the event listener subscribes to the Fabric organization events.
+    As such, it can receive transactions from all channels the organization is entitled
+    to. If the preservation of the data's integrity is important, the event listener
+    can calculate a hash of every record and store them alongside the records.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You will notice that the pattern also accounts for a `syncAll` function that
+    would allow the event listener to re-synchronize the data store with the latest
+    view of the world state. Keep in mind that the implementation of this `syncAll` function
+    will need to be done carefully and will most likely require that the function
+    supports the pagination of the resultsets.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Microservice and event-driven architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following diagram illlustrates microservice and event-driven architecture
+    for a blockchain application:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/93b7c097-cabb-4d7f-9633-abcff03632ab.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Figure 5.8: Microservice and event-driven architecture for a blockchain application'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We've labeled this pattern as microservice and event-driven because this is
+    the pattern most often seen for those types of architectures. However, the particularity
+    of this pattern comes from the gateway. Such a system will not perform any data
+    mapping; it will leverage a common communication protocol (HTTP) and data format
+    (typically JSON, but it could be XML). There is also an expectation that the services
+    will already be designed to understand the semantics of the data being transacted.
+    Events are also propagated through the same protocol and data format.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Again, microservice applications tend to be newer applications, and they benefit
+    from a more fine-grained interface. As such, they tend to evolve more quickly
+    and be in a position to adapt and adhere to the transactions from the network.
+    Similarly, event-driven applications will benefit from their low coupling to the
+    other components of the system, and so are good candidates for this pattern.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Considering reliability, availability, and serviceability
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The failure of software or hardware components is a fact of life for any industrial
+    application, so you must design your application to be robust to failures and
+    minimize the probability of downtime. We will discuss three key guidelines that
+    are widely used in the industry to build and maintain systems, and briefly examine
+    how they apply to an application built using Fabric or Composer tools.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Reliability
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A reliable system is one that ensures correct operation in the face of failure,
+    with high probability. This entails the following things:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Continuous self-monitoring of the system
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Detection of failure or corruption in a component
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Fixing the problem and/or failing over to a working component
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Although various practices have evolved in the industry to ensure reliability,
+    redundancy and failover are commonly (or even universally) used.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the context of a Fabric application of the kind we built in Section I, this
+    has certain implications. Recall that Fabric has many different components that
+    must work in concert (though in a loosely-coupled manner) to ensure successful
+    operation. The ordering service is one such key component that, if it were to
+    fail, would completely stall the transaction pipeline. Therefore, when building
+    a production version of, say, our trade application, you must ensure that the
+    orderer has enough redundancy built in. In practice, if your orderer is a Kafka
+    cluster, this means ensuring that there are enough Kafka nodes (brokers) to take
+    up the slack should one or more fail.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Similarly, the reliability of peers for endorsement and commitment is key to
+    ensuring transaction integrity. Although blockchains, being shared replicated
+    ledgers, are designed to be somewhat robust to peer failures, their vulnerabilities
+    may vary depending on the application. If an endorsing peer fails, and if its
+    signature is necessary to satisfy the transaction endorsement policy, transaction
+    requests cannot be created. If an endorsing peer misbehaves, and produces incorrect
+    execution results, the transaction will fail to get committed. In either case,
+    the throughput of the system will reduce or fall to zero. To prevent this from
+    happening, you should ensure that there is adequate redundancy built into the
+    set of peers within each organization, especially the ones that are key to satisfying
+    an endorsement policy. The following diagram illustrates a possible mechanism
+    whereby transaction proposals are made to multiple peers, and absent or incorrect
+    responses are discarded using a majority rule:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/48ae0c90-7c06-4f14-aa18-4ca441fb8a2e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Figure 5.9 Redundant peers for reliable transaction endorsement
+  prefs: []
+  type: TYPE_NORMAL
+- en: The level of reliability one gets from a system depends on the amount of resources
+    devoted to monitoring and failover. For example, five peers in the preceding diagram
+    are sufficient to counter two peer failures, but this now requires four more peers
+    in the organization than what we used in our example network. To determine and
+    ensure that your network yields the expected level of reliability, you will need
+    to run integration tests on your complete system over a period of time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Availability
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The availability criterion is closely related to reliability, but it is more
+    about ensuring system uptime with high probability, or as a corollary, minimizing
+    the probability of system downtime. As with reliability, detection of failed nodes
+    and ensuring adequate failover is the key to ensuring that your application will
+    remain operational, even when one or more components fails. Determination of the
+    desired availability level, allocating an adequate number of resources in the
+    form of redundant and self-correcting components, and testing in a production
+    environment are necessary to ensure that you get the desired performance from
+    your application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Serviceability
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Serviceability** or **maintainability** is the ease with which you can replace
+    or upgrade parts of your system without impacting the system as a whole.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Consider a situation where you must upgrade the operating system on one or more
+    of your ordering service nodes, or if you need to replace a faulty peer within
+    an organization. As with reliability or availability, having redundant (or parallel)
+    resources to which application operations can be switched seamlessly is the way
+    to handle this in an industrial-scale system. So-called Blue-Green deployment
+    is one of the popular mechanisms used for this purpose. In a nutshell, you have
+    two parallel environments (let's say, for the ordering service), one called Blue
+    and one called Green, where the Blue environment is receiving live traffic. You
+    can upgrade the operating systems on the Green machines, test them adequately,
+    and then switch the traffic from Blue to Green. Now, while Green is serving requests,
+    you can upgrade Blue in the same manner.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In a blockchain application with loosely coupled components, it is advisable
+    to have Blue and Green environments for each of the components (orderers, peers,
+    and MSPs) and carry out the upgrades and testing in stages, or one component cluster
+    at a time, to minimize the chances of a mishap.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Building a complete blockchain application is an ambitious and challenging project,
+    not just because of the range of skills it requires—systems, networking, security,
+    and web application development, to name a few—but because it requires concerted
+    development, testing, and deployment by multiple organizations spanning multiple
+    security domains.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this chapter, we began with a simple smart contract and ended with a four-peer
+    blockchain network that was ready to drive trade scenarios and store records in
+    a tamper-resistant, shared, replicated ledger. In the process, we learned how
+    to design an organization structure and configure a Fabric network. We learned
+    how to build a channel, or an instance of a Fabric blockchain, get peers in a
+    network to join the channel, and install and instantiate a smart contract on that
+    channel, using the Fabric SDK. We learned how to expose the capabilities of our
+    network and smart contract to end users through web applications, exposing service
+    APIs. We also learned how a Hyperledger Fabric transaction pipeline works, and
+    how the asynchronous nature of block commit operations must be factored into the
+    implementation of the end-to-end application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the latter part of the chapter, we learned about various design patterns
+    and best practices that can be used to build industry-scale blockchain applications.
+    We also learned about the considerations to keep in mind while integrating these
+    applications with existing systems and processes. Finally, we explored the performance
+    aspects of running operational Fabric network and learned about the CAP theorem
+    and how Fabric achieves data consistency in distributed environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Hyperledger platforms and tools will, no doubt, evolve over time to serve
+    industry and developer needs, but the architecture and methodology we described
+    in our application-building exercise, as well as the design and integration patterns,
+    should continue to serve as an educational guide in the long term.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Our journey so far has taken us to the foundation of the Hyperledger Fabric
+    framework. We have worked with chaincode and integrated an application using the
+    Fabric SDK API. These are essential skills.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next two chapters, we will now explore a different approach to modeling
+    and implementing a business network.
+  prefs: []
+  type: TYPE_NORMAL

@@ -1,0 +1,1719 @@
+- en: A Business Network Example
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we are going to bring together all the concepts we've discussed
+    with a sample business network, involving a real-world example. Specifically,
+    we're going to do a detailed walk-through of the Hyperledger Composer letter of
+    credit sample, so that you can understand how participants, assets, transactions,
+    and events are realized in code. We'll show how the business network is used,
+    analyzed, defined, and how that definition is used to generate APIs, test them,
+    and integrate them into a sample application. This is going to be a comprehensive
+    tour that will get you from concepts right into implementation. We're going to
+    use the letter of credit sample because it represents a well-known process that's
+    often discussed in relation to blockchain. Let's discuss the process first, and
+    then see why it's used as the poster child example.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The letter of credit sample
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: And so we get to our sample. Alice, the owner of QuickFix IT in the Italy, wishes
+    to buy computers from Bob, who runs Conga computers in the USA. Alice is going
+    to apply for a letter or credit from her bank, Dinero Bank, which will be accepted
+    by Bob's bank, Eastwood Banks, as a form of payment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We're going to try out the whole process using the letter of credit sample application
+    found at [https://github.com/hyperledger/composer-sample-applications](https://github.com/hyperledger/composer-sample-applications).
+    This repository contains a number of sample applications of business networks–we're
+    going to use the letters of credit sample.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing the sample
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'If you''ve followed the steps in [*Chapter 3*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml),
+    *Setting the Stage with a Business Scenario*, you should have all of the prerequisites
+    done. Now fork a copy of the sample application''s repository ([https://github.com/hyperledger/composer-sample-applications](https://github.com/hyperledger/composer-sample-applications))
+    to your GitHub account, and then clone it to your local machine using the following
+    commands:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Navigate the the appropriate directory and install the letter of credit sample
+    application using the following commands. It will take a few minutes for the application
+    to download and install:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: The install script will also start the application presentation tier in your
+    browser. Let's investigate.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Running the sample
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'You''ll see that your browser has opened up tabs corresponding to the different
+    participants in the network. Click on the different tabs to see the different
+    participants in the network. We''re going to inhabit each of these personae as
+    we work through the sample. Let''s walk through the process by trying out the
+    application:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/02e1a8a4-6bbc-43b2-ac9c-24037c362ad6.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Step 1 – preparing to request a letter of credit
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We start with preparing for our request:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Select the first tab on your browser–you will see the following page:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/26a6704f-0c89-4d89-951f-c53ad27fc18e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: You are now Alice! You can see your bank and your account details. You can apply
+    for a letter of credit by clicking on the Apply button. Try it!
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'You''ll be presented with a page where you can request a letter of credit:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/3514f771-702b-4e21-a0f7-5ea9a9e58d26.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Step 2 – requesting a letter of credit
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This is the first stage of the process you''re going to request a letter of
+    credit to buy computers from Bob! At the top of every screen, you''ll see exactly
+    where you are in the process, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/793cd06e-57ab-49ba-9560-1f8171ee66cb.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'On the left-hand side of the page, you''ll see the merchants'' details—those
+    of Alice and Bob. Notice the company names and account details:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0ded7aab-49cc-405c-9bed-6849666833b2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Let''s make an application as Alice. On the right-hand side of the screen,
+    you can enter the details of the trade. Let''s pretend that Alice requests 1,250
+    computers from Bob, at a unit price of 1,500\. The application has a total value
+    of 1.875M EUR:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e7599d23-9ac7-4fe0-88a8-109ac324ccde.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Also note that Alice can chose (with her bank''s permission) some of the terms
+    and conditions on the application. These are important terms and conditions of
+    the contract with Bob—unless they are satisfied, neither party will receive goods
+    or payment:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b552ad40-03a8-4ee8-804a-eb87a541ee9d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: You can edit these if you wish, although the process is not affected by them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Click on the Start approval process button when you''re ready to move to the
+    next stage of the process:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3fbd34dd-12f6-4e67-85c3-5e4af5b7a801.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Congratulations, you've just applied for a letter of credit!
+  prefs: []
+  type: TYPE_NORMAL
+- en: Step 3 – importing bank approval
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This is next stage of the process. Click on the next tab in your browser. You
+    are now Matias, an employee of Alice''s bank, Dinero, who needs to process her
+    application! Here''s the page that Matias sees:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f8ae0fab-645b-4d49-b438-146ab663bb07.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: It shows the application from Alice, and that it is waiting for approval from
+    Matias. He is acting on behalf of Dinero Bank, and applies whatever process is
+    required to approve or reject the letter. We might imagine that in a sophisticated
+    process, Matias would only have to approve exceptional letters that could not
+    be automatically approved.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If Matias clicks on the application, he is presented with the details, which
+    are essentially the same as Alice requested:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/be00b9b4-2cec-408f-968b-d6be5f9028ab.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'In our scenario, Matias will approve the letter of credit, and the process
+    will continue! Select the accept button and we''ll move to the next step:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/31eee305-e4f0-4eef-bd9f-dd50d744204c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Step 4 – exporting bank approval
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Click on the next tab in your browser. You are now Ella, an employee of Bob''s
+    bank, Eastwood, who has been informed that Alice wishes to do business with Bob:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/34f1a402-6fe6-4fdb-a7cd-e78c04fcd5c2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This sample has taken a little creative license with the process–normally, the
+    letter would be presented to Bob by Alice. Bob would then present it Ella. However,
+    we can see that because everyone can view the letter in advance, process innovations
+    are possible. We'll elaborate on this point later.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We can see that Ella authorizes the next stage in the process–and we can see
+    where the letter is in the process flow. When Ella selects the letter, she can
+    see the following details:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/72f4de67-e8f8-4970-b016-7675bff42e8c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Notice that the currency has been changed. Alice had to make her payment in
+    US dollars because that's what Bob wanted, but Ella and Matias have agreed on
+    an exchange rate for Alice and Bob, so that each can use their own currency. Alice
+    will be charged in euros, and Bob will be paid in dollars.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'At the top of the screen, you''ll see the following information that relates
+    to the process. We can see where we are in the process; increased transparency
+    is made possible due to the singular nature of a blockchain, even though different
+    organizations each host and approve their stage of the process via their own systems:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e568a94a-b058-43f7-ae7f-8fb43ea67849.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Let''s move the process forward again. Ella can approve the letter by clicking
+    on the accept button:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/875b3c77-754d-400e-a602-88306ffa47c9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Step 5 – letter received by exporter
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Click on the next tab in your browser. You are now Bob, and you can see the
+    letter of credit from Alice:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/eb343ba7-fe3b-4ea8-96dd-fde88adb01c9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'In this process example, Bob can be pretty sure that Alice is trustworthy because
+    his bank has told him in advance. If Bob selects the letter, he will be shown
+    its details:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/859be794-6cb0-42ca-a469-1cb76335f00e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Hopefully, you're starting to understand the process now–so let's not spell
+    out all the details again! Just note how Bob has increased trust because of the
+    transparency available to him. Bob accepts letter as payment (Click Accept), and
+    now has to ship the goods to Alice!
+  prefs: []
+  type: TYPE_NORMAL
+- en: Step 6 – shipment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'You will be returned to Bob''s initial screen, but notice that now there''s
+    an option to ship the goods to Alice:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/69b8f2ab-5df6-4737-b28e-e439ba5be2f8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Click on Ship Order to indicate that the goods have been shipped to Alice:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/806ae5f8-5deb-40de-af88-5cec3ab83b78.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Bob can now see that as far as the letter of credit process is concerned, he
+    is finished–the order has been shipped.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'But Bob hasn''t yet received payment–Alice must receive the goods first before
+    this can happen. Note the history in the bottom right hand corner of Bob''s web
+    page. Bob can see where he is in the overall process, and that some steps need
+    to be completed before he receives payment:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a40aa748-d77a-44f9-8bc9-d281d5c4cd68.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Let's return to Alice to continue with the next step in the process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Step 7 – goods received
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Go back to Alice''s tab in your browser:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b8394717-7e70-4fc2-ae49-74e54e27fac3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: When Alice receives the computers from Bob, she can click on Receive Order to
+    indicate this, and review the letter of credit. At this point, both banks are
+    able to release payment. Let's move to Matias's web page to see this process step.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Step 8 – payment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Matias can see that Alice and Bob are happy and that payment can therefore
+    be made. Click through Matias''s initial page to see the details of the current
+    letter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/efb6f7f0-8d1f-4c96-abb5-a67ecad8b34e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Matias can see that Alice has received the goods, and Matias can click on Ready
+    for Payment to move to the next step of the process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Step 9 – closing the letter
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Ella can now close the letter and make the payment to Bob:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/4be77fa3-1f1e-4443-93a0-f8d2df5e23ce.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: As Ella, click on Close to move to the final step of the process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Step 10 – Bob receives payment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'If we move back to Bob''s web page and refresh it, we can see that Bob has
+    some good news! Check out his increased balance:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e461b841-400f-41c7-9bb2-c3f562743329.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Bob has now received payment for the computers he shipped to Alice. The business
+    process is complete.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Recapping the process
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Alice wanted to buy computers from Bob, and used the letter of credit process
+    to facilitate this exchange. She bought goods in dollars, but was charged in Euros.
+    She was able to be confident that the goods met her terms and conditions before
+    she paid for them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bob sold computers to Alice, an overseas customer he didn't previously know.
+    The letter of credit process allowed him to be confident that he would receive
+    payment for his goods in his local currency, US dollars, as long as Alice was
+    happy with the goods.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Matias and Ella, representatives of Dinero Bank and Eastwood Bank, respectively,
+    provided a system that allowed Alice and Bob to trust that each would fulfill
+    mutually agreeable conditions in order to receive payment. They were able to charge
+    Alice and Bob a fair price for their services. They were aware in near real-time
+    of every step in the business process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's now see how this process was implemented using Hyperledger Composer and
+    Hyperledger Fabric.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Analyzing the letter of credit process
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: At the core of the business network is a **business network definition** that
+    contains the formal description of assets, participants, transactions, and events.
+    We're going to examine this for the letter of credit application. By the end of
+    this chapter, you'll be able understand how the network is implemented and accessed
+    by the application. Moreover, you'll have the knowledge to build your own network
+    and applications that consume it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Playground
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'If you move to the next tab in the demo, you''ll find the Hyperledger Composer
+    Playground has been opened for you:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b8057977-b0ea-479c-938b-47ddb0afea9a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The Playground is a tool that will allow you to investigate the business network.
+    The initial view of Playground contains a **wallet** full of **business network
+    cards**. Just like a real wallet, these cards allow you to connect to different
+    networks. When you use a particular card to connect to a network, you act as a
+    different participant. This is useful for testing the network. Let's connect to
+    the network as an administrator, and see what's in it! (We'll create our own network
+    card later.)
+  prefs: []
+  type: TYPE_NORMAL
+- en: Viewing the business network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'On the business network card marked `admin@letters-credit-network`, click Connect
+    now. You''ll be presented with a web page:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/344e547b-6af3-4c2d-9e08-43adeebb59ec.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: View of business network definition
+  prefs: []
+  type: TYPE_NORMAL
+- en: This is a view of the business network definition. It contains definitions of
+    the participants, assets, transactions, and events we discussed in Business Networks
+    – for the letter of credit network. On the left-hand side of the page are a set
+    of files that contain information relating to these concepts for the network we're
+    connected to. We've selected **About**, and on the right-hand side, we can see
+    a description of the business network. Let's investigate this description in a
+    little detail–it's really important to understand.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A description of the business network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The `READ.ME` file contains a natural language description of the network in
+    terms of its assets, participants, transactions, and events.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The participant descriptions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The participants are listed in the business network description:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: In our example, there are four participant **instances**—Alice and Bob, Matias
+    and Ella. But notice how there are only two participant **types**, namely `Customer`
+    and `Employee`. In our network, Alice and Bob are participants of the `Customer` type,
+    whereas Matias and Ella are participants of the `BankEmployee` type. We can see
+    that these types are named from the perspective of a bank–that's because the network
+    service is being provided by the Dinero and Eastwood banks, and used by Alice
+    and Bob.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We're going to see more details about these participant types and the particular
+    instances in the network soon. But for now, just think about how we've reduced
+    the actors in the network to two very simple representations. Even though we saw
+    a rich behavior in the application, in terms of participants, the network is quite
+    simple. You'll see this in business networks–while there can be many instances
+    of participants, the number of types is usually very limited, and rarely exceeds
+    10\. Of course, rules are made to be broken, but you'll find it helpful to think
+    of networks this way–it makes the analysis much more manageable.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The asset descriptions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'If you were surprised that the number of participant types is small in this
+    business network, then you''re going to amazed when you see the number of asset
+    types:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, this is a sample network–here to teach us about the concepts of business
+    networks, rather than be an exhaustive representation of the world of letters
+    of credit. However, if you think about our example, the whole flow was primarily
+    concerned with just one asset type: the **letter**.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: To be fair, we didn't focus on the goods being transferred–the computers, or
+    the payment. In a real system, these would described as assets. Even so, notice
+    how the number of asset **types** would still be relatively small. We can create
+    limitless numbers of instances of letters of credit, computers, and payments,
+    but there will remain only a few types.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We'll look at the details of this asset type a little later.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The transaction descriptions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s now move to the transaction types in the business network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: At last, we can see quite a few types! This is typical–while the numbers of
+    the types of participants and assets is quite limited, assets have rich life cycles.
+    If you think about our application, the letter of credit goes through many **states**,
+    as it interacts with the different participants in the network. These transactions
+    correspond directly to those interactions. (Ignore `CreateDemoParticipants`, this
+    is a transaction that sets up the demo!)
+  prefs: []
+  type: TYPE_NORMAL
+- en: The transaction names are fairly straightforward to understand–these are closely
+    related to the letter's life cycle. They are the steps you went through using
+    the application, as different participants. Alice made the `InitialApplication`,
+    and had the option to `SuggestChanges` to the terms and conditions of the letter.
+    Mattias and Ella could `Approve` or `Reject` the letter. Bob invoked `ShipProduct`
+    to indicate that he had performed his end of the bargain, and Alice used `ReceiveProduct`
+    to likewise indicate she had received the computers. Finally, Matias indicated
+    that the letter was `ReadyForPayment`, and Ella issued the `Close` transaction
+    to end the process and trigger payment to Bob.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There's no reason why the number of transaction types has to be larger than
+    the number of types of assets. One could easily imagine many different asset types
+    that had the same, relatively simple, life cycle. Imagine a retailer's product
+    inventory for example–goods could be sourced, delivered, sold, and returned. This
+    is a relatively simple life cycle, but the number of different types of goods
+    could be quite large. However, we might expect these different goods all to share
+    this life cycle through some commonality of behavior; after all, they are all
+    products. There will be more on this idea of inheritance later.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We'll look at the implementation of these transactions in more detail, but for
+    now, it's most important to understand the conceptual picture of asset flow between
+    the participants in the network, as described by transactions, rather than worrying
+    about the exact logic behind these transactional changes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The event descriptions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Finally, let''s look at the list of events in the business network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: We can see that the events have names matching the transaction types, and this
+    is typical. These are **explicit** events that are generated by transactions to
+    indicate when certain events occur in the business network. In our scenario, they
+    are used by the user interfaces to keep the web pages up to date, but of course
+    could be used for much more sophisticated notification processing, for example, `CloseEvent` could
+    be used to trigger payment to Bob.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When you first define a business network, you'll find that the events closely
+    mirror the transactions. But, over time, you'll find that more sophisticated **explicit**
+    events get added, for example, Matias or Ella might want to generate a specific
+    event for a `HighValue` letter, or a `LowRisk` application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We'll look at the details of these events later.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A model of the business network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that we've understood the types in the business network in natural language,
+    let's see how they are defined technically. On the left-hand side of the Playground,
+    select Model File.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this business network, there is only one model file that defines the participants,
+    assets, transactions, and events. In a bigger application, we'd keep the information
+    from different organizations in their own files, and often in their own namespace.
+    It allows them to be kept separate but brought together when necessary. Let's
+    see how namespaces work.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Namespaces
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Our example uses a single namespace:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: This namespaces says that *the type definitions in this file have been defined
+    by the Acme organization's letter of credit process*. All this is a short name!
+    Use namespaces–they'll help you clearly separate, and more importantly, **communicate**,
+    your ideas. It is recommended to use a hierarchical name so that it's clear which
+    organizations in the network are defining the relevant types being used by the
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Enumerations
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Next, we see a set of enumerated types:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: These are the **states** through which the letter is going to transition. When
+    we access a letter, we're going to be able to identify where the business process
+    is using this enumeration. All the names are fairly self explanatory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Asset definitions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We now come to the first really significant definition–the letter of credit
+    asset:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: Let's spend a little time on this definition, as it's both central to understanding
+    the business network, and Hyperledger Composer in particular.
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, note the **asset** keyword. It indicates that what follows is a data
+    structure that describes an asset. It's just like a type definition in a normal
+    programming language, but with some special characteristics that we'll see later.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We can see that the asset is of the `LetterOfCredit` type. In this example,
+    we only have one asset type–in more sophisticated examples, we''d have more types
+    of assets. For example, we could extend this model to include a `Shipment` asset,
+    and a `Payment` asset:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'For now, let''s skip the **identified by** clause, moving to the first element
+    in the asset definition:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: The letter `o` indicates that this field is a **simple attribute** of the asset.
+    It's a slightly strange way of indicating this, so just think of it as a decoration.
+    This first attribute is the `letterId`. Recall that when a letter is created in
+    the business network, a unique ID is assigned to it. If you recall, in our example,
+    we had `letterId` `L64516AM` or `L74812PM`. This is indicated by the field having
+    the `String` type–lots of types are available, as we'll see. We can see that this
+    definition allows us to associate a human-readable identifier with the asset.
+    Note that this must be a unique identifier!
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s now return to the `identified by` clause:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: '*Now* we can understand that this indicates that the `letterId` attribute is
+    the one by which the asset is uniquely identified. It''s a simple but powerful
+    idea that relates closely to the real-world. For example, a car might have a **Vehicle
+    Identification Number** (**VIN**) that uniquely identifies it.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s move to the next attribute:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: The first thing we notice is the `-->` decorator! (Type it as two dashes and
+    a greater than symbol on your keyboard). This is a **reference attribute**–it
+    points to something! In the case of a letter, it points to a different type, `Customer`,
+    and the name of this element is `applicant`. See how the reference concept is
+    a little more complex than the simple attribute we saw earlier–that's because
+    it does more work. This field is saying that the letter has an applicant which
+    is of the `Customer` type, and that you need to look it up via this reference.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In our example, an instance of a letter will point to **Alice**, as she's a
+    customer of Dinero Bank who makes an application. Notice that this a reference
+    attribute refers to a *different* object in the business network. This idea of
+    a reference is very powerful–it allows assets to point to other assets, as well
+    as participants, and the same for participants. With references, we're able to
+    represent the rich structures that we see in the world. It means that we can create
+    assets that can be combined and divided, and the same is possible for participants.
+    In our example, we use the reference to see who has applied for a letter by navigating
+    the reference. Again, we can see that this model is very bank-centric. We'll see
+    later that `Customer` is in fact a participant, and we'll see how participants,
+    such as Alice, are defined. But for now, let's stay with the asset definition.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As we discussed in Business Networks, our application uses a simple way of
+    modeling ownership–in the real-world, it is often an associative reference. We
+    could most easily model this more sophisticated associative relationship as an
+    `OwnershipRecord`, which pointed to an asset and pointed to a participant if we
+    wished to do so:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: We can instantly see the power of this approach. We're able to model the relationships
+    that exist in the real-world, making our applications more realistic and therefore
+    easier to use. For our purposes, our current model is perfectly adequate.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s move to the next field:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: This is a very similar field to the previous one, and in our example, an instance
+    of this element would be **Bob**. There's no need to spend time on this definition.
+    It's important, of course, but it just points the letter at Bob. If you recall,
+    our application always has the two counterparties associated with a letter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The next two fields have a similar structure, but we''re going to spend a little
+    more time discussing them:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: We can see that these fields are also references to other objects, and we might
+    suspect they are participants, given their names–`issuingBank` and `exportingBank`!
+    Examples instances of these types are **Dinero Bank** and **Eastwood Bank**, who
+    act on behalf of Alice and Bob, respectively.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With these first four reference fields, we've modeled the very rich structure
+    of the asset. We've shown that a letter of credit really has four participants
+    involved in it. We've given them symbolic names and types, and shown how they
+    relate to the asset. Moreover, we've done it without writing any code. We're going
+    to have to do that a little later, but for now, notice how we've captured the
+    fundamental nature of a letter of credit in our model. It's worth spending a little
+    time really understanding this point.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We''re only going to consider one more field in the asset definition because
+    hopefully you''re getting the hang of this! It''s an important field:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: Remember those ENUMs that were defined right at the top of the file? Good! This
+    is the field that's going to contain those different values, such as `AWAITING_APPROVAL`
+    or `READY_FOR_PAYMENT`. You're often, if not always, going to have fields and
+    enumerations like this in your business network, because they capture in a very
+    simple form where you are in the business process you're modeling. If you're comfortable
+    with workflows or finite state machines, you might like to think of these as **states**–they
+    are a very important idea.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Participant definitions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We now move to the next set of definitions in the model file: the participants!'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s have a look at the first participant definition:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This is our first `participant` type definition, a bank. In the sample application,
+    we have two instances of this type: **Dinero Bank** and **Eastwood Bank**.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We can see that participants are `identified by` the `participant` keyword,
+    after which follows the type name–**Bank**. In this case, a participant type is
+    an organization, rather than an individual. As with assets, every participant
+    has a unique ID for identification, and we can see that for banks, it''s the `bankID`
+    field:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'For our example, a bank has been modeled very simply–just a `bankID` and a
+    `name`, both of which are strings:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: We can see that banks really are much simpler than letters. It's not just that
+    they have fewer fields with simpler types. More importantly, they don't refer
+    to any other participants or assets–that's what makes them simple–a lack of references,
+    a simple structure. Your models will be like this too–some assets and participants
+    will have a relatively simple structure, whereas others will have much more, including
+    references to other assets and participants.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Recall that these types were referred to from the asset definition. If you
+    need to do so, look at the letter type definition again to see the references:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: Can you see how the **letter** **asset** and **bank** **participants** are related
+    now? Great!
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s now look at the next type of participant. It''s a little different to
+    what we''ve seen before, and for now, ignore the **abstract** keyword:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'It feels like we have four instances of the `Person` type in our application–Alice
+    and Bob, Matias and Ella! Let''s have a look at how individual participants are
+    defined:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: Again, ignore the **abstract** keyword. This statement defines the participant
+    of the `Person` type that is `identified by` a unique field in its type definition.
+    These types are going to be the individual participants in our application, rather
+    than the organizations (that is, banks) that we defined earlier. (We might expect
+    that `Bank` and `Person` will be structurally related–we'll see later!)
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If we look at the definition in a little more detail, we can see their structure
+    is a little more interesting than `bank`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We can see that `Person` also has a name and a last name. But notice that the
+    last name is `optional`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: We can see that the `optional` keyword indicates that `lastName` may or not
+    be present. You may recall in our example that Alice and Bob provided surnames
+    (Hamilton and Appleton), but the banks' employees, Matias and Ella, did not. This
+    optionality has been modeled–see how it helps us make our applications more like
+    the real-world.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'However, the most important field is the next one:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: Why? It reveals **structure**. We can see that a person is related to a bank.
+    In the case of Alice and Bob, it's the bank they have accounts with. In the case
+    of Matias and Bob, it's their employer. We'll come back to whether this is actually
+    the right place to model this relationship, but for the moment, what's important
+    is that we have an individual participant that has a relationship with an organizational
+    participant. You can see that it's not just assets that have complex structure–participants
+    can have them too!
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'But hold on, it''s not quite that simple. We skipped something in the definition,
+    didn''t we? See the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `abstract` keyword almost totally destroys everything we've just said about
+    `Person` types! The abstract types are special because they *cannot have instances*.
+    Really? That's seems counter-intuitive, given we can see Alice and Bob, and Matias
+    and Ella.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To understand what''s happening, we need to move to the next participant definition:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Look carefully at the first line of this definition:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: We can see that we've defined a special type of `Person` called a `Customer`!
+    That's better than before, because Alice and Bob are `Customers`. We don't actually
+    have instances of `Person` participants in our application–we have instances of
+    `Customer` types.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We can see now that the `extends` keyword in the `Customer` type definition
+    is paired with the `abstract` keyword in the `Person` type definition. They are
+    part of this bigger idea of the type specialization and inheritance that we referred
+    to earlier:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: It's the `abstract` keyword that stops us defining instances of `Person`! That's
+    important, because in our example, it's actually correct–there are no instances
+    of the `Person` type, only instances of the `Customer` type.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We can see that a `Customer` has one extra attribute when extending a `Person`
+    type, their company name:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: In the case of Alice, this will be QuickFix IT, and for Bob, it will be Conga
+    Computers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, let''s look at the last participant type, `BankEmployee`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: We don't need to describe this in detail–you can see that, such as `Customer`, `BankEmployee`
+    extends the `Person` type, but unlike it, it does not add any extra attributes.
+    That's OK! In our application, Matias and Ella are instances of this type.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We can now see why the `Person` type is helpful. It's not just that it cannot
+    be instantiated, it's also that it captures what's common between `Customer` and `BankEmployee`.
+    It doesn't just save typing–it reveals an inner structure that improves and reflects
+    our understanding of the business network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Bearing this in mind, you might like to consider whether it might be slightly
+    more realistic to model as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: In real-life scenarios, the actual participant identity will be stored outside
+    the model. This is due to the fact that personal identity and immutable ledgers
+    are not a good combo.  Storing Alice's personal information on the ledger means
+    that it will be there forever.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Can you see how this model shows that the nature of the bank relationship is
+    different for `Customer` than it is for `BankEmployee`?
+  prefs: []
+  type: TYPE_NORMAL
+- en: There's an important point here–there is no such thing as a correct model. Models
+    merely serve a purpose–they are either sufficient or insufficient. Both of our
+    models are perfectly sufficient for our purposes because we don't need to make
+    a distinction between `Customers` and `BankEmployees` in terms of their relationship
+    to a bank.
+  prefs: []
+  type: TYPE_NORMAL
+- en: OK, that's enough on participants. Let's move on to the next element in the
+    model definition.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Concept definitions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Look at `ProductDetail` rather than `Rule`, as it''s a little easier to understand,
+    initially:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: Concepts are minor, but helpful elements, in the model. They are neither assets
+    nor participants–they merely define the structural elements contained within them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This preceding concept defines `ProductDetail`. We might argue that this is
+    in fact an asset–for the purposes of our application, it''s not something that
+    gets transferred between participants! It''s maybe a little clearer when we look
+    at the `Rule` concept, which captures the terms and conditions of the letter of
+    credit:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: This is something that is less like an asset or a participant, but it is helpful
+    to have as a separate type, as it reveals an important structure.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction definitions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s move on! The next section is really important–the transactions! Let''s
+    start by looking the first transaction definition:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE35]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We can see that like assets and participants, transactions are defined with
+    their own keyword:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE36]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `transaction` keyword identifies that what follows is a type definition
+    for a transaction. It's just like the `asset` or `participant` keywords. Notice
+    that there isn't an `identified by` clause in the transaction definition.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This transaction definition represents the initial application made by Alice
+    for the letter of credit. It''s quite obvious really, isn''t it? A particular
+    instance of a transaction would be created by the application that Alice uses,
+    and we can see the information contained within it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE37]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If you look back at Alice''s web page, then you''ll see all this information:
+    the `applicant` Alice, the `beneficiary` Bob, the **terms and conditions** (**rules**),
+    and the **product details**. Notice that the applicant and beneficiary are references
+    to participants, whereas the rules and product details are concepts.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We can see that the transaction has a relatively simple structure but powerfully
+    captures the intention of an `applicant` (for example, Alice) to apply for a letter
+    of credit to do business with a `beneficiary` (for example, Bob).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Event definitions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Look at the next definition in the model file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE38]'
+  prefs: []
+  type: TYPE_PRE
+- en: It's an event! You'll often see this–an event definition immediately next to
+    a transaction of the same name. That's because this is really an **external**
+    event–it's simply capturing the applicant applying for a letter of credit. It
+    simply points to the letter that generated the event. In the application, it's
+    simply used to keep the UI up-to-date, but in general, all kinds of processing
+    could be triggered by this initial application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Continue to look through the model file, and you'll see transactions and events
+    defined for every step of the process, and sometimes extra attributes relevant
+    to that transaction step. Spend a little time looking at these–they are interesting!
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As we''ve seen, it''s also possible to declare more explicit events, such as
+    a high value letter, or a low-risk application. Imagine our application doing
+    this with the following events:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE39]'
+  prefs: []
+  type: TYPE_PRE
+- en: Which transactions in the model file do you think these would be associated
+    with?
+  prefs: []
+  type: TYPE_NORMAL
+- en: To determine this, we need to think about the process–a high-value letter is
+    known about immediately after application, so it would be associated with the
+    `InitialApplication` transaction. However, until the transaction has been initially
+    processed by the both banks, and both applicant and beneficiary assessed, it's
+    hard to say that the letter is low risk. It means that this event would be more
+    closely associated with the `Approve` transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Moreover, in this higher resolution scenario, we would consider creating separate
+    transactions for importer bank approval and exporter bank approval, `ImportBankApproval`
+    and `ExportBankApproval`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Examining the live network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Great–now that we''ve seen how the types of participants, assets, transactions,
+    and events are defined in the business network, let''s see how instances of these
+    types are created. The Playground tool has another feature that is very nice–it
+    allows us to look inside the business network, while it''s running, to see instances
+    of these types, and select the Test tab at the top of the Playground page:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/43d6df94-417f-44f8-a9d0-993642726ed3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'You''ll see that the view has changed a little. On the left-hand side, we can
+    see the participants, assets, and transactions that have been defined for this
+    business network: `Bank`, `BankEmployee`, `Customer`, and `LetterOfCredit`, as
+    well as transactions. You can select these, and as you do, you''ll see that the
+    right-hand pane changes. Try it!'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Select the `LetterOfCredit` asset, and on the right-hand pane, you''ll see
+    the following (expand the view with Show All):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d0d67e57-a1b7-45c8-b4a2-bffdc626adc3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Wow–this is interesting! This is an actual letter of credit from our application.
+    Let's have a look at the letter in detail, and how it maps to the type structure
+    we examined earlier.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Examining a letter of credit instance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We can see the ID, `L73021 AM`, and the instance information. It's shown as
+    a JSON document, and you can see that the structure mirrors that in the `LetterOfCredit`
+    definition, but it has real instance data in it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can see that every asset and participant contained within the letter has
+    a class (`$class`), which is formed from the namespace concatenated with the type
+    name. For example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE40]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Notice also how the information for this letter has been captured:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE41]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, notice how the letter is in its final state:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE42]'
+  prefs: []
+  type: TYPE_PRE
+- en: All of this data is incredibly powerful. Why? Because the type and instance
+    information is kept together, just like in a real contract, it can be properly
+    interpreted after it's been written. You can imagine how helpful that is for analytics
+    tools who like to look for patterns in the data!
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For reference attributes, we can see that the structure is a little different:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE43]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We can see that these attributes are references to participants, and if we
+    click on the Participant tab, we''re able to see them! Click on the Bank tab:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c39a0d1e-fc8a-4b16-a63f-ef5d47cc8d7c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Examining participant instances
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: You can see the two banks in our network, their type, and instance information!
+    Click on the different participant and asset tabs, and inspect the data to see
+    how the types have become instantiated in the scenario. Spend time on this–it's
+    important that you understand this information, link it to types, and really think
+    about how it relates to the business network. Don't be deceived–the information
+    looks simple–there are some powerful ideas in here that will take a little time
+    to connect. However, we encourage you to do this–it's really worth understanding
+    how everything links together, so that you can do the same!
+  prefs: []
+  type: TYPE_NORMAL
+- en: Examining transaction instances
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now click on the All Transactions tab:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/329a4fb7-890e-4c36-88d9-ae9455e968b9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: You can see the full transaction life cycle of our application run-through.
+    (Your times may be a little different!) If you scroll through the transactions,
+    you can see exactly what happened in our scenario–Alice applied for a letter,
+    Matias approved it, and so on. If you click on view record, you'll be able to
+    see the details of an individual transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For example, let''s look at the `InitialApplication` made by Alice:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/6b7f770f-8780-4820-ac3e-1c6c017c2345.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'We can see the transaction details (we''ve edited them slightly to fit the
+    page):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE44]'
+  prefs: []
+  type: TYPE_PRE
+- en: Notice how we can see the exact details of this transaction! Again, incredibly
+    powerful! Spend some time looking at the transaction records in this view.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Submitting a new transaction to the network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There's a lot more we can do with the Playground; we're now going to interact
+    with the business network dynamically!
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Ensure that you''ve selected the `LetterOfCredit` asset type in the Test view.
+    Notice the Submit Transaction button on the left-hand pane:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f89bd7b8-5913-4a16-bf0c-62940f357317.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'We''re going to interact with the business network by submitting a new `LetterOfCredit` application.
+    If you press Submit Transaction, you''ll be presented with the following entry
+    box:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2b162f09-e759-4a71-b320-8c783d5413ae.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'In the Transaction Type dropdown, you''ll see all the possible transactions
+    listed. Select `InitialApplication` and replace the JSON Data Preview with the
+    following data:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE45]'
+  prefs: []
+  type: TYPE_PRE
+- en: Can you see what this transaction describes? Can you see the new `LetterId`
+    between Alice and Bob as `Customer` and `Beneficiary`? Can you see the `ProductDetails`,
+    `Quantity`, and `Price`?
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If you press Submit, you''ll see that you''re returned to the main view, and
+    that a new letter has been created:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e09d8d3f-a0a3-4160-ac97-9d29b87f6d4d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Congratulations, you've just submitted a new application for a letter of credit!
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'But wait! If we''ve interacted with the live network, then what happens if
+    we return to our application view. If you got back to Alice''s view, you''ll notice
+    that she has a new letter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9162f52c-914d-4067-8ab6-5171b709323c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The Hyperledger Composer Playground has allowed us to interact with the live
+    business network! Moreover, if we select Matias''s page, we can see the letter
+    is waiting for approval:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/fd927617-3e14-4ee9-b68a-ffbcd95173b2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Notice all the attributes are those that you entered in the sample transaction!
+    You can now use the Playground to move this letter through its full life cycle.
+    We recommend that you spend some time doing this–it will help you solidify your
+    knowledge.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding how transactions are implemented
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This is all very impressive, but how does it work–where's the logic that implements
+    these transactions that manipulate participants and assets, and creates events?
+    To understand this, we need to look at the transaction programs–the code that
+    runs when transaction are submitted to the network that refer to these assets,
+    participants, and events.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The transaction code is held in a Script File, and if you select Script File on
+    the Define tab, you''ll see the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2f87a71a-3b84-4d44-b93a-0da5c2b6ae16.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This is the code that implements transactions! Today, Hyperledger Composer uses
+    JavaScript to implement these functions, and that's what you're looking at on
+    this page–JavaScript. If you page through the script file, you'll see that there's
+    a function for every transaction defined in the model file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s examine one of the transactions we''ve been playing with up to this
+    point–the `InitialApplication` transaction. Notice how the function starts:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE46]'
+  prefs: []
+  type: TYPE_PRE
+- en: The comments and the first line of program code are effectively saying the following
+    function implements the `InitialApplication` transaction, which takes an `org.example.loc.InitialApplication`
+    type, and assigns it to the locally-scoped `application` variable. In a nutshell,
+    it connects program logic to the transaction definition we saw in the model file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The first important line of code is the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE47]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`factory.newResource()` creates a new local `LetterOfCredit` in the `org.example.loc`
+    namespace, using the identifier supplied by the caller of the function in the
+    input `application.letterId` transaction variable. This statement assigns the
+    result of this function to a local `letter` variable.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: It's important to understand that this statement has not created a letter in
+    the business network; `factory.newResource()` merely creates a correctly shaped
+    JavaScript object that can now be manipulated by the following subsequent logic,
+    and after it is properly formed using the input provided by the caller (for example,
+    the application being used by Alice), it can be added to the business network!
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Notice how `applicant` and `beneficiary` are assigned:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE48]'
+  prefs: []
+  type: TYPE_PRE
+- en: The transaction makes sure that Alice and Bob's identifiers are placed correctly
+    in the letter. In our network, `application.applicant.getIdentifier()` would resolve
+    to `resource:org.example.loc.Customer#alice` or `resource:org.example.loc.Customer#bob`.
+    The transaction logic systematically constructs the letter of credit using the
+    supplied input and information already stored in the business network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Next, notice how `issuingBank` and `exportingBank` navigate via the participant
+    to their bank. The program logic is navigating the references in the participant
+    and asset definitions to do this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE49]'
+  prefs: []
+  type: TYPE_PRE
+- en: We can see in these statements how the transaction has to use the structure
+    that was defined in the model. It can add any proprietary business logic to do
+    this, but it must conform to this structure. Examine each line that assigns to
+    `letter` and see whether you can understand what's happening in these terms. It
+    takes a little getting used to, but it's really important to understand this–the
+    transaction is transforming the business network from one state to another using
+    this logic.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Notice the last statement of the letter assignment:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE50]'
+  prefs: []
+  type: TYPE_PRE
+- en: See how the enum types are being used to set the initial state of the letter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The next really important statement in the function is the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE51]'
+  prefs: []
+  type: TYPE_PRE
+- en: This now adds the letter to the business network! At this point, we have created
+    a new application for a letter of credit in the business network. The letter we
+    created in local storage has been sent to the network, and is now a live asset
+    that points to the participants and assets in the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, we emit an event to signify that the transaction has taken place:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE52]'
+  prefs: []
+  type: TYPE_PRE
+- en: As with the letter, we create a local event of the right shape–an `InitialApplicationEvent`,
+    complete its details, and `emit()` it. Examine the different transactions and
+    their logic to become comfortable with the precise processing of each transaction–you'll
+    be richly rewarded for this effort.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating business network APIs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: For the final part of this chapter, we're going to show you how your application
+    can interact with these transaction functions in business networks using APIs.
+    The sample application and the Playground both interact with the business network
+    using APIs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Indeed, you can see that from a service consumer's perspective, neither Alice,
+    Bob, Matias, nor Ella were aware of the blockchain–they just interacted with some
+    user interfaces that resulted in these transaction functions (or similar) being
+    executed to manipulate the business network according to the business logic encoded
+    in these transaction processing functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It''s these user interfaces and applications that use APIs to interact with
+    the business network. If you''re new to APIs, then you can read about them [here](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Introduction).
+    Although more technically accurate, few people use the term **Web API**–it''s
+    just **API**:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9d1b5275-c84a-460e-baec-0d7e92b916a6.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Let''s have a look at the APIs for our business network! If you select the
+    final tab in the demo, you''ll see the following page:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/505ea27d-4faa-4296-809a-1e08d2508b87.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This is the Hyperledger Composer REST server. It is a server that's exposing
+    the APIs in our business network. These APIs are described using a standard SWAGGER
+    format.
+  prefs: []
+  type: TYPE_NORMAL
+- en: SWAGGER API definitions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: SWAGGER is an open standard for describing APIs–[https://swagger.io/specification/](https://swagger.io/specification/)
+    These APIs have been generated by Hyperledger Composer using the same vocabulary
+    as defined in the model to describe the participants, applications, and transactions
+    that were defined for this business network! It means that the SWAGGER APIs have
+    obvious meaning to both the business and technical user.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For every type of participant, asset, and transaction in the business network,
+    there is an API for it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Querying the network using SWAGGER
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Select one of these APIs `LetterOfCredit`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7ff0eb02-2df6-4dde-878d-8806ef26e4ba.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Notice the `GET` and `POST` verbs for this API. Most modern APIs are defined
+    using REST and JSON, and that's what you see here. Practice expanding and collapsing
+    the views to see all the different options.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When you''re happy, select `InitialApplication` `GET`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2a3ef080-b5c6-4dfe-9e20-4633fa16bd36.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Just like with Playground, you're able to interact with the business network
+    using the same APIs as applications. It's quite a bit more technical as a view,
+    but that's OK–as a programmer, you should feel comfortable with this.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The API we''ve selected allows a program to query (`GET`) all the letters in
+    a business network. If you select Try it out**!**, you''ll see the following response:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2cd9e549-1036-4006-80b0-d5159f54a48f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This details show you the exact API that was issued. It was a `GET` request
+    on the
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`http://localhost:3000/api/LetterOfCredit` URL, and the response body shows
+    the data that was returned. You should be able to see that it''s very similar
+    in structure to the Playground data, and if you scroll through the response, you''ll
+    see the two letters in the network.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing the network from the command line
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'You can also interact with the network from a terminal using the `curl` command,
+    and the syntax is shown for you:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE53]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Try this out in a terminal, and you''ll see the data on the command line:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/8c36b317-4890-4050-a3f9-d3012ab132be.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: It's a lot less beautiful than the Playground or SWAGGER view, but if you're
+    a programmer, you know how powerful this is! Think about how this can help with
+    automated testing, for example.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a new letter using SWAGGER
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We can also create a new application for a letter of credit from the SWAGGER
+    view. Select the `InitialApplication` API.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We''re going to use the `POST` verb to create yet another application for Alice:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3bc323ce-edce-4a20-b25c-bc9d05eb90d9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'In the `value` box, paste the following data:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE54]'
+  prefs: []
+  type: TYPE_PRE
+- en: Can you see what this application is for? Can you see how Alice wants to apply
+    for a letter to buy `40000` `Mouse mats` from Bob at `5` dollars each?
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If you press Try it out!, a new letter will be created! You can now view this
+    new letter using the SWAGGER console, the application, or the Playground. Let''s
+    try each:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This is the view using SWAGGER:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/187783ad-1fa9-4f00-bea0-3f5d3d2d3fac.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'This is the view using the Playground:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9fa923e9-f308-46de-af16-3e3f700c5939.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'This is the view using the application (Matias''s view):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e5663673-d91b-4c9a-a039-36a59b94078d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Network cards and wallets
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Finally, before we finish this chapter, we're going to add **you** to this business
+    network so that you can submit transactions! To do this, we're going to return
+    to the **business network cards** and **wallet** that first allowed us to connect
+    to the network. Recall that all applications, Playground included, have a wallet
+    that contains business network cards that can be used to connect to different
+    networks. When an application uses a particular card to connect a network, it
+    is identified as a particular participant instance in the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s create a new participant! On the Test tab, select Customer participants:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/b1cd9391-e2f8-4d72-85dd-3f26f3e1f7ee.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'You''ll see the participant information for Alice and Bob. Click on Create
+    New Participant:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/739f2240-cce3-47e0-91b5-ec230234dbbc.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'This page will allow you to issue the API to create a new participant. We''ve
+    entered the following details for a new participant, called `Anthony`, who works
+    for BlockIT:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE55]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Note his identifier, and a reference to Bank of Dinero. Click Create New and
+    notice how the participant registry has been updated:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/48b24417-9b12-4005-a710-5d5f38aed3cf.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: We've created a new participant in the network. (Feel free to use your own details,
+    just ensure that your participant has valid data, specifically references to existing
+    banks.)
+  prefs: []
+  type: TYPE_NORMAL
+- en: Click on the **ID registry** under admin. You'll now be presented with a list
+    of **identities** associated with the Playground.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Whereas Alice''s and Bob''s digital certificates are private to their application,
+    here we can see the identities associated with the current playground user–the
+    administrator of the business network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/91f393d1-7396-4346-a224-f64bab8d7b9c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Click Issue New ID:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f107c194-99b2-4af1-b916-e385149cb732.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Enter `ID003` for the ID Name and associate it with the new participant we
+    created, `org.example.loc.Customer#Customer003`, and click Create New:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c58cf123-f17c-473a-8ed2-74e1ef29728f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Give the business network card a name, and click Add to wallet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You''ll see that the list of IDs has been updated with `ID003`, associated
+    with `Customer003`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/1d852a8d-096e-42bc-bb36-6311ea55c673.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Click on the **My Business Networks** user in the admin tab to return to the
+    Composer Playground initial page:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3e08adff-e7d8-4abe-8c60-936a6792be0e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: We can see that the Playground wallet now contains a new business network card
+    that allows you to connect to our network. Click on Connect now for `Cusotmer003Card`.
+    You're now connected to the network as `Customer003`, rather than the `Admin`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Access-control lists
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: All applications, including the Composer Playground, use a business network
+    card from their wallet (a file on the local file system) to connect to the network.
+    The card contains the IP address of the network, the participant's name, and their
+    X.509 public key. This information is used by the network to ensure that they
+    can only have **rights** to perform certain operations against resources in the
+    network. For example, only particular bank employees should be able to authorize
+    a letter of credit.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can see how these rights are defined for a business network by examining
+    the Access Control List (ACL) for the network. Select AccessControl on the Define tab:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d365a9f8-2b9a-4495-bb1f-157315c31402.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Scroll through the list to see what rights different users have over the different
+    resources in the network. These rules can relate to types or instances, though
+    the former is more common. Spend a little time investigating the ACL rules in
+    this file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: You've learned how to make a real business network, using Hyperledger technology.
+    You know how to interact with the business network as a user, as a designer, and
+    as an application developer. You know how to define the participants, assets,
+    transactions, and events, and how to implement their creation in the code. You
+    know how to expose these as APIs so that external applications can consume them!
+    You can learn a lot more about Hyperledger Composer and Hyperledger Fabric, consult
+    the product documentation to do that. Armed with that information, and the knowledge
+    in this chapter, you're in a great place to start building your own business network!
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's now turn our attention to how we manage the development lifecycle in a
+    blockchain network - how we achieve agility in a blockchain network. We'll look
+    at the process and tools that help us set up and manage the day-to-day operations
+    of getting blockchain software developed.
+  prefs: []
+  type: TYPE_NORMAL

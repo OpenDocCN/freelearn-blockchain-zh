@@ -1,0 +1,1335 @@
+- en: Introduction to Blockchain Technology
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this chapter, we give an overview of blockchain, along with its key concepts
+    such as cryptography and hash algorithms, the distributed ledger, transactions,
+    blocks, proof of work, mining, and consensus. We cover Bitcoin, the mother of
+    blockchain technology, in detail. We briefly introduce Ethereum by pointing out
+    some limitations of Bitcoin and how they are addressed by Ethereum. While Bitcoin
+    and Ethereum are examples of public blockchains, IBM''s Hyperledger is used as
+    an example of enterprise blockchains. At the end of this chapter, we mention the
+    evolution of the blockchain: blockchain 1.0, 2.0, 3.0, and beyond, based on their
+    use cases. Specifically, we will cover the following topics on blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A genealogical analogy for blockchain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The Bitcoin consensus mechanism
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A brief discussion of Hyperledger
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Blockchain evolution
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The genealogy analogy
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: One of the authors recently attended a Chinese university alma mater reunion
+    event in Beijing, where blockchain became a hot discussion topic. A very well-regarded
+    schoolmate and scholar, Professor Yang, who has authored books on cryptography
+    and public data safeguards, used genealogy to describe a blockchain. This is a
+    well-thought-out analogy since it explains blockchain intuitively and easily.
+    The analogy is borrowed here to illustrate the basic ideas behind the technology.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Back in the old days in China, it was a custom for each family of a clan (sharing
+    the same last name) to keep a copy of the genealogical tree of the clan. When
+    members of a family changed due to either marriage or the birth of an offspring,
+    as well as adoption, the new member's name would appear in each copy. However,
+    the new member had to be accepted by the clan before the name could be added in.
+    There were cases when a marriage was not endorsed by a majority of the clan due
+    to various reasons. In this case, the new member's name would not be entered into
+    the genealogy. In other words, when a new member joined in a family, the news
+    was broadcast to other families of the clan. If the clan reached a consensus on
+    accepting the new member, each family would update their copy of the genealogical
+    tree to reflect the change. On the other hand, if the clan decided not to accept
+    the new member, the name would not be added in. The genealogy could be used for
+    verification purposes. For example, if a stranger made a claim to be a member
+    of the clan, or two people with the same last name were eager to find out whether
+    they shared the same ancestor, with the genealogy, it was easy to verify this.
+    The outcome would be accepted since the genealogy was considered reliable thanks
+    to the aforementioned consensus and decentralized records, which were difficult
+    to manipulate unless the majority of families agreed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A blockchain shares many of the characteristics of a genealogy. They are summarized
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Like a clan consisting of many related families, a blockchain network consists
+    of nodes. Each node is like a family.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Like every family keeping a copy of the clan's genealogy, each node of a blockchain
+    maintains a copy of all transactions that have occurred on the chain, starting
+    from the very beginning. The collection of all transactions is a **ledger**. This
+    makes a blockchain a decentralized data repository.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A genealogy starts with a common ancestor of the clan and names with direct
+    relationships, such as parents and children, that are connected by a line for
+    linkage. Similarly, a ledger consists of blocks. Each block contains one or multiple
+    transactions depending on the type of blockchain. (As you will see later, blocks
+    on Bitcoin or Ethereum host multiple transactions, while R3's Corda uses a block
+    with only one transaction). Transactions are like names, and a block is similar
+    to the invisible box containing a couple's names. An equivalent of the root ancestor
+    is called the **genesis block**, which is the first block of a blockchain. Similar
+    to a line linking parents and children, a hash, which will later be explained
+    in more detail, points from the current block to its ancestor block.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Like the consensus mechanism for adding new names to a genealogy, the Bitcoin
+    blockchain uses a mechanism called Proof-of-Work to decide whether a block can
+    be added to the chain. Like a genealogy, after a block is added to a chain, it
+    is difficult to change (hack) unless one possesses the majority (which is called
+    a 51% attack) of the computing power of the network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Genealogy provides transparency in a clan's history. Similarly, a blockchain
+    allows a user to query the whole ledger or just a part of the ledger and find
+    out about coin movements.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Since every family kept a copy of the genealogy, it was unlikely to lose the
+    genealogy even if many copies were lost due to a natural disaster, a war, or other
+    reasons. As long as at least one family survived, the genealogy survived. Similarly,
+    a decentralized ledger will survive as long as at least one node survives.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: While genealogy is a good analogy to explain some key concepts of a blockchain,
+    they are not the same. Inevitably, there are features that are not shared by them.
+    For example, the blockchain uses cryptography and hashes extensively for data
+    protection and deterring hackers. A genealogy does not have such a need. Therefore,
+    next we move away from the genealogy analogy and explain key blockchain concepts
+    chronically.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Blockchain technology initially caught people''s attention due to the **Bitcoin**
+    blockchain, an idea outlined by a white paper authored by Satoshi Nakamoto and
+    published in October 2008 on the cryptography mailing list at metzdowd.com. It
+    describes the **Bitcoin digital currency** (**BTC**) and was titled *Bitcoin:
+    A Peer-to-Peer Electronic Cash System*. In January 2009, Satoshi Nakamoto released
+    the first Bitcoin software, which launched the network and the first units of
+    the Bitcoin cryptocurrency: BTC coins.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Why Bitcoin
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The creation of Bitcoin was right after the 2008 financial crisis, the most
+    severe economic crisis since the Great Depression. This is not coincidental. The
+    inventor of the Bitcoin cryptocurrency aimed at addressing people's disillusionment
+    with financial institutions, whose epic failures in risk controls resulted in
+    the 2008 financial crisis.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A fundamental role played by financial institutions is to be an intermediary
+    entity and bring untrusting parties together to facilitate transactions. For example,
+    a retail bank attracts residual money from individuals and lends to individuals
+    or companies that need the money. The difference in interest paid to the money
+    suppliers and borrowers is the fee a bank charges for providing the intermediary
+    service. Financial institutions are very successful in providing these services
+    and play a pivotal role in powering economies worldwide. However, there are many
+    deficiencies associated with this business model. Here are some examples:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Slow**: It often takes days to complete a financial transaction. For instance,
+    it takes three days (after an order is initially entered) to complete and settle
+    a cross-border money transfer. To make it happen, multiple departments and application
+    systems within an institution and across institutions have to work together to
+    facilitate the transaction. Another example is stock trading. An investor hires
+    a broker to enter an order to be routed to a stock exchange. Here, the broker
+    is either a member of the exchange or routes the order to another intermediary
+    institution with membership. After a match is found between a buyer and a seller
+    at the exchange, the transaction details are recorded by two parties who send
+    it to their back offices respectively. The back-office teams work with a clearing
+    house for clearance and settlement. It takes T + 3 for both parties to complete
+    the action of exchanging ownership of the security (stock) and the cash.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Expensive**: Financial intermediaries often charge hefty fees when providing
+    these services. For example, a US bank could charge $10 to $30 USD to serve an
+    individual by sending money from the US to a receiver in another country. In the
+    case of stock trading, a full-service broker often charges tens of USD or more
+    for a transaction. Even with a discount broker, an investor needs to pay $7 to
+    $10 USD per transaction.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Prone to be hacked**: Since details on a customer and the transactions are
+    saved in a centralized area within an institution, it is prone to being hacked
+    and causing severe financial loss or leakage of confidential personal information
+    about customers. Recently, there have been high-profile personal data leakage
+    incidents at reputable companies such as JP Morgan (83 million accounts hacked
+    in 2014), Target (up to 70 million customers'' information hacked in 2013), and
+    Equifax (148 million US consumers'' information hacked in 2017).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Not transparent**: Financial institutions keep both detailed and aggregated
+    information on transactions. However, most of the information is not open to the
+    individual customer and this results in information imparity. In the example of
+    cross-border money transfers, both the sender and receiver have to wait for three
+    days to know whether the transaction has been completed successfully or not. If
+    a transaction fails, a lengthy investigation has to be triggered. Imagine if the
+    receiver was in an emergency and needed the funding immediately. Such a service
+    is unsatisfactory despite the client having to pay a high fee.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: With blockchain technology, the preceding problems are resolved elegantly. In
+    the case of the Bitcoin blockchain, the underlying asset to be transferred is
+    the digital coin, BTC. A cross-border BTC transaction can complete in no more
+    than 1 hour. No settlement is needed since transaction and settlement are in one
+    action. The cost of this transaction is a tiny fraction of a transfer via a bank.
+    For example, a recent report published by the **Bank of America** (**BoA**) claims
+    a transfer via blockchain costs 1/6000 of what BoA charges. However, for some
+    clients, waiting an hour is still too long. **Ripple**, a payment provider for
+    sending money globally, completes in under 1 minute.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The word Bitcoin often causes confusion as people use the word interchangeably
+    for three things: the cryptocurrency, the blockchain, and the protocol. To avoid
+    this confusion, we use BTC to refer to the cryptocurrency, and Bitcoin to refer
+    to the blockchain and the corresponding network that uses the distributed ledger.
+    For the protocol, we will fully spell out **Bitcoin protocol** or simply protocol.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A peer-to-peer network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To explain how Bitcoin works, let''s look at what steps are involved with the
+    existing business model for completing a cross-border transaction:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A customer enters an order either by visiting a bank branch or via the web.
+    The sender provides detailed information of an order such as the amount, sending
+    currency, receiver name, receiving currency, receiver's bank name, account and
+    branch numbers, and a SWIFT number. Here, **SWIFT** stands for the **Society for
+    Worldwide Interbank Financial Telecommunications**, a messaging network used by
+    financial institutions to transmit information and instructions securely through
+    a standardized system of codes. SWIFT assigns each financial organization a unique
+    code called, interchangeably, the **bank identifier code** (**BIC**), SWIFT code,
+    SWIFT ID, or ISO 9362 code.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The sending bank takes the order and verifies that the sender has sufficient
+    funds available.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The bank charges a fee and converts the remaining amount from the sending currency
+    to an amount in the receiving currency by executing an FX transaction.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The sending bank enters a transferring message to SWIFT with all the needed
+    information.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Upon receiving the message, the receiving bank verifies the receiver's account
+    information.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Upon a successful verification and settling the funds between sending and receiving
+    banks following the protocol, the receiving bank credits the amount to the receiver's
+    account.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Since there are multiple steps, entities, and systems involved, the preceding
+    activities take days to complete.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A Bitcoin network connects computers around the world. Each computer is a **node**
+    with equal status, except for a subset of nodes called **miners**, which choose
+    to play the role of verifying transactions, building blocks and linking to the
+    chain. With Bitcoin, the business model for completing a money transfer involves
+    the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A sender enters the number of BTCs, the addresses of Bitcoins to be taken from,
+    and addresses of Bitcoins to be transferred to, using an **e-wallet.**
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The transaction request is sent to the Bitcoin network by the e-wallet.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: After miners have successfully verified the transaction and committed it to
+    the network, the BTCs are now available for use by the receiver.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The Bitcoin transfer is a lot faster (in 1 hour, or minutes if using Ripple)
+    for the following reasons:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The transaction and settlement are one step. This avoids the need to go through
+    a time-consuming and expensive reconciliation process.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: No FX trade is needed since BTC is borderless. It can move worldwide freely
+    and rapidly.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: No fund settlement is needed between banks since the transaction requires no
+    intermediary banks.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'In a case where a sender or receiver prefers to use a **fiat currency** such
+    as USD, GBP, CNY, or JPY, a cryptocurrency market can be used for a conversion
+    between BTC and a fiat currency. A website, CoinMarketCap, lists these markets:
+    [https://coinmarketcap.com/rankings/exchanges/](https://coinmarketcap.com/rankings/exchanges/).
+    As of September 21, 2018, there are 14,044 markets. In terms of market capitalization,
+    the top three are Binance ([https://www.binance.com/](https://www.binance.com/)),
+    OKEx ([https://www.binance.com/](https://www.binance.com/)), and Huopi ([https://www.huobi.pro](https://www.huobi.pro)).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A peer-to-peer network can connect nodes worldwide. However, a merely physical
+    connection is not enough to make two untrusting parties trade with each other.
+    To allow them to trade, Bitcoin takes the following measures:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Every node saves a complete copy of all transactions in a decentralized ledger.
+    This makes any alteration to a transaction on the chain infeasible.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The ledger transactions are grouped in blocks. A non-genesis block is linked
+    to its previous block by saving the hash of all preceding blocks' transactions.
+    Consequently, changing a transaction requires changing the current block of transactions
+    and all subsequent blocks. This makes hacking the decentralized ledger extremely
+    difficult.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Bitcoin addresses the double-spending issue, that is the same BTC being spent
+    twice, by using the Proof-of-Work consensus algorithm.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hashes are used extensively to protect the identities of parties and detect
+    any changes occurring in a block.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Public/private keys and addresses are used to mask the identities of trading
+    parties and to sign a transaction digitally .
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'With these measures, untrusting parties feel comfortable to trade due to these
+    reasons:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The transaction is immutable and permanent. Neither party can nullify a transaction
+    unilaterally.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: No double spending is possible.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transaction and settlement occur simultaneously; therefore, there is no settlement
+    risk.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Identities are protected.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transactions are signed by both parties, which will avoid any future legal disputes.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Cryptography and hash functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Cryptography or cryptology is research on techniques for securing communication
+    in the presence of adversaries. In the old days, cryptography was synonymous with
+    encryption. Modern cryptography relies heavily on mathematical theory and computer
+    science. It also utilizes works from other disciplines such as electrical engineering,
+    communications science, and physics.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cryptographic algorithms are designed around the assumption that with foreseeable
+    computational hardware advances, it will not be feasible for any adversary to
+    decipher encrypted messages based on these algorithms. In other words, in theory,
+    it is possible to decode the encrypted message, but it is infeasible to do so
+    practically. These algorithms are therefore defined to be computationally secure.
+    Theoretical research (for instance, parallel or integer factorization algorithms)
+    and computational technology advancements (for instance, quantum computers) can
+    make these algorithms practically insecure and, therefore, encryption algorithms
+    need to be adapted continuously.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Encryption is the process of converting plaintext into unintelligible text,
+    called ciphertext. Decryption is the reverse, in other words moving from the unintelligible
+    ciphertext back to plaintext.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The encryption algorithms used by Bitcoin mining are hash functions. A hash
+    function is a function that maps data of any size to data of a fixed size. The
+    values returned by a hash function are called hash values or simply hashes. A
+    cryptographic hash function allows one to verify easily  that some input data
+    maps to a given hash value. However, the reverse – when the input data is unknown—it
+    is practically infeasible to reconstruct the input plaintext from a hash value.
+    In other words, hashing is a one-way operation. Another notable attribute of a
+    hashing function is that a minor change in the input plaintext will result in
+    a completely different hash value. This feature is desirable for safeguarding
+    information as any tiny change to the original data by a hacker results in a visibly
+    different hash.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Two common hash algorithms are MD5 (message-digest algorithm 5) and SHA-1 (secure
+    hash algorithm):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Developed by Ronald Rivest in 1991, MD5 maps input plaintext into a 128-bit
+    resulting hash value. MD5 Message-Digest checksums are commonly used to validate
+    data integrity when digital files are transferred or stored. MD5 has been found
+    to suffer from extensive vulnerabilities.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: SHA-1 is a cryptographic hash function mapping input plaintext into a 160-bit
+    (20-byte) hash known as a message digest – often displayed as a hexadecimal number,
+    40 digits long. SHA-1 was designed by the United States national security agency
+    and is a US federal information processing standard.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: SHA-256 is a successor hash function to SHA-1\. It is one of the strongest hash
+    functions available and has not yet been compromised in any way. SHA-256 generates
+    an almost unique 256-bit (32-byte) signature for a text. For example, *My test
+    string* maps to `5358c37942b0126084bb16f7d602788d00416e01bc3fd0132f4458d
+  prefs: []
+  type: TYPE_NORMAL
+- en: d355d8e76`. With a small change, the hash of *My test strings* is `98ff9f0555435
+  prefs: []
+  type: TYPE_NORMAL
+- en: f792339d6b7bf5fbcca82f1a83fde2bb76f6aa95d66050887cc`*, *a completely different
+    value. SHA-256 produces 2^256 possible hashes. There is yet to be a case where
+    two different inputs have produced the same SHA-256 hash, an issue called collision
+    in cryptography. Even with the fastest supercomputer, it will take longer than
+    the age of our universe to hit a collision. As a result, SHA-256 is used by Bitcoin
+    for encryption.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The distributed ledger, blocks, transactions, addresses, and UTXO
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: At a financial institution, a ledger is a book for recording financial transactions.
+    Similarly, Bitcoin maintains a ledger for bookkeeping BTC transactions and balances
+    by address. One key difference is that a bank's ledger is centralized and Bitcoin's
+    ledger is decentralized. Consequently, a bank's ledger is much easier to be cooked.
+    On the other side, Bitcoin's ledger is very difficult to cook as one has to change
+    the ledger at all nodes worldwide.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A user submits a transaction containing the following information:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sources of the BTCs to be transferred from
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The amount of BTCs to be transferred
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Destinations the BTCs should be transferred to
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'As per the Wiki site, a transaction has a general structure shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/6e753240-2538-4d3e-af23-5ded27025ad8.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Both source and destination addresses are 64-character hashes. Here is an example
+    of an address: `979e6b063b436438105895939f4ff13d068428d2f71312cf5594c132905bfxy1`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The term *address* is a bit confusing. A programmer may think it to be an address
+    related to a disk or memory location. However, it has nothing to do with a physical
+    location. Instead, it is a logical label for grouping BTCs that have been transferred
+    from/to it. In a way, one can think of it as a bank account number, yet there
+    are fundamental differences between them. For example, a bank has a centralized
+    place where metadata on an account, for instance, owner name, account open date,
+    and account type, is saved. In addition, the account balance is precalculated
+    and saved. In Bitcoin, there is no metadata on an address and one has to query
+    the entire ledger to find the balance of an address by counting the net BTCs being
+    transferred in and out of the address.  Addresses are referred to only in Bitcoin
+    transactions. When the balance of an address falls to 0, any future request for
+    taking BTCs from the address will fail the transaction validation due to insufficient
+    funds.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin utilizes the **UTXO** model to manage its BTC transfer. The term was
+    introduced by cryptocurrency, where it refers to an *unspent transaction output*.
+    This is an output of a blockchain transaction that has not been spent and can
+    be used as an input for a future transaction. In a Bitcoin transaction, only unspent
+    outputs can be used as an input, which helps to prevent double spending and fraud.
+    As a result, a committed transaction results in deleting inputs on a blockchain
+    and creating outputs in the form of UTXOs. The newly created unspent transaction
+    outputs can be spent by the owner holding the corresponding private keys. In other
+    words, UTXOs are processed continuously and a committed transaction leads to removing
+    spent coins and creating new unspent coins in the UTXO database.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Like an address, a BTC is not associated with any physical object such as a
+    digital token file or a physically minted coin. Instead, it only exists in transactions
+    in the distributed ledger. For example, if one wants to know the total number
+    of BTCs minted so far, one has to go through all nonzero balance addresses on
+    the blockchain and add up all the BTCs. Since every node of Bitcoin keeps a copy
+    of the ledger, it is only a matter of taking computing time to find an answer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When a user enters a BTC transaction request at a node, Bitcoin software installed
+    at the node broadcasts the transaction to all nodes. Nodes on the network will
+    verify the validity of the transaction by retrieving all historical transactions
+    containing the input addresses and ensuring that BTCs from these addresses are
+    legitimate and sufficient. After that, the mining nodes start to construct a block
+    by collecting the verified transactions. Normally, a Bitcoin block contains between
+    1,500 to 2,000 transactions. A miner who wins the race to resolve a difficult
+    mathematical puzzle gets the role to build and link a new block to the chain.
+    On the Bitcoin blockchain, a new block is created around every 10 minutes. As
+    of September 21, 2018, approximately 542,290 blocks have been created on Bitcoin.
+    The structure of a Bitcoin block is shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/277afb38-b728-4a32-85a9-99e03539aed3.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Here, the block header contains the following fields:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a9c3797f-f35c-4bff-8f83-5ff551d0df6b.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The concept of a **nonce** will be explained in the subsection on mining. hashPrevBlock is
+    the same value as hashMerkleRoot. The Merkle tree hash root is essentially the
+    hash of all transaction hashes in the block via a binary tree aggregation structure.
+    The following diagram explains the idea:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/6dc370f7-0e67-41e2-8a08-99f8c937eae5.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: The consensus mechanism
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: If someone buys a bottle of water for $1, that person cannot spend the same
+    $1 to buy a can of coke. If a person is free to double-spend a dollar, money would
+    be worthless since everyone would have unlimited amounts and the scarcity, which
+    gives the currency its value, would disappear. This is called the **double-spending
+    problem**. With BTC, double spending is the act of using the same Bitcoin more
+    than once. If this problem is not resolved, BTC loses its scarcity and cannot
+    be used to facilitate a trade between two untrusting parties. The Bitcoin Core
+    network protects against double spends via a consensus mechanism. To explain how
+    the Bitcoin consensus mechanism works, we first describe the concepts of **PoW**
+    (**Proof-of-Work**) and mining.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As explained earlier, a miner needs to solve a difficult mathematical puzzle
+    ahead of other miners in order to receive the role of being a builder of the current
+    new block and receive a reward for doing the work. The work of resolving the math
+    problem is called **PoW**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Why is PoW needed? Think of this: in a network consisting of mutually untrusting
+    parties, more honest parties are needed than dishonest attackers in order to make
+    the network function. Imagine if upon collecting sufficient transactions for a
+    new block, a miner is allowed to build the new block immediately. This simply
+    becomes a race for whoever can put enough transactions together quickly. This
+    leaves a door wide open for malicious attackers to hack the network by including
+    invalid or fake transactions and always win the race. This would allow hackers
+    to double-spend BTCs freely.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Therefore, to prevent attackers from introducing bad transactions, a sufficient
+    window of time is needed for participating nodes to verify every transaction''s
+    validity by making sure a BTC has not been spent yet. Since every node maintains
+    a copy of the ledger, an honest miner can trace the history and ensure the following
+    to confirm the validity of a transaction:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The requestor of a transaction does own the BTCs.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The same BTCs have not been spent by any other transactions in the ledger.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The same BTCs have not been spent by other transactions within the candidate
+    block.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: This window of time is currently set to be around 10 minutes. To enforce the
+    10-minute waiting time, Bitcoin asks a miner to solve a sufficiently difficult
+    mathematical puzzle. The puzzle requires only a simple computation. Miners have
+    to repeat the same computation many times in order to burn enough CPU time to
+    reach the network's goal of building a new block every 10 minutes on average. The
+    process of repeated guessing is called **mining** and the device (specially made)
+    is called a **mining rig**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since, in order to win the mining race, a miner needs to invest heavily in hardware,
+    these miners are dedicated to the work of mining and aim to receive sufficient
+    BTCs to cover the cost of running the mining operation and make a profit. As of
+    the first half of 2018, the reward given to a winning miner is 12.5 BTCs. One
+    can find the price of BTC by visiting the CoinMarketCap website ([https://coinmarketcap.com/](https://coinmarketcap.com/)).
+    As of September 21, 2018, one BTC is traded at around $6,710\. Therefore, 12.5
+    BTC is worth about $83,875 USD.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Per Bitcoin protocol, mining is the only way for a new BTC to be issued (minted).
+    Having a miner be rewarded handsomely serves three purposes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Compensates a miner's investment on hardware.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Covers mining operational costs such as utility bills, which can be significant
+    due to the large mining rigs being deployed at a mining site, human salaries, and
+    site rentals.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Gives miners incentives to safeguard the network from being attacked by malicious
+    hackers. Miners are motivated to maintain the Bitcoin network in order not to
+    lose value in their BTCs and their mining infrastructure. If Bitcoin is breached
+    by hackers, Bitcoin''s reputation will suffer badly and BTC prices would freefall.
+    This is exactly what the Bitcoin inventor hoped for: having more good miners than
+    bad miners to address the double-spending issue.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The total number of BTC that can be issued is fixed to be 21 million. As of
+    today (September 19, 2018), around 17 million BTCs have been issued. The Bitcoin
+    protocol defines a rule for dynamically adjusting the payout rate and the remaining
+    4 million coins aren''t expected to be mined completely for another 122 years.
+    The following point explains how the block creation payout rate is dynamically
+    adjusted:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The rate changes at every 210,000 blocks. It is a function of block height
+    on the chain with genesis=0, and is calculated using 64-bit integer operations
+    such as: (50 * 100000000) >> (height / 210000). The rate initially started with
+    50 BTCs, and fell to 25 BTCs at block 210,000\. It fell to 12.5 BTCs at block
+    420,000, and will eventually go down to 0 when the network reaches 6,930,000 blocks.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Forking
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A Bitcoin blockchain can diverge into two potential paths since miners do not
+    necessarily collect transactions and contract block candidates in the same way,
+    nor at the same time. Other reasons such as hacking or software upgrades can also
+    lead to path divergence. The splitting patches are called **forks**. There are
+    temporary forks and permanent forks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If a permanent fork occurs due to, for example, malicious attacks, a hard fork
+    occurs. Similarly, there is the concept of soft fork. Both hard fork and soft
+    fork refer toa radical change to the protocol. Hard fork makes previously invalid
+    blocks/transactions valid and a soft fork makes previously valid blocks/transactions
+    invalid.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To remove a temporary fork, Bitcoin protocol dictates that the longest chain
+    should be used. In other words, when facing two paths, a winning miner will choose
+    the longer chain to link a new block. As a result, the longer path continues to
+    grow and the blocks on the losing (shorter) path becomes orphaned. Bitcoin nodes
+    will soon discard or not take the orphaned blocks. They only keep the blocks on
+    the longest chain as being the valid blocks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the case of a permanent fork, nodes on the network have to choose which chain
+    to follow. For example, Bitcoin Cash diverged from Bitcoin due to a disagreement
+    within the Bitcoin community on how to handle the scalability problem. As a result,
+    Bitcoin Cash became its own chain and shares the transaction history from the
+    genesis block up to the forking point. As of September 21, Bitcoin Cash's market
+    cap is around $8 billion, ranking fourth, versus Bitcoin's $215 billion.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mining and difficulty level
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'There is one more issue that needs to be resolved: how to maintain the new
+    block building rate of 10 minutes. If nothing is done, the mining rate will change
+    due to the following factors:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The number of miners on the network can vary in response to the BTC price
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Technology advancements make mining rigs progressively faster
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The total number of mining rigs varies
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Bitcoin adjusts the **difficulty level** of the mathematical puzzle in order
+    to keep the building rate at 10 minutes. The difficulty level is calculated from
+    the rate at which the most recent blocks were added in. If the average rate of
+    new blocks being added is less than 10 minutes, the difficulty level will be increased.
+    If the average rate takes more than 10 minutes, it's decreased. The difficulty
+    level is updated every 2,016 blocks. The following graph displays the historical
+    trend in Bitcoin difficulty level.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/5a79d79d-3384-49ed-aba6-8da7f9a240c3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'We have yet to talk about the actual mining algorithm. Assume the current difficulty
+    level is to find the first hash value with the leading character to be 0\. In
+    Bitcoin, the process of solving a puzzle, that is, mining, requires a miner to
+    follow these steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, find the SHA-256 hash of the block in construction.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If the resulting hash has a leading 0, the miner solves the puzzle. The miner
+    links the block to the ledger on the node and claims the trophy, 12.5 BTCs. The
+    miner's node broadcasts the news to all nodes. All other nodes and miners on the
+    network validate the answer (by mapping the block information plus nonce to get
+    the same hash) and validate the entire history of the ledger, making sure that
+    the block contains valid transactions.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If it passes the checks, all nodes on the network add the block to their copies
+    of the ledger. Miners start to work on the next new block.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If the winning miner is a malicious attacker and includes bad transactions in
+    the block, the validation of these transactions will fail and other miners will
+    not include the block in their ledger copies. They will continue to mine on the
+    current block. As time passes, the path containing the bad block will no longer
+    be the longest path and, therefore, the bad block will become an orphaned block.
+    This is essentially how all nodes on the network reach consensus to add only good
+    blocks to the network and prevent bad blocks from sneaking in, therefore resolving
+    the double-spending issue.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If the resulting hash does not start with 0, then the miner is allowed to append
+    a sequence number, known to be a nonce, starting from 0 to the input text, and
+    retry the hash.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If the resulting hash still does not contain a leading 0, the miner will add
+    another sequence number, 1, to the input text and obtain a new hash. The miner
+    will keep trying in this way until it finds the first hash with a leading zero.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following is an example of how the plaintext and nonce work together. The
+    original plaintext is *input string* and the nonce varies from 0 to 1:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**input string**: `f23f4781d6814ebe349c6b230c1f700714f4f70f735022bd4b1fb69421859993`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**input string0**: `5db70bb3ae36e5b87415c1c9399100bc60f2068a2b0ec04536e92ad2598b6bbb`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**input string1**: `5d0a0f2c69b88343ba44d64168b350ef62ce4e0da73044557bff451fd5df6e96`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In Bitcoin, *adjusting difficult level* largely refers to changing the required
+    number of leading zeros. (The actual adjustment involves some other miner tuning
+    to the requirement.) Each addition of a leading zero will increase the average
+    number of tries significantly and therefore will increase the computing time.
+    This is how Bitcoin manages to maintain the average rate of 10 minutes for new
+    blocks being added in. The current Bitcoin difficulty level is 18 leading zeros.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hacking – the 51% problem
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Thanks to the rising price of BTC, the mining operation has become more attractive.
+    Investments are rushing in and large mining pools involving thousands of rigs
+    or more have joined the network in order to gain an advantage in the race to solve
+    the puzzle first and get the reward. For players without large capital from investments,
+    they have a choice to participate in a mining pool. When the pool wins a race,
+    the award will be allocated to each participant based on the computational power
+    contributed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This ever-growing computational power of a pool poses a real threat due to the
+    so-called **51****% problem**. This problem occurs when a miner manages to build
+    up computational power to total at least 51% of the total computing power of the
+    network. When this occurs, the miner will have a chance to outrun other miners.
+    The miner can continue to grow the ledger with blocks containing bad transactions
+    since this miner has more than a 50% chance of solving the puzzle first. Soon,
+    the malicious miner's ledger will grow to be the longest path and all other nodes
+    have to save this path based on Bitcoin's consensus protocol.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For a large and well-established network such as Bitcoin, the 51% problem is
+    not as critical an issue, mainly due to the following reasons:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A well-established network will attract a much larger number of participating
+    parties and connect a very significant number of nodes. It will take an exorbitantly high
+    initial investment for a hacker to purchase the necessary mining rigs. When such
+    a network is attacked, the price of cryptography will drop quickly when the news
+    becomes public and the hacker will have a low chance of recovering the investment.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In the history of Bitcoin, there have been cases when a mining pool that accumulated
+    dangerously high computing power approached this line. When the participating
+    miners in the pool realized the problem, many of them chose to leave the pool.
+    Soon, the computational power of the pool fell to a safe level.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In the case of a small and immature network, it is not difficult for a miner
+    to muster computing power of more than 51%. However, the cryptocurrency value
+    of these networks is minimal and it gives hackers very little financial incentive
+    to take advantage of the 51% problem.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Private keys and Bitcoin wallets
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As discussed earlier, BTCs do not physically exist. The only evidence of their
+    existence is when they are associated with addresses, which are referred to in
+    transactions. When an address is initially created, a pair of public and private
+    keys are generated with it. The public key is made known to the public and the
+    private key is kept only by the owner of the address. When the owner wants to
+    spend all or a portion of their BTCs, the owner provides a digital signature signed
+    with the private key and sends the BTC request to the Bitcoin network. In other
+    words, one has to know both the address and its private key to spend the BTC.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If an owner loses a private key, its associated BTCs will be lost permanently.
+    Therefore, it is advised to keep this information in a safe place. It is generally
+    good practice to keep the address and private keys in separate places. To prevent
+    a digital copy getting lost, an owner should maintain physical copies of printouts.
+    To make conversion easier, an owner can print a QR code and later scan the QR
+    code whenever it is needed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Bitcoin wallet applications are available to help a user manage keys and addresses.
+    One can use a wallet to do the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Generate addresses and corresponding public/private keys
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Save and organize a BTC's information
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Send a transaction request to the Bitcoin network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'In Bitcoin, a private key is a 256-bit-long hash and a public key is 512 bits
+    long. They can be converted into shorter lengths in hexadecimal representation.
+    The following screenshot gives an example of a pair of public/private keys along
+    with an address:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2a8a1394-7b71-4864-80b3-c8fb59eba5e6.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Bitcoin private keys can also be expressed in a string of 51 characters starting
+    with a 5 and a public key in a string of 72 characters. A sample private key is `5Jd54v5mVLvy
+  prefs: []
+  type: TYPE_NORMAL
+- en: RsjDGTFbTZFGvwLosYKayRosbLYMxZFBLfEpXnp`and a sample public key is `BFCDB2DCE28D959F2815B16F81798483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68`*.*
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin scripting
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'One can install the following development tools for programming Bitcoin operations:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**NodeJS**: This is an open source, cross-platform JavaScript runtime environment
+    that executes JavaScript code outside of a browser. It allows a programmer to
+    write and execute scripts quickly and easily. These scripts can be written to
+    be run in a web browser or on a server.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**BitcoinJS**: This is a JavaScript library for working with Bitcoin and its
+    cryptographic functions. BitcoinJS can be used to generate public/private keys
+    and addresses.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain.info**: This is a public API that can be used to query the blockchain
+    to find out balances and broadcast transactions to the network. It can be used
+    to implement a Bitcoin node and install and run a Bitcoin node.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'After installing the preceding tools, one can execute the following operations:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Generate a new private key and compute a public key
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Check the balance for a certain address
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Generate addresses
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Construct a new transaction
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Send a transaction, which involves three steps:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Build a transaction with a list of inputs and outputs
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Sign the transaction with the required private keys
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Broadcast the transaction to the network
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Build an escrow account
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Broadcasts the transaction
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Altcoins
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Thanks to Bitcoin, blockchain technology has attracted worldwide attention.
+    Like any new technology, it has its limitations. Many variations of Bitcoin were
+    created to address a particular limitation of Bitcoin. Here, we mention a few
+    of them:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Bitcoin Cash**: This is a hard fork of the Bitcoin chain that was created
+    because a group of Bitcoin core developers wanted to use a different way of addressing
+    the scalability issue.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Litecoin**: This is almost identical to Bitcoin except that the time for
+    adding a new block was reduced from 10 minutes to 2 minutes.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Zcash**: This is based on Bitcoin but offers total payment confidentiality.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Monero and Zcash**: Both altcoins address the privacy issue by making transaction
+    history untraceable, but they implement two different solutions.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Dash**: This mainly improves user-friendliness. For example, transactions
+    are made untraceable and a user does not have to wait for several additional new
+    blocks to be added before considering a transaction to be committed to the chain.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Namecoin**: This extends the use case of Bitcoin, which is for trading BTCs
+    only, to providing domain name services.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Peercoin**: This altcoin addresses the deficiencies of PoW, which is environmentally
+    unfriendly and is low in throughput. Instead, it adopts proof of stake for achieving
+    consensus. Based on this rule, a miner validates block transactions according
+    to how many coins a miner holds. In other words, the mining power of a miner is
+    in proportion to the number of peercoins owned.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Primecoin**: A primecoin miner competes to be the first to find the next
+    biggest prime number.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Ethereum
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Regardless of the efforts made from the steps-mentioned altcoins in addressing
+    some part of the Bitcoin''s limitations, there are several fundamental issues
+    that are not being addressed yet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Bitcoin and these altcoins are specific to one purpose: trading either BTC
+    or an altcoin.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Although a programmer can use tools such as BitcoinJS to interact with the network,
+    the resulting code sits outside of the blockchain and is not guaranteed to run.
+    The chain itself does not have a Turing complete programming language for coding
+    directly on a blockchain.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: These blockchains are stateless and one has to search through the entire ledger
+    to find an answer such as the total number of BTC minted.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In response to these problems, Vitalik Buterin, a Canadian cryptocurrency researcher
+    and programmer, proposed the idea of Ethereum in late 2013\. Funded by an online
+    crowdsale, the system went live on 30 July 2015, with 11.9 million coins *premined* for
+    the crowdsale.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The core idea for Ethereum was to build a general-purpose blockchain so users
+    could solve a wide range of business problems not just limited to cryptocurrency
+    transfer. Ethereum introduced a few new and critical concepts:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The concept of saving a smart contract on a blockchain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The concept of implementing a smart contract with a Turing complete programming
+    language such as Solidity and running the piece of code on the blockchain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Solidity was initially proposed in August 2014 by Gavin Wood. The Ethereum project's
+    Solidity team led by Christian Reitwiessner later developed the language. It is
+    one of the five languages, (Solidity, Serpent, LLL, Vyper, and Mutan) designed
+    to target the **Ethereum virtual machine** (**EVM**).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Nick Szabo, a programmer and lawyer, initially proposed the term *smart contract* in
+    1996\. In his blog, Nick Szabo described it as the granddaddy of all smart contracts,
+    the vending machine.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A vending machine shares the exact same properties as a smart contract on a
+    blockchain today. A vending machine is built with hardcoded rules that define
+    what actions to execute when certain conditions are fulfilled, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: If Susan inputs a dollar bill in the vending machine, then she will receive
+    a bag of pretzels.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If Tom puts in a five-dollar bill, Tom will receive a bag of pretzels and also
+    change of four dollars.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In other words, rules are defined and enforced by a vending machine physically.
+    Similarly, a smart contract contains rules in program code that are run on the
+    blockchain and triggered when certain conditions are met.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The introduction of the smart contract concept is significant:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A smart contract is a scripted legal document.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The code built into the contract is stored on the Ethereum blockchain and cannot
+    be tampered with or removed. This greatly increases the credibility of the legal
+    document.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: This code cannot be stopped, meaning any party—regardless of how powerful the
+    party is—cannot order or interfere with the running of the smart contract code.
+    As long as certain conditions are met, the code will run and the legally defined
+    actions will be fulfilled.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Ethereum to blockchain is like an OS to a computer. In other words, the platform
+    is generic, no longer serving only one specific purpose.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'It now has a Turing complete language: Solidity.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Enterprise blockchain – Hyperledger
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The arrival of Ethereum revolutionized blockchain technology. Applying technology
+    to resolve business problems well beyond the financial industry has become feasible.
+    However, there are many scenarios where Ethereum is not enough. Ethereum''s issues
+    include the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Real enterprise applications, particularly in the financial industry, require
+    a high throughput, which can mean billions of transactions a day. The current
+    form of Ethereum has a maximum capacity of 1.4 million a day. Bitcoin is even
+    worse: 300,000 transactions a day. During a stress test, Bitcoin Cash reached
+    2.2 million. Ethereum 2.0 under development aims at getting to a billion transactions
+    a day while maintaining a decentralized and secure public blockchain.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Many financial markets, for instance OTC Derivatives or FX, are permission-based.
+    A public blockchain supported by Ethereum or Bitcoin does not meet such a need.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To satisfy their needs, well-established companies across industries form consortiums
+    to work on enterprise blockchain projects, which are permission-based only. In
+    other words, a node has to receive approval before it can join in the blockchain
+    network. Examples of enterprise blockchains are Hyperledger and R3's Corda.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In December 2015, the **Linux Foundation** (**LF**) announced the creation of
+    the Hyperledger Project. Its objective is to advance cross-industry collaboration
+    by developing blockchains and distributed ledgers. On 12 July 2017, the project
+    announced its production-ready **Hyperledger Fabric** (**HF**) 1.0.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Currently, Hyperledger includes five blockchain frameworks:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Hyperledger Fabric** (**HF**): A permissioned blockchain, initially contributed
+    by IBM and Digital Asset, it is designed to be a foundation for developing applications
+    or solutions with a modular architecture. It takes plugin components for providing
+    functionalities such as consensus and membership services. Like Ethereum, HF can
+    host and execute smart contracts, which are named chaincode. An HF network consists
+    of peer nodes, which execute smart contracts (chaincode), query ledger data, validate
+    transactions, and interact with applications. User-entered transactions are channeled
+    to an ordering service component, which initially serves to be HF''s consensus
+    mechanism. Special nodes called Orderer nodes validate the transactions, ensure
+    the consistency of the blockchain, and send the validated transactions to the
+    peers of the network as well as to **membership service provider** (**MSP**) services
+    that are implemented to be a certificate authority.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Iroha**: Based on HF, it is designed for mobile applications.
+    Iroha was contributed by Soramitsu, Hitachi, NTT Data, and Colu. It features a
+    modern and domain-driven C++ design. It implements a consensus algorithm called
+    Sumeragi.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Burrow**: Contributed initially by Monax and Intel, Burrow is
+    a modular blockchain that was client-built to follow EVM specifications.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Sawtooth**: Contributed by Intel, it implemented a consensus
+    algorithm called **Proof of Elapsed Time** (**PoET**). PoET is designed to achieve
+    distributed consensus as efficiently as possible. Sawtooth supports both permissioned
+    and permissionless networks. Sawtooth is designed for versatility.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hyperledger Indy**: Contributed initially by the Sovrin foundation, it is
+    intended to support independent identity on distributed ledgers. Indy provides
+    tools, libraries, and reusable components, which are implemented to provide digital
+    identities.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Early members of the initiative include the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain ISVs, (Blockchain, ConsenSys, Digital Asset, R3, Onchain)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Technology platform companies such as Cisco, Fujitsu, Hitachi, IBM, Intel, NEC,
+    NTT DATA, Red Hat, and VMware
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Financial institutions such as ABN AMRO, ANZ Bank, BNY Mellon, CLS Group, CME
+    Group, the **Depository Trust and Clearing Corporation** (**DTCC**), Deutsche
+    Börse Group, J.P. Morgan, State Street, SWIFT, and Wells Fargo
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Software companies such as SAP
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Academic institutions such as Cambridge Centre for Alternative Finance, blockchain
+    at Columbia, and UCLA blockchain lab
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Systems integrators and other firms such as Accenture, Calastone, Wipro, Credits,
+    Guardtime, IntellectEU, Nxt Foundation, and Symbiont
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The evolution of blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Blockchain technology is still at an early stage. It will take many years before
+    it becomes mature and its potential is fully explored and harnessed. Currently,
+    there is no universally agreed way to classify or define blockchain generation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In her book on blockchain, Melanie Swan defined blockchain 1.0 to 3.0 based
+    on the use scenarios that blockchain platforms are created to serve:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*"Blockchain 1.0 is currency, the deployment of cryptocurrencies in applications
+    related to cash, such as currency transfer, remittance, and digital payment systems.*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Blockchain 2.0 is contracts, the entire slate of economic, market, and financial
+    applications using the blockchain that are more expensive than simple cash transactions:
+    stocks, bonds, futures, loans, mortgages, titles, smart property, and smart contracts.*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Blockchain 3.0 is blockchain applications beyond currency, finance, and markets
+    - particularly in the areas of government, health, science, literacy, culture,
+    and art."*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Some others divided blockchain evolution into four generations from blockchain
+    1.0 to 4.0:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Blockchain 1.0**: With Bitcoin being the most prominent example in this segment,
+    use cases were based on the **distributed ledger technology** (**DLT**) where
+    financial transactions could be executed. Cryptocurrency was used as cash for
+    the Internet.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain 2.0**: With Ethereum being the most prominent example in this
+    segment, the new key concept was Smart Contracts, which are stored and executed
+    on a blockchain.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain 3.0**: The keyword is DApps, an abbreviation for decentralized
+    applications, which avoided centralized infrastructure. They use decentralized
+    storage and decentralized communication. Unlike a smart contract which only involves
+    a backend or server-side code, a DApp can have frontend code and user interfaces,
+    i.e. client-side code to interact with its backend code on a blockchain. Like
+    the smart contract code, a DApp''s frontend can be stored and executed on decentralized
+    storage such as Ethereums Swarm. In summary, a DApp is frontend plus contracts
+    running on Ethereum.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Blockchain 4.0**: Blockchain platforms in this segment are built to serve
+    for Industry 4.0\. Industry 4.0 refers, in a simple way, to automation, enterprise
+    resource planning, and integration of different execution systems.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Regardless of how the blockchain technology is divided into versions, it is
+    certain that the technology growth is far from being over. New ideas and implementations
+    will be incorporated into the existing platforms to deal with challenges for real-life
+    problems. In other words, blockchain technology will be nimble and is self-adjusted
+    to be an enabler in resolving business problems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Blockchain is an emerging technology. Thanks to its immutability, transparency,
+    the consensus mechanism for avoiding double spending, along with other clever
+    designs such as blocks chained with the hashes of the previous blocks, the technology
+    allows untrusting parties to trade with each other. In this chapter, we explained
+    the basic concepts of its important features. Most of the discussions were about Bitcoin,
+    which is the mother of the technology. We briefly talked about Ethereum, which
+    extended Bitcoin and introduced the concept of smart contracts. The introduction
+    of smart contracts makes the Ethereum blockchain generic and allows us to develop
+    applications beyond the borderless cash payment use case for which Bitcoin was
+    invented. The concept of an enterprise chain, along with one of the examples,
+    Hyperledger, was mentioned as well. Finally, we briefly touched on the evolution
+    of blockchain to give readers an idea of the trend in the technology. In the next
+    chapter, we will discuss the concepts of Ethereum in detail.
+  prefs: []
+  type: TYPE_NORMAL

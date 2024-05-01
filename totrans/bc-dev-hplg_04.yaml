@@ -1,0 +1,1403 @@
+- en: Designing a Data and Transaction Model with Golang
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In Hyperledger Fabric, chaincode is a form of a smart contract written by a
+    developer. Chaincode implements a business logic agreed upon by stakeholders of
+    the blockchain network. The functionality is exposed to client applications for
+    them to invoke, provided they have the correct permissions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Chaincode runs as an independent process in its own container, isolated from
+    the other components of the Fabric network. An endorsing peer manages the lifetime
+    of the chaincode and of the transaction invocations. In response to client invocations,
+    the chaincode queries and updates the ledger and generates a transactions proposal.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this chapter, we will learn how to develop chaincode in the Go language and
+    we will implement the smart contract business logic of the scenario. Finally,
+    we will explore the key concepts and libraries necessary for developing a fully
+    functional chaincode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'While in the next sections we will explore snippets of code related to the
+    concepts you can get a complete implementation of the chaincode at the following
+    address:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/chaincode/src/github.com/trade_workflow_v1](https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/chaincode/src/github.com/trade_workflow_v1)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Note that this is also available in the local git clone we created in the previous
+    chapter.We have two versions of the chaincode, one in the `trade_workflow` folder
+    and another in the `trade_workflow_v1` folder. We need two versions to demonstrate
+    upgrades later in [*Chapter 9*](72e0e4f7-a8e3-49e6-935f-2c478d0ac891.xhtml), *Life
+    in a Blockchain Network*. In this chapter, we use the `v1` version to demonstrate
+    how to write chaincode in Go.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will be covering the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a chaincode
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Access control
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Implementing chaincode functions
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Testing chaincode
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Chaincode design topics
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Logging output
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Starting the chaincode development
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before we can start coding our chaincode, we need to first start up our development
+    environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The steps of setting up the development environment has been explained in [*Chapter
+    3*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml), *Setting the Stage with a Business
+    Scenario*. However, we now proceed with starting up the Fabric network in dev-mode.
+    This mode allows us to control how we built and run the chaincode. We will use
+    this network to run our chaincode in the development environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is how we start the Fabric network in dev mode:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: If you encounter any error while the network start, it could be caused by some
+    left-over Docker container.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can resolve this by stopping the network using `./trade.sh down -d true`
+    and running the following command: `./trade.sh clean -d true`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `-d` true option tells our script to take action on the dev network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Our development network is now running in five Docker containers. The network
+    is composed of a single orderer, a single peer running in `devmode`, a chaincode
+    container, a CA container, and a CLI container. The CLI container creates a blockchain
+    channel named `tradechannel` at startup. We will use the CLI to interact with
+    the chaincode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Feel free to inspect the log messages in the logs directory. It lists the components
+    and functions executed during network startup. We will keep the terminal open,
+    as we will receive further log messages here once the chaincode has been installed
+    and invoked.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Compiling and running chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The cloned source code already includes all dependencies using Go vendoring.
+    With that in mind, we can now begin to build the code and to run the chaincode
+    with the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Compile the chaincode**: In a new terminal, connect to the chaincode container
+    and build the chaincode with the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Run the chaincode with the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: We now have a running chaincode connected to the peer. The log messages here
+    are indicating that the chaincode is up and running. You can also inspect log
+    messages in the network terminal, which list the connections to the chaincode
+    on the peer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing and instantiating chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We now need to install the chaincode on the channel before we initiate it,
+    which will invoke the method `Init`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Installing the chaincode**: In a new terminal, connect to the CLI container
+    and install the chaincode with the name `tw`, as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, instantiate the following `chaincode`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: The CLI-connected terminal now contains a list of log messages of the interaction
+    with the chaincode. The `chaincode` terminal shows messages from the `chaincode`
+    method invocation and the network terminal show messages from communication between
+    the peer and the orderer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Invoking chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now we have a running chaincode, we can start to invoke some functions. Our
+    chaincode has several methods that create and retrieve assets. For now, we will
+    only invoke two of them; the first creates a new trade agreement and the second
+    retrieves it from the ledger. To do this, complete the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Put a new trade agreement with a unique ID `trade-12` on the ledger with the
+    following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Retrieve the trade agreement with the ID `trade-12` from the ledger with the
+    following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: We now have a running network in `devmode` and we have tested our chaincode
+    successfully. In the following section, we will learn how to create and test chaincode
+    from scratch.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Dev Mode
+  prefs: []
+  type: TYPE_NORMAL
+- en: In a production environment, the lifetime of the chaincode is managed by the
+    peer. When we need to repeatedly modify and test the chaincode in a development
+    environment, we can use `devmode`, which allows the developer to control the life
+    cycle of the chaincode. Additionally, `devmode` directs the `stdout` and `stderr`
+    standard files into the terminal; these are otherwise disabled in a production
+    environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To use `devmode`, the peer must be connected to other network components, as
+    in a production environment, and started with the argument `peer-chaincodedev=true`.
+    The chaincode is then started separately and configured to connect to the peer.
+    The chaincode can be repeatedly compiled, started, invoked, and stopped as needed
+    from the terminal during development.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will use the `devmode` enabled network in the following sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We are now ready to start to implementing our chaincode, which we will program
+    in the Go language. There are several IDEs available that provide support for
+    Go. Some of the better IDEs include Atom, Visual Studio Code, and many more. Whatever
+    environment you opt for will work with our example.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The chaincode interface
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Every chaincode must implement the `Chaincode interface`, whose methods are
+    called in response to the received transaction proposals. The `Chaincode interface`
+    defined in the SHIM package is shown in the following listing:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, the `Chaincode` type defines two functions: `Init` and `Invoke`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Both functions have a single argument, `stub`, of the type `ChaincodeStubInterface`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The stub argument is the main object that we will use when implementing the
+    chaincode functionality, as it provides functions for accessing and modifying
+    the ledger, obtaining invocation arguments, and so on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Additionally, the SHIM package provides other types and functions in order
+    to build chaincodes; you can inspect the whole package at: [https://godoc.org/github.com/hyperledger/fabric/core/chaincode/shim.](https://godoc.org/github.com/hyperledger/fabric/core/chaincode/shim)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting up the chaincode file
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's now set up the `chaincode` file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We will work with the folder structure cloned from GitHub. The chaincode files
+    are located in the following folder:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: You can either follow the steps and inspect the code files in the folder, or
+    you can create a new folder and create the code files as described.
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, we need to create the `chaincode` file
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'In your favorite editor, create a file, `tradeWorkflow.go`, and include the
+    following package and import statements:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: In the preceding snippet, we can see that lines 4 to 8 import the Go language
+    system packages, and lines 9 to 11 import the `shim`, `cid`, and `pb` Fabric packages.
+    The `pb` package provides the definition of peer `protobuf` types and `cid` provides
+    access control functions. We will take a closer look at CID in the section on
+    access control.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now we need to define the `Chaincode` type. Let''s add the `TradeWorkflowChaincode`
+    type that will implement the chaincode functions, as shown in the following snippet:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: Make note of the `testMode` field in line 2\. We will use this feld to circumvent
+    access control checks during testing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `TradeWorkflowChaincode` is required in order to implement the `shim.Chaincode`
+    interface. The methods of the interface must be implemented in order for `TradeWorkflowChaincode`
+    to be a valid `Chaincode` type of the `shim` package.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The `Init` method is called once the chaincode has been installed onto the
+    blockchain network. It is executed only once by each endorsement peer that deploys
+    its own instance of the chaincode. This method can be used for initialization,
+    bootstrapping, and in setting up the chaincode. A default implementation of the
+    `Init` method is shown in the following snippet. Note that the method in line
+    3 writes a line into a standard output to report its invocation. In line 4, the
+    method returns a result of the invocation of the function `shim`. Success with
+    an argument value of `nil` signals a successful execution with an empty result,
+    as shown as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'An invocation of a chaincode method must return an instance of the `pb.Response`
+    object. The following snippet lists the two helper functions from the SHIM package
+    to create the response object. The following functions serialize the response
+    into a gRPC protobuf message:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'It''s now time to move on to the invocation arguments. Here, the method will
+    retrieve the arguments of the invocation using the `stub.GetFunctionAndParameters`
+    function and validate that the expected number of arguments has been provided.
+    The `Init` method expects to either receive no arguments and therefore leaves
+    the ledger as it is. This happens when the `Init` function is invoked because
+    the chaincode is upgraded on the ledger to a newer version. When the chaincode
+    is installed for a first time, it expects to receive eight arguments that include
+    details of the participants, which will be recorded as initial states. If an incorrect
+    number of arguments is provided, the method will return an error. The codeblock
+    validating arguments is as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: As we can see in the preceding snippet, when the expected number of arguments
+    containing the names and roles of the participants is provided, the method validates
+    and casts the arguments into the correct data types and records them onto the
+    ledger as an initial state.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the following snippet, in lines 2 and 7, the method casts the arguments into
+    an integer. If the cast fails, it returns an error. In line 14, a string array
+    is constructed from string constants. Here, we refer to lexical constants as defined
+    in the file `constants.go`, which is located in the `chaincode` folder. The constants
+    represent keys under which the initial values will be recorded into the ledger.
+    Finally, in line 16 for each of the constants one record (asset) is written onto
+    the ledger. The function `stub.PutState` records a key and value pair onto the
+    ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Note, that data on the ledger is stored as an array of bytes; any data we want
+    to store on the ledger must be first converted into a byte array, as you can see
+    in the following snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: The Invoke method
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The `Invoke` method is invoked whenever the state of the blockchain is queried
+    or modified.
+  prefs: []
+  type: TYPE_NORMAL
+- en: All **create**, **read**, **update**, and **delete** (**CRUD**) operations on
+    the assets held on the ledger are encapsulated by the `Invoke` method.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The invocation of this method happens when a transaction is created by the
+    invoking client. When the ledger is queried for the state (that is, one or more
+    assets are retrieved but the state of the ledger is not modified), the contextual
+    transaction will be discarded by the client after receiving the response of `Invoke`.
+    Once the ledger has been modified, the modifications will be recorded into the
+    transaction. After receiving a response for the transaction to be recorded on
+    the ledger, the client will submit that transaction to an ordering service. An
+    empty `Invoke` method is shown in the following snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: Typically, the implementation of chaincode will contain multiple queries and
+    modification functions. If these functions are very simple, they can be directly
+    implemented in the body of the `Invoke` method. However, a more elegant solution
+    is to implement each function independently and then invoke them from the `Invoke`
+    method.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The SHIM API provides several functions for retrieving the invocation arguments
+    of the `Invoke` method. These are listed in the following snippet. It is up to
+    the developer to choose the meaning and order of the arguments; however, it is
+    customary for the first argument of the `Invoke` method to be the name of the
+    function, with the following arguments the arguments of that function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In the following snippet, the arguments of the invocation are retrieved in
+    line 1 using the `stub.GetFunctionAndParameters` function. From line 3 onwards,
+    a series of `if` conditions pass the execution, along with the arguments, into
+    the requested function (`requestTrade`, `acceptTrade`, and so on). Each of these
+    functions implement their functionality separately. If a non-existent function
+    is requested, the method returns an error indicating that the requested function
+    does not exist, as shown in line 18:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, the `Invoke` method is a suitable place for any shared code
+    that is needed for extracting and validating arguments that will be used by the
+    requested functions. In the following section, we will look at the access control
+    mechanism and place some of the shared access control code into the `Invoke` method.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Access control
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before we delve into the implementation of `Chaincode` functions, we need to
+    first define our access control mechanism.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A key feature of a secure and permissioned blockchain is access control. In
+    Fabric, the **Membership Services Provider** (**MSP**) plays a pivotal role in
+    enabling access control. Each organization of a Fabric network can have one or
+    more MSP providers. The MSP is implemented as a **Certificate Authority** (**Fabric
+    CA**). More information on Fabric CA, including its documentation, is available
+    at: [https://hyperledger-fabric-ca.readthedocs.io/.](https://hyperledger-fabric-ca.readthedocs.io/)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fabric CA issues **Enrollment Certificates** (**ecerts**) for network users.
+    The ecert represents the identity of the user and is used as a signed transaction
+    when a user submits to Fabric. Prior to invoking a transaction, the user must
+    therefore first register and obtain an ecert from the Fabric CA.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fabric supports an **Attribute-based Access Control** (**ABAC**) mechanism that
+    can be used by the chaincode to control access to its functions and data. The
+    ABAC allows the chaincode to make access control decisions based on attributes
+    associated with user identity. Users with an ecert can also access a series of
+    additional attributes (that is, name/value pairs).
+  prefs: []
+  type: TYPE_NORMAL
+- en: During invocation, the chaincode will extract the attributes and make an access
+    control decision. We will take a closer look at the ABAC mechanism in the upcoming
+    chapters.
+  prefs: []
+  type: TYPE_NORMAL
+- en: ABAC
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the following steps, we will show you how to register a user and create an
+    ecert with attributes. We will then retrieve the user identity and the attributes
+    in the chaincode to validate access control. We will then integrate this functionality
+    into our tutorial chaincode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, we must register a new user with the Fabric CA. As part of the registration
+    process, we have to define the attributes that will be used once the ecert is
+    generated. A user is registered by running the command, `fabric-ca-client register`.
+    The access control attributes are added by using the suffix `:ecert`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Registering a user
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: These steps are informational only and cannot be executed. For more information
+    you can refer to the GitHub repository [https://github.com/HyperledgerHandsOn/trade-finance-logistics/blob/master/chaincode/abac.md](https://github.com/HyperledgerHandsOn/trade-finance-logistics/blob/master/chaincode/abac.md)
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s now register a user with a custom attribute named `importer` and the
+    value `true`. Note that the value of the attribute can be of any type and is not
+    limited to Boolean values, as shown in the following snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: The previous snippet shows us the command line when registering a user with
+    the attribute `importer=true`. Note that the values of `id.secret` and other arguments
+    depend on the Fabric CA configuration.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The preceding command can also define multiple default attributes at once,
+    such as: `--id.attrs` and `importer=true:ecert,email=user1@gmail.com`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following table contains the default attributes used during user registration:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Attribute name** | **Command line argument** | **Attribute value** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| hf.EnrollmentID | (automatic) | The enrollment ID of the identity |'
+  prefs: []
+  type: TYPE_TB
+- en: '| hf.Type  | id.type  | The type of the identity |'
+  prefs: []
+  type: TYPE_TB
+- en: '| hf.Affiliation  | id.affiliation  | The affiliation of the identity |'
+  prefs: []
+  type: TYPE_TB
+- en: 'If any of the previous attributes are needed in ecert, they must be first defined
+    in the user registration command. For example, the following command registers
+    `user1` with the attribute `hf.Affiliation=ImporterOrgMSP`, which will be copied
+    into ecert by default:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: Enrolling a user
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Here, we will enroll the user and create the ecert. `enrollment.attrs` defines
+    which attributes will be copied into the ecert from user registration. The suffix
+    opt defines which attributes of those copied from registration are optional. If
+    one or more non-optional attributes are not defined on the user registration,
+    the enrollment will fail. The following command will enroll a user with the attribute
+    `importer`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: Retrieving user identities and attributes in chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this step, we will retrieve a user's identity during the execution of the
+    chaincode. The ABAC functionality available to chaincode is provided by the **Client
+    Identity Chaincode** (**CID**) library.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Every transaction proposal submitted to the chaincode carries along with it
+    the ecert of the invoker –the user submitting the transaction. The chaincode has
+    access to the ecert through importing the CID library and invoking the library
+    functions with the argument `ChaincodeStubInterface`, that is, the argument `stub` received
+    in both the `Init` and `Invoke` methods.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The chaincode can use the certificate to extract information about the invoker,
+    including:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The ID of the invoker
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The unique ID of the **Membership Service Provider** (**MSP**) which issued
+    the invoker certificate
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The standard attributes of the certificate, such as its domain name, email,
+    and so on
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The ecert attributes associated with the client identity, stored within the
+    certificate
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The functions provided by the CID library are listed in the following snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In the following codeblock, we define a function, `getTxCreatorInfo`, which
+    obtains basic identity information about the invoker. First, we must import the
+    CID and x509 libraries, as seen in lines 3 and 4\. The unique MSPID is retrieved
+    in line 13 and the X509 certificate is obtained in line 19\. In line 24, we then
+    retrieve the `CommonName` of the certificate, which contains the unique string
+    of the Fabric CA within the network. These two attributes are returned by the
+    function and used in subsequent access control validation, as shown in the following
+    snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: We now need to define and implement the simple access control policy in our
+    chaincode. Each function of the chaincode can only be invoked by members of a
+    specific organization; each chaincode function will therefore validate whether
+    the invoker is a member of the required organization. For example, the function
+    `requestTrade` can be invoked only by members of the `Importer` organization.
+    In the following snippet, the function `authenticateImporterOrg` validates whether
+    the invoker is a member of `ImporterOrgMSP`. This function then will be invoked
+    from the `requestTrade` function to enforce access control.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: In the following snippet is shown the invocation of access control validation,
+    which has granted access only to members of `ImporterOrgMSP`. The function is
+    invoked with the arguments obtained from the `getTxCreatorInfo` function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: Now, we need to place our authentication functions into a separate file, `accessControlUtils.go`,
+    which is located in the same directory as the main `tradeWorkflow.go` file. This
+    file will be automatically imported into the main `chaincode` file during compilation
+    so we can refer to the functions defined in it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Implementing chaincode functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: At this point, we now have the basic building blocks of chaincode. We have the
+    `Init` method, which initiates the chaincode and the `Invoke` method, which receives
+    request from the client and the access control mechanism. Now, we need to define
+    the functionality of the chaincode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Based on our scenario, the following tables summarize the list of functions
+    that record and retrieve data to and from the ledger to provide the business logic
+    of the smart contract. The tables also define the access control definitions of
+    organization member, which are needed in order to invoke the respective functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following table illustrates the chaincode modification functions, that
+    is, how to record transactions on the ledger:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Function name** | **Permission to invoke** | **Description** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `requestTrade` | Importer | Requests a trade agreement |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `acceptTrade` | Exporter | Accepts a trade agreement |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `requestLC` | Importer | Requests a letter of credit |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `issueLC` | Importer | Issues a letter of credit |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `acceptLC` | Exporter | Accepts a letter of credit |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `requestEL` | Exporter | Requests an export license |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `issueEL` | Regulator | Issues an export license |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `prepareShipment` | Exporter | Prepares a shipment |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `acceptShipmentAndIssueBL` | Carrier | Accepts a shipment and issue a bill
+    of lading |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `requestPayment` | Exporter | Requests a payment |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `makePayment` | Importer | Makes a payment |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `updateShipmentLocation` | Carrier | Updates shipment location |'
+  prefs: []
+  type: TYPE_TB
+- en: 'The following table illustrates the chaincode query functions, that is, those
+    needed to retrieve data from the ledger:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Function name** | **Permission to invoke** | **Description** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `getTradeStatus` | Exporter/ExportingEntity/Importer | Gets current state
+    of a trade agreement |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `getLCStatus` | Exporter/ExportingEntity/Importer | Get current state of
+    a Letter of Credit |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `getELStatus` | ExportingEntity/Regulator | Get current state of an Export
+    License |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `getShipmentLocation` | Exporter/ExportingEntity/Importer/Carrier | Get current
+    location of a shipment |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `getBillOfLading` | Exporter/ExportingEntity/Importer | Get the bill of lading
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `getAccountBalance` | Exporter/ExportingEntity/Importer | Get current account
+    balance for a given participant |'
+  prefs: []
+  type: TYPE_TB
+- en: Defining chaincode assets
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We are now going to define the structure of our assets, which will be recorded
+    onto the ledger. In Go, the assets are defined as struct types with a list of
+    attribute names and types. The definitions also need to contain JSON attribute
+    names, which will be used to serialize the assets into the JSON objects. In the
+    following snippet, you will see definitions for four assets in our application.
+    Note that, the attributes of structs can encapsulate other structs and thus allow
+    to create multi-level trees.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: Coding chaincode functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we will implement the chaincode functions we looked at previously.
+    To implement the chaincode functions, we will use three SHIM API functions that
+    will read assets from the Worldstate and record changes. As we have already learned,
+    reads and writes of these functions are recorded into `ReadSet` and `WriteSet` respectively,
+    and the changes do not affect the state of the ledger immediately. Only after
+    the transaction has passed through validation and has been committed into the
+    ledger will the changes take effect.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following snippet shows a list of asset API functions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: Creating an asset
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that we can implement our first chaincode function, we will move on and
+    implement a `requestTrade` function, which will create a new trade agreement with
+    the status `REQUESTED` and then record that agreement on the ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The implementation of the function is shown in the following snippet. As you
+    will see, in line 9 we verify that the invoker is a member of `ImporterOrg` and
+    has permission to invoke the function. From lines 13 to 21 we validate and extract
+    the arguments. In line 23, we create a new instance of `TradeAgreement` initiated
+    with the received arguments. As we learned earlier, the ledger stores values in
+    the form of arrays of bytes. Thus, in line 24 we serialize `TradeAgreement` with
+    JSON into an array of bytes. In line 32, we create a unique key, under which we
+    will store `TradeAgreement`. Finally, in line 37, we use the key and serialized
+    `TradeAgreement` alongside the function `PutState` to store the value into the
+    `WriteSet`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following snippet illustrates the `requestTrade` function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: Reading and modifying an asset
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: After we have implemented the function to create a trade agreement, we need
+    to implement a function to accept the trade agreement. This function will retrieve
+    the agreement, modify its status to `ACCEPTED`, and put it back on the ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The implementation of this function is shown in the following snippet. In the
+    code, we construct the unique composite key of the trade agreement we want to
+    retrieve. In line 22, we retrieve the value with the function `GetState`. In line
+    33, we deserialize the array of bytes into the instance of the `TradeAgreement`
+    struct. In line 41, we modify the status so it reads `ACCEPTED`; finally, in line
+    47, we store the updated value on the ledger, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: Main function
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Last but not least, we will add the `main` function: the initial point of a
+    Go program. When an instance of the chaincode is deployed on a peer, the `main`
+    function is executed to start the chaincode.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In line 2 of the following snippet, the chaincode is instantiated. The function
+    `shim.Start` starts the chaincode in line 4 and registers it with the peer, as
+    follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: Testing chaincode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now we can write unit tests for our chaincode functions, we will use the in-built
+    automated Go testing framework. For more information and documentation, visit
+    Go's official website at: [https://golang.org/pkg/testing/](https://golang.org/pkg/testing/)
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The framework automatically seeks and executes functions with the following
+    signature:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: The function name `Fname` is an arbitrary name that must start with an uppercase
+    letter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Note that the test suite file containing unit tests must end with the suffix, `_test.go`;
+    therefore, our test suite file will be named `tradeWorkflow_test.go` and placed
+    in the same directory as our `chaincode` file. The first argument of the `test`
+    function is of the type `T`, which provides functions for managing test states
+    and supporting formatted test logs. The output of the test is written into the
+    standard output, it can be inspected in the terminal.
+  prefs: []
+  type: TYPE_NORMAL
+- en: SHIM mocking
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The SHIM package provides a comprehensive mocking model that can be used to
+    test chaincodes. In our unit tests, we will use the `MockStub` type, which provides
+    an implementation of `ChaincodeStubInterface` for unit-testing chaincodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing the Init method
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: First, we need to define the function needed to invoke the `Init` method. The
+    function will receive references to `MockStub`, as well as to an array of arguments
+    to pass to the `Init` method. In line 2 of the following code, the chaincode function
+    `Init` is invoked with the received arguments, which is then verified in line
+    3.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following snippet illustrates the invocation of the `Init` method:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We will now define the function needed to prepare a default array of values
+    of the `Init` function arguments, shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We will now define the test of the `Init` function, as shown in the following
+    snippet. The test first creates an instance of the chaincode, then sets the mode
+    to test, and finally creates a new `MockStub` for the chaincode. In line 7, the
+    `checkInit` function is invoked and the `Init` function is executed. Finally,
+    from line 9 onwards, we will verify the state of the ledger, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE35]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Next, we verify whether each key''s state is as expected with the `checkState`
+    function, as shown in the following codeblock:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE36]'
+  prefs: []
+  type: TYPE_PRE
+- en: Testing the Invoke method
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: It's now time to define the test for the `Invoke` function. In line 7 of the
+    following codeblock, `checkInit` is called to initialize the ledger, followed
+    by `checkInvoke` in line 13, which invokes the `requestTrade` function. The `requestTrade`
+    function creates a new trade asset and stores it on the ledger. To verify that
+    the ledger contains the correct state, a new `TradeAgreement` is created and serialized
+    in lines 15 and 16, before a new composite key is calculated in line 17\. Finally,
+    in line 18, the state of the key is verified against the serialized value.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Additionally, as previously outlined, our chaincode contains a series of functions
+    that together define the trade workflow. We will chain the invocations of these
+    functions into a sequence in the test to verify the whole workflow. The code of
+    the whole function is available in the test file located in the `chaincode` folder.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE37]'
+  prefs: []
+  type: TYPE_PRE
+- en: Following snippet shows the function `checkInvoke` .
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE38]'
+  prefs: []
+  type: TYPE_PRE
+- en: Running tests
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We are now ready to run our tests! The `go test` command will execute all tests
+    found in the `tradeWorkflow_test.go` file. The file contains a long series of
+    tests that verify the functions defined in our workflow.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s now run the tests in the terminal with the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE39]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The preceding command should generate the following output:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE40]'
+  prefs: []
+  type: TYPE_PRE
+- en: Chaincode design topics
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Composite keys
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We often need to store multiple instances of one type on the ledger, such as
+    multiple trade agreements, letters of credit, and so on. In this case, the keys
+    of those instances will be typically constructed from a combination of attributes—for
+    example, `"Trade" + ID, yielding ["Trade1","Trade2", ...]`. The key of an instance
+    can be customized in the code, or API functions can be provided in SHIM to construct
+    a composite key (in other words, a unique key) of an instance based on a combination
+    of several attributes. These functions simplify composite key construction. Composite
+    keys can then be used just as a normal string key is used to record and retrieve
+    values using the `PutState()` and `GetState()` functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following snippet shows a list of functions that create and work with composite
+    keys:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE41]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In the following snippet we can see a function `getTradeKey`, which constructs
+    a unique composite key of a trade agreement by combining the keyword `Trade` with
+    an ID of the trade:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE42]'
+  prefs: []
+  type: TYPE_PRE
+- en: In more complex scenarios, keys can be constructed from multiple attributes.
+    Composite keys also allow you to search for assets based on components of the
+    key in range queries. We will explore searching in more detail in the upcoming
+    sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Range queries
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As well as retrieving assets with a unique key, SHIM offers API functions the
+    opportunity to retrieve sets of assets based on a range criteria. Moreover, composite
+    keys can be modeled to enable queries against multiple components of the key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The range functions return an iterator (`StateQueryIteratorInterface`) over
+    a set of keys matching the query criteria. The returned keys are in lexical order.
+    The iterator must be closed with a call to the function `Close()`. Additionally,
+    when a composite key has multiple attributes, the range query function, `GetStateByPartialCompositeKey()`,
+    can be used to search for keys matching a subset of the attributes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For example, the key of a payment composed of `TradeId` and `PaymentId` can
+    be searched for across all payments associated with a specific `TradeId`, as shown
+    in the following snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE43]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We can also search for all trade agreements with an ID within the range of
+    1-100 with the following query:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE44]'
+  prefs: []
+  type: TYPE_PRE
+- en: State queries and CouchDB
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: By default, Fabric uses LevelDB as storage for the Worldstate. Fabric also offers
+    the option to configure peers to store Worldstate in CouchDB. When assets are
+    stored in the form of JSON documents, CouchDB allows you to perform complex queries
+    for assets based on the asset state.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The queries are formatted in the native CouchDB declarative JSON querying syntax.
+    The current version of this syntax is available at: [http://docs.couchdb.org/en/2.1.1/api/database/find.html.](http://docs.couchdb.org/en/2.1.1/api/database/find.html)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Fabric forwards queries to CouchDB and returns an iterator (`StateQueryIteratorInterface()`),
+    which can be used to iterate over the result set. The declaration of the  state
+    based query function is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE45]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In the following snippet, we can see a state-based query for all trade agreements
+    that have the status `ACCEPTED` and a received payment of over 1000\. The query
+    is then executed and the found documents are written to the terminal, shown as
+    follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE46]'
+  prefs: []
+  type: TYPE_PRE
+- en: Note that unlike queries over keys, the queries over state are not recorded
+    into the `ReadSet` of the transaction. Thus, the validation of the transaction
+    cannot actually verify whether changes to the Worldstate occurred between the
+    execution and commitment of the transaction. The chaincode design must therefore
+    take that into consideration; if a query is based on an expected invocation sequence,
+    an invalid transaction may appear.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Indexes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Performing queries on large datasets is a computationally complex task. Fabric
+    provides a mechanism for defining indexes on the CouchDB hosted Worldstate to
+    increase efficiency. Note that indexes are also required for sorting operations
+    in queries.
+  prefs: []
+  type: TYPE_NORMAL
+- en: An index is defined in JSON in a separate file with the extension `*.json`.
+    The full definition of the format is available at: [http://docs.couchdb.org/en/2.1.1/api/database/find.html#db-index](http://docs.couchdb.org/en/2.1.1/api/database/find.html#db-index).
+    [](http://docs.couchdb.org/en/2.1.1/api/database/find.html#db-index)
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following snippet illustrates an index that matches our query for the trade
+    agreements we looked at earlier:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE47]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, the index files are placed into the folder `/META-INF/statedb/couchdb/indexes`.
+    During compilation, the indexes are packaged along with the chaincode. Upon installation
+    and instantiation of the chaincode on the peer, the indexes are automatically
+    deployed onto the Worldstate and used by queries.
+  prefs: []
+  type: TYPE_NORMAL
+- en: ReadSet and WriteSet
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: On receipt of a transaction invocation message from a client, the endorsing
+    peer executes a transaction. The execution invokes the chaincode in the context
+    of the peer's Worldstate and records all reads and writes of its data on the ledger
+    into a `ReadSet` and `WriteSet`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The transaction's `WriteSet` contains a list of key and value pairs that were
+    modified during the execution by the chaincode. When the value of a key is modified
+    (that is, a new key and value are recorded or an existing key is updated with
+    a new value), the `WriteSet` will contain the updated key and value pair.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When a key is deleted, the `WriteSet` will contain the key with an attribute
+    marking the key as deleted. If a single key is modified multiple times during
+    chaincode execution, the `WriteSet` will contain the latest modified value.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The transaction's `ReadSet` contains a list of keys and their versions that
+    were accessed during execution by the chaincode. The version number of a key is
+    derived from a combination of the block number and the transaction number within
+    the block. This design enables the efficient searching and processing of data.
+    Another section of the transaction contains information about range queries and
+    their outcome. Remember that when a chaincode reads the value of a key, the latest
+    committed value in the ledger is returned.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If modifications introduced during chaincode execution are stored in the `WriteSet`,
+    when a chaincode is reading a key modified during execution, the committed—not
+    modified—value will be returned. Therefore, if a modified value is needed later
+    during the same execution, the chaincode must be implemented such that it retains
+    and uses the correct values.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'An example of a transaction''s `ReadSet` and `WriteSet` is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE48]'
+  prefs: []
+  type: TYPE_PRE
+- en: Multiversion concurrency control
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Fabric uses a **multiversion concurrency control** (**MVCC**) mechanism to ensure
+    consistency in the ledger and to prevent double spending. Double spending attacks
+    aim to exploit flaws in systems by introducing transactions that use or modify
+    the same resource multiple times, such as spending the same coin multiple times
+    in a cryptocurrency network. A key collision is another type of problems that
+    can occur while processing transactions submitted by parallel clients, and which
+    may attempt to modify the same key/value pairs at the same time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In addition, due to Fabric's decentralized architecture, the sequence of transaction
+    execution can be ordered and committed differently on the different Fabric components
+    (including endorsers, orderers, and committers), which in turn introduces a delay
+    between the calculation and commitment of the transaction, within which key collision
+    can occur. Decentralization also leaves the network vulnerable to potential problems
+    and attacks by intentionally or unintentionally modifying the sequence of transactions
+    by clients.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To ensure consistency, computer systems such as databases typically use a locking
+    mechanism. However, locking requires a centralized approach, which is unavailable
+    in Fabric. It's also worth noting that locking can sometimes introduce a performance
+    penalty.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To combat this, Fabric uses a versioning system of keys stored on the ledger.
+    The aim of the versioning system is to ensure that transactions are ordered and
+    committed into the ledger in a sequence that does not introduce inconsistencies.
+    When a block is received on a committing peer, each transaction of the block is
+    validated. The algorithm inspects the `ReadSet` for keys and their versions; if
+    the version of each key in the `ReadSet` matches the version of the same key in
+    the Worldstate, or of the preceding transactions in the same block, the transaction
+    is considered valid. In other words, the algorithm verifies that none of the data
+    read from the Worldstate during transaction execution has been changed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If a transaction contains range queries, these will be validated as well. For
+    each range query, the algorithm checks whether the result of executing the query
+    is exactly the same as it was during chaincode execution, or if any modification
+    has taken place.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transactions that do not pass this validation are marked as invalid in the ledger
+    and the changes they introduce are not projected onto the Worldstate. Note that
+    since the ledger is immutable, the transactions stay on the ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If a transaction passes the validation, the `WriteSet` is projected onto the
+    Worldstate. Each key modified by the transaction is set in the Worldstate to the
+    new value specified in the `WriteSet`, and the version of the key in the Worldstate
+    is set to a version derived from the transaction. In this way, any inconsistencies
+    such as double spending are prevented. At the same time, in situations when key
+    collisions may occur, the chaincode design must take the behavior of MVCC into
+    consideration. There are multiple well-known strategies for addressing key collisions
+    and MVCC, such as splitting assets, using multiple keys, transaction queuing,
+    and more.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Logging output
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Logging is a vital part of system code, enabling the analysis and detection
+    of runtime problems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Logging in Fabric is based on the standard Go logging package, `github.com/op/go-logging`.
+    The logging mechanism provides severity-based control of logs and pretty-printing
+    decoration of messages. The logging levels are defined in decreasing order of
+    severity, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE49]'
+  prefs: []
+  type: TYPE_PRE
+- en: The log messages are combined from all components and written into the standard
+    error file (`stderr`). Logging can be controlled by the configuration of peers
+    and modules, as well as in the code of the chaincode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuration
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The default configuration of peer logging is set to the level INFO, but this
+    level can be controlled in the following ways:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A command line option logging level. This option overrides default configurations,
+    shown as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE50]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Note that any module or chaincode can be configured through the command line
+    option, as shown in the following snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE51]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The default logging level can also be defined with an `environment` variable
+    `CORE_LOGGING_LEVEL`, as shown in the following snippet:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE52]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'A configuration attribute in the `core.yml` file, defining the configuration
+    of a network can also be used with the following code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE53]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `core.yml` file also allows you to configure logging levels for specific
+    modules, such as for the `chaincode` or the format of messages, as shown in the
+    following snippet:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE54]'
+  prefs: []
+  type: TYPE_PRE
+- en: More detail on the various configuration options are provided in the comments
+    of the `core.yml` file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Logging API
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The SHIM package provides APIs for the chaincode to create and manage logging
+    objects. The logs generated by these objects are integrated with peer logs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The chaincode can create and use an arbitrary number of logging objects. Each
+    logging object must have a unique name, which is used to prefix log records in
+    the output and to distinguish the records of different logging objects and the
+    SHIM. (Remember that the logging object name SHIM API is reserved and should not
+    be used in chaincode.) Each logging object has set a logging severity level at
+    which the log records will be sent to the output. Log records with the severity
+    level `CRITICAL` always appear in the output. The following snippet lists the
+    API functions to create and manage logging objects in the chaincode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE55]'
+  prefs: []
+  type: TYPE_PRE
+- en: The logging object `ChaincodeLogger` provides functions for logging records
+    for each of the severity levels. The following shippet lists the functions of
+    the `ChaincodeLogger`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE56]'
+  prefs: []
+  type: TYPE_PRE
+- en: The default formatting of the records is defined by the configuration of SHIM,
+    which places a space between the printed representations of the input arguments.
+    For each severity level, the logging objects provide an additional function with
+    the suffix `f`. These functions allow you to control the formatting of the output
+    with the argument `format`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The template of an output generated by the logging objects is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE57]'
+  prefs: []
+  type: TYPE_PRE
+- en: The output of all logging objects and of SHIM is combined and sent into the
+    standard error (`stderr`).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following code block illustrates an example of creating and using a logging
+    object:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE58]'
+  prefs: []
+  type: TYPE_PRE
+- en: SHIM logging levels
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The chaincode can also directly control the logging severity level of its SHIM
+    by using the API function `SetLoggingLevel` as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE59]'
+  prefs: []
+  type: TYPE_PRE
+- en: Stdout and stderr
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As well as the logging mechanisms provided by the SHIM API and integrated with
+    the peer, during the development phase, the chaincode can use the standard output
+    files. The chaincode is executed as an independent process and can therefore use
+    the standard output (`stdout`) and standard error (`stderr`) files to record output
+    using standard Go printing functions (for example, `fmt.Printf(...)` and `os.Stdout`).
+    By default, the standard outputs are available in `Dev` mode, when the chaincode
+    process is started independently.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In a production environment when the chaincode process is managed by the peer,
+    the standard output is disabled for security reasons. When required, it can be
+    enabled by setting the configuration variable `CORE_VM_DOCKER_ATTACHSTDOUT` of
+    the peer. The outputs of the chaincode are then combined with the outputs of the
+    peer. Keep in mind that these outputs should only be used for debugging purposes
+    and should not be enabled in a production environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following snippet illustrates additional SHIM API functions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE60]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Listing 4.1: Enabling chaincode standard output files on a peer in `docker-compose`
+    file.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Additional SHIM API functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we provide an overview of the remaining API functions of shim
+    available to chaincode.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE61]'
+  prefs: []
+  type: TYPE_PRE
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Design and implementation a well-functioning chaincode is a complex software
+    engineering task which requires both the knowledge of the Fabric architecture,
+    API functions and of GO language as well as the correct implementation of the
+    business requirements.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this chapter, we have learned step-by-step how to start a blockchain network
+    in dev mode suitable for implementation and testing of the chaincode and how to
+    use CLI to deploy and invoke chaincode. We have then learned how to implement
+    the chaincode of our scenario. We explored the `Init` and `Invoke` functions through
+    which Chaincode receives requests from clients, explored access control mechanism
+    and the various APIs available to developer to implement chaincode functionality.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finally, we learned how to test chaincode and how to integrate logging functionality
+    into the code. To get ready for the next chapter, you should now stop your network
+    using `./trade.sh` down `-d` true.
+  prefs: []
+  type: TYPE_NORMAL

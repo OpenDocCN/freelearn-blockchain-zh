@@ -1,0 +1,1631 @@
+- en: Agility in a Blockchain Network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: At this point, if all went well, you should have a fully functional decentralized
+    application, with the associated smart contracts running on Hyperledger Fabric.
+    With this knowledge in hand, life is going to be good, right? Well, like anything,
+    solutions evolve over time. It could be a change in regulation, the introduction
+    of a new member in the consortium, or a simple bug in your smart contract—whatever
+    the cause, the solution will grow, and without solid development and operational
+    practices, changes will be slow and your life will be painful.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Considering that maintaining agility in the development processes of an IT organization
+    is already very challenging, how can it be done in a consortium? How can companies
+    of various cultures with different velocities come together to deliver and maintain
+    the solution in a time frame that allows them to maintain the competitive edge
+    that the network provides?
+  prefs: []
+  type: TYPE_NORMAL
+- en: While a lot has already been written on the topic of IT agility and DevOps,
+    this chapter will focus on applying some of these concepts to a blockchain network.
+    We say *some* because our attention will be on those concepts that are specific/different
+    to blockchains. Through automation and the deployment of a **continuous integration
+    and delivery** (**CI and CD**) pipeline, we will discuss the impact that a blockchain
+    network has on the people, the process, and the technology.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Defining the promotion process
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Configuring the continuous integration pipeline
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Protecting the source control
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Updating the network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Implication of the consortium on team structures
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Defining the promotion process
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'As you may already be aware, the promotion process defines the key set of activities
+    and gates that any system modification will need to go through. It typically encompasses
+    the development, packaging, testing (for example, unit-testing, functional verification,
+    and integration testing), versioning, and deployment. Usually, an organization
+    will have a standardized approach that will be documented in order to describe
+    what is expected of the project and its support teams. In the case of a Hyperledger
+    Fabric network, there will be at least two different promotion processes for the
+    following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Smart contracts**: As these components are at the vital to business interaction
+    between the participants of the systems, it is imperative that every participant
+    agrees to the content of the contract'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Integration layer**: As they sit on the boundary of the network, their promotion
+    process will depend on who owns them (a consortium versus a specific organization)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Optionally, there might also be a process to control changes to the policies
+    of the network; however, it will be closely aligned with the smart contract promotion
+    process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: However, before jumping straight into the configuration of the pipeline, let's
+    spend a bit of time to understand the considerations of these two promotion processes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contract considerations
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As we mentioned, smart contracts are vital to business interaction between the
+    participants of any blockchain network. As they essentially contain the rules
+    and conditions under which a transaction is deemed valid, we need to ensure that
+    every participant and organization agrees to its validity—otherwise, trust will
+    be compromised.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Conditions for promoting a smart contract would include the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Traceability to an issue**: Is this a bug-fix or a new feature? Along with
+    this element, there might be a need for organizations to approve the issue before
+    it moves to implementation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Successful execution of all tests**: This may be self-evident for some, but
+    most tests should be automated and the results captured.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Code review from key parties**: Would you sign a contract without reviewing
+    its terms and condition? Well, the code review serves a similar purpose.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Impact assessment**: Is the new version of the smart contract backwards-compatible?
+    Changes that are not backwards-compatible will require additional planning.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Sign-off from key parties**: Preceding all the other points, do you have
+    the blessing of all relevant parties? Where will you record this?'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The definition of key parties will be something that will be left for the consortium
+    to define. Key parties could be all organizations that currently use that smart
+    contract, or perhaps the term could refer to a subset of technical leads or members
+    of the founder organization.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Preceding the conditions for promoting a smart contract, promotion frequency
+    could also be contentious. Some organizations are used to quarterly cycles while
+    others are used to a weekly deployment. Friction is bound to occur if such a factor
+    is not discussed upfront as this will have a direct impact on the operational
+    expense an organization may need to account for to maintain their participation
+    to the expected level of the consortium. It is also to be noted that smart contracts
+    may be scoped to the entire network or the pair or set of participants. The scoping 
+    of these smart contracts and various permutation and combinations represents interesting
+    system modifications needed for promotion.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The point is that the conditions and process of modifying a smart contract should
+    be defined upfront by the consortium to avoid any misunderstanding and frustration.
+    In a sense, this is no different than a traditional contract being modified; the
+    terms for the conditions of a contract modification need to be agreed upfront
+    to avoid conflicts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Integration layer considerations
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As we have seen in [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml),
+    *Exposing the Network Assets and Transactions*, there are a few patterns that
+    an organization and a consortium can use to invoke transactions on the network.
+    The selected pattern will help drive the management of the promotion process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If the service layer of an application directly invokes the fabric SDK, then
+    the owner of the application will have to manage its promotion process. If, instead,
+    the consortium imposes the use of a REST gateway, then you can expect that its
+    deployment will follow a process like the one for a smart contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: No matter the owner, the abstraction provided by the integration layer should
+    isolate the application from the smart contract and as such, it would be expected
+    that they evolve independently. However, this does not remove the importance of
+    the impact assessment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Promotion process overview
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'With these concepts defined, let''s turn our attention to the promotion process
+    of our application. As we are using Git as our software configuration management
+    tool, we will leverage its social coding features to support our promotion process:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We can use Git issues to record new features or bug fixes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We can use Git branches to isolate proposed modifications
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Git GPG is used to sign every commit and tag
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Pull requests are used to enforce governance
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following diagram summarizes the process we will use to configure our application:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/830c8212-62cb-4149-895c-2a5e99db09fb.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Wondering what a pull request is?
+  prefs: []
+  type: TYPE_NORMAL
+- en: This chapter assumes that the reader is already familiar with many of the Git
+    concepts. If this is not the case, it might be a good idea to pause and explore
+    what Git has to offer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As a quick summary, a pull request is the process by which people can submit
+    code changes between forks (that is, different repositories) or branches (within
+    a repository). It provides a controlled way to review, comment on, and ultimately
+    approve all code changes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will now go through the process in detail and focus on the issue of trust
+    and the provenance of the code. As we've been discussing, since smart contracts
+    are at the heart of blockchain networks, we need to ensure that we closely track
+    their evolution to avoid unfortunate events. From that perspective, we will want
+    to have traceability from the requirements (Git issues) all the way to the deployment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As such, every code modification should start with the creation of a Git issue.
+    It should properly identify what its scope is—feature request or bug fix—and then
+    describe precisely what work is expected.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will cover the governance aspect in a few chapters, but for now we can assume
+    that the issue will have been prioritized and work will be assigned according
+    to the consortium's priority.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once the developer is assigned to work on the issue, his first step will be
+    to create a temporary Git branch to track all code changes related to this Git
+    issue. Code modification should never be done on the master branch as it represents
+    the stable version of the code, and new features and bug fixes should be reviewed
+    before their integration into the stable stream.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It is expected that developers will run all the appropriate tests within their
+    own local environments and only commit back to the branch when code is ready and
+    all unit tests complete successfully.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When the time comes to commit the changes, Git provides a feature that allows
+    you to sign all your work using **GPG**. What is GPG, you ask? It stands for **GNU
+    Privacy Guard**, and it is an open implementation of the `openpgp` standard. It
+    basically provides a tool that helps you sign and encrypt data using your own
+    private key. Git has implemented GPG to allow developers to sign their work. Each
+    commit or tag can be signed using the GPG key of the author, thereby providing
+    nonrepudiation of commits.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Why sign code modification using GPG? Some may say this is an overhead, but
+    consider that the code being modified represents a legal contract and is at the
+    root of the trust of the network. From this point of view, it might be desirable
+    to ensure that the identity of authors is proven beyond a doubt.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using single-factor authentication for normal commits may not be sufficient
+    to prove their authorship; consider all the reports on the internet of people
+    spoofing the identities of others.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Without signed commits, we can imagine a situation where a rogue developer modifies
+    a smart contract for their own benefit and gets away by claiming they were not
+    the real author of the code change. Such an event would jeopardize the viability
+    of the network and far outweigh the inconvenience of signing commits.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now that the developer has signed the commits, they are ready to submit a pull
+    request. The pull request has been configured to check the following criteria:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The temporary branch is up to date with the content from the master
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Every commit is signed
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The code owners have reviewed and accepted the code changes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The continuous integration pipeline has successfully completed
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The pipeline will be automatically triggered when the pull request is created.
+    Once all the conditions are met, then one of the code owners may merge the code
+    with the master branch and commit those changes (while signing the commit, of
+    course).
+  prefs: []
+  type: TYPE_NORMAL
+- en: In a real-life scenario, the consortium would have additional environments (user
+    acceptance environment, staging environment, and so on) where the complete solution
+    stack would be tested.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The final step described in the diagram focuses on tagging the release. The
+    idea here is that a single release may be built from a series of multiple pull
+    requests. When the consortium is ready to release a new version, it should tag
+    it to represent the official version being deployed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It is on this event that the pipeline will be triggered again, but with a different
+    objective: build, test, sign, and publish the smart contract to an artifact repository.
+    This artifact repository could be one of many popular solutions out there, but
+    in our case, for simplicity''s sake, we will attach the smart contract to a Git
+    release.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Some of you may wonder why we are not deploying directly on the network. Again, the
+    intent is to maintain a clear delineation between the centralized build process
+    and the decentralized nature of the network. Each organization can be notified
+    of the new smart contract to deploy, pull the archive, validate against the signature,
+    and deploy it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In summary, here are a few points on the promotion process:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Every code change is tied to a change request
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Developers sign their modification using GPG
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Master branch integrity is preserved by the pull request process
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The pipeline builds and tests the code for pull requests
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The pipeline publishes the smart contract to the artifact repository when changes
+    are tagged
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Each organization receives a notification when a new version is available
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In the next section, we will start configuring the continuous integration pipeline
+    we have just defined.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuring a continuous integration pipeline
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Not all languages are created equal, and while we could debate the benefits
+    of strongly typed languages such as Java and Go versus untyped ones such as JavaScript,
+    the fact is that we need to rely on unit tests to ensure that the code is working
+    as intended. This is not a bad thing in itself—every code artifact should be supported
+    by a set of tests with adequate coverage.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'What does that have to do with a continuous delivery pipeline, you may be wondering?
+    Well, it''s all about the tests and, in the case of JavaScript code, this is very
+    important. While pipeline will need to ensure the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The code is meeting all quality rules
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: All unit tests are successful
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: All integration tests are successful
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Once these steps are successful, then the process will be able to package and
+    publish the result.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'So, in the next sections, we will experiment with the deployment and configuration
+    of our pipeline using one of the popular cloud-based continuous integration services:
+    Travis CI. We will cover the following elements:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Customizing the pipeline process
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Publishing our smart contract against a repository
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Once this is all done, we will move on to configure our Git repository to control
+    how changes are validated and integrated. So without further ado, let's get started.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Customizing the pipeline process
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'You may recall that in our promotion process, we identified two events within
+    the life cycle that were meant to trigger the pipeline:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Pull requests
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Tag release
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Some may wonder why only these events were specifically chosen. If you recall
+    the process, the developers are expected to manually run tests on their local
+    environment, so there is not an absolute need to trigger the pipeline every time
+    someone delivers code to their own branch. However, when initiating the process
+    of delivering the code to the master branch, it is important to validate that
+    the code can be built, deployed, and tested before accepting changes to the master
+    branch. The same goes with tagging a release—this is an indication that a new
+    version has been cut, and so it makes sense to rerun the pipeline one last time
+    to publish the deployment unit (the smart contract package, in our case).
+  prefs: []
+  type: TYPE_NORMAL
+- en: In any case, this is the guideline we have set for our pipeline, but other teams
+    may choose different approaches. The reader should consider this a guideline and
+    not a definitive approach to continuous delivery.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Local build
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before we dive into the configuration of the pipeline, let us quickly look at
+    how the build process is organized.  First thing to note is that our solution
+    is now technology rich:  Fabric, Composer, `go`, `node.js`. These technologies
+    have quite a few dependencies that needs to be in place for the build to work;
+    Think about the pre-requisites for Fabric and Composer, `go` and its libraries,
+    `NVM`, `NPM`, `Node` and all the packages deployed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To get a consistent build output between the local and remote environment we
+    need to have a way to reduce and contain the dependencies.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This is where the approach of using `Docker` and `make` comes in:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Docker provides us an environment that help contains the dependencies and `make`
+    the execution consistent between environments.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`make` helps us manage the dependencies and because it is built-in to most
+    OS (except Windows unfortunately) it reduces the needs for extra tool deployment
+    and configuration.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: This combo allows developer to run the build on their system with minimum effort.
+    No need to deploy additional packages, if the system has Docker and `make` then
+    it is good to go.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Windows users: While Windows does come with `make`, we would recommend that
+    you look at GNU `Make`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can follow the installation instructions from this site: [http://gnuwin32.sourceforge.net/packages/make.htm](http://gnuwin32.sourceforge.net/packages/make.htm)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As we mentioned, Docker provides a pre-built environment which exists within
+    the container, thus avoiding the need to deploy the plethora of tools on the local
+    workstation.  Here is the composer task:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Breaking the docker run command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`--rm`: Remove the container at the end of the build'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-v`: Mount the src and dist directory from the git clone folders'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-w`: Make the container `/src` directory the working directory'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`node:8:11`: Container image with node 8.11 deployed and configured'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`sh -c "$(COMPOSER_BUILD_CMD)"`: The build command to run'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: As you can see, with minimal configuration the build is now taking place within
+    the container but using the local git clone files and folders.  The nice thing
+    about it is that the container will behave the same whether running locally or
+    in our build pipeline.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Why the `.PHONY` you ask?  `Makefile` is a great but ancient tool.  As such,
+    it originally primarily focused on file dependencies.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If someone ever defined a file called `build` or `test`, `make` would consider
+    that the task was up-to-date and do nothing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`.PHONY` tells `make` to not consider those tags as file.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Feel free to explore the remainder of the tasks of the `Makefile`. Chaincode
+    will be built using a different image (golang:1.9.6) but leverages the same approach.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'From a `Makefile` tasks perspective the following dependencies are defined:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c10b567d-ee1e-44dc-a22d-409410beaac0.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: In the next section, we will make use of the `make build` and `make test` command
+    to execute our pipeline.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuring Travis CI
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Getting started with Travis CI is pretty straightforward. You basically need
+    to point your browser to the [www.travis-CI.org](https://travis-ci.org/) website,
+    authenticate using your GitHub identity, and authorize Travis to access your GitHub
+    account, and Travis CI will create a profile for you and sync it with your Git
+    account. Once this is done, you will be presented with a list of Git projects.
+    You only need to flick the switch next to our project and Travis CI will start
+    tracking the events in your GitHub repository:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/47f76105-0c31-47d8-ade8-0ae32e70fd04.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Customizing the pipeline using .travis.yml
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: While Travis CI is now tracking our Git repository, it is not yet smart enough
+    to know what to do with it when an event occurs. To tell Travis CI what to do,
+    we need to create a special file within the root of the repository. Whenever a
+    Git event happens (for example, a Git pull request), the `.travis.yml` file will
+    be processed and used to orchestrate the pipeline execution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the case of our smart contract, we have the following `.travis.yml` in the
+    root of our Git repository:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Since our `Makefile` is making use of Docker container to `make` the build
+    independent of the environment in which it is run, we need to let Travis know
+    about this.  Hence, the first three lines of the file provide an indication that
+    the build process will `make` use of Docker.  The `dist: trusty` is fixing the
+    Linux distribution to ensure consistency of the system behaviour.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The important lines represent the two major steps of the process:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Cache**: This is an optimization of of the build and ensures that the node_modules
+    is not always re-loaded every time the build runs.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Script**: This is where the build commands are provided. In this case, the
+    step includes the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`make build`: Builds the chaincode and the composer BNA'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`make test`: Unit test execution'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The details of the tasks for chaincode was covered in a previous chapter so
+    we won''t cover those details again.  However we will focus on the Composer build
+    and explore the stanza of the `package.json` file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: You will find the `package.json` under the trade-finance-logistics repository
+    in the composer folder.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Lets quickly review each of the default commands generated when the composer
+    project was generated:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`prepare`: This command will package our project into a BNA file. This script
+    runs before the `install` and will use the Hyperledger composer command-line interface
+    to create the archive.  The only modification we have done to this task was to
+    add the sub-directory  `..` to the creation of the dist directoring and output
+    of the BNA file.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`lint`: Runs the `eslint` tool, which is a tool we use to analyse the code
+    while searching patterns. The rules applied by this tool can be adjusted through
+    the `.eslintrc.yml` file.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`test`: The mocha unit test framework will run the tests that are located in
+    the project test directory and will be invoked by the `nyc` tool. The `nyc` tool
+    is used to measure the coverage of the mocha tests.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'You will then need to add these two tasks to the package.json:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`posttest`: This task is a trigger that gets activated once the test have run. 
+    In this case it will call the coverage task.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`coverage`: Runs the `nyc` tool in reporting mode. This task will assess whether
+    there are sufficient unit tests to cover the code. This task fails the build if
+    the minimums defined in the `nyc` stanza of the `package.json` are not met. The
+    following is a sample of this `config`:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: By modifying the `package.json` we now have "gates" that run the verification
+    of the test coverage and the code quality and fails if the minimum is not met.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Publishing our smart contract package
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: At this point, in traditional deployments, we could consider automating the
+    deployment of our application to push it to production automatically. However,
+    in the case of a blockchain network, allowing a single process to push production
+    code to multiple organizations and locations could be the Achilles heel of the
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Instead of trying to push production code to multiple organizations, we will
+    publish the BNA file to a trusted store (in this case, the GitHub release) and
+    let every organization pull the archive.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fortunately for us, Travis CI has a function used within the `deploy` step that
+    allows us to automatically attach the smart contract package to a tagged release.
+    The function requires an `OAUTH_TOKEN` to be configured on our GitHub account,
+    and it needs to be added to the Travis configuration to allow Travis to attach
+    the smart contract to the release.
+  prefs: []
+  type: TYPE_NORMAL
+- en: While that configuration could be done manually, there is a simple command-line
+    interface for Travis that will automatically push the token to Git Hub and add
+    the `deploy` section to the `.travis.yml`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We can install `travis` CLI using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Once the CLI is installed, we run the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The tool will ask for a few pieces of information: our GitHub user ID, password,
+    location of the file we want to upload (our BNA), whether we want to only `deploy`
+    from our repository, and if we want to encrypt our API key. On this last question,
+    it is important to say no. We will soon explain why.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The tool will add a section like the following at the end of the `.travis.yml`
+    file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: The first thing we will do is copy the API key to our workstation clipboard
+    and go back to the Travis CI site. On the main dashboard, you should see your
+    repository, and on the right-hand side, you will see a button called **More Options**.
+    By clicking it and selecting **Settings**, you will be presented with a panel,
+    split into a few sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Scroll down a bit and you will find the Environment Variables section. Go through
+    the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the `name` field, type OAUTH_TOKEN
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: In the `value` field, paste the API key you copied in the `.travis.yml` file
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Click Save
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The results should be as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ef031f8b-bfa2-48dc-a6ff-32b415d678f1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: You see, while we could have kept the OAUTH_TOKEN encrypted in our `.travis.yml`
+    file, it would have been stored in our GitHub repository to be viewed by everyone.
+    By moving the key to the environment, we avoid this.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We can now modify the configuration file to refer to the environment variable
+    we just defined:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `on:` section provides the ability to restrict the publication process to
+    the `tag` event on your repository.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With the `package.json` and the `.travis.yml` modified, we just need to update
+    our repository by committing and pushing our changes to the master branch. Our
+    pipeline is now fully configured! In a few sections, we will see how network participants
+    can be notified of the new release and retrieve the archive, but for now, let's
+    look at what we need to configure in Git.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuring your Git repository
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this section, we will see how to properly protect our Git repository by
+    doing the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting the code owners of our smart contract
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Protecting the master branch
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Configuring Git for commit signing and validation
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Testing the process by submitting a pull request
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Setting the code owners of our smart contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We will start by defining the code owners for our smart contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ideally, in a large consortium, the code owners should not be the same group
+    as the one that modifies the code. Remember, these steps are meant to reinforce
+    the trust in the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Code owners are defined in a file called `CODEOWNERS`, which can reside either
+    in the root directory or the `.Github` directory. GitHub allows us to define different
+    code owners depending on file patterns, so while we could get very creative, we
+    will focus on a few artifacts from our Hyperledger composer project:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`package.json`: As it controls the build and packaging process, this represents
+    a key file to control.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`header.txt`: This contains the license. As such, you may want a specific set
+    of people who have oversight on this one (think lawyers).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`JavaScript files`: This contains the core logic of the smart contracts. Depending
+    on the complexity, this could be further broken down depending on the files, but
+    we will keep it at a high level.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`*.cto files`: This should be aligned to the owners of the JavaScript.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`*.acl files`: This should be aligned to the owners of the JavaScript.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`*.qry files`: This should be aligned to the owners of the JavaScript.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`*.md files`: This represents the documentation of your smart contract. Depending
+    on the scope, this could be aligned to the same owners as the JavaScript or a
+    different set of people.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Sample content of the CODEOWNERS
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following represents a basic set of rules concerning the `CODEOWNERS` based
+    on the authors of this book. Feel free to adjust it to your own team. The important
+    point to note here is that the last pattern to match will be the one used to identify
+    the owners who need to perform the review. As such, we must be careful as to the
+    order of the rules:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: Instead of listing each individual member of the team in the rules, we could
+    have used the concept of GitHub teams to assign the code ownership.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'With the `CODEOWNERS` defined, we can now focus on submitting it to the master
+    branch. Using a command-line prompt, go through the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Navigate to the location of the clone of your repository
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Create a new directory called `.Github`
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Change directory to the newly created directory
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Create the `CODEOWNERS` file according to the content defined in the previous
+    section
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Commit the new file and directory:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Push the commits to the master branch:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: Protecting the master branch
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As we previously discussed, since the master branch represents the stable version
+    of our smart contract, we need to properly control how code changes are introduced.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will now configure our repository to ensure that only pull requests can alter
+    the content of the master branch. To achieve this, the first step is to open a
+    browser and point it to your Git repository.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Once the web page has loaded, go through the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Looking at the top tabs of the Git pages, you should be able to locate the Setting
+    tab
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Once you click on it, a side menu should appear on the left-hand side of the
+    page
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Select the Branches menu item and you should be able to see the Protected branches
+    section
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Select the master branch from the dropdown
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: This will open the page that contains all the options we need to set to properly
+    protect the master branch.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The content should be set to the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/8fa3738d-a147-4b12-92f4-42b91ddc18ef.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This first set of options, circled in red, ensures that every change to the
+    master branch is done through pull requests and that the approval process can
+    only be done on up-to-date code, and by the code owners only.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We have highlighted this section in red because, while these are very important
+    when working in teams, it should be disabled for our exercise. Essentially, GitHub
+    will not let you review your own pull requests and will prevent you from completing
+    the steps later on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The second set of options provides the ability to define `checks` to be performed
+    before allowing the code to be merged. We will shortly be adding one of these
+    checks in the next section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The final option also ensures that even administrators of the repository need
+    to follow the process of pull requests when modifying the code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuring Git for commit signing and validation
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: At this point, we have a protected our Git branch and identified who should
+    be reviewing code changes. We also know that signing commits is a good way for
+    a developer to prove that they were the author of a code change. However, unless
+    everyone signs their commits, how can you be certain that unsigned commits are
+    valid?
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fortunately, there are some GitHub applications that are emerging to solve that
+    problem. We will use one such application called `probot-gpg`, available at [https://probot.Github.io/apps/gpg/](https://probot.github.io/apps/gpg/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: By navigating to this page using your browser, you will be able to click the
+    Install button. You will be brought to a page that will allow you to select which
+    repository you want to allow the application to select. In our case, we will select
+    the `yourID/trading-smart-contract/` repository. Click Install and the application
+    will be granted access to your repository.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuring GPG on your local workstation
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To make sure everything is working nicely, we will now set up GPG on our local
+    workstation and test our repository by submitting a pull request. In this section,
+    we will do the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Install GPG and generate our set of `gpg` public and private keys
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Import our `gpg` public key in our GitHub profile
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Submit a pull request to the master branch with a signed commit
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The client application for `gpg` can be found on the [www.gnupg.org](https://gnupg.org/)
+    website. From the website, you may download either the source code or the precompiled
+    binaries. Depending on your operating system and the option chosen (Source code
+    or Binaries), follow the instructions provided on the website and install the
+    client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In order to configure the system to use  `gpg` keys to sign our Git commits,
+    we will need to do the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Generate a `gpg` key
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Export the public key
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Import the public key in our Git
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Configure our Git client to make use of our `gpg` key
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'To get started, open a terminal and type the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `gpg` tool will now ask a few questions on the characteristics of the key:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Kind of key**: Select the default (RSA and RSA)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key size**: Select the maximum size (4,096)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key validity period**: Make sure that the key does not expire'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'With the characteristics of the key provided, the `gpg` tool will ask about
+    the identity associated with the key:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Real name**'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Email**'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Comment**: You may want to use the comment box to indicate the purpose of
+    this identity (signing GitHub commits)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Make sure that the email matches the entries of your GitHub profile, or else
+    the system will not be able to reconcile the identity to the commit. Remember
+    that case matters for GitHub: `yourID@email.com` is not the same email as `yourID@email.com`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, the tool will ask for a passphrase to protect the private key and
+    ask you to generate entropy by moving the mouse around. After a few seconds, you
+    should see an output such as the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'With the `gpg` created, we now need to export the key in a format that GitHub
+    will be able to understand. To achieve this, we run the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The tool will output the public key directly in the console and should look
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: Copy the whole key to the clipboard, including the header and, using your browser,
+    go to your GitHub profile and select the **SSH and GPG keys** tab from the left-hand
+    side menu.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You should see two sections—SSH and GPG. Click the New GPG Key button and paste
+    the contents of your clipboard in the entry field that shows up. Finally, click
+    the Add GPG Key button, and, if everything goes well, GitHub should show you a
+    similar entry:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3198fcc7-4ca2-47cd-9cfa-cd5254f2668c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Take note and copy the Key ID to your clipboard. We will reuse that key to configure
+    our Git client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Back in the console, type the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: At this point, you should have a fully configured pipeline and protected Git
+    repository. We're now ready to start testing our configuration.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To facilitate the testing steps in the next section, we have not activated the
+    `gpg` signing configuration in our Git client. We will activate it in the next
+    section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing the end-to-end process
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: With all of the configuration done, we will run through a simple scenario that
+    will allow us to test our configuration and ensure that everything is working
+    smoothly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The scenario will consist of addressing the need to add a new transaction.
+    In order to deliver this new feature, we will perform the following steps/tests:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create a new transaction for our business network. Once we are done coding,
+    we will then try to do the following:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Push a commit to the master branch directly
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Submit a pull request with an unsigned commit
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Add test cases to cover our new transaction:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Amend our commit to be signed
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Add our test case and submit an additional signed commit
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Release the new version of the business network
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Merge the pull request on the master branch
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Create a new release and check that the BNA is published
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Creating a new transaction
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'For the purpose of our tests, we will keep the new transaction relatively simple:
+    our transaction will merge two assets into one, adding their value in the process.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To declare the new transaction, we will edit the model file and add this new
+    declaration:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'With the definition created, let''s add the logic in the `/lib/logic.js` file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: That's all there is to it! Of course, some may remark that we are not following
+    a good methodology—where are our unit tests for this code? Let's proceed. Don't
+    worry, it's all part of the plan!
+  prefs: []
+  type: TYPE_NORMAL
+- en: Pushing a commit to the master branch directly
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'With the code modification done, lets try to add the source code to our Git
+    repository. To do so, we will go through the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Navigate to the location of the clone of your repository
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Commit the new file and directory:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Push the commits to the master branch:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The `push` command should fail with an error message, such as the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: If you get a similar message, you know you're on the right path. If the `push`
+    command succeeds, you should probably go back to the *Protecting the master branch* section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Submitting a pull request with an unsigned commit
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Continuing from our previous attempt, we know that we need a separate branch
+    to store our work before we can submit a pull request to the master branch. Now
+    that we''ve committed a change, we need to be careful not to lose our work. The
+    first thing we will do will be to *undo* our commit by running the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To save our work, we will use a nice function from Git that will temporarily store
+    our work:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'With our modification saved, we can then create the new branch locally by running
+    the `Git checkout` command. For those who are less familiar with Git, the `-b`
+    option specifies the name of the new branch and the last parameter indicates that
+    the new branch is based on the master branch:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'With the new branch created locally, we can restore our modification using
+    the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, we can commit our code and push it to the `Feat-1` branch:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'With these commands executed, our `Feat-1` branch should now contain the additional
+    transaction code. Let''s switch to our browser and create the pull request on
+    GitHub:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Select the `Feat-1` branch and click the New pull request button
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Make sure the branches can merge and click the **Create pull request** button
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The result on the next screen will show that the pull request is failing the
+    `gpg` check and the Travis build. The details for the build should show that the
+    test coverage is not sufficient to meet the threshold we established previously:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/bd44b724-b8b4-4177-a466-ed01fa662d63.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: If you get the same results, then you are doing well! If your pull request has
+    no such check failing, make sure that you look at the *Configuring Git for commit
+    signing and validation* section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We'll now correct our build and add the necessary tests!
+  prefs: []
+  type: TYPE_NORMAL
+- en: Adding test cases
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before adding our test case, we will first enable `gpg` signing and amend our
+    previous commit with a signature. This should get us on the right path to a healthy
+    pull request.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Submitting a pull request with a signed commit
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We can now finalize and activate our `gpg` signing. In the console, type in
+    the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, instead of having to create a separate branch and go through the same
+    steps all over again, we will simply `amend` our `commit` and add our signature
+    to it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You may get the following error when trying to amend your commit:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`error: gpg failed to sign the data`'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`fatal: failed to write commit object`'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If you do, you may need to set the following environment variable:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`export GPG_TTY=$(tty)`'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The command will delegate the signing to GPG, and you should be asked for your
+    `gpg` passphrase. Once this is completed, we can push our changes to our test
+    branch using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: We need to `--force` our change as we are only amending our commit.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If you go back to the browser and look at the pull request, you should now
+    have something like the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d4ca6d25-a94d-42a5-8ce6-18b632b08fa7.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: We should have solved one problem—the signing of commits. If you have the same
+    results, you now know everything is configured properly. You can go ahead and
+    focus on correcting the test coverage by adding a test for our new transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Adding the mergeAssets unit test
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s add the content of this additional test case to the `test/logic.js` file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We won''t cover the details of this test case, as it has been covered in previous
+    chapters. However, if you want to see whether the test has completed successfully,
+    run the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Let''s commit this new test to Git:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This should automatically trigger our build pipeline, which should complete
+    successfully and leave our pull request in the following state:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/60748b04-962f-4500-b9cc-e074ca0da6d2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This should allow you to merge the pull request. Click the Merge request button,
+    confirm the merge, and get ready to create your first release!
+  prefs: []
+  type: TYPE_NORMAL
+- en: If your pull request is not green and asks for a code review, you may have forgotten
+    to uncheck the Require pull request reviews before merging option, as mentioned
+    in the *Protecting the master branch* section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Releasing the new version
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We are now ready to release our new business network archive. Go to your web
+    browser and navigate to the Code tab of your Git repository. You should see an x
+    releases option in the top navigation bar, as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b3a5283f-71ee-42b5-8ab3-7232e3758797.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Click on the releases and then click on the Draft a new release button. Fill
+    in the form in a similar way to the following example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b0e139f5-54e4-4cff-af5e-bb174bc0f935.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Click on the Publish release button at the bottom of the form. This should
+    trigger your build pipeline one final time and, after a few minutes, you should
+    have the BNA file attached to the list of assets associated with your release:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/02b20a6f-8a93-4e9a-a139-da813e78554c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Well done! We've configured a complete pipeline using Travis CI and GitHub,
+    and we've explored how to properly sign and protect our smart contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Our last step will now be to see how the various network participants can automate
+    the retrieval of the **business network archive** (**BNA**) and `deploy` smart
+    contract updates.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Updating the network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'With the BNA file published and tagged to a release, we will now look at the
+    process to install/update the business network in our consortium. More specifically,
+    we will look at the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Release notification
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Business Network update
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Notifying the consortium
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are a few ways and techniques that can be applied to ensure that every
+    organization is notified that a business network is ready to be updated.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The one thing that is for certain is that manual notification is not an option;
+    as the number of smart contracts and participants grows, you need a reliable notification
+    process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram depicts a potential process for deploying a business
+    network following the delivery of a new release:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c2a51d93-412e-4a99-babf-40c2e80cccf6.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: As we've previously discussed, we do not distribute the BNA as this would create
+    the opportunity for someone to tamper with the archive. Instead, the notification
+    only informs every organization of the existence of a new release and lets the
+    consortium retrieve and `deploy` the archive.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This is effectively what the concept of the release listener is doing: listening
+    for notification and then issuing a request to GitHub to retrieve the archive
+    of the new release.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The release listener is a concept that would need to be implemented by a consortium
+    should they decide to adhere to this approach.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Do not look for the source code—it does not exist (yet).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The release listener could be implemented to listen for events coming from
+    one of two sources:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**GitHub webhooks**: By providing the URL of the release listener, GitHub webhooks
+    can be configured to send a JSON message on specific events. In our case, it would
+    be the `Release` event.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Travis CI notification**: There is also a concept similar to the webhook
+    in Travis CI. There are also other mechanism, such as Atom feed and Slack integration,
+    that may be more suitable to your team.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The choice of the mechanism really depends on your business requirements but,
+    generally, the use of GitHub webhooks would be preferable as they are triggered
+    by the actual event we are interested in: the release of a new version of the
+    smart contract.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Even if someone was to send a false notification to the release listener, because
+    it only retrieves released binaries from GitHub, it would not be possible for
+    a third party to inject a **bad** archive.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Upgrading the business network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: At this point in time, we will assume that we have received a notification and
+    that we are in charge of deploying the new version. Keep in mind that the business
+    network could be deployed into multiple channels. So, while the BNA deployment
+    is not required on every peer, it is required for every channel that expects to
+    run those transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Our deployment will consist of two simple steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Downloading the new version
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Updating the business network
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Downloading a new version
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Given that we have just released the new version and that the pipeline has
+    added the binary to the release, we can simply download the archive using the
+    `curl` command, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `-L` option is used to tell `curl` to follow any redirect command. Following
+    the execution of this command, the BNA file should be on your local filesystem.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Updating the business network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Since the BNA content is actually stored in the world state, submitting a business
+    network update can be done from any client that has access to the administrative
+    certificates.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Thus, to update the network, you submit the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In order to test the deployment of an updated BNA, please refer to: [https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/composer](https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/composer).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Note that the other dependent components, such as the REST gateway and the application,
+    would also need to be considered in a production deployment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hopefully, this chapter will have given you a good overview of the challenges
+    and considerations required to align a consortium around the promotion process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Continuous delivery pipelines are an essential part of providing the velocity
+    to a consortium, removing manual processes, and ensuring that every organization
+    can review and approve code changes before they go live. We've looked at some
+    of the key events such as the pull request and the tag release.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Over the course of this chapter, you have completed the configuration of a complete
+    continuous integration pipeline, including testing and publication of the business
+    network archive. Furthermore, we have seen how we can protect the production-ready
+    code by protecting the master branch and ensuring that every change is subject
+    to a code review by key participants from organizations. We have also looked at
+    how we can ensure we maintain the provenance of each Git commit using `gpg` signature.
+    Finally we have reviewed a process to deploy updates in a trusted manner.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'One thing is sure: automation is the key to agility—by eliminating repetitive
+    manual tasks and providing a structure to how we modify the code, we enable organizations
+    to be more agile and respond quickly, whether to defects or new requirements.
+    This chapter was, of course, only a small introduction to this approach and its
+    associated concepts; some of these topics could warrant their own books.'
+  prefs: []
+  type: TYPE_NORMAL
