@@ -1,4 +1,5 @@
 - en: Creating Your First IoT Solution
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -7,153 +8,188 @@
     In this chapter, we will put this into practice by creating a simple end-to-end
     solution, from selecting the device to creating the device firmware and an application
     designed to control a simple garden watering system.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
 - en: 'The following topics will be covered in this chapter:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
 - en: Understanding how to set up a solution
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Creating a connected device
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Creating a simple application connected to the platform
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Publishing and processing device events
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Publishing actions to devices
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: How to get help when you're in trouble
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Technical requirements
+  id: totrans-9
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: The complete solution code is available in the `ch2` folder, available at the [https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain.git](https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain.git)
     repository.
+  id: totrans-10
   prefs: []
   type: TYPE_NORMAL
 - en: Make sure that you have also installed Cloud Foundry CLI and Bluemix CLI; the
     installation process for these command-line interfaces is described at [https://console.bluemix.net/docs/cli/index.html#overview](https://console.bluemix.net/docs/cli/index.html#overview).
+  id: totrans-11
   prefs: []
   type: TYPE_NORMAL
 - en: The first IoT solution – the gardening solution
+  id: totrans-12
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Watering systems are common first projects for using IoT in the DIY community.
     We too will use it as an example project to get started on the IBM Watson IoT
     Platform.
+  id: totrans-13
   prefs: []
   type: TYPE_NORMAL
 - en: Requirements overview
+  id: totrans-14
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'Good solutions are based on problems that really matter to people. So let''s
     start our solution with an introduction to the actual problem:'
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
 - en: John lives alone in an apartment in the city. He is a businessman who has to
     travel for work for 3-4 days in a week. When not travelling or working, John likes
     to take care of his plants. However, since he is not home for half the week, John
     is struggling to keep his garden healthy and beautiful.
+  id: totrans-16
   prefs: []
   type: TYPE_NORMAL
 - en: 'John has faced several challenging experiences with automated watering systems:
     either the system did not water the plants enough (on hot or dry days, for example),
     or it watered them too much when the weather was okay.'
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
 - en: John is looking for a solution that only waters his garden when a plant has
     reached a certain soil moisture condition, or whenever he feels it is necessary.
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
 - en: Solution overview
+  id: totrans-19
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'The following diagram shows an overview of the solution components that will
     be developed to solve John''s problem:'
+  id: totrans-20
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/d9e49f99-00e8-4543-8afb-3791edb4ae7e.png)'
+  id: totrans-21
   prefs: []
   type: TYPE_IMG
 - en: A connected device will be attached to John's plant, and on a scheduled basis
     will retrieve measurements from the plant and environment (soil moisture and temperature)
     and publish the event to the IBM Watson IoT Platform. The device will also subscribe
     to trigger commands (actions).
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
 - en: An application deployed to the IBM Cloud (Bluemix) will subscribe to John's
     events, and whenever a configured minimum level of soil moisture or a high temperature
     threshold is reached, the application will send an action command to water the
     plant for a certain duration.
+  id: totrans-23
   prefs: []
   type: TYPE_NORMAL
 - en: Selecting the equipment
+  id: totrans-24
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'Given the requirements described in the previous section, the device that needs
     to be created must have the following capabilities:'
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
 - en: Be able to measure the soil's moisture level (an analog probe has a good fit
     for this solution)
+  id: totrans-26
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Have bidirectional communication capability (so that the user can water the
     garden whenever he feels it is necessary)
+  id: totrans-27
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Be able to configure the soil's moisture limit (a configurable rule)
+  id: totrans-28
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 'The following assumptions are also true about the solution:'
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
 - en: The user will prov
+  id: totrans-30
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: ide a Wi-Fi internet connection
+  id: totrans-31
   prefs:
   - PREF_UL
   - PREF_UL
   type: TYPE_NORMAL
 - en: The user will provide an energy supply for the system
+  id: totrans-32
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: The system will be used in an apartment, so there is no need for long-distance
     connections
+  id: totrans-33
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: Payload size is irr
+  id: totrans-34
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: elevant as a Wi-Fi connection will be provided
+  id: totrans-35
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
@@ -161,70 +197,90 @@
     of prototyping platforms that can make it easier to wire and test the solution quickly.
     To do this, we will use one of the most powerful and modular platforms: Intel
     Edison and Grove.'
+  id: totrans-36
   prefs: []
   type: TYPE_NORMAL
 - en: We will look for a device (or a composition) that has Wi-Fi connectivity and
     an analog sensor connection. We will also need a soil moisture analog sensor probe,
     a temperature and humidity sensor, and a water solenoid valve.
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
 - en: 'Consequently, the solution will require a list of parts, which will look something
     like this:'
+  id: totrans-38
   prefs: []
   type: TYPE_NORMAL
 - en: '| **Quantity** | **Component** |'
+  id: totrans-39
   prefs: []
   type: TYPE_TB
 - en: '| 1 | Intel Edison module |'
+  id: totrans-40
   prefs: []
   type: TYPE_TB
 - en: '| 1 | Intel Edison Arduino breakout board |'
+  id: totrans-41
   prefs: []
   type: TYPE_TB
 - en: '| 1 | Grove base shield v2 |'
+  id: totrans-42
   prefs: []
   type: TYPE_TB
 - en: '| 1 | Grove soil moisture sensor |'
+  id: totrans-43
   prefs: []
   type: TYPE_TB
 - en: '| 1 | Groove temperature sensor v1.2 |'
+  id: totrans-44
   prefs: []
   type: TYPE_TB
 - en: '| 1 | Grove relay module |'
+  id: totrans-45
   prefs: []
   type: TYPE_TB
 - en: '| 1 | Grove button module |'
+  id: totrans-46
   prefs: []
   type: TYPE_TB
 - en: '| 4 | Grove universal 4-pin cable |'
+  id: totrans-47
   prefs: []
   type: TYPE_TB
 - en: '| 1 | 12V water solenoid valve |'
+  id: totrans-48
   prefs: []
   type: TYPE_TB
 - en: '| 1 | 12V 2A power supply |'
+  id: totrans-49
   prefs: []
   type: TYPE_TB
 - en: '| 2 | Jumper cables (male to male) |'
+  id: totrans-50
   prefs: []
   type: TYPE_TB
 - en: 'The following diagram provides an overview of the parts that are specified
     in the parts list table. Please note that the shape and color of the devices are
     just for illustration purposes and might be different depending on the vendor,
     edition, or other characteristics:'
+  id: totrans-51
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/b558ff3e-2696-417a-b8a6-9fe930be9c9a.png)'
+  id: totrans-52
   prefs: []
   type: TYPE_IMG
 - en: The image was created with Fritzing and is licensed under CC BY-SA 3.0; see
     https://creativecommons.org/licenses/by-sa/3.0/
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
 - en: Let's quickly review the parts from this list.
+  id: totrans-54
   prefs: []
   type: TYPE_NORMAL
 - en: Intel Edison
+  id: totrans-55
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -233,9 +289,11 @@
     a Linux distribution named Yocto; has support for many platforms, such as Python,
     Node.js, C, and C++; and has plugins for developing solutions using Arduino IDE,
     Eclipse, and Intel XDK.
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
 - en: Arduino breakout board
+  id: totrans-57
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -244,163 +302,217 @@
     Arduino shields. Since you can use the standard Arduino IDE, compatible libraries,
     connectors, and shields, the Intel Edison Arduino breakout board is a great interface
     for prototyping and running Arduino sketches.
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: Intel还推出了用于Edison的Arduino扩展板，它提供了与Arduino模块相同的标准引脚接口，并与Arduino Shield兼容。由于可以使用标准的Arduino
+    IDE、兼容的库、连接器和Shield，因此Intel Edison Arduino扩展板是原型设计和运行Arduino程序的一个不错的接口。
 - en: Grove system
+  id: totrans-59
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Grove系统
 - en: Grove is a set of components and shields that creates a standardized modular
     platform with building blocks for prototyping solutions created by Seeed. There
     are many available prototypes, including working code for the Grove platform available
     on the internet, especially on **do-it-yourself** (**DIY**) community sites.
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: Grove是由Seeed创建的一套组件和Shield，用于创建一个标准化的模块化平台，供原型设计解决方案使用。有许多可用的原型设计，包括Grove平台的工作代码，尤其是在**DIY**社区网站上可以找到。
 - en: The Grove system has shields for platforms with heavy adoption in the market,
     such as Arduino, Raspberry Pi, and BeagleBone. Bundles with the compute module,
     base shield, Grove blocks, and spare parts can be found on the internet.
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: Grove系统针对市场上广泛采用的平台（如Arduino、Raspberry Pi和BeagleBone）提供了相应的Shield。在互联网上可以找到包含计算模块、基础Shield、Grove模块和备件的捆绑销售套装。
 - en: Note that not every sensor is compatible with every platform because some platforms
     lack certain capabilities. For example, Raspberry Pi does not provide analog interfaces,
     so sensors that are connectable through an analog interface will not be compatible
     with it.
+  id: totrans-62
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，并非每种传感器都兼容每种平台，因为一些平台缺乏某些功能。例如，Raspberry Pi不提供模拟接口，因此通过模拟接口连接的传感器将与其不兼容。
 - en: Let's look at all the Grove components we will use as part of this IoT solution.
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们来看看作为这个物联网解决方案一部分的所有Grove组件。
 - en: Grove base shield for Arduino
+  id: totrans-64
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 用于Arduino的Grove基础Shield
 - en: In this project, we will use the Grove base shield for Arduino, which provides
     an interface for Grove standard connectors to connect Grove modules to the Arduino
     pin interface. It provides four analog interfaces, four  I2C interfaces, seven
     digital interfaces, and a UART interface.
+  id: totrans-65
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本项目中，我们将使用Arduino的Grove基础Shield，它提供了一个接口，用于将Grove标准连接器连接到Arduino引脚接口。它提供了四个模拟接口，四个I2C接口，七个数字接口和一个UART接口。
 - en: Grove sensors
+  id: totrans-66
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Grove传感器
 - en: 'In this project, we will be using two different types of sensors: the soil
     moisture sensor and the temperature sensor.'
+  id: totrans-67
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本项目中，我们将使用两种不同类型的传感器：土壤湿度传感器和温度传感器。
 - en: The soil moisture sensor is an analog probe that provides soil resistive measurements,
     which we will explain later in this chapter. The temperature of the sensor is
     based on a thermistor, and its specifications and calculation are also detailed
     later in the *Measuring environment temperature* section*.*
+  id: totrans-68
   prefs: []
   type: TYPE_NORMAL
+  zh: 土壤湿度传感器是一种模拟探针，可以提供土壤电阻测量数据，这一点我们将在本章后面进行解释。该传感器的温度是基于热敏电阻的，并且其规格和计算方法也在*测量环境温度*部分有详细介绍。
 - en: Both sensors use the standard Grove connector cable that provides `VCC`, `GND`,
     and data connectivity to the probe.
+  id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: 两种传感器都使用标准的Grove连接线，为探测器提供`VCC`、`GND`和数据连接功能。
 - en: Grove button
+  id: totrans-70
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Grove按钮
 - en: This button follows the same connectivity to the computing module as the sensors
     but provides an open or closed circuit state, depending on whether the button
     is pressed or not.
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个按钮与传感器一样连接到计算模块，但根据按钮是否按下，它可以提供开路或闭路状态。
 - en: 'It can have different interpretations: either the connection is interrupted
     when the button is pressed, meaning it will keep doing something unless the button
     is pressed; or the connection is activated when the button is pressed, meaning
     it will only do something after the button is pressed.'
+  id: totrans-72
   prefs: []
   type: TYPE_NORMAL
+  zh: 它可能有不同的解释：按钮按下时中断连接，这意味着除非按下按钮，否则它会持续做某事；或者按钮按下时激活连接，这意味着只有在按下按钮后才会执行某些操作。
 - en: Grove relay
+  id: totrans-73
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Grove继电器
 - en: The relay module, as expected, is connected to the standard Grove interface,
     but it is classified as an actuator because it does not provide readings.
+  id: totrans-74
   prefs: []
   type: TYPE_NORMAL
+  zh: 作为预期的一样，继电器模块连接到标准的Grove接口，但由于它不提供读数，所以被归类为执行器。
 - en: Other actuator modules such as LEDs, displays, motor drivers, and buzzers are
     used to perform actions instead of reading states. The relay module too has two
     states, open circuit or closed circuit, meaning that the input connection of the
     relay is not connected to the output.
+  id: totrans-75
   prefs: []
   type: TYPE_NORMAL
 - en: This concludes our review of the parts. Let's move on to the next step in the
     solution development process.
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
 - en: Wiring the device
+  id: totrans-77
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: To assemble the hardware, we need to correctly connect the sensor probes to
     the processing unit—in this case, the Intel Edison module.
+  id: totrans-78
   prefs: []
   type: TYPE_NORMAL
 - en: 'Grove modules make the connections very simple, as the following steps show:'
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
 - en: 'Using the Grove universal cables:'
+  id: totrans-80
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Attach the Grove moisture sensor to the `A0` connection jack in the base shield
+  id: totrans-81
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: Attach the Grove temperature sensor to the `A3` connection jack in the base
     shield
+  id: totrans-82
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: Attach the Grove relay module to the `D2` connection jack in the base shield
+  id: totrans-83
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: Attach the Grove button module to the `D3` connection jack in the base shield
+  id: totrans-84
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: 'Using the jumpers:'
+  id: totrans-85
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Attach the solenoid valve's `V+` end to an external 12V power supply
+  id: totrans-86
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: Attach the external `GND` pin to a `GND` pin in the base shield
+  id: totrans-87
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: Attach a relay connection to a `GND` pin
+  id: totrans-88
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: Attach the solenoid valve `GND` terminal to the other relay module connection
+  id: totrans-89
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: 'The following diagram shows the correct connections:'
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/85334211-c94f-4f98-97b6-424d93f791ff.png)'
+  id: totrans-91
   prefs: []
   type: TYPE_IMG
 - en: Image was created with Fritzing and it is licensed under CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0/
+  id: totrans-92
   prefs: []
   type: TYPE_NORMAL
 - en: Coding the device firmware
+  id: totrans-93
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -410,13 +522,16 @@
     to leverage the previous chapter's code. Remember that the objective of this solution
     is to water a plant whenever the temperature is high or the soil moisture is too
     low.
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
 - en: The next section shows the code needed in order to create the firmware that
     reads all the sensor data and publishes events to the IBM Watson IoT Platform.
+  id: totrans-95
   prefs: []
   type: TYPE_NORMAL
 - en: Measuring soil moisture
+  id: totrans-96
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -425,20 +540,24 @@
     that are physically separated; one probe is attached to a positive end and the
     other to the `GND` end. When both probes are connected by a common surface, it
     will measure the current that is passed through that surface and give us a reading.
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
 - en: In our case, when the probes touch the soil, it will measure the current that
     passes through. When soil gets wet, it becomes more conductive, meaning that more
     current will pass through the probes.
+  id: totrans-98
   prefs: []
   type: TYPE_NORMAL
 - en: 'The Intel Edison ADC (analog-to-digital) converter that is in the Arduino breakout
     board has a 12-bit resolution, but this is limited through software to a 10-bit
     resolution. If we use this as the basis for our measurement, we will get the following
     understanding of the readings:'
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
 - en: 2^(10) = 1024
+  id: totrans-100
   prefs: []
   type: TYPE_NORMAL
 - en: This means that our readings will be a value from 0 to 1,023, where 0 means
@@ -447,184 +566,236 @@
     we will assume that the soil is perfectly measured. When it's completely dry,
     it will give us a measurement of 0% and if it's a glass of water without any soil,
     it will give us a reading of 100%.
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
 - en: 'The following code will read the soil moisture sensor every two seconds:'
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE0]'
+  id: totrans-103
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: To run the code, type `npm start` in Edison's SSH console.
+  id: totrans-104
   prefs: []
   type: TYPE_NORMAL
 - en: 'For testing purposes, let''s take a look at the measurement readings of the
     sensors that are printed to the console and gain some understanding of the values:'
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/f169dcf4-c85c-478b-9bc3-401bfe0ae43f.png)'
+  id: totrans-106
   prefs: []
   type: TYPE_IMG
 - en: 'We already know that 0 means 0% water and 1,023 is 100, which means that the
     sample measurement readings in the program are as follows:'
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/1b506e9d-1094-4a43-8a3c-6becd22ea4b3.png)'
+  id: totrans-108
   prefs: []
   type: TYPE_IMG
 - en: 'Applying the reading values to the preceding formula will transform them into
     percentage values as follows:'
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
 - en: '| **Reading values** | **Moisture percentage** |'
+  id: totrans-110
   prefs: []
   type: TYPE_TB
 - en: '| 256 | 25.02% |'
+  id: totrans-111
   prefs: []
   type: TYPE_TB
 - en: '| 307 | 30.00% |'
+  id: totrans-112
   prefs: []
   type: TYPE_TB
 - en: '| 302 | 29.52% |'
+  id: totrans-113
   prefs: []
   type: TYPE_TB
 - en: '| 303 | 29.61% |'
+  id: totrans-114
   prefs: []
   type: TYPE_TB
 - en: '| 299 | 29.22% |'
+  id: totrans-115
   prefs: []
   type: TYPE_TB
 - en: '| 298 | 29.13% |'
+  id: totrans-116
   prefs: []
   type: TYPE_TB
 - en: Measuring environmental temperature
+  id: totrans-117
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Similar to the previous code block (but slightly more mathematically complicated),
     the temperature sensor returns an analog reading of the sensor.
+  id: totrans-118
   prefs: []
   type: TYPE_NORMAL
 - en: If we look at the manufacturer's explanation ([http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/](http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/))
     on how to read the sensor, we will discover that the sensor's v1.2 is shipped
     with a thermistor with the value of 4,250 as well as a 100k resistor.
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
 - en: 'Consequently, the formula for calculating the temperature value using this
     sensor is as follows:'
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/1e626537-0760-43de-8717-0e14e451a067.png)'
+  id: totrans-121
   prefs: []
   type: TYPE_IMG
 - en: 'The following code will give the temperature based on the sensor readings every
     two seconds:'
+  id: totrans-122
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE1]'
+  id: totrans-123
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: 'The output of this code will look something like this:'
+  id: totrans-124
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/fa1f254b-f63d-4171-960c-4eff6d1f306d.png)'
+  id: totrans-125
   prefs: []
   type: TYPE_IMG
 - en: Using the SSH console, these readings will be logged.
+  id: totrans-126
   prefs: []
   type: TYPE_NORMAL
 - en: Turning on the relay
+  id: totrans-127
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'Last but not least, since we want to turn on a relay that will let water flow
     and then turn it off, the code for turning the water on after one second and off
     after two seconds is as follows:'
+  id: totrans-128
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE2]'
+  id: totrans-129
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: After a delay of one second, you'll see the  `D3` relay module LED turn on and
     you will also hear a click. This means that the relay connection is closed, and
     after two seconds it will turn off and open the connection.
+  id: totrans-130
   prefs: []
   type: TYPE_NORMAL
 - en: Publishing events
+  id: totrans-131
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: At this point in the chapter, we have explored Node.js scripts that are capable
     of reading both soil moisture and temperatures, and we have also looked at the
     code that can turn on and turn off the relay that lets the water flow to the plant.
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
 - en: The goal is now to publish both of these values to the IBM Watson IoT Platform.
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
 - en: 'As shown in the previous chapter, it''s necessary to create a device and note
     the credentials, so that we can use them to connect the device to the platform. The
     following code performs the regular publishing of the events:'
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE3]'
+  id: totrans-135
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: When the scripts start, they will load the configuration from the `device.json` file,
     connect to the IBM Watson IoT Platform, and then publish an event with the current
     soil moisture and temperature every five minutes.
+  id: totrans-136
   prefs: []
   type: TYPE_NORMAL
 - en: Monitoring the events
+  id: totrans-137
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: The easiest way to view the data published by the device is by using boards
     and cards. If you keep the device script running when creating the card, it will
     get the values from the data structure published by the device.
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
 - en: 'To create a card, access the IBM Watson IoT Platform console and select boards in
     the left menu:'
+  id: totrans-139
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '![](img/cb898b2d-8bbb-47ab-90e1-4e771d574991.png)'
+  id: totrans-140
   prefs: []
   type: TYPE_IMG
 - en: 'At the top right of the page, select + Create New Board, complete the information
     required, and create the board. Most information that must be provided is miscellaneous,
     but make sure it is meaningful to the target user. The board created here is supposed
     to display the plants monitored readings:'
+  id: totrans-141
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '![](img/da127d13-85f7-4507-ae5b-e4325959228a.png)![](img/5146a0d2-0730-4074-be74-cd7f9d00965a.png)'
+  id: totrans-142
   prefs: []
   type: TYPE_IMG
 - en: A board is a set of related cards, and a card is a set of related values that
     were published by devices to the platform.
+  id: totrans-143
   prefs: []
   type: TYPE_NORMAL
 - en: Select the created board and create the card by selecting + Add New Card.
+  id: totrans-144
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: 'Select the Line chart device visualization and the device created:'
+  id: totrans-145
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '![](img/95ad08d5-7420-4223-909d-3f1a9ec02799.png)'
+  id: totrans-146
   prefs: []
   type: TYPE_IMG
 - en: 'After selecting Line chart card, you need to select a data source for the event.
     Select the device created as the data source for this card. The data source, as
     the name says, is the source of information that will be used to populate the
     chart with metrics collected from devices:'
+  id: totrans-147
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '![](img/6f36d579-57f0-4f32-a64e-a227fd96dcbc.png)'
+  id: totrans-148
   prefs: []
   type: TYPE_IMG
 - en: After selecting the data source, it's necessary to select the metrics that will
@@ -633,6 +804,7 @@
     the other hand, if the device code has never been run before, you will need to
     provide the metric names. It's recommended (not required) that you at least test
     the device code to avoid mistakes before creating the chart.
+  id: totrans-149
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
@@ -640,33 +812,41 @@
     plotted in the line chart and tracked. Add each metric with its corresponding
     unit and maximum and minimum possible values. For the soil moisture, we use percentage,
     so Unit should be `%` for the minimum and maximum values `0` and  `100` respectively:'
+  id: totrans-150
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '![](img/06ed102f-b3c1-4e02-a2c8-0c6df50d445f.png)'
+  id: totrans-151
   prefs: []
   type: TYPE_IMG
 - en: 'For temperature, measured in degrees Celsius (°C), the minimum and maximum
     possible values are `0` and `100`:'
+  id: totrans-152
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '![](img/edf3de4c-9e73-4bbc-877a-824c7e748668.png)'
+  id: totrans-153
   prefs: []
   type: TYPE_IMG
 - en: 'Select the size of the card you prefer to display, name the card, and create
     it. You will now be able to visualize the published data:'
+  id: totrans-154
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '![](img/bfc97b61-a85e-4f17-a3a9-0fd3dff1843f.png)'
+  id: totrans-155
   prefs: []
   type: TYPE_IMG
 - en: It's possible to verify the measurements sent by the plant device, plotted in
     the timeline. It's also possible to change the time frame for the chart.
+  id: totrans-156
   prefs: []
   type: TYPE_NORMAL
 - en: Subscribing to actions
+  id: totrans-157
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -675,104 +855,132 @@
     to be able to water his plants whenever a defined soil moisture threshold is detected,
     whenever the temperature reaches a configurable value, or whenever he triggers
     an event to water the plant.
+  id: totrans-158
   prefs: []
   type: TYPE_NORMAL
 - en: The water flow is controlled by the solenoid valve, which is opened and closed
     by the relay module. The following code is an update of the previous one, including
     the subscription for the water-the-plant action, which will open the valve for
     a minute.
+  id: totrans-159
   prefs: []
   type: TYPE_NORMAL
 - en: 'The starting point is to import all package dependencies, define the `RESISTOR`
     and `THERMISTOR` constants with predefined values, and load the configuration
     from `device.json`:'
+  id: totrans-160
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE4]'
+  id: totrans-161
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: 'Then, create helper functions to transform sensor readings into usable values.
     The following functions are responsible for retrieving the sensor values from
     the actual device and transforming them into human-understandable values:'
+  id: totrans-162
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE5]'
+  id: totrans-163
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'The next step is to create a helper function to activate the solenoid valve,
     wait for the amount of time requested (the `secondsToWater` variable''s value),
     and then deactivate the valve so watering will stop:'
+  id: totrans-164
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE6]'
+  id: totrans-165
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: 'Connect to the IBM Watson IoT Platform and create a publishing function that
     will publish events to the platform every five minutes:'
+  id: totrans-166
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE7]'
+  id: totrans-167
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: 'And create a function that subscribes to the `water` event, triggering the
     `waterPlant` function:'
+  id: totrans-168
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE8]'
+  id: totrans-169
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: This concludes the coding of our device firmware so that it can perform the
     desired actions of our user, John.
+  id: totrans-170
   prefs: []
   type: TYPE_NORMAL
 - en: Creating the backend application
+  id: totrans-171
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: With the device firmware setup completed, it's now time to focus on developing
     the application that will process the device events and send commands so that
     John's plant will get watered when he's not home.
+  id: totrans-172
   prefs: []
   type: TYPE_NORMAL
 - en: The code for the application will run on the IBM Cloud Platform (Bluemix). Since
     this is just an example application, we're going to use environment variables
     to store parameters (temperature and soil moisture thresholds).
+  id: totrans-173
   prefs: []
   type: TYPE_NORMAL
 - en: Creating a Cloud Foundry application in the IBM Cloud Platform
+  id: totrans-174
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'To create an application in IBM Cloud, access [https://console.bluemix.net](https://console.bluemix.net),
     select the Create Resource option, and select Cloud Foundry Apps in the left menu, followed
     by SDK for Node.js. After doing this, name the application and create the runtime:'
+  id: totrans-175
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '![](img/99311d15-d0f2-4a55-88fd-d82d61f2a49f.png)'
+  id: totrans-176
   prefs: []
   type: TYPE_IMG
 - en: 'When application creation is complete, select Connections in the left menu and
     create a connection to the IoT service:'
+  id: totrans-177
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '![](img/763dec81-cade-4877-8383-59b8434f5423.png)'
+  id: totrans-178
   prefs: []
   type: TYPE_IMG
 - en: 'After creating the connection to the IBM Watson IoT Platform organization,
     select the Runtime option in the left menu followed by Environment Variables.
     At the bottom of the screen, add two User defined variables, `MINIMUM_MOISTURE`
     with a value of `300` and `MAXIMUM_TEMPERATURE` with a value of `50`:'
+  id: totrans-179
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '![](img/a7a2b6b3-15af-4de7-8b43-1b5b5d55ab40.png)'
+  id: totrans-180
   prefs: []
   type: TYPE_IMG
 - en: Instead of using a JSON file for storing the configuration as we did in the
@@ -781,9 +989,11 @@
     library packages, and there are accelerators in Node.js for accessing Cloud Foundry
     environment-related facilities, such as the `cfenv` module used in the code presented
     in the following section.
+  id: totrans-181
   prefs: []
   type: TYPE_NORMAL
 - en: Uploading the code
+  id: totrans-182
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -791,96 +1001,127 @@
     important to know that Cloud Foundry containers expect to have an HTTP port to
     be published by the container, so even though we are not using the container to
     expose HTTP resources, we're going to start an Express JS server.
+  id: totrans-183
   prefs: []
   type: TYPE_NORMAL
 - en: The following code handles the events received from devices and publishes actions
     if any conditions are met.
+  id: totrans-184
   prefs: []
   type: TYPE_NORMAL
 - en: 'Again, the entry point of the code is to load module dependencies and gather
     the required configuration from the Cloud Foundry environment variables:'
+  id: totrans-185
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE9]'
+  id: totrans-186
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: 'Then, load configuration data from the Cloud Foundry environment and generate
     connection configuration data:'
+  id: totrans-187
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE10]'
+  id: totrans-188
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: 'The next step is to connect to the IBM Watson IoT Platform and subscribe to
     target device events:'
+  id: totrans-189
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE11]'
+  id: totrans-190
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: 'Whenever an event is received from the subscription, the application checks
     whether the temperature reported by the device is higher or the soil moisture
     is below the thresholds defined. If so, a water event with a specified duration
     in seconds is published to the device so the watering valve is activated:'
+  id: totrans-191
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE12]'
+  id: totrans-192
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: 'And finally, start the Express server so the IBM Cloud SDK for Node.js container
     is started and monitored by the Cloud Foundry environment:'
+  id: totrans-193
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE13]'
+  id: totrans-194
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: 'To deploy the application, open the `manifest.yml` file and change the `name`
     attribute of the application. Then, open a command-line terminal, switch to the
     application base directory (the place where `manifest.yml` stands), and deploy
     the application using the `bluemix` CLI:'
+  id: totrans-195
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE14]'
+  id: totrans-196
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: '![](img/61977231-41ec-4263-a9dc-cd3498d11217.png)'
+  id: totrans-197
   prefs: []
   type: TYPE_IMG
 - en: 'After getting the successful deployment message, check the application logs
     using the `bluemix` CLI:'
+  id: totrans-198
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE15]'
+  id: totrans-199
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: 'The command will retrieve and display the log files from the Cloud Foundry
     application, as shown next. To ensure you can retrieve these logs, ensure that
     all application traces are being sent to `stdout` and `stderr`:'
+  id: totrans-200
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/0fe96c2d-d112-4655-89da-5cb262779827.png)'
+  id: totrans-201
   prefs: []
   type: TYPE_IMG
 - en: Log files from the Cloud Foundry application
+  id: totrans-202
   prefs: []
   type: TYPE_NORMAL
 - en: 'Looking at the device logs, you can see that whenever any of the conditions
     were met, they got an action request to water the plants:'
+  id: totrans-203
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/8500ecd5-a346-4505-9c4f-73e0c8a1b1e8.png)'
+  id: totrans-204
   prefs: []
   type: TYPE_IMG
 - en: At this point, you already have an IoT application and device connected and
     working properly in the IBM Cloud environment.
+  id: totrans-205
   prefs: []
   type: TYPE_NORMAL
 - en: Summary
+  id: totrans-206
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -890,6 +1131,7 @@
     sensors) and uses digital pins to switch a relay on and off. This looks very simple
     but most devices have sensors and actuators, which may change the way in which
     they are used. However, they essentially follow the same concept.
+  id: totrans-207
   prefs: []
   type: TYPE_NORMAL
 - en: We created a dashboard in the IBM Watson IoT Platform that is helpful for looking
@@ -898,14 +1140,17 @@
     IoT Platform organization) to the application in order to leverage configuration
     data to connect to the service and deploy the application using the Bluemix command-line
     interface.
+  id: totrans-208
   prefs: []
   type: TYPE_NORMAL
 - en: The next chapters will introduce blockchain as a platform for interconnected
     businesses and explain its value and the common use cases in which it adds value
     to the business chain.
+  id: totrans-209
   prefs: []
   type: TYPE_NORMAL
 - en: Further reading
+  id: totrans-210
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -913,15 +1158,18 @@
     Platform can be found in the official documentation at the following link: [https://console.bluemix.net/docs/services/IoT/index.html#gettingstartedtemplate](https://console.bluemix.net/docs/services/IoT/index.html#gettingstartedtemplate).
     There are also many recipes published by the community that uses IBM Watson IoT,
     and these are available at the developerWorks Recipes website here: [https://developer.ibm.com/recipes/tutorials/category/internet-of-things-iot/](https://developer.ibm.com/recipes/tutorials/category/internet-of-things-iot/).'
+  id: totrans-211
   prefs: []
   type: TYPE_NORMAL
 - en: It's also very helpful to understand how to upload a project to a GitHub repository
     and how to create a delivery pipeline to automatically build, test, and deploy
     an application whenever a new change is pushed to the repository. Doing this is
     not within the scope of this book, but it's still a really good practice to use.
+  id: totrans-212
   prefs: []
   type: TYPE_NORMAL
 - en: Further information on Grove system platforms, modules, bundles, and component
     specifications can be found on the manufacturer's website: [http://wiki.seeedstudio.com/Grove/](http://wiki.seeedstudio.com/Grove/).
+  id: totrans-213
   prefs: []
   type: TYPE_NORMAL
