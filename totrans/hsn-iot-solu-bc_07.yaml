@@ -1,848 +1,1265 @@
 - en: Creating Your Blockchain and IoT Solution
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建您的区块链和IoT解决方案
 - en: With a correct understanding of the project objectives that were presented in
     the previous chapter, it's time to get the solution to work. In this chapter,
     I will guide you through creating a blockchain network using Hyperledger Composer.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 在正确理解了上一章节中提出的项目目标后，现在是让解决方案开始运行的时候了。在本章中，我将引导你创建一个使用Hyperledger Composer的区块链网络。
 - en: 'In this chapter, we will cover the following topics:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: Creating a blockchain network
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 创建区块链网络
 - en: Defining assets, participants, transactions, and access control lists using
     Hyperledger Composer
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用Hyperledger Composer定义资产、参与者、交易和访问控制清单
 - en: Publishing the network to a Hyperledger environment
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将网络发布到Hyperledger环境
 - en: We will also borrow code from [Chapter 2](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml),
     *Creating Your First IoT Solution*, to create a device that will monitor shipments
     and interact with the blockchain network.
+  id: totrans-6
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们还将从[第二章](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)借用代码，即*创建您的第一个IoT解决方案*，以创建一个将监视货物运输并与区块链网络交互的设备。
 - en: Technical requirements
+  id: totrans-7
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 技术要求
 - en: To access the complete code, you will have to install the Hyperledger Fabric/Composer
     environment on your machine, including prerequisites, and an IDE that's capable
     of developing Node.js applications (Visual Studio Code is recommended).
+  id: totrans-8
   prefs: []
   type: TYPE_NORMAL
+  zh: 要访问完整的代码，您需要在您的计算机上安装Hyperledger Fabric/Composer环境，包括先决条件，以及能够开发Node.js应用程序的IDE（推荐使用Visual
+    Studio Code）。
 - en: The code listed in this chapter is available at [https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain/tree/master/ch7/hands-on-iot-blockchain.](https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain/tree/master/ch7/hands-on-iot-blockchain)
+  id: totrans-9
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章列出的代码可在[https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain/tree/master/ch7/hands-on-iot-blockchain.](https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain/tree/master/ch7/hands-on-iot-blockchain)找到
 - en: Solution overview
+  id: totrans-10
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 解决方案概述
 - en: 'Here, we will be dealing with one of the most important parts of the farm-to-fork
     food life cycle: moving products from the food factory to the grocery store.'
+  id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们将处理食品工厂到杂货店的产品移动中最重要的部分之一。
 - en: 'The following diagram shows the solutions that should be implemented for each
     of the given stages:'
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 下图显示了应针对每个给定阶段实施的解决方案：
 - en: '![](img/dba4c6b3-f8fa-461d-b094-99f901cab164.png)'
+  id: totrans-13
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/dba4c6b3-f8fa-461d-b094-99f901cab164.png)'
 - en: 'Let''s look at the preceding diagram in detail. We will start with the four
     participants:'
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们详细看看前述的图表。我们将从四个参与者开始：
 - en: '**Factory**: This is the starting point of this food safety solution. It is
     responsible for gathering raw materials from farms and creating a box that is
     sent to the warehouse. The actions allowed for this participant are adding a new
     box and transferring the box to the transporter.'
+  id: totrans-15
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**工厂**: 这是食品安全解决方案的起点。它负责从农场收集原材料，并创建一个发送到仓库的货箱。此参与者被允许的操作是添加新的货箱和将货箱转移至运输者。'
 - en: '**Transporter**: This is the company that''s responsible for handling transportation
     from the factory to the warehouse and from the warehouse to the grocery store
     in controlled temperatures. The actions defined for the transporter are adding
     temperature measurements to an asset that is under its control and transferring
     assets to a warehouse or grocery store.'
+  id: totrans-16
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**运输者**: 这是负责在受控温度下从工厂到仓库，以及从仓库到杂货店进行运输的公司。运输者定义的操作包括向其控制的资产添加温度测量数据，以及将资产转移到仓库或杂货店。'
 - en: '**Grocery Store**: This is a company that sells the food box to the consumer.
     The grocery store is the end of the chain, and it''s where the consumer can retrieve
     information from the food box. Grocery stores can check pallets and box data.'
+  id: totrans-17
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**杂货店**: 这是一家向消费者出售食品盒的公司。杂货店是这一链条的终点，消费者可以从食品盒中获取信息。杂货店可以检查货物托盘和货箱数据。'
 - en: '**Consumer**: They are the target of the food box. The consumer is interested
     in tracking the box chain, so there''s a mapped action of viewing the information
     for a box.'
+  id: totrans-18
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**消费者**: 他们是食品盒的目标受众。消费者对跟踪货箱链条很感兴趣，因此有一个查看货箱信息的映射操作。'
 - en: 'We will create an instance of the **Composer REST server** using a business
     card for each participant, and so we will have four **Composer REST server** instances
     in total. There''s also the box and the pallet. The definitions for these assets
     are as follows:'
+  id: totrans-19
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将使用每个参与者的名片创建一个**Composer REST服务器**的实例，因此总共将拥有四个**Composer REST服务器**实例。还有盒子和托盘。这些资产的定义如下：
 - en: '**FoodBox**: It represents the product that is produced at the factory and
     is handled throughout the entire chain'
+  id: totrans-20
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**食品盒**：代表在工厂生产并在整个链条中处理的产品'
 - en: '**Pallet:** This represents a set of boxes that are grouped together to be
     sent from the warehouse to the grocery store'
+  id: totrans-21
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**托盘**：代表一批箱子，这些箱子被组合在一起从仓库送到杂货店'
 - en: Let's start with our blockchain network solution.
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们开始我们的区块链网络解决方案。
 - en: Creating a blockchain network
+  id: totrans-23
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建区块链网络
 - en: 'To develop a blockchain network, we will first have to create a business network
     project using the Yeoman command line, and then name the business network:'
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: 要开发区块链网络，首先需要使用Yeoman命令行创建一个业务网络项目，然后命名业务网络：
 - en: '[PRE0]'
+  id: totrans-25
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: The Yeoman generator creates a folder with a basic empty structure for a Hyperledger
     Composer business network.
+  id: totrans-26
   prefs: []
   type: TYPE_NORMAL
+  zh: Yeoman生成器生成一个基本空结构的Hyperledger Composer业务网络的文件夹。
 - en: 'The `.cto` file contains the business network definitions: assets, participants,
     transactions, and queries, whereas the `.acl` file contains the access control
     list for the assets and transactions.'
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: '`.cto`文件包含业务网络的定义：资产、参与者、交易和查询，而`.acl`文件包含了资产和交易的访问控制列表。'
 - en: In later sections, we're going to code the business network definition, so start
     Visual Studio Code and open the folder that was created by Yeoman.
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: 在后续的部分中，我们将编写业务网络定义，所以打开Visual Studio Code并打开Yeoman创建的文件夹。
 - en: To start developing a blockchain solution, open the `models/com.packtpublishing.businessnetwork.cto` file
     and start coding.
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 要开始开发区块链解决方案，请打开`models/com.packtpublishing.businessnetwork.cto`文件并开始编码。
 - en: Concepts and enumerations
+  id: totrans-30
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 概念和枚举
 - en: It's a good practice to create combined data types that are common among assets,
     participants, and transactions by creating more readable structures in Hyperledger
     Composer. These structures are **concepts** and **enumerations**.
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: 创建常见数据类型的组合，这些类型在资产、参与者和交易中是常见的，可以通过在Hyperledger Composer中创建更可读的结构来实现。这些结构是**概念**和**枚举**。
 - en: 'We will use the following structures in the solution:'
+  id: totrans-32
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将在解决方案中使用以下结构：
 - en: '[PRE1]'
+  id: totrans-33
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: Next, we will look at how to define assets in the business network.
+  id: totrans-34
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来，我们将看看如何定义业务网络中的资产。
 - en: Asset definitions
+  id: totrans-35
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 资产定义
 - en: After defining the common structures of the blockchain network, let's define
     the assets that will be used in it. In our solution, we will have the `FoodBox`
     and `FoodBoxPallet` assets.
+  id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: 在定义了区块链网络的一般结构后，让我们定义将在其中使用的资产。在我们的解决方案中，将有`FoodBox`和`FoodBoxPallet`资产。
 - en: 'The following code defines them:'
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下代码定义了它们：
 - en: '[PRE2]'
+  id: totrans-38
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: Participants
+  id: totrans-39
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 参与者
 - en: 'The participants are the actors that interact with the blockchain network.
     Each participant definition is for a different role in the business network and
     their permissions are defined in access control lists, as shown here:'
+  id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: 参与者是与区块链网络交互的行为者。每个参与者定义都是业务网络中不同角色的权限在访问控制列表中的定义，如下所示：
 - en: '[PRE3]'
+  id: totrans-41
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: Deploying and testing the business network for Hyperledger
+  id: totrans-42
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 部署和测试用于Hyperledger的业务网络
 - en: 'For testing purposes, we will grant all participants full access to all of
     resources of the blockchain network:'
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了测试目的，我们将授予所有参与者对区块链网络的所有资源完全访问权限：
 - en: 'To achieve this, we will add the following lines to the `permissions.acl` file
     (without deleting any existing rules):'
+  id: totrans-44
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 为了实现这一点，我们将在`permissions.acl`文件中添加以下行（不删除任何现有规则）：
 - en: '[PRE4]'
+  id: totrans-45
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: With this rule defined, we will be able to deploy and test the ledger without
     any other extra permissions.
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 定义了这条规则后，我们将能够部署和测试账本，而无需任何其他额外的权限。
 - en: 'After defining the network, we will generate a **Business Network Archive**
     (`.bna` file) and deploy it to the Hyperledger environment. Make sure that your
     environment is up and running before that. To create the `.bna` file, go into
     the root directory for the project and run the following command:'
+  id: totrans-47
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在定义了网络后，我们将生成一个**业务网络归档**（`.bna`文件）并部署到Hyperledger环境中。在此之前，请确保您的环境已经正常运行。要创建`.bna`文件，请转到项目的根目录并运行以下命令：
 - en: '[PRE5]'
+  id: totrans-48
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'If you haven''t generated the `PeerAdminCard` yet, it''s time to do so and
     import it with the `createPeerAdminCard.sh` script inside the directory where
     we have downloaded the `fabric-dev servers`:'
+  id: totrans-49
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 如果你尚未生成`PeerAdminCard`，现在是时候这样做，并将其与在我们下载了`fabric-dev servers`的目录中使用`createPeerAdminCard.sh`脚本导入：
 - en: '[PRE6]'
+  id: totrans-50
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: 'When you have everything set up, install the `.bna` file into the environment and
     start the network by running the following commands:'
+  id: totrans-51
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 当你设置好一切后，将`.bna`文件安装到环境中，并通过运行以下命令启动网络：
 - en: '[PRE7]'
+  id: totrans-52
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: 'Finally, import the network administrator card that was generated by the start
     process and ping the network to ensure it''s running in the environment:'
+  id: totrans-53
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 最后，导入启动过程生成的网络管理员卡，并ping网络以确保它在环境中运行：
 - en: '[PRE8]'
+  id: totrans-54
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: At this point, we have created the first version of our network; generated the
     package for deployment (the `.bna` file); created the `PeerAdminCard`; installed
     the network to the Hyperledger Fabric environment; generated the `NetworkAdminCard`,
     which is responsible for managing the blockchain network; and started the network.
+  id: totrans-55
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这一点上，我们已经创建了我们网络的第一个版本；生成了用于部署的包（`.bna`文件）；创建了`PeerAdminCard`；将网络安装到Hyperledger
+    Fabric环境；生成了负责管理区块链网络的`NetworkAdminCard`；并启动了网络。
 - en: With the Admin cards, we will send a `ping` command to ensure that the network
     is up and running. Now, let's improve our network.
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用管理员卡，我们将发送`ping`命令以确保网络已经启动并正常运行。现在，让我们改进我们的网络。
 - en: Manipulating assets via transactions in the blockchain
+  id: totrans-57
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 通过区块链中交易操作资产
 - en: Transactions are atomic operations that are performed on objects inside a Hyperledger
     Composer-defined business network. They run on the scope of the Hyperledger Fabric
     environment and the defined business network.
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: 交易是在Hyperledger Composer定义的业务网络中执行的原子操作，运行在Hyperledger Fabric环境和定义的业务网络的范围内。
 - en: In the use case that's demonstrated here, the transaction that we've created
     will update both the pallet and the nested food boxes with the information provided
     by the IoT device.
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里演示的用例中，我们创建的交易将会使用IoT设备提供的信息来更新托盘和嵌套的食品箱。
 - en: 'It is composed of two structures. The first one is the definition of the transaction
     and is created in the business network definition model (the `.cto` file):'
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 它由两个结构组成。第一个是交易的定义，并在业务网络定义模型（`.cto`文件）中创建：
 - en: '[PRE9]'
+  id: totrans-61
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: 'The next structure is the function that implements the transaction that was
     defined previously and is created in a JavaScript ES5 compliant script (a `.js`
     file):'
+  id: totrans-62
   prefs: []
   type: TYPE_NORMAL
+  zh: 下一个结构是实现之前定义的交易的函数，并在JavaScript ES5兼容的脚本中创建（一个`.js`文件）：
 - en: '[PRE10]'
+  id: totrans-63
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: Generating and exporting participant business cards
+  id: totrans-64
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 生成并导出参与者名片
 - en: 'To use the network properly, we will create one participant for each class
     (`Factory`, `Warehouse`, `Transporter`, `Store`, and `Consumer`), generate their
     respective business cards, and import them into a Composer CLI Wallet:'
+  id: totrans-65
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了正确使用网络，我们将为每一个类（`工厂`，`仓库`，`运输商`，`商店`，和`消费者`）创建一个参与者，生成他们各自的名片，并将它们导入Composer
+    CLI钱包：
 - en: 'First, we will create the participants:'
+  id: totrans-66
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 首先，我们将创建参与者：
 - en: '[PRE11]'
+  id: totrans-67
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: 'Then, we will issue an identity and import their respective business cards
     with the following command:'
+  id: totrans-68
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后，我们将发行一个身份并使用以下命令导入它们各自的名片：
 - en: '[PRE12]'
+  id: totrans-69
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: 'Repeat this command for each participant: `Transporter 1`, `Store 1`, `Warehouse
     1`, and `Factory 1`.'
+  id: totrans-70
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 对每个参与者重复执行此命令：`Transporter 1`、`Store 1`、`Warehouse 1`和`Factory 1`。
 - en: '[PRE13]'
+  id: totrans-71
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: 'Import each card into the Composer CLI wallet for each participant/card generated
     and check that all cards have been imported successfully:'
+  id: totrans-72
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 为每个参与者/生成的名片将每张名片导入Composer CLI钱包，并检查所有名片是否已成功导入：
 - en: '[PRE14]'
+  id: totrans-73
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: Defining access control lists (ACLs)
+  id: totrans-74
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 定义访问控制列表（ACLs）
 - en: 'To enforce permissions on the network, we will define some access control for
     participants over assets with the following rules:'
+  id: totrans-75
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了强制执行网络上的权限，我们将为参与者对资产定义一些访问控制规则，具体规则如下：
 - en: 'Only factories can create `FoodBoxes`:'
+  id: totrans-76
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 只有工厂可以创建`FoodBoxes`：
 - en: '[PRE15]'
+  id: totrans-77
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: 'Since a food factory can also see what their `FoodBoxes` are and transfer them
     to a transporter, we can use a conditional rule to define these restrictions:'
+  id: totrans-78
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 由于食品工厂也能够看到他们的`FoodBoxes`并将它们转移到运输商，我们可以使用条件规则来定义这些限制：
 - en: '[PRE16]'
+  id: totrans-79
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: 'The next rule refers to `Transporters`. These can read and update their own `FoodBoxes`.
     We will do the same thing for `FoodBoxPallets`:'
+  id: totrans-80
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 下一个规则涉及`运输商`。他们可以读取和更新他们自己的`FoodBoxes`。我们将对`FoodBoxPallets`做同样的操作：
 - en: '[PRE17]'
+  id: totrans-81
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE17]'
 - en: 'Warehouses can also read and update their `FoodBoxes`, as well as creating,
     updating, and reading `FoodBoxPallets`:'
+  id: totrans-82
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 仓库也可以读取和更新他们的`FoodBoxes`，以及创建，更新和读取`FoodBoxPallets`：
 - en: '[PRE18]'
+  id: totrans-83
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE18]'
 - en: 'Finally, stores can read the `FoodBoxes` they own, while consumers can read
     all `FoodBoxes`:'
+  id: totrans-84
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 最后，商店可以读取他们拥有的`FoodBoxes`，而消费者可以读取所有的`FoodBoxes`：
 - en: '[PRE19]'
+  id: totrans-85
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE19]'
 - en: After applying these rules, the network is ready to be tested.
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 应用了这些规则后，网络可以被测试了。
 - en: Upgrading the business network to a newer version
+  id: totrans-87
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 将业务网络升级为新版本
 - en: 'There are only four steps that are necessary to upgrade a deployed business
     network:'
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 升级部署的业务网络只需要四个步骤：
 - en: 'Open the `package.json` file and update the version number for the application.
     In our case, it will update to `0.0.2`  and will look like this:'
+  id: totrans-89
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 打开`package.json`文件并更新应用程序的版本号。在我们的情况下，它将更新为`0.0.2`，看起来像这样：
 - en: '[PRE20]'
+  id: totrans-90
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE20]'
 - en: 'Create a new BNA file by running the `composer archive create -t dir -n .` command:'
+  id: totrans-91
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 通过运行`composer archive create -t dir -n .`命令创建一个新的BNA文件：
 - en: '[PRE21]'
+  id: totrans-92
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE21]'
 - en: 'Install the new archive file in the Hyperledger environment:'
+  id: totrans-93
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在Hyperledger环境中安装新的归档文件：
 - en: '[PRE22]'
+  id: totrans-94
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE22]'
 - en: 'Finally, `upgrade` the network version to the new one:'
+  id: totrans-95
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 最后，将网络版本`upgrade`到新版本：
 - en: '[PRE23]'
+  id: totrans-96
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE23]'
 - en: If all of the commands have run successfully, the business network will now
     be running on the new version, including the transactions and ACLs that were created
     in the preceding sections.
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果所有命令都成功运行，那么业务网络现在将在新版本上运行，包括在前面的章节中创建的交易和ACLs。
 - en: Setting up Composer REST servers for each participant
+  id: totrans-98
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 为每个参与者设置Composer REST服务器
 - en: As part of the prerequisites for the installation of the Hyperledger Composer
     development environment, you would have also installed the Composer REST server.
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 作为安装Hyperledger Composer开发环境的先决条件的一部分，您还将安装了Composer REST服务器。
 - en: This component is an API server based on the Loopback framework ([http://loopback.io](http://loopback.io))
     and includes a `loopback-connector-composer` to connect to the Hyperledger Composer
     environment and a script that dynamically gather assets, participants, and transactions
     models.
+  id: totrans-100
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个组件是基于Loopback框架（[http://loopback.io](http://loopback.io)）的API服务器，包括一个`loopback-connector-composer`用于连接到Hyperledger
+    Composer环境，以及一个动态收集资产、参与者和交易模型的脚本。
 - en: 'The easiest way of starting a Composer REST server is by running the `cli`
     commands and filling the startup questionnaire correctly. For our convenience,
     we will be running it using the following command:'
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 启动Composer REST服务器的最简单方法是运行`cli`命令并正确填写启动问卷。为了我们的方便，我们将使用以下命令运行它：
 - en: '[PRE24]'
+  id: totrans-102
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE24]'
 - en: 'Open a terminal window for each participant to start a dedicated Composer REST
     server for it:'
+  id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 为每个参与者打开一个终端窗口，以启动专用的Composer REST服务器：
 - en: '[PRE25]'
+  id: totrans-104
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE25]'
 - en: Each running instance is related to a single user, meaning that all operations
     that were invoked through the Composer REST server that is listening on port `3003`
     are related to the `Consumer` with identifier 5**. **For example, if a new `Consumer`
     participant is created (let's say ID 6), then a new business card must be issued
     to the participant, and another instance of a Composer REST server must be started
     using the new card.
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个运行实例都与单个用户相关联，这意味着通过监听端口`3003`的Composer REST服务器调用的所有操作都与具有标识符5**的`Consumer`相关。例如，如果创建了一个新的`Consumer`参与者（假设ID为6），那么必须向参与者发放新的名片，并使用新的名片启动另一个Composer
+    REST服务器实例。
 - en: In most use cases, a single business card is enough for an entire organization.
     Other rules for issuing business cards can be defined by governance, such as a
     business card per branch/subsidiary, or each user must have their own business
     card.
+  id: totrans-106
   prefs: []
   type: TYPE_NORMAL
+  zh: 在大多数情况下，一个商业名片就足以满足整个组织的需求。其他发放名片的规则可以由治理定义，例如每个分支/子公司一个名片，或者每个用户必须有自己的名片。
 - en: At this point, you should have five instances of the Composer REST server running
     on your computer, and each one should be capable of being accessed through a browser
     at the following address: `http://localhost:<port>`.
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 此时，您的计算机上应该有五个Composer REST服务器实例正在运行，每个服务器都可以通过浏览器访问以下地址：`http://localhost:<port>`。
 - en: Creating the IoT part of the solution
+  id: totrans-108
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建解决方案的物联网部分
 - en: After defining the entire blockchain network and getting everything up and running,
     we will now set up and develop the device that's going to update the ledger with
     box and pallet measurements.
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 在定义了整个区块链网络并使一切正常运行之后，我们现在将设置和开发将用于更新盒子和托盘测量值的设备。
 - en: To complete that, we're going to create a new device, using the same approach
     as [Chapter 2](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml), *Creating Your First
     IoT Solution*, and create an application that receives events from measurements
     and updates the blockchain ledger using the API that was exposed by the Composer
     REST server.
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了完成这一点，我们将使用与[第二章](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)相同的方法创建一个新的设备，*创建您的第一个物联网解决方案*，并创建一个应用程序，该应用程序接收测量事件并使用Composer
+    REST服务器提供的API更新区块链账本。
 - en: Hardware setup
+  id: totrans-111
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 硬件设置
 - en: 'To assemble this monitoring device, we will apply a couple of assumptions that
     might be pertinent to a production environment:'
+  id: totrans-112
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了组装这个监控设备，我们将应用一些可能与生产环境相关的假设：
 - en: The transporting vehicle has a Wi-Fi connection available so that the device
     can connect to the internet
+  id: totrans-113
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 运输车辆有可用的Wi-Fi连接，使设备可以连接到互联网
 - en: The monitoring device time is synchronized with the application time, including
     the time zone
+  id: totrans-114
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 监测设备时间与应用程序时间同步，包括时区
 - en: All boxes are transported at the same time, using the same vehicle, so that
     the same conditions and measurements apply to all boxes in a pallet
+  id: totrans-115
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 所有的箱子都是同时运输，使用相同的车辆，因此对于托盘上的所有箱子都适用相同的条件和测量标准。
 - en: In a production-level application, these restrictions/assumptions have to be
     handled with techniques such as caching non-published events and using different
     network providers (Sigfox, LoRAWan, mobile connections, and so on), and the actual
     time must be synchronized with the device's location.
+  id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 在生产级应用中，必须使用诸如缓存未发布的事件和使用不同的网络提供商（Sigfox，LoRAWan，移动连接等）等技术来处理这些限制/假设，并且实际时间必须与设备位置同步。
 - en: 'The parts that are used in this project are shown here:'
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 此项目中使用的零件如下所示：
 - en: '![](img/841670de-c230-4e24-b10c-ab7603f56f12.png)'
+  id: totrans-118
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/841670de-c230-4e24-b10c-ab7603f56f12.png)'
 - en: This image was created with Fritzing and is licensed under CC BY-SA 3.0; see
     https://creativecommons.org/licenses/by-sa/3.0/
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 此图像是使用Fritzing创建的，并在CC BY-SA 3.0下许可；请参阅https://creativecommons.org/licenses/by-sa/3.0/
 - en: 'The description of each component is given in the following table. You should
     be familiar with them, given that they are a subset of what was used in [Chapter
     2](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)*, Creating Your First IoT Solution*:'
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: 组件的描述如下表所示。鉴于它们是[第2章](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)*创建您的第一个物联网解决方案*中所使用的子集，您应该对它们很熟悉。
 - en: '| **Quantity** | **Component** |'
+  id: totrans-121
   prefs: []
   type: TYPE_TB
+  zh: '|**数量**|**组件**|'
 - en: '| 1 | Intel Edison module  |'
+  id: totrans-122
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | 英特尔 Edison 模块 |'
 - en: '| 1 | Intel Edison Arduino breakout board |'
+  id: totrans-123
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | 英特尔 Edison Arduino扩展板 |'
 - en: '| 1 | Grove Base Shield v2 |'
+  id: totrans-124
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | Grove基本盾牌v2 |'
 - en: '| 1 | Grove Temperature Sensor v1.2 |'
+  id: totrans-125
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | Grove温度传感器v1.2 |'
 - en: '| 1 | Grove universal 4-pin cable |'
+  id: totrans-126
   prefs: []
   type: TYPE_TB
+  zh: '| 1 | Grove通用4针线缆 |'
 - en: 'Given these assumptions, the device that''s used in this application is connected,
     as shown in the following diagram. Here, we have attached the Grove Temperature
     Sensor to the `A3` connection jack in the Base Shield:'
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这些假设的前提下，用于此应用程序的设备如下图所示连接。在这里，我们已经将Grove温度传感器连接到基本盾牌上的`A3`连接插孔。
 - en: '![](img/ac9d03b0-a245-46f6-b129-c77f877521de.png)'
+  id: totrans-128
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/ac9d03b0-a245-46f6-b129-c77f877521de.png)'
 - en: This image was created with Fritzing and is licensed under CC BY-SA 3.0; see
     https://creativecommons.org/licenses/by-sa/3.0/
+  id: totrans-129
   prefs: []
   type: TYPE_NORMAL
+  zh: 此图像是使用Fritzing创建的，并在CC BY-SA 3.0下许可；请参阅https://creativecommons.org/licenses/by-sa/3.0/
 - en: This completes the device that will monitor food box transportation.
+  id: totrans-130
   prefs: []
   type: TYPE_NORMAL
+  zh: 这样就完成了监测食品箱运输的设备。
 - en: Firmware development
+  id: totrans-131
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 固件开发
 - en: The following code has been borrowed from [Chapter 2](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)*,
     Creating Your First IoT Solution,* since it has the same hardware characteristics
     and the same objectives.
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面的代码是从[第2章](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)*创建您的第一个物联网解决方案*中借用的，因为它具有相同的硬件特性和相同的目标。
 - en: 'The only modification is in the published JSON: we have to remove the `soilMoisture`
     property and add the box ID when transporting from the factory to the warehouse,
     and add the pallet ID when transporting from the warehouse to the store.'
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
+  zh: 唯一的修改是在已发布的JSON中：在从工厂运输到仓库时，我们必须移除`soilMoisture`属性，并在从仓库运输到商店时添加箱子ID，并在添加托盘ID时进行运输。
 - en: 'It retrieves the temperature of the Grove sensor and publishes it to the Watson
     IoT platform:'
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 它获取Grove传感器的温度并将其发布到Watson IoT平台：
 - en: '[PRE26]'
+  id: totrans-135
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE26]'
 - en: Application development
+  id: totrans-136
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 应用程序开发
 - en: Since we are running the Hyperledger environment locally, the application being
     developed here has to run on the same network as Hyperledger. Given that we're
     not running it in IBM Cloud/Bluemix, the configuration will be stored in a JSON
     file, in the same directory that the main `.js` file of the application will run
     in.
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于我们在本地运行Hyperledger环境，因此在此开发的应用程序必须在与Hyperledger相同的网络上运行。鉴于我们不是在IBM Cloud/Bluemix上运行它，配置将存储在JSON文件中，在与应用程序的主`.js`文件相同的目录中运行。
 - en: 'The content structure of the configuration JSON file is listed here and must
     be updated with the details that were defined in [Chapter 2](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)*,
     Creating Your First IoT Solution*:'
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 配置JSON文件的内容结构列在这里，并且必须更新为在[第2章](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)*创建您的第一个物联网解决方案*中定义的详细信息。
 - en: '[PRE27]'
+  id: totrans-139
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE27]'
 - en: 'The application code receives all of the events that were published by the
     device and updates the `FoodBoxes` in the pallet with the temperature gathered:'
+  id: totrans-140
   prefs: []
   type: TYPE_NORMAL
+  zh: 应用程序代码接收设备发布的所有事件，并使用收集的温度更新托盘中的`FoodBoxes`：
 - en: '[PRE28]'
+  id: totrans-141
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE28]'
 - en: 'The following code calls the defined transaction in the blockchain network
     through the Composer REST server:'
+  id: totrans-142
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下代码通过Composer REST服务器调用区块链网络中定义的交易：
 - en: '[PRE29]'
+  id: totrans-143
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE29]'
 - en: End-to-end testing
+  id: totrans-144
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 端到端测试
 - en: For testing purposes, we are going to use the Hyperledger Composer Playground
     for most of the operations, except transporter updates. So, at this point, you
     can stop all of the Composer REST servers that were started in the previous section,
     except the one that was started for the transporter participant (listening on
     port 3004).
+  id: totrans-145
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了测试目的，我们将使用 Hyperledger Composer Playground 进行大部分操作，除了运输者更新。所以，在这一点上，您可以停止之前启动的所有Composer
+    REST服务器，除了在传输者参与者上启动的服务器（监听端口3004）。
 - en: If your Hyperledger Composer Playground was installed during the development
     environment setup, all you have to do is run the `composer-playground` command, or install
     it using `npm` (`npm install -g composer-playground`).
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果您在开发环境设置期间安装了 Hyperledger Composer Playground，则您只需运行`composer-playground`命令，或者使用`npm`进行安装(`npm
+    install -g composer-playground`)。
 - en: 'Your default browser will open the Composer-Playground web application, as
     shown in the following screenshot:'
+  id: totrans-147
   prefs: []
   type: TYPE_NORMAL
+  zh: 您的默认浏览器将打开Composer-Playground Web应用程序，如下截图所示：
 - en: '![](img/7dcc9af6-9217-4171-8159-3c623457d685.png)'
+  id: totrans-148
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/7dcc9af6-9217-4171-8159-3c623457d685.png)'
 - en: Composer playground landing page
+  id: totrans-149
   prefs: []
   type: TYPE_NORMAL
+  zh: Composer playground 登陆页面
 - en: You can see the same participants that were created earlier.
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可以看到之前创建的相同参与者。
 - en: Creating a FoodBox
+  id: totrans-151
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建一个食品箱
 - en: 'As per the permissions we''ve granted, factories can create `FoodBoxes`. Let''s
     see how:'
+  id: totrans-152
   prefs: []
   type: TYPE_NORMAL
+  zh: 根据我们授予的权限，工厂可以创建`FoodBoxes`。让我们来看看如何：
 - en: Find the Factory 1 @food-safety-b10407 business card and select the  Connect
     now option. Then, click on Test at the top left of the screen.
+  id: totrans-153
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 找到Factory 1 @food-safety-b10407名片，选择 Connect now 选项。然后，点击屏幕左上角的测试。
 - en: 'In the left-hand panel, select Assets -> FoodBox, and in the upper-right corner,
     click on + Create New Asset:'
+  id: totrans-154
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在左侧面板中，选择资产 -> 食品箱，并在右上角点击 + 创建新资产：
 - en: '![](img/fea4eff8-8247-45e3-a24a-6d07acaee3e5.png)'
+  id: totrans-155
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/fea4eff8-8247-45e3-a24a-6d07acaee3e5.png)'
 - en: 'Fill up the JSON with the following content and create the asset using the
     Create New button:'
+  id: totrans-156
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 用以下内容填写JSON并使用“创建新建”按钮创建资产：
 - en: '[PRE30]'
+  id: totrans-157
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE30]'
 - en: Transferring the asset to the transporter
+  id: totrans-158
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 将资产转移给运输者
 - en: 'To transfer an asset of the food safety network using the Hyperledger Composer
     Playground, take the following steps:'
+  id: totrans-159
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用 Hyperledger Composer Playground 转移食品安全网络的资产，请按照以下步骤进行：
 - en: In the top-right corner of the application, select the My business networks
     option and connect as transporter.
+  id: totrans-160
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在应用程序的右上角，选择“我的业务网络”选项，并作为运输者连接。
 - en: 'If you select Test, Assets → FoodBox, you will see that there are no assets
     available:'
+  id: totrans-161
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 如果您选择测试，资产 → 食品箱，您将看到没有可用的资产：
 - en: '![](img/f6a48c12-d9e5-4675-bef2-2d478e4e29d7.png)'
+  id: totrans-162
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/f6a48c12-d9e5-4675-bef2-2d478e4e29d7.png)'
 - en: 'Return to the `Factory` identity, select the Edit button on the right-hand
     side of the asset data, and update the JSON file with the following data:'
+  id: totrans-163
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 返回到“工厂”身份，选择资产数据右侧的编辑按钮，并使用以下数据更新JSON文件：
 - en: '[PRE31]'
+  id: totrans-164
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE31]'
 - en: Save the asset; it will disappear from the Factory view. When you return to
     the Transporter view, you will find that the transporter can now see the asset.
+  id: totrans-165
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 保存资产；它将从工厂视图中消失。当您返回到运输者视图时，您会发现运输者现在可以看到该资产。
 - en: Measuring the temperature while transporting
+  id: totrans-166
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在运输过程中测量温度
 - en: At this point, we will simulate temperature measurements during transportation.
+  id: totrans-167
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这一点上，我们将模拟运输过程中的温度测量。
 - en: We created the following commented code in the IoT application code because
     we are handling transportation gathering data at two different points in time.
+  id: totrans-168
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们在IoT应用程序代码中创建了以下注释代码，因为我们在不同时间处理传输收集的数据。
 - en: 'The first is when a `FoodBox` is transported from the `Factory` to the `Warehouse`,
     which is implemented by the `updateFoodBox` function, while the `updatePallet`
     function is aimed at processing the transportation from the `Warehouse` to the
     store:'
+  id: totrans-169
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先是当一个`FoodBox`从`工厂`运到`仓库`时，这是由`updateFoodBox`函数实现的，而`updatePallet`函数旨在处理从`仓库`到商店的运输：
 - en: '[PRE32]'
+  id: totrans-170
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE32]'
 - en: At this point, we are handling the transportation from the `Factory` to the
     `Warehouse`, so uncomment line 19 of the code—`updateFoodBox(payload.temperature);`— and
     then update lines 30, 34, 35, and 36, providing the correct values for the data.
+  id: totrans-171
   prefs: []
   type: TYPE_NORMAL
+  zh: 此时，我们正在处理从 `工厂` 到 `仓库` 的运输，因此取消注释代码的第 19 行—`updateFoodBox(payload.temperature);`—
+    然后更新第 30、34、35 和 36 行，提供正确的数据值。
 - en: Ensure that the Composer REST server for the transporter is up and running and
     that the URLs defined in lines 2 and 3 of the device code are pointing to the
     correct Composer REST server host.
+  id: totrans-172
   prefs: []
   type: TYPE_NORMAL
+  zh: 确保运输车的 Composer REST 服务器正在运行，并且设备代码的第 2 和第 3 行中定义的 URL 指向正确的 Composer REST 服务器主机。
 - en: Start the device application.
+  id: totrans-173
   prefs: []
   type: TYPE_NORMAL
+  zh: 启动设备应用程序。
 - en: Transferring the asset to the warehouse
+  id: totrans-174
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 将资产转移到仓库
 - en: 'The same thing happens when the asset is transferred to the transporter. Go
     to the asset view of the transporter, edit the JSON file, and change the owner
     with the respective value:'
+  id: totrans-175
   prefs: []
   type: TYPE_NORMAL
+  zh: 当资产转移到运输车时，情况也是如此。转到运输车的资产视图，编辑 JSON 文件，并使用相应的值更改所有者：
 - en: '[PRE33]'
+  id: totrans-176
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE33]'
 - en: Creating a pallet and adding the box to it
+  id: totrans-177
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建一个托盘并将箱子添加到其中
 - en: 'To create a pallet, we need to follow the same process as that for a FoodBox:'
+  id: totrans-178
   prefs: []
   type: TYPE_NORMAL
+  zh: 要创建托盘，我们需要按照与 FoodBox 相同的过程进行操作：
 - en: In the left-hand panel, select Assets → FoodBoxPallet, and in the upper-right
     corner, click on + Create New Asset.
+  id: totrans-179
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在左侧面板中，选择 Assets → FoodBoxPallet，然后在右上角点击 + 创建新资产。
 - en: 'Then, fill the JSON with the following data. Make sure that you were using
     the same FoodBox ID in the `foodBoxInPallet` field and the Warehouse ID (3) in
     the `owner` field:'
+  id: totrans-180
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后，使用以下数据填充 JSON。确保您在 `foodBoxInPallet` 字段中使用相同的 FoodBox ID，而在 `owner` 字段中使用
+    Warehouse ID (3)：
 - en: '[PRE34]'
+  id: totrans-181
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE34]'
 - en: 'After creating the pallet, transfer both the pallet and box to the transporter,
     as before. The owner value of the JSON should be as follows:'
+  id: totrans-182
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 创建托盘后，像以前一样将托盘和箱子转移到运输车上。 JSON 的所有者值应如下所示：
 - en: '[PRE35]'
+  id: totrans-183
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE35]'
 - en: Measuring the temperature while transporting a pallet
+  id: totrans-184
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在运输托盘时测量温度
 - en: This follows the same rules as the measurements for the FoodBox transportation,
     but you have to comment line 19 and uncomment line 20 of the device code, as well
     as update lines 53, 57, 58, and 59 with the correct values for your pallet.
+  id: totrans-185
   prefs: []
   type: TYPE_NORMAL
+  zh: 这与 FoodBox 运输的测量规则相同，但您必须注释设备代码的第 19 行并取消注释第 20 行，以及更新第 53、57、58 和 59 行的正确值以适用于您的托盘。
 - en: 'At the end of the transportation, transfer the asset to the store by using
     the `owner` of the pallet and the box with the following line:'
+  id: totrans-186
   prefs: []
   type: TYPE_NORMAL
+  zh: 在运输结束时，通过使用托盘的 `owner` 和以下行将资产转移到仓库中的箱子：
 - en: '[PRE36]'
+  id: totrans-187
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE36]'
 - en: Tracking the FoodBox
+  id: totrans-188
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 跟踪食品盒
 - en: To track the food box as a consumer, we're going to use the Hyperledger Composer
     Historian through `composer-playground`.
+  id: totrans-189
   prefs: []
   type: TYPE_NORMAL
+  zh: 要跟踪食品盒作为消费者，我们将通过 `composer-playground` 使用 Hyperledger Composer Historian。
 - en: To access the history of actions that have been applied to an asset, connect
     to the Hyperledger environment using the Consumer business card and select the
     All Transactions option from the left-hand panel of the playground.
+  id: totrans-190
   prefs: []
   type: TYPE_NORMAL
+  zh: 要访问已应用于资产的操作历史记录，请使用 Consumer business card 连接到 Hyperledger 环境，并从游乐场的左侧面板中选择
+    All Transactions 选项。
 - en: 'We will be able to see all of the transactions that have been performed on
     an asset, from its creation to the arrival of the pallet and its inner boxes to
     the store:'
+  id: totrans-191
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将能够查看对资产执行的所有交易，从其创建到托盘及其内部箱子到达仓库为止：
 - en: '![](img/3f72ea47-aeb8-4193-bdcc-a100745a00ca.png)'
+  id: totrans-192
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3f72ea47-aeb8-4193-bdcc-a100745a00ca.png)'
 - en: Composer playground - Historian
+  id: totrans-193
   prefs: []
   type: TYPE_NORMAL
+  zh: Composer 游乐场 - 历史学家
 - en: 'We can also see the transaction details by clicking on the view record link,
     as shown here:'
+  id: totrans-194
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们还可以通过单击查看记录链接来查看交易详细信息，如下所示：
 - en: '![](img/f70e406f-0299-4ee6-94ab-2799c4fb5670.png)'
+  id: totrans-195
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/f70e406f-0299-4ee6-94ab-2799c4fb5670.png)'
 - en: Summary
+  id: totrans-196
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 摘要
 - en: In this chapter, we learned how to create a business network using Hyperledger
     Composer and the Watson IoT Platform.
+  id: totrans-197
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们学习了如何使用 Hyperledger Composer 和 Watson IoT 平台创建业务网络。
 - en: In the process of developing the solution, we were able to create a Hyperledger
     Composer project using Yeoman; define shared data structures; create assets, participants
     transactions, and access control lists; as well as create the first version of
     a network and upgrade it to a newer version.
+  id: totrans-198
   prefs: []
   type: TYPE_NORMAL
+  zh: 在开发解决方案的过程中，我们能够使用 Yeoman 创建 Hyperledger Composer 项目；定义共享数据结构；创建资产、参与者交易和访问控制列表；以及创建网络的第一个版本并将其升级为新版本。
 - en: We were also able to create a device that is responsible for reading temperatures
     from the hypothetical transport of a food box from a factory to a warehouse, and
     later, from the warehouse to a store, and added that information to the food box
     asset in the shared ledger of the blockchain network.
+  id: totrans-199
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们还能够创建一个设备，负责从工厂到仓库的食品箱的假设运输中读取温度，并且后来，从仓库到商店，将该信息添加到区块链网络的共享账本中的食品箱资产中。
 - en: The consumer of that food box was also able to track the information related
     to that box from the very beginning of the production chain.
+  id: totrans-200
   prefs: []
   type: TYPE_NORMAL
+  zh: 食品箱的消费者还能够追踪与该箱相关的信息，从生产链的最初开始。
 - en: Even though Hyperledger Composer and Watson IoT development are quite simple,
     the solution that we've created addresses a huge problem regarding safety in the food chain.
+  id: totrans-201
   prefs: []
   type: TYPE_NORMAL
+  zh: 尽管Hyperledger Composer和Watson IoT开发相当简单，但我们所创建的解决方案解决了食品链安全方面的重大问题。
 - en: The following chapters will give you the author's point of view about lessons
     learned, practices, and patterns used in real-world projects, and how IoT and
     blockchain are necessary tools for creating business models and addressing new
     challenges in the current Industry 4.0 scenario.
+  id: totrans-202
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下章节将向您介绍作者对实际项目中所学到的教训、实践和模式的观点，以及在当前工业4.0情景下，物联网和区块链如何成为创造业务模型和解决新挑战的必要工具。
