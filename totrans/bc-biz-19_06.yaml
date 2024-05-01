@@ -1,0 +1,645 @@
+- en: 'Five Forces of Bitcoin - #3 Consensus Algorithm'
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will find out what makes the Bitcoin blockchain machine
+    tick in a decentralized way. We are going to take a deep dive into the consensus
+    mechanism of Bitcoin called Proof-of-Work and see what it has to do with complex
+    math problems and mining. We will cover the following topics in this chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Byzantine Generals' Problem
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The Proof-of-Work consensus algorithm
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Decentralized consensus and game theory
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The Byzantine Generals' Problem
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Byzantine Generals' Problem is actually an abstract way to describe a problem
+    in computer systems introduced in a 1982 paper of the same name. The problem states
+    that reliable computer systems must be able to function effectively in the presence
+    of faulty components that may send conflicting information to different parts
+    of the system. This issue is even more acute in decentralized computer networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This is illustrated in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0269e761-4c43-4353-b232-011aef86a227.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Let's imagine the following thought experiment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The Byzantine army has surrounded an enemy city. The army is organized in several
+    units. Each unit is commanded by a general. All these generals need to come up
+    with a coordinated plan of action, but they are located away from each other and
+    can communicate only via messages. To make things more complicated, one or more
+    of the generals may be traitors. Such potential traitor generals can send misleading
+    messages and try to disrupt any coordinated plan of action, be it attack or retreat.
+    To find a successful solution to this conundrum, the Byzantine army needs to find
+    its path to coordinated action, one way or another. This experiment can be seen
+    in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/39498b44-4505-43b0-84ae-cd487e2f368a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: To achieve this, the Byzantine army needs some algorithm that works effectively
+    toward a coordinated outcome when the majority of loyal generals follow it, while
+    some traitors don't.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Proof-of-Work consensus algorithm
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that you know the problem, let's see the solution, which is called the Byzantine
+    fault tolerance algorithm. This algorithm involves game theory and math.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The first and foremost practical implementation of the Byzantine fault tolerance
+    algorithm came with the Bitcoin's Proof-of-Work. In this case, the generals are
+    nodes on the Bitcoin network, also known as **miners**. A network node is a connection
+    point that can receive, create, store, and send data across a network. In other
+    words, nodes are the connected dots that make up a network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The important concept to grasp here is that these mining nodes start from the
+    assumption that nobody else on the network can be trusted.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Proof-of-Work algorithm guarantees network consensus even in the presence
+    of Byzantine non-compliant nodes. Let's see how this mechanism works in Bitcoin.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As we all know by now, Bitcoin is a peer-to-peer network where all activities
+    are done by its users through appropriate software and hardware. These activities
+    include making transactions, receiving transactions, verifying, and transmitting
+    transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Introduction to mining
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now, we will introduce the concept of mining, which many of you have probably
+    heard of. Mining basically involves doing Proof-of-Work and results in generating
+    new coins as a reward for the miner who successfully did this Proof-of-Work first
+    for each new block. Proof-of-Work involves a hefty amount of calculations done
+    by a computer aimed at solving cryptographic hash puzzles. Let's dig into the
+    nuts and bolts of this mechanism to figure out how it works.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'First, let''s see how miners create new blocks. The following diagram illustrates
+    the creation process:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2be2a287-6fba-4215-820d-df9778e994d9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now, mining nodes collect and aggregate new transaction data. Upon receiving
+    such data, each node independently verifies each and every transaction against
+    a long list of criteria, including the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tracking the source of the digital money being spent
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Checking for double spending of the same money
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Checking whether the total transaction volume is within the allowed range of
+    0 to 21 million Bitcoins (as 21 million is the maximum total supply of Bitcoin
+    allowed by the system)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: And the list goes on; the Bitcoin software installed on the node performs a
+    number of other checks and balances.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Verified transactions are aggregated into transaction pools, also called memory
+    pools or mempools, where they wait until they are included in a block. Miners
+    check their mempools for any transactions that have been already included in previous
+    blocks. After collecting and arranging verified transactions in a candidate block,
+    the miner needs to construct the block header. This header includes the following
+    main components:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A summary of all the transaction data in the candidate block
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A link to the previous block in the chain, also known as a parent block
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A timestamp showing the time of creation of the block
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A valid Proof-of-Work
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The summaries of block transaction data are done through hash functions, which
+    process data in such a way that results in a standardized unique identification
+    code or digital fingerprint. In this way, the system has a unique identifier for
+    each block of transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The different aspects of a Bitcoin transaction
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Here is an example of a block header, as viewed on [blockexplorer.com](http://blockexplorer.com):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c973ae95-1f56-482f-9701-a6b7acf4ba30.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: As seen in the preceding screenshot, there is a long alphanumeric string just
+    below the block number called the BlockHash**,** or just Hash. Alphanumeric means
+    that it consists of both letters and numbers. This is a type of encoding data
+    and is the output result of processing the block header data present there, through
+    Bitcoin's cryptographic hash function. You may have heard the name of this function,
+    SHA 256, where **SHA** stands for **Secure Hash Algorithm**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You probably remember that we mentioned and explained briefly hash functions
+    in [Chapter 5](84ad3021-fae1-4e16-aaae-cee34e5d2bf6.xhtml), *Five Forces of Bitcoin –
+    #2 Cryptography*. We will discuss them again briefly, because they play such an
+    important role in Proof-of-Work.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As we''ve already learned, a hash function can digest any kind of data, of
+    any size, into a fixed length string of characters, which can serve as a unique
+    digital fingerprint or identifier. Moreover, these cryptographic hash functions
+    work only in one direction. Once we have the output, we cannot simply invert the
+    function, plug in the output, and get the input data on the other end. This can
+    be better described with the help of the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/fbc44244-ca56-4c87-b018-b13715aded7d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'To illustrate what it means to invert a function, let''s consider the four
+    basic mathematical operations:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Addition and subtraction are inverse functions of each other
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Multiplication and division are inverse functions of each other
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We can always construct equations with these functions to find any unknown variable.
+    For example, 3 * x = 15, x = 15/3 = 5.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Many mathematical functions can be inverted in a similar way. However, this
+    is not the case with cryptographic hash functions. The only feasible way an unknown
+    random variable can be found in a cryptographic function's input dataset is by
+    trying different values for the unknown variable, one by one, given all the other
+    known parameters, in order to find out what works. This is basically a brute-force
+    approach of trying potentially all possible combinations. And this is precisely
+    the element of work as used in Proof-of-Work. The work comprises all the iterative
+    computations a computer needs to do to find the solution to the cryptographic
+    puzzle.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Nonce and difficulty
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now, let's have a look again at the block header data examples we have. You
+    may have noticed the word Nonce and another unfamiliar parameter called Difficulty.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The nonce is basically a random variable, or a source of randomness. Difficulty,
+    on the other hand, is a temporary fixed number that is calculated by the Bitcoin
+    protocol and remains fixed for approximately two weeks. We can see the two variables
+    in the following example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/fcb7ee77-2d10-4a3a-afc5-c67ab10da27e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: When a miner starts building or mining a block similar to this, all the parameters
+    are known, except for the nonce. The nonce is the missing piece of the puzzle
+    that needs to be found and plugged in, so that the resulting block header hash
+    is less than a target difficulty level. You can think about target difficulty
+    as a number. The process is done by trying different values for the nonce again
+    and again in iterative calculations until a satisfactory hash is found.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's illustrate this with a straightforward example. Consider a game of dice,
+    in which we have two players, throwing a couple of dice. The goal is to throw
+    a number below or equal to a specific predetermined target number. The player
+    who throws such a number first wins. If the target level is 10, the game is relatively
+    easy, as only combinations summing up to 11 and 12 cannot win. All the other combinations
+    win. Now, if we want to make the game more difficult, we can decrease the target
+    to 5\. In this case, a player needs to throw a dice sum of 2, 3, 4, or 5, in order
+    to win. The odds of this are much lower compared to the previous target of 10,
+    so the game is more difficult to win. If we want to make it really, really hard,
+    we can reduce the target to 2 and then only a 1 and 1 combination of dice can
+    win. The Bitcoin cryptographic computational puzzle works in a similar way.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You may be wondering why the block header hash should be less than the target
+    difficulty level. Well, target difficulty is determined by the Bitcoin protocol
+    based on the total amount of computer power plugged in and trying to solve the
+    puzzle. As this is a random process, which follows a known statistical distribution,
+    the odds of finding a nonce that solves the puzzle can be calculated in advanced.
+    This means that the expected average time to find a solution of the puzzle by
+    any node on the network, given the total processing power deployed, can also be
+    calculated.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Target difficulty is adjusted by the system every 2,016 blocks, or approximately
+    2 weeks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This is calculated by the Bitcoin software in such a way that the average time
+    to mine a block stays around 10 minutes. This 10-minute block time was chosen
+    as a reasonable compromise between speed and security of transactions on the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The computing power
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To give you an idea about the computer processing power mentioned here—it is
+    defined as a hash rate or number of hash function calculations per unit of time.
+    The most powerful Bitcoin mining chips currently can perform at a rate of 14 tera
+    hash per second. This is 14 trillion hash function calculations per second! And
+    a trillion is 1 with 12 zeros after it. A pretty large number, isn't it? You should
+    also consider that these chips are designed specifically to optimize the calculation
+    of this particular hash function and they cannot do anything else. They are called
+    **ASICs**, which stands for **application-specific integrated circuits**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s have a look at how difficulty has increased in line with the hash rate
+    over time. The following screenshot depicts difficulty over time:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2b4fa99a-216c-464d-bb1a-a2d2ac79bb62.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The hash rate over time is shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b784b899-c8da-4e92-8ef6-b20ade38798d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'To summarize, here are the key steps and takeaways from the mining process
+    we covered so far:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Miners collect new transaction data broadcast on the network and verify it against
+    a set of criteria, as per the Bitcoin protocols.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, miners order new verified transactions in blocks.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: After that, miners prepare the new block header and calculate Proof-of-Work.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The first miner to find a solution to the Proof-of-Work puzzle (in other words,
+    to compute a hash for the new block being mined), successfully mines this new
+    block and includes it in the blockchain as the latest block.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The successful miner gets the block reward for the work done in terms of newly
+    generated coins, which is known as the coinbase transaction.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The target difficulty for all miners on the network is adjusted by the protocol
+    every 2,016 blocks, which is approximately 2 weeks, in order to maintain the average
+    time between blocks of around 10 minutes. This adjustment is done in order to
+    account for the amount of computer processing power deployed by miners on the
+    network.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Thus, the more mining power is plugged in the system, the lower the bar is,
+    making the problem more difficult to solve, but the average block time is kept
+    at 10 minutes.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Next, we'll complete the puzzle of distributed consensus with some game theory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Decentralized consensus and game theory
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we will see how game theory comes into the picture.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Game theory** is the study of mathematical models of conflict and cooperation
+    between intelligent rational decision makers. It is mainly used in economics,
+    political science, and psychology, as well as in logic and computer science.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sounds exciting, doesn't it? Let's see how it applies to Bitcoin's decentralized
+    consensus.
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, we need to consider that Bitcoin mining is a capital-intensive business.
+    This means that miners need to make a large capital investment in expensive mining
+    computer hardware, also known as **mining rigs**. Bitcoin mining is so industrialized
+    nowadays that most of the hash power comes from large data centers, also called
+    **mining pools**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Besides capital expenses in physical hardware, there are also substantial operating
+    expenses to run a mining operation. Such expenses include electricity for running
+    the computers and for cooling them off. Remember that Bitcoin is a global transaction
+    network that runs 24*7, so mining computers run Proof-of-Work calculations non-stop.
+  prefs: []
+  type: TYPE_NORMAL
+- en: On top of that, there are property expenses for the physical location where
+    miners store their computers, internet bandwidth, maintenance expenses, and other
+    operating expenses.
+  prefs: []
+  type: TYPE_NORMAL
+- en: All these investments and costs are effectively put at stake by the miners and
+    are a huge economic incentive for them to act according to the Bitcoin protocol.
+    This effectively guarantees the security of the decentralized consensus mechanism
+    and the integrity of the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You may wonder: why is this such a solid guarantee?'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin mining is a very competitive business. Miners compete based on their
+    computer hash power to be the first to solve the Proof-of-Work puzzle, mine the
+    next block, and get the block reward. It is so competitive that at present it
+    is considered to be profitable only at places with very cheap electricity. A naturally
+    cold climate is a great advantage too.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Considering all these factors, the best course of action for any miner is to
+    follow the rules, verify transactions, and mine blocks in good faith. This gives
+    miners the best chance to generate revenues from block rewards, thus realizing
+    a return on their investment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If a miner doesn't follow the protocol when mining a new block, such a block
+    will not be accepted as valid by the other nodes on the network. This means no
+    block rewards, and substantial economic losses for the delinquent miner.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Examples of miner misbehavior
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's examine some scenarios of how a miner could potentially misbehave, and
+    what follows on from that.
+  prefs: []
+  type: TYPE_NORMAL
+- en: One such threat could be a miner who decides not to follow the rules for block
+    rewards and tries to grab more coins in the coinbase transaction. According to
+    the protocol, block rewards were 50 Bitcoin initially, with the issuing schedule
+    halving every 4 years. So, currently it is 12.5 Bitcoin after it has halved twice
+    since the launch of Bitcoin.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Consider a situation where a miner decides to try and reward himself or herself
+    with 1,000 Bitcoin for mining a block, rather than 12.5, as per the protocol.
+    Even if this greedy node successfully does the Proof-of-Work and comes up first
+    with a solution to the cryptographic puzzle, the block will be rejected by the
+    other nodes on the network. They will immediately spot the irregularity and will
+    not accept this as a valid block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You may wonder: how do they do this? How do the other nodes accept or reject
+    a new candidate block?'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, they check whether all the criteria for valid blocks are met in accordance
+    with the protocol. These include properly verified and recorded transactions,
+    link to a previous block's hash, correct block reward, timestamp, and Proof-of-Work,
+    among others.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If all is correct, but there are several valid candidate blocks or chains of
+    blocks on the network at the same time, miners always choose to mine and build
+    their new blocks on the longest chain. That is the chain with the most cumulative
+    work done that goes back to the genesis block and the first transaction ever made
+    by Satoshi. By selecting the parent block, which is the previous block in the
+    chain, miners effectively vote with their mining power on the state of the blockchain.
+    In this way, the original main valid chain is always extended, and more cumulative
+    Proof-of-Work is added to it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Each block mined on top of a given new block will count as one confirmation
+    of this block and all transactions in it. The more blocks are built on top of
+    a given block, the more confirmations this block has, and, therefore, the more
+    secure and immutable all transactions in it are.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The block reward coins become spendable after 100 block confirmations. This
+    is further protection embedded into the system to secure miners' integrity and
+    to mitigate any risks of manipulation attempts by miners, such as changing the
+    consensus rules, or double-spending.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Example of double-spending
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: What would happen if a miner tries to conspire and create double-spent transactions?
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Imagine the following scenario. John wants to buy a car with Bitcoin. He finds
+    a dealer of sports cars who accepts Bitcoin as a form of payment. John buys an
+    awesome orange Lamborghini for 10 Bitcoin. Right after the payment is made and
+    included in the blockchain as the top block, John drives away in his new Lambo.
+    The vendor has delivered the product with no delay. However, John has colluded
+    with Mr. Li who is a miner. Actually, Mr. Li operates a huge mining pool with
+    a lot of processing power. Think about a big data center full of computers dedicated
+    just to mining on the Bitcoin blockchain. Mr. Li immediately re-mines the same
+    block containing John''s payment to the car vendor, but this time the new re-mined
+    block sends the same payment John made back to his wallet. This is double-spending!
+    The same coins have been spent twice! John got the Lambo and his money back, so
+    he got the Lambo for free! This situation can be better illustrated in the following
+    diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/639c284d-6a4a-41f1-8476-86fb1befc0e7.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This situation creates a fork in the blockchain, meaning that two different
+    blocks were mined at the same height of the blockchain. In other words, they were
+    mined on top of the same parent block in a very close proximity. The next thing
+    Mr. Li does is to continue mining on the chain containing the double-spent transaction
+    to extend it and validate it further as the longest chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This kind of consensus attack is known as a 51% attack. Despite the name, it
+    doesn''t actually require 51% of the network hashing power; 51% is rather the
+    threshold at which such an attack is almost guaranteed to succeed. This can be
+    seen in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/52cd3644-1312-41a4-9a4f-5ffef4a627b3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Such a scenario could be prevented easily if the vendor waits for more block
+    confirmations before delivering the goods. Generally, after six block confirmations,
+    a transaction is considered pretty much immutable. Therefore, it is recommended
+    that large value purchases are delivered at least after six block confirmations,
+    which is around 1 hour. Small-value purchases can be delivered faster because
+    the risk of potential loss is smaller.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So, waiting for a sufficient number of block confirmations is one way to provide
+    security against potential 51% attacks and double-spending.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The architecture surrounding the Bitcoin network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Another protection embedded in the system comes again from the miners' economic
+    resources at stake. As we said, mining blocks and calculating Proof-of-Work consumes
+    a lot of resources. If any miners decide to try to attack and take control of
+    the network for their own benefit, this would be a very risky and expensive strategy.
+    It would require an immense amount of computing power in order to succeed. We
+    already mentioned the gigantic amount of hash power plugged in the Bitcoin network,
+    so this is what any delinquent miners need to compete with, in order to tamper
+    with the distributed ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The more blocks are built on top of a given block, the more confirmations it
+    has, and the harder it is to be manipulated. If any miners want to change a previous
+    block, in order to create double-spent transactions, divert funds, or for any
+    other reason, they would then need to re-mine all subsequent blocks. Moreover,
+    all this work would be done basically for free, as they wouldn't earn any meaningful
+    rewards on re-mined blocks. This is the case because their alternative chain would
+    be competing with the original chain to become the longest and main chain of blocks.
+    If not the longest, it would be ignored by the network, and no other miners would
+    validate it by working on extending it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Remember, miners always start building their new blocks on top of the longest
+    existing chain, which contains the most cumulative Proof-of-Work done since the
+    genesis block, the first block ever created. In this way, by linking each block
+    to its parent block through hashes that contain all the block information, the
+    entire network validates and confirms each and every transaction ever made on
+    the blockchain. Every 10 minutes, when a new block is added to the blockchain,
+    all transactions, right to the first one Satoshi made when he created Bitcoin,
+    are re-validated and re-confirmed by the entire network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Consider also that, while non-compliant nodes are re-mining past blocks, all
+    the other honest nodes keep mining on and extending the original main blockchain.
+    Therefore, the non-compliant nodes need to keep mining, at a faster rate than
+    all the rest of the network, deploying more processing power and consuming more
+    electricity, without any meaningful compensation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The further back in time such an attack on the blockchain occurs, the lower
+    the chance is that it would be feasible. And we are not talking years here, and
+    not even months. We are talking weeks and days. There are 144 block confirmations
+    in 24 hours. As we already mentioned, 100 block confirmations are required by
+    the Bitcoin protocol for block reward coins to become spendable, so this is considered
+    long enough to mitigate the risk of potential conflicts of interest for miners.
+  prefs: []
+  type: TYPE_NORMAL
+- en: That's why it is so hard for an attacker to manipulate or take control over
+    the Bitcoin blockchain. Now that the network has been live and up and running
+    for almost a decade, the computing power plugged in mining, supporting the blockchain,
+    and following the rules of the protocol, is enormous. This architecture probably
+    makes it much more robust than any other payment network infrastructure that has
+    ever existed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Consensus attacks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: It is important to mention one more thing about consensus attacks with regards
+    to their potential impact. Such attacks can potentially disrupt the security of
+    decentralized governance and availability of the network, but they cannot steal
+    or spend other people's funds. This is because the only way to control funds on
+    the blockchain is through private keys, which we covered in [Chapter 5](84ad3021-fae1-4e16-aaae-cee34e5d2bf6.xhtml),
+    *Five Forces of Bitcoin – #2 Cryptography*. Any potential consensus attackers
+    can only manipulate their own transactions on the blockchain, and possibly create
+    double-spent transactions with their own funds.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now we've covered the decentralized consensus mechanism that provides security
+    of the protocol by design. The Bitcoin blockchain architecture is incredibly effective
+    and efficient in providing tamper-proof, censorship resistant track of records.
+    It's hard to imagine a better accounting and record-keeping system, really.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s summarize all the factors in the Bitcoin mining and consensus process
+    that we covered:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mining is highly competitive. Miners compete with their computational resources
+    to mine blocks, satisfying the requirements of the decentralized consensus protocol.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: At each round of mining new blocks, the winner is the miner who is the first
+    to find a solution to the Proof-of-Work puzzle in a valid block.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The newly mined block is included in the blockchain by consensus expressed by
+    all miners, who immediately start building their new candidate blocks on top of
+    it. They do so by referencing its hash as a parent block to their new candidate
+    blocks
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The winning miner gets the block reward, which currently stands at 12.5 Bitcoin.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Security of the decentralized consensus mechanism is guaranteed by the miners'
+    economic resources at stake, the Proof-of-Work algorithm, and the huge amount
+    of hash power plugged in the network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned all about consensus algorithms and how they came
+    to be. We learned about the Byzantine Generals' Problem and how it is connected
+    to the world of Bitcoin. We learned all about the Proof-of-Work algorithm that
+    ensures the security and integrity of the Bitcoin protocol.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we will get to know about the extensive peer-to-peer network
+    that Bitcoin works on.
+  prefs: []
+  type: TYPE_NORMAL
