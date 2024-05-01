@@ -1,7 +1,9 @@
 - en: Chapter 8. Ethereum Development
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 第 8 章。以太坊开发
 - en: This chapter introduces the concepts, techniques, and tools related to Ethereum
     development. Several examples will be introduced in this chapter to complement
     the theoretical concepts provided in earlier chapters. This chapter will mainly
@@ -9,12 +11,16 @@
     using Ethereum blockchain. Detailed walkthrough examples will be provided that
     will help you understand how Ethereum and other supporting tools can be used to
     develop and deploy smart contracts on the blockchain.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章介绍与以太坊开发相关的概念、技术和工具。本章将介绍几个示例，以补充前几章提供的理论概念。本章将主要涵盖开发环境的设置以及如何使用以太坊区块链创建智能合约。将提供详细的实例步骤，帮助您了解如何利用以太坊和其他支持工具来开发和部署区块链上的智能合约。
 - en: Setting up a development environment
+  id: totrans-2
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 设置开发环境
 - en: The first task is to set up a development environment. The upcoming section
     introduces the ethereum setup for Test Net and Private Net. Test Net is called
     Ropsten and is used by developers or users as a test platform to test smart contracts
@@ -24,462 +30,697 @@
     contracts. While there are other clients available for Ethereum, such as Parity,
     which was discussed in the previous chapter, geth is the leading client for Ethereum
     and the common tool of choice, as such this chapter will use `geth` in the examples.
+  id: totrans-3
   prefs: []
   type: TYPE_NORMAL
+  zh: 第一个任务是设置开发环境。即将介绍的部分将介绍测试网络和私有网络的以太坊设置。测试网络称为 Ropsten，由开发人员或用户用作测试智能合约和其他与区块链相关的提案的测试平台。以太坊中的私有网络选项允许创建独立的私有网络，可用作参与实体之间的分布式分类帐以及智能合约的开发和测试。虽然以太坊还有其他客户端可用，例如在上一章中讨论的
+    Parity，但 geth 是以太坊的领先客户端和常见的选择工具，因此本章将在示例中使用 `geth`。
 - en: Test Net (Ropsten)
+  id: totrans-4
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: 测试网络（Ropsten）
 - en: 'The Ethereum Go client, `geth`, can be connected to the test network using
     the following command:'
+  id: totrans-5
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊 Go 客户端 `geth` 可以使用以下命令连接到测试网络：
 - en: '[PRE0]'
+  id: totrans-6
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: A sample output is shown in the following screenshot. The screenshot shows the
     type of the network chosen and various other pieces of information regarding the
     blockchain download.
+  id: totrans-7
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下屏幕截图显示了示例输出。屏幕截图显示了选择的网络类型以及有关区块链下载的各种其他信息。
 - en: A blockchain explorer for test net is located at [https://testnet.etherscan.io/](https://testnet.etherscan.io/)
     and can be used to trace transactions and blocks on the Ethereum test network.
+  id: totrans-8
   prefs: []
   type: TYPE_NORMAL
+  zh: 测试网络的区块链浏览器位于 [https://testnet.etherscan.io/](https://testnet.etherscan.io/)，可用于跟踪以太坊测试网络上的交易和区块。
 - en: '![Test Net (Ropsten)](img/image_08_001.jpg)'
+  id: totrans-9
   prefs: []
   type: TYPE_IMG
+  zh: '![测试网络（Ropsten）](img/image_08_001.jpg)'
 - en: Output of the geth command connecting to Ethereum test net
+  id: totrans-10
   prefs: []
   type: TYPE_NORMAL
+  zh: 运行连接到以太坊测试网络的 geth 命令的输出
 - en: Setting up a Private Net
+  id: totrans-11
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: 设置私有网络
 - en: 'Private Net allows the creation of an entirely new blockchain. This is different
     from Test Net or Main Net in the sense that it uses its on-genesis block and Network
     ID. In order to create Private Net, three components are needed:'
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 私有网络允许创建全新的区块链。这与测试网络或主网络不同，因为它使用自己的创世区块和网络 ID。为了创建私有网络，需要三个组件：
 - en: Network ID.
+  id: totrans-13
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 网络 ID。
 - en: Genesis file.
+  id: totrans-14
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 创世文件。
 - en: Data directory to store blockchain data. Even though data directory is not strictly
     required to be mentioned, if there is more than one blockchain already active
     on the system, then data directory should be specified so that a separate directory
     is used for the new blockchain.
+  id: totrans-15
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 用于存储区块链数据的数据目录。尽管数据目录不严格要求被提及，但如果系统上已经有一个以上的区块链活跃，那么应该指定数据目录，以便为新的区块链使用单独的目录。
 - en: Private Net allows the creation of an entirely new blockchain. This is different
     from Test Net or Main Net in the sense that it uses its own unique genesis block
     and Network ID. On Main Net, geth knows about peers by default and connects automatically,
     but on Private Net, geth needs to be configured by specifying appropriate flags
     and configuration in order for it to be able to be discoverable by other peers
     or to discover other peers.
+  id: totrans-16
   prefs: []
   type: TYPE_NORMAL
+  zh: 私有网络允许创建全新的区块链。这与测试网络或主网络不同，因为它使用自己独特的创世区块和网络 ID。在主网络上，geth 默认知道同行并自动连接，但在私有网络上，geth
+    需要通过指定适当的标志和配置来配置，以便能够被其他同行发现或发现其他同行。
 - en: In addition to the previously mentioned three components, it is desirable that
     you disable **node discovery** so that other nodes on the Internet cannot discover
     your private network and is truly private. If other networks happen to have the
     same genesis file and Network ID, they may connect to your Private Net. The chance
     of having the same Network ID and genesis block is very low, but, nevertheless,
     disabling node discovery is good practice, and is recommended.
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 除了前面提到的三个组件外，最好禁用**节点发现**，以便互联网上的其他节点无法发现您的私有网络，并且确实是私有的。如果其他网络恰好具有相同的创世文件和网络
+    ID，则它们可能连接到您的私有网络。具有相同网络 ID 和创世块的机会非常低，但是，无论如何，禁用节点发现是一个良好的做法，并且被推荐。
 - en: In the following section, all these parameters are discussed in detail with
     a practical example.
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: 在接下来的章节中，将详细讨论所有这些参数，并附有一个实际示例。
 - en: Network ID
+  id: totrans-19
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 网络 ID
 - en: Network ID can be any positive number except 1 and 3, which are already in use
     by Ethereum Main Net and Test Net (Ropsten), respectively. Network ID 786 has
     been chosen for the example private network discussed later in this section.
+  id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: 网络 ID 可以是除了以太坊主网络和测试网络（Ropsten）已经使用的 1 和 3 之外的任何正数。示例私有网络稍后在本节中讨论时选择了网络 ID 786。
 - en: The genesis file
+  id: totrans-21
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 创世文件
 - en: The genesis file contains necessary fields required for a custom genesis block.
     This is the first block in the network and does not point to any previous block.
     The Ethereum protocol performs rigorous checking in order to ensure that no other
     node on the Internet can participate in the consensus mechanism, unless they have
     the same genesis block.
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: 创世文件包含创建自定义创世块所需的必要字段。这是网络中的第一个区块，不指向任何上一个区块。以太坊协议进行严格的检查，以确保除非它们具有相同的创世块，否则互联网上的其他节点不能参与共识机制。
 - en: 'A custom genesis file that will be used later in the example is shown here:'
+  id: totrans-23
   prefs: []
   type: TYPE_NORMAL
+  zh: 在示例中稍后使用的自定义创世文件如下所示：
 - en: '[PRE1]'
+  id: totrans-24
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: This file can be saved in a text file with the JSON extension; for example,
     `privategenesis.json`. Optionally, ether can be preallocated by specifying beneficiary
     addresses and the amount of Wei in `alloc`, but it is usually not necessary as,
     being on the private network, ether can be mined very quickly.
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 此文件可以保存在带有 JSON 扩展名的文本文件中；例如，`privategenesis.json`。可选地，可以通过在 `alloc` 中指定受益人地址和
+    Wei 金额来预先分配以太币，但通常是不必要的，因为在私有网络上，以太币可以很快被挖出。
 - en: Data directory
+  id: totrans-26
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 数据目录
 - en: This is the directory where the blockchain data for the private Ethereum network
     will be saved. For example, in the following example, it is `~/.ethereum/privatenet`.
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是保存私有以太坊网络的区块链数据的目录。例如，在以下示例中，它是 `~/.ethereum/privatenet`。
 - en: In the geth client, a number of parameters are specified in order to launch,
     further fine-tune the configuration, and launch the private network. These flags
     are listed here.
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 geth 客户端中，为了启动、进一步微调配置并启动私有网络，需要指定一些参数。这些标志在这里列出。
 - en: Flags and their meaning
+  id: totrans-29
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 标志及其含义
 - en: '`--nodiscover`: Th`i`s flag ensures that the node is not automatically discoverable
     if it happens to have the same genesis file and Network ID.'
+  id: totrans-30
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--nodiscover`: 此标志确保节点不会自动被发现，如果恰好具有相同的创世文件和网络 ID。'
 - en: '`--maxpeers`: This flag is used to specify the number of peers allowed to be
     connected to the private net. If it is set to 0, then no one will be able to connect,
     which might be desirable in a few scenarios, such as private testing.'
+  id: totrans-31
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--maxpeers`: 此标志用于指定允许连接到私有网络的对等方数量。如果设置为 0，则没有人能够连接，这在一些场景中可能是可取的，比如私有测试。'
 - en: '`--rpc`: This is used to enable the RPC interface in geth.'
+  id: totrans-32
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--rpc`: 这用于在 geth 中启用 RPC 接口。'
 - en: '`--rpcapi`: This flag takes a list of APIs to be allowed as a parameter. For
     example, `eth,web3` will enable the web3 and eth interface over RPC.'
+  id: totrans-33
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--rpcapi`: 此标志以允许的 API 列表作为参数。例如，`eth,web3` 将在 RPC 上启用 web3 和 eth 接口。'
 - en: '`--rpcport`: This sets up the TCP RPC port; for example: 9999.'
+  id: totrans-34
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--rpcport`: 这设置 TCP RPC 端口；例如：9999。'
 - en: '`--rpccorsdomain`: This flag specifies the URL that is allowed to connect to
     the private geth node and perform RPC operations.'
+  id: totrans-35
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--rpccorsdomain`: 此标志指定允许连接到私有 geth 节点并执行 RPC 操作的 URL。'
 - en: '`--port`: This specifies the TCP port that will be used to listen to the incoming
     connections from other peers.'
+  id: totrans-36
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--port`: 这指定将用于监听来自其他对等方的传入连接的 TCP 端口。'
 - en: '`--identity`: This flag is a string that specifies the name of a private node.'
+  id: totrans-37
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--identity`: 此标志是一个字符串，指定私有节点的名称。'
 - en: Static nodes
+  id: totrans-38
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 静态节点
 - en: 'If there is a need to connect to a specific set of peers, then these nodes
     can be added to a file where the `chaindata` and `keystore` files are saved, for
     example, in the `~/.ethereum/privatenet` directory. The filename should be `static-nodes.json`.
     This can be valuable in a private network. An example of the json file is shown
     as follows:'
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果有需要连接到特定一组对等节点，则这些节点可以添加到一个文件中，该文件保存了`chaindata`和`keystore`文件，例如在`~/.ethereum/privatenet`目录下。文件名应该是`static-nodes.json`。在私有网络中，这样做是有价值的。下面是一个json文件的示例：
 - en: '[PRE2]'
+  id: totrans-40
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: Here, `xxx` is the public IP address and `TCP_PORT` can be any valid and available
     TCP port on the system. The long hex string is the node ID.
+  id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里，`xxx`是公共IP地址，`TCP_PORT`可以是系统上的任何有效和可用的TCP端口。长十六进制字符串是节点ID。
 - en: Starting up the private network
+  id: totrans-42
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: 启动私有网络
 - en: 'The initial command to start the private network is shown as follows:'
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: 启动私有网络的初始命令如下所示：
 - en: '[PRE3]'
+  id: totrans-44
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: 'This will produce an output similar to what is shown in the following screenshot:'
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将产生类似于以下截图所显示的输出：
 - en: '![Starting up the private network](img/image_08_002.jpg)'
+  id: totrans-46
   prefs: []
   type: TYPE_IMG
+  zh: '![启动私有网络](img/image_08_002.jpg)'
 - en: Private network initialization
+  id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 私有网络初始化
 - en: 'This output indicates that a genesis block has been created successfully. In
     order for `geth` to start, the following command can be issued:'
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 此输出表明已成功创建了创世区块。为了启动`geth`，可以输入以下命令：
 - en: '[PRE4]'
+  id: totrans-49
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: 'This will produce the following output:'
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将产生以下输出：
 - en: '![Starting up the private network](img/image_08_003.jpg)'
+  id: totrans-51
   prefs: []
   type: TYPE_IMG
+  zh: '![启动私有网络](img/image_08_003.jpg)'
 - en: Starting geth for a private network
+  id: totrans-52
   prefs: []
   type: TYPE_NORMAL
+  zh: 启动私有网络的geth
 - en: 'Now `geth` can be attached via IPC to the running geth client on a private
     network using the following command. This will allow you to interact with the
     running `geth` session on the private network:'
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在`geth`可以通过IPC连接到私有网络上运行的geth客户端，使用以下命令。这将允许您与私有网络上运行的`geth`会话进行交互：
 - en: '[PRE5]'
+  id: totrans-54
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'As shown here, this will open the interactive JavaScript console for the running
     Private Net session:'
+  id: totrans-55
   prefs: []
   type: TYPE_NORMAL
+  zh: 如图所示，这将打开运行私有网络会话的交互式JavaScript控制台：
 - en: '![Starting up the private network](img/image_08_004.jpg)'
+  id: totrans-56
   prefs: []
   type: TYPE_IMG
+  zh: '![启动私有网络](img/image_08_004.jpg)'
 - en: Starting geth to attach with Private Net 786
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 启动`geth`以连接到私有网络786
 - en: You may have noticed that a warning message appears when `geth` starts up.
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可能已经注意到，当`geth`启动时会出现警告消息。
 - en: Note
+  id: totrans-59
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 注意
 - en: 'WARNING: No etherbase set and no accounts found as default'
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 警告：没有设置以太坊基址，并且没有找到任何默认账户。
 - en: This message appears because there are no accounts currently available in the
     new test network and no account is set as etherbase to receive mining rewards.
     This issue can be addressed by creating a new account and setting that account
     as etherbase. This will also be required when mining is carried out on the test
     network. This is shown in the following commands. Note that these commands are
     entered in the geth JavaScript console, as shown in the preceding figure.
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 此消息出现是因为新的测试网络中当前没有可用的账户，也没有设定任何账户作为以太坊基址来接收挖矿奖励。这个问题可以通过创建一个新账户并将其设置为以太坊基址来解决。在进行测试网络的挖矿时也需要这样做。以下命令显示了这一点。注意，这些命令是在geth
+    JavaScript控制台中输入的，如前面的图所示。
 - en: 'The following command creates a new account. In this context, the account will
     be created on the Private Network ID 786:'
+  id: totrans-62
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面的命令创建一个新的账户。在这个上下文中，账户将在私有网络ID 786上创建：
 - en: '[PRE6]'
+  id: totrans-63
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: 'Once the account is created, the next step is to set it as an Etherbase/coinbase
     account so that the mining reward goes to this account. This can be achieved using
     the following command:'
+  id: totrans-64
   prefs: []
   type: TYPE_NORMAL
+  zh: 账户创建完成后，下一步是将其设置为以太坊基址/coinbase账户，以便挖矿奖励进入该账户。可以使用以下命令来实现这一点：
 - en: '[PRE7]'
+  id: totrans-65
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: 'Currently, the etherbase account has no balance, as can be seen using the following
     command:'
+  id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 目前，以太坊基址账户没有余额，可以使用以下命令查看：
 - en: '[PRE8]'
+  id: totrans-67
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: 'Finally, mining can start by simply issuing the following command. This command
     takes one parameter that is a number of threads. In the following example, two
     threads will be allocated to the mining process by specifying 2 as an argument
     to the start function:'
+  id: totrans-68
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，可以通过简单地发出以下命令启动挖矿。这个命令接受一个参数，即线程数。在下面的示例中，通过指定2作为start函数的参数，两个线程将被分配给挖矿进程：
 - en: '[PRE9]'
+  id: totrans-69
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: 'After mining starts, the first DAG generation is carried out and output similar
     to the following is produced:'
+  id: totrans-70
   prefs: []
   type: TYPE_NORMAL
+  zh: 挖矿开始后，首个DAG生成被执行，产生类似以下输出：
 - en: '![Starting up the private network](img/image_08_005.jpg)'
+  id: totrans-71
   prefs: []
   type: TYPE_IMG
+  zh: '![启动私有网络](img/image_08_005.jpg)'
 - en: DAG generation
+  id: totrans-72
   prefs: []
   type: TYPE_NORMAL
+  zh: DAG生成
 - en: Once DAG generation is finished and mining starts, `geth` will produce output
     similar to that shown in the following screenshot. It can be clearly seen that
     blocks are being mined successfully with the `Mined 5 blocks . . .` message.
+  id: totrans-73
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦DAG生成完成并开始挖矿，`geth`将产生类似于下面截图所示的输出。可以清楚地看到，块正在成功挖掘，显示`已挖掘5个区块...`的消息。
 - en: '![Starting up the private network](img/image_08_006.jpg)'
+  id: totrans-74
   prefs: []
   type: TYPE_IMG
+  zh: '![启动私有网络](img/image_08_006.jpg)'
 - en: Mining output
+  id: totrans-75
   prefs: []
   type: TYPE_NORMAL
+  zh: 挖掘输出
 - en: 'Mining can be stopped using the following command:'
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用以下命令停止挖矿：
 - en: '[PRE10]'
+  id: totrans-77
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: 'In the JavaScript console, the current balance of total ether can be queried,
     as shown here. After mining, a significant amount can be seen in the following
     example. Mining is extremely fast as it is a private network and in the genesis
     file, the network difficulty has also been set quite low:'
+  id: totrans-78
   prefs: []
   type: TYPE_NORMAL
+  zh: 在JavaScript控制台中，可以查询总以太币的当前余额，如下所示。挖矿之后，可以看到相当大的数量，如下例所示。由于是私有网络，并且在初始文件中，网络难度也已经设置得相当低，因此挖矿非常快：
 - en: '[PRE11]'
+  id: totrans-79
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: 'If two spaces and two tabs are pressed in a sequence, a complete of list of
     the available objects will be displayed. This is shown in the following screenshot:'
+  id: totrans-80
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果连续按两次空格和两次tab键，则会显示所有可用对象的完整列表。如下截图所示：
 - en: '![Starting up the private network](img/image_08_007.jpg)'
+  id: totrans-81
   prefs: []
   type: TYPE_IMG
+  zh: '![启动私有网络](img/image_08_007.jpg)'
 - en: Available objects
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: 可用对象
 - en: 'Furthermore, when a command is typed, it can be autocompleted by pressing tab
     twice. If two tabs are pressed, then the list of available methods is also displayed.
     This is shown in the following screenshot:'
+  id: totrans-83
   prefs: []
   type: TYPE_NORMAL
+  zh: 此外，当输入命令时，可以按两次tab键来自动完成命令。如果按两次tab键，则还会显示可用方法的列表。如下截图所示：
 - en: '![Starting up the private network](img/image_08_008.jpg)'
+  id: totrans-84
   prefs: []
   type: TYPE_IMG
+  zh: '![启动私有网络](img/image_08_008.jpg)'
 - en: Available methods
+  id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: 可用方法
 - en: 'In addition to the previously mentioned command, in order to get a list of
     available methods, after typing any command,`;` (semicolon) is entered. An example
     is shown in the next screenshot, which shows a list of all the methods available
     for `net`:'
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 除了之前提到的命令之外，为了获得可用方法列表，在输入任何命令后，输入`;`（分号）。下一个截图中显示了一个示例，显示了所有可用于`net`的方法列表：
 - en: '![Starting up the private network](img/image_08_009.jpg)'
+  id: totrans-87
   prefs: []
   type: TYPE_IMG
+  zh: '![启动私有网络](img/image_08_009.jpg)'
 - en: List of methods
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 方法列表
 - en: 'There are a few other commands that can be used to query the private network.
     Some examples are shown as follows:'
+  id: totrans-89
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用一些其他命令来查询私有网络。下面是一些示例：
 - en: 'Get the current gas price:'
+  id: totrans-90
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取当前的燃气价格：
 - en: '[PRE12]'
+  id: totrans-91
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: 'Get the latest block number:'
+  id: totrans-92
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取最新的区块编号：
 - en: '[PRE13]'
+  id: totrans-93
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: 'Debug can come in handy when debugging issues. A sample command is shown here;
     however, there are many methods available. The following method will return the
     RLP of block `0`:'
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 调试在调试问题时可能会派上用场。下面显示了一个样例命令；但是，有许多可用方法。下面的方法将返回块`0`的RLP：
 - en: '**Encode using RLP**:'
+  id: totrans-95
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**使用RLP进行编码**：'
 - en: '[PRE14]'
+  id: totrans-96
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: '**Unlock the account before sending transactions**:'
+  id: totrans-97
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**在发送交易之前解锁账户**：'
 - en: '[PRE15]'
+  id: totrans-98
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: '**Send transactions**:'
+  id: totrans-99
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**发送交易**:'
 - en: '[PRE16]'
+  id: totrans-100
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: 'Another way is to use `listAccounts[]` method, this can be done as shown below:'
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 另一种方法是使用`listAccounts[]`方法，如下所示：
 - en: '[PRE17]'
+  id: totrans-102
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE17]'
 - en: 'Get a list of compilers. Note that if no output is shown, it means that no
     solidity compiler is installed; solidity compiler installation details are provided
     later in the chapter:'
+  id: totrans-103
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取编译器列表。请注意，如果没有显示任何输出，则表示未安装sol的编译器；sol编译器的安装细节将在本章的后面提供：
 - en: '[PRE18]'
+  id: totrans-104
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE18]'
 - en: Running Mist on Private Net
+  id: totrans-105
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 在私有网络上运行Mist
 - en: 'It is possible to run Mist on Private Net by issuing the following command.
     This binary is usually available in the `home` folder after the installation of
     `/opt/Ethereum`:'
+  id: totrans-106
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以通过发出以下命令在私有网络上运行Mist。在安装`/opt/Ethereum`后，此二进制文件通常在`home`文件夹中可用：
 - en: '[PRE19]'
+  id: totrans-107
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE19]'
 - en: This will allow a connection to the running Private Net `geth` session, and
     it provides all features, such as wallet, account management, and contract deployment
     on Private Net via Mist.
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将允许连接到运行中的私有网络`geth`会话，并通过Mist在私有网络上提供钱包、账户管理和合同部署等所有功能。
 - en: '![Running Mist on Private Net](img/image_08_010.jpg)'
+  id: totrans-109
   prefs: []
   type: TYPE_IMG
+  zh: '![在私有网络上运行Mist](img/image_08_010.jpg)'
 - en: Running Ethereum Wallet to connect to Private Net
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: 运行以太坊钱包连接到私有网络
 - en: Once Ethereum is launched, it will show the interface shown here, indicating
     clearly that it's running in the **PRIVATE-NET** mode.
+  id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦以太坊启动，它将显示此处显示的界面，清楚地表明它正在**私有网络**模式下运行。
 - en: '![Running Mist on Private Net](img/image_08_011.jpg)'
+  id: totrans-112
   prefs: []
   type: TYPE_IMG
+  zh: '![在私有网络上运行Mist](img/image_08_011.jpg)'
 - en: Mist on Private Net
+  id: totrans-113
   prefs: []
   type: TYPE_NORMAL
+  zh: 私有网络上的Mist
 - en: 'Mist can also run over the network using RPC. This is useful if `geth` is running
     on a different node and Mist on another. This can be achieved by running Mist
     with the flag shown here:'
+  id: totrans-114
   prefs: []
   type: TYPE_NORMAL
+  zh: Mist也可以通过RPC在网络上运行。如果`geth`在不同节点上运行而Mist在另一个节点上运行，这将非常有用。这可以通过在这里显示的标志运行Mist来实现：
 - en: '[PRE20]'
+  id: totrans-115
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE20]'
 - en: Deploying contracts using Mist
+  id: totrans-116
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 使用Mist部署合同
 - en: It is very easy to deploy new contracts using Mist. Mist provides an interface
     where contracts can be written in solidity and then deployed on the network.
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用Mist非常容易部署新的合同。Mist提供了一个界面，可以在其中用solidity编写合同，然后在网络上部署。
 - en: In the exercise, a simple contract that can perform various simple arithmetic
     calculations on the input parameter will be used. Steps on how to use Mist to
     deploy this contract are shown here. As solidity has not been introduced yet,
@@ -488,229 +729,345 @@
     chapter, after which it will become easy to understand the code shown. Those of
     you who are already familiar with JavaScript or any other similar language will
     find the code almost self-explanatory.
+  id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这个练习中，将使用一个简单的合同对输入参数执行各种简单的算术计算。这里将展示如何使用Mist部署此合同。因为solidity尚未介绍，所以这里的目的是让用户体验合同部署和交互过程。本章后面将提供更多关于编码和solidity的信息，之后就会很容易理解所示的代码。那些熟悉JavaScript或任何其他类似语言的人会发现代码几乎是不言自明的。
 - en: 'The example contract source code is shown as follows:'
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 示例合同源代码如下所示：
 - en: '[PRE21]'
+  id: totrans-120
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE21]'
 - en: This code can simply be copied into Mist under the contracts section, as shown
     here. On the left-hand side, the source code can be copied; once verified and
     when no syntax errors are detected, the option to deploy the contract will appear
     in the drop-down menu on the right-hand side where it says **SELLECT CONTRACT
     TO DEPLOY**. Simply select the contract and press the D**eploy** button at the
     bottom of the screen.
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 此代码可以简单地复制到Mist的合同部分，如下所示。在左侧，可以复制源代码；一旦验证并且没有检测到语法错误，将出现在右侧下拉菜单中的**选择要部署的合同**选项。只需选择合同并按下屏幕底部的**部署**按钮。
 - en: '![Deploying contracts using Mist](img/image_08_012.jpg)'
+  id: totrans-122
   prefs: []
   type: TYPE_IMG
+  zh: '![使用Mist部署合同](img/image_08_012.jpg)'
 - en: Mist browser contract deployment
+  id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: Mist浏览器合同部署
 - en: 'Mist will ask for the password of the account and will show a window similar
     to the one in the following screenshot:'
+  id: totrans-124
   prefs: []
   type: TYPE_NORMAL
+  zh: Mist将要求输入帐户密码，并显示类似于下面截屏的窗口：
 - en: '![Deploying contracts using Mist](img/image_08_013.jpg)'
+  id: totrans-125
   prefs: []
   type: TYPE_IMG
+  zh: '![使用Mist部署合同](img/image_08_013.jpg)'
 - en: Create a contract using Mist
+  id: totrans-126
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用Mist创建合同
 - en: Enter the password and click on **SEND TRANSACTION** to deploy the contract.
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 输入密码，然后点击**发送交易**以部署合同。
 - en: 'Once deployed and mined successfully, it will appear in the list of transactions
     in Mist, as shown here:'
+  id: totrans-128
   prefs: []
   type: TYPE_NORMAL
+  zh: 成功部署和挖矿后，它将出现在Mist的交易列表中，如下所示：
 - en: '![Deploying contracts using Mist](img/image_08_014.jpg)'
+  id: totrans-129
   prefs: []
   type: TYPE_IMG
+  zh: '![使用Mist部署合同](img/image_08_014.jpg)'
 - en: List of transactions after creation in Mist
+  id: totrans-130
   prefs: []
   type: TYPE_NORMAL
+  zh: 在Mist中创建合同后的交易列表
 - en: Once the contract is available, it can be interacted with using the execute
     transaction and calling available functions via Mist.
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦合同可用，可以使用Mist执行交易并通过它调用可用函数与之交互。
 - en: '![Deploying contracts using Mist](img/image_08_015.jpg)'
+  id: totrans-132
   prefs: []
   type: TYPE_IMG
+  zh: '![使用Mist部署合同](img/image_08_015.jpg)'
 - en: Interaction with the contract using read and write options in Mist
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
+  zh: 在Mist中使用读取和写入选项与合同交互
 - en: In the preceding screenshot, the **READ FROM CONTRACT** and **WRITE TO CONTRACT**
     options are available. Also, the function that has been exposed by the contract
     can be seen on the right-hand side. Once the required function is selected, the
     appropriate value is entered for the function and the account (execute from) is
     selected; press execute in order to execute the transaction, which will result
     in calling the selected function of the contract.
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面的截图中，**从合同读取**和**写入合同**选项可用。此外，可以在右侧看到合同公开的函数。选择所需函数后，为函数输入适当的值并选择帐户（从which执行）；按下执行以执行交易，这将导致调用合同的选定函数。
 - en: 'This process is shown in the following screenshot:'
+  id: totrans-135
   prefs: []
   type: TYPE_NORMAL
+  zh: 此过程如下截屏所示：
 - en: '![Deploying contracts using Mist](img/image_08_016.jpg)'
+  id: totrans-136
   prefs: []
   type: TYPE_IMG
+  zh: '![使用Mist部署合同](img/image_08_016.jpg)'
 - en: Contract execution in Mist
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
+  zh: Mist中的合同执行
 - en: As shown in the screenshot, enter the appropriate password for the account and
     then press **SEND TRANSACTION** to send the transaction to the contract.
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 如截图所示，输入账户的适当密码，然后按下 **发送交易** 将交易发送到合同。
 - en: Development tools and clients
+  id: totrans-139
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 开发工具和客户端
 - en: 'There are a number of tools available for Ethereum development. The following
     diagram shows the taxonomy of various development tools, clients, IDEs, and development
     frameworks for Ethereum:'
+  id: totrans-140
   prefs: []
   type: TYPE_NORMAL
+  zh: 有许多可用于以太坊开发的工具。 下图显示了各种开发工具、客户端、IDE 和开发框架的分类法：
 - en: '![Development tools and clients](img/B05975_08_14-2.jpg)'
+  id: totrans-141
   prefs: []
   type: TYPE_IMG
+  zh: '![开发工具和客户端](img/B05975_08_14-2.jpg)'
 - en: Taxonomy of Ethereum ecosystem components
+  id: totrans-142
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊生态系统组件的分类法
 - en: In this chapter, the main focus will be on `geth`, browser solidity, solidity,
     solc, and truffle. Rest of the elements will be discussed briefly.
+  id: totrans-143
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，主要关注 `geth`、浏览器 solidity、solidity、solc 和 truffle。 其余元素将简要讨论。
 - en: Languages
+  id: totrans-144
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: 语言
 - en: 'Contracts can be programmed in a variety of languages. There are four languages
     that can be used in order to write contracts:'
+  id: totrans-145
   prefs: []
   type: TYPE_NORMAL
+  zh: 合同可以用多种语言编程。 有四种语言可以用于编写合同：
 - en: '**Mutan**: This is a Go-style language, which was deprecated in early 2015
     and is no longer used.'
+  id: totrans-146
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Mutan**：这是一种类似 Go 的语言，早在 2015 年初就已被弃用，现在已不再使用。'
 - en: '**LLL**: This is a Lisp-like language, hence the name LLL. This is also not
     used anymore.'
+  id: totrans-147
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**LLL**：这是一种类似 Lisp 的语言，因此命名为 LLL。 这也不再使用。'
 - en: '**Serpent**: This is a simple and clean Python-like language. It is actively
     used for contract development.'
+  id: totrans-148
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Serpent**：这是一种简单干净的类 Python 语言。 它被积极用于合同开发。'
 - en: '**Solidity**: This language has now become almost a standard for contract writing
     for Ethereum. This language is the focus of this chapter and is discussed in detail
     in later sections.'
+  id: totrans-149
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Solidity**：这种语言现在几乎已成为以太坊合同编写的标准。 本章的重点是该语言，将在后面的章节中详细讨论。'
 - en: Compilers
+  id: totrans-150
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: 编译器
 - en: Compilers are used to convert high-level contract source code into the format
     that the Ethereum execution environment understands. The solidity compiler is
     the most common one in use and is discussed here.
+  id: totrans-151
   prefs: []
   type: TYPE_NORMAL
+  zh: 编译器用于将高级合同源代码转换为以太坊执行环境所理解的格式。 Solidity 编译器是最常用的，这里进行了讨论。
 - en: Solc
+  id: totrans-152
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: Solc
 - en: The solidity compiler converts from a high-level solidity language into **Ethereum
     Virtual Machine** (**EVM**) bytecode so that it can be executed on the blockchain
     by EVM.
+  id: totrans-153
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 编译器将高级 solidity 语言转换为 **以太坊虚拟机**（**EVM**）字节码，以便通过 EVM 在区块链上执行。
 - en: 'The solidity compiler on a Linux Ubuntu operating system can be installed using
     the following commands:'
+  id: totrans-154
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Linux Ubuntu 操作系统上安装 solidity 编译器的命令如下：
 - en: '[PRE22]'
+  id: totrans-155
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE22]'
 - en: 'If PPAs are not already installed, those can be installed by running the following
     command:'
+  id: totrans-156
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果尚未安装 PPAs，则可以通过运行以下命令来安装它们：
 - en: '[PRE23]'
+  id: totrans-157
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE23]'
 - en: 'In order to verify the existing version of the solidity compiler and verify
     that it is installed, the following command can be used:'
+  id: totrans-158
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了验证现有版本的 solidity 编译器并验证其已安装，可以使用以下命令：
 - en: '[PRE24]'
+  id: totrans-159
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE24]'
 - en: 'Solc supports a variety of functions. A few examples are shown as follows:'
+  id: totrans-160
   prefs: []
   type: TYPE_NORMAL
+  zh: Solc 支持各种功能。 一些示例如下所示：
 - en: Display contract in a binary format.![Solc](img/image_08_018.jpg)
+  id: totrans-161
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 以二进制格式显示合同。![Solc](img/image_08_018.jpg)
 - en: Solidity compiler binary output
+  id: totrans-162
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: Solidity 编译器的二进制输出
 - en: 'Estimate gas:'
+  id: totrans-163
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 估算 gas：
 - en: '[PRE25]'
+  id: totrans-164
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE25]'
 - en: Note that `contrat1.sol` is shown as an example only; the file can contain any
     smart contract solidity code. The code of the file is not shown here.
+  id: totrans-165
   prefs: []
   type: TYPE_NORMAL
+  zh: 注意 `contrat1.sol` 仅作为示例显示； 文件可以包含任何智能合同 solidity 代码。 该文件的代码未在此处显示。
 - en: 'Solc is used internally by web3 from the `geth` console in order to compile
     the contract. The syntax is shown here, and `contractsourcecode` is the solidity
     source code:'
+  id: totrans-166
   prefs: []
   type: TYPE_NORMAL
+  zh: Solc 在 `geth` 控制台内部由 web3 使用以编译合同。 语法如下所示，其中 `contractsourcecode` 是 solidity
+    源代码：
 - en: '[PRE26]'
+  id: totrans-167
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE26]'
 - en: This is discussed in detail later in the chapter when you will be introduced
     to contract development.
+  id: totrans-168
   prefs: []
   type: TYPE_NORMAL
+  zh: 等你开始介绍合同开发时，这将在本章后面详细讨论。
 - en: Integrated Development Environments (IDEs)
+  id: totrans-169
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 集成开发环境（IDE）
 - en: There are various IDEs available for solidity development. Most of the IDEs
     are available online and are presented via web interfaces. Browser solidity is
     most commonly used for smaller contracts and is discussed here.
+  id: totrans-170
   prefs: []
   type: TYPE_NORMAL
+  zh: 有许多可用于 solidity 开发的 IDE。 大多数 IDE 可在线获取，并通过 Web 界面呈现。 浏览器 solidity 最常用于较小的合同，并在此处进行讨论。
 - en: Browser solidity
+  id: totrans-171
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 浏览器 solidity
 - en: 'Browser solidity is the web-based environment for the development and testing
     of contracts using solidity. It does not run on a live blockchain; in fact, it
     is a simulated environment in which contracts can be deployed, tested, and debugged.
     It is available at [https://ethereum.github.io/browser-solidity](https://ethereum.github.io/browser-solidity).
     An example interface is shown as follows:'
+  id: totrans-172
   prefs: []
   type: TYPE_NORMAL
+  zh: 浏览器 solidity 是使用 solidity 进行合约开发和测试的基于 web 的环境。它不在实时区块链上运行；事实上，它是一个模拟环境，可以在其中部署、测试和调试合约。它位于
+    [https://ethereum.github.io/browser-solidity](https://ethereum.github.io/browser-solidity)。示例界面如下所示：
 - en: '![Browser solidity](img/image_08_019.jpg)'
+  id: totrans-173
   prefs: []
   type: TYPE_IMG
+  zh: '![浏览器 solidity](img/image_08_019.jpg)'
 - en: Browser solidity
+  id: totrans-174
   prefs: []
   type: TYPE_NORMAL
+  zh: 浏览器 solidity
 - en: On the left-hand side, there is a code editor with syntax highlighting and code
     formatting, and on the right-hand side, there are a number of tools available
     that can be used to deploy, debug, test, and interact with the contract. Various
@@ -721,262 +1078,405 @@
     provided the execution environment--or Web3 provider, which allows connection
     to the locally running Ethereum client (for example, `geth`) via IPC or RPC over
     HTTP (web3 provider endpoint).
+  id: totrans-175
   prefs: []
   type: TYPE_NORMAL
+  zh: 在左侧是带有语法高亮和代码格式化的代码编辑器，右侧是一些可用的工具，可以用来部署、调试、测试和与合约交互。可用的各种功能，例如交易交互、连接到 JavaScript
+    VM 的选项、执行环境配置、调试器、形式验证和静态分析等都可以用。它们可以配置为连接到执行环境，例如 JavaScript VM、注入的 Web3（Mist
+    或类似环境提供了执行环境）或 Web3 提供程序，它允许通过 IPC 或 RPC over HTTP（web3 提供程序端点）连接到本地运行的以太坊客户端（例如，`geth`）。
 - en: Remix
+  id: totrans-176
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: Remix
 - en: After the Mix IDE was discontinued in August 2016, the Remix project was started.
     Remix is a browser-based IDE that is under heavy development currently and only
     the debugger part of it is available as of now. This debugger is very powerful
     and can be used to perform detailed level tracing and analysis of the EVM byte
     code. In the following section, installation and usage examples of Remix are presented.
+  id: totrans-177
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 2016 年 8 月 Mix IDE 停止使用后，启动了 Remix 项目。Remix 是一个基于浏览器的 IDE，目前正在积极开发中，目前仅提供了其中的调试器部分。这个调试器非常强大，可以用来执行对
+    EVM 字节码的详细级别跟踪和分析。在下一节中，将介绍 Remix 的安装和使用示例。
 - en: Installation
+  id: totrans-178
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 安装
 - en: 'Remix is available at [https://github.com/ethereum/remix](https://github.com/ethereum/remix).
     The first step is to clone the GitHub repository:'
+  id: totrans-179
   prefs: []
   type: TYPE_NORMAL
+  zh: Remix 可在 [https://github.com/ethereum/remix](https://github.com/ethereum/remix)
+    上获得。第一步是克隆 GitHub 存储库：
 - en: '[PRE27]'
+  id: totrans-180
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE27]'
 - en: 'After the preceding steps are completed successfully, execute the following
     command:'
+  id: totrans-181
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前述步骤成功完成后，执行以下命令：
 - en: '[PRE28]'
+  id: totrans-182
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE28]'
 - en: 'At this point, either `npm run start_node` can be run, or `geth` can be started
     up using the appropriate flags. Once `geth` is up and running, a simple web server
     can be run in order to serve the remix web page. Now `geth` can be started up
     with the following command:'
+  id: totrans-183
   prefs: []
   type: TYPE_NORMAL
+  zh: '在这一点上，可以运行`npm run start_node`，或者可以使用适当的标志启动`geth`。一旦`geth`运行起来，就可以运行一个简单的网络服务器来提供
+    remix 网页服务。现在可以使用以下命令启动`geth`：  '
 - en: '[PRE29]'
+  id: totrans-184
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE29]'
 - en: Notice the `--rpcapi` flag; it is required in order to allow `web3`, `eth`,
     `debug` over RPC.
+  id: totrans-185
   prefs: []
   type: TYPE_NORMAL
+  zh: 注意`--rpcapi`标志；它是必需的，以便允许通过 RPC 进行`web3`、`eth`、`debug`。
 - en: 'If `npm run start_node` is run, the following message may appear:'
+  id: totrans-186
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果运行`npm run start_node`，可能会出现以下消息：
 - en: '[PRE30]'
+  id: totrans-187
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE30]'
 - en: 'Assuming `geth` is required, use the following command:'
+  id: totrans-188
   prefs: []
   type: TYPE_NORMAL
+  zh: 假设需要`geth`，请使用以下命令：
 - en: '[PRE31]'
+  id: totrans-189
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE31]'
 - en: If `geth` was opted to be run, then a simple web server is required to browse
     to the remix web page. This can be achieved simply by issuing a Python command,
     as follows. This should be run from the `remix` directory.
+  id: totrans-190
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果选择运行`geth`，那么需要一个简单的网络服务器才能浏览到 remix 网页。可以通过发出 Python 命令来简单实现这一点，如下所示。这应该是从`remix`目录运行的。
 - en: '![Installation](img/image_08_020.jpg)'
+  id: totrans-191
   prefs: []
   type: TYPE_IMG
+  zh: '![安装](img/image_08_020.jpg)'
 - en: Python quick web server
+  id: totrans-192
   prefs: []
   type: TYPE_NORMAL
+  zh: Python 快速网络服务器
 - en: 'Once the command is successful and the web server is running, remix can be
     browsed using the `http://localhost:7777` URL, as shown in the following screenshot:'
+  id: totrans-193
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦命令成功并且网络服务器正在运行，就可以使用`http://localhost:7777` URL 浏览 remix，如下截图所示：
 - en: '![Installation](img/image_08_021.jpg)'
+  id: totrans-194
   prefs: []
   type: TYPE_IMG
+  zh: '![安装](img/image_08_021.jpg)'
 - en: Web browser showing remix running and served via TCP 7777
+  id: totrans-195
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用 TCP 7777 运行 remix 并通过 web 浏览器显示
 - en: 'Remix is also available as part of browser solidity (browser solidity has been
     discussed separately earlier). It can be connected to the local Private Net by
     providing the web3 provider endpoint. This is shown as follows:'
+  id: totrans-196
   prefs: []
   type: TYPE_NORMAL
+  zh: Remix 也作为浏览器 solidity 的一部分可用（浏览器 solidity 已在前面单独讨论过）。 它可以通过提供 web3 提供程序端点连接到本地私有网络。
+    如下所示：
 - en: '![Installation](img/image_08_022.jpg)'
+  id: totrans-197
   prefs: []
   type: TYPE_IMG
+  zh: '![安装](img/image_08_022.jpg)'
 - en: 'The **Web3 Provider** option on browser solidity to connect to the local `geth`
     node is as follows:'
+  id: totrans-198
   prefs: []
   type: TYPE_NORMAL
+  zh: 浏览器 solidity 中连接到本地`geth`节点的**Web3 提供程序**选项如下：
 - en: '![Installation](img/image_08_023.jpg)'
+  id: totrans-199
   prefs: []
   type: TYPE_IMG
+  zh: '![安装](img/image_08_023.jpg)'
 - en: Remix Debugger in browser solidity
+  id: totrans-200
   prefs: []
   type: TYPE_NORMAL
+  zh: 浏览器 solidity 中的 Remix 调试器
 - en: Tools and libraries
+  id: totrans-201
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 工具和库
 - en: There are various tools and libraries available for Ethereum. The most common
     ones are discussed here.
+  id: totrans-202
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊有各种工具和库可用。 最常见的是在此讨论的。
 - en: Node.js version 7
+  id: totrans-203
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: Node.js 版本 7
 - en: 'As Node js is required for most of the tools and libraries, it can be installed
     using the following commands:'
+  id: totrans-204
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于大多数工具和库都需要 Node.js，因此可以使用以下命令安装它：
 - en: '[PRE32]'
+  id: totrans-205
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE32]'
 - en: Local Ethereum block explorer
+  id: totrans-206
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 本地以太坊区块浏览器
 - en: 'Local Ethereum block explorer is a useful tool that can be used to explore
     the local blockchain. This can be installed by following these steps:'
+  id: totrans-207
   prefs: []
   type: TYPE_NORMAL
+  zh: 本地以太坊区块浏览器是一个有用的工具，可用于探索本地区块链。 可按照以下步骤安装：
 - en: 'On a Linux Ubuntu machine, run the following command in order to install the
     local Ethereum block explorer:'
+  id: totrans-208
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Linux Ubuntu 机器上，为了安装本地以太坊区块浏览器，请运行以下命令：
 - en: '[PRE33]'
+  id: totrans-209
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE33]'
 - en: 'This will show output similar to the following:'
+  id: totrans-210
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将显示类似于以下内容的输出：
 - en: '[PRE34]'
+  id: totrans-211
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE34]'
 - en: 'The next step is to change the directory to the explorer and run the following
     commands:'
+  id: totrans-212
   prefs: []
   type: TYPE_NORMAL
+  zh: 下一步是更改目录到浏览器并运行以下命令：
 - en: '[PRE35]'
+  id: totrans-213
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE35]'
 - en: 'Once the installation is finished, output similar to the following will be
     shown, where the HTTP server for Ethereum explorer starts up:'
+  id: totrans-214
   prefs: []
   type: TYPE_NORMAL
+  zh: 安装完成后，将显示类似于以下内容的输出，其中以太坊区块浏览器的 HTTP 服务器启动：
 - en: '![Local Ethereum block explorer](img/image_08_024.jpg)'
+  id: totrans-215
   prefs: []
   type: TYPE_IMG
+  zh: '![本地以太坊区块浏览器](img/image_08_024.jpg)'
 - en: Ethereum explorer HTTP server
+  id: totrans-216
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊区块浏览器 HTTP 服务器
 - en: 'Once the web server is up, `geth` should be started up using the following
     command:'
+  id: totrans-217
   prefs: []
   type: TYPE_NORMAL
+  zh: Web 服务器启动后，应使用以下命令启动`geth`：
 - en: '[PRE36]'
+  id: totrans-218
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE36]'
 - en: After a successful start up of `geth`, navigate to the localhost on TCP `port
     8000`, as shown here, in order to access the local Ethereum block explorer.
+  id: totrans-219
   prefs: []
   type: TYPE_NORMAL
+  zh: 成功启动`geth`后，请导航到 TCP `port 8000` 上的 localhost，如此处所示，以访问本地以太坊区块浏览器。
 - en: '![Local Ethereum block explorer](img/image_08_025.jpg)'
+  id: totrans-220
   prefs: []
   type: TYPE_IMG
+  zh: '![本地以太坊区块浏览器](img/image_08_025.jpg)'
 - en: Block explorer
+  id: totrans-221
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块浏览器
 - en: 'Alternatively, the web server can be started up using Python or any other appropriate
     provider. In Python, a quick web server can started, as shown in the following
     code:'
+  id: totrans-222
   prefs: []
   type: TYPE_NORMAL
+  zh: 或者，可以使用 Python 或任何其他适当的提供程序启动 Web 服务器。 在 Python 中，可以启动一个快速的 Web 服务器，如以下代码所示：
 - en: '[PRE37]'
+  id: totrans-223
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE37]'
 - en: 'The `geth` client will need to be started up with appropriate parameters. If
     not, an error like that shown in the following screenshot can occur:'
+  id: totrans-224
   prefs: []
   type: TYPE_NORMAL
+  zh: '`geth`客户端将需要使用适当的参数启动。 如果不这样做，则可能会出现如下所示的错误：'
 - en: '![Local Ethereum block explorer](img/image_08_026.jpg)'
+  id: totrans-225
   prefs: []
   type: TYPE_IMG
+  zh: '![本地以太坊区块浏览器](img/image_08_026.jpg)'
 - en: Error message Ethereum local block explorer
+  id: totrans-226
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊本地区块浏览器错误消息
 - en: 'Restart `geth` to allow `rpccorsdomain`:'
+  id: totrans-227
   prefs: []
   type: TYPE_NORMAL
+  zh: 重新启动`geth`以允许`rpccorsdomain`：
 - en: '[PRE38]'
+  id: totrans-228
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE38]'
 - en: EthereumJS
+  id: totrans-229
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: EthereumJS
 - en: At times, it is not possible to test on the Test Net and Main Net is obviously
     not a place to test the contracts. Private Net can be time consuming to set up
     at times. EthereumJS testrpc comes in handy when quick testing is required and
     no proper test net is available. It uses EthereumJS to simulate the Ethereum `geth`
     client behavior and allows for faster development testing. Testrpc is available
     via npm as a node package.
+  id: totrans-230
   prefs: []
   type: TYPE_NORMAL
+  zh: 有时，无法在测试网络上进行测试，而主网络显然不适合测试合同。 在某些情况下，建立私有网络可能会耗费时间。 当需要快速测试且没有适当的测试网络可用时，EthereumJS
+    testrpc 是个好选择。 它使用 EthereumJS 模拟以太坊`geth`客户端的行为，并允许更快的开发测试。 Testrpc 可通过 npm 作为节点软件包获得。
 - en: Before installing testrpc, Node.js should already have been installed and the
     npm package manager should also be available.
+  id: totrans-231
   prefs: []
   type: TYPE_NORMAL
+  zh: 在安装 testrpc 之前，应已安装 Node.js，并且 npm 软件包管理器也应可用。
 - en: 'Testrpc can be installed using this command:'
+  id: totrans-232
   prefs: []
   type: TYPE_NORMAL
+  zh: testrpc 可以使用此命令安装：
 - en: '[PRE39]'
+  id: totrans-233
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE39]'
 - en: In order to start testrpc, simply issue this command and keep it running in
     the background and open another terminal to work on contracts.
+  id: totrans-234
   prefs: []
   type: TYPE_NORMAL
+  zh: 要启动 testrpc，只需执行此命令，并将其保持在后台运行，并打开另一个终端以处理合同。
 - en: '[PRE40]'
+  id: totrans-235
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE40]'
 - en: Contract development and deployment
+  id: totrans-236
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: 合同开发和部署
 - en: 'There are various steps that need to be taken in order to develop and deploy
     the contracts. Broadly, these can be divided into four steps: writing, testing,
     verification, and deployment. After deployment, the next step is to create the
     user interface and present it to the end users via a web server.'
+  id: totrans-237
   prefs: []
   type: TYPE_NORMAL
+  zh: 开发和部署合同需要采取各种步骤。广义上讲，这些可以分为四个步骤：编写、测试、验证和部署。部署后，下一步是创建用户界面并通过 Web 服务器向最终用户呈现。
 - en: The writing step is concerned with writing the contract source code in solidity.
     This can be done in any text editor. There are various plugins and add-ons available
     for Vim in Linux, Atom, and other editors that provide syntax highlighting and
     formatting for solidity source code.
+  id: totrans-238
   prefs: []
   type: TYPE_NORMAL
+  zh: 写作步骤涉及在 solidity 中编写合同源代码。这可以在任何文本编辑器中完成。在 Linux 的 Vim、Atom 和其他编辑器中有各种插件和附加组件可用，提供
+    solidity 源代码的语法突出显示和格式化。
 - en: Testing is usually performed by automated means. Later in the chapter, you will
     be introduced to truffle, which uses the Mocha framework to test contracts. However,
     manual testing can be performed as well. Once the contract is verified, working,
     and tested on a simulated environment (for example, EthereumJS testrpc) or on
     Private Net, it can be deployed to Ropsten Test Net and finally to live blockchain
     (Homestead).
+  id: totrans-239
   prefs: []
   type: TYPE_NORMAL
+  zh: 测试通常是通过自动化手段来执行的。在本章后面，您将被介绍到 truffle，它使用 Mocha 框架来测试合同。然而，也可以进行手动测试。一旦合同在模拟环境（例如
+    EthereumJS testrpc）或私有网络上经过验证、工作正常并经过测试，它就可以部署到 Ropsten 测试网，最后再到实际的区块链（Homestead）上。
 - en: In the next section, you will be introduced to language solidity. This is a
     brief introduction to solidity, which should provide the base knowledge required
     in order to write the contracts. The syntax is very similar to C and JavaScript,
     and it is quite easy to program.
+  id: totrans-240
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一节中，您将被介绍到 solidity 语言。这是 solidity 的一个简要介绍，应该提供编写合同所需的基础知识。其语法非常类似于 C 和 JavaScript，编程起来相当容易。
 - en: Introducing solidity
+  id: totrans-241
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 介绍 solidity
 - en: Solidity is a domain-specific language of choice for programming contracts in
     Ethereum. There are, however, other languages, such as serpent, Mutan, and LLL
     but solidity is the most popular at the time of writing this. Its syntax is closer
@@ -984,8 +1484,11 @@
     few years and is quite easy to use, but it still has a long way to go before it
     can become advanced and feature-rich like other well-established languages. Nevertheless,
     this is the most widely used language available for programming contracts currently.
+  id: totrans-242
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 是以太坊中编写合同的首选领域特定语言。然而，还有其他语言，如 serpent、Mutan 和 LLL，但在撰写本文时，solidity
+    是最受欢迎的。其语法更接近 JavaScript 和 C。Solidity 在过去几年里已经发展成为一种成熟的语言，使用起来相当容易，但在成为像其他成熟语言一样先进和功能丰富之前还有很长的路要走。尽管如此，这是当前最广泛使用的编写合同的语言。
 - en: It is a statically typed language, which means that variable type checking in
     solidity is carried out at compile time. Each variable, either state or local,
     must be specified with a type at compile time. This is beneficial in the sense
@@ -994,264 +1497,405 @@
     cycle instead of at run time, which could be costly, especially in the case of
     the blockchain/smart contracts paradigm. Other features of the language include
     inheritance, libraries, and the ability to define composite data types.
+  id: totrans-243
   prefs: []
   type: TYPE_NORMAL
+  zh: 它是一种静态类型语言，这意味着在 solidity 中，变量类型检查是在编译时进行的。每个变量，无论是状态变量还是局部变量，都必须在编译时指定类型。这在某种程度上是有益的，因为任何验证和检查都在编译时完成，某些类型的错误，例如数据类型的解释错误，可以在开发周期的早期而不是运行时捕获，这可能是昂贵的，特别是在区块链/智能合约范式的情况下。语言的其他特性包括继承、库和定义复合数据类型的能力。
 - en: Solidity is also a called contract-oriented language. In solidity, contracts
     are equivalent to the concept of classes in other object-oriented programming
     languages.
+  id: totrans-244
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 也被称为合同导向语言。在 solidity 中，合同相当于其他面向对象编程语言中的类的概念。
 - en: Types
+  id: totrans-245
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: 类型
 - en: 'Solidity has two categories of data types: value types and reference types.'
+  id: totrans-246
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 有两类数据类型：值类型和引用类型。
 - en: Value types
+  id: totrans-247
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 值类型
 - en: These are explained in detail here.
+  id: totrans-248
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些在这里被详细解释。
 - en: Boolean
+  id: totrans-249
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 布尔型
 - en: 'This data type has two possible values, true or false, for example:'
+  id: totrans-250
   prefs: []
   type: TYPE_NORMAL
+  zh: 此数据类型有两个可能的值，即 true 或 false，例如：
 - en: '[PRE41]'
+  id: totrans-251
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE41]'
 - en: This statement assigns the value `true` to `v`.
+  id: totrans-252
   prefs: []
   type: TYPE_NORMAL
+  zh: 此语句将值`true`赋给`v`。
 - en: Integers
+  id: totrans-253
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 整数
 - en: This data type represents integers. A table is shown here, which shows various
     keywords used to declare integer data types.
+  id: totrans-254
   prefs: []
   type: TYPE_NORMAL
+  zh: 此数据类型表示整数。这里显示了一个表，显示了用于声明整数数据类型的各种关键字。
 - en: '| Keyword | Types | Details |'
+  id: totrans-255
   prefs: []
   type: TYPE_TB
+  zh: '| 关键词 | 类型 | 详情 |'
 - en: '| `int` | Signed integer | int8 to int256, which means that keywords are available
     from int8 up to int256 in increments of 8, for example, int8, int16, int24. |'
+  id: totrans-256
   prefs: []
   type: TYPE_TB
+  zh: '| `int` | 有符号整数 | int8到int256，这意味着关键字从int8到int256以8的增量可用，例如，int8，int16，int24。
+    |'
 - en: '| `uint` | Unsigned integer | uint8 to uint256 |'
+  id: totrans-257
   prefs: []
   type: TYPE_TB
+  zh: '| `uint` | 无符号整数 | uint8到uint256 |'
 - en: 'For example, in this code, note that `uint` is an alias for `uint256`:'
+  id: totrans-258
   prefs: []
   type: TYPE_NORMAL
+  zh: 例如，在此代码中，请注意`uint`是`uint256`的别名：
 - en: '[PRE42]'
+  id: totrans-259
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE42]'
 - en: 'These types can also be declared with the `constant` keyword, which means that
     no storage slot will be reserved by the compiler for these variables. In this
     case, each occurrence will be replaced with the actual value:'
+  id: totrans-260
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些类型也可以用`constant`关键字声明，这意味着编译器不会为这些变量保留存储槽。在这种情况下，每次出现都将替换为实际值：
 - en: '[PRE43]'
+  id: totrans-261
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE43]'
 - en: State variables are declared outside the body of a function, and they remain
     available throughout the contract depending on the accessibility assigned to them
     and as long as the contract persists.
+  id: totrans-262
   prefs: []
   type: TYPE_NORMAL
+  zh: 状态变量在函数体外声明，并且根据分配给它们的可访问性保留在合同中，并且只要合同存在，它们就会保持可用状态。
 - en: Address
+  id: totrans-263
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 地址
 - en: 'This data type holds a 160-bit long (20 byte) value. This type has several
     members that can be used to interact with and query the contracts. These members
     are described here:'
+  id: totrans-264
   prefs: []
   type: TYPE_NORMAL
+  zh: 此数据类型保存一个160位长（20字节）的值。此类型有几个成员，可用于与合同进行交互和查询。这些成员在此处描述：
 - en: '**Balance**'
+  id: totrans-265
   prefs: []
   type: TYPE_NORMAL
+  zh: '**余额**'
 - en: The balance member returns the balance of the address in Wei.
+  id: totrans-266
   prefs: []
   type: TYPE_NORMAL
+  zh: 余额成员返回以太币地址的余额。
 - en: '**Send**'
+  id: totrans-267
   prefs: []
   type: TYPE_NORMAL
+  zh: '**发送**'
 - en: 'This member is used to send an amount of ether to an address (Ethereum''s 160-bit
     address) and returns true or false depending on the result of the transaction,
     for example, the following:'
+  id: totrans-268
   prefs: []
   type: TYPE_NORMAL
+  zh: 此成员用于向地址（以太坊的160位地址）发送以太币数量，并根据交易结果返回true或false，例如，如下所示：
 - en: '[PRE44]'
+  id: totrans-269
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE44]'
 - en: '**Call functions**'
+  id: totrans-270
   prefs: []
   type: TYPE_NORMAL
+  zh: '**调用函数**'
 - en: The `call`, `callcode`, and `delegatecall` are provided in order to interact
     with functions that do not have **Application Binary Interface** (**ABI**). These
     functions should be used with caution as they are not safe to use due to the impact
     on type safety and security of the contracts.
+  id: totrans-271
   prefs: []
   type: TYPE_NORMAL
+  zh: '`call`，`callcode`和`delegatecall`用于与没有**应用程序二进制接口**（**ABI**）的函数进行交互。由于对合同的类型安全性和安全性的影响，应谨慎使用这些功能。'
 - en: Array value types (fixed size and dynamically sized byte arrays)
+  id: totrans-272
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 数组值类型（固定大小和动态大小的字节数组）
 - en: Solidity has fixed size and dynamically sized byte arrays. Fixed size keywords
     range from `bytes1` to `bytes32`, whereas dynamically sized keywords include bytes
     and strings. `bytes` are used for raw byte data and string is used for strings
     encoded in UTF-8\. As these arrays are returned by the value, calling them will
     incur gas cost. `length` is a member of array value types and returns the length
     of the byte array.
+  id: totrans-273
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity具有固定大小和动态大小的字节数组。固定大小关键字范围从`bytes1`到`bytes32`，而动态大小关键字包括bytes和strings。`bytes`用于原始字节数据，string用于以UTF-8编码的字符串。由于这些数组是按值返回的，调用它们将产生gas成本。`length`是数组值类型的成员，返回字节数组的长度。
 - en: 'An example of a static (fixed size) array is as follows:'
+  id: totrans-274
   prefs: []
   type: TYPE_NORMAL
+  zh: 静态（固定大小）数组的示例如下：
 - en: '[PRE45]'
+  id: totrans-275
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE45]'
 - en: 'An example of a dynamically sized array is as follows:'
+  id: totrans-276
   prefs: []
   type: TYPE_NORMAL
+  zh: 动态大小数组的示例如下：
 - en: '[PRE46]'
+  id: totrans-277
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE46]'
 - en: 'Get `length` of trades:'
+  id: totrans-278
   prefs: []
   type: TYPE_NORMAL
+  zh: 获取交易的`length`：
 - en: '[PRE47]'
+  id: totrans-279
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE47]'
 - en: Literals
+  id: totrans-280
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 字面量
 - en: These are used to represent a fixed value.
+  id: totrans-281
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些用于表示固定值。
 - en: Integer literals
+  id: totrans-282
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 整数字面量
 - en: 'Integer literals are a sequence of decimal numbers in the range of 0-9\. An
     example is shown as follows:'
+  id: totrans-283
   prefs: []
   type: TYPE_NORMAL
+  zh: 整数字面量是0-9范围内的十进制数字序列。例如，如下所示：
 - en: '[PRE48]'
+  id: totrans-284
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE48]'
 - en: String literals
+  id: totrans-285
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 字符串字面量
 - en: 'String literals specify a set of characters written with double or single quotes.
     An example is shown as follows:'
+  id: totrans-286
   prefs: []
   type: TYPE_NORMAL
+  zh: 字符串字面量指定用双引号或单引号写的一组字符。例如，如下所示：
 - en: '[PRE49]'
+  id: totrans-287
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE49]'
 - en: Hexadecimal literals
+  id: totrans-288
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 十六进制字面量
 - en: 'Hexadecimal literals are prefixed with the keyword hex and specified within
     double or single quotation marks. An example is shown as follows:'
+  id: totrans-289
   prefs: []
   type: TYPE_NORMAL
+  zh: 十六进制字面量以关键字`hex`为前缀，并在双引号或单引号中指定。例如，如下所示：
 - en: '[PRE50]'
+  id: totrans-290
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE50]'
 - en: Enums
+  id: totrans-291
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 枚举类型
 - en: 'This allows the creation of user-defined types. An example is shown as follows:'
+  id: totrans-292
   prefs: []
   type: TYPE_NORMAL
+  zh: 这允许创建用户定义的类型。例如，如下所示：
 - en: '[PRE51]'
+  id: totrans-293
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE51]'
 - en: Explicit conversion to and from all integer types is allowed with enums.
+  id: totrans-294
   prefs: []
   type: TYPE_NORMAL
+  zh: 枚举类型允许与所有整数类型之间的显式转换。
 - en: Function types
+  id: totrans-295
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 函数类型
 - en: 'There are two function types: internal and external functions.'
+  id: totrans-296
   prefs: []
   type: TYPE_NORMAL
+  zh: 有两种函数类型：内部函数和外部函数。
 - en: Internal functions
+  id: totrans-297
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 内部函数
 - en: These can be used only within the context of the current contract.
+  id: totrans-298
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些只能在当前合约的上下文中使用。
 - en: External functions
+  id: totrans-299
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 外部函数
 - en: External functions can be called via external function calls.
+  id: totrans-300
   prefs: []
   type: TYPE_NORMAL
+  zh: 外部函数可以通过外部函数调用来调用。
 - en: A function in solidity can be marked as a constant. Constant functions cannot
     change anything in the contract; they only return values when they are invoked
     and do not cost any gas. This is the practical implementation of the concept of
     *call* as discussed in the previous chapter.
+  id: totrans-301
   prefs: []
   type: TYPE_NORMAL
+  zh: 在Solidity中，函数可以标记为常量。常量函数无法更改合约中的任何内容；它们仅在被调用时返回值，且不消耗任何燃气。这是前一章讨论的*call*概念的实际实现。
 - en: 'The syntax to declare a function is shown as follows:'
+  id: totrans-302
   prefs: []
   type: TYPE_NORMAL
+  zh: 声明函数的语法如下所示：
 - en: '[PRE52]'
+  id: totrans-303
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE52]'
 - en: Reference types
+  id: totrans-304
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 引用类型
 - en: As the name suggests, these types are passed by reference and are discussed
     in the following section.
+  id: totrans-305
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如其名称所示，这些类型是通过引用传递的，并在以下部分讨论。
 - en: Arrays
+  id: totrans-306
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 数组
 - en: 'Arrays represent a contiguous set of elements of the same size and type laid
     out at a memory location. The concept is the same as any other programming language.
     Arrays have two members named `length` and `push`:'
+  id: totrans-307
   prefs: []
   type: TYPE_NORMAL
+  zh: 数组表示在内存位置处排列的相同大小和类型的连续元素集合。这个概念与任何其他编程语言相同。数组有两个成员分别命名为`length`和`push`：
 - en: '[PRE53]'
+  id: totrans-308
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE53]'
 - en: Structs
+  id: totrans-309
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 结构体
 - en: 'These constructs can be used to group a set of dissimilar data types under
     a logical group. These can be used to define new types, as shown in the following
     example:'
+  id: totrans-310
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些结构可以用来将一组不同的数据类型分组到一个逻辑组中。这些可以用于定义新类型，如下例所示：
 - en: '[PRE54]'
+  id: totrans-311
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE54]'
 - en: Data location
+  id: totrans-312
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 数据位置
 - en: Data location specifies where a particular complex data type will be stored.
     Depending on the default or annotation specified, the location can be storage
     or memory. This is applicable to arrays and structs and can be specified using
@@ -1262,150 +1906,220 @@
     By default, parameters of functions are stored in **memory**, whereas all other
     local variables make use of **storage**. State variables, on the other hand, are
     required to use **storage**.
+  id: totrans-313
   prefs: []
   type: TYPE_NORMAL
+  zh: 数据位置指定了一个特定复杂数据类型将被存储的位置。根据默认或指定的注释，位置可以是存储或内存。这适用于数组和结构体，并可以使用**storage**或**memory**关键字指定。由于在内存和存储之间复制可能非常昂贵，指定位置有助于在某些时候控制燃气支出。**Calldata**是另一个用于存储函数参数的内存位置。外部函数的参数默认存储在**calldata**中。默认情况下，函数的参数存储在**memory**中，而所有其他局部变量都使用**storage**。另一方面，状态变量需要使用**storage**。
 - en: Mappings
+  id: totrans-314
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 映射
 - en: 'Mappings are used for a key to value mapping. This is a way to associate a
     value with a key. All values in this map are already initialized with all zeroes,
     for example, the following:'
+  id: totrans-315
   prefs: []
   type: TYPE_NORMAL
+  zh: 映射用于键到值的映射。这是一种将值与键关联起来的方法。此映射中的所有值已经用所有零初始化，例如，以下内容：
 - en: '[PRE55]'
+  id: totrans-316
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE55]'
 - en: 'This example shows that `offers` is declared as a mapping. Another example
     makes this clearer:'
+  id: totrans-317
   prefs: []
   type: TYPE_NORMAL
+  zh: 此示例显示`offers`被声明为映射。另一个示例使其更加清晰：
 - en: '[PRE56]'
+  id: totrans-318
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE56]'
 - en: This is basically a dictionary or a hash table where string values are mapped
     to integer values. The mapping named `bids` has a `packt` string value mapped
     to value `10`.
+  id: totrans-319
   prefs: []
   type: TYPE_NORMAL
+  zh: 这基本上是一个字典或哈希表，其中字符串值被映射到整数值。名为`bids`的映射将`packt`字符串值映射到值`10`。
 - en: Global variables
+  id: totrans-320
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 全局变量
 - en: Solidity provides a number of global variables that are always available in
     the global namespace. These variables provide information about blocks and transactions.
     Additionally, cryptographic functions and address-related variables are available
     as well.
+  id: totrans-321
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity提供了许多全局变量，这些变量始终可用于全局命名空间。这些变量提供有关区块和交易的信息。此外，加密函数和与地址相关的变量也是可用的。
 - en: 'A subset of available functions and variables is shown as follows:'
+  id: totrans-322
   prefs: []
   type: TYPE_NORMAL
+  zh: 可用函数和变量的子集如下所示：
 - en: '[PRE57]'
+  id: totrans-323
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE57]'
 - en: 'This function is used to compute the `keccak256` hash of the argument provided
     to the function:'
+  id: totrans-324
   prefs: []
   type: TYPE_NORMAL
+  zh: 此函数用于计算提供给函数的参数的`keccak256`哈希值：
 - en: '[PRE58]'
+  id: totrans-325
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE58]'
 - en: 'This function returns the associated address of the public key from the elliptic
     curve signature:'
+  id: totrans-326
   prefs: []
   type: TYPE_NORMAL
+  zh: 此函数返回椭圆曲线签名的公钥的相关地址：
 - en: '[PRE59]'
+  id: totrans-327
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE59]'
 - en: This returns the current block number.
+  id: totrans-328
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将返回当前区块号。
 - en: Control structures
+  id: totrans-329
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 控制结构
 - en: Control structures available in solidity are `if - else`, `do`, `while`, `for`,
     `break`, `continue`, `return`. They work in a manner similar to how they work
     in C-language or JavaScript.
+  id: totrans-330
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity中可用的控制结构为`if - else`，`do`，`while`，`for`，`break`，`continue`，`return`。它们的工作方式类似于它们在C语言或JavaScript中的工作方式。
 - en: Events
+  id: totrans-331
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 事件
 - en: Events in solidity can be used to log certain events in EVM logs. These are
     quite useful when external interfaces are required to be notified of any change
     or event in the contract. These logs are stored on the blockchain in transaction
     logs. Logs cannot be accessed from the contracts but are used as a mechanism to
     notify change of state or the occurrence of an event (meeting a condition) in
     the contract.
+  id: totrans-332
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity中的事件可以用于记录EVM日志中的特定事件。当需要通知外部接口合同中的任何更改或事件时，这些事件非常有用。这些日志存储在区块链上的事务日志中。日志无法从合约中访问，但它们被用作通知合同中状态变化或事件发生（满足条件）的机制。
 - en: 'In a simple example here, the `valueEvent` event will return true if the `x`
     parameter passed to `function Matcher` is equal to or greater than `10`:'
+  id: totrans-333
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里的简单示例中，如果传给`function Matcher`的参数`x`等于或大于`10`，则`valueEvent`事件将返回true：
 - en: '[PRE60]'
+  id: totrans-334
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE60]'
 - en: Inheritance
+  id: totrans-335
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 继承
 - en: 'Inheritance is supported in solidity. The `is` keyword is used to derive a
     contract from another contract. In the following example, `valueChecker2` is derived
     from the `valueChecker` contract. The derived contract has access to all nonprivate
     members of the parent contract:'
+  id: totrans-336
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity支持继承。`is`关键字用于从另一个合约派生合约。在下面的示例中，`valueChecker2`是从`valueChecker`合约派生出来的。派生合约可以访问父合约的所有非私有成员：
 - en: '[PRE61]'
+  id: totrans-337
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE61]'
 - en: In the preceding example, if `uint8 price = 10` is changed to `uint8 private
     price = 10`, then it will not be accessible by the `valuechecker2` contract. This
     is because now the member is declared as private, it is not allowed to be accessed
     by any other contract.
+  id: totrans-338
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面的示例中，如果将`uint8 price = 10`更改为`uint8 private price = 10`，那么它将无法被`valuechecker2`合约访问。这是因为现在该成员被声明为私有，不允许其他合约访问它。
 - en: Libraries
+  id: totrans-339
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 库
 - en: 'Libraries are deployed only once at a specific address and their code is called
     via CALLCODE/DELEGATECALL Opcode of the EVM. The key idea behind libraries is
     code reusability. They are similar to contracts and act as base contracts to the
     calling contracts. A library can be declared as shown in the following example:'
+  id: totrans-340
   prefs: []
   type: TYPE_NORMAL
+  zh: 库仅在特定地址部署一次，其代码通过EVM的CALLCODE/DELEGATECALL操作码进行调用。库背后的关键思想是代码的重用性。它们类似于合约，并且充当调用合约的基础合约。库的声明如下示例所示：
 - en: '[PRE62]'
+  id: totrans-341
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE62]'
 - en: 'This library can then be called in the contract, as shown here. First, it needs
     to be imported and it can be used anywhere in the code. A simple example is shown
     as follows:'
+  id: totrans-342
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后可以在合约中调用此库，如下所示。首先，它需要被导入，然后可以在代码中的任何位置使用。以下是一个简单示例：
 - en: '[PRE63]'
+  id: totrans-343
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE63]'
 - en: There are a few limitations with libraries; for example, they cannot have state
     variables and cannot inherit or be inherited. Moreover, they cannot receive Ether
     either; this is in contrast to contracts that can receive Ether.
+  id: totrans-344
   prefs: []
   type: TYPE_NORMAL
+  zh: 库有一些限制；例如，它们不能拥有状态变量，也不能继承或被继承。此外，它们也不能接收以太币；这与可以接收以太币的合约形成鲜明对比。
 - en: Functions
+  id: totrans-345
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 函数
 - en: 'Functions in solidity are modules of code that are associated with a contract.
     Functions are declared with a name, optional parameters, access modifier, optional
     constant keyword, and optional return type. This is shown in the following example:'
+  id: totrans-346
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity中的函数是与合约关联的代码模块。函数使用名称、可选参数、访问修饰符、可选的constant关键字和可选的返回类型进行声明。如下示例所示：
 - en: '[PRE64]'
+  id: totrans-347
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE64]'
 - en: In the preceding example, `function` is the keyword used to declare the function.
     `orderMatcher` is the function name, `uint x` is an optional parameter, `private`
     is the **access modifier/specifier** that controls access to the function from
@@ -1413,75 +2127,104 @@
     function does not change anything in the contract but is used only to retrieve
     values from the contract instead, and `returns (bool returnvalue)` is the optional
     return type of the function.
+  id: totrans-348
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面的示例中，`function`是用于声明函数的关键字。`orderMatcher`是函数名，`uint x`是一个可选参数，`private`是控制外部合约对函数访问的**访问修饰符/指示符**，`constant`是一个可选关键字，用于指定该函数不会改变合约中的任何内容，而是仅用于从合约中检索值，并且`returns
+    (bool returnvalue)`是函数的可选返回类型。
 - en: '**How to define a function**: The syntax of defining a function is shown as
     follows:'
+  id: totrans-349
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**如何定义函数**：定义函数的语法如下所示：'
 - en: '[PRE65]'
+  id: totrans-350
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE65]'
 - en: '**Function signature**: Functions in solidity are identified by its signature,
     which is the first four bytes of the keccak-256 hash of its full signature string.
     This is also visible in browser solidity, as shown in the following screenshot.
     **D99c89cb** is the first four bytes of 32 byte keccak-256 hash of the function
     named **Matcher**.![Functions](img/image_08_027.jpg)'
+  id: totrans-351
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**函数签名**：在 solidity 中，函数通过其签名来标识，这是其完整签名字符串的keccak-256哈希的前四个字节。这也可在浏览器 solidity
+    中看到，如下截图所示。**D99c89cb**是名为**Matcher**的函数的32字节keccak-256哈希的前四个字节。![Functions](img/image_08_027.jpg)'
 - en: Function hash as shown in browser solidity
+  id: totrans-352
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 在浏览器 solidity 中显示的函数 hash
 - en: In this example function, **Matcher** has the signature hash of **d99c89cb**.
     This information is useful in order to build interfaces.
+  id: totrans-353
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这个例子函数中，**Matcher**的签名哈希是**d99c89cb**。这对于构建接口是有用的。
 - en: '**Input parameters of a function**: Input parameters of a function are declared
     in the form of <data type> <parameter name>. This example clarifies the concept
     where `uint x` and `uint y` are input parameters of the `checkValues` function:'
+  id: totrans-354
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**函数的输入参数**：函数的输入参数以<data type> <parameter name>的形式声明。这个例子阐明了`uint x`和`uint
+    y`是`checkValues`函数的输入参数的概念：'
 - en: '[PRE66]'
+  id: totrans-355
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE66]'
 - en: '**Output parameters of a function**: Output parameters of a function are declared
     in the form of <data type> <parameter name>. This example shows a simple function
     returning a `uint` value:'
+  id: totrans-356
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**函数的输出参数**：函数的输出参数以<data type> <parameter name>的形式声明。这个例子展示了一个返回`uint`值的简单函数：'
 - en: '[PRE67]'
+  id: totrans-357
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE67]'
 - en: A function can return multiple values. In the preceding example function, `getValue`
     only returns one value, but a function can return up to 14 values of different
     data types. The names of the unused return parameters can be omitted optionally.
+  id: totrans-358
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 一个函数可以返回多个值。在前面的例子函数中，`getValue`只返回一个值，但一个函数可以返回多达14个不同数据类型的值。未使用的返回参数的名称可以选择省略。
 - en: '**Internal function calls**: Functions within the context of the current contract
     can be called internally in a direct manner. These calls are made to call the
     functions that exist within the same contract. These calls result in simple JUMP
     calls at the EVM byte code level.'
+  id: totrans-359
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**内部函数调用**：在当前合同的上下文中，可以直接调用合同内部的函数。这些调用是为了调用同一合同中存在的函数。这些调用在以太虚拟机字节码级别上会产生简单的JUMP调用。'
 - en: '**External function calls**: External function calls are made via message calls
     from a contract to another contract. In this case, all function parameters are
     copied to the memory. If a call to an internal function is made using the `this`
     keyword, it is also considered an external call. The `this` variable is a pointer
     that refers to the current contract. It is explicitly convertible to an address
     and all members for a contract are inherited from the address.'
+  id: totrans-360
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**外部函数调用**：外部函数调用是通过从一个合同向另一个合同发送消息调用而进行的。在这种情况下，所有函数参数都被复制到内存中。如果使用`this`关键字调用内部函数，也被视为外部调用。`this`变量是一个指针，指向当前合同。它可以显式转换为地址，并且所有合同成员都继承自地址。'
 - en: '**Fall back functions**: This is an unnamed function in a contract with no
     arguments and return data. This function executes every time ether is received.
     It is required to be implemented within a contract if the contract is intended
@@ -1491,18 +2234,23 @@
     be declared with the `payable`**modifier**. The `payable` is required; otherwise,
     this function will not be able to receive any ether. This function can be called
     using the `address.call()` method as, for example, in the following:'
+  id: totrans-361
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**回退函数**：这是合同中没有参数和返回数据的未命名函数。每当收到以太币时，这个函数都会执行。如果合约打算接收以太币，则必须在合同中实现这个函数；否则，将引发异常并退还以太币。如果合同预期接收以太币，则回退函数应该用`payable`**修饰符**声明。`payable`是必需的；否则，这个函数将无法接收任何以太币。这个函数可以使用`address.call()`方法调用，例如：'
 - en: '[PRE68]'
+  id: totrans-362
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE68]'
 - en: In this case, if the `fallback` function is called according to the conditions
     described earlier; it will call throw, which will roll back the state to what
     it was before making the call. It can also be some other construct than throw;
     for example, it can log an event that can be used as an alert to feed back the
     outcome of the call to the calling application.
+  id: totrans-363
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
@@ -1513,6 +2261,7 @@
     the function when the modifier is called. Basically, it symbolizes the function
     that needs to be *guarded*. This concept is similar to guard functions in other
     languages.'
+  id: totrans-364
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
@@ -1520,34 +2269,40 @@
     as the contract and is executed once a contract is created. Constructor functions
     cannot be called later on by users, and there is only one constructor allowed
     in a contract. This implies that no overloading functionality is available.'
+  id: totrans-365
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '**Function visibility specifiers (access modifiers)**: Functions can be defined
     with four access specifiers as follows:'
+  id: totrans-366
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '**External**: These functions are accessible from other contracts and transactions.
     They cannot be called internally unless the `this` keyword is used.'
+  id: totrans-367
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: '**Public**: By default, functions are public. They can be called either internally
     or using messages.'
+  id: totrans-368
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: '**Internal**: Internal functions are visible to other derived contracts from
     the parent contract.'
+  id: totrans-369
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: '**Private**: Private functions are only visible to the same contract they are
     declared in.'
+  id: totrans-370
   prefs:
   - PREF_IND
   - PREF_UL
@@ -1555,424 +2310,617 @@
 - en: '**Other important keywords/functions throw**: `throw` is used to stop execution.
     As a result, all state changes are reverted. In this case, no gas is returned
     to the transaction originator because all the remaining gas is consumed.'
+  id: totrans-371
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Layout of a solidity source code file
+  id: totrans-372
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
 - en: '**Version pragma**'
+  id: totrans-373
   prefs: []
   type: TYPE_NORMAL
 - en: 'In order to address compatibility issues that may arise from future versions
     of the solidity compiler version, pragma can be used to specify the version of
     the compatible compiler as, for example, in the following:'
+  id: totrans-374
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE69]'
+  id: totrans-375
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE69]'
 - en: This will ensure that the source file does not compile with versions smaller
     than `0.5.0` and versions starting from 0.6.0.
+  id: totrans-376
   prefs: []
   type: TYPE_NORMAL
 - en: '**Import**'
+  id: totrans-377
   prefs: []
   type: TYPE_NORMAL
 - en: 'Import in solidity allows the importing of symbols from the existing solidity
     files into the current global scope. This is similar to import statements available
     in JavaScript, as for example, in the following:'
+  id: totrans-378
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE70]'
+  id: totrans-379
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE70]'
 - en: '**Comments**'
+  id: totrans-380
   prefs: []
   type: TYPE_NORMAL
 - en: Comments can be added in the solidity source code file in a manner similar to
     C-language. Multiple line comments are enclosed in `/*` and `*/`, whereas single
     line comments start with `//`.
+  id: totrans-381
   prefs: []
   type: TYPE_NORMAL
 - en: 'An example solidity program is as follows, showing the use of pragma, import,
     and comments:'
+  id: totrans-382
   prefs: []
   type: TYPE_NORMAL
 - en: '![Layout of a solidity source code file](img/image_08_028.jpg)'
+  id: totrans-383
   prefs: []
   type: TYPE_IMG
 - en: Sample solidity program as shown in browser solidity
+  id: totrans-384
   prefs: []
   type: TYPE_NORMAL
 - en: This completes a brief introduction to the solidity language. The language is
     very rich and under constant improvement. Detailed documentation and coding guidelines
     are available online.
+  id: totrans-385
   prefs: []
   type: TYPE_NORMAL
+  zh: 这完成了对solidity语言的简要介绍。该语言非常丰富，不断改进。详细的文档和编码指南可以在网上找到。
 - en: Introducing Web3
+  id: totrans-386
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 介绍Web3
 - en: Web3 is a JavaScript library that can be used to communicate with an Ethereum
     node via RPC communication. Web3 works by exposing methods that have been enabled
     over RPC. This allows the development of user interfaces that make use of the
     web3 library in order to interact with the contracts deployed over the blockchain.
+  id: totrans-387
   prefs: []
   type: TYPE_NORMAL
+  zh: Web3是一个JavaScript库，可以通过RPC通信与以太坊节点通信。Web3通过公开在RPC上启用的方法来工作。这允许开发使用web3库与部署在区块链上的合同进行交互的用户界面。
 - en: 'In order to expose the methods via `geth`, the following command can be used:'
+  id: totrans-388
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了通过`geth`公开方法，可以使用以下命令：
 - en: '[PRE71]'
+  id: totrans-389
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE71]'
 - en: Note the `--rpcapi` flag that allows the `web3, eth` and `debug` methods.
+  id: totrans-390
   prefs: []
   type: TYPE_NORMAL
+  zh: 注意`--rpcapi`标志允许使用`web3, eth`和`debug`方法。
 - en: This is a powerful library and can be explored further by attaching a `geth`
     instance. Later in the section, you will be introduced to the concepts and techniques
     of making use of web3 via JavaScript/HTML frontends.
+  id: totrans-391
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是一个强大的库，可以通过连接`geth`实例进一步探索。稍后在本节中，您将介绍通过JavaScript/HTML前端使用web3的概念和技术。
 - en: 'The `geth` instance can be attached using the following command:'
+  id: totrans-392
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用以下命令连接`geth`实例：
 - en: '[PRE72]'
+  id: totrans-393
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE72]'
 - en: 'Once the `geth` JavaScript console is running, web3 can be queried, for example:'
+  id: totrans-394
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦`geth` JavaScript控制台运行，可以查询web3，例如：
 - en: '![Introducing Web3](img/image_08_029.jpg)'
+  id: totrans-395
   prefs: []
   type: TYPE_IMG
+  zh: '![介绍Web3](img/image_08_029.jpg)'
 - en: web3 via geth
+  id: totrans-396
   prefs: []
   type: TYPE_NORMAL
+  zh: 通过`geth`进行web3调用
 - en: 'A simple contract can be deployed using `geth` and interacted with using web3
     via the command-line interface that `geth` provides (console or attach). The following
     are the steps to achieve that. As an example, the following source code will be
     used:'
+  id: totrans-397
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用`geth`部署一个简单合同，并通过web3与其交互，`geth`提供了命令行界面（控制台或附加）来实现这一点。以下是实现该目标的步骤。例如，将使用以下源代码：
 - en: '[PRE73]'
+  id: totrans-398
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE73]'
 - en: 'Now open the `geth` console that has been opened previously and follow these
     steps:'
+  id: totrans-399
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在打开之前打开的`geth`控制台，并按照以下步骤操作：
 - en: 'Declare a variable named `simplecontractsource` and assign the program code
     to it:'
+  id: totrans-400
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 声明一个名为`simplecontractsource`的变量，并将程序代码分配给它：
 - en: '[PRE74]'
+  id: totrans-401
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE74]'
 - en: 'This will display the following output:'
+  id: totrans-402
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 这将显示以下输出：
 - en: '[PRE75]'
+  id: totrans-403
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE75]'
 - en: 'Note that the source code is required to be in a single line, which means that
     there should be no line breaks. This can be achieved in Linux using the following
     command:'
+  id: totrans-404
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 请注意，源代码必须在单行中，也就是说不能换行。在Linux中可以使用以下命令实现：
 - en: '[PRE76]'
+  id: totrans-405
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE76]'
 - en: In the preceding example, `valuechecker.sol` is the file that has the new line
     `\n` character, and `valuecheckersingleline.sol` is the output file produced after
     removing the new line character from the file. The code can then be copied and
     pasted from the file into the `geth` JavaScript console.
+  id: totrans-406
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 在上面的例子中，`valuechecker.sol`是具有新行`\n`字符的文件，`valuecheckersingleline.sol`是删除文件中的新行字符后产生的输出文件。然后，可以将代码从文件复制并粘贴到`geth`
+    JavaScript控制台中。
 - en: 'Now verify that the solidity compiler is available, and if it''s not available,
     then refer to the section in the chapter where solidity installation is explained:'
+  id: totrans-407
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在验证solidity编译器是否可用，如果不可用，则请参考章节中解释了solidity安装的部分：
 - en: '[PRE77]'
+  id: totrans-408
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE77]'
 - en: 'Create a variable and assign and compile the code using solidity:'
+  id: totrans-409
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 创建一个变量并使用solidity进行赋值和编译代码：
 - en: '[PRE78]'
+  id: totrans-410
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE78]'
 - en: Enter `simplecontractcompiled`; it will display output similar to the following.
     as `simplecontractcompiled` has been assigned the data from preceding step 3.![Introducing
     Web3](img/image_08_030.jpg)
+  id: totrans-411
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 输入`simplecontractcompiled`；它将显示类似于以下内容的输出。作为`simplecontractcompiled`已经分配了前面第3步的数据。
 - en: simplecontractcompiled output
+  id: totrans-412
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: simplecontractcompiled输出
 - en: 'Create a variable to interact with the contract:'
+  id: totrans-413
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 创建一个与合同进行交互的变量：
 - en: '[PRE79]'
+  id: totrans-414
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE79]'
 - en: 'Check the **ABI** (**Application Binary Interface**):'
+  id: totrans-415
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 检查**ABI**（应用二进制接口）：
 - en: '[PRE80]'
+  id: totrans-416
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE80]'
 - en: 'Check the code of `valueChecker` in the hexadecimal format:'
+  id: totrans-417
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 检查十六进制格式的`valueChecker`代码：
 - en: '[PRE81]'
+  id: totrans-418
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE81]'
 - en: 'This will return the following output. It can be slightly different for you:'
+  id: totrans-419
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 这将返回以下输出。对于您来说可能稍有不同：
 - en: '[PRE82]'
+  id: totrans-420
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE82]'
 - en: Now enter the following piece of code; note that the data field contains the
     code for `simplecontractcompiled:`
+  id: totrans-421
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在输入以下代码片段；请注意数据字段包含`simplecontractcompiled`的代码：
 - en: '[PRE83]'
+  id: totrans-422
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE83]'
 - en: 'Assume that it returns an error message:'
+  id: totrans-423
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 假设它返回错误消息：
 - en: '[PRE84]'
+  id: totrans-424
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE84]'
 - en: If so, then unlock the account using the following commands.
+  id: totrans-425
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 如果可用，则使用以下命令解锁账户。
 - en: 'First, list the accounts using the following command to get the account IDs:'
+  id: totrans-426
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 首先，使用以下命令列出账户以获取账户ID：
 - en: '[PRE85]'
+  id: totrans-427
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE85]'
 - en: 'Enter the following command with the account to be unlocked, as shown here:'
+  id: totrans-428
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 输入以下命令以解锁账户，如下所示：
 - en: '[PRE86]'
+  id: totrans-429
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE86]'
 - en: 'Enter the password of the account:'
+  id: totrans-430
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 输入账户的密码：
 - en: '[PRE87]'
+  id: totrans-431
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE87]'
 - en: 'After unlocking the account, enter the preceding code again; say, an error
     message appears:'
+  id: totrans-432
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 解锁账户后，再次输入上述代码；比如，出现错误消息：
 - en: '[PRE88]'
+  id: totrans-433
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE88]'
 - en: 'In this case, try to increase the gas. If too great a gas value is entered,
     then an error message will appear, as follows:'
+  id: totrans-434
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 在这种情况下，尝试增加 gas。如果输入的 gas 值过大，则会出现错误消息，如下所示：
 - en: '[PRE89]'
+  id: totrans-435
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE89]'
 - en: 'Once the account is successfully unlocked, start the miner so that the contract
     can be mined (it is not necessary to unlock the account to start mining. Account
     unlocking is necessary to mine the contract and create it on the blockchain):'
+  id: totrans-436
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 账户成功解锁后，启动矿工以便挖掘合约（启动挖矿不是必须的。解锁账户是为了挖掘合约并将其创建在区块链上）：
 - en: '[PRE90]'
+  id: totrans-437
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE90]'
 - en: 'When the contract is created correctly, it will show output similar to this:'
+  id: totrans-438
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 当合约正确创建时，将显示类似于以下输出：
 - en: '[PRE91]'
+  id: totrans-439
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE91]'
 - en: This shows the address of the newly created contract after the contract has
     been mined.
+  id: totrans-440
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 在合约被挖掘后，此处显示新创建合约的地址。
 - en: 'In order to make interaction with the contract easier, the address of the account
     can be assigned to a variable:'
+  id: totrans-441
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 为了更容易地与合约进行交互，可以将账户的地址赋给一个变量：
 - en: '[PRE92]'
+  id: totrans-442
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE92]'
 - en: 'There are a number of methods that are now exposed, and the contract can be
     further queried now, for example:'
+  id: totrans-443
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在公开了许多方法，现在可以进一步查询合约，例如：
 - en: '[PRE93]'
+  id: totrans-444
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE93]'
 - en: 'After this , an object can be created named `simplecontractinstance`, which
     will be used to call methods:'
+  id: totrans-445
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在此之后，可以创建一个名为`simplecontractinstance`的对象，该对象将用于调用方法：
 - en: '[PRE94]'
+  id: totrans-446
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE94]'
 - en: 'There are various methods that have been exposed now, and a list can be seen
     as follows:'
+  id: totrans-447
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在已经公开了各种方法，可以查看列表如下：
 - en: '[PRE95]'
+  id: totrans-448
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE95]'
 - en: 'The contract can be further queried as shown here. In the following example,
     the `Matcher` function is called with the arguments. Remember that in the code,
     there is a condition that checks that, if the value is equal to or greater than
     10, then the function returns `true`; otherwise, it returns `false`. This can
     be seen as follows:'
+  id: totrans-449
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 可以像这样进一步查询合约。在以下示例中，使用参数调用`Matcher`函数。请记住，在代码中有一个条件检查，如果值等于或大于 10，则函数返回`true`；否则，返回`false`。这可以如下所示：
 - en: '[PRE96]'
+  id: totrans-450
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE96]'
 - en: POST requests
+  id: totrans-451
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: POST 请求
 - en: It is possible to interact with `geth` via jsonrpc over HTTP. For this purpose,
     curl can be used. Some examples are shown here in order to familiarize you with
     the POST request and show how to make post requests using curl. Curl is available
     at [https://curl.haxx.se/](https://curl.haxx.se/).
+  id: totrans-452
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以通过 jsonrpc 通过 HTTP 与 `geth` 进行交互。为此，可以使用 curl。以下是一些示例，以便让您熟悉 POST 请求并展示如何使用
+    curl 进行 post 请求。Curl 可在 [https://curl.haxx.se/](https://curl.haxx.se/) 获得。
 - en: 'Before using the JsonRPC interface over HTTP, `geth` should be started up with
     appropriate switches, as shown here:'
+  id: totrans-453
   prefs: []
   type: TYPE_NORMAL
+  zh: 在使用 JsonRPC 接口通过 HTTP 之前，应该使用适当的开关启动`geth`，如下所示：
 - en: '[PRE97]'
+  id: totrans-454
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE97]'
 - en: This switch will enable the `web3` interface over HTTP.
+  id: totrans-455
   prefs: []
   type: TYPE_NORMAL
+  zh: 此开关将在 HTTP 上启用 `web3` 接口。
 - en: The Linux command curl can be used for the purpose of communicating over HTTP,
     as shown here in a few examples.
+  id: totrans-456
   prefs: []
   type: TYPE_NORMAL
+  zh: Linux 命令 curl 可用于通过 HTTP 进行通信，如下面几个示例所示。
 - en: '**Retrieve the list of accounts**: For example, in order to retrieve the list
     of accounts using the `personal_listAccounts` method, the following command can
     be used:'
+  id: totrans-457
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**检索账户列表**：例如，为了使用`personal_listAccounts`方法检索账户列表，可以使用以下命令：'
 - en: '[PRE98]'
+  id: totrans-458
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE98]'
 - en: 'This will return the output, a JSON object with the list of accounts:'
+  id: totrans-459
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 这将返回输出，一个带有账户列表的 JSON 对象：
 - en: '[PRE99]'
+  id: totrans-460
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE99]'
 - en: In the preceding `curl` command, the `--request` is used to specify the request
     command, POST is the request, and `--data` is used specify the parameters and
     values and, finally, `localhost:8001` is where the HTTP endpoint from `geth` is
     opened.
+  id: totrans-461
   prefs: []
   type: TYPE_NORMAL
+  zh: 在上述`curl`命令中，`--request`用于指定请求命令，POST 是请求，`--data`用于指定参数和值，最后，`localhost:8001`是`geth`的
+    HTTP 端点所在的地方。
 - en: The HTML and JavaScript frontend
+  id: totrans-462
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: HTML 和 JavaScript 前端
 - en: 'It is desirable to interact with the contracts in a user-friendly manner via
     a web page. It is possible to interact with the contracts using the web3.js library
     from HTML/JS/CSS-based web pages. The HTML content can be served using any HTTP
     web server, whereas web3.js can connect via local **RPC** to the running Ethereum
     client (`geth`) and provide an interface to the contracts on the blockchain. This
     architecture can be visualized in the following diagram:'
+  id: totrans-463
   prefs: []
   type: TYPE_NORMAL
+  zh: 通过 Web 页面以用户友好的方式与合同进行交互是可取的。可以使用基于 HTML/JS/CSS 的 Web 页面与合同进行交互，而 web3.js 可以通过本地
+    **RPC** 连接到运行中的以太坊客户端（`geth`）并提供区块链上合同的接口。这个架构可以在下面的图表中可视化：
 - en: '![The HTML and JavaScript frontend](img/B05975_08_28.jpg)'
+  id: totrans-464
   prefs: []
   type: TYPE_IMG
+  zh: '![HTML 和 JavaScript 前端](img/B05975_08_28.jpg)'
 - en: web3.js, frontend, and blockchain interaction architecture
+  id: totrans-465
   prefs: []
   type: TYPE_NORMAL
+  zh: web3.js、前端和区块链交互架构
 - en: If web3.js is not already installed, use these steps; otherwise, move to the
     next step.
+  id: totrans-466
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果尚未安装 web3.js，请按照以下步骤进行安装；否则，请继续下一步。
 - en: Installing web3.js
+  id: totrans-467
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 安装 web3.js
 - en: 'Web3 can be installed via `npm` by simply issuing the following command:'
+  id: totrans-468
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以通过 `npm` 简单地执行以下命令安装 Web3：
 - en: '[PRE100]'
+  id: totrans-469
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE100]'
 - en: It can also be directly downloaded from [https://github.com/ethereum/web3.js](https://github.com/ethereum/web3.js).
+  id: totrans-470
   prefs: []
   type: TYPE_NORMAL
+  zh: 也可以直接从 [https://github.com/ethereum/web3.js](https://github.com/ethereum/web3.js)
+    下载。
 - en: '`web3.min.js`, downloaded via `npm`, can be referred in the HTML files. This
     can be found under node_modules, for example, `/home/drequinox/netstats/node_modules/web3/dist/web3.min.js`.
     The file can optionally be copied into the directory where the main application
@@ -1980,176 +2928,268 @@
     or JS, web3 needs to be initialized by providing an HTTP provider. This is usually
     the link to the localhost HTTP endpoint exposed by the running `geth` client.
     This can be achieved using the following code:'
+  id: totrans-471
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以在 HTML 文件中引用通过 `npm` 下载的 `web3.min.js`。例如，可以在 node_modules 中找到它，例如，`/home/drequinox/netstats/node_modules/web3/dist/web3.min.js`。该文件可选择地复制到主应用程序所在的目录中，并且可以从那里使用。一旦文件在
+    HTML 或 JS 中成功引用，就需要通过提供 HTTP 提供程序来初始化 web3。这通常是运行的 `geth` 客户端暴露的本地主机 HTTP 终端的链接。可以使用以下代码实现：
 - en: '[PRE101]'
+  id: totrans-472
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE101]'
 - en: Once the provider is set, further interaction with the contracts and blockchain
     can be done using the `web3` object and its available methods.
+  id: totrans-473
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦提供程序设置完成，可以使用 `web3` 对象及其可用的方法与合同和区块链进行进一步的交互。
 - en: 'The `web3` object can be created using the following code:'
+  id: totrans-474
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用以下代码创建 `web3` 对象：
 - en: '[PRE102]'
+  id: totrans-475
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE102]'
 - en: Example
+  id: totrans-476
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 示例
 - en: 'In the following section, an example will be presented that will make use of
     web3.js to allow interaction with the contracts via a web page served over a simple
     HTTP web server. This can be achieved by following these steps:'
+  id: totrans-477
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一节中，将演示一个示例，该示例将使用 web3.js 允许通过简单的 HTTP Web 服务器提供的 Web 页面与合同进行交互。可以通过以下步骤实现：
 - en: First, create a directory named `/simplecontract/app` in the home directory.
+  id: totrans-478
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 首先，在主目录中创建一个名为 `/simplecontract/app` 的目录。
 - en: 'Then, create a file named `simplecontractcompiled.js`, as shown here:'
+  id: totrans-479
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 然后，创建一个名为 `simplecontractcompiled.js` 的文件，如下所示：
 - en: '[PRE103]'
+  id: totrans-480
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE103]'
 - en: This file contains various elements. The most important is **ABI** (**Application
     Binary Interface**), which can be queried using `geth`, as shown earlier in step
     6 during the contract deployment process.
+  id: totrans-481
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 此文件包含各种元素。最重要的是 **ABI（应用程序二进制接口）**，可以使用 `geth` 查询，就像在合同部署过程中的第6步中所示的那样。
 - en: 'Create a file named `simplecontract.js`, as shown here:'
+  id: totrans-482
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 创建一个名为 `simplecontract.js` 的文件，如下所示：
 - en: '[PRE104]'
+  id: totrans-483
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE104]'
 - en: This file is the main JavaScript file that contains the code to create a `web3`
     object. It also provides methods that are used to interact with the contract on
     the blockchain. An explanation of the code is given here.
+  id: totrans-484
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 这个文件是包含创建 `web3` 对象的代码的主 JavaScript 文件。它还提供了用于与区块链上的合同进行交互的方法。代码的解释如下所示。
 - en: '**Creating a web3 object**'
+  id: totrans-485
   prefs: []
   type: TYPE_NORMAL
+  zh: '**创建 web3 对象**'
 - en: '[PRE105]'
+  id: totrans-486
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE105]'
 - en: 'This code first checks whether there is already an available provider; if yes,
     then it will set the provider to the current provider. Otherwise, it sets the
     web3 provider to `localhost: 8001`; this is where the local instance of `geth`
     is running.'
+  id: totrans-487
   prefs: []
   type: TYPE_NORMAL
+  zh: 此代码首先检查是否已经有可用的提供程序；如果有，则将提供程序设置为当前提供程序。否则，它将 web3 提供程序设置为 `localhost:8001`；这是本地运行
+    `geth` 的位置。
 - en: '**Checking availability by calling any web3 method**'
+  id: totrans-488
   prefs: []
   type: TYPE_NORMAL
+  zh: '**通过调用任何 web3 方法检查可用性**'
 - en: '[PRE106]'
+  id: totrans-489
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE106]'
 - en: This line of code simply uses `console.log` to print the coinbase by calling
     the `web3.eth.coinbase` method. Once this call is successful, it means that the
     `web3` object has been created correctly and `HttpProvider` is available. Any
     other call can be used to verify the availability, but as a simple example, `web3.eth.coinbase`
     has been used in the preceding example.
+  id: totrans-490
   prefs: []
   type: TYPE_NORMAL
+  zh: 这行代码简单地使用`console.log`通过调用`web3.eth.coinbase`方法打印 coinbase。一旦此调用成功，意味着`web3`对象已正确创建，并且`HttpProvider`可用。任何其他调用都可以用来验证可用性，但作为一个简单的例子，前面的例子中使用了`web3.eth.coinbase`。
 - en: '**Assigning contract address to a variable**'
+  id: totrans-491
   prefs: []
   type: TYPE_NORMAL
+  zh: '**将合约地址分配给变量**'
 - en: '[PRE107]'
+  id: totrans-492
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE107]'
 - en: This statement will assign the value of the address of the contract deployed
     on the blockchain. After successful execution of the statement variable, `simplecontractaddress`
     will contain the address of the contract. This is the address of the contract
     created in step 9 in the preceding example when the contract is deployed. Simply
     use that address in the code here.
+  id: totrans-493
   prefs: []
   type: TYPE_NORMAL
+  zh: 此语句将分配部署在区块链上的合约地址的值。在语句变量成功执行后，`simplecontractaddress`将包含合约的地址。这是在前面的示例中当合约被部署时，在步骤9中创建合约的地址。只需在此处的代码中使用该地址。
 - en: '**Creating the main contract object**'
+  id: totrans-494
   prefs: []
   type: TYPE_NORMAL
+  zh: '**创建主合约对象**'
 - en: '[PRE108]'
+  id: totrans-495
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE108]'
 - en: This piece of code will create an object that will be used later in the code
     to interact with the contract on the blockchain. `simplecontractinstance` will
     expose functions of the contract. `web3.eth.contract` takes the ABI array as an
     argument. This can be passed using `simplecontractcompiled.valueChecker.info.abiDefinition`.
     Finally, `.at` takes the address of the contract as an argument.
+  id: totrans-496
   prefs: []
   type: TYPE_NORMAL
+  zh: 这段代码将创建一个对象，稍后将在代码中用于与区块链上的合约进行交互。`simplecontractinstance`将暴露合约的函数。`web3.eth.contract`将
+    ABI 数组作为参数。这可以通过`simplecontractcompiled.valueChecker.info.abiDefinition`传递。最后，`.at`接受合约地址作为参数。
 - en: '**Getting the code of the contract address (optional)**'
+  id: totrans-497
   prefs: []
   type: TYPE_NORMAL
+  zh: '**获取合约地址的代码（可选）**'
 - en: 'This is shown as an example here and is entirely optional:'
+  id: totrans-498
   prefs: []
   type: TYPE_NORMAL
+  zh: 这只是一个示例，并且完全是可选的：
 - en: '[PRE109]'
+  id: totrans-499
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE109]'
 - en: The preceding statements are used to query the code of the contract. This is
     a simple `web3.eth.getCode` call that takes the address of the contract on the
     blockchain as an argument. Finally, `console.log` is used to print the code of
     the contract by printing the code variable.
+  id: totrans-500
   prefs: []
   type: TYPE_NORMAL
+  zh: 前面的语句用于查询合约的代码。这是一个简单的`web3.eth.getCode`调用，它将区块链上的合约地址作为参数。最后，使用`console.log`通过打印代码变量来打印合约的代码。
 - en: '**Contract balance**'
+  id: totrans-501
   prefs: []
   type: TYPE_NORMAL
+  zh: '**合约余额**'
 - en: console.log("Contract balance:" +web3.eth.getBalance(simplecontractaddress));The
     preceding code will call `web3.eth.getBalance` and take the contract address as
     an argument and will print the balance of the contract, which is 0 at the moment.
+  id: totrans-502
   prefs: []
   type: TYPE_NORMAL
+  zh: '`console.log("Contract balance:" +web3.eth.getBalance(simplecontractaddress));`前面的代码将调用`web3.eth.getBalance`并将合约地址作为参数，并将打印合约的余额，目前为
+    0。'
 - en: '**Contract functions**'
+  id: totrans-503
   prefs: []
   type: TYPE_NORMAL
+  zh: '**合约函数**'
 - en: 'Once the `web3` object is correctly created and `simplecontractinstance` is
     created, calls to the contract functions can be made easily as shown in the following
     example:'
+  id: totrans-504
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦`web3`对象正确创建并且`simplecontractinstance`被创建，就可以轻松地调用合约函数，如下例所示：
 - en: '[PRE110]'
+  id: totrans-505
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE110]'
 - en: 'Calls can be made using `simplecontractinstance.Matcher.call` and then by passing
     the value for the argument. Recall the function matcher in solidity code:'
+  id: totrans-506
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用`simplecontractinstance.Matcher.call`进行调用，然后通过传递参数的值。回忆一下 solidity 代码中的函数
+    matcher：
 - en: '[PRE111]'
+  id: totrans-507
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE111]'
 - en: It takes one argument `x` of type `uint8` and returns a Boolean value, either
     true or false.
+  id: totrans-508
   prefs: []
   type: TYPE_NORMAL
+  zh: 它接受一个`uint8`类型的参数`x`，并返回一个布尔值，要么是 true，要么是 false。
 - en: 'Accordingly, the call is made to the contract, as shown here:'
+  id: totrans-509
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，调用合约，如下所示：
 - en: '[PRE112]'
+  id: totrans-510
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE112]'
 - en: In the preceding example, `console.log` is used to print the value returned
     by the function call. Once the result of the call is available in the `txn` variable,
     it can be used anywhere throughout the program, for example, as a parameter for
     another JavaScript function.
+  id: totrans-511
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面的示例中，`console.log`用于打印函数调用返回的值。一旦调用的结果在`txn`变量中可用，就可以在程序的任何地方使用它，例如作为另一个
+    JavaScript 函数的参数。
 - en: 'Finally, the HTML file named `index.html` is created with the following code:'
+  id: totrans-512
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，HTML 文件命名为`index.html`，并使用以下代码创建：
 - en: '[PRE113]'
+  id: totrans-513
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE113]'
 - en: It is recommended that an appropriate web server be running in order to serve
     the HTML content (`index.html` as an example). Alternatively, the file can browsed
     from the filesystem but that can cause some issues with larger projects; as good
@@ -2157,240 +3197,367 @@
     using the following command. This server will serve the HTML content from the
     same directory that it has been run from. Python is not necessary; it can even
     be an Apache server or any other web container.
+  id: totrans-514
   prefs: []
   type: TYPE_NORMAL
+  zh: 推荐运行适当的 Web 服务器以提供 HTML 内容（以`index.html`为例）。或者，文件可以从文件系统中浏览，但这可能会在较大的项目中引起一些问题；作为良好的实践，始终使用
+    Web 服务器。可以使用以下命令快速启动 Python 中的 Web 服务器。此服务器将从运行所在的相同目录中提供 HTML 内容。Python 不是必需的；它甚至可以是
+    Apache 服务器或任何其他 Web 容器。
 - en: '![Example](img/image_08_032.jpg)'
+  id: totrans-515
   prefs: []
   type: TYPE_IMG
+  zh: '![示例](img/image_08_032.jpg)'
 - en: Simple web server in Python
+  id: totrans-516
   prefs: []
   type: TYPE_NORMAL
+  zh: Python 中的简单 Web 服务器
 - en: Now any browser can be used to view the web page served over TCP `port 7777`.
     This is shown in the following example. It should be noted that the output shown
     here is in the browser's console window. The browser's console must be enabled
     in order to see the output.
+  id: totrans-517
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在任何浏览器都可以用于查看通过 TCP `端口 7777` 提供的网页。如以下示例所示。应该注意，这里显示的输出位于浏览器的控制台窗口中。必须启用浏览器的控制台才能看到输出。
 - en: '![Example](img/image_08_033.jpg)'
+  id: totrans-518
   prefs: []
   type: TYPE_IMG
+  zh: '![示例](img/image_08_033.jpg)'
 - en: Interaction with the contract
+  id: totrans-519
   prefs: []
   type: TYPE_NORMAL
+  zh: 与合同的交互
 - en: As the values are hardcoded in the code for simplicity, two buttons have been
     created in index.html. Both of these buttons call functions with hardcoded values.
     This is just to demonstrate that parameters are being passed to the contract via
     web3 and values are being returned accordingly.
+  id: totrans-520
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于简单起见，代码中的值是硬编码的，因此在`index.html`中创建了两个按钮。这两个按钮都调用具有硬编码值的函数。这只是为了演示通过 web3 将参数传递给合同，并相应地返回值。
 - en: 'There are two functions being called behind the preceding buttons. The `callMatchertrue()`
     method has a hardcoded value of 12, which is sent to the contract using this:'
+  id: totrans-521
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面的按钮之后调用了两个函数。`callMatchertrue()` 方法具有硬编码值`12`，该值通过以下方式发送到合同：
 - en: '[PRE114]'
+  id: totrans-522
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE114]'
 - en: 'The return value is printed in the console using the following code, which
     first invokes the `Matcher` function and then assigns the value to the `txn` variable
     to be printed later in the console:'
+  id: totrans-523
   prefs: []
   type: TYPE_NORMAL
+  zh: 返回值是使用以下代码在控制台中打印出来的，该代码首先调用`Matcher`函数，然后将值分配给`txn`变量以便稍后在控制台中打印出来：
 - en: '[PRE115]'
+  id: totrans-524
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE115]'
 - en: 'Similarly, the `callMatcherfalse()` function works by passing a hardcoded value
     of `1` to the contract using this:'
+  id: totrans-525
   prefs: []
   type: TYPE_NORMAL
+  zh: 类似地，`callMatcherfalse()` 函数通过以下方式将硬编码值`1`传递给合同：
 - en: '[PRE116]'
+  id: totrans-526
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE116]'
 - en: 'The return value is printed accordingly:'
+  id: totrans-527
   prefs: []
   type: TYPE_NORMAL
+  zh: 返回值相应地打印出来：
 - en: '[PRE117]'
+  id: totrans-528
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE117]'
 - en: This example demonstrates how the web3 library can be used to interact with
     the contracts on the blockchain.
+  id: totrans-529
   prefs: []
   type: TYPE_NORMAL
+  zh: 此示例演示了如何使用 web3 库与区块链上的合同进行交互。
 - en: Development frameworks
+  id: totrans-530
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: 开发框架
 - en: There are various development frameworks now available for Ethereum. As seen
     in the examples discussed earlier, it can be quite time consuming to deploy the
     contract via the usual manual means. This is where truffle and similar frameworks
     such as embark can be used to make the process simpler and quicker. The most widely
     used framework is called truffle. In the next section, you will be introduced
     to the truffle framework.
+  id: totrans-531
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在有各种用于以太坊的开发框架可用。正如前面讨论的示例中所看到的，通过通常的手动方式部署合同可能会非常耗时。这就是 truffle 和类似的框架（如 embark）可以用来简化和加快该过程的地方。最广泛使用的框架称为
+    truffle。在下一节中，您将介绍 truffle 框架。
 - en: Truffle
+  id: totrans-532
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: Truffle
 - en: Truffle is a development environment that makes it easier and simpler to test
     and deploy Ethereum contracts. Truffle provides contract compilation and linking
     along with an automated testing framework using Mocha and Chai. It also makes
     it easier to deploy the contracts to any PrivateNet, public, or Test Net Ethereum
     blockchain. Also, asset pipeline is provided, which makes it easier for all JavaScript
     files to be processed, making them ready for use by a browser.
+  id: totrans-533
   prefs: []
   type: TYPE_NORMAL
+  zh: Truffle 是一个开发环境，可以更轻松、更简单地测试和部署以太坊合同。Truffle 提供合同编译和链接以及使用 Mocha 和 Chai 的自动化测试框架。它还可以更容易地将合同部署到任何
+    PrivateNet、公共或测试网络以太坊区块链上。此外，提供了资产管道，使所有 JavaScript 文件都可以被处理，使它们准备好供浏览器使用。
 - en: Installation
+  id: totrans-534
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 安装
 - en: 'Before installation, it is assumed that the node is available, which can be
     queried as shown here. If the node is not available, then the installation of
     the node is required first in order to install truffle:'
+  id: totrans-535
   prefs: []
   type: TYPE_NORMAL
+  zh: 在安装之前，假设节点是可用的，可以按照此处所示的方式查询。如果节点不可用，则首先需要安装节点以安装 truffle：
 - en: '[PRE118]'
+  id: totrans-536
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE118]'
 - en: 'The installation of truffle is very simple and can be done using the following
     command via `npm`:'
+  id: totrans-537
   prefs: []
   type: TYPE_NORMAL
+  zh: truffle 的安装非常简单，可以通过以下命令使用 `npm` 完成：
 - en: '[PRE119]'
+  id: totrans-538
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE119]'
 - en: This will take a while; once it is installed, `truffle` can be used to display
     help and make sure that it is installed correctly.
+  id: totrans-539
   prefs: []
   type: TYPE_NORMAL
+  zh: 这需要一些时间；一旦安装完成，`truffle` 可以用来显示帮助并确保安装正确。
 - en: '![Installation](img/image_08_034.jpg)'
+  id: totrans-540
   prefs: []
   type: TYPE_IMG
+  zh: '![安装](img/image_08_034.jpg)'
 - en: Truffle help
+  id: totrans-541
   prefs: []
   type: TYPE_NORMAL
+  zh: Truffle 帮助
 - en: 'Alternatively, the repository is available at [https://github.com/ConsenSys/truffle](https://github.com/ConsenSys/truffle),
     which can be cloned locally to install truffle. Git can be used to clone the repository
     using the following command:'
+  id: totrans-542
   prefs: []
   type: TYPE_NORMAL
+  zh: 或者，该存储库可在 [https://github.com/ConsenSys/truffle](https://github.com/ConsenSys/truffle)
+    获得，可以在本地克隆以安装 truffle。可以使用 Git 使用以下命令来克隆存储库：
 - en: '[PRE120]'
+  id: totrans-543
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE120]'
 - en: '**Initializing truffle**'
+  id: totrans-544
   prefs: []
   type: TYPE_NORMAL
+  zh: '**初始化 truffle**'
 - en: 'Truffle can be initialized by running the following command. First, create
     a directory for the project, for example:'
+  id: totrans-545
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以通过运行以下命令来初始化 truffle。首先，为项目创建一个目录，例如：
 - en: '[PRE121]'
+  id: totrans-546
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE121]'
 - en: 'Then, change to `testdapp` and run the following command:'
+  id: totrans-547
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，切换到`testdapp`目录，并运行以下命令：
 - en: '[PRE122]'
+  id: totrans-548
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE122]'
 - en: 'Once the command is successful, it will create the directory structure shown
     here. This can be viewed using the `tree` command in Linux:'
+  id: totrans-549
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦命令成功，将创建如下所示的目录结构。这可以通过 Linux 中的 `tree` 命令查看：
 - en: '[PRE123]'
+  id: totrans-550
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE123]'
 - en: This command creates four main directories, named `app`, `contracts`, `migrations`,
     and `test`. As seen in the preceding example, a total of 7 directories and 10
     files have been created. In the following section, an explanation of all these
     files and directories will be presented.
+  id: totrans-551
   prefs: []
   type: TYPE_NORMAL
+  zh: 此命令会创建四个主目录，名称分别为`app`、`contracts`、`migrations`和`test`。如前面的示例所示，共创建了 7 个目录和
+    10 个文件。在下一部分中，将介绍所有这些文件和目录的解释。
 - en: '`App`: This directory contains all application files including HTML files,
     images, style sheets and JavaScript files. This folder contains further subdirectories,
     `images`, `javascripts`, and `stylesheets` that contain relevant application files.'
+  id: totrans-552
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`应用`：该目录包含所有应用文件，包括 HTML 文件，图像，样式表和 JavaScript 文件。该文件夹包含进一步的子目录，`images`、`javascripts`
+    和 `stylesheets`，其中包含相关的应用文件。'
 - en: '`Contracts`: This directory contains solidity contract source code files. This
     is where truffle will look for solidity contract files during migration.'
+  id: totrans-553
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`合约`：该目录包含 solidity 合约源代码文件。这是 truffle 在迁移过程中寻找 solidity 合约文件的位置。'
 - en: '`Migration`: This directory has all the deployment scripts.'
+  id: totrans-554
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`迁移`：该目录包含所有部署脚本。'
 - en: '`Test`: As the name suggests, this directory contains relevant test files for
     applications and contracts.'
+  id: totrans-555
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`测试`：顾名思义，该目录包含应用程序和合同的相关测试文件。'
 - en: Finally, truffle configuration is stored in the `truffle.js` file, which is
     created in the root folder of the project from where `truffle init` was run. When
     `truffle init` is run, it will create a sample project named MetaCoin. As an example,
     you will first be introduced to how to use various commands in truffle in order
     to test and deploy MetaCoin. Later, further examples will be shown on how to use
     truffle for custom projects.
+  id: totrans-556
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，truffle 配置存储在根文件夹中创建的`truffle.js`文件中。当运行`truffle init`时，它将创建一个名为 MetaCoin
+    的示例项目。例如，您将首先介绍如何在 truffle 中使用各种命令来测试和部署 MetaCoin。稍后，将展示如何在自定义项目中使用 truffle 的更多示例。
 - en: '**Compilation using truffle**'
+  id: totrans-557
   prefs: []
   type: TYPE_NORMAL
+  zh: '**使用 truffle 进行编译**'
 - en: Both libraries and contracts can be compiled using truffle. It is expected that
     the name of the contract file will be the same as the contract name within the
     file. For example, from the sample MetaCoin project created earlier, the file
     named `MetaCoin.sol` under the `contracts` directory has the same name as the
     MetaCoin contract in the file. This applies to library files too and it is case-sensitive.
+  id: totrans-558
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用 truffle 可以编译库和合约。预期合同文件名与文件中的合同名称相同。例如，从之前创建的示例 MetaCoin 项目中，`contracts`
+    目录下的名为 `MetaCoin.sol` 的文件与文件中的 MetaCoin 合同同名。这也适用于库文件，且区分大小写。
 - en: 'Filename:'
+  id: totrans-559
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 文件名：
 - en: '[PRE124]'
+  id: totrans-560
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE124]'
 - en: 'Contract name within the file:'
+  id: totrans-561
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 文件中的合同名称：
 - en: '[PRE125]'
+  id: totrans-562
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE125]'
 - en: 'Compilation can be run as shown here:'
+  id: totrans-563
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以如下所示运行编译：
 - en: '[PRE126]'
+  id: totrans-564
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE126]'
 - en: 'Once the compilation is finished successfully, all objects will be written
     in to the `build` directory. The output directory looks like what is shown here:'
+  id: totrans-565
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦编译成功完成，所有对象将被写入`build`目录。输出目录看起来像这样：
 - en: '[PRE127]'
+  id: totrans-566
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE127]'
 - en: As shown in the preceding example, the `build` directory is created automatically
     with the `contracts` subdirectory, which contains three JavaScript files.
+  id: totrans-567
   prefs: []
   type: TYPE_NORMAL
+  zh: 如前面的示例所示，`build` 目录会自动创建，其中包含 `contracts` 子目录，其中包含三个 JavaScript 文件。
 - en: '**Migration**'
+  id: totrans-568
   prefs: []
   type: TYPE_NORMAL
+  zh: '**迁移**'
 - en: This is the process by which truffle deploys contracts to the blockchain. This
     process relies on the files available under the `migrations` directory.
+  id: totrans-569
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是truffle将合同部署到区块链的过程。该过程依赖于“migrations”目录下的可用文件。
 - en: 'The process works as shown here:'
+  id: totrans-570
   prefs: []
   type: TYPE_NORMAL
+  zh: 过程如下所示：
 - en: '[PRE128]'
+  id: totrans-571
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE128]'
 - en: As shown in the preceding output, there are two files that contain the code
     that specifies which contracts are required to be deployed.
+  id: totrans-572
   prefs: []
   type: TYPE_NORMAL
+  zh: 如前面的输出所示，有两个文件包含了指定需要部署的合同的代码。
 - en: 'The filenames follow a convention where they are required to be prefixed by
     a number. This prefix is required in order to keep a record of all migrations.
     The suffix in the filename can be any descriptive name. First, it is important
@@ -2398,467 +3565,697 @@
     The `truffle.js` file contains valuable information about the build and rpc for
     the application. In this case, `geth` is already running and it can simply be
     pointed to use the available client:'
+  id: totrans-573
   prefs: []
   type: TYPE_NORMAL
+  zh: 文件名遵循一个约定，其中它们需要以数字作为前缀。这个前缀是为了记录所有迁移。文件名中的后缀可以是任何描述性的名称。首先，需要更改`truffle.js`文件以指向适当的网络。`truffle.js`文件包含有关应用程序的构建和rpc的宝贵信息。在这种情况下，`geth`已经运行，可以简单地指向使用可用客户端：
 - en: '[PRE129]'
+  id: totrans-574
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE129]'
 - en: In the preceding file, `rpc` needs to be changed to point to the appropriate
     network. Once `rpc` is changed (in the example, `geth` is running on port 8001
     as opposed to usual 8545), truffle migration can be run using the following command.
     It is also important that mining be running on the Ethereum node to which `rpc`
     has been pointed; otherwise, the contract will not be mined.
+  id: totrans-575
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面的文件中，`rpc`需要更改为指向适当的网络。一旦更改了`rpc`（在示例中，`geth`正在8001端口上运行，而不是通常的8545），truffle迁移可以使用以下命令运行。同样重要的是，必须在指向`rpc`的以太坊节点上运行挖掘；否则，合同将无法被挖掘。
 - en: 'The contract can be deployed using the command shown here:'
+  id: totrans-576
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用下面显示的命令部署合同：
 - en: '[PRE130]'
+  id: totrans-577
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE130]'
 - en: 'It might show an error message, as shown here. If this occurs, then it means
     that the account that truffle is using to deploy a contract to the blockchain
     is locked and is required to be unlocked:'
+  id: totrans-578
   prefs: []
   type: TYPE_NORMAL
+  zh: 它可能会显示错误消息，如下所示。如果出现这种情况，则意味着truffle用于将合同部署到区块链的账户已被锁定，需要解锁：
 - en: '[PRE131]'
+  id: totrans-579
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE131]'
 - en: The account can be unlocked by using the following commands in the `geth` JavaScript
     console.
+  id: totrans-580
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以通过在`geth` JavaScript控制台中使用以下命令来解锁账户。
 - en: 'First, list the accounts to see all accounts and then select the account that
     needs to be unlocked. Truffle assumes the coinbase account by default. Select
     the appropriate account, as follows:'
+  id: totrans-581
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先，列出账户以查看所有账户，然后选择需要解锁的账户。Truffle默认假设coinbase账户。选择适当的账户如下：
 - en: '[PRE132]'
+  id: totrans-582
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE132]'
 - en: 'The account can be unlocked using following command:'
+  id: totrans-583
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用以下命令解锁账户：
 - en: '[PRE133]'
+  id: totrans-584
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE133]'
 - en: 'Once the account is unlocked, migration can be run again using the following
     command:'
+  id: totrans-585
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦账户被解锁，可以使用以下命令再次运行迁移：
 - en: '[PRE134]'
+  id: totrans-586
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE134]'
 - en: 'It will show output similar to that shown here. It should be noted that mining
     must be started for the migration to finish. Migration will perform various steps
     by finding the files available in the `migrations` directory. As shown in the
     example, `1_initial_migration.js` and `2_deploy_contracts.js` have been used to
     provide migration steps and requirements to truffle:'
+  id: totrans-587
   prefs: []
   type: TYPE_NORMAL
+  zh: 它将显示类似于此处所示的输出。需要注意的是，必须开始挖掘以完成迁移。迁移将通过查找“migrations”目录中的可用文件执行各种步骤。如示例所示，`1_initial_migration.js`和`2_deploy_contracts.js`已被用来提供truffle的迁移步骤和要求：
 - en: '[PRE135]'
+  id: totrans-588
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE135]'
 - en: Once the command is completed successfully, it will return a command prompt
     displaying the message `saving artefacts`.
+  id: totrans-589
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦命令成功完成，将返回一个命令提示符，显示消息“saving artefacts”。
 - en: 'Deployment can be verified using a few commands shown here via the `geth` JavaScript
     console:'
+  id: totrans-590
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用下面显示的几个命令通过`geth` JavaScript控制台来验证部署：
 - en: '[PRE136]'
+  id: totrans-591
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE136]'
 - en: 'Note that the address of the newly deployed contract has been taken from the
     truffle migrate command output shown earlier. `(MetaCoin: 0x0be9c5de978fa927b93a5c4faab31312cea5704a)`'
+  id: totrans-592
   prefs: []
   type: TYPE_NORMAL
+  zh: '请注意，新部署的合同地址已经从前面显示的truffle迁移命令输出中获取。（MetaCoin: 0x0be9c5de978fa927b93a5c4faab31312cea5704a）'
 - en: '**Interaction with the contract**: Truffle also provides a console (command-line
     interface) that allows interaction with the contracts. All deployed contracts
     are already instantiated and ready to use in the console. This is an REPL-based
     interface that means Read, Evaluate, and Print Loop. Similarly, in the geth client
     (via attach or console), REPL is used via exposing **JSRE** (**JavaScript runtime
     environment**). The console can be accessed by issuing the following command:'
+  id: totrans-593
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**与合约交互**：Truffle 还提供了一个控制台（命令行界面），允许与合约交互。所有部署的合约都已经实例化并准备在控制台中使用。这是一个基于 REPL
+    的接口，即读取、评估和打印循环。类似地，在 geth 客户端中（通过 attach 或 console），REPL 是通过暴露 **JSRE**（**JavaScript
+    运行时环境**）来使用的。可以通过发出以下命令来访问控制台：'
 - en: '[PRE137]'
+  id: totrans-594
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE137]'
 - en: 'This will open a command-line interface, as shown here:'
+  id: totrans-595
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 这将打开一个命令行界面，如下所示：
 - en: '![Installation](img/image_08_035.jpg)'
+  id: totrans-596
   prefs:
   - PREF_IND
   type: TYPE_IMG
+  zh: '![安装](img/image_08_035.jpg)'
 - en: Truffle console
+  id: totrans-597
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: Truffle 控制台
 - en: 'Once the console is available, various methods can be run in order to query
     the contract. A list of methods can be displayed by typing the following command
     and tab-completing:'
+  id: totrans-598
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 一旦控制台可用，就可以运行各种方法来查询合约。可以通过输入以下命令并使用 tab 键补全来显示方法列表：
 - en: '![Installation](img/image_08_036.jpg)'
+  id: totrans-599
   prefs:
   - PREF_IND
   type: TYPE_IMG
+  zh: '![安装](img/image_08_036.jpg)'
 - en: Exposed methods
+  id: totrans-600
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 暴露的方法
 - en: 'Other methods can also be called in order to interact with the contract; for
     example, in order to retrieve the address of the contract, the following method
     can be called in the truffle console:'
+  id: totrans-601
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 还可以调用其他方法以与合约交互；例如，为了检索合约的地址，可以在 truffle 控制台中调用以下方法：
 - en: '[PRE138]'
+  id: totrans-602
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE138]'
 - en: '**Query the balance of the contract**:'
+  id: totrans-603
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**查询合约余额**：'
 - en: '[PRE139]'
+  id: totrans-604
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE139]'
 - en: The output returns a string with the value `8750`.
+  id: totrans-605
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 输出返回一个值为`8750`的字符串。
 - en: '**Transfer the balance**:'
+  id: totrans-606
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**转移余额**：'
 - en: '[PRE140]'
+  id: totrans-607
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE140]'
 - en: This will return the hash of the transaction and, when successful, it will result
     in increasing the balance of the target by 50\. The target account is the argument
     passed in the `sendCoin` function.
+  id: totrans-608
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 这将返回交易的哈希，并且在成功时，它将使目标的余额增加50。目标账户是传递给`sendCoin`函数的参数。
 - en: '**Balance of the target account**: It can be retrieved using the following
     command:'
+  id: totrans-609
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**目标账户的余额**：可以使用以下命令检索：  '
 - en: '[PRE141]'
+  id: totrans-610
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE141]'
 - en: In order to exit from the truffle console, the `.exit` command is used.
+  id: totrans-611
   prefs: []
   type: TYPE_NORMAL
+  zh: '为了退出 truffle 控制台，使用`.exit`命令。  '
 - en: Testing using truffle
+  id: totrans-612
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 使用 truffle 进行测试
 - en: 'Testing is a powerful feature of truffle and can be invoked by running the
     following command:'
+  id: totrans-613
   prefs: []
   type: TYPE_NORMAL
+  zh: 测试是 Truffle 的一个强大功能，可以通过运行以下命令来调用：
 - en: '[PRE142]'
+  id: totrans-614
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE142]'
 - en: This will read the tests from `test` directory and perform tests accordingly.
     The testing framework used by truffle is called Mocha, and it uses an assertion
     framework named Chai.
+  id: totrans-615
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将从`test`目录中读取测试并相应地执行测试。Truffle 使用的测试框架称为 Mocha，它使用了一个名为 Chai 的断言框架。
 - en: A sample test run is shown as follows. This test only runs two tests. In the
     original file, there are three tests, but for simplicity, only two are used here.
     Also, the test may fail on most of the systems; therefore, it has been removed
     from the file for simplicity. A failed test case will be discussed later. Also,
     it should be noted that mining should be running for the tests to run.
+  id: totrans-616
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个示例测试运行如下。这个测试仅运行了两个测试。在原始文件中，有三个测试，但为简单起见，这里只使用了两个。另外，该测试可能在大多数系统上失败；因此，它已从文件中删除以简化。稍后将讨论一个失败的测试案例。另外，应该注意，为了运行测试，挖矿应该正在运行。
 - en: '![Testing using truffle](img/image_08_037.jpg)'
+  id: totrans-617
   prefs: []
   type: TYPE_IMG
+  zh: '![使用 Truffle 进行测试](img/image_08_037.jpg)'
 - en: Truffle test output showing two successful tests
+  id: totrans-618
   prefs: []
   type: TYPE_NORMAL
+  zh: Truffle 测试输出显示了两个成功的测试
 - en: 'These two tests are based on the file produced by truffle init. In the following
     file, only one test is shown for simplification, when truffle creates three tests
     for the default MetaCoin project. Tests can be removed from the file by editing
     the `metacoin.js` file in a text editor:'
+  id: totrans-619
   prefs: []
   type: TYPE_NORMAL
+  zh: 这两个测试基于由 truffle init 生成的文件。在以下文件中，仅显示了一个测试以简化，当 truffle 为默认 MetaCoin 项目创建了三个测试时。可以通过在文本编辑器中编辑`metacoin.js`文件来从文件中删除测试：
 - en: '[PRE143]'
+  id: totrans-620
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE143]'
 - en: All test files are required to be present in the `tests` directory under the
     `project` directory. Tests are specified within `it` blocks.
+  id: totrans-621
   prefs: []
   type: TYPE_NORMAL
+  zh: 所有测试文件都必须存在于`project`目录下的`tests`目录中。测试在`it`块中指定。
 - en: '![Testing using truffle](img/image_08_038.jpg)'
+  id: totrans-622
   prefs: []
   type: TYPE_IMG
+  zh: '![使用 Truffle 进行测试](img/image_08_038.jpg)  '
 - en: Test based on the file shown earlier with only one test
+  id: totrans-623
   prefs: []
   type: TYPE_NORMAL
+  zh: 基于之前显示的文件进行测试，仅有一个测试。
 - en: 'In the preceding test case, when the contract is, it should have a balance
     of 10000 in it. This test basically tests whether the balance of 10000 is available
     after deploying the contract or not. In order to explain the concept, the error
     can be simulated, for example, if the `metacoin.js` file is by changing the assertion:'
+  id: totrans-624
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前述测试案例中，当合约被部署时，它应该有 10000 的余额。该测试基本上测试了部署合约后是否可用 10000 的余额。为了解释概念，可以模拟错误，例如，通过更改断言的
+    `metacoin.js` 文件：
 - en: '[PRE144]'
+  id: totrans-625
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE144]'
 - en: to
+  id: totrans-626
   prefs: []
   type: TYPE_NORMAL
+  zh: 到
 - en: '[PRE145]'
+  id: totrans-627
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE145]'
 - en: This will induce an artificial assertion failure because in assert, the expected
     amount is 1000, whereas, when the contract is deployed, it has a balance of 10,000\.
     When the test is run, the following output is shown indicating that the tests
     have failed. This change is made for demonstration purposes only in order to allow
     you to see that tests can fail and, if so, what type of outputs are produced.
+  id: totrans-628
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将导致人为断言失败，因为在断言中，预期金额为 1000，而当合约部署时，其余额为 10,000。运行测试时，会显示以下输出，表明测试失败了。此更改仅用于演示目的，以便让您看到测试可能失败，并且如果失败，会产生什么类型的输出。
 - en: '![Testing using truffle](img/image_08_039.jpg)'
+  id: totrans-629
   prefs: []
   type: TYPE_IMG
+  zh: '![使用 truffle 进行测试](img/image_08_039.jpg)'
 - en: Truffle test failing output
+  id: totrans-630
   prefs: []
   type: TYPE_NORMAL
+  zh: Truffle 测试失败的输出
 - en: The `truffle test` command takes few optional parameters, especially `--verbose-rpc`,
     which can be very helpful in understanding the RPC communication between the Ethereum
     client and truffle.
+  id: totrans-631
   prefs: []
   type: TYPE_NORMAL
+  zh: '`truffle test` 命令接受几个可选参数，特别是 `--verbose-rpc`，在理解以太坊客户端和 truffle 之间的 RPC 通信时非常有帮助。'
 - en: 'At times during test execution, an error message like the one shown here can
     appear:'
+  id: totrans-632
   prefs: []
   type: TYPE_NORMAL
+  zh: 在测试执行过程中，有时会出现类似于此处显示的错误消息：
 - en: '[PRE146]'
+  id: totrans-633
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE146]'
 - en: This error occurs when either the Ethereum node is not mining, or deploying
     the contracts is taking longer than 2 minutes. This is why timeout occurs; therefore,
     it is important that tests are run through a mining node if on PrivateNet. Also
     on Ropsten, it can sometimes take longer than 2 minutes. Alternatively, `ethereumjs-testrpc`
     can be used, which is commonly used with truffle and provides fast simulated Ethereum
     RPC client.
+  id: totrans-634
   prefs: []
   type: TYPE_NORMAL
+  zh: 当以太坊节点未进行挖矿或部署合约时间超过 2 分钟时会出现此错误。这就是超时发生的原因；因此，如果在 PrivateNet 上运行测试，则通过挖矿节点运行测试非常重要。另外，在
+    Ropsten 上，有时可能需要超过 2 分钟。或者可以使用 `ethereumjs-testrpc`，它通常与 truffle 一起使用，并提供快速模拟的以太坊
+    RPC 客户端。
 - en: Build
+  id: totrans-635
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 构建
 - en: Build in truffle is used to bootstrap the frontend for browsers. It works by
     importing compiled contracts and relevant deployed contract and Ethereum client
     configurations. All objects, after building, are saved in the `./build` directory.
     All build configurations are present in the `truffle.js` file, which guides truffle
     on what to build. By default, this file comes only with `build:` and `rpc:` configurations.
+  id: totrans-636
   prefs: []
   type: TYPE_NORMAL
+  zh: truffle 中的构建用于为浏览器引导前端。它通过导入编译后的合约和相关部署的合约和以太坊客户端配置来工作。构建后，所有对象都保存在 `./build`
+    目录中。所有构建配置都在 `truffle.js` 文件中，该文件指导 truffle 构建什么。默认情况下，此文件仅带有 `build:` 和 `rpc:`
+    配置。
 - en: 'Build can be started by issuing the following command:'
+  id: totrans-637
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以通过发出以下命令来启动构建：
 - en: '[PRE147]'
+  id: totrans-638
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE147]'
 - en: 'Once the build is completed, the `build` directory will be created if doesn''t
     exist already and a tree structure similar to the one shown here will be created.
     This is created based on the `truffle.js` file:'
+  id: totrans-639
   prefs: []
   type: TYPE_NORMAL
+  zh: 构建完成后，如果尚不存在，则将创建 `build` 目录，并创建类似于此处显示的树形结构。这是根据 `truffle.js` 文件创建的：
 - en: '[PRE148]'
+  id: totrans-640
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE148]'
 - en: Once the build is completed successfully, all frontend files will be ready.
     This can then be viewed in the browser using truffle's `serve` command. The `serve`
     command creates a web server in order to present the HTML content. The command
     can be run as shown here.
+  id: totrans-641
   prefs: []
   type: TYPE_NORMAL
+  zh: 构建成功完成后，所有前端文件都将准备就绪。然后可以使用 truffle 的 `serve` 命令在浏览器中查看。`serve` 命令创建一个 Web 服务器以呈现
+    HTML 内容。可以像下面显示的那样运行该命令。
 - en: Note that the command is run with the `-p` flag to specify port TCP 7777\. This
     is required as `geth`, in the example provided previously, is running with the
     `--rpccorsdomain 'http://localhost:7777'` option. This means that only the content
     served over TCP 7777 is allowed. By default, `serve` runs on port 8080, which
     might be in use by some other process on the system as TCP 8080 is a very common
     port to be used for web applications.
+  id: totrans-642
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，该命令是使用 `-p` 标志运行的，以指定 TCP 7777 端口。这是因为在之前提供的示例中，`geth` 是使用 `--rpccorsdomain
+    'http://localhost:7777'` 选项运行的。这意味着只允许通过 TCP 7777 提供的内容。默认情况下，`serve` 在端口 8080
+    上运行，由于 TCP 8080 是非常常用的 Web 应用程序端口，因此可能被系统中的其他进程使用。
 - en: '![Build](img/image_08_040.jpg)'
+  id: totrans-643
   prefs: []
   type: TYPE_IMG
+  zh: '![构建](img/image_08_040.jpg)'
 - en: Truffle serve
+  id: totrans-644
   prefs: []
   type: TYPE_NORMAL
+  zh: Truffle 服务
 - en: Once the truffle server is up and running on an appropriate port, the content
     can be browsed using a browser and pointing to URL `http://localhost:7777`.
+  id: totrans-645
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用 truffle migrate 迁移到以太坊测试网络。这将在网络上部署合同。请注意，此时需要再次更新`truffle.js`，将端口 8001 指向私有网络：
 - en: '![Build](img/image_08_041.jpg)'
+  id: totrans-646
   prefs: []
   type: TYPE_IMG
+  zh: 为了与合同进行交互，可以使用以下方法。由于 Addition 合同已经被实例化并在 truffle 控制台中可用，因此使用各种方法与合同进行交互变得非常容易。
 - en: Example MetaCoin frontend
+  id: totrans-647
   prefs: []
   type: TYPE_NORMAL
+  zh: 示例 MetaCoin 前端
 - en: Another example
+  id: totrans-648
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 另一个例子
 - en: 'An example is shown here, where a simple contract in solidity is created with
     migrations and tests. The contract is very simple and performs only addition:'
+  id: totrans-649
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面是一个示例，在其中使用 solidity 创建了一个简单的具有迁移和测试的合同。合同非常简单，只执行加法：
 - en: 'Create a directory named `simpleTest`:'
+  id: totrans-650
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 创建一个名为`simpleTest`的目录：
 - en: '[PRE149]'
+  id: totrans-651
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE149]'
 - en: 'Initialize truffle:'
+  id: totrans-652
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 初始化 truffle：
 - en: '[PRE150]'
+  id: totrans-653
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE150]'
 - en: Remove files from directories. This is required in order to remove the default
     MetaCoin project files create by truffle.
+  id: totrans-654
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 从目录中删除文件。这是为了删除 truffle 创建的默认 MetaCoin 项目文件。
 - en: '[PRE151]'
+  id: totrans-655
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE151]'
 - en: 'Place the two files `Addition.sol` and `Migrations.sol` in the contracts directory:'
+  id: totrans-656
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 一旦 truffle 服务器在适当的端口上运行起来，可以使用浏览器查看内容，并指向 URL `http://localhost:7777`。
 - en: '`Addition.sol`:'
+  id: totrans-657
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: (原文结束)
 - en: '[PRE152]'
+  id: totrans-658
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE152]'
 - en: 'Place the `Addition.js` file in the `test` directory:'
+  id: totrans-659
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 显示成功的 truffle 测试的样本输出
 - en: '[PRE153]'
+  id: totrans-660
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE153]'
 - en: 'In the `migrations` folder, place two files:'
+  id: totrans-661
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '![构建](img/image_08_041.jpg)'
 - en: '`        1_initial_migration.js`:'
+  id: totrans-662
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: '`        1_initial_migration.js`:'
 - en: '[PRE154]'
+  id: totrans-663
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE154]'
 - en: '`        2_deploy_contracts.js`:'
+  id: totrans-664
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: '`        2_deploy_contracts.js`:'
 - en: '[PRE155]'
+  id: totrans-665
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE155]'
 - en: 'Once all the files are in place, compile all contracts using truffle compile.
     Optionally, use the `--compile-all` flag in order to recompile the contracts even
     if they have already been compiled. This is required only if the contracts need
     to be recompiled:'
+  id: totrans-666
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 一旦所有文件就位，使用 truffle compile 编译所有合同。可选地，使用`--compile-all`标志重新编译合同，即使它们已经编译过。只有在需要重新编译合同时才需要这样做：
 - en: '[PRE156]'
+  id: totrans-667
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE156]'
 - en: 'Migrate to the Ethereum test network using truffle migrate. This will deploy
     the contract on the network. Note that, at this point, `truffle.js` will need
     to be updated again with port 8001 to point to the Private Net:'
+  id: totrans-668
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在`migrations`文件夹中，放置两个文件：
 - en: '[PRE157]'
+  id: totrans-669
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE157]'
 - en: 'Finally, tests can be performed using the following command. These tests are
     based on the `Addition.js` file shown earlier:'
+  id: totrans-670
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 最后，可以使用以下命令执行测试。这些测试是基于前面显示的`Addition.js`文件的：
 - en: '[PRE158]'
+  id: totrans-671
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE158]'
 - en: This command will first deploy the contract on the Ethereum network (PrivateNet
     in this example).
+  id: totrans-672
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 该命令将首先在以太网（本例中为 PrivateNet）上部署合同。
 - en: '![Another example](img/image_08_042.jpg)'
+  id: totrans-673
   prefs:
   - PREF_IND
   type: TYPE_IMG
+  zh: 将两个文件`Addition.sol`和`Migrations.sol`放入合同目录中：
 - en: Sample output showing successful truffle test
+  id: totrans-674
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
+  zh: '`Addition.sol`:'
 - en: In order to interact with the contract, the following methods can be used. As
     the Addition contract is already instantiated and available in the truffle console,
     it becomes quite easy to interact with the contract using various methods.
+  id: totrans-675
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 将`Addition.js`文件放入`test`目录中：
 - en: 'For example, in order to retrieve the address of the deployed contract, the
     following method can be called:'
+  id: totrans-676
   prefs: []
   type: TYPE_NORMAL
+  zh: 例如，为了检索部署的合同的地址，可以调用以下方法：
 - en: '[PRE159]'
+  id: totrans-677
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE159]'
 - en: 'To call the functions from within the contract, the deployed method is used
     with contract functions. An example is shown here, in which the `addx` function
     is called and two parameters are passed:'
+  id: totrans-678
   prefs: []
   type: TYPE_NORMAL
+  zh: 要从合同内部调用函数，需要使用已部署方法与合同函数。下面是一个示例，展示了如何调用`addx`函数并传递两个参数：
 - en: '[PRE160]'
+  id: totrans-679
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE160]'
 - en: 'Call the `retrievex` function from the contract:'
+  id: totrans-680
   prefs: []
   type: TYPE_NORMAL
+  zh: 从合同中调用`retrievex`函数：
 - en: '[PRE161]'
+  id: totrans-681
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE161]'
 - en: 'Example project: Proof of Idea'
+  id: totrans-682
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 示例项目：Proof of Idea
 - en: The idea behind this program is to provide a service to notarize a document.
     This can then be used as proof that, at a certain time in the past, the claimant
     has had access to a certain piece of information. This can be very useful for
@@ -2868,14 +4265,18 @@
     idea (documents) existed at a certain time. There are many ways in which this
     can be achieved, but the key idea is the same and it works on the principle that
     hash functions provide a digest of the text or document and are unique.
+  id: totrans-683
   prefs: []
   type: TYPE_NORMAL
+  zh: 该程序的理念是为文档提供公证服务。然后可以用作在过去的某个时间点，申请人可以访问某一段信息的证据。对于专利文件，这非常有用。例如，如果有人想出了一个创意，那么他/她可以对该文件进行哈希处理并保存在区块链上。由于区块链的不可变性，它可以作为某个想法（文件）在某个时间点存在的永久证据。有很多方法可以实现这一点，但关键理念是相同的，它是基于哈希函数提供文本或文件的摘要并且是唯一的。
 - en: This can be achieved in several ways; the key idea is to create a hash of the
     document or text string and save it on the blockchain. Once the text is hashed
     and saved, further requests to save that same text can be disallowed by comparing
     the hash of the document with the already stored hash.
+  id: totrans-684
   prefs: []
   type: TYPE_NORMAL
+  zh: 这可以通过几种方式实现；关键点是创建文档或文本字符串的散列并将其保存在区块链上。一旦文本被散列并保存，通过比较文档的散列与已存储的散列，可以阻止进一步请求保存相同的文本。
 - en: For this example, browser solidity, truffle, and TestNet (already running Network
     ID 786, created earlier) will be used. First, the code for the contract will be
     written. This can be done using any appropriate text editor or integrated development
@@ -2883,79 +4284,118 @@
     environment for the test. This example will provide you with the opportunity to
     learn how a contract project can be developed from an idea into a solidity contract
     source code and finally to deployment.
+  id: totrans-685
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于此示例，将使用浏览器可靠性、Truffle和测试网（已经运行的网络ID 786，之前创建的）。首先，将编写合同的代码。可以使用任何合适的文本编辑器或集成开发环境来完成。浏览器可靠性也可以使用，因为它也为测试提供了一个模拟环境。此示例将为您提供一个学习如何将合同项目从想法开发成为
+    solidity 合同源代码并最终部署的机会。
 - en: 'Let''s look at the code line by line:'
+  id: totrans-686
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们逐行分析一下代码：
 - en: '[PRE162]'
+  id: totrans-687
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE162]'
 - en: 'This statement ensures that the minimum compiler version is 0.4.0 and the maximum
     version cannot be greater than 0.4.9\. This ensures compatibility between programs:'
+  id: totrans-688
   prefs: []
   type: TYPE_NORMAL
+  zh: 此语句确保最低编译器版本为0.4.0，最高版本不得大于0.4.9。这确保了程序之间的兼容性：
 - en: '[PRE163]'
+  id: totrans-689
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE163]'
 - en: 'This statement is the start of the contract with name `PatentIdea`:'
+  id: totrans-690
   prefs: []
   type: TYPE_NORMAL
+  zh: 此语句是与名称为`PatentIdea`的合同的起始：
 - en: '[PRE164]'
+  id: totrans-691
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE164]'
 - en: 'Next, a mapping is defined, which maps byte32 to Boolean, and this is basically
     a `hashmap` (dictionary) of bytes32 mapping to the Boolean value:'
+  id: totrans-692
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来，定义了一个映射，将byte32映射到布尔值，这基本上是一个`hashmap`（字典），将bytes32映射到布尔值：
 - en: '[PRE165]'
+  id: totrans-693
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE165]'
 - en: 'This is a variable declared with the `alreadyStored` name, which is a Boolean
     type and can have a true or false value. This variable is used to hold the return
     value from the `SaveIdeaHash` function:'
+  id: totrans-694
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是一个名为`alreadyStored`的声明变量，它是布尔类型，可以有一个true或false的值。此变量用于保存`SaveIdeaHash`函数的返回值：
 - en: '[PRE166]'
+  id: totrans-695
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE166]'
 - en: An event is declared as well, which will be used to capture the failure or success
     of the hashing function (`SaveIdeaHash`). When the event is triggered, it will
     return a true or false Boolean value.
+  id: totrans-696
   prefs: []
   type: TYPE_NORMAL
+  zh: 同样还声明了一个事件，它将用于捕获散列函数(`SaveIdeaHash`)的失败或成功。当事件被触发时，它将返回一个布尔值true或false。
 - en: 'A function named `saveHash` is declared, which takes the hash variable of type
     bytes32 as parameters and saves it in the hash map. This will result in a change
     of the state of the contract. Note that the function accessibility is changed
     to private as it is only required internally in the contract and does not need
     to be exposed publicly:'
+  id: totrans-697
   prefs: []
   type: TYPE_NORMAL
+  zh: 声明了一个名为`saveHash`的函数，它将以类型为bytes32的散列变量作为参数，并将其保存在散列表中。这将导致合同状态的改变。请注意，函数的可访问性已更改为私有，因为它只在合同内部需要使用，不需要在公开场合暴露：
 - en: '[PRE167]'
+  id: totrans-698
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE167]'
 - en: 'Another function, `saveIdeaHash`, is declared, and it takes the variable idea
     of type string and returns a Boolean (true or false) depending on the outcome
     of the function:'
+  id: totrans-699
   prefs: []
   type: TYPE_NORMAL
+  zh: 另一个函数，`saveIdeaHash`，被声明，它接受类型为字符串的变量idea，并根据函数的结果返回一个布尔值（true或false）：
 - en: '[PRE168]'
+  id: totrans-700
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE168]'
 - en: This function has a variable declared `hashedIdea`, which is assigned a value
     after calling the `HashtheIdea` function described later. Note that this function
     can also return a value if saved, but it is not shown here for simplicity.
+  id: totrans-701
   prefs: []
   type: TYPE_NORMAL
+  zh: 此函数有一个名为`hashedIdea`的声明变量，它在稍后调用`HashtheIdea`函数后赋值。请注意，这个函数也可以返回一个值表示已保存，但出于简化，此处没有显示。
 - en: 'The next function is the `alreadyHashed` function, which is declared to take
     the variable named hash of type bytes32 and returns a Boolean (either true or
     false) after checking the hash in the hash map. This is again declared as a constant
     and accessibility is set to private:'
+  id: totrans-702
   prefs: []
   type: TYPE_NORMAL
+  zh: 下一个函数是`alreadyHashed`函数，它被声明为接受名为hash的类型为bytes32的变量，并在散列表中检查散列后返回一个布尔值（true或false）。这再次被声明为一个常量，可通过私有方式访问：
 - en: '[PRE169]'
+  id: totrans-703
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE169]'
 - en: 'The next function is `isAlreadyHashed`, which checks whether the idea is already
     hashed. This takes the input parameter idea of type string, also declared as a
     constant, which means that it cannot change the state of the contract and returns
@@ -2964,21 +4404,31 @@
     earlier to check from the hashes map whether the hash is already stored there.
     This would mean that the same string (`idea`) has already been hashed and stored
     (patented):'
+  id: totrans-704
   prefs: []
   type: TYPE_NORMAL
+  zh: 下一个函数是 `isAlreadyHashed`，它检查理念是否已经被哈希。这需要类型为 string 的输入参数 idea，也声明为 constant，这意味着它不能更改合同的状态，并根据函数
+    `alreadyHashed` 的执行结果返回 true 或 false。然后，此函数调用前面描述的 `alreadyHashed` 函数，以从哈希映射中检查哈希是否已经存储在那里。这意味着相同的字符串（`idea`）已被哈希并存储（专利）：
 - en: '[PRE170]'
+  id: totrans-705
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE170]'
 - en: 'Finally, the `HashtheIdea` function is shown here, which takes the `idea` variable
     of type string and is of `constant` type, which means that it cannot change the
     state of the contract. It is also declared as `private` as there is no need to
     expose this function publicly because it is used only internally in the contract.
     This function returns the bytes32 type value:'
+  id: totrans-706
   prefs: []
   type: TYPE_NORMAL
+  zh: '最后，这里显示了 `HashtheIdea` 函数，它接受 string 类型的 `idea` 变量，并且是 `constant` 类型，这意味着它不能更改合同的状态。并且声明为
+    `private`，因为没有必要公开此函数，因为它只在合同内部使用。此函数返回 bytes32 类型的值:'
 - en: '[PRE171]'
+  id: totrans-707
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE171]'
 - en: This function calls solidity's built-in function `sha3` and passes a string
     to it in a variable idea. This function returns the sha3 hash of the string. The
     `sha3` function is an alias for the `keccak256()` function available in solidity,
@@ -2987,177 +4437,259 @@
     to NIST for the SHA-3 standard competition. It was later modified slightly and
     standardized as the SHA-3 standard by NIST. The actual SHA-3 standard hash function
     will return a different hash compared to Keccak-256 (Ethereum's `sha3` function).
+  id: totrans-708
   prefs: []
   type: TYPE_NORMAL
+  zh: 此函数调用 solidity 的内置函数 `sha3` 并将一个字符串传递给它作为 idea 变量。此函数返回该字符串的 sha3 哈希。`sha3`
+    函数是 solidity 中 `keccak256()` 函数的别名，它计算传递给它的字符串的 Keccak-256 哈希。请注意，这不是 NIST 标准的
+    SHA-3；相反，这是 Keccak-256，原始提议用于 SHA-3 标准竞赛的 NIST。稍后经过轻微修改，并被NIST标准化为SHA-3标准。实际的
+    SHA-3 标准哈希函数将返回与 Keccak-256（以太坊的 `sha3` 函数）不同的哈希。
 - en: 'The complete contract source code is shown as follows:'
+  id: totrans-709
   prefs: []
   type: TYPE_NORMAL
+  zh: 完整的合同源代码如下所示：
 - en: '[PRE172]'
+  id: totrans-710
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE172]'
 - en: This source code can be simulated in browser solidity in order to verify that
     it is working correctly. Some examples are shown here.
+  id: totrans-711
   prefs: []
   type: TYPE_NORMAL
+  zh: 此源代码可以在浏览器 solidity 中模拟，以验证其是否正确运行。这里显示一些示例。
 - en: Once the contract source code is typed and syntax verification is complete,
     on the right-hand side panel, a screen similar to the following one will be shown.
+  id: totrans-712
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦输入合同源代码并完成语法验证，在右侧面板上，将显示类似于以下屏幕的屏幕。
 - en: This code can be improved in many ways. For example, the date can also be stored
     in a mapping with the document hash and can be returned when queried. It can be
     expanded by adding structures and more information related to the patent, but
     this example was intended to be simple and easy to understand; therefore, too
     much complexity was avoided. Further enhancements to this code are left to you
     as an exercise.
+  id: totrans-713
   prefs: []
   type: TYPE_NORMAL
+  zh: 这段代码可以通过多种方式进行改进。例如，日期也可以与文档哈希一起存储在映射中，并在查询时返回。可以通过添加结构和与专利相关的更多信息来扩展，但此示例旨在简单易懂；因此，过度复杂性被避免。对此代码的进一步增强留给你作为一项练习。
 - en: '![Example project: Proof of Idea](img/image_08_043.jpg)'
+  id: totrans-714
   prefs: []
   type: TYPE_IMG
+  zh: '![示例项目：理念的证明](img/image_08_043.jpg)'
 - en: Create contract using browser solidity
+  id: totrans-715
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用浏览器 solidity 创建合同
 - en: 'After clicking on **Create**, two functions from the contract will be exposed,
     as shown in the following screenshot:'
+  id: totrans-716
   prefs: []
   type: TYPE_NORMAL
+  zh: 点击**创建**后，将暴露合同的两个函数，如下屏幕截图所示：
 - en: '![Example project: Proof of Idea](img/image_08_044.jpg)'
+  id: totrans-717
   prefs: []
   type: TYPE_IMG
+  zh: '![示例项目：理念的证明](img/image_08_044.jpg)'
 - en: Relevant costs and exposes two methods
+  id: totrans-718
   prefs: []
   type: TYPE_NORMAL
+  zh: 相关成本和暴露两种方法
 - en: 'Functions can now be invoked as shown in the following example:'
+  id: totrans-719
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在可以按照以下示例调用函数：
 - en: '![Example project: Proof of Idea](img/image_08_045.jpg)'
+  id: totrans-720
   prefs: []
   type: TYPE_IMG
+  zh: '![示例项目：理念的证明](img/image_08_045.jpg)'
 - en: Invoking the SaveIdeaHash function
+  id: totrans-721
   prefs: []
   type: TYPE_NORMAL
+  zh: 调用 SaveIdeaHash 函数
 - en: Similarly, `isAlreadyHashed` can be called.
+  id: totrans-722
   prefs: []
   type: TYPE_NORMAL
+  zh: 类似地，`isAlreadyHashed` 可以被调用。
 - en: '![Example project: Proof of Idea](img/image_08_046.jpg)'
+  id: totrans-723
   prefs: []
   type: TYPE_IMG
+  zh: '![示例项目：理念的证明](img/image_08_046.jpg)'
 - en: Execute function isAlreadyHashed
+  id: totrans-724
   prefs: []
   type: TYPE_NORMAL
+  zh: 执行函数 isAlreadyHashed
 - en: 'If the same string is passed to the function again, it will not be saved, as
     shown in the following screenshot:'
+  id: totrans-725
   prefs: []
   type: TYPE_NORMAL
 - en: '![Example project: Proof of Idea](img/image_08_047.jpg)'
+  id: totrans-726
   prefs: []
   type: TYPE_IMG
 - en: Execute function SaveIdeaHash
+  id: totrans-727
   prefs: []
   type: TYPE_NORMAL
 - en: Also, note that the event has returned false, indicating that the hash could
     not be saved and the function returned true, further indicating that the same
     hash is already saved.
+  id: totrans-728
   prefs: []
   type: TYPE_NORMAL
 - en: Once the contract is written and simulated in browser solidity, the next step
     is to use truffle to initialize a new project and deploy and test it on the PrivateNet
     (ID 786), already created in earlier sections.
+  id: totrans-729
   prefs: []
   type: TYPE_NORMAL
 - en: 'The first step is to create a separate directory for the project:'
+  id: totrans-730
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE173]'
+  id: totrans-731
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE173]'
 - en: 'The next step is to initialize truffle and create a new project:'
+  id: totrans-732
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE174]'
+  id: totrans-733
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE174]'
 - en: 'Once the sample project is created, remove the sample contracts:'
+  id: totrans-734
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE175]'
+  id: totrans-735
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE175]'
 - en: Under the `contracts` folder, create a file named `PatentIdea.sol` and put the
     source code in the file shown earlier.
+  id: totrans-736
   prefs: []
   type: TYPE_NORMAL
 - en: 'Edit `truffle.js` to point to the localhost HTTP endpoint:'
+  id: totrans-737
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE176]'
+  id: totrans-738
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE176]'
 - en: 'Under the `~/ideapatent/migrations` folder, edit the `2_deploy_contracts.js`
     file so that it looks like the following:'
+  id: totrans-739
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE177]'
+  id: totrans-740
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE177]'
 - en: This file is changed in order to specify the name of the contract to be deployed.
     Take note of `deployer.deploy(PatentIdea);`.
+  id: totrans-741
   prefs: []
   type: TYPE_NORMAL
 - en: 'Next, run the compilation using truffle, as shown here:'
+  id: totrans-742
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE178]'
+  id: totrans-743
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE178]'
 - en: 'Ensure that mining is running the background and deploy to the network, as
     shown here:'
+  id: totrans-744
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE179]'
+  id: totrans-745
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE179]'
 - en: Once the contract is deployed, it can be interacted with using the truffle console.
+  id: totrans-746
   prefs: []
   type: TYPE_NORMAL
 - en: 'Start the truffle console by issuing this command:'
+  id: totrans-747
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE180]'
+  id: totrans-748
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE180]'
 - en: Once the console is up and running, functions from the deployed contract can
     be called as shown here.
+  id: totrans-749
   prefs: []
   type: TYPE_NORMAL
 - en: 'For example, register a new idea:'
+  id: totrans-750
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE181]'
+  id: totrans-751
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE181]'
 - en: 'Check whether `MyIdea` is hashed:'
+  id: totrans-752
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE182]'
+  id: totrans-753
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE182]'
 - en: 'Check whether another idea is hashed or not:'
+  id: totrans-754
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE183]'
+  id: totrans-755
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE183]'
 - en: This example demonstrated how a contract can be created from scratch, simulated,
     and deployed on the private net. In order to deploy this on TestNet (Ropsten)
     or live blockchain, a similar exercise can be performed. Simply point to the appropriate
     RPC and use truffle migrate to deploy on the blockchain of your choice.
+  id: totrans-756
   prefs: []
   type: TYPE_NORMAL
 - en: In the next section, various advanced concepts will be discussed.
+  id: totrans-757
   prefs: []
   type: TYPE_NORMAL
 - en: '**Oracles**'
+  id: totrans-758
   prefs: []
   type: TYPE_NORMAL
 - en: As discussed in [Chapter 6](ch05.html "Chapter 5. Alternative Coins"), *Smart
@@ -3170,6 +4702,7 @@
     data feed to smart contracts in order to enable them to make decisions according
     to real-life events. Oraclize makes it easier for smart contracts to access the
     Internet in order to get the required data.
+  id: totrans-759
   prefs: []
   type: TYPE_NORMAL
 - en: In order to utilize Oraclize on Ethereum, a transaction needs to be sent to
@@ -3178,42 +4711,55 @@
     transaction and send it back to the contract address. Once the transaction is
     sent back to the contract, the call-back method or fall back function will be
     called.
+  id: totrans-760
   prefs: []
   type: TYPE_NORMAL
 - en: At a practical level in solidity, first, the Oraclize library needs to be imported
     and then all methods that have been inherited from it can be used. Currently,
     oraclize is available to be used only on the PrivateNet (Ropsten) and Live Main
     Net Ethereum blockchain.
+  id: totrans-761
   prefs: []
   type: TYPE_NORMAL
 - en: 'Oraclize processing can be visualized as shown in the following diagram:'
+  id: totrans-762
   prefs: []
   type: TYPE_NORMAL
 - en: '![Example project: Proof of Idea](img/image_08_048.jpg)'
+  id: totrans-763
   prefs: []
   type: TYPE_IMG
 - en: Oraclize data flow
+  id: totrans-764
   prefs: []
   type: TYPE_NORMAL
 - en: 'The skeleton structure of a solidity contract using oraclize looks like the
     one shown here. Note that import works only on the development environment provided
     on the Web by oraclize; usually, this file needs to be imported manually:'
+  id: totrans-765
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE184]'
+  id: totrans-766
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE184]'
 - en: 'A sample request looks like what is shown in the following example:'
+  id: totrans-767
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE185]'
+  id: totrans-768
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE185]'
 - en: Oraclize can also make use of the TLS notary in order to ensure that the feed
     is secure and provably honest.
+  id: totrans-769
   prefs: []
   type: TYPE_NORMAL
 - en: '**Deployment on decentralized storage using IPFS**'
+  id: totrans-770
   prefs: []
   type: TYPE_NORMAL
 - en: As discussed in [Chapter 1](ch01.html "Chapter 1. Blockchain 101"), *Blockchain
@@ -3221,108 +4767,141 @@
     that you decentralize the storage and communication layer. Traditionally, the
     web content is served via centralized servers, but that part can also be decentralized
     using distributed file systems.
+  id: totrans-771
   prefs: []
   type: TYPE_NORMAL
 - en: The HTML content shown in the earlier examples can be stored on a distributed
     and decentralized IPFS network in order to achieve enhanced decentralization.
+  id: totrans-772
   prefs: []
   type: TYPE_NORMAL
 - en: IPFS is available at [https://ipfs.io/](https://ipfs.io/).
+  id: totrans-773
   prefs: []
   type: TYPE_NORMAL
 - en: '**Installing IPFS**'
+  id: totrans-774
   prefs: []
   type: TYPE_NORMAL
 - en: 'IPFS can be installed by following this process:'
+  id: totrans-775
   prefs: []
   type: TYPE_NORMAL
 - en: 'Download the IPFS package using the following command:'
+  id: totrans-776
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE186]'
+  id: totrans-777
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE186]'
 - en: 'Decompress the `gz` file:'
+  id: totrans-778
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE187]'
+  id: totrans-779
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE187]'
 - en: 'Move the `ipfs` file to an appropriate folder in order to make it available
     in the path:'
+  id: totrans-780
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE188]'
+  id: totrans-781
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE188]'
 - en: 'Initialize the IPFS node:'
+  id: totrans-782
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE189]'
+  id: totrans-783
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE189]'
 - en: 'Enter the following command to ensure that **IPFS** has been successfully installed:![Example
     project: Proof of Idea](img/image_08_049.jpg)'
+  id: totrans-784
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Successful IPFS installation
+  id: totrans-785
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
 - en: 'Start the IPFS daemon:'
+  id: totrans-786
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE190]'
+  id: totrans-787
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE190]'
 - en: 'Copy files onto IPFS using the following command:'
+  id: totrans-788
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE191]'
+  id: totrans-789
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE191]'
 - en: 'Now it can be accessed in the browser as follows:![Example project: Proof of
     Idea](img/image_08_050.jpg)'
+  id: totrans-790
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Browser accessing web pages via IPFS
+  id: totrans-791
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
 - en: Note
+  id: totrans-792
   prefs:
   - PREF_IND
   - PREF_H3
   type: TYPE_NORMAL
 - en: Note that the URL is pointing to the IPFS filesystem.
+  id: totrans-793
   prefs:
   - PREF_IND
   type: TYPE_NORMAL
 - en: 'Finally, in order to make the changes permanent, the following command can
     be used:'
+  id: totrans-794
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '[PRE192]'
+  id: totrans-795
   prefs:
   - PREF_IND
   type: TYPE_PRE
+  zh: '[PRE192]'
 - en: The preceding example demonstrated how IPFS can be used to provide decentralized
     storage for the web part (user interface) of smart contracts.
+  id: totrans-796
   prefs: []
   type: TYPE_NORMAL
 - en: IPFS can be used with blockchains in another way. As storage is a big issue
@@ -3332,6 +4911,7 @@
     and bloat it as a result. IPFS can be used to achieve exactly that by placing
     the data on IPFS and then storing the IPFS links in blockchain transactions to
     reference the stored data.
+  id: totrans-797
   prefs: []
   type: TYPE_NORMAL
 - en: Ethereum's own swarm protocol is also under heavy development and works on similar
@@ -3343,15 +4923,18 @@
     is available at [https://swarm-guide.readthedocs.io/en/latest/introduction.html](https://swarm-guide.readthedocs.io/en/latest/introduction.html).
     As this is under heavy development, only a light introduction has been given for
     this technology as it is likely to evolve very quickly.
+  id: totrans-798
   prefs: []
   type: TYPE_NORMAL
 - en: For decentralized communication in Ethereum, the Whisper protocol provides the
     decentralized communication layer. This will serve as an identity-based messaging
     layer for Ethereum. Both swarm and whisper are envisaged to be enabling technologies
     for Web 3.0.
+  id: totrans-799
   prefs: []
   type: TYPE_NORMAL
 - en: Permissioned distributed ledgers
+  id: totrans-800
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
@@ -3368,9 +4951,11 @@
     in private consortium settings, especially to work within existing financial systems.
     The key benefit of distributed ledger systems is that they are much faster, governable,
     and possibly interoperable with the existing financial systems.
+  id: totrans-801
   prefs: []
   type: TYPE_NORMAL
 - en: Summary
+  id: totrans-802
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -3399,5 +4984,7 @@
     a service on cloud, and specific use cases for smart contracts for various industries.
     All these concepts will be discussed in later chapters. I hope you enjoyed reading
     this chapter as much as I enjoyed writing it.
+  id: totrans-803
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章提供了关于如何搭建以太坊开发环境和创建智能合约的详细而深入的实例。这一章以介绍各种可以用于创建私有以太坊网络进行测试和开发的方法开始。之后，介绍了Solidity语言，以便让你了解语言的基本原理和语法。详细讨论了使用`geth`和web3等技术和工具的实际部署技术。此外，还提出了智能合约开发和部署的详细逐步示例。此外，还讨论了开发框架，并提供了实际示例，以便您体验以太坊区块链的智能合约开发生命周期。这是一章内容较长，通过密切跟随练习，你将深入了解在以太坊上进行合约开发、测试和部署。最后，讨论了与去中心化存储、去中心化通信和预言机相关的各种概念和工具。由于以太坊及相关技术和框架一直在不断快速发展，预计随着时间的推移会出现更先进的工具和技术；然而，本章讨论的基本原理可能会保持不变。此外，本章不可能讨论以太坊可用的每一个工具和框架，但所有讨论的工具和技术都是主流使用，并应该为您转向更高级水平提供坚实基础。本章有一些有意不讨论的话题，比如智能合约安全性、智能合约的形式验证、云区块链服务以及各行业智能合约的特定用例。这些概念将在以后的章节中讨论。希望你喜欢阅读这一章，就像我写作时一样。
