@@ -1,16 +1,16 @@
 # 创建您自己的区块链网络
 
-在本章中，我们将使用Hyperledger Composer创建一个区块链网络。我们将探索一个简单的用例，在其中资产可以在网络参与者之间转移。我们将学习如何快速安装Hyperledger Fabric版本 1.1。此外，我们将确定并实现一本运行您自己业务网络的逐步指南。
+在本章中，我们将使用 Hyperledger Composer 创建一个区块链网络。我们将探索一个简单的用例，在其中资产可以在网络参与者之间转移。我们将学习如何快速安装 Hyperledger Fabric 版本 1.1。此外，我们将确定并实现一本运行您自己业务网络的逐步指南。
 
 我们将通过探索以下主题来学习所有这些内容：
 
 +   创建区块链网络的先决条件
 
-+   对Hyperledger Composer的简要概述
++   对 Hyperledger Composer 的简要概述
 
-+   探索Composer Playground以创建区块链网络
++   探索 Composer Playground 以创建区块链网络
 
-+   设置本地Hyperledger Fabric/Composer开发环境
++   设置本地 Hyperledger Fabric/Composer 开发环境
 
 # 先决条件
 
@@ -22,27 +22,27 @@
 
 +   Python 2.7
 
-+   Git 2.9.x或更高版本
++   Git 2.9.x 或更高版本
 
 +   Go
 
 +   Windows 10/Ubuntu Linux 14.04/macOS 10.12
 
-对于Windows 10，您将需要安装Windows子系统以运行Ubuntu。
+对于 Windows 10，您将需要安装 Windows 子系统以运行 Ubuntu。
 
-# 使用Hyperledger Composer创建自己的区块链网络
+# 使用 Hyperledger Composer 创建自己的区块链网络
 
-在[第三章](fe11e1f3-8540-4126-ace5-2c877b06d6bf.xhtml)，*解释区块链技术和使用Hyperledger* 中，我们看了一些属于Hyperledger分布分类帐伞下的各个框架。我们随后分析了其中之一，即Hyperledger Composer，一个开发区块链网络的强大工具。
+在第三章，*解释区块链技术和使用 Hyperledger* 中，我们看了一些属于 Hyperledger 分布分类帐伞下的各个框架。我们随后分析了其中之一，即 Hyperledger Composer，一个开发区块链网络的强大工具。
 
-在区块链方面，使用Hyperledger Composer的最大优势之一是该框架提供的出色文档，不仅限于网站本身，还包括开发者网站和其他提供代码和常规示例的网站。
+在区块链方面，使用 Hyperledger Composer 的最大优势之一是该框架提供的出色文档，不仅限于网站本身，还包括开发者网站和其他提供代码和常规示例的网站。
 
-在这里，我们将看到一个比在Hyperledger Composer的教程网站上发现的稍微不太常见的用例的逐步指南，这将演示创建区块链网络是多么简单。我们将使用被称为Playground的Hyperledger Composer平台。
+在这里，我们将看到一个比在 Hyperledger Composer 的教程网站上发现的稍微不太常见的用例的逐步指南，这将演示创建区块链网络是多么简单。我们将使用被称为 Playground 的 Hyperledger Composer 平台。
 
-# 访问Hyperledger Composer
+# 访问 Hyperledger Composer
 
-在线Hyperledger Composer Playground使我们能够在没有任何安装的情况下探索Hyperledger组件。以下步骤将指导您游览在线Composer Playground：
+在线 Hyperledger Composer Playground 使我们能够在没有任何安装的情况下探索 Hyperledger 组件。以下步骤将指导您游览在线 Composer Playground：
 
-1.  让我们访问以下链接的网站：[http://composer-playground.mybluemix.net/login](http://composer-playground.mybluemix.net/login)。正如我们在以下截图中看到的，主页会显示一个闪屏页面：
+1.  让我们访问以下链接的网站：[`composer-playground.mybluemix.net/login`](http://composer-playground.mybluemix.net/login)。正如我们在以下截图中看到的，主页会显示一个闪屏页面：
 
 ![](img/9f0f55dc-7a74-45c8-a2fc-a9751cd2c9d3.png)
 
@@ -50,9 +50,9 @@
 
 ![](img/cfaa923d-3ad6-4433-b9c9-f84f2351b970.png)
 
-在这个页面上，您可以选择使用教程，该教程将带领您完成非常详细的逐步流程。这对于探索Hyperledger Composer非常有帮助。现在，让我们继续。
+在这个页面上，您可以选择使用教程，该教程将带领您完成非常详细的逐步流程。这对于探索 Hyperledger Composer 非常有帮助。现在，让我们继续。
 
-1.  点击Get Started链接。加载几个屏幕后，您将进入编辑器，在那里您将能够创建您自己的区块链网络：
+1.  点击 Get Started 链接。加载几个屏幕后，您将进入编辑器，在那里您将能够创建您自己的区块链网络：
 
 ![](img/9b220e70-2ec7-4e20-b268-a616cc081bbd.png)
 
@@ -142,7 +142,7 @@ participant SampleParticipant identified by participantId {
  }
 ```
 
-1.  **访问控制列表**（**ACL**）是确保Hyperledger Composer区块链网络对参与者在资产上可以执行的操作进行隔离访问的功能。现在我们将创建一个业务规则，允许区块链网络的成员有正确的访问控制。基本文件赋予当前参与者，即网络管理员，对业务网络和系统级操作的完全访问权。
+1.  **访问控制列表**（**ACL**）是确保 Hyperledger Composer 区块链网络对参与者在资产上可以执行的操作进行隔离访问的功能。现在我们将创建一个业务规则，允许区块链网络的成员有正确的访问控制。基本文件赋予当前参与者，即网络管理员，对业务网络和系统级操作的完全访问权。
 
 ![](img/fcda1af1-c4ad-43ed-bd41-89930f6a8f04.png)
 
@@ -240,11 +240,11 @@ rule OwnerHasFullAccessToTheirAssets {
  }
 ```
 
-1.  现在让我们为参与者1创建一个资产。记得添加`participantId`、`assetId`和`value`：
+1.  现在让我们为参与者 1 创建一个资产。记得添加`participantId`、`assetId`和`value`：
 
 ![](img/1a9701c4-ef27-49f1-b86b-248977bcdd67.png)
 
-1.  使用以下代码为参与者1创建一个资产：
+1.  使用以下代码为参与者 1 创建一个资产：
 
 ```
 {
@@ -255,11 +255,11 @@ rule OwnerHasFullAccessToTheirAssets {
  }
 ```
 
-1.  重复用于参与者1的方法，用于参与者2：
+1.  重复用于参与者 1 的方法，用于参与者 2：
 
 ![](img/567eea76-9a38-4918-a73d-c874f8918e1a.png)
 
-1.  使用以下代码为参与者2创建一个资产：
+1.  使用以下代码为参与者 2 创建一个资产：
 
 ```
 {
@@ -270,7 +270,7 @@ rule OwnerHasFullAccessToTheirAssets {
  }
 ```
 
-1.  我们现在准备在参与者之间提交一笔交易。点击“提交”按钮并从参与者2发送一笔金额给参与者1。在以下示例中，交易的价值为300：
+1.  我们现在准备在参与者之间提交一笔交易。点击“提交”按钮并从参与者 2 发送一笔金额给参与者 1。在以下示例中，交易的价值为 300：
 
 ![](img/2146c1f3-b3e3-468a-b289-254c5298c23b.png)
 
@@ -293,73 +293,73 @@ rule OwnerHasFullAccessToTheirAssets {
 
 ![](img/9c0b2500-5a65-40a0-909a-2bd10a8f2244.png)
 
-现在您已经验证了一个用例，您可以开始制作一个新的概念验证，并向业务网络中的成员展示Hyperledger区块链的全部潜力。
+现在您已经验证了一个用例，您可以开始制作一个新的概念验证，并向业务网络中的成员展示 Hyperledger 区块链的全部潜力。
 
-# 使用Hyperledger Fabric和Composer安装您自己的区块链网络
+# 使用 Hyperledger Fabric 和 Composer 安装您自己的区块链网络
 
-在上一节中，我们看到了使用Playground与Hyperledger Composer一起工作是多么容易。现在我们将在您自己的（本地）机器上安装Composer。
+在上一节中，我们看到了使用 Playground 与 Hyperledger Composer 一起工作是多么容易。现在我们将在您自己的（本地）机器上安装 Composer。
 
 我们将从安装区块链网络的三个最重要阶段开始：
 
 1.  安装先决条件
 
-1.  安装Hyperledger Composer（开发环境）
+1.  安装 Hyperledger Composer（开发环境）
 
 1.  更新环境
 
-我们可以通过许多方式使用Hyperledger Fabric安装区块链网络，包括本地服务器、Kubernetes、IBM Cloud和Docker。首先，我们将探索Docker和Kubernetes。
+我们可以通过许多方式使用 Hyperledger Fabric 安装区块链网络，包括本地服务器、Kubernetes、IBM Cloud 和 Docker。首先，我们将探索 Docker 和 Kubernetes。
 
-# 设置Docker
+# 设置 Docker
 
-Docker可以使用[https://www.docker.com/get-started](https://www.docker.com/get-started)上提供的信息进行安装。
+Docker 可以使用[`www.docker.com/get-started`](https://www.docker.com/get-started)上提供的信息进行安装。
 
-Hyperledger Composer与两个版本的Docker一起工作：
+Hyperledger Composer 与两个版本的 Docker 一起工作：
 
-+   Docker Composer版本1.8或更高版本
++   Docker Composer 版本 1.8 或更高版本
 
-+   Docker引擎版本17.03或更高版本
++   Docker 引擎版本 17.03 或更高版本
 
-如果您已经安装了Docker但不确定版本，您可以在终端或命令提示符中使用以下命令查看版本：
+如果您已经安装了 Docker 但不确定版本，您可以在终端或命令提示符中使用以下命令查看版本：
 
 ```
 docker –version
 ```
 
-注意：许多基于Linux的操作系统，例如Ubuntu，都附带了最新版本的Python（Python 3.5.1）。在这种情况下，重要的是要获取Python 2.7版本。您可以在此处获取它：[https://www.python.org/download/releases/2.7/](https://www.python.org/download/releases/2.7/)。
+注意：许多基于 Linux 的操作系统，例如 Ubuntu，都附带了最新版本的 Python（Python 3.5.1）。在这种情况下，重要的是要获取 Python 2.7 版本。您可以在此处获取它：[`www.python.org/download/releases/2.7/`](https://www.python.org/download/releases/2.7/)。
 
-# 安装Hyperledger Composer
+# 安装 Hyperledger Composer
 
-现在我们将设置Hyperledger Composer并获得其开发工具的访问权限，这些工具主要用于创建业务网络。我们还将设置Hyperledger Fabric，该工具可用于在本地运行或部署业务网络。这些业务网络也可以在其他地方的Hyperledger Fabric运行时中运行，例如在云平台上。
+现在我们将设置 Hyperledger Composer 并获得其开发工具的访问权限，这些工具主要用于创建业务网络。我们还将设置 Hyperledger Fabric，该工具可用于在本地运行或部署业务网络。这些业务网络也可以在其他地方的 Hyperledger Fabric 运行时中运行，例如在云平台上。
 
 确保您之前没有安装过这些工具并使用过。如果您安装过，您将会使用本指南。
 
 # 组件
 
-要成功安装Hyperledger Composer，您需要准备好以下组件：
+要成功安装 Hyperledger Composer，您需要准备好以下组件：
 
-+   CLI工具
++   CLI 工具
 
 +   Playground
 
 +   Hyperledger Fabric
 
-+   一个IDE
++   一个 IDE
 
 安装完这些后，您可以开始执行这里给出的步骤。
 
-# 步骤1 – 设置CLI工具
+# 步骤 1 – 设置 CLI 工具
 
-CLI工具，`composer-cli`，是一个具有最重要操作的库，例如管理、操作和开发任务。我们还将在此步骤中安装以下工具：
+CLI 工具，`composer-cli`，是一个具有最重要操作的库，例如管理、操作和开发任务。我们还将在此步骤中安装以下工具：
 
 +   **Yeoman**：用于生成应用程序的前端工具
 
 +   **库生成器**：用于生成应用程序资产
 
-+   **REST服务器**：用于运行REST服务器（本地）
++   **REST 服务器**：用于运行 REST 服务器（本地）
 
-让我们开始设置CLI工具：
+让我们开始设置 CLI 工具：
 
-1.  安装CLI工具：
+1.  安装 CLI 工具：
 
 ```
 npm install -g composer-cli@0.20
@@ -371,7 +371,7 @@ npm install -g composer-cli@0.20
 npm install -g generator-hyperledger-composer@0.20
 ```
 
-1.  安装REST服务器：
+1.  安装 REST 服务器：
 
 ```
 npm install -g composer-rest-server@0.20
@@ -430,7 +430,7 @@ export FABRIC_VERSION=hlfv12
 
 Hyperledger Composer 允许你使用许多 IDE。其中两个知名的是 Atom 和 VS Code，它们都有很好的扩展可以用于与 Hyperledger Composer 的工作。
 
-Atom可以让你使用`composer-atom`插件([https://github.com/hyperledger/composer-atom-plugin](https://github.com/hyperledger/composer-atom-plugin))对 Hyperledger Composer 建模语言进行语法高亮。你可以在以下链接下载这个 IDE：[https://atom.io/.](https://atom.io/)同时，你也可以在以下链接下载 VS Code：[https://code.visualstudio.com/download](https://code.visualstudio.com/download)。
+Atom 可以让你使用`composer-atom`插件([`github.com/hyperledger/composer-atom-plugin`](https://github.com/hyperledger/composer-atom-plugin))对 Hyperledger Composer 建模语言进行语法高亮。你可以在以下链接下载这个 IDE：[`atom.io/.`](https://atom.io/)同时，你也可以在以下链接下载 VS Code：[`code.visualstudio.com/download`](https://code.visualstudio.com/download)。
 
 # 使用 Docker 安装 Hyperledger Fabric 1.3
 
@@ -438,7 +438,7 @@ Atom可以让你使用`composer-atom`插件([https://github.com/hyperledger/comp
 
 如果你在 Windows 上使用 Docker，请按照以下说明操作：
 
-1.  请参阅 Docker 文档以了解共享驱动器，文档地址为[https://docs.docker.com/docker-for-windows/#shared-drives](https://docs.docker.com/docker-for-windows/#shared-drives)，并在其中一个共享驱动器下使用一个位置。
+1.  请参阅 Docker 文档以了解共享驱动器，文档地址为[`docs.docker.com/docker-for-windows/#shared-drives`](https://docs.docker.com/docker-for-windows/#shared-drives)，并在其中一个共享驱动器下使用一个位置。
 
 1.  创建一个目录，从 Hyperledger GitHub 仓库克隆示例文件，并运行以下命令：
 
@@ -452,7 +452,7 @@ $ git clone -b master https://github.com/hyperledger/fabric-samples.git
 $ curl -sSl https://goo.gl/6wtTN5 | bash -s 1.1.0
 ```
 
-完整的安装指南可以在 Hyperledger 网站找到：[https://hyperledger-fabric.readthedocs.io/en/release-1.3/install.html](https://hyperledger-fabric.readthedocs.io/en/release-1.3/install.html)。
+完整的安装指南可以在 Hyperledger 网站找到：[`hyperledger-fabric.readthedocs.io/en/release-1.3/install.html`](https://hyperledger-fabric.readthedocs.io/en/release-1.3/install.html)。
 
 # 将 Hyperledger Fabric 1.3 部署到 Kubernetes 环境
 
@@ -460,7 +460,7 @@ $ curl -sSl https://goo.gl/6wtTN5 | bash -s 1.1.0
 
 Kubernetes 是一个容器编排平台，可在主要云服务提供商（如亚马逊网络服务、谷歌云平台、IBM 和 Azure）上使用。IBM 的杰出云架构师之一 Marcelo Feitoza Parisi 在 GitHub 上创建并发布了一份关于如何在 Kubernetes 上设置 Hyperledger Fabric 生产环境的指南。
 
-该指南可在 [https://github.com/feitnomore/hyperledger-fabric-kubernetes](https://github.com/feitnomore/hyperledger-fabric-kubernetes) 上找到。
+该指南可在 [`github.com/feitnomore/hyperledger-fabric-kubernetes`](https://github.com/feitnomore/hyperledger-fabric-kubernetes) 上找到。
 
 特别感谢 Marcelo！
 
@@ -474,10 +474,10 @@ Kubernetes 是一个容器编排平台，可在主要云服务提供商（如亚
 
 # 进一步阅读
 
-+   欲了解有关 Composer 的更多信息，请访问 [https://hyperledger.github.io/composer/latest/tutorials/tutorials](https://hyperledger.github.io/composer/latest/tutorials/tutorials)。
++   欲了解有关 Composer 的更多信息，请访问 [`hyperledger.github.io/composer/latest/tutorials/tutorials`](https://hyperledger.github.io/composer/latest/tutorials/tutorials)。
 
-+   如果您想安装完整的 Hyperledger Fabric 栈，请按照此链接的建议进行：[https://github.com/feitnomore/hyperledger-fabric-kubernetes](https://github.com/feitnomore/hyperledger-fabric-kubernetes)。
++   如果您想安装完整的 Hyperledger Fabric 栈，请按照此链接的建议进行：[`github.com/feitnomore/hyperledger-fabric-kubernetes`](https://github.com/feitnomore/hyperledger-fabric-kubernetes)。
 
-+   所有关于 Hyperledger 的安装过程和架构都可以在此处找到：[https://github.com/feitnomore/hyperledger-fabric-kubernetes](https://github.com/feitnomore/hyperledger-fabric-kubernetes)。
++   所有关于 Hyperledger 的安装过程和架构都可以在此处找到：[`github.com/feitnomore/hyperledger-fabric-kubernetes`](https://github.com/feitnomore/hyperledger-fabric-kubernetes)。
 
-+   关于安装 Hyperledger Composer 的逐步指南可以在此处找到：[https://medium.com/kago/tutorial-to-install-hyperledger-composer-on-windows-88d973094b5c](https://medium.com/kago/tutorial-to-install-hyperledger-composer-on-windows-88d973094b5c)。
++   关于安装 Hyperledger Composer 的逐步指南可以在此处找到：[`medium.com/kago/tutorial-to-install-hyperledger-composer-on-windows-88d973094b5c`](https://medium.com/kago/tutorial-to-install-hyperledger-composer-on-windows-88d973094b5c)。

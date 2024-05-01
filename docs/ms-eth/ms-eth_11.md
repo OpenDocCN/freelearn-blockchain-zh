@@ -26,23 +26,23 @@
 
 # DAXs 的缺点
 
-DAXs通常较慢，因为除非你依赖于货币对之间的链下系统，否则无法进行即时交易，在你希望在其他加密货币之间进行交易时将会放慢你的速度。
+DAXs 通常较慢，因为除非你依赖于货币对之间的链下系统，否则无法进行即时交易，在你希望在其他加密货币之间进行交易时将会放慢你的速度。
 
 它们在某种程度上也受限，因为你不能交易不同区块链上基于法定货币或加密货币的货币。例如，交换**比特币**（**BTC**）兑换**以太坊**（**ETH**）的唯一方法是拥有中心化系统，该系统持有这两种货币，并在任何时刻提供用户公平的交换。有一些项目已经整合了这两种类型的货币，但它们仍然年轻，并需要成熟才能变得受欢迎。
 
-DAXs目前尚未被主流公众使用，所以它们没有达到它们可能达到的水平，因为我们缺乏创建无故障工作的交易所所需的工具和协议。
+DAXs 目前尚未被主流公众使用，所以它们没有达到它们可能达到的水平，因为我们缺乏创建无故障工作的交易所所需的工具和协议。
 
-# DAXs的优势
+# DAXs 的优势
 
 另一方面，这些类型的交易所有可能克服多数依赖中心化交易的大多数市场过时技术。因为它们是从零开始创建的，所以它们可以在其他项目中获取所有优点，并将其更好地实施。
 
-DAXs默认可以使用数千种代币，因为它们大多数实施了ERC20标准，为它们提供了巨大的可能性。有许多优秀的项目正在构建协议，比如**0xprotocol**，其中开发人员可以将一组已知功能添加到自己的系统中，以便它们可以自由通信，作为一个全球互连DAXs系统。事实上，0xprotocol分享了代币的流动性，使它们可以在没有任何要求的情况下作为交易者运行。
+DAXs 默认可以使用数千种代币，因为它们大多数实施了 ERC20 标准，为它们提供了巨大的可能性。有许多优秀的项目正在构建协议，比如**0xprotocol**，其中开发人员可以将一组已知功能添加到自己的系统中，以便它们可以自由通信，作为一个全球互连 DAXs 系统。事实上，0xprotocol 分享了代币的流动性，使它们可以在没有任何要求的情况下作为交易者运行。
 
-随着以太坊核心团队开发的新的扩容解决方案，DAXs即将大幅改善，交易速度更快，类似于真实的中心化市场，使以太坊成为全球虚拟货币经济中的核心参与者。
+随着以太坊核心团队开发的新的扩容解决方案，DAXs 即将大幅改善，交易速度更快，类似于真实的中心化市场，使以太坊成为全球虚拟货币经济中的核心参与者。
 
-许多成功的交易所正不断提高以扩展去中心化技术的可能性范式，并且它们正在使用稳定币，如泰达币和USD Coin，以维持以法定货币支持的不变价值，从而弥合了两个世界之间的鸿沟。
+许多成功的交易所正不断提高以扩展去中心化技术的可能性范式，并且它们正在使用稳定币，如泰达币和 USD Coin，以维持以法定货币支持的不变价值，从而弥合了两个世界之间的鸿沟。
 
-我们可以在几本不同的书中讨论数小时有关DAXs，但我想要传达的观点是，DAXs有潜力超越现有技术，成为全球中心化和去中心化货币市场的主要场所。这就是为什么我希望你通过构建基于solidity智能合约的简单DAX来明白所有这些是如何可能的，以获取为创建DAXs的许多公司工作所需的实践经验，甚至自己开始DAX，因为它们是去中心化技术的核心要素之一。
+我们可以在几本不同的书中讨论数小时有关 DAXs，但我想要传达的观点是，DAXs 有潜力超越现有技术，成为全球中心化和去中心化货币市场的主要场所。这就是为什么我希望你通过构建基于 solidity 智能合约的简单 DAX 来明白所有这些是如何可能的，以获取为创建 DAXs 的许多公司工作所需的实践经验，甚至自己开始 DAX，因为它们是去中心化技术的核心要素之一。
 
 # 基本交易术语
 
@@ -112,9 +112,9 @@ function createLimitOrder("BTC", "ETH", 10, 20);
 
 市价订单很有趣，因为我们希望以最便宜或最贵的价格立即填充订单。背后发生的是我们用市价订单来关闭限价订单。然而，通常不可能以最新市价填满整个订单，简单的原因是最赚钱的限价订单是购买或出售最少数量的代币。
 
-例如，我们想以市场价格出售10个TokenA换取TokenB。最有利可图的限价订单是*以40个TokenB换取5个TokenA*。在这种情况下，1个TokenA的价格将为8个TokenB，反之亦然。因此，我们创建了市价订单，立即从该限价订单中出售5个TokenA以换取40个TokenB，但是我们想要出售的剩余的5个TokenA怎么办？我们转向下一个最有利可图的买单，即*以700个TokenB换取100个TokenA*。在这种情况下，1个TokenA的价格将为7个TokenB，虽然不如上一个订单的利润高，但仍然不错。因此，我们交换了5个TokenA以换取35个TokenB，将该限价买单保留在*以665个TokenB购买95个TokenA*，直到下一个用户填满为止。
+例如，我们想以市场价格出售 10 个 TokenA 换取 TokenB。最有利可图的限价订单是*以 40 个 TokenB 换取 5 个 TokenA*。在这种情况下，1 个 TokenA 的价格将为 8 个 TokenB，反之亦然。因此，我们创建了市价订单，立即从该限价订单中出售 5 个 TokenA 以换取 40 个 TokenB，但是我们想要出售的剩余的 5 个 TokenA 怎么办？我们转向下一个最有利可图的买单，即*以 700 个 TokenB 换取 100 个 TokenA*。在这种情况下，1 个 TokenA 的价格将为 7 个 TokenB，虽然不如上一个订单的利润高，但仍然不错。因此，我们交换了 5 个 TokenA 以换取 35 个 TokenB，将该限价买单保留在*以 665 个 TokenB 购买 95 个 TokenA*，直到下一个用户填满为止。
 
-最后，我们使用那一特定时刻的最有利可图限价订单的组合，以10个TokenA获得了75个TokenB。通过这种理解，我们可以创建我们的市场订单功能的签名：
+最后，我们使用那一特定时刻的最有利可图限价订单的组合，以 10 个 TokenA 获得了 75 个 TokenB。通过这种理解，我们可以创建我们的市场订单功能的签名：
 
 ```
 /// @notice The function to create market orders by filling existing limit orders
@@ -128,11 +128,11 @@ function createMarketOrder(bytes32 _type, bytes32 _symbol, uint256 _maxPrice);
 
 # 管理加密货币钱包和冷存储
 
-当涉及到管理人们的资金时，我们必须格外注意我们的操作方式，因为使用我们的DAX可能会面临数百万美元的风险。这就是为什么最大的交易所采用冷存储并配备了许多安全系统的原因。基本上，他们会将资金离线存储在远程位置的安全硬件设备中，这些设备根据其需求进行定制，如Trezor、Ledger或他们自己的设备。
+当涉及到管理人们的资金时，我们必须格外注意我们的操作方式，因为使用我们的 DAX 可能会面临数百万美元的风险。这就是为什么最大的交易所采用冷存储并配备了许多安全系统的原因。基本上，他们会将资金离线存储在远程位置的安全硬件设备中，这些设备根据其需求进行定制，如 Trezor、Ledger 或他们自己的设备。
 
-在我们的情况下，我们将资金存储在一系列智能合约中，称为**托管合约**，其唯一目标是存储人们的资金。每个用户帐户将关联一个托管合约，独立安全地保管所有他们的资金。该托管合约将具有一个函数来接收资金，仅限ERC20代币，并具有一个可以由该托管合约所有者执行的提取资金的函数。现在，请创建一个名为`decentralized-exchange`的文件夹，然后运行`truffle init`和`npm init -y`命令，在`contracts/`文件夹中创建一个名为`Escrow.sol`的合约。以下是我们的托管合约的外观。
+在我们的情况下，我们将资金存储在一系列智能合约中，称为**托管合约**，其唯一目标是存储人们的资金。每个用户帐户将关联一个托管合约，独立安全地保管所有他们的资金。该托管合约将具有一个函数来接收资金，仅限 ERC20 代币，并具有一个可以由该托管合约所有者执行的提取资金的函数。现在，请创建一个名为`decentralized-exchange`的文件夹，然后运行`truffle init`和`npm init -y`命令，在`contracts/`文件夹中创建一个名为`Escrow.sol`的合约。以下是我们的托管合约的外观。
 
-首先，它包含了ERC20代币的接口，因为我们不需要整个实现来进行代币交易：
+首先，它包含了 ERC20 代币的接口，因为我们不需要整个实现来进行代币交易：
 
 ```
 pragma solidity 0.5.4;
@@ -192,17 +192,17 @@ contract Escrow {
 }
 ```
 
-这个`Escrow`合约接收代币转账以将资金安全地保存在内部。每个用户将拥有一个独特的托管合约来分散资金的位置，以便攻击者无法集中于单一地点。您可以通过`transferTokens()`函数管理合约内的代币资金，并且可以使用`checkTokenBalance()`函数检查合约内的代币余额，这是一个简化的`.balanceOf()`ERC20辅助函数。最后，我添加了一个空的非付款回退函数，以避免接收Ether，因为我们只想要代币内部。
+这个`Escrow`合约接收代币转账以将资金安全地保存在内部。每个用户将拥有一个独特的托管合约来分散资金的位置，以便攻击者无法集中于单一地点。您可以通过`transferTokens()`函数管理合约内的代币资金，并且可以使用`checkTokenBalance()`函数检查合约内的代币余额，这是一个简化的`.balanceOf()`ERC20 辅助函数。最后，我添加了一个空的非付款回退函数，以避免接收 Ether，因为我们只想要代币内部。
 
 我们将稍后使用这个`Escrow`合约来管理人们的资金，因为我们希望有一个安全的地方来保存他们珍贵的代币。理想情况下，我们会创建一个使用硬件设备中的冷存储的系统，但这样的操作将需要一个复杂的系统，负责安全管理每一个步骤，以防止中间人攻击。
 
 # 构建用户界面
 
-DAXs的用户界面与传统交易所（如股票交易所）或中心化加密交易所（如**币安**）使用的界面相同。其理念是提供一个数据驱动的设计，使他们能够快速了解所选代币对的情况。中心区域将用于数据显示，侧边栏将用于用户可能采取的操作，右侧将用于辅助数据；在我们的情况下，它将用于过去的交易。
+DAXs 的用户界面与传统交易所（如股票交易所）或中心化加密交易所（如**币安**）使用的界面相同。其理念是提供一个数据驱动的设计，使他们能够快速了解所选代币对的情况。中心区域将用于数据显示，侧边栏将用于用户可能采取的操作，右侧将用于辅助数据；在我们的情况下，它将用于过去的交易。
 
-像往常一样，创建一个包含我们项目的`src`和`dist`文件夹。您可以通过查看我的GitHub上的自己版本 [github.com/merlox/dapp](http://github.com/merlox/dapp) 来直接复制之前项目的设置。我们的设计将基于大多数交易所，因为它们有一个经过研究的公式，感觉很棒。在您的`index.js`文件中创建一个新组件作为侧边栏的一部分。
+像往常一样，创建一个包含我们项目的`src`和`dist`文件夹。您可以通过查看我的 GitHub 上的自己版本 [github.com/merlox/dapp](http://github.com/merlox/dapp) 来直接复制之前项目的设置。我们的设计将基于大多数交易所，因为它们有一个经过研究的公式，感觉很棒。在您的`index.js`文件中创建一个新组件作为侧边栏的一部分。
 
-首先，添加`Main`组件以及普通React应用程序所需的导入：
+首先，添加`Main`组件以及普通 React 应用程序所需的导入：
 
 ```
 import React from 'react'
@@ -282,15 +282,15 @@ npm i -S style-loader css-loader stylus-loader stylus
 }
 ```
 
-在你的源文件夹内创建一个新的`index.styl`文件，并添加你的Stylus代码。如果你想创建和我一样的设计，请在官方GitHub上查看stylus代码：[https://github.com/merlox/decentralized-exchange/blob/master/src/index.styl](https://github.com/merlox/decentralized-exchange/blob/master/src/index.styl)。
+在你的源文件夹内创建一个新的`index.styl`文件，并添加你的 Stylus 代码。如果你想创建和我一样的设计，请在官方 GitHub 上查看 stylus 代码：[`github.com/merlox/decentralized-exchange/blob/master/src/index.styl`](https://github.com/merlox/decentralized-exchange/blob/master/src/index.styl)。
 
-这为我们的DAX生成了一个漂亮的侧边栏。记得用`webpack -w -d`打包你的文件：
+这为我们的 DAX 生成了一个漂亮的侧边栏。记得用`webpack -w -d`打包你的文件：
 
 ![](img/0c8388d6-1c5b-42cf-94c9-93968fa57683.png)
 
-正如你所看到的，Stylus允许你编写清晰、可嵌套的`css`，以便轻松组织大块的样式，从而使你的项目更易于维护。最后，该代码会被转换成有效的在所有浏览器上运行的`css`，因为Stylus会正确地编译每个文件。然后我们可以添加一个交易部分，展示在我们的交易所中所有货币对的交易，以便人们了解他们的硬币的总体价格。
+正如你所看到的，Stylus 允许你编写清晰、可嵌套的`css`，以便轻松组织大块的样式，从而使你的项目更易于维护。最后，该代码会被转换成有效的在所有浏览器上运行的`css`，因为 Stylus 会正确地编译每个文件。然后我们可以添加一个交易部分，展示在我们的交易所中所有货币对的交易，以便人们了解他们的硬币的总体价格。
 
-首先，在`Main`组件的状态对象中添加假数据的新交易以实现最终设计时dApp的展示：
+首先，在`Main`组件的状态对象中添加假数据的新交易以实现最终设计时 dApp 的展示：
 
 ```
 import React from 'react'
@@ -336,7 +336,7 @@ class Main extends React.Component {
     }
 ```
 
-之后，通过将props传递给`Trades`和`History`组件，用新的状态对象更新`render()`函数：
+之后，通过将 props 传递给`Trades`和`History`组件，用新的状态对象更新`render()`函数：
 
 ```
 
@@ -395,13 +395,13 @@ class Trades extends React.Component {
 }
 ```
 
-正如你所看到的，由于我们需要它们来了解我们的交易所在实际环境中的样子，我们增加了许多样例交易和历史交易；请注意我们如何更新了`Main`组件，以将状态数据传递给每个组件。然后我们可以添加一些Stylus让它看起来更好。在官方GitHub上查看最终的Stylus代码：[https://github.com/merlox/decentralized-exchange/blob/master/src/index.styl](https://github.com/merlox/decentralized-exchange/blob/master/src/index.styl)。
+正如你所看到的，由于我们需要它们来了解我们的交易所在实际环境中的样子，我们增加了许多样例交易和历史交易；请注意我们如何更新了`Main`组件，以将状态数据传递给每个组件。然后我们可以添加一些 Stylus 让它看起来更好。在官方 GitHub 上查看最终的 Stylus 代码：[`github.com/merlox/decentralized-exchange/blob/master/src/index.styl`](https://github.com/merlox/decentralized-exchange/blob/master/src/index.styl)。
 
-为了得到一个外观漂亮的设计。请注意，我在`Main`组件的状态对象中包含了15个交易对象和15个历史交易对象，以便我们在完全加载后看到dApp的样子：
+为了得到一个外观漂亮的设计。请注意，我在`Main`组件的状态对象中包含了 15 个交易对象和 15 个历史交易对象，以便我们在完全加载后看到 dApp 的样子：
 
 ![](img/31ff1751-fdc3-48c3-8fc1-aa1f88b065c1.png)
 
-每个BUY和SELL部分顶部最上面的交易是该加密货币对的市价，因为市价订单在那个特定时刻一直是最有利可图的交易。随着人们随着时间交易不同的货币，这些交易将实时更新。这是了解价格走势的一种奇妙方式。最后，我们可以添加`History`部分，它将显示最近的交易：
+每个 BUY 和 SELL 部分顶部最上面的交易是该加密货币对的市价，因为市价订单在那个特定时刻一直是最有利可图的交易。随着人们随着时间交易不同的货币，这些交易将实时更新。这是了解价格走势的一种奇妙方式。最后，我们可以添加`History`部分，它将显示最近的交易：
 
 ```
 // Past historical trades
@@ -463,7 +463,7 @@ ReactDOM.render(<Main />, document.querySelector('#root'))
 
 # 构建以太坊后端
 
-我们项目的后端将负责生成可以由任何人填写的交易，只要他们有足够的资金支付已确定的价格即可。当用户注册时，他们将部署一个 Escrow 合约，该合约将由我们的主要 DAX 合约使用。因此，让我们首先设置要求和合约结构，然后开始填写所有功能以练习在 [第四章](2b43135a-08f4-46d3-8c2a-5dd70bb02843.xhtml) 中学习的系统以提高开发者的效率，*精通智能合约*。
+我们项目的后端将负责生成可以由任何人填写的交易，只要他们有足够的资金支付已确定的价格即可。当用户注册时，他们将部署一个 Escrow 合约，该合约将由我们的主要 DAX 合约使用。因此，让我们首先设置要求和合约结构，然后开始填写所有功能以练习在 第四章 中学习的系统以提高开发者的效率，*精通智能合约*。
 
 首先，在文件开头的大型注释中定义我们将需要的函数：
 
@@ -482,7 +482,7 @@ ReactDOM.render(<Main />, document.querySelector('#root'))
 设置所使用的 Solidity 版本，导入 `Escrow` 合约，并定义令牌接口：
 
 ```
-pragma solidity ^0.5.4;
+pragma solidity ⁰.5.4;
 
 import './Escrow.sol';
 
@@ -634,9 +634,9 @@ contract DAX {
 
 然后，我们添加了三个数组来存储现有订单，同时还有一些变量来将新代币列入白名单，以便我们可以与更广泛的加密货币集进行交易。之后，我们添加了多个映射以轻松找到每个特定订单，同时优化了 gas 成本。
 
-我们添加了一个`onlyOwner`修饰符来限制对whitelisting函数的访问，以防止在添加加密货币时变得太疯狂。我们添加了一个不允许以太币转账的fallback函数，以防止人们向这个交易所发送资金，并添加了一个定义DAX所有者的构造函数。
+我们添加了一个`onlyOwner`修饰符来限制对 whitelisting 函数的访问，以防止在添加加密货币时变得太疯狂。我们添加了一个不允许以太币转账的 fallback 函数，以防止人们向这个交易所发送资金，并添加了一个定义 DAX 所有者的构造函数。
 
-然后，我们添加了`whitelistToken()`函数，该函数接受一个令牌地址和一个符号数组，用于创建与该主令牌的交易对；这样，你就能够一次交易大量的交易对。`depositTokens()`函数是由想增加其令牌余额的用户使用的。他们可以直接将他们想要交易的令牌转移到与他们相关联的Escrow合约中，但用户必须首先通过这个函数创建一个新的Escrow，这只能通过这个函数完成。然后，Escrow地址将与`escrowByUserAddress`映射中的该帐户关联起来。此存款函数还要求用户之前使用`approve()`函数来允许DAX合约将令牌转移到Escrow合约；否则，它将失败。
+然后，我们添加了`whitelistToken()`函数，该函数接受一个令牌地址和一个符号数组，用于创建与该主令牌的交易对；这样，你就能够一次交易大量的交易对。`depositTokens()`函数是由想增加其令牌余额的用户使用的。他们可以直接将他们想要交易的令牌转移到与他们相关联的 Escrow 合约中，但用户必须首先通过这个函数创建一个新的 Escrow，这只能通过这个函数完成。然后，Escrow 地址将与`escrowByUserAddress`映射中的该帐户关联起来。此存款函数还要求用户之前使用`approve()`函数来允许 DAX 合约将令牌转移到 Escrow 合约；否则，它将失败。
 
 接下来，`extractTokens()`函数用于将令牌从托管账户移动到用户的地址。这是一个快捷方式，用于在`Escrow`合约内部调用`transferTokens()`函数以便于令牌管理。之后，我们有复杂的市场和限价订单函数。它们都是大函数，因为它们需要对订单进行排序、更新和查找以匹配现有订单，并在区块链的燃气使用限制内工作。我们很快会深入了解它们是如何实现的。最后，我们有一些辅助函数用于对订单进行排序，检查给定的令牌对是否存在，以及检索令牌对的数组。
 
@@ -676,7 +676,7 @@ function whitelistToken(bytes32 _symbol, address _token, bytes32[] memory _token
 }
 ```
 
-whitelisting函数进行一些要求检查，然后为每个给定的令牌对进行白名单设置，以便您可以独立交易。例如，如果你的主要令牌符号是BAT，并且你的`_tokenPairSymbols`数组包含`['TOK', 'TIK']`，你就可以与BAT - TOK和BAT - TIK交易。简单的事情。只要你保持低数量的令牌对，该函数就不会耗尽燃气。
+whitelisting 函数进行一些要求检查，然后为每个给定的令牌对进行白名单设置，以便您可以独立交易。例如，如果你的主要令牌符号是 BAT，并且你的`_tokenPairSymbols`数组包含`['TOK', 'TIK']`，你就可以与 BAT - TOK 和 BAT - TIK 交易。简单的事情。只要你保持低数量的令牌对，该函数就不会耗尽燃气。
 
 以下是用于管理令牌资金的下一个函数：
 
@@ -708,9 +708,9 @@ function extractTokens(address _token, uint256 _amount) public {
 }
 ```
 
-存款函数检查用户是否有与他们地址相关联的`Escrow`合约。如果没有，函数会创建一个新的`Escrow`，然后转移用户请求的令牌存款，只要他们之前在适当的ERC20合约中批准了一些令牌。
+存款函数检查用户是否有与他们地址相关联的`Escrow`合约。如果没有，函数会创建一个新的`Escrow`，然后转移用户请求的令牌存款，只要他们之前在适当的 ERC20 合约中批准了一些令牌。
 
-extract函数只是简单地运行`transferTokens()`函数到所有者的地址，只要他们之前有一些余额。否则它会回滚。
+extract 函数只是简单地运行`transferTokens()`函数到所有者的地址，只要他们之前有一些余额。否则它会回滚。
 
 让我们继续进行限价订单功能。因为这是一个较大的功能，我们将其拆分为更小的部分，以便您了解每个部分的操作方式。
 
@@ -786,7 +786,7 @@ function limitOrder(bytes32 _type, bytes32 _firstSymbol, bytes32 _secondSymbol, 
 }
 ```
 
-这是整个限价订单功能拆分成易于理解的片段，以解释每个语句背后的逻辑。你看到我们使用了`sortIdsByPrices`函数，因为我们需要对订单数组进行排序。下面是完成后的排序函数的样子。请注意，该函数是`view`类型，这意味着运行所有计算不会产生任何Gas费用，因为它们将在本地执行，因此排序后的数组可以是无限的：
+这是整个限价订单功能拆分成易于理解的片段，以解释每个语句背后的逻辑。你看到我们使用了`sortIdsByPrices`函数，因为我们需要对订单数组进行排序。下面是完成后的排序函数的样子。请注意，该函数是`view`类型，这意味着运行所有计算不会产生任何 Gas 费用，因为它们将在本地执行，因此排序后的数组可以是无限的：
 
 ```
 /// @notice Sorts the selected array of Orders by price from lower to higher if it's a buy order or from highest to lowest if it's a sell order
@@ -828,7 +828,7 @@ function sortIdsByPrices(bytes32 _type) public view returns (uint256[] memory) {
 
 `limitOrder()`函数首先检查参数是否有效，以及代币是否可以交易。根据请求的订单类型，它将一个新的`Order`结构实例推送到`sellOrders()`或`buyOrders()`数组中，同时对这些数组进行排序，以将这个新的限价订单推送到正确的位置。请记住，我们的想法是有一个排序后的订单数组，以便我们可以快速找到最有利可图的订单；这就是为什么我们有排序功能。最后，它更新订单数组和订单索引映射，以便我们以后可以找到每个`Order`实例在这些数组中的位置。
 
-现在，我们可以看一下庞大的`marketOrder`函数实现；这是我自己的方式来实现，我建议你尝试从头开始重新创建一个市场订单功能，考虑到所有的Gas限制和限制。虽然不完美，但它清楚地显示了DAX交易所的工作原理。以下是您理解的功能分解。首先，更新函数的文档以确保它解释了内部执行的内容：
+现在，我们可以看一下庞大的`marketOrder`函数实现；这是我自己的方式来实现，我建议你尝试从头开始重新创建一个市场订单功能，考虑到所有的 Gas 限制和限制。虽然不完美，但它清楚地显示了 DAX 交易所的工作原理。以下是您理解的功能分解。首先，更新函数的文档以确保它解释了内部执行的内容：
 
 ```
 /// @notice To create a market order by filling one or more existing limit orders at the most profitable price given a token pair, type of order (buy or sell) and the amount of tokens to trade, the _quantity is how many _firstSymbol tokens you want to buy if it's a buy order or how many _firstSymbol tokens you want to sell at market price
@@ -950,9 +950,9 @@ function marketOrder(bytes32 _type, bytes32 _firstSymbol, bytes32 _secondSymbol,
 
 我们更新每个订单的状态，以便在数量为零或减少数量的同时，对完全填充的订单使用`enum OrderState.CLOSED`。然后我们将正确数量的代币转移到每个用户。这就是`buyOrderIndexById[]`映射特别有用的地方，因为我们想要更新特定订单而不改变整个数组的顺序，从而节省燃气和处理成本。最后，我们发出一些事件，以指示我们进行了一些代币转移。
 
-这就是全部内容了！以下是完整的合同，以便您了解所有内容是如何联系在一起的。它可以在官方 GitHub 上找到： [https://github.com/merlox/decentralized-exchange/blob/master/contracts/DAX.sol](https://github.com/merlox/decentralized-exchange/blob/master/contracts/DAX.sol)。
+这就是全部内容了！以下是完整的合同，以便您了解所有内容是如何联系在一起的。它可以在官方 GitHub 上找到： [`github.com/merlox/decentralized-exchange/blob/master/contracts/DAX.sol`](https://github.com/merlox/decentralized-exchange/blob/master/contracts/DAX.sol)。
 
-这是一个相当庞大的合同，所以我建议您为它编写一些测试，以验证它是否正常运行。您可以通过克隆我的 GitHub 并使用这里的所有代码来检查并运行我编写的测试：[https://github.com/merlox/decentralized-exchange](https://github.com/merlox/decentralized-exchange)。
+这是一个相当庞大的合同，所以我建议您为它编写一些测试，以验证它是否正常运行。您可以通过克隆我的 GitHub 并使用这里的所有代码来检查并运行我编写的测试：[`github.com/merlox/decentralized-exchange`](https://github.com/merlox/decentralized-exchange)。
 
 # 完成 dApp
 

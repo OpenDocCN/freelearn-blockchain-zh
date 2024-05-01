@@ -1,6 +1,6 @@
-# 使用Hyperledger Fabric探索企业区块链应用
+# 使用 Hyperledger Fabric 探索企业区块链应用
 
-在前一章中，我们讨论了以太坊区块链。以太坊是一个公共区块链；任何人都可以阅读区块链数据并进行合法的更改。任何人都可以向链中写入一个新区块。以太坊是完全自治的，不受任何人控制。智能合约用Solidity语言编写，作为一个几乎图灵完备的语言，可以在**以太坊虚拟机** (**EVM**)上执行各种交易。开发人员可以使用这些智能合约构建和部署**去中心化应用** (**DApps**)。以太是以太坊中的加密货币，作为执行以太坊中的每个操作的燃料，包括执行智能合约、DApps、交易等。然而，这并不是构建区块链的唯一方法。
+在前一章中，我们讨论了以太坊区块链。以太坊是一个公共区块链；任何人都可以阅读区块链数据并进行合法的更改。任何人都可以向链中写入一个新区块。以太坊是完全自治的，不受任何人控制。智能合约用 Solidity 语言编写，作为一个几乎图灵完备的语言，可以在**以太坊虚拟机** (**EVM**)上执行各种交易。开发人员可以使用这些智能合约构建和部署**去中心化应用** (**DApps**)。以太是以太坊中的加密货币，作为执行以太坊中的每个操作的燃料，包括执行智能合约、DApps、交易等。然而，这并不是构建区块链的唯一方法。
 
 可以创建需要在区块链节点中建立访问控制层以读取区块链上受限信息的区块链。这将限制网络中能够参与共识机制中交易的参与者数量。这种区块链称为许可区块链。
 
@@ -51,19 +51,19 @@
 
 |
 
-Hyperledger Fabric是一种私有的许可区块链之一。在本章中，我们将讨论Hyperledger Fabric区块链。
+Hyperledger Fabric 是一种私有的许可区块链之一。在本章中，我们将讨论 Hyperledger Fabric 区块链。
 
-Hyperledger Fabric是一种开源企业区块链技术。该项目最初由IBM和数字资产贡献。Hyperledger Fabric是Linux基金会托管的区块链项目之一。Hyperledger Fabric中的智能合约称为*链码*，它定义了Fabric应用的业务逻辑。模块化的架构设计使Fabric能够支持高度的机密性、恢复能力、灵活性和可扩展性。Fabric中的组件，如共识和成员服务，可以插拔式部署。
+Hyperledger Fabric 是一种开源企业区块链技术。该项目最初由 IBM 和数字资产贡献。Hyperledger Fabric 是 Linux 基金会托管的区块链项目之一。Hyperledger Fabric 中的智能合约称为*链码*，它定义了 Fabric 应用的业务逻辑。模块化的架构设计使 Fabric 能够支持高度的机密性、恢复能力、灵活性和可扩展性。Fabric 中的组件，如共识和成员服务，可以插拔式部署。
 
 在本章中，我们将涵盖以下主题：
 
 +   发行声明
 
-+   设置Hyperledger Fabric环境
++   设置 Hyperledger Fabric 环境
 
 +   编写链码
 
-+   配置Hyperledger Fabric
++   配置 Hyperledger Fabric
 
 # 发行索赔
 
@@ -89,21 +89,21 @@ Hyperledger Fabric是一种开源企业区块链技术。该项目最初由IBM�
 
 1.  发行人处理并批准索赔
 
-# 配置Hyperledger Fabric环境
+# 配置 Hyperledger Fabric 环境
 
-到目前为止，我们已经了解了Hyperledger Fabric的关键概念。在本节中，我们将建立一个Hyperledger Fabric开发环境。在继续进行安装步骤之前，让我们看一下fabric安装的先决条件。
+到目前为止，我们已经了解了 Hyperledger Fabric 的关键概念。在本节中，我们将建立一个 Hyperledger Fabric 开发环境。在继续进行安装步骤之前，让我们看一下 fabric 安装的先决条件。
 
 # 安装先决条件
 
 安装所需的开发工具的先决条件如下：
 
-| Ubuntu Linux 14.04 / 16.04 LTS（均为64位），或 macOS 10.12 | Docker Engine：版本17.03或更高 |
+| Ubuntu Linux 14.04 / 16.04 LTS（均为 64 位），或 macOS 10.12 | Docker Engine：版本 17.03 或更高 |
 | --- | --- |
-| Docker-Compose：版本1.8或更高 | Node：8.9或更高（注意不支持9版本） |
-| npm：v5.x | git：2.9.x或更高 |
+| Docker-Compose：版本 1.8 或更高 | Node：8.9 或更高（注意不支持 9 版本） |
+| npm：v5.x | git：2.9.x 或更高 |
 | Python：2.7.x |  |
 
-我们将在开发环境中使用Ubuntu。我们可以使用以下命令下载先决条件：
+我们将在开发环境中使用 Ubuntu。我们可以使用以下命令下载先决条件：
 
 ```
 curl -O https://hyperledger.github.io/composer/latest/prereqs-ubuntu.sh
@@ -113,7 +113,7 @@ chmod u+x prereqs-ubuntu.sh
 
 它可能在执行过程中提示您输入密码，因为它在执行过程中使用了`sudo`。
 
-# 安装Hyperledger Fabric
+# 安装 Hyperledger Fabric
 
 创建并转到名为`insurance-claim`的项目文件夹，如下所示：
 
@@ -121,7 +121,7 @@ chmod u+x prereqs-ubuntu.sh
 mkdir ~/insurance-claim && cd ~/insurance-claim
 ```
 
-输入以下命令以安装Hyperledger Fabric特定于平台的二进制文件：
+输入以下命令以安装 Hyperledger Fabric 特定于平台的二进制文件：
 
 ```
 curl -sSL https://raw.githubusercontent.com/hyperledger/fabric/release-1.3/scripts/bootstrap.sh | bash
@@ -163,7 +163,7 @@ Gogland 拥有强大的内置自动完成引擎、错误检测、代码重构工
 
 在本章中，我们将使用 LiteIDE 来开发我们的链码。请按照官方 LiteIDE 安装指南设置您的本地 IDE 环境，该指南可从以下链接获取：
 
-[https://github.com/visualfc/liteide/blob/master/liteidex/deploy/welcome/en/install.md](https://github.com/visualfc/liteide/blob/master/liteidex/deploy/welcome/en/install.md).
+[`github.com/visualfc/liteide/blob/master/liteidex/deploy/welcome/en/install.md`](https://github.com/visualfc/liteide/blob/master/liteidex/deploy/welcome/en/install.md).
 
 # Chaincode 关键概念和 API
 
@@ -193,7 +193,7 @@ shim 包提供了用于链码访问其状态变量、事务上下文和调用其
 
 # 定义发行理赔
 
-让我们写一段链码。打开LiteIDE并创建一个名为`claimcontract.go`的新文件，如下所示：
+让我们写一段链码。打开 LiteIDE 并创建一个名为`claimcontract.go`的新文件，如下所示：
 
 ![](img/d95fe9a2-5608-4e08-89f7-0f366490d8ee.png)
 
@@ -211,7 +211,7 @@ type Insuree struct {
 
 在`Insuree`中，我们定义了`Id`、`firstname`、`LastName`、`SSN`和`policyNumber`。
 
-在Go语言中，字段名的第一个字母可以是大写或小写。当我们需要一个导出字段对任何代码使用时，它需要是一个大写字母。你可以使用JSON包中的编码将数据解析为结构体，定义JSON中的字段名为`firstName`，如下所示：
+在 Go 语言中，字段名的第一个字母可以是大写或小写。当我们需要一个导出字段对任何代码使用时，它需要是一个大写字母。你可以使用 JSON 包中的编码将数据解析为结构体，定义 JSON 中的字段名为`firstName`，如下所示：
 
 ```
 type Member struct {
@@ -274,7 +274,7 @@ func (c *ClaimContract) Init(stub shim.ChaincodeStubInterface) pb.Response {
 }
 ```
 
-`ChaincodeStubInterface.GetStringArg`获取输入参数。它期望参数的长度应为5。拥有所有必需的保险人数据后，我们构建保险人JSON数据，并将其编码为JSON字节字符串–`json.Marshal(insureeData)`。然后，我们将键和值存储在分类账上。如果一切顺利，它将返回一个成功的`peer.Response`对象给Fabric的`client.c`。
+`ChaincodeStubInterface.GetStringArg`获取输入参数。它期望参数的长度应为 5。拥有所有必需的保险人数据后，我们构建保险人 JSON 数据，并将其编码为 JSON 字节字符串–`json.Marshal(insureeData)`。然后，我们将键和值存储在分类账上。如果一切顺利，它将返回一个成功的`peer.Response`对象给 Fabric 的`client.c`。
 
 # 调用链码
 
@@ -330,7 +330,7 @@ func (c *ClaimContract) AddCompany(stub shim.ChaincodeStubInterface, args []stri
 
 # 报告丢失
 
-在此步骤中，投保人向经纪人报告丢失物品，并提供所有索赔信息。此函数还在`processAt`字段记录当前系统处理时间。`currentts.Format(2006-01-02 15:04:05)`是一个Go自定义格式；它将当前时间转换为YYYY-MM-dd hh:mm:ss格式，如以下示例所示：
+在此步骤中，投保人向经纪人报告丢失物品，并提供所有索赔信息。此函数还在`processAt`字段记录当前系统处理时间。`currentts.Format(2006-01-02 15:04:05)`是一个 Go 自定义格式；它将当前时间转换为 YYYY-MM-dd hh:mm:ss 格式，如以下示例所示：
 
 ```
 func (c *ClaimContract) ReportLost(stub shim.ChaincodeStubInterface, args []string) pb.Response {
@@ -409,7 +409,7 @@ func (c *ClaimContract) UpdateClaim(stub shim.ChaincodeStubInterface, args []str
 
 由于剩余的流程函数非常相似，我们将`UpdateClaim`定义为一个通用函数，与剩余步骤共享。
 
-`UpdateClaim`函数首先从输入参数中获取`claimId`和当前参与者评论。然后，它查询并从区块链中获取索赔以解码索赔数据，并将其转换为JSON字符串—`json.Unmarshal(claimBytes, &claim)`。
+`UpdateClaim`函数首先从输入参数中获取`claimId`和当前参与者评论。然后，它查询并从区块链中获取索赔以解码索赔数据，并将其转换为 JSON 字符串—`json.Unmarshal(claimBytes, &claim)`。
 
 在更新索赔内容之前，它将验证输入的索赔状态并确保其处于预期步骤上。如果一切顺利，我们将更新索赔状态、参与者评论和处理时间。
 
@@ -447,7 +447,7 @@ func (c *ClaimContract) query(stub shim.ChaincodeStubInterface, args []string) p
 
 正如其名称所示，`gethistory`函数读取一个键的所有历史值记录的索赔，以及`TxId`和索赔值。
 
-首先我们定义了`AuditHistory`结构，其中包含`TxId`和值。`GetHistoryForKey`通过`resultsIterator`返回结果列表，其中包含所有历史交易记录。我们遍历这些记录并将它们添加到一个`AuditHistory`数组中。后来，我们将其转换为JSON字节并作为响应发送回来，如下所示：
+首先我们定义了`AuditHistory`结构，其中包含`TxId`和值。`GetHistoryForKey`通过`resultsIterator`返回结果列表，其中包含所有历史交易记录。我们遍历这些记录并将它们添加到一个`AuditHistory`数组中。后来，我们将其转换为 JSON 字节并作为响应发送回来，如下所示：
 
 ```
 func (c *ClaimContract) getHistory(stub shim.ChaincodeStubInterface, args []string) pb.Response {
@@ -489,13 +489,13 @@ func (c *ClaimContract) getHistory(stub shim.ChaincodeStubInterface, args []stri
 }
 ```
 
-这涵盖了我们的发行索赔链码。我们将在下一节学习有关Hyperledger Fabric配置的信息。
+这涵盖了我们的发行索赔链码。我们将在下一节学习有关 Hyperledger Fabric 配置的信息。
 
-# 配置Hyperledger Fabric
+# 配置 Hyperledger Fabric
 
-保险索赔网络中有三个实体—投保人、经纪人和保险公司。所有这些参与者都将在Fabric中注册为对等节点。以下表格描述了三个对等角色和MSP信息：
+保险索赔网络中有三个实体—投保人、经纪人和保险公司。所有这些参与者都将在 Fabric 中注册为对等节点。以下表格描述了三个对等角色和 MSP 信息：
 
-| **用户ID** | **角色** | **组织MSP ID** |
+| **用户 ID** | **角色** | **组织 MSP ID** |
 | --- | --- | --- |
 | `user_001` | 投保人 | Org1MSP |
 | `broker_001` | 经纪人 | Org2MSP |
@@ -678,7 +678,7 @@ configtxgen -profile ICOrgsChannel -outputCreateChannelTx ./channel-artifacts/ch
 
 Hyperledger Fabric 利用 Docker compose 来定义 fabric 应用服务。`docker-compose-cli.yaml` 服务部分是定义所有对等服务和相关容器的地方。Hyperledger Fabric 的 *first-network* 提供了一个 `.yaml` 模板，帮助您快速开始从头创建 yaml 文件：
 
-[https://github.com/hyperledger/fabric-samples/tree/release-1.2/first-network](https://github.com/hyperledger/fabric-samples/tree/release-1.2/first-network)。
+[`github.com/hyperledger/fabric-samples/tree/release-1.2/first-network`](https://github.com/hyperledger/fabric-samples/tree/release-1.2/first-network)。
 
 在 `docker-compose-cli.yaml` 中，我们定义了以下信息：
 
@@ -1054,13 +1054,13 @@ peer chaincode invoke -o orderer.ic.com:7050 -C icchannel -n iccc -c '{"Args":["
 
 # 查询索赔历史
 
-在发行人批准索赔后，整个流程完成，我们可以使用Fabric API查询索赔的整个生命周期，如下所示：
+在发行人批准索赔后，整个流程完成，我们可以使用 Fabric API 查询索赔的整个生命周期，如下所示：
 
 ```
 peer chaincode query -C icchannel -n iccc -c '{"Args":["getHistory","claim_001"]}'
 ```
 
-从此查询获得的输出中，我们可以看到索赔请求的整个Fabric交易历史。
+从此查询获得的输出中，我们可以看到索赔请求的整个 Fabric 交易历史。
 
 测试执行结束。
 
@@ -1089,4 +1089,4 @@ export PATH=/home/ubuntu/insurance-claim/bin:$PATH
 
 # 摘要
 
-在本章中，我们学习了Hyperledger Fabric的基础知识。在设置开发环境之后，我们为保险索赔用例编写了链代码。然后，我们学习了面料组合器配置。最后，我们对我们的保险索赔应用程序进行了端到端的面料测试执行。我们可以看到，使用Hyperledger Fabric实现保险索赔应用程序相当复杂。在下一章中，我们将学习如何使用Hyperledger Composer快速编写保险索赔应用程序。
+在本章中，我们学习了 Hyperledger Fabric 的基础知识。在设置开发环境之后，我们为保险索赔用例编写了链代码。然后，我们学习了面料组合器配置。最后，我们对我们的保险索赔应用程序进行了端到端的面料测试执行。我们可以看到，使用 Hyperledger Fabric 实现保险索赔应用程序相当复杂。在下一章中，我们将学习如何使用 Hyperledger Composer 快速编写保险索赔应用程序。

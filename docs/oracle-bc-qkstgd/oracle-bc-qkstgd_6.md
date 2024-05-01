@@ -1,6 +1,6 @@
-# 在Oracle区块链平台上开发解决方案
+# 在 Oracle 区块链平台上开发解决方案
 
-前一章让您有机会实践而不是仅仅阅读，因为它有效地演示了开发示例。前面的章节提供了关于**Oracle 区块链平台**（**OBP**）的深入信息，并教授了在OBP上转换网络拓扑、创建网络利益相关者和配置OBP实例的实用性。本章探讨了链码，并包括链码开发的详细信息，包括语言部分、开发工具和开发环境设置。本章还着重于映射资产模型、操作以及开发链码的功能和接口。它详细描述了链码的完整生命周期，从开发到更新，包括安装、初始化、测试和版本控制。它还演示了基于Go和Node.js构建的完整链码代码库。背书政策、私有数据集以及它们与链码协作的工作也得到了阐述。本章还演示了通过shim和REST终点进行链码测试，并使用SDK、REST和事件将客户端应用程序与业务网络集成。最后，它通过实验监控链码日志和通道日志来总结了对链码、交易和通道的见解。该章涵盖了设置链码开发、链码开发、链码部署、测试链码以及将客户应用程序与区块链集成的主题。
+前一章让您有机会实践而不是仅仅阅读，因为它有效地演示了开发示例。前面的章节提供了关于**Oracle 区块链平台**（**OBP**）的深入信息，并教授了在 OBP 上转换网络拓扑、创建网络利益相关者和配置 OBP 实例的实用性。本章探讨了链码，并包括链码开发的详细信息，包括语言部分、开发工具和开发环境设置。本章还着重于映射资产模型、操作以及开发链码的功能和接口。它详细描述了链码的完整生命周期，从开发到更新，包括安装、初始化、测试和版本控制。它还演示了基于 Go 和 Node.js 构建的完整链码代码库。背书政策、私有数据集以及它们与链码协作的工作也得到了阐述。本章还演示了通过 shim 和 REST 终点进行链码测试，并使用 SDK、REST 和事件将客户端应用程序与业务网络集成。最后，它通过实验监控链码日志和通道日志来总结了对链码、交易和通道的见解。该章涵盖了设置链码开发、链码开发、链码部署、测试链码以及将客户应用程序与区块链集成的主题。
 
 # 设置链码开发
 
@@ -8,37 +8,37 @@
 
 # 选择开发语言（GO、Node.js 或 Java）
 
-编程技能对于编写链码非常重要。由于区块链具有分布式账本，因此在**Hyperledger Fabric**（**HLF**）的初始版本中仅支持Go语言。然而，随着HLF的发展，它现在支持多种语言，并计划在将来添加更多语言。在Fabric版本1.3中，它支持使用Go、Node.js和Java编写链码。要探索其中的每一种，您可以在OBP实例控制台的**开发工具**选项卡下下载示例文件。
+编程技能对于编写链码非常重要。由于区块链具有分布式账本，因此在**Hyperledger Fabric**（**HLF**）的初始版本中仅支持 Go 语言。然而，随着 HLF 的发展，它现在支持多种语言，并计划在将来添加更多语言。在 Fabric 版本 1.3 中，它支持使用 Go、Node.js 和 Java 编写链码。要探索其中的每一种，您可以在 OBP 实例控制台的**开发工具**选项卡下下载示例文件。
 
-# OBP解决方案开发工具
+# OBP 解决方案开发工具
 
 这一部分为您提供了开发工具和开发环境的详细信息。
 
 # 开发环境
 
-OBP以HLF作为其基础，因此在编写有效的链码时使用HLF文档进行帮助。所有的链码文件都应打包成ZIP文件并安装在OBP上。如果链码是用Go语言开发的，并且只有一个名为`.go`的文件，那么打包是可选的。一个独立的文件可以安装在OBP上。
+OBP 以 HLF 作为其基础，因此在编写有效的链码时使用 HLF 文档进行帮助。所有的链码文件都应打包成 ZIP 文件并安装在 OBP 上。如果链码是用 Go 语言开发的，并且只有一个名为`.go`的文件，那么打包是可选的。一个独立的文件可以安装在 OBP 上。
 
 # 开发工具
 
-从HLF或OBP都没有具体推荐的工具。开发者可以使用任何工具，例如文本编辑器或IDE，如NetBeans、VS Code等。工具的选择取决于开发者的兴趣和为链码开发选择的语言。最好使用IDE进行开发，以避免语法错误，将代码格式化为易于阅读的形式，并使开发变得轻松。
+从 HLF 或 OBP 都没有具体推荐的工具。开发者可以使用任何工具，例如文本编辑器或 IDE，如 NetBeans、VS Code 等。工具的选择取决于开发者的兴趣和为链码开发选择的语言。最好使用 IDE 进行开发，以避免语法错误，将代码格式化为易于阅读的形式，并使开发变得轻松。
 
-针对本书中示例用例的链码开发是使用**VS Code**（简称**Visual Studio Code**）进行的。VS Code是微软推出的一款源代码编辑器，适用于Windows、Linux和macOS。它包括开发、调试、版本控制、语法高亮、智能代码补全和重构等功能支持。
+针对本书中示例用例的链码开发是使用**VS Code**（简称**Visual Studio Code**）进行的。VS Code 是微软推出的一款源代码编辑器，适用于 Windows、Linux 和 macOS。它包括开发、调试、版本控制、语法高亮、智能代码补全和重构等功能支持。
 
-以下是在VS Code中链码文件的一些截图供参考：
+以下是在 VS Code 中链码文件的一些截图供参考：
 
 +   这是源代码窗口：
 
 ![](img/31465fa1-bc10-4c9e-b61d-443f6374c27e.png)
 
-VS Code源代码窗口
+VS Code 源代码窗口
 
 +   需要直接安装的插件：
 
 ![](img/b91022a8-4bb7-4155-8189-7d899e4ea208.png)
 
-VS Code插件直接安装
+VS Code 插件直接安装
 
-+   VS Code上有多个可安装的插件供选择的语言：
++   VS Code 上有多个可安装的插件供选择的语言：
 
 ![](img/4591fb21-7398-4367-884f-43e8988002fa.png)
 
@@ -46,7 +46,7 @@ VS Code：插件
 
 # 资产模型映射
 
-链码导致在账本上创建资产（键值对），因为HLF将资产表示为键值对。资产状态变化记录为通道账本上的交易。有几种表示资产的方式——二进制或JSON形式。对于本书中的大学用例，定义了两种资产：
+链码导致在账本上创建资产（键值对），因为 HLF 将资产表示为键值对。资产状态变化记录为通道账本上的交易。有几种表示资产的方式——二进制或 JSON 形式。对于本书中的大学用例，定义了两种资产：
 
 +   一个用于学生信息
 
@@ -54,14 +54,14 @@ VS Code：插件
 
 本章包括创建基本资产和链码，以便快速学习开发过程。随着用例模型本身的建模，更多资产和全面的操作集的包含可能会导致时间投入增加。稍后，当您对用例进行更多实验时，可以为其增加更多复杂性。
 
-使用Go语言，以下是两种资产的定义：
+使用 Go 语言，以下是两种资产的定义：
 
 1.  用于定义证书接收者的资产：
 
 | **参数** | **描述** |
 | --- | --- |
 | `assetType` | 资产类型，例如，接收者 |
-| `receiver_id` | 接收者/学生的ID |
+| `receiver_id` | 接收者/学生的 ID |
 | `receiver_name` | 接收者/学生的名称 |
 | `upload_org` | 上传证书的组织/部门 |
 
@@ -70,11 +70,11 @@ VS Code：插件
 | **参数** | **描述** |
 | --- | --- |
 | `assetType` | 资产类型，例如，证书。 |
-| `Cert_id` | 证书的ID。 |
+| `Cert_id` | 证书的 ID。 |
 | `Cert_no` | 证书的编号。 |
 | `Cert_name` | 证书的名称。 |
 | `Cert_receiver` | 证书的接收者。这将根据给定的`Cert_receiver_id`参数从分类帐中获取。 |
-| `Cert_receiver_id` | 被分配此证书的接收者/学生的ID。 |
+| `Cert_receiver_id` | 被分配此证书的接收者/学生的 ID。 |
 | `Cert_issuer` | 证书的颁发者。 |
 | `Cert_industry` | 证书所属行业/部门。 |
 | `Cert_create_time` | 证书创建时间。 |
@@ -103,15 +103,15 @@ VS Code：插件
 | `approveCertificate` | 更改证书的状态 |
 | `del` | 在接收者或证书上进行标记删除 |
 
-查看[第三章](6aaa9b0a-84b6-4fca-82c3-864e22d616b0.xhtml)，“深入了解 Hyperledger Fabric”，了解更多有趣的方面，例如并发检查、交易类型（如*分类账查询*和*分类账更新*交易）、交易流程以及交易涉及的各种其他组件。
+查看第三章，“深入了解 Hyperledger Fabric”，了解更多有趣的方面，例如并发检查、交易类型（如*分类账查询*和*分类账更新*交易）、交易流程以及交易涉及的各种其他组件。
 
 # 解密链码开发的技艺
 
-在HLF中，链码必须使用以下任一种语言实现链码接口：Go、Node.js或Java。链码开发人员可以选择其中任何一种编程语言进行开发。Fabric的shim包（[github.com/hyperledger/fabric/core/chaincode/shim](https://github.com/hyperledger/fabric/tree/release-1.4/core/chaincode/shim)）在链码开发中至关重要。
+在 HLF 中，链码必须使用以下任一种语言实现链码接口：Go、Node.js 或 Java。链码开发人员可以选择其中任何一种编程语言进行开发。Fabric 的 shim 包（[github.com/hyperledger/fabric/core/chaincode/shim](https://github.com/hyperledger/fabric/tree/release-1.4/core/chaincode/shim)）在链码开发中至关重要。
 
 它支持以前的所有语言。该包有两个接口，在链码中发挥着关键作用。这些接口及其方法的语法可能会根据语言的不同而发生变化，但它们的目的是相同的。
 
-当收到交易时，这些链码接口被调用。首先，当链码接收到交易请求时，`Init`方法被调用。这允许初始化应用程序状态。随后，当接收到调用事务时，将调用`Invoke`方法来处理任何交易提案。用于修改分类帐的其他接口，允许链码之间的调用，包括称为`ChaincodeStubInterface`的链码shim API。
+当收到交易时，这些链码接口被调用。首先，当链码接收到交易请求时，`Init`方法被调用。这允许初始化应用程序状态。随后，当接收到调用事务时，将调用`Invoke`方法来处理任何交易提案。用于修改分类帐的其他接口，允许链码之间的调用，包括称为`ChaincodeStubInterface`的链码 shim API。
 
 # 链码接口
 
@@ -127,11 +127,11 @@ VS Code：插件
 
 # 链码存根接口
 
-Stub接口提供了通过对对等体的调用来访问历史和分类帐状态的函数。每个事务都会调用`Invoke()`方法，并将函数和参数作为客户端请求的`stub`输入传递。这个接口促进了许多与分类帐交互的功能，并使链码开发变得简单。
+Stub 接口提供了通过对对等体的调用来访问历史和分类帐状态的函数。每个事务都会调用`Invoke()`方法，并将函数和参数作为客户端请求的`stub`输入传递。这个接口促进了许多与分类帐交互的功能，并使链码开发变得简单。
 
 # 链码函数
 
-`ChaincodeStub`由`fabric-shim`库实现。它提供给`ChaincodeInterface`，并封装了链码实现和Fabric对等体之间的API。
+`ChaincodeStub`由`fabric-shim`库实现。它提供给`ChaincodeInterface`，并封装了链码实现和 Fabric 对等体之间的 API。
 
 尽管`stub`有许多函数，但本节列出了一些经常使用的函数：
 
@@ -139,13 +139,13 @@ Stub接口提供了通过对对等体的调用来访问历史和分类帐状态�
 
 +   `getState(key string) ([]byte, error)`: 此方法通过给定的键从状态分类帐中获取数据。它不会读取尚未提交的分类帐中的数据。如果有任何错误，它将返回数据作为字节数组和错误信息。
 
-+   `putState(key string, value []byte) (error)`: 此方法将给定值放入交易的写入集作为提案。直到交易有效且成功提交之前，它不会影响分类帐。这个决定将由Orderer做出。分类帐中的所有交易数据都仅存储为键值对。此方法接受两个参数：key——用于数据的唯一字符串值，value——要存储在分类帐中的数据的字节数组。如果在执行过程中出现任何错误，则此方法返回错误参数。相同的方法可以用于*插入*和*更新*。
++   `putState(key string, value []byte) (error)`: 此方法将给定值放入交易的写入集作为提案。直到交易有效且成功提交之前，它不会影响分类帐。这个决定将由 Orderer 做出。分类帐中的所有交易数据都仅存储为键值对。此方法接受两个参数：key——用于数据的唯一字符串值，value——要存储在分类帐中的数据的字节数组。如果在执行过程中出现任何错误，则此方法返回错误参数。相同的方法可以用于*插入*和*更新*。
 
 +   `delState(key string) error`: 此方法从分类帐中删除给定键的值。由于区块链分类帐中的数据不能永久删除，因此此方法标记数据已删除，区块仍然保留在分类帐中。此方法的输入是一个键，如果有错误则返回错误。
 
-+   `getHistoryForKey(key string) (HistoryQueryIteratorInterface, error)`: 这是一个只读方法，用于获取分类帐中给定键的已提交交易的历史记录，以及交易ID和时间戳。此方法以键作为输入，并返回历史记录和错误的迭代器，如果有的话。
++   `getHistoryForKey(key string) (HistoryQueryIteratorInterface, error)`: 这是一个只读方法，用于获取分类帐中给定键的已提交交易的历史记录，以及交易 ID 和时间戳。此方法以键作为输入，并返回历史记录和错误的迭代器，如果有的话。
 
-+   `getQueryResult(query string) (StateQueryIteratorInterface, error)`: 此方法针对状态数据库执行一个`丰富`查询。仅支持支持丰富查询的状态数据库，例如Oracle、ATP或ADW。此方法的输入是基础状态数据库的本机语法中的查询字符串。如果有任何错误，则此方法返回结果和错误的迭代器。
++   `getQueryResult(query string) (StateQueryIteratorInterface, error)`: 此方法针对状态数据库执行一个`丰富`查询。仅支持支持丰富查询的状态数据库，例如 Oracle、ATP 或 ADW。此方法的输入是基础状态数据库的本机语法中的查询字符串。如果有任何错误，则此方法返回结果和错误的迭代器。
 
 +   `setEvent(name string, payload []byte) error`: 这将事件设置为要包含在交易中的响应中的提案。无论交易的有效性如何，事件都将在已提交的交易块中可用。
 
@@ -184,11 +184,11 @@ getTxTimestamp() (*timestamp.Timestamp, error)
 
 # 开发链码
 
-此部分涵盖了在Golang中的实现。以下链码是使用Go语言开发的，用于在上一节中描述的操作/交易，使用上一节中的映射资产模型映射操作。
+此部分涵盖了在 Golang 中的实现。以下链码是使用 Go 语言开发的，用于在上一节中描述的操作/交易，使用上一节中的映射资产模型映射操作。
 
-# Go语言中的链码
+# Go 语言中的链码
 
-让我们看看Go语言中用于讨论的用例的链码开发：
+让我们看看 Go 语言中用于讨论的用例的链码开发：
 
 1.  `import`: 此部分导入所需的库：
 
@@ -860,7 +860,7 @@ OBP 提供了两种不同的部署选项。一种是一步链码部署的快速�
 
 快速链码部署
 
-1.  **高级部署**提供了一个多步骤向导，用于安装、实例化和启用链码的REST代理。从**部署链码**菜单中选择此选项。将打开逐步向导，第一步如下，您将提供链码的详细信息，如链码名称、版本、应部署链码的目标对等方以及实际链码包。 （如果是单个`.go`文件，则不需要包。可以选择单个文件，但如果有多个文件或代码是用Node.js或Java编写的，则将所有文件打包成ZIP文件。）填写以下屏幕截图中显示的字段，然后单击**下一步**。请记住，安装链码后不能更改这些值：
+1.  **高级部署**提供了一个多步骤向导，用于安装、实例化和启用链码的 REST 代理。从**部署链码**菜单中选择此选项。将打开逐步向导，第一步如下，您将提供链码的详细信息，如链码名称、版本、应部署链码的目标对等方以及实际链码包。 （如果是单个`.go`文件，则不需要包。可以选择单个文件，但如果有多个文件或代码是用 Node.js 或 Java 编写的，则将所有文件打包成 ZIP 文件。）填写以下屏幕截图中显示的字段，然后单击**下一步**。请记住，安装链码后不能更改这些值：
 
 ![](img/653905e5-68fa-4c08-8644-251267e4774b.png)
 
@@ -872,11 +872,11 @@ OBP 提供了两种不同的部署选项。一种是一步链码部署的快速�
 
 高级链码部署
 
-1.  链码成功实例化后，向导将显示第3步，即在REST代理中启用链码。OBP提供多个REST代理。您可以选择多个REST代理以启用链码。按照以下字段填写并单击**下一步**：
+1.  链码成功实例化后，向导将显示第 3 步，即在 REST 代理中启用链码。OBP 提供多个 REST 代理。您可以选择多个 REST 代理以启用链码。按照以下字段填写并单击**下一步**：
 
 ![](img/21abf370-14e6-4090-9b8c-ec5999f8c903.png)
 
-REST代理
+REST 代理
 
 1.  在向导的所有步骤完成之后，最后，您将看到此成功屏幕。单击**关闭**：
 
@@ -884,7 +884,7 @@ REST代理
 
 部署完成消息
 
-1.  到目前为止，您已在创建者实例中部署了链码。您需要在所有参与者实例中部署链码。重复我们刚刚看到的部署过程；但是，您只需要部署链码——实例化将自动应用，因为它是从通道的创建者中完成的。因此，在**高级部署**向导中，在第1步安装完成后，在第2步屏幕上，单击**关闭**按钮。
+1.  到目前为止，您已在创建者实例中部署了链码。您需要在所有参与者实例中部署链码。重复我们刚刚看到的部署过程；但是，您只需要部署链码——实例化将自动应用，因为它是从通道的创建者中完成的。因此，在**高级部署**向导中，在第 1 步安装完成后，在第 2 步屏幕上，单击**关闭**按钮。
 
 1.  转到**通道**选项卡。您将发现链码已实例化。请查看以下参考资料。
 
@@ -900,11 +900,11 @@ REST代理
 
 安装链码后通道
 
-一个通道上可以安装多个链码。此外，一个链码可以在多个REST代理上启用。
+一个通道上可以安装多个链码。此外，一个链码可以在多个 REST 代理上启用。
 
 # 更新链码
 
-HLF支持链码版本控制和升级。当智能合约需要更改、业务逻辑发生变化或链码需要任何更改时，您可以更新链码。只要保持相同的链码名称，就可以将链码升级到新版本，否则将被视为不同的链码。
+HLF 支持链码版本控制和升级。当智能合约需要更改、业务逻辑发生变化或链码需要任何更改时，您可以更新链码。只要保持相同的链码名称，就可以将链码升级到新版本，否则将被视为不同的链码。
 
 更新是区块链网络上的一个交易，它导致将链码的新版本绑定到通道上。旧版本的链码会发生什么情况？绑定到以前（旧）版本链码的所有其他通道可以继续执行旧版本。您向通道提交链码*升级*交易。因此，只有一个通道受到影响，您已经执行了升级交易的通道。所有其他通道，在这些通道上未执行升级交易的情况下，将继续运行旧版本。调用链码时，只会执行最新实例化的版本。
 
@@ -914,13 +914,13 @@ HLF支持链码版本控制和升级。当智能合约需要更改、业务逻�
 
 1.  对链码选择**升级**选项，位于**更多操作**下。将打开一个多步向导。
 
-1.  在**第1步：选择版本**中，选择目标对等方并浏览链码源包。然后点击**下一步**：
+1.  在**第 1 步：选择版本**中，选择目标对等方并浏览链码源包。然后点击**下一步**：
 
 ![](img/091033ba-d8b9-4e70-a6dd-c6ebe5479676.png)
 
 升级链码-选择版本
 
-1.  在**第2步：升级**中，提供通道名称、对等方、初始参数（如果有）和背书策略（如果有）。然后点击**下一步**：
+1.  在**第 2 步：升级**中，提供通道名称、对等方、初始参数（如果有）和背书策略（如果有）。然后点击**下一步**：
 
 ![](img/fa3ac110-2682-4566-97e0-cb4ab4e2dfd3.png)
 
@@ -934,7 +934,7 @@ HLF支持链码版本控制和升级。当智能合约需要更改、业务逻�
 
 # 背书策略
 
-背书策略指定了必须在链码交易被添加到块并提交到账本之前正确批准或背书链码交易的具有对等方的组织。您可以在链码部署过程中的第2步实例化链码时在OBP中添加背书策略。背书保证交易的合法性。如果未指定背书策略，则使用默认背书策略，该策略从网络上的任何对等方获取背书。
+背书策略指定了必须在链码交易被添加到块并提交到账本之前正确批准或背书链码交易的具有对等方的组织。您可以在链码部署过程中的第 2 步实例化链码时在 OBP 中添加背书策略。背书保证交易的合法性。如果未指定背书策略，则使用默认背书策略，该策略从网络上的任何对等方获取背书。
 
 组织的背书对等方必须在通道上拥有读写权限。当处理交易时，每个背书对等方都返回一个读写集，然后客户端将这些背书对等方与它们的签名捆绑在一起，并将所有内容发送到排序服务，排序并提交交易到区块，然后到账本。
 
@@ -976,7 +976,7 @@ OBP 版本 19.1.3 及更高版本具有用于指定背书、提交或在通道�
 
 `go get github.com/hyperledger/fabric/core/chaincode/shim`.C
 
-+   代码片段文件 `education_test.go` 位于 GIT 存储库 ([https://github.com/PacktPublishing/Oracle-Blockchain-Quick-Start-Guide](https://github.com/PacktPublishing/Oracle-Blockchain-Quick-Start-Guide))，是一个仅包含一个方法`initReceiver()`的测试用例，附带解释。同样，您可以为所有其他方法编写测试用例。
++   代码片段文件 `education_test.go` 位于 GIT 存储库 ([`github.com/PacktPublishing/Oracle-Blockchain-Quick-Start-Guide`](https://github.com/PacktPublishing/Oracle-Blockchain-Quick-Start-Guide))，是一个仅包含一个方法`initReceiver()`的测试用例，附带解释。同样，您可以为所有其他方法编写测试用例。
 
 +   每个测试用例都应以`Test<function name>`为前缀。
 
@@ -1081,17 +1081,17 @@ OBP 提供一个 REST 代理以通过 REST 端点连接链码。希望通过 RES
 
     +   目标方法：`insertReceiver`
 
-    +   输入JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"insertReceiver","args":["std123", "Anand Yerrapati", "Blockchain"]}`
+    +   输入 JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"insertReceiver","args":["std123", "Anand Yerrapati", "Blockchain"]}`
 
 ![](img/8ee13f0c-47bd-4e05-bee4-c6a2a8ccef02.png)
 
-+   目标终点 - 查询按接收者ID查询：
++   目标终点 - 查询按接收者 ID 查询：
 
     +   目标终点：`/query`
 
     +   目标方法：`queryReceiverById`
 
-    +   输入JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"queryReceiverById","args":["std123"]}`
+    +   输入 JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"queryReceiverById","args":["std123"]}`
 
 ![](img/7c48fa8d-44a1-4dad-8695-b922b57835b5.png)
 
@@ -1101,17 +1101,17 @@ OBP 提供一个 REST 代理以通过 REST 端点连接链码。希望通过 RES
 
     +   目标方法：`insertCertificate`
 
-    +   输入JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"insertCertificate","args":["cert1234","1234","ORU Blockchain Certificate","std123","ORU","IT","6/5/2019","","Blockchain Course Completed","","","Issued"]}`
+    +   输入 JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"insertCertificate","args":["cert1234","1234","ORU Blockchain Certificate","std123","ORU","IT","6/5/2019","","Blockchain Course Completed","","","Issued"]}`
 
 ![](img/963ddb92-910d-4a07-9397-188f6bcb979a.png)
 
-+   目标终点 - 通过ID查询证书的调用：
++   目标终点 - 通过 ID 查询证书的调用：
 
     +   目标终点：`/query`
 
     +   目标方法：`queryCertificateById`
 
-    +   输入JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"queryCertificateById","args":["cert1234"]}`
+    +   输入 JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"queryCertificateById","args":["cert1234"]}`
 
 ![](img/5ed4b05f-82c6-4f84-bc6e-d16be147637d.png)
 
@@ -1121,17 +1121,17 @@ OBP 提供一个 REST 代理以通过 REST 端点连接链码。希望通过 RES
 
     +   目标方法：`approveCertificate`
 
-    +   输入JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"approveCertificate","args":["cert1234","Approved","6/5/2019 05:04:45 PM"]}`
+    +   输入 JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"approveCertificate","args":["cert1234","Approved","6/5/2019 05:04:45 PM"]}`
 
 ![](img/42e52fa9-cc0e-4655-844c-049107a198cf.png)
 
-+   目标终点 - 通过ID查询证书的调用：
++   目标终点 - 通过 ID 查询证书的调用：
 
     +   目标终点：`/query`
 
     +   目标方法：`queryCertificateById`
 
-    +   输入JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"queryCertificateById","args":["cert1234"]}`
+    +   输入 JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"queryCertificateById","args":["cert1234"]}`
 
 ![](img/31f5a98b-f1c6-4dce-a5aa-f552b3ecce0a.png)
 
@@ -1141,7 +1141,7 @@ OBP 提供一个 REST 代理以通过 REST 端点连接链码。希望通过 RES
 
     +   目标方法：``queryAllCertificates``
 
-    +   输入JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"queryAllCertificates","args":[]}`
+    +   输入 JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"queryAllCertificates","args":[]}`
 
 ![](img/1551a71e-38cc-460b-a5ee-9f3efb67391c.png)
 
@@ -1151,7 +1151,7 @@ OBP 提供一个 REST 代理以通过 REST 端点连接链码。希望通过 RES
 
     +   目标方法：`getRecordHistory`
 
-    +   输入JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"getRecordHistory","args":["cert1234"]}`
+    +   输入 JSON：`{"channel":"channeleducation","chaincode":"cceducation","method":"getRecordHistory","args":["cert1234"]}`
 
 ![](img/438a98d4-24b1-4550-8b7f-53910e01dce4.png)
 
@@ -1163,7 +1163,7 @@ OBP 提供一个 REST 代理以通过 REST 端点连接链码。希望通过 RES
 
 # 链代码日志
 
-链码中给出的系统生成的打印语句的日志可供查看。在OBP中，这些日志可以下载或内联查看。此外，我们可以选择所选对等方的日志或所选链码版本的日志。您可以访问部署了链码的对等方上的链码执行的日志文件。以下是打开日志文件的步骤：
+链码中给出的系统生成的打印语句的日志可供查看。在 OBP 中，这些日志可以下载或内联查看。此外，我们可以选择所选对等方的日志或所选链码版本的日志。您可以访问部署了链码的对等方上的链码执行的日志文件。以下是打开日志文件的步骤：
 
 1.  转到**链码**选项卡并找到您想要查看日志的链码。
 
@@ -1183,7 +1183,7 @@ OBP 提供一个 REST 代理以通过 REST 端点连接链码。希望通过 RES
 
 # 通道账本
 
-**账本**是区块链网络所有交易区块的最终存储。每个通道都有自己的账本，对通道中的所有组织都是公共的。组织可以对账本拥有读取、写入或两者权限来处理交易。账本只能通过链码进行查询或更新。OBP在其控制台中提供了一个选项，可以查看通道上的账本上的区块。账本上的每个区块都存储了交易ID、链码名称、状态、函数名称、交易的发起者、背书人和参数列表。您还可以看到总区块数和总用户交易数的计数。
+**账本**是区块链网络所有交易区块的最终存储。每个通道都有自己的账本，对通道中的所有组织都是公共的。组织可以对账本拥有读取、写入或两者权限来处理交易。账本只能通过链码进行查询或更新。OBP 在其控制台中提供了一个选项，可以查看通道上的账本上的区块。账本上的每个区块都存储了交易 ID、链码名称、状态、函数名称、交易的发起者、背书人和参数列表。您还可以看到总区块数和总用户交易数的计数。
 
 通过按照这个步骤，您可以查看通道账本上的数据：
 
@@ -1199,7 +1199,7 @@ OBP 提供一个 REST 代理以通过 REST 端点连接链码。希望通过 RES
 
 # 将客户端应用程序与区块链集成
 
-到目前为止，我们已经探索了OBP并对在OBP上开发、部署和测试链码进行了实验。本节是[第3章](6aaa9b0a-84b6-4fca-82c3-864e22d616b0.xhtml)中*深入探讨 Hyperledger Fabric*节的复习，以下集成架构图突出了与OBP的三种集成选项：REST、SDK和事件。
+到目前为止，我们已经探索了 OBP 并对在 OBP 上开发、部署和测试链码进行了实验。本节是第三章中*深入探讨 Hyperledger Fabric*节的复习，以下集成架构图突出了与 OBP 的三种集成选项：REST、SDK 和事件。
 
 当使用 REST API 与 OBP 构建和集成客户端时——参考*从 REST 端点测试链码*部分*——了解使用 REST 端点调用链码事务的用途是很有帮助的。REST 端点可以与客户端应用程序集成，并通过传递相应的头部（例如授权、内容类型以及包括强制性频道名称和链码名称字段以及所需参数在内的输入 JSON）来执行它们。响应也是 REST JSON，应该在客户端应用程序中处理。对于使用客户端 SDK 连接区块链，OBP 提供了 REST API。REST API 允许灵活地调用、查询和查看交易的状态。但是，如果应用程序需要更加精细的操作，那么 HLF SDK 是一种替代方法：
 
@@ -1207,7 +1207,7 @@ OBP 提供一个 REST 代理以通过 REST 端点连接链码。希望通过 RES
 
 集成架构
 
-参考[第 3 章](6aaa9b0a-84b6-4fca-82c3-864e22d616b0.xhtml)的*深入研究 Hyperledger Fabric*中的*集成架构*部分，了解应用程序与区块链的基于样本的集成策略。
+参考第三章的*深入研究 Hyperledger Fabric*中的*集成架构*部分，了解应用程序与区块链的基于样本的集成策略。
 
 # 运行端到端流程
 

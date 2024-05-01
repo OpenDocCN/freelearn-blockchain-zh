@@ -8,23 +8,23 @@
 
 # 本书涵盖的内容
 
-[第 1 章](97a50ded-ba94-43ee-93c2-ce781e8a98a7.xhtml)，*理解去中心化应用*，将解释什么是 DApps，并概述它们的工作原理。
+第一章，*理解去中心化应用*，将解释什么是 DApps，并概述它们的工作原理。
 
-[第 2 章](fd10eeec-3c1a-494b-9628-acc065d69b92.xhtml)，*理解以太坊的工作原理*，解释了以太坊的工作原理。
+第二章，*理解以太坊的工作原理*，解释了以太坊的工作原理。
 
-[第 3 章](13cd4015-d978-4d9c-b99f-a68aa76d4437.xhtml)，*编写智能合约*，展示了如何编写智能合约，以及如何使用 geth 的交互式控制台使用 web3.js 部署和广播交易。
+第三章，*编写智能合约*，展示了如何编写智能合约，以及如何使用 geth 的交互式控制台使用 web3.js 部署和广播交易。
 
-[第 4 章](878a3321-e436-4110-a109-c4dea94642f2.xhtml)，*使用 web3.js 入门*，介绍了 web3js 及如何导入、连接 geth，并解释如何在 Node.js 或客户端 JavaScript 中使用它。
+第四章，*使用 web3.js 入门*，介绍了 web3js 及如何导入、连接 geth，并解释如何在 Node.js 或客户端 JavaScript 中使用它。
 
-[第 5 章](93ac152a-df95-4449-a109-d965d9ba319f.xhtml)，*构建钱包服务*，解释了如何构建一个钱包服务，用户可以轻松创建和管理以太坊钱包，甚至是离线的。我们将专门使用 LightWallet 库来实现这一点。
+第五章，*构建钱包服务*，解释了如何构建一个钱包服务，用户可以轻松创建和管理以太坊钱包，甚至是离线的。我们将专门使用 LightWallet 库来实现这一点。
 
-[第 6 章](97d4a675-402b-4ca3-86fe-aacd748d73e3.xhtml)，*构建智能合约部署平台*，展示了如何使用 web3.js 编译智能合约，并使用 web3.js 和 EthereumJS 部署它。
+第六章，*构建智能合约部署平台*，展示了如何使用 web3.js 编译智能合约，并使用 web3.js 和 EthereumJS 部署它。
 
-[第 7 章](27bfa4df-5d7a-47e0-b93f-cbb9418b1fba.xhtml)，*构建一个投注应用*，解释了如何使用 Oraclize 从以太坊智能合约发出 HTTP 请求，以访问来自万维网的数据。我们还将学习如何访问存储在 IPFS 中的文件，使用字符串库处理字符串等等。
+第七章，*构建一个投注应用*，解释了如何使用 Oraclize 从以太坊智能合约发出 HTTP 请求，以访问来自万维网的数据。我们还将学习如何访问存储在 IPFS 中的文件，使用字符串库处理字符串等等。
 
-[第 8 章](faf4c014-9863-4e43-9631-9536741c81a5.xhtml)，*构建企业级智能合约*，解释了如何使用 Truffle 来轻松构建企业级 DApps。我们将通过构建一种替代货币来学习 Truffle。
+第八章，*构建企业级智能合约*，解释了如何使用 Truffle 来轻松构建企业级 DApps。我们将通过构建一种替代货币来学习 Truffle。
 
-[第 9 章](c3d7a01e-0aec-4dfb-9e95-8231111bcf71.xhtml)，*构建联盟链*，我们将讨论联盟链。
+第九章，*构建联盟链*，我们将讨论联盟链。
 
 # 本书所需内容
 
@@ -81,7 +81,7 @@ for (var contractName in output.contracts) {
 
 # 下载示例代码
 
-您可以从您的帐户在 [http://www.packtpub.com](http://www.packtpub.com) 上为本书下载示例代码文件。如果您在其他地方购买了本书，您可以访问 [http://www.packtpub.com/support](http://www.packtpub.com/support) 并注册，文件将直接发送到您的邮箱。
+您可以从您的帐户在 [`www.packtpub.com`](http://www.packtpub.com) 上为本书下载示例代码文件。如果您在其他地方购买了本书，您可以访问 [`www.packtpub.com/support`](http://www.packtpub.com/support) 并注册，文件将直接发送到您的邮箱。
 
 您可以按照以下步骤下载代码文件：
 
@@ -107,17 +107,17 @@ for (var contractName in output.contracts) {
 
 +   Linux 的 7-Zip / PeaZip
 
-本书的代码包也托管在 GitHub 上，链接为 [https://github.com/PacktPublishing/Building-Blockchain-Projects](https://github.com/PacktPublishing/Building-Blockchain-Projects)。我们还提供了来自我们丰富书籍和视频目录的其他代码包，可以在 [https://github.com/PacktPublishing/](https://github.com/PacktPublishing/) 查看！请查看！
+本书的代码包也托管在 GitHub 上，链接为 [`github.com/PacktPublishing/Building-Blockchain-Projects`](https://github.com/PacktPublishing/Building-Blockchain-Projects)。我们还提供了来自我们丰富书籍和视频目录的其他代码包，可以在 [`github.com/PacktPublishing/`](https://github.com/PacktPublishing/) 查看！请查看！
 
 # 下载本书的彩色图像
 
-我们还为您提供了一个 PDF 文件，其中包含本书中使用的屏幕截图/图表的彩色图像。彩色图像将帮助您更好地理解输出中的变化。您可以从 [https://www.packtpub.com/sites/default/files/downloads/BuildingBlockchainProjects_ColorImages.pdf](https://www.packtpub.com/sites/default/files/downloads/BuildingBlockchainProjects_ColorImages.pdf) 下载此文件。
+我们还为您提供了一个 PDF 文件，其中包含本书中使用的屏幕截图/图表的彩色图像。彩色图像将帮助您更好地理解输出中的变化。您可以从 [`www.packtpub.com/sites/default/files/downloads/BuildingBlockchainProjects_ColorImages.pdf`](https://www.packtpub.com/sites/default/files/downloads/BuildingBlockchainProjects_ColorImages.pdf) 下载此文件。
 
 # 勘误
 
-尽管我们已经尽一切努力确保内容的准确性，但错误确实会发生。如果您在我们的书籍中发现错误——可能是文字或代码方面的错误——我们将不胜感激地向您报告。通过这样做，您可以避免其他读者的挫折，并帮助我们改进本书的后续版本。如果您发现任何勘误，请访问 [http://www.packtpub.com/submit-errata](http://www.packtpub.com/submit-errata)，选择您的书籍，点击“勘误提交表格”链接，然后输入勘误的详细信息。一旦您的勘误经过验证，您的提交将被接受，并且勘误将被上传到我们的网站或添加到该书籍的勘误部分的任何现有勘误列表中。
+尽管我们已经尽一切努力确保内容的准确性，但错误确实会发生。如果您在我们的书籍中发现错误——可能是文字或代码方面的错误——我们将不胜感激地向您报告。通过这样做，您可以避免其他读者的挫折，并帮助我们改进本书的后续版本。如果您发现任何勘误，请访问 [`www.packtpub.com/submit-errata`](http://www.packtpub.com/submit-errata)，选择您的书籍，点击“勘误提交表格”链接，然后输入勘误的详细信息。一旦您的勘误经过验证，您的提交将被接受，并且勘误将被上传到我们的网站或添加到该书籍的勘误部分的任何现有勘误列表中。
 
-要查看先前提交的勘误，请访问 [https://www.packtpub.com/books/content/support](https://www.packtpub.com/books/content/support)，然后在搜索框中输入书名。所需信息将显示在勘误部分下。
+要查看先前提交的勘误，请访问 [`www.packtpub.com/books/content/support`](https://www.packtpub.com/books/content/support)，然后在搜索框中输入书名。所需信息将显示在勘误部分下。
 
 # 盗版
 

@@ -16,7 +16,7 @@ Hyperledger 旗下有两类项目。第一类是 **区块链项目**，第二类
 
 Fabric 是由 **IBM** 和 **DAH** (**Digital Asset Holdings**) 提出的一个区块链项目。该区块链框架实现旨在为具有模块化架构的区块链解决方案的开发提供基础。它基于可插拔架构，各种组件，如共识引擎和成员服务，可以根据需要插入系统。它还利用容器技术，在隔离的容器化环境中运行智能合约。目前，它的状态是 *活跃*，是第一个从孵化阶段毕业到活跃状态的项目。
 
-源代码可在 [https://github.com/hyperledger/fabric](https://github.com/hyperledger/fabric) 获得。
+源代码可在 [`github.com/hyperledger/fabric`](https://github.com/hyperledger/fabric) 获得。
 
 # 锯齿湖
 
@@ -26,7 +26,7 @@ Sawtooth Lake 是由英特尔于 2016 年 4 月提出的一个区块链项目，
 
 英特尔引入的一些创新元素包括一种名为**PoET**的新型共识算法，即**Proof of Elapsed Time**，它利用英特尔提供的**受信执行环境**（**TEE**）提供的**英特尔软件保护扩展**（**Intel's SGX**）来提供安全和随机的领导者选举过程。它还支持有权限和无权限的设置。
 
-该项目可在 [https://github.com/hyperledger/sawtooth-core](https://github.com/hyperledger/sawtooth-core) 上找到。
+该项目可在 [`github.com/hyperledger/sawtooth-core`](https://github.com/hyperledger/sawtooth-core) 上找到。
 
 # Iroha
 
@@ -34,7 +34,7 @@ Iroha 由 Soramitsu、Hitachi、NTT Data 和 Colu 在 2016 年 9 月贡献。Iro
 
 Iroha 的主要目标是通过提供用 C++ 编写的重复使用的组件，重点放在移动开发上，来补充其他 Hyperledger 项目。该项目还提出了一种称为**Sumeragi**的新型共识算法，这是一种基于链的拜占庭容错共识算法。
 
-Iroha 可在 [https://github.com/hyperledger/iroha](https://github.com/hyperledger/iroha) 上找到。
+Iroha 可在 [`github.com/hyperledger/iroha`](https://github.com/hyperledger/iroha) 上找到。
 
 Iroha 已提出并正在研究各种库，包括但不限于数字签名库（ed25519）、SHA-3 哈希库、事务序列化库、P2P 库、API 服务器库、iOS 库、Android 库和 JavaScript 库。
 
@@ -42,13 +42,13 @@ Iroha 已提出并正在研究各种库，包括但不限于数字签名库（ed
 
 该项目目前处于孵化状态。Hyperledger Burrow 由 Monax 贡献，他们为企业开发区块链开发和部署平台。Hyperledger Burrow 引入了一个模块化的区块链平台和基于**以太坊虚拟机**（**EVM**）的智能合约执行环境。Burrow 使用权益证明、拜占庭容错 Tendermint 共识机制。因此，Burrow 提供了高吞吐量和交易最终性。
 
-源代码可在 [https://github.com/hyperledger/burrow](https://github.com/hyperledger/burrow) 上找到。
+源代码可在 [`github.com/hyperledger/burrow`](https://github.com/hyperledger/burrow) 上找到。
 
 # Indy
 
 该项目正在 Hyperledger 的孵化过程中。Indy 是为构建去中心化身份而开发的分布式分类帐。它提供了用于构建基于区块链的数字身份的工具、实用库和模块。这些身份可以跨多个区块链、域和应用程序使用。Indy 有自己的分布式分类帐，并使用**冗余拜占庭容错**（**RBFT**）进行共识。
 
-源代码可在此处找到：[https://github.com/hyperledger/indy-node](https://github.com/hyperledger/indy-node)。
+源代码可在此处找到：[`github.com/hyperledger/indy-node`](https://github.com/hyperledger/indy-node)。
 
 # Explorer
 
@@ -56,13 +56,13 @@ Iroha 已提出并正在研究各种库，包括但不限于数字签名库（ed
 
 目前，还有其他几个项目正在 Hyperledger 的孵化中。这些项目旨在提供支持区块链网络的工具和实用程序。这些项目将在接下来的章节中介绍。
 
-源代码可在此处找到：[https://github.com/hyperledger/blockchain-explorer](https://github.com/hyperledger/blockchain-explorer)。
+源代码可在此处找到：[`github.com/hyperledger/blockchain-explorer`](https://github.com/hyperledger/blockchain-explorer)。
 
 # Cello
 
 Cello 的目标是允许轻松部署区块链。这将提供一种能力，允许区块链服务的“即服务”部署。目前，该项目处于孵化阶段。
 
-Cello 的源代码可在此处找到：[https://github.com/hyperledger/cello](https://github.com/hyperledger/cello)。
+Cello 的源代码可在此处找到：[`github.com/hyperledger/cello`](https://github.com/hyperledger/cello)。
 
 # Composer
 
@@ -74,7 +74,7 @@ Cello 的源代码可在此处找到：[https://github.com/hyperledger/cello](ht
 
 该实用工具实现了跨不同分布式和非分布式账本网络的互操作性的 Interledger 协议。
 
-Quilt 可在此处找到：[https://github.com/hyperledger/quilt](https://github.com/hyperledger/quilt)。
+Quilt 可在此处找到：[`github.com/hyperledger/quilt`](https://github.com/hyperledger/quilt)。
 
 目前，所有提及的项目都处于不同阶段的开发中。
 
@@ -88,13 +88,13 @@ Quilt 可在此处找到：[https://github.com/hyperledger/quilt](https://github
 
 # 参考架构
 
-Hyperledger已经发表了一份白皮书，可在[https://docs.google.com/document/d/1Z4M_qwILLRehPbVRUsJ3OF8Iir-gqS-ZYe7W-LE9gnE/edit#heading=h.m6iml6hqrnm2](https://docs.google.com/document/d/1Z4M_qwILLRehPbVRUsJ3OF8Iir-gqS-ZYe7W-LE9gnE/edit#heading=h.m6iml6hqrnm2)获取。
+Hyperledger 已经发表了一份白皮书，可在[`docs.google.com/document/d/1Z4M_qwILLRehPbVRUsJ3OF8Iir-gqS-ZYe7W-LE9gnE/edit#heading=h.m6iml6hqrnm2`](https://docs.google.com/document/d/1Z4M_qwILLRehPbVRUsJ3OF8Iir-gqS-ZYe7W-LE9gnE/edit#heading=h.m6iml6hqrnm2)获取。
 
 本文提供了一个参考架构，可作为构建许可分布式分类账的指南。这个参考架构由形成业务区块链的各种组件组成。这些高级组件在以下这个参考架构图中显示：
 
 ![](img/e33420fd-cbc4-438a-b342-4eec50f34eea.jpg)
 
-参考架构 - 来源：Hyperledger白皮书
+参考架构 - 来源：Hyperledger 白皮书
 
 从左边开始，可以看到我们有五个顶层组件，它们提供各种服务。我们将详细探讨所有这些组件。
 
@@ -104,9 +104,9 @@ Hyperledger已经发表了一份白皮书，可在[https://docs.google.com/docum
 
 随后是分类账和交易，其中包括分布式分类账、排序服务、网络协议，以及认可和验证服务。分类账只能通过区块链网络参与者之间的共识来更新。
 
-最后，我们有智能合约层，它在Hyperledger中提供链码服务，并利用安全容器技术来托管智能合约。我们稍后将更详细地看到*Hyperledger Fabric*部分中的所有这些内容。
+最后，我们有智能合约层，它在 Hyperledger 中提供链码服务，并利用安全容器技术来托管智能合约。我们稍后将更详细地看到*Hyperledger Fabric*部分中的所有这些内容。
 
-一般来说，从组件的角度来看，Hyperledger包含了这里描述的各种元素：
+一般来说，从组件的角度来看，Hyperledger 包含了这里描述的各种元素：
 
 +   **共识层**：这些服务负责促进区块链网络参与者之间的协议达成过程。共识是必须的，以确保交易的顺序和状态在区块链网络中得到验证和达成一致。
 
@@ -120,23 +120,23 @@ Hyperledger已经发表了一份白皮书，可在[https://docs.google.com/docum
 
 +   **策略服务**：这组服务提供管理区块链网络所需的不同策略的能力。这包括认可策略和共识策略。
 
-+   **APIs和SDKs**：该层允许客户端和应用程序与区块链进行交互。SDK用于提供机制来部署和执行链码，查询区块并监视区块链上的事件。
++   **APIs 和 SDKs**：该层允许客户端和应用程序与区块链进行交互。SDK 用于提供机制来部署和执行链码，查询区块并监视区块链上的事件。
 
-区块链服务有一定的要求。在下一节中，我们将讨论Hyperledger Fabric的设计目标。
+区块链服务有一定的要求。在下一节中，我们将讨论 Hyperledger Fabric 的设计目标。
 
-# Hyperledger Fabric的需求和设计目标
+# Hyperledger Fabric 的需求和设计目标
 
-区块链服务有一定的要求。参考架构是由Hyperledger项目的参与者提出的需求和要求驱动的，并在研究行业用例后进行了讨论。从对工业用例的研究中推导出了几类需求，这些需求将在以下部分进行讨论。
+区块链服务有一定的要求。参考架构是由 Hyperledger 项目的参与者提出的需求和要求驱动的，并在研究行业用例后进行了讨论。从对工业用例的研究中推导出了几类需求，这些需求将在以下部分进行讨论。
 
 # 模块化方法
 
-Hyperledger的主要要求是模块化结构。预计作为跨行业面料（区块链），它将在许多业务场景中使用。因此，与存储、策略、链码、访问控制、共识等其他区块链服务相关的功能应该是模块化和可插拔的。规范建议模块应该是即插即用的，用户应该能够轻松地移除和添加满足业务需求的不同模块。
+Hyperledger 的主要要求是模块化结构。预计作为跨行业面料（区块链），它将在许多业务场景中使用。因此，与存储、策略、链码、访问控制、共识等其他区块链服务相关的功能应该是模块化和可插拔的。规范建议模块应该是即插即用的，用户应该能够轻松地移除和添加满足业务需求的不同模块。
 
 # 隐私和保密性
 
-此需求是最关键的因素之一。传统的区块链是无许可的，而在Hyperledger Fabric这样的许可模型中，网络上的交易对于只有被允许查看的人可见非常重要。
+此需求是最关键的因素之一。传统的区块链是无许可的，而在 Hyperledger Fabric 这样的许可模型中，网络上的交易对于只有被允许查看的人可见非常重要。
 
-在业务区块链中，交易和合同的隐私和保密性至关重要。因此，Hyperledger的愿景是支持全面的加密协议和算法。我们在[第5章](5e44a805-fb66-4135-b59e-4e03367aaed5.xhtml)和[第6章](c49f1747-2096-4ab6-a1e1-334e092ef2be.xhtml)中讨论了密码学，*对称密码学*和*公钥密码学*。
+在业务区块链中，交易和合同的隐私和保密性至关重要。因此，Hyperledger 的愿景是支持全面的加密协议和算法。我们在第五章和第六章中讨论了密码学，*对称密码学*和*公钥密码学*。
 
 预计用户将能够根据其业务需求选择适当的模块。例如，如果业务区块链只需要在已经信任的各方之间运行并执行非常基本的业务操作，则可能无需为保密性和隐私提供先进的加密支持。因此，用户应该能够移除该功能（模块）或将其替换为更合适的模块以满足其需求。
 
@@ -150,15 +150,15 @@ Hyperledger的主要要求是模块化结构。预计作为跨行业面料（区
 
 # 确定性交易
 
-这是任何区块链的核心需求，因为如果交易无论何时执行产生相同的结果，无论交易由谁在何处执行，共识都是不可能实现的。因此，在任何区块链网络中，确定性交易成为关键要求。我们在[第四章](12eebfe5-f775-4550-a8df-d9578dd08980.xhtml) *智能合同* 中讨论了这些概念。
+这是任何区块链的核心需求，因为如果交易无论何时执行产生相同的结果，无论交易由谁在何处执行，共识都是不可能实现的。因此，在任何区块链网络中，确定性交易成为关键要求。我们在第四章 *智能合同* 中讨论了这些概念。
 
 # 身份
 
-为了提供隐私和保密服务，还需要一个灵活的PKI模型来处理访问控制功能。加密机制的强度和类型也预计会根据用户的需求和要求而变化。在某些场景中，可能需要用户隐藏他们的身份，因此，期望Hyperledger提供这一功能。
+为了提供隐私和保密服务，还需要一个灵活的 PKI 模型来处理访问控制功能。加密机制的强度和类型也预计会根据用户的需求和要求而变化。在某些场景中，可能需要用户隐藏他们的身份，因此，期望 Hyperledger 提供这一功能。
 
 # 审计性
 
-审计性是Hyperledger Fabric的另一个需求。预期保留所有身份、相关操作和任何更改的不可变审计跟踪。
+审计性是 Hyperledger Fabric 的另一个需求。预期保留所有身份、相关操作和任何更改的不可变审计跟踪。
 
 # 互操作性
 
@@ -166,7 +166,7 @@ Hyperledger的主要要求是模块化结构。预计作为跨行业面料（区
 
 # 可移植性
 
-可移植性要求关注的是在不需要在代码级别更改任何内容的情况下能够在多个平台和环境中运行。预期Hyperledger Fabric在基础设施级别以及代码、库和API级别都是可移植的，这样可以支持在各种Hyperledger实现中进行统一开发。
+可移植性要求关注的是在不需要在代码级别更改任何内容的情况下能够在多个平台和环境中运行。预期 Hyperledger Fabric 在基础设施级别以及代码、库和 API 级别都是可移植的，这样可以支持在各种 Hyperledger 实现中进行统一开发。
 
 # 丰富的数据查询
 
@@ -182,11 +182,11 @@ Hyperledger的主要要求是模块化结构。预计作为跨行业面料（区
 
 例如，共识算法可以是区块链网络中的可插拔模块，根据网络的要求，可以选择适当的共识算法并将其插入网络中。这些模块可以基于 fabric 的某些特定规范，并且可以包括 API、访问控制和各种其他组件。
 
-Fabric 也可以设计为私有或公开的，并且可以允许创建多个业务网络。例如，比特币就是在其 fabric（区块链网络）上运行的应用程序。正如前文[第一章](76e4e401-30ba-44f9-832f-333ba6c12cbc.xhtml)讨论的那样，*区块链 101*，区块链可以是许可的或无许可的。然而，Hyperledger Fabric 的目标是开发一个许可的分布式分类账。
+Fabric 也可以设计为私有或公开的，并且可以允许创建多个业务网络。例如，比特币就是在其 fabric（区块链网络）上运行的应用程序。正如前文第一章讨论的那样，*区块链 101*，区块链可以是许可的或无许可的。然而，Hyperledger Fabric 的目标是开发一个许可的分布式分类账。
 
 Fabric 也是 IBM 向 Hyperledger 基金会提供的代码贡献的名称，正式称为 Hyperledger Fabric。IBM 还通过其*IBM 云服务*提供区块链即服务（IBM Blockchain）。
 
-它可以在[https://www.ibm.com/cloud/](https://www.ibm.com/cloud/)找到。
+它可以在[`www.ibm.com/cloud/`](https://www.ibm.com/cloud/)找到。
 
 现在让我们详细看一下 Hyperledger Fabric。
 
@@ -232,7 +232,7 @@ Hyperledger V1 中的共识是作为一个称为**订购者**的节点实现的�
 
 # 分布式账本
 
-区块链和世界状态是分布式账本的两个主要元素。区块链简单来说是一个由区块构成的加密链接列表（如[第一章](76e4e401-30ba-44f9-832f-333ba6c12cbc.xhtml)介绍的，*区块链 101*），而世界状态是一个键值数据库。这个数据库被智能合约用来在执行过程中存储相关状态。区块链由包含交易的区块组成。这些交易包含链码，运行这些交易可以导致更新世界状态。每个节点将世界状态保存在硬盘上，使用的是 LevelDB 或 CouchDB，具体取决于实现。由于 Fabric 允许可插拔的数据存储，你可以选择任何数据存储方式进行存储。
+区块链和世界状态是分布式账本的两个主要元素。区块链简单来说是一个由区块构成的加密链接列表（如第一章介绍的，*区块链 101*），而世界状态是一个键值数据库。这个数据库被智能合约用来在执行过程中存储相关状态。区块链由包含交易的区块组成。这些交易包含链码，运行这些交易可以导致更新世界状态。每个节点将世界状态保存在硬盘上，使用的是 LevelDB 或 CouchDB，具体取决于实现。由于 Fabric 允许可插拔的数据存储，你可以选择任何数据存储方式进行存储。
 
 区块由三个主要组件组成，称为区块头、交易（数据）和区块元数据。
 
@@ -318,7 +318,7 @@ MSP 是用于管理区块链网络上身份的模块化组件。此提供程序�
 
 # 智能合约
 
-我们在[第 4 章](12eebfe5-f775-4550-a8df-d9578dd08980.xhtml)中详细讨论了智能合约，*智能合约*。在 Hyperledger Fabric 中，实现了相同的智能合约概念，但称为链代码而不是智能合约。它们包含条件和参数以执行交易并更新分类帐。链代码通常用 Golang 和 Java 编写。
+我们在第四章中详细讨论了智能合约，*智能合约*。在 Hyperledger Fabric 中，实现了相同的智能合约概念，但称为链代码而不是智能合约。它们包含条件和参数以执行交易并更新分类帐。链代码通常用 Golang 和 Java 编写。
 
 # 加密服务提供商
 
@@ -372,7 +372,7 @@ Hyperledger Fabric 的高层概述
 
 +   **区块链逻辑**：这用于通过控制器管理区块链和通过交易管理数据模型。
 
-IBM 云服务提供区块链示例应用，作为其区块链即服务的一部分。该服务可在[https://www.ibm.com/blockchain/platform/](https://www.ibm.com/blockchain/platform/)获取。[该服务允许用户在易于使用的环境中创建自己的区块链网络](https://www.ibm.com/blockchain/platform/)。
+IBM 云服务提供区块链示例应用，作为其区块链即服务的一部分。该服务可在[`www.ibm.com/blockchain/platform/`](https://www.ibm.com/blockchain/platform/)获取。[该服务允许用户在易于使用的环境中创建自己的区块链网络](https://www.ibm.com/blockchain/platform/)。
 
 # 超级账本 Fabric 中的共识
 
@@ -410,7 +410,7 @@ IBM 云服务提供区块链示例应用，作为其区块链即服务的一部�
 
 1.  应用程序将背书的交易和读写（RW）集提交给排序服务。
 
-1.  排序服务将所有背书交易和读写集按照通道ID排序，组装成一个区块。
+1.  排序服务将所有背书交易和读写集按照通道 ID 排序，组装成一个区块。
 
 1.  排序服务将组装好的区块广播给所有提交节点。
 
@@ -426,33 +426,33 @@ IBM 云服务提供区块链示例应用，作为其区块链即服务的一部�
 
 交易流程架构
 
-如前图所示，第一步是提出交易，客户端通过SDK执行此操作。在此之前，假设所有客户端和节点都已在成员服务提供商那里注册。
+如前图所示，第一步是提出交易，客户端通过 SDK 执行此操作。在此之前，假设所有客户端和节点都已在成员服务提供商那里注册。
 
-关于这个主题，我们对超级账本（Hyperledger Fabric）的介绍已经完成。在下一节中，我们将看到另一个名为Sawtooth Lake的超级账本项目。
+关于这个主题，我们对超级账本（Hyperledger Fabric）的介绍已经完成。在下一节中，我们将看到另一个名为 Sawtooth Lake 的超级账本项目。
 
 # Sawtooth Lake
 
-Sawtooth Lake可以在受控和非受控模式下运行。它是一个分布式账本，提出了两个新颖的概念：第一个是介绍了一种称为**Proof of Elapsed Time**（**PoET**）的新型共识算法；第二个是**事务家族**的概念。
+Sawtooth Lake 可以在受控和非受控模式下运行。它是一个分布式账本，提出了两个新颖的概念：第一个是介绍了一种称为**Proof of Elapsed Time**（**PoET**）的新型共识算法；第二个是**事务家族**的概念。
 
 这些新提议的描述在以下部分给出。
 
 # PoET
 
-PoET是一种新颖的共识算法，允许根据节点在提出区块之前等待的时间随机选择节点。这个概念与其他基于领导者选举和抽奖的工作证明算法相反，例如比特币中使用的PoW，其中使用了大量的电力和计算资源来选举区块提议者；例如在比特币的情况下。 PoET是一种工作证明算法，但是，它不是使用计算机资源，而是使用可信计算模型来提供一种满足工作证明要求的机制。 PoET利用Intel的SGX架构（软件保护扩展）提供受信任的执行环境（TEE）以确保进程的随机性和密码学安全性。
+PoET 是一种新颖的共识算法，允许根据节点在提出区块之前等待的时间随机选择节点。这个概念与其他基于领导者选举和抽奖的工作证明算法相反，例如比特币中使用的 PoW，其中使用了大量的电力和计算资源来选举区块提议者；例如在比特币的情况下。 PoET 是一种工作证明算法，但是，它不是使用计算机资源，而是使用可信计算模型来提供一种满足工作证明要求的机制。 PoET 利用 Intel 的 SGX 架构（软件保护扩展）提供受信任的执行环境（TEE）以确保进程的随机性和密码学安全性。
 
-应该注意的是，Sawtooth Lake的当前实现不需要真实的硬件SGX基于TEE，因为它仅为实验目的模拟，并且因此不应在生产环境中使用。 PoET的基本理念是通过随机等待的方式来提供领导者选举的机制，以便被选举为提议新交易的领导者。
+应该注意的是，Sawtooth Lake 的当前实现不需要真实的硬件 SGX 基于 TEE，因为它仅为实验目的模拟，并且因此不应在生产环境中使用。 PoET 的基本理念是通过随机等待的方式来提供领导者选举的机制，以便被选举为提议新交易的领导者。
 
-但是，PoET存在一个被Ittay Eyal强调的限制。 这个限制被称为*陈旧芯片*问题。
+但是，PoET 存在一个被 Ittay Eyal 强调的限制。 这个限制被称为*陈旧芯片*问题。
 
-研究论文可在[https://eprint.iacr.org/2017/179.pdf](https://eprint.iacr.org/2017/179.pdf)上获得。
+研究论文可在[`eprint.iacr.org/2017/179.pdf`](https://eprint.iacr.org/2017/179.pdf)上获得。
 
 这种限制导致硬件浪费，可能导致资源的浪费。 也存在黑客攻击芯片硬件的可能性，这可能导致系统妥协和给矿工不当的激励。
 
 # 交易家族
 
-传统的智能合约范式提供了一个基于通用指令集的解决方案，适用于所有领域。 例如，在以太坊的情况下，已经开发了一组用于EVM的操作码，可以用来构建智能合约以满足任何行业的任何类型需求。
+传统的智能合约范式提供了一个基于通用指令集的解决方案，适用于所有领域。 例如，在以太坊的情况下，已经开发了一组用于 EVM 的操作码，可以用来构建智能合约以满足任何行业的任何类型需求。
 
-虽然这个模型有其优点，但显然这种方法不太安全，因为它为账本提供了一个单一接口，使用了一个强大且富有表现力的语言，这可能为恶意代码提供了更大的攻击面。 这种复杂性和通用虚拟机范式导致了一些漏洞的发现和最近黑客攻击的利用。 一个最近的例子是**DAO hack**和进一步的**拒绝服务**（**DoS**）攻击，这些攻击利用了一些EVM操作码的限制。 DAO hack在[第4章](12eebfe5-f775-4550-a8df-d9578dd08980.xhtml)“智能合约”中进行了讨论。
+虽然这个模型有其优点，但显然这种方法不太安全，因为它为账本提供了一个单一接口，使用了一个强大且富有表现力的语言，这可能为恶意代码提供了更大的攻击面。 这种复杂性和通用虚拟机范式导致了一些漏洞的发现和最近黑客攻击的利用。 一个最近的例子是**DAO hack**和进一步的**拒绝服务**（**DoS**）攻击，这些攻击利用了一些 EVM 操作码的限制。 DAO hack 在第四章“智能合约”中进行了讨论。
 
 下图中显示的模型描述了传统的智能合约模型，其中使用了通用虚拟机提供了所有领域的区块链接口：
 
@@ -460,7 +460,7 @@ PoET是一种新颖的共识算法，允许根据节点在提出区块之前等�
 
 传统的智能合约范式
 
-为解决这个问题，Sawtooth Lake提出了交易族的概念。交易族通过将逻辑层分解为特定领域的一组规则和一个组合层来创建。关键思想是业务逻辑嵌入在交易族中，从而提供了一种更安全、更强大的构建智能合约的方式。交易族包含特定领域的规则和另一层，允许为该领域创建交易。另一种看待它的方式是，交易族是实施特定领域逻辑层的数据模型和交易语言的组合。数据模型代表区块链（分类帐）的当前状态，而交易语言修改了分类帐的状态。预计用户将根据其业务需求构建自己的交易族。
+为解决这个问题，Sawtooth Lake 提出了交易族的概念。交易族通过将逻辑层分解为特定领域的一组规则和一个组合层来创建。关键思想是业务逻辑嵌入在交易族中，从而提供了一种更安全、更强大的构建智能合约的方式。交易族包含特定领域的规则和另一层，允许为该领域创建交易。另一种看待它的方式是，交易族是实施特定领域逻辑层的数据模型和交易语言的组合。数据模型代表区块链（分类帐）的当前状态，而交易语言修改了分类帐的状态。预计用户将根据其业务需求构建自己的交易族。
 
 以下图表表示了该模型，其中每个特定领域，如金融服务、**数字版权管理**（**DRM**）、供应链和医疗行业，都有自己的逻辑层，包括特定于该领域的操作和服务。这使逻辑层同时具有限制性和强大性。交易族确保只有与所需领域相关的操作存在于控制逻辑中，从而消除了执行不必要的、任意的和潜在有害的操作的可能性：
 
@@ -468,7 +468,7 @@ PoET是一种新颖的共识算法，允许根据节点在提出区块之前等�
 
 Sawtooth（交易族）智能合约范式
 
-英特尔为Sawtooth提供了三个交易族：端点注册表、Integerkey和MarketPlace。
+英特尔为 Sawtooth 提供了三个交易族：端点注册表、Integerkey 和 MarketPlace。
 
 +   **端点注册表**用于注册分类帐服务
 
@@ -478,23 +478,23 @@ Sawtooth（交易族）智能合约范式
 
 **Sawtooth_bond**已开发为证明概念，演示了债券交易平台。
 
-可在[https://github.com/hyperledger/sawtooth-core/tree/master/extensions/bond](https://github.com/hyperledger/sawtooth-core/tree/master/extensions/bond)找到。
+可在[`github.com/hyperledger/sawtooth-core/tree/master/extensions/bond`](https://github.com/hyperledger/sawtooth-core/tree/master/extensions/bond)找到。
 
-# Sawtooth中的共识
+# Sawtooth 中的共识
 
-Sawtooth有两种基于网络选择的共识机制。正如之前讨论的那样，PoET是一种基于可信执行环境的抽奖功能，根据节点等待区块提案的时间随机选举领袖。
+Sawtooth 有两种基于网络选择的共识机制。正如之前讨论的那样，PoET 是一种基于可信执行环境的抽奖功能，根据节点等待区块提案的时间随机选举领袖。
 
-还有一种名为**quorum voting**的共识类型，这是由Ripple和Stellar构建的共识协议的一种改编。该共识算法允许即时的交易最终性，通常在获准网络中是可取的。
+还有一种名为**quorum voting**的共识类型，这是由 Ripple 和 Stellar 构建的共识协议的一种改编。该共识算法允许即时的交易最终性，通常在获准网络中是可取的。
 
 # 开发环境 - Sawtooth Lake
 
-本节将简要介绍如何为Sawtooth Lake设置开发环境。设置开发环境需要满足一些先决条件。
+本节将简要介绍如何为 Sawtooth Lake 设置开发环境。设置开发环境需要满足一些先决条件。
 
-本部分中的示例假定正在运行Ubuntu系统并具有以下内容：
+本部分中的示例假定正在运行 Ubuntu 系统并具有以下内容：
 
-+   至少版本为1.9.0的[Vagrant](https://www.vagrantup.com/downloads.html)可在[h](https://www.vagrantup.com/downloads.html)[t](https://www.vagrantup.com/downloads.html)[t](https://www.vagrantup.com/downloads.html)[p](https://www.vagrantup.com/downloads.html)[s](https://www.vagrantup.com/downloads.html)[://w](https://www.vagrantup.com/downloads.html)[w](https://www.vagrantup.com/downloads.html)[w](https://www.vagrantup.com/downloads.html)[.](https://www.vagrantup.com/downloads.html)[v](https://www.vagrantup.com/downloads.html)[a](https://www.vagrantup.com/downloads.html)[g](https://www.vagrantup.com/downloads.html)[r](https://www.vagrantup.com/downloads.html)[a](https://www.vagrantup.com/downloads.html)[n](https://www.vagrantup.com/downloads.html)[t](https://www.vagrantup.com/downloads.html)[u](https://www.vagrantup.com/downloads.html)[p](https://www.vagrantup.com/downloads.html)[.](https://www.vagrantup.com/downloads.html)[c](https://www.vagrantup.com/downloads.html)[o](https://www.vagrantup.com/downloads.html)[m](https://www.vagrantup.com/downloads.html)[/d](https://www.vagrantup.com/downloads.html)[o](https://www.vagrantup.com/downloads.html)[w](https://www.vagrantup.com/downloads.html)[n](https://www.vagrantup.com/downloads.html)[l](https://www.vagrantup.com/downloads.html)[o](https://www.vagrantup.com/downloads.html)[a](https://www.vagrantup.com/downloads.html)[d](https://www.vagrantup.com/downloads.html)[s](https://www.vagrantup.com/downloads.html)[.](https://www.vagrantup.com/downloads.html)[h](https://www.vagrantup.com/downloads.html)[t](https://www.vagrantup.com/downloads.html)[m](https://www.vagrantup.com/downloads.html)[l](https://www.vagrantup.com/downloads.html)。
++   至少版本为 1.9.0 的[Vagrant](https://www.vagrantup.com/downloads.html)可在[h](https://www.vagrantup.com/downloads.html)[t](https://www.vagrantup.com/downloads.html)[t](https://www.vagrantup.com/downloads.html)[p](https://www.vagrantup.com/downloads.html)[s](https://www.vagrantup.com/downloads.html)[://w](https://www.vagrantup.com/downloads.html)[w](https://www.vagrantup.com/downloads.html)[w](https://www.vagrantup.com/downloads.html)[.](https://www.vagrantup.com/downloads.html)[v](https://www.vagrantup.com/downloads.html)[a](https://www.vagrantup.com/downloads.html)[g](https://www.vagrantup.com/downloads.html)[r](https://www.vagrantup.com/downloads.html)[a](https://www.vagrantup.com/downloads.html)[n](https://www.vagrantup.com/downloads.html)[t](https://www.vagrantup.com/downloads.html)[u](https://www.vagrantup.com/downloads.html)[p](https://www.vagrantup.com/downloads.html)[.](https://www.vagrantup.com/downloads.html)[c](https://www.vagrantup.com/downloads.html)[o](https://www.vagrantup.com/downloads.html)[m](https://www.vagrantup.com/downloads.html)[/d](https://www.vagrantup.com/downloads.html)[o](https://www.vagrantup.com/downloads.html)[w](https://www.vagrantup.com/downloads.html)[n](https://www.vagrantup.com/downloads.html)[l](https://www.vagrantup.com/downloads.html)[o](https://www.vagrantup.com/downloads.html)[a](https://www.vagrantup.com/downloads.html)[d](https://www.vagrantup.com/downloads.html)[s](https://www.vagrantup.com/downloads.html)[.](https://www.vagrantup.com/downloads.html)[h](https://www.vagrantup.com/downloads.html)[t](https://www.vagrantup.com/downloads.html)[m](https://www.vagrantup.com/downloads.html)[l](https://www.vagrantup.com/downloads.html)。
 
-+   VirtualBox，至少是5.0.10 r104061，可在[h](https://www.virtualbox.org/wiki/Downloads)[t](https://www.virtualbox.org/wiki/Downloads)[t](https://www.virtualbox.org/wiki/Downloads)[p](https://www.virtualbox.org/wiki/Downloads)[s](https://www.virtualbox.org/wiki/Downloads)[://w](https://www.virtualbox.org/wiki/Downloads)[w](https://www.virtualbox.org/wiki/Downloads)[w](https://www.virtualbox.org/wiki/Downloads)[.](https://www.virtualbox.org/wiki/Downloads)[v](https://www.virtualbox.org/wiki/Downloads)[i](https://www.virtualbox.org/wiki/Downloads)[r](https://www.virtualbox.org/wiki/Downloads)[t](https://www.virtualbox.org/wiki/Downloads)[u](https://www.virtualbox.org/wiki/Downloads)[a](https://www.virtualbox.org/wiki/Downloads)[l](https://www.virtualbox.org/wiki/Downloads)[b](https://www.virtualbox.org/wiki/Downloads)[o](https://www.virtualbox.org/wiki/Downloads)[x](https://www.virtualbox.org/wiki/Downloads)[.](https://www.virtualbox.org/wiki/Downloads)[o](https://www.virtualbox.org/wiki/Downloads)[r](https://www.virtualbox.org/wiki/Downloads)[g](https://www.virtualbox.org/wiki/Downloads)[/w](https://www.virtualbox.org/wiki/Downloads)[i](https://www.virtualbox.org/wiki/Downloads)[k](https://www.virtualbox.org/wiki/Downloads)[i](https://www.virtualbox.org/wiki/Downloads)[/D](https://www.virtualbox.org/wiki/Downloads)[o](https://www.virtualbox.org/wiki/Downloads)[w](https://www.virtualbox.org/wiki/Downloads)[n](https://www.virtualbox.org/wiki/Downloads)[l](https://www.virtualbox.org/wiki/Downloads)[o](https://www.virtualbox.org/wiki/Downloads)[a](https://www.virtualbox.org/wiki/Downloads)[d](https://www.virtualbox.org/wiki/Downloads)[s](https://www.virtualbox.org/wiki/Downloads).
++   VirtualBox，至少是 5.0.10 r104061，可在[h](https://www.virtualbox.org/wiki/Downloads)[t](https://www.virtualbox.org/wiki/Downloads)[t](https://www.virtualbox.org/wiki/Downloads)[p](https://www.virtualbox.org/wiki/Downloads)[s](https://www.virtualbox.org/wiki/Downloads)[://w](https://www.virtualbox.org/wiki/Downloads)[w](https://www.virtualbox.org/wiki/Downloads)[w](https://www.virtualbox.org/wiki/Downloads)[.](https://www.virtualbox.org/wiki/Downloads)[v](https://www.virtualbox.org/wiki/Downloads)[i](https://www.virtualbox.org/wiki/Downloads)[r](https://www.virtualbox.org/wiki/Downloads)[t](https://www.virtualbox.org/wiki/Downloads)[u](https://www.virtualbox.org/wiki/Downloads)[a](https://www.virtualbox.org/wiki/Downloads)[l](https://www.virtualbox.org/wiki/Downloads)[b](https://www.virtualbox.org/wiki/Downloads)[o](https://www.virtualbox.org/wiki/Downloads)[x](https://www.virtualbox.org/wiki/Downloads)[.](https://www.virtualbox.org/wiki/Downloads)[o](https://www.virtualbox.org/wiki/Downloads)[r](https://www.virtualbox.org/wiki/Downloads)[g](https://www.virtualbox.org/wiki/Downloads)[/w](https://www.virtualbox.org/wiki/Downloads)[i](https://www.virtualbox.org/wiki/Downloads)[k](https://www.virtualbox.org/wiki/Downloads)[i](https://www.virtualbox.org/wiki/Downloads)[/D](https://www.virtualbox.org/wiki/Downloads)[o](https://www.virtualbox.org/wiki/Downloads)[w](https://www.virtualbox.org/wiki/Downloads)[n](https://www.virtualbox.org/wiki/Downloads)[l](https://www.virtualbox.org/wiki/Downloads)[o](https://www.virtualbox.org/wiki/Downloads)[a](https://www.virtualbox.org/wiki/Downloads)[d](https://www.virtualbox.org/wiki/Downloads)[s](https://www.virtualbox.org/wiki/Downloads).
 
 一旦两个前提条件都成功下载并安装，下一步是克隆存储库。
 
@@ -506,9 +506,9 @@ $ git clone https://github.com/IntelLedger/sawtooth-core.git
 
 ![](img/fb1a4de1-d855-4de1-b39b-728903ad3b85.png)
 
-GitHub Sawtooth克隆
+GitHub Sawtooth 克隆
 
-一旦Sawtooth正确克隆，下一步是启动环境。首先，运行以下命令将目录更改为正确的位置，然后启动vagrant虚拟机：
+一旦 Sawtooth 正确克隆，下一步是启动环境。首先，运行以下命令将目录更改为正确的位置，然后启动 vagrant 虚拟机：
 
 ```
 $ cd sawtooth-core/tools
@@ -519,9 +519,9 @@ $ vagrant up
 
 ![](img/6fb96efa-699f-440f-9055-33c1bdf94f13.png)
 
-vagrant up命令
+vagrant up 命令
 
-如果在任何时候需要停止vagrant，则可以使用以下命令：
+如果在任何时候需要停止 vagrant，则可以使用以下命令：
 
 ```
 $ vagrant halt  
@@ -533,15 +533,15 @@ $ vagrant halt
 $ vagrant destroy  
 ```
 
-`halt`将停止vagrant虚拟机，而`destroy`将停止并删除vagrant虚拟机。
+`halt`将停止 vagrant 虚拟机，而`destroy`将停止并删除 vagrant 虚拟机。
 
-最后，可以使用以下命令启动事务验证器。首先`ssh`进入vagrant Sawtooth虚拟机：
+最后，可以使用以下命令启动事务验证器。首先`ssh`进入 vagrant Sawtooth 虚拟机：
 
 ```
 $ vagrant ssh  
 ```
 
-当出现vagrant提示时，运行以下命令。首先使用以下命令构建Sawtooth Lake核心：
+当出现 vagrant 提示时，运行以下命令。首先使用以下命令构建 Sawtooth Lake 核心：
 
 ```
 $ /project/sawtooth-core/bin/build_all  
@@ -590,9 +590,9 @@ $ ./bin/txnvalidator -v -F ledger.transaction.integer_key --config
 
 这完成了我们对 Sawtooth 的基本介绍。上面显示的示例也相当基本，但演示了 Sawtooth Lake 的工作原理。
 
-Sawtooth Lake 也在不断发展，因此建议读者留意[http://intelledger.github.io/](http://intelledger.github.io/)上可用的文档，以了解最新的发展。
+Sawtooth Lake 也在不断发展，因此建议读者留意[`intelledger.github.io/`](http://intelledger.github.io/)上可用的文档，以了解最新的发展。
 
-这里有一个非常好的在线页面，提供了官方的 Sawtooth Lake 示例。该页面可在[https://sawtooth.hyperledger.org/examples/](https://sawtooth.hyperledger.org/examples/)访问。鼓励读者访问此页面，并探索这些样本项目。
+这里有一个非常好的在线页面，提供了官方的 Sawtooth Lake 示例。该页面可在[`sawtooth.hyperledger.org/examples/`](https://sawtooth.hyperledger.org/examples/)访问。鼓励读者访问此页面，并探索这些样本项目。
 
 现在在下一节中，我们将看到对 Corda 的介绍。需要注意的是，Corda 还不是 Hyperledger 的官方项目；但是，它可能很快就成为成员。因此，目前正在在 Hyperledger 下讨论这个问题，但将来可能不会成为 Hyperledger 的一部分。
 
@@ -602,7 +602,7 @@ Sawtooth Lake 也在不断发展，因此建议读者留意[http://intelledger.g
 
 Corda 是完全从头开始设计的，采用了一种新的模型来提供所有区块链的优点，但没有传统的区块链。它纯粹是为金融行业而开发的，以解决每个组织管理自己的分类账的问题，因此它们对*真相*有自己的看法，这导致矛盾和运营风险。此外，数据也在每个组织中重复，这导致管理个别基础设施的成本和复杂性增加。这些是 Corda 旨在通过构建分布式数据库平台解决的金融行业中的问题类型。
 
-Corda 源代码可在 [https://github.com/corda/corda](https://github.com/corda/corda) 获取。它是用一种称为 Kotlin 的语言编写的，这是一种针对**Java 虚拟机**（**JVM**）的静态类型语言。
+Corda 源代码可在 [`github.com/corda/corda`](https://github.com/corda/corda) 获取。它是用一种称为 Kotlin 的语言编写的，这是一种针对**Java 虚拟机**（**JVM**）的静态类型语言。
 
 # 架构
 
@@ -656,7 +656,7 @@ Corda 网络中两个节点的通信
 
 # 网络地图服务
 
-此服务用于以文档形式提供网络地图，其中包含网络上所有节点的信息。该服务发布IP地址、身份证书以及节点提供的服务列表。所有节点在首次启动时通过注册到此服务来宣布自己的存在，当节点收到连接请求时，首先在网络地图上检查请求节点的存在。换句话说，该服务解析参与者的身份到物理节点。
+此服务用于以文档形式提供网络地图，其中包含网络上所有节点的信息。该服务发布 IP 地址、身份证书以及节点提供的服务列表。所有节点在首次启动时通过注册到此服务来宣布自己的存在，当节点收到连接请求时，首先在网络地图上检查请求节点的存在。换句话说，该服务解析参与者的身份到物理节点。
 
 # 公证服务
 
@@ -666,7 +666,7 @@ Corda 网络中两个节点的通信
 
 # Oracle 服务
 
-Oracle 服务要么签署包含事实的交易（如果它是真实的），要么可以自己提供事实数据。它们允许真实世界的信息输入到分布式分类帐中。关于 Oracle 的讨论可以在[第四章](12eebfe5-f775-4550-a8df-d9578dd08980.xhtml)中找到，即*智能合约*。
+Oracle 服务要么签署包含事实的交易（如果它是真实的），要么可以自己提供事实数据。它们允许真实世界的信息输入到分布式分类帐中。关于 Oracle 的讨论可以在第四章中找到，即*智能合约*。
 
 # 交易
 
@@ -712,23 +712,23 @@ Corda 中的智能合约是使用 Kotlin 或 Java 编写的。代码面向 JVM�
 
 使用以下步骤可以轻松设置 Corda 的开发环境。所需软件包括以下内容：
 
-+   JDK 8（8u131），可在 [http://www.oracle.com/technetwork/java/javase/downloads/index.html](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 获取。
++   JDK 8（8u131），可在 [`www.oracle.com/technetwork/java/javase/downloads/index.html`](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 获取。
 
-+   IntelliJ IDEA Community版本，免费可在[https://www.jetbrains.com/idea/download](https://www.jetbrains.com/idea/download)[.](https://www.jetbrains.com/idea/download)获取。
++   IntelliJ IDEA Community 版本，免费可在[`www.jetbrains.com/idea/download`](https://www.jetbrains.com/idea/download)[.](https://www.jetbrains.com/idea/download)获取。
 
-+   H2数据库平台独立的ZIP，在[http://www.h2database.com/html/download.html](http://www.h2database.com/html/download.html)获取。
++   H2 数据库平台独立的 ZIP，在[`www.h2database.com/html/download.html`](http://www.h2database.com/html/download.html)获取。
 
-+   Git，可在[https://git-scm.com/downloads](https://git-scm.com/downloads)获取。
++   Git，可在[`git-scm.com/downloads`](https://git-scm.com/downloads)获取。
 
-+   Kotlin语言，可在IntelliJ中使用，更多信息请参见[https://kotlinlang.org/](https://kotlinlang.org/)。
++   Kotlin 语言，可在 IntelliJ 中使用，更多信息请参见[`kotlinlang.org/`](https://kotlinlang.org/)。
 
-Gradle是用于构建Corda的另一个组件。它可以在[https://gradle.org](https://gradle.org)获取。
+Gradle 是用于构建 Corda 的另一个组件。它可以在[`gradle.org`](https://gradle.org)获取。
 
-安装了所有这些工具后，可以开始智能合约开发。可以使用[https://github.com/corda/cordapp-template](https://github.com/corda/cordapp-template)中提供的示例模板来开发CorDapps。
+安装了所有这些工具后，可以开始智能合约开发。可以使用[`github.com/corda/cordapp-template`](https://github.com/corda/cordapp-template)中提供的示例模板来开发 CorDapps。
 
-有关如何开发合同代码的详细文档可在[https://docs.corda.net/](https://docs.corda.net/)获取。
+有关如何开发合同代码的详细文档可在[`docs.corda.net/`](https://docs.corda.net/)获取。
 
-Corda可以使用以下命令从GitHub本地克隆：
+Corda 可以使用以下命令从 GitHub 本地克隆：
 
 ```
 $ git clone https://github.com/corda/corda.git  
@@ -744,12 +744,12 @@ remote: Total 74695 (delta 17), reused 0 (delta 0), pack-reused 74591 Receiving 
 Checking connectivity... done.  
 ```
 
-一旦存储库被克隆，就可以在IntelliJ中进一步开发。存储库中提供了多个示例，如Corda银行、利率互换、演示和交易者演示。读者可以在`/samples`目录下的`corda`下找到它们，并可使用IntelliJ IDEA IDE进行探索。
+一旦存储库被克隆，就可以在 IntelliJ 中进一步开发。存储库中提供了多个示例，如 Corda 银行、利率互换、演示和交易者演示。读者可以在`/samples`目录下的`corda`下找到它们，并可使用 IntelliJ IDEA IDE 进行探索。
 
 # 摘要
 
-在本章中，我们介绍了Hyperledger项目的概述。首先，讨论了Hyperledger项目背后的核心思想，并提供了Hyperledger下所有项目的简要介绍。详细讨论了三个主要的Hyperledger项目，即Hyperledger Fabric、Sawtooth Lake和Corda。所有这些项目都在不断改进，预计下一个版本会有变化。然而，上述所有项目的核心概念预计都将保持不变，或者只会轻微变化。鼓励读者访问章节中提供的相关链接，以了解最新动态。
+在本章中，我们介绍了 Hyperledger 项目的概述。首先，讨论了 Hyperledger 项目背后的核心思想，并提供了 Hyperledger 下所有项目的简要介绍。详细讨论了三个主要的 Hyperledger 项目，即 Hyperledger Fabric、Sawtooth Lake 和 Corda。所有这些项目都在不断改进，预计下一个版本会有变化。然而，上述所有项目的核心概念预计都将保持不变，或者只会轻微变化。鼓励读者访问章节中提供的相关链接，以了解最新动态。
 
-显然，这个领域正在发生很多事情，像来自Linux基金会的Hyperledger项目发挥着推动区块链技术发展的关键作用。本章讨论的每个项目都对解决各行业面临的问题有新颖的方法，还在解决区块链技术的当前限制，如可扩展性和隐私等。预计很快将有更多项目提议给Hyperledger项目，预计随着这种合作和开放努力，区块链技术将得到极大发展，并将惠及整个社区。
+显然，这个领域正在发生很多事情，像来自 Linux 基金会的 Hyperledger 项目发挥着推动区块链技术发展的关键作用。本章讨论的每个项目都对解决各行业面临的问题有新颖的方法，还在解决区块链技术的当前限制，如可扩展性和隐私等。预计很快将有更多项目提议给 Hyperledger 项目，预计随着这种合作和开放努力，区块链技术将得到极大发展，并将惠及整个社区。
 
 在下一章中，我们将介绍替代的区块链解决方案和平台。由于区块链技术发展得非常迅速，并且吸引了许多研究兴趣，因此最近出现了许多新项目。我们将在下一章讨论这些项目。

@@ -50,7 +50,7 @@ Ropsten 是与主网最相似的区块链，因为它实现了相同的 PoW 挖�
 
 ![](img/4254eb49-f26b-409f-97c9-9a902d09b068.png)
 
-点击请求 1 以太币的水龙头，您将收到一个 MetaMask 通知，批准他们网站上使用您的帐户，以便他们每次点击都可以向您发送一个以太币，最多约五个 Ropsten 以太币。您可以在专用子域中使用 Etherscan 分析您的 Ropsten 交易：[https://ropsten.etherscan.io](https://ropsten.etherscan.io)。
+点击请求 1 以太币的水龙头，您将收到一个 MetaMask 通知，批准他们网站上使用您的帐户，以便他们每次点击都可以向您发送一个以太币，最多约五个 Ropsten 以太币。您可以在专用子域中使用 Etherscan 分析您的 Ropsten 交易：[`ropsten.etherscan.io`](https://ropsten.etherscan.io)。
 
 在获得 Ropsten 以太币之后，您应该能够使用您的框架或 IDE 连接到该特定网络。以下是将合约部署到此测试网络的步骤，以及对您的 Truffle 配置进行的一些修改：
 
@@ -84,7 +84,7 @@ Rinkeby 是最安全的网络之一，用于测试您的应用程序，因为它
 
 # 描述权威证明
 
-你已经从[第三章](8f93512c-8a39-4030-aa79-7e5ca832412b.xhtml)，*以太坊资产*中熟悉了 PoA，那里你通过一个基本介绍了如何使用 Puppeth 生成 Clique 网络。**Clique** 是 Rinkeby 使用的 PoA 算法的名称。它非常类似于 PoS，并且包括选择大约 25 个矿工的小部分，他们充当为链提出新区块的验证者。
+你已经从第三章，*以太坊资产*中熟悉了 PoA，那里你通过一个基本介绍了如何使用 Puppeth 生成 Clique 网络。**Clique** 是 Rinkeby 使用的 PoA 算法的名称。它非常类似于 PoS，并且包括选择大约 25 个矿工的小部分，他们充当为链提出新区块的验证者。
 
 每个验证者都对他们想要被接受为下一个区块的区块押注，几秒钟后，被押注以太币量最大的区块被选择。如果验证者在规则范围内表现良好，他们不会失去押注的以太币，但如果他们变得**拜占庭**，他们将冒着失去押注的风险作为惩罚。
 
@@ -92,7 +92,7 @@ Rinkeby 是最安全的网络之一，用于测试您的应用程序，因为它
 
 # 获取 Rinkeby 以太币
 
-要在此网络中获取以太币，您必须前往 [https://faucet.rinkeby.io](https://faucet.rinkeby.io) 或 [https://www.rinkeby.io/#faucet](https://www.rinkeby.io/#faucet)，在那里您可以提供带有您地址的社交媒体链接。
+要在此网络中获取以太币，您必须前往 [`faucet.rinkeby.io`](https://faucet.rinkeby.io) 或 [`www.rinkeby.io/#faucet`](https://www.rinkeby.io/#faucet)，在那里您可以提供带有您地址的社交媒体链接。
 
 这个过程有点混乱，所以这是步骤的分解：
 
@@ -108,21 +108,21 @@ Rinkeby 是最安全的网络之一，用于测试您的应用程序，因为它
 
 ![](img/b45b502c-2a04-4661-ae44-00132689bbb5.png)
 
-1.  将该URL粘贴到Rinkeby的faucet页面的输入框中：
+1.  将该 URL 粘贴到 Rinkeby 的 faucet 页面的输入框中：
 
 ![](img/5c817570-b0e7-4879-bc62-a897448fe9b5.png)
 
-1.  点击“给我Ether”选择您希望收到的以太币数量。总量每三天限制为18.75个Ether。您将立即收到以太币，但必须等到达该时间才能在将来获得更多以太币。如果一切顺利，您将看到一个绿色的确认消息。如果不行，可能是因为您提供的URL无效。确保复制推文本身的URL：
+1.  点击“给我 Ether”选择您希望收到的以太币数量。总量每三天限制为 18.75 个 Ether。您将立即收到以太币，但必须等到达该时间才能在将来获得更多以太币。如果一切顺利，您将看到一个绿色的确认消息。如果不行，可能是因为您提供的 URL 无效。确保复制推文本身的 URL：
 
 ![](img/7ee04796-bee9-4da7-b7e5-7bb0f9f7094c.png)
 
-1.  确认您在MetaMask中收到了您的以太币：
+1.  确认您在 MetaMask 中收到了您的以太币：
 
 ![](img/3e338272-ef4b-4453-90ec-c2f8d7789aac.png)
 
-现在，您应该可以在Rinkeby上进行操作并在需要时部署您的合约。请记住，这里有一个专门用于探索Rinkeby交易的Etherscan版本：[https://rinkeby.etherscan.io](https://rinkeby.etherscan.io)。
+现在，您应该可以在 Rinkeby 上进行操作并在需要时部署您的合约。请记住，这里有一个专门用于探索 Rinkeby 交易的 Etherscan 版本：[`rinkeby.etherscan.io`](https://rinkeby.etherscan.io)。
 
-要将这个测试网用于您的Truffle项目，您需要做以下更改：
+要将这个测试网用于您的 Truffle 项目，您需要做以下更改：
 
 1.  要在这个测试网上部署智能合约，你可以修改你的`truffle-config.js`文件，配置如下：
 
@@ -140,19 +140,19 @@ rinkeby: {
 $ truffle deploy --network rinkeby --reset
 ```
 
-请记得为Rinkeby获得有效的INFURA密钥，创建一个新项目。
+请记得为 Rinkeby 获得有效的 INFURA 密钥，创建一个新项目。
 
-或者，您可以通过将MetaMask网络更改为Rinkeby在Remix IDE中部署，只要您在其中有以太币。 Remix IDE将自动重新加载已选择的新测试网。
+或者，您可以通过将 MetaMask 网络更改为 Rinkeby 在 Remix IDE 中部署，只要您在其中有以太币。 Remix IDE 将自动重新加载已选择的新测试网。
 
-# 使用Kovan进行智能合约开发
+# 使用 Kovan 进行智能合约开发
 
-Kovan是由Parity团队创建的一个测试网，他们希望能够部署他们的智能合约，知道他们将无休止地运行，因为这个网络非常安全。这个网络是速度最快的，因为它有4秒的区块时间，这使得测试变得轻松，因为您不必等待长时间的确认时间。
+Kovan 是由 Parity 团队创建的一个测试网，他们希望能够部署他们的智能合约，知道他们将无休止地运行，因为这个网络非常安全。这个网络是速度最快的，因为它有 4 秒的区块时间，这使得测试变得轻松，因为您不必等待长时间的确认时间。
 
-它诞生是因为2017年Ropsten受到攻击，当时Parity意识到开发者失去了他们的重要工具，因为他们需要在可能最真实的情况下测试他们的智能合约，以模拟区块链的限制。
+它诞生是因为 2017 年 Ropsten 受到攻击，当时 Parity 意识到开发者失去了他们的重要工具，因为他们需要在可能最真实的情况下测试他们的智能合约，以模拟区块链的限制。
 
-Kovan是其中一个最活跃的网络，因为他们提供**Kovan改进提案**，即**KIPs**，用户可以在仓库([https://github.com/kovan-testnet/kips](https://github.com/kovan-testnet/kips))上提交GitHub问题，介绍他们希望引入到这个网络中的更改。
+Kovan 是其中一个最活跃的网络，因为他们提供**Kovan 改进提案**，即**KIPs**，用户可以在仓库([`github.com/kovan-testnet/kips`](https://github.com/kovan-testnet/kips))上提交 GitHub 问题，介绍他们希望引入到这个网络中的更改。
 
-由于依赖一组受信任的验证者持续以最佳速度生成区块，而不是依赖具有更高节点变异性的公共算法，因此无法对此区块链进行挖掘。您可以在官方 Kovan 白皮书中了解有关为此测试网络生成区块的已批准验证者的更多信息：[https://github.com/kovan-testnet/proposal](https://github.com/kovan-testnet/proposal)。
+由于依赖一组受信任的验证者持续以最佳速度生成区块，而不是依赖具有更高节点变异性的公共算法，因此无法对此区块链进行挖掘。您可以在官方 Kovan 白皮书中了解有关为此测试网络生成区块的已批准验证者的更多信息：[`github.com/kovan-testnet/proposal`](https://github.com/kovan-testnet/proposal)。
 
 此网络的标识符是 ID 42，因为他们决定为可能想要创建的新测试网络保留大量标识符。此网络也不易受到 DDoSing 等攻击的影响，具有大量慢区块的溢出。
 
@@ -186,7 +186,7 @@ truffle deploy --network kovan --reset
 
 要通过 Gitter 主持的公共聊天请求以太币，请按照以下步骤操作：
 
-1.  首先访问 Kovan 的公共 Gitter 聊天网站，网址为 [https://gitter.im/kovan-testnet/faucet](https://gitter.im/kovan-testnet/faucet)，界面类似于以下内容：
+1.  首先访问 Kovan 的公共 Gitter 聊天网站，网址为 [`gitter.im/kovan-testnet/faucet`](https://gitter.im/kovan-testnet/faucet)，界面类似于以下内容：
 
 ![](img/2abc61ff-1863-4e75-b778-3f5fab0f6bda.png)
 
@@ -194,7 +194,7 @@ truffle deploy --network kovan --reset
 
 ![](img/7a5980ca-6e7e-4cad-86e7-f7e655ca2771.png)
 
-1.  按下 *Enter* 发送您的地址，几分钟后您将收到 1 个 Kovan 以太币。如果您不想等待，可以使用名为 **Icarus** 的工具获取以太币（在此处提供：[https://faucet.kovan.network/](https://faucet.kovan.network/)），该工具会自动提供以太币：
+1.  按下 *Enter* 发送您的地址，几分钟后您将收到 1 个 Kovan 以太币。如果您不想等待，可以使用名为 **Icarus** 的工具获取以太币（在此处提供：[`faucet.kovan.network/`](https://faucet.kovan.network/)），该工具会自动提供以太币：
 
 ![](img/a9cafad6-2839-4bab-a4c2-b4a2ec4feed4.png)
 

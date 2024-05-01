@@ -53,29 +53,29 @@ npm install -g ethereumjs-testrpc
 
 +   `-m` 或 `--mnemonic`：使用特定的 HD 钱包助记词来生成初始地址。
 
-+   `-p`或`--port`：要监听的端口号。默认为8545。
++   `-p`或`--port`：要监听的端口号。默认为 8545。
 
-+   `-h`或`--hostname`：要监听的主机名。默认为Node的`server.listen()`默认值。
++   `-h`或`--hostname`：要监听的主机名。默认为 Node 的`server.listen()`默认值。
 
-+   `-s`或`--seed`：生成HD钱包助记词所需的任意数据。
++   `-s`或`--seed`：生成 HD 钱包助记词所需的任意数据。
 
-+   `-g`或`--gasPrice`：使用自定义的gas价格（默认为1）。如果在向节点发送交易时未提供gas价格，则将使用此gas价格。
++   `-g`或`--gasPrice`：使用自定义的 gas 价格（默认为 1）。如果在向节点发送交易时未提供 gas 价格，则将使用此 gas 价格。
 
-+   `-l`或`--gasLimit`：使用自定义的gas限制（默认为0x47E7C4）。如果在向节点发送交易时未提供gas限制，则将使用此gas限制。
++   `-l`或`--gasLimit`：使用自定义的 gas 限制（默认为 0x47E7C4）。如果在向节点发送交易时未提供 gas 限制，则将使用此 gas 限制。
 
-+   `-f`或`--fork`：这是从另一个当前运行的以太坊节点在给定块中分叉。输入应该是其他客户端的HTTP位置和端口；例如，`http://localhost:8545`。可以选择指定要从中分叉的块，使用@标记：`http://localhost:8545@1599200`。
++   `-f`或`--fork`：这是从另一个当前运行的以太坊节点在给定块中分叉。输入应该是其他客户端的 HTTP 位置和端口；例如，`http://localhost:8545`。可以选择指定要从中分叉的块，使用@标记：`http://localhost:8545@1599200`。
 
 +   `--debug`：输出用于调试的虚拟机操作码。
 
-+   `--account`：此选项用于导入账户。它可以任意多次指定`--account=...`，传递任意的私钥和它们关联的余额来生成初始地址。在使用`--account`时，不会为你创建一个HD钱包。
++   `--account`：此选项用于导入账户。它可以任意多次指定`--account=...`，传递任意的私钥和它们关联的余额来生成初始地址。在使用`--account`时，不会为你创建一个 HD 钱包。
 
 +   `-u`或`--unlock`：指定`--unlock ...`任意次数，传递要解锁的特定账户的地址或账户索引。当与`--secure`同时使用时，`--unlock`将覆盖指定帐户的锁定状态：`testrpc --secure --unlock "0x1234..." --unlock "0xabcd..."`。还可以通过编号指定解锁账户：`testrpc --secure -u 0 -u 1`。该功能也可以用于冒充帐户和解锁您原本无法访问的地址。在与`--fork`功能一起使用时，可以使用`testrpc`以任何区块链上的地址进行交易，这在测试和动态分析中非常有用。
 
-+   `--networkId`：用于指定此节点所属的网络ID。
++   `--networkId`：用于指定此节点所属的网络 ID。
 
-请注意，私钥长度为64个字符，必须输入为带有0x前缀的十六进制字符串。余额可以输入为整数，也可以输入为以太币金额的0x前缀十六进制值。
+请注意，私钥长度为 64 个字符，必须输入为带有 0x 前缀的十六进制字符串。余额可以输入为整数，也可以输入为以太币金额的 0x 前缀十六进制值。
 
-# 将`ethereumjs-testrpc`用作web3提供者或作为HTTP服务器
+# 将`ethereumjs-testrpc`用作 web3 提供者或作为 HTTP 服务器
 
 你可以像这样将`ethereumjs-testrpc`用作`web3`提供者：
 
@@ -85,7 +85,7 @@ web3.setProvider(TestRPC.provider());
 
 ```
 
-你可以像这样将`ethereumjs-testrpc`用作通用HTTP服务器：
+你可以像这样将`ethereumjs-testrpc`用作通用 HTTP 服务器：
 
 ```
 var TestRPC = require("ethereumjs-testrpc"); 
@@ -96,7 +96,7 @@ server.listen(port, function(err, blockchain) {});
 
 `provider()`和`server()`都接受一个允许您指定`ethereumjs-testrpc`行为的对象。此参数是可选的。可用选项如下：
 
-+   `accounts`：值是对象的数组。每个对象都应该有一个带有十六进制值的余额键。也可以指定secretKey键，它表示帐户的私钥。如果没有secretKey，地址将根据给定的余额自动生成。如果指定，密钥用于确定帐户的地址。
++   `accounts`：值是对象的数组。每个对象都应该有一个带有十六进制值的余额键。也可以指定 secretKey 键，它表示帐户的私钥。如果没有 secretKey，地址将根据给定的余额自动生成。如果指定，密钥用于确定帐户的地址。
 
 +   `debug`: 输出用于调试的 VM 操作码。
 
@@ -218,7 +218,7 @@ server.listen(port, function(err, blockchain) {});
 
 主题是用于索引事件的值。您不能没有主题搜索事件。每当调用事件时，都会生成一个默认主题，该主题被视为事件的第一个主题。一个事件最多可以有四个主题。主题始终以相同的顺序生成。您可以使用一个或多个主题搜索事件。
 
-第一个主题是事件的签名。剩下的三个主题是索引参数的值。如果索引参数是`string`、`bytes`或`array`，那么其keccak-256哈希就是主题。
+第一个主题是事件的签名。剩下的三个主题是索引参数的值。如果索引参数是`string`、`bytes`或`array`，那么其 keccak-256 哈希就是主题。
 
 让我们举一个示例来理解主题。假设有这样一个事件：
 
@@ -261,11 +261,11 @@ filter.get(function(error, result){
 
 在上述代码中，请注意`topics`数组值的顺序。顺序很重要。
 
-# 开始使用truffle-contract
+# 开始使用 truffle-contract
 
-在学习truffle之前，学习`truffle-contract`非常重要，因为`truffle-contract`与truffle紧密集成。 truffle测试、与truffle中的合约交互的代码、部署代码等都是使用`truffle-contract`编写的。
+在学习 truffle 之前，学习`truffle-contract`非常重要，因为`truffle-contract`与 truffle 紧密集成。 truffle 测试、与 truffle 中的合约交互的代码、部署代码等都是使用`truffle-contract`编写的。
 
-`truffle-contract` API是一个JavaScript和Node.js库，它使得与以太坊智能合约的交互变得容易。到目前为止，我们一直在使用web3.js来部署和调用智能合约函数，这很好，但`truffle-contract`旨在使与以太坊智能合约的交互变得更加容易。下面是一些`truffle-contract`的特点，这使得它在处理智能合约方面比web3.js更优秀：
+`truffle-contract` API 是一个 JavaScript 和 Node.js 库，它使得与以太坊智能合约的交互变得容易。到目前为止，我们一直在使用 web3.js 来部署和调用智能合约函数，这很好，但`truffle-contract`旨在使与以太坊智能合约的交互变得更加容易。下面是一些`truffle-contract`的特点，这使得它在处理智能合约方面比 web3.js 更优秀：
 
 +   同步事务以更好地控制流程（即，直到您保证它们已经被挖掘，事务才会完成）。
 
@@ -299,7 +299,7 @@ var TruffleContract = require("truffle-contract");
 
 ```
 
-若要在浏览器中使用 `truffle-contract`，你可以在 [https://github.com/trufflesuite/truffle-contract](https://github.com/trufflesuite/truffle-contract) 仓库的 dist 目录中找到浏览器分发版。
+若要在浏览器中使用 `truffle-contract`，你可以在 [`github.com/trufflesuite/truffle-contract`](https://github.com/trufflesuite/truffle-contract) 仓库的 dist 目录中找到浏览器分发版。
 
 在 HTML 中，你可以这样排队：
 
@@ -312,11 +312,11 @@ var TruffleContract = require("truffle-contract");
 
 # 建立一个测试环境
 
-在开始学习关于`truffle-contract` API之前，我们需要建立一个测试环境，这将帮助我们在学习过程中测试我们的代码。
+在开始学习关于`truffle-contract` API 之前，我们需要建立一个测试环境，这将帮助我们在学习过程中测试我们的代码。
 
-首先，通过仅运行`testrpc --networkId 10`命令来运行代表网络ID 10的`ethereumjs-testrpc`节点。我们随机选择了网络ID 10 用于开发目的，但您可以自由选择其他网络ID。只需确保它不是1，因为主网始终用于实时应用程序，而不用于开发和测试目的。
+首先，通过仅运行`testrpc --networkId 10`命令来运行代表网络 ID 10 的`ethereumjs-testrpc`节点。我们随机选择了网络 ID 10 用于开发目的，但您可以自由选择其他网络 ID。只需确保它不是 1，因为主网始终用于实时应用程序，而不用于开发和测试目的。
 
-然后，创建一个HTML文件并将此代码放入其中：
+然后，创建一个 HTML 文件并将此代码放入其中：
 
 ```
 <!doctype html> 
@@ -332,26 +332,26 @@ var TruffleContract = require("truffle-contract");
 
 ```
 
-下载`web3.min.js` 和 `truffle-contract.min.js`。您可以在[https://github.com/trufflesuite/truffle-contract/tree/master/dist](https://github.com/trufflesuite/truffle-contract/tree/master/dist)找到`truffle-contract`的浏览器构建。
+下载`web3.min.js` 和 `truffle-contract.min.js`。您可以在[`github.com/trufflesuite/truffle-contract/tree/master/dist`](https://github.com/trufflesuite/truffle-contract/tree/master/dist)找到`truffle-contract`的浏览器构建。
 
 # truffle-contract API
 
-现在让我们来探索`truffle-contract`的API。基本上，`truffle-contract`有两个API，即合同抽象API和合同实例API。合同抽象API表示关于合同（或库）的各种信息，例如其ABI；未链接的字节码；如果合同已部署，则其在各个以太坊网络中的地址；如果已部署，则其依赖的库在各个以太坊网络中的地址；以及合同的事件。抽象API是为所有合同抽象存在的一组函数。合同实例表示特定网络中部署的合同。实例API是向合同实例提供的API。它是根据您的`Solidity`源文件中可用的函数动态创建的。针对特定合同的合同实例是通过表示相同合同的合同抽象创建的。
+现在让我们来探索`truffle-contract`的 API。基本上，`truffle-contract`有两个 API，即合同抽象 API 和合同实例 API。合同抽象 API 表示关于合同（或库）的各种信息，例如其 ABI；未链接的字节码；如果合同已部署，则其在各个以太坊网络中的地址；如果已部署，则其依赖的库在各个以太坊网络中的地址；以及合同的事件。抽象 API 是为所有合同抽象存在的一组函数。合同实例表示特定网络中部署的合同。实例 API 是向合同实例提供的 API。它是根据您的`Solidity`源文件中可用的函数动态创建的。针对特定合同的合同实例是通过表示相同合同的合同抽象创建的。
 
 # 合同抽象 API
 
-合同抽象API是使`truffle-contract`与web3.js相比非常特殊的东西。这里是它的特殊之处：
+合同抽象 API 是使`truffle-contract`与 web3.js 相比非常特殊的东西。这里是它的特殊之处：
 
 +   它将根据连接的网络自动获取默认值，如库地址、合同地址等，因此每次更改网络时都不必编辑源代码。
 
 +   您可以选择只在某些网络中监听某些事件。
 
-+   它使在运行时轻松将库链接到合同的字节码。一旦您探索了如何使用API，您将发现还有其他几个好处。
++   它使在运行时轻松将库链接到合同的字节码。一旦您探索了如何使用 API，您将发现还有其他几个好处。
 
 在讨论如何创建合同抽象及其方法之前，让我们编写一个样本合同，该合同抽象将代表。这是样本合同：
 
 ```
-pragma Solidity ^0.4.0; 
+pragma Solidity ⁰.4.0; 
 
 import "github.com/pipermerriam/ethereum-string-utils/contracts/StringLib.sol"; 
 
@@ -375,7 +375,7 @@ contract Sample
 
 ```
 
-该合同将`uint`转换为`bytes32`，并使用`StringLib`库将`bytes32`转换为`uint`。`StringLib`在主网络上的地址为`0xcca8353a18e7ab7b3d094ee1f9ddc91bdf2ca6a4`，但在其他网络上，我们需要部署以测试合同。在继续之前，请使用浏览器Solidity编译它，因为您将需要ABI和字节码。
+该合同将`uint`转换为`bytes32`，并使用`StringLib`库将`bytes32`转换为`uint`。`StringLib`在主网络上的地址为`0xcca8353a18e7ab7b3d094ee1f9ddc91bdf2ca6a4`，但在其他网络上，我们需要部署以测试合同。在继续之前，请使用浏览器 Solidity 编译它，因为您将需要 ABI 和字节码。
 
 现在让我们创建一个代表`Sample`合同和`StringLib`库的合同抽象。这是代码，请将其放入`HTML`文件中：
 
@@ -461,13 +461,13 @@ StringLib.defaults({
 
 1.  首先，我们创建一个提供者。使用此提供者，`truffle-contract`将与节点通信。
 
-1.  然后，我们为`Sample`合同创建一个合同抽象。要创建合同抽象，我们使用`TruffleContract`函数。此函数接受一个包含有关合同的各种信息的对象。此对象可以称为工件对象。`abi`和`unlinked_binary`属性是强制的。对象的其他属性是可选的。`abi`属性指向合同的ABI，而`unlinked_binary`属性指向合同的未链接二进制代码。
+1.  然后，我们为`Sample`合同创建一个合同抽象。要创建合同抽象，我们使用`TruffleContract`函数。此函数接受一个包含有关合同的各种信息的对象。此对象可以称为工件对象。`abi`和`unlinked_binary`属性是强制的。对象的其他属性是可选的。`abi`属性指向合同的 ABI，而`unlinked_binary`属性指向合同的未链接二进制代码。
 
-1.  然后，我们有一个网络属性，指示各种网络中有关合同的信息。在这里，我们说在网络ID 1中，`StringLib`依赖项部署在`0xcca8353a18e7ab7b3d094ee1f9ddc91bdf2ca6a4`地址，因此在网络1中部署`Sample`合同时，它会自动链接它。在网络对象下，我们还可以放置一个`address`属性，指示合同已部署到此网络并且这是合同地址。在`networks`对象中还有一个`events`对象，指定我们感兴趣捕获的合同事件。`events`对象的键是事件的主题，而`values`是事件的ABI。
+1.  然后，我们有一个网络属性，指示各种网络中有关合同的信息。在这里，我们说在网络 ID 1 中，`StringLib`依赖项部署在`0xcca8353a18e7ab7b3d094ee1f9ddc91bdf2ca6a4`地址，因此在网络 1 中部署`Sample`合同时，它会自动链接它。在网络对象下，我们还可以放置一个`address`属性，指示合同已部署到此网络并且这是合同地址。在`networks`对象中还有一个`events`对象，指定我们感兴趣捕获的合同事件。`events`对象的键是事件的主题，而`values`是事件的 ABI。
 
-1.  然后，我们通过传递新的提供者实例调用`SampleContract`对象的`setProvider`方法。这是传递提供者的一种方式，以便`truffle-contract`可以与节点通信。`truffle-contract` API不提供全局设置提供者的方法；相反，您需要为每个合同抽象设置提供者。这是一个功能，使我们可以轻松连接和处理多个网络。
+1.  然后，我们通过传递新的提供者实例调用`SampleContract`对象的`setProvider`方法。这是传递提供者的一种方式，以便`truffle-contract`可以与节点通信。`truffle-contract` API 不提供全局设置提供者的方法；相反，您需要为每个合同抽象设置提供者。这是一个功能，使我们可以轻松连接和处理多个网络。
 
-1.  然后，我们调用`SampleContract`对象的`detectNetwork`方法。这是设置合同抽象当前表示的网络ID的方法；也就是说，在合同抽象的所有操作中，使用映射到此网络ID的值。此方法将自动检测我们的节点连接到哪个网络ID，并将其自动设置。如果您想要手动设置网络ID或在运行时更改它，则可以使用`SampleContract.setNetwork(network_id)`。如果更改网络ID，则确保提供者也指向相同网络的节点，因为否则`truffle-contract`将无法将网络ID与正确的链接、地址和事件进行映射。
+1.  然后，我们调用`SampleContract`对象的`detectNetwork`方法。这是设置合同抽象当前表示的网络 ID 的方法；也就是说，在合同抽象的所有操作中，使用映射到此网络 ID 的值。此方法将自动检测我们的节点连接到哪个网络 ID，并将其自动设置。如果您想要手动设置网络 ID 或在运行时更改它，则可以使用`SampleContract.setNetwork(network_id)`。如果更改网络 ID，则确保提供者也指向相同网络的节点，因为否则`truffle-contract`将无法将网络 ID 与正确的链接、地址和事件进行映射。
 
 1.  然后，我们为`SampleContract`进行了交易的默认值设置。此方法获取并可选地设置交易默认值。如果没有传递任何参数调用，它将简单地返回表示当前默认值的对象。如果传递了对象，则将设置新的默认值。
 
@@ -483,7 +483,7 @@ StringLib.defaults({
 
 +   `SampleContract.deployed()`: 这就像`at()`一样，但地址是从构件对象中检索的。像`at()`一样，`deployed()`是可解析的，并且将解析为代表部署合约的合约实例，以确保代码存在于该位置，并且地址存在于设置为使用的网络上。
 
-让我们部署并获取`Sample`合约的合约实例。在`网络ID 10`中，我们需要使用`new()`首先部署`StringLib`库，然后将`StringLib`库的部署地址添加到`StringLib`抽象中，将`StringLib`抽象链接到`SampleContract`抽象，然后使用`new()`部署`Sample`合约以获取`Sample`合约的实例。但在`网络ID 1`中，我们只需要部署`SampleContract`并获取其实例，因为我们已经在那里部署了`StringLib`。这是执行所有这些操作的代码：
+让我们部署并获取`Sample`合约的合约实例。在`网络 ID 10`中，我们需要使用`new()`首先部署`StringLib`库，然后将`StringLib`库的部署地址添加到`StringLib`抽象中，将`StringLib`抽象链接到`SampleContract`抽象，然后使用`new()`部署`Sample`合约以获取`Sample`合约的实例。但在`网络 ID 1`中，我们只需要部署`SampleContract`并获取其实例，因为我们已经在那里部署了`StringLib`。这是执行所有这些操作的代码：
 
 ```
 web3.version.getNetwork(function(err, network_id) { 
@@ -523,7 +523,7 @@ web3.version.getNetwork(function(err, network_id) {
 
 这是上述代码的工作原理：
 
-1.  首先，我们检测网络ID。如果网络ID是`10`，那么我们部署合约和库，如果网络ID是`10`，那么我们只部署合约。
+1.  首先，我们检测网络 ID。如果网络 ID 是`10`，那么我们部署合约和库，如果网络 ID 是`10`，那么我们只部署合约。
 
 1.  在 `网络 ID 10`，我们部署了 `StringLib` 合同并获得了它的合同实例。
 
@@ -588,7 +588,7 @@ truffle init
 这是 MetaCoin 智能合约的源代码，仅供参考：
 
 ```
-pragma Solidity ^0.4.4; 
+pragma Solidity ⁰.4.4; 
 
 import "./ConvertLib.sol"; 
 
@@ -792,7 +792,7 @@ Truffle 的 JavaScript 测试框架是基于 mocha 构建的。Mocha 是一个�
 
 测试框架用于组织和执行测试，而断言库提供了验证事物是否正确的工具。断言库使得测试代码变得更容易，这样你就不必执行成千上万的 if 语句。大多数测试框架不包含断言库，并允许用户插入他们想要使用的库。
 
-在继续之前，你需要学习如何使用 mocha 和 chai 编写测试。要学习 mocha，请访问 [https://mochajs.org/](https://mochajs.org/)，要学习 chai，请访问 [http://chaijs.com/](http://chaijs.com/)。
+在继续之前，你需要学习如何使用 mocha 和 chai 编写测试。要学习 mocha，请访问 [`mochajs.org/`](https://mochajs.org/)，要学习 chai，请访问 [`chaijs.com/`](http://chaijs.com/)。
 
 你的测试应该存在于 `./test` 目录中，并且它们应该以 `.js` 扩展名结尾。
 
@@ -861,7 +861,7 @@ contract('MetaCoin', function(accounts) {
 
 在上述代码中，你可以看到所有合约的交互代码都是使用`truffle-contract`库编写的。这段代码很容易理解。
 
-最后，truffle为你提供了对 mocha 配置的访问，以便你可以更改 mocha 的行为。mocha 的配置放在`truffle.js`文件导出的对象的`mocha`属性下。例如，看一下这个：
+最后，truffle 为你提供了对 mocha 配置的访问，以便你可以更改 mocha 的行为。mocha 的配置放在`truffle.js`文件导出的对象的`mocha`属性下。例如，看一下这个：
 
 ```
 mocha: { 
@@ -876,14 +876,14 @@ Solidity 测试代码放在`.sol`文件中。在使用 Solidity 编写测试之�
 
 +   Solidity 测试不应该继承任何合约。这样可以使你的测试尽可能简洁，并完全控制你编写的合约。
 
-+   Truffle为你提供了默认的断言库，但你可以随时更改此库以满足你的需求。
++   Truffle 为你提供了默认的断言库，但你可以随时更改此库以满足你的需求。
 
 +   你应该能够针对任何以太坊客户端运行你的 Solidity 测试。
 
 要学习如何在 Solidity 中编写测试，让我们来探索 truffle 生成的默认 Solidity 测试代码。这是代码，可以在`TestMetacoin.sol`文件中找到：
 
 ```
-pragma Solidity ^0.4.2; 
+pragma Solidity ⁰.4.2; 
 
 import "truffle/Assert.sol"; 
 import "truffle/DeployedAddresses.sol"; 
@@ -913,19 +913,19 @@ contract TestMetacoin {
 
 以下是上述代码的工作原理：
 
-+   诸如`Assert.equal()`之类的断言函数由`truffle/Assert.sol`库提供。这是默认的断言库；但是，只要该库触发正确的断言事件，您就可以包含自己的断言库，以便与truffle的测试运行器松散集成。断言函数触发事件，这些事件被truffle捕获，并显示信息。这是truffle中Solidity断言库的架构。您可以在`Assert.sol`中找到所有可用的断言函数（[https://github.com/ConsenSys/truffle/blob/beta/lib/testing/Assert.sol](https://github.com/ConsenSys/truffle/blob/beta/lib/testing/Assert.sol)）。
++   诸如`Assert.equal()`之类的断言函数由`truffle/Assert.sol`库提供。这是默认的断言库；但是，只要该库触发正确的断言事件，您就可以包含自己的断言库，以便与 truffle 的测试运行器松散集成。断言函数触发事件，这些事件被 truffle 捕获，并显示信息。这是 truffle 中 Solidity 断言库的架构。您可以在`Assert.sol`中找到所有可用的断言函数（[`github.com/ConsenSys/truffle/blob/beta/lib/testing/Assert.sol`](https://github.com/ConsenSys/truffle/blob/beta/lib/testing/Assert.sol)）。
 
 +   在导入路径中，`truffle/Assert.sol`，`truffle`是包名。我们稍后将详细了解包。
 
-+   您部署的合约地址（即作为迁移的一部分部署的合约）可通过`truffle/DeployedAddresses.sol`库获得。这由truffle提供，并在运行每个测试套件之前重新编译和重新链接。此库提供了所有已部署合约的函数，形式为`DeployedAddresses.<contract name>()`。然后，这将返回一个地址，您可以使用该地址访问该合约。
++   您部署的合约地址（即作为迁移的一部分部署的合约）可通过`truffle/DeployedAddresses.sol`库获得。这由 truffle 提供，并在运行每个测试套件之前重新编译和重新链接。此库提供了所有已部署合约的函数，形式为`DeployedAddresses.<contract name>()`。然后，这将返回一个地址，您可以使用该地址访问该合约。
 
 +   要使用部署的合约，您必须将合约代码导入测试套件。请注意，上述示例中的`import "../contracts/MetaCoin.sol";`。此导入是相对于测试合约的，测试合约存在于`./test`目录中，它会超出测试目录以找到`MetaCoin`合约。然后，它使用该合约将地址转换为`MetaCoin`类型。
 
 +   所有测试合约都必须以大写字母`Test`开头。这将其与测试辅助工具和项目合约（即受测试约束的合约）区分开来，让测试运行器知道哪些合约代表测试套件。
 
-+   像测试合约名称一样，所有测试函数都必须以小写字母`test`开头。每个测试函数都按照其在测试文件中的出现顺序作为单个事务执行（例如您的JavaScript测试）。由`truffle/Assert.sol`提供的断言函数触发测试运行器评估以确定测试结果的事件。断言函数返回一个表示断言结果的布尔值，您可以使用它来提前返回测试以防止执行错误（即`testrpc`将暴露的错误）。
++   像测试合约名称一样，所有测试函数都必须以小写字母`test`开头。每个测试函数都按照其在测试文件中的出现顺序作为单个事务执行（例如您的 JavaScript 测试）。由`truffle/Assert.sol`提供的断言函数触发测试运行器评估以确定测试结果的事件。断言函数返回一个表示断言结果的布尔值，您可以使用它来提前返回测试以防止执行错误（即`testrpc`将暴露的错误）。
 
-+   你提供了许多测试钩子，如下例所示。这些钩子是`beforeAll`、`beforeEach`、`afterAll`和`afterEach`，与你的JavaScript测试中mocha提供的相同钩子。你可以使用这些钩子在每个测试之前和之后或在每个套件运行之前和之后执行设置和拆卸操作。像测试函数一样，每个钩子都作为单个事务执行。注意，一些复杂的测试需要执行大量设置可能会超出单个事务的燃气限制；你可以通过创建带有不同后缀的多个钩子来避免这种限制，如下例所示：
++   你提供了许多测试钩子，如下例所示。这些钩子是`beforeAll`、`beforeEach`、`afterAll`和`afterEach`，与你的 JavaScript 测试中 mocha 提供的相同钩子。你可以使用这些钩子在每个测试之前和之后或在每个套件运行之前和之后执行设置和拆卸操作。像测试函数一样，每个钩子都作为单个事务执行。注意，一些复杂的测试需要执行大量设置可能会超出单个事务的燃气限制；你可以通过创建带有不同后缀的多个钩子来避免这种限制，如下例所示：
 
 ```
 import "truffle/Assert.sol"; 
@@ -950,13 +950,13 @@ contract TestHooks {
 
 ```
 
-+   这个测试合约还显示了你的`test`函数和`hook`函数都共享相同的合约状态。你可以在测试之前设置合约数据，在测试期间使用该数据，并在准备下一个测试之前重置它。注意，就像你的JavaScript测试一样，你的下一个测试函数将从上一个运行的测试函数的状态继续。
++   这个测试合约还显示了你的`test`函数和`hook`函数都共享相同的合约状态。你可以在测试之前设置合约数据，在测试期间使用该数据，并在准备下一个测试之前重置它。注意，就像你的 JavaScript 测试一样，你的下一个测试函数将从上一个运行的测试函数的状态继续。
 
-Truffle没有直接的方法来测试你的合约是否应该抛出异常（也就是说，对于使用throw来表示预期错误的合约）。但是有一个笨拙的解决方案，你可以在这里找到：[http://truffleframework.com/tutorials/testing-for-throws-in-Solidity-tests](http://truffleframework.com/tutorials/testing-for-throws-in-solidity-tests)。
+Truffle 没有直接的方法来测试你的合约是否应该抛出异常（也就是说，对于使用 throw 来表示预期错误的合约）。但是有一个笨拙的解决方案，你可以在这里找到：[`truffleframework.com/tutorials/testing-for-throws-in-Solidity-tests`](http://truffleframework.com/tutorials/testing-for-throws-in-solidity-tests)。
 
 # 如何向测试合约发送以太币
 
-要向你的Solidity测试合约发送以太币，它应该有一个名为`initialBalance`的返回`uint`的公共函数。这可以直接写成一个函数或一个公共变量。当你的测试合约部署到网络上时，truffle会从你的测试账户向你的测试合约发送那个金额的以太币。然后，你的测试合约可以使用那个以太币在你的测试合约中脚本以太交互。注意，`initialBalance`是可选的，不是必需的。例如，看看下面的代码：
+要向你的 Solidity 测试合约发送以太币，它应该有一个名为`initialBalance`的返回`uint`的公共函数。这可以直接写成一个函数或一个公共变量。当你的测试合约部署到网络上时，truffle 会从你的测试账户向你的测试合约发送那个金额的以太币。然后，你的测试合约可以使用那个以太币在你的测试合约中脚本以太交互。注意，`initialBalance`是可选的，不是必需的。例如，看看下面的代码：
 
 ```
 import "truffle/Assert.sol"; 
@@ -981,7 +981,7 @@ contract TestContract {
 
 ```
 
-Truffle以一种不执行回退函数的方式向你的测试合约发送以太币，所以你仍然可以在你的Solidity测试中使用回退函数进行高级测试用例。
+Truffle 以一种不执行回退函数的方式向你的测试合约发送以太币，所以你仍然可以在你的 Solidity 测试中使用回退函数进行高级测试用例。
 
 # 运行测试
 
@@ -1001,27 +1001,27 @@ truffle test ./path/to/test/file.js
 
 # 包管理
 
-一个truffle包是智能合约和它们的构件的集合。一个包可以依赖于零个或多个包，也就是说，你可以使用包的智能合约和构件。当在你自己的项目中使用包时，重要的是要注意有两个地方你将使用包的合约和构件：在你的项目的合约中和在你的项目的JavaScript代码中（迁移和测试）。
+一个 truffle 包是智能合约和它们的构件的集合。一个包可以依赖于零个或多个包，也就是说，你可以使用包的智能合约和构件。当在你自己的项目中使用包时，重要的是要注意有两个地方你将使用包的合约和构件：在你的项目的合约中和在你的项目的 JavaScript 代码中（迁移和测试）。
 
-使用truffle创建的项目默认具有特定的布局，使它们可以被用作包。`truffle`包中最重要的目录如下：
+使用 truffle 创建的项目默认具有特定的布局，使它们可以被用作包。`truffle`包中最重要的目录如下：
 
 +   `/contracts`
 
-+   `/build/contracts`（由truffle创建）
++   `/build/contracts`（由 truffle 创建）
 
-第一个目录是你的合约目录，包括原始的Solidity合约。第二个目录是`/build/contracts`目录，其中保存着以`.json`文件形式的构建产物。
+第一个目录是你的合约目录，包括原始的 Solidity 合约。第二个目录是`/build/contracts`目录，其中保存着以`.json`文件形式的构建产物。
 
-Truffle支持两种包构建方式：`npm`和`ethpm`包。你必须知道什么是`npm`包，但让我们来看看什么是`ethpm`包。`Ethpm`是以太坊的包注册表。你可以在[https://www.ethpm.com/](https://www.ethpm.com/)找到所有的`ethpm`包。它遵循ERC190 ([https://github.com/ethereum/EIPs/issues/190](https://github.com/ethereum/EIPs/issues/190)) 规范来发布和消费智能合约包。
+Truffle 支持两种包构建方式：`npm`和`ethpm`包。你必须知道什么是`npm`包，但让我们来看看什么是`ethpm`包。`Ethpm`是以太坊的包注册表。你可以在[`www.ethpm.com/`](https://www.ethpm.com/)找到所有的`ethpm`包。它遵循 ERC190 ([`github.com/ethereum/EIPs/issues/190`](https://github.com/ethereum/EIPs/issues/190)) 规范来发布和消费智能合约包。
 
-# 通过NPM进行包管理
+# 通过 NPM 进行包管理
 
-Truffle默认带有npm集成，并且知道项目中的`node_modules`目录（如果存在）。这意味着你可以通过npm使用和分发合约或库，使你的代码对其他人可用，其他人的代码对你可用。你的项目中也可以有一个`package.json`文件。你可以在项目中简单地安装任何`npm`包，并在任何JavaScript文件中导入它，但只有包含前面提到的两个目录的情况下，它才会被称为truffle包。在truffle项目中安装`npm`包与在任何`Node.js`应用程序中安装`npm`包相同。
+Truffle 默认带有 npm 集成，并且知道项目中的`node_modules`目录（如果存在）。这意味着你可以通过 npm 使用和分发合约或库，使你的代码对其他人可用，其他人的代码对你可用。你的项目中也可以有一个`package.json`文件。你可以在项目中简单地安装任何`npm`包，并在任何 JavaScript 文件中导入它，但只有包含前面提到的两个目录的情况下，它才会被称为 truffle 包。在 truffle 项目中安装`npm`包与在任何`Node.js`应用程序中安装`npm`包相同。
 
-# 通过EthPM进行包管理
+# 通过 EthPM 进行包管理
 
-当安装EthPM包时，如果不存在，将创建一个`installed_contracts`目录。该目录可以类似于`node_modules`目录进行处理。
+当安装 EthPM 包时，如果不存在，将创建一个`installed_contracts`目录。该目录可以类似于`node_modules`目录进行处理。
 
-通过EthPM安装包几乎与通过NPM安装包一样简单。你只需运行以下命令：
+通过 EthPM 安装包几乎与通过 NPM 安装包一样简单。你只需运行以下命令：
 
 ```
 truffle install <package name>
@@ -1035,7 +1035,7 @@ truffle install <package name>@<version>
 
 ```
 
-像NPM一样，EthPM版本遵循语义版本规范。你的项目也可以定义一个`ethpm.json`文件，它类似于npm包的`package.json`。要安装`ethpm.json`文件中列出的所有依赖项，请运行以下命令：
+像 NPM 一样，EthPM 版本遵循语义版本规范。你的项目也可以定义一个`ethpm.json`文件，它类似于 npm 包的`package.json`。要安装`ethpm.json`文件中列出的所有依赖项，请运行以下命令：
 
 ```
 truffle install
@@ -1057,29 +1057,29 @@ truffle install
     "addition" 
   ], 
   "dependencies": { 
-    "owned": "^0.0.1" 
+    "owned": "⁰.0.1" 
   }, 
   "license": "MIT" 
 }
 
 ```
 
-创建和发布一个truffle的`npm`包与创建任何其他`npm`包的过程相同。要了解如何创建和发布一个`ethpm`包，请访问[http://truffleframework.com/docs/getting_started/packages-ethpm#publishing-your-own-package](http://truffleframework.com/docs/getting_started/packages-ethpm#publishing-your-own-package)。无论您将包发布为`npm`包还是`ethpm`包，都需要运行`truffle networks --clean`命令。运行此命令时，它会删除配置文件中仅匹配`*`通配符的所有网络ID的构件。这是因为这些地址对于消费此包的其他项目来说是无效的，因为这些网络很可能是私有的，因为它们仅用于开发目的。除非你知道你在做什么，否则不应省略此命令。它将无法删除作为常量列出的私有网络的任何构件，因此您需要手动删除它们。
+创建和发布一个 truffle 的`npm`包与创建任何其他`npm`包的过程相同。要了解如何创建和发布一个`ethpm`包，请访问[`truffleframework.com/docs/getting_started/packages-ethpm#publishing-your-own-package`](http://truffleframework.com/docs/getting_started/packages-ethpm#publishing-your-own-package)。无论您将包发布为`npm`包还是`ethpm`包，都需要运行`truffle networks --clean`命令。运行此命令时，它会删除配置文件中仅匹配`*`通配符的所有网络 ID 的构件。这是因为这些地址对于消费此包的其他项目来说是无效的，因为这些网络很可能是私有的，因为它们仅用于开发目的。除非你知道你在做什么，否则不应省略此命令。它将无法删除作为常量列出的私有网络的任何构件，因此您需要手动删除它们。
 
 # 在你的合同内使用包的合同
 
-要在您的合同内使用包的合同，只需像Solidity的`import`语句一样简单。当您的`import`路径不是明确相对或绝对时，它表示您正在寻找特定命名包中的文件。考虑使用`example-truffle-library`（[https://github.com/ConsenSys/example-truffle-library](https://github.com/ConsenSys/example-truffle-library)）的示例：
+要在您的合同内使用包的合同，只需像 Solidity 的`import`语句一样简单。当您的`import`路径不是明确相对或绝对时，它表示您正在寻找特定命名包中的文件。考虑使用`example-truffle-library`（[`github.com/ConsenSys/example-truffle-library`](https://github.com/ConsenSys/example-truffle-library)）的示例：
 
 ```
 import "example-truffle-library/contracts/SimpleNameRegistry.sol";
 
 ```
 
-由于路径没有以`./`开头，truffle知道要在您的项目的`node_modules`或`installed_contracts`目录中查找`example-truffle-library`文件夹。从那里，它解析路径以提供您请求的合同。
+由于路径没有以`./`开头，truffle 知道要在您的项目的`node_modules`或`installed_contracts`目录中查找`example-truffle-library`文件夹。从那里，它解析路径以提供您请求的合同。
 
-# 在JavaScript代码中使用包的构件
+# 在 JavaScript 代码中使用包的构件
 
-要在JavaScript代码中与包的构件进行交互，您只需要求该包的`.json`文件，然后使用`truffle-contract`将它们转换为可用的抽象：
+要在 JavaScript 代码中与包的构件进行交互，您只需要求该包的`.json`文件，然后使用`truffle-contract`将它们转换为可用的抽象：
 
 ```
 var contract = require("truffle-contract"); 
@@ -1088,9 +1088,9 @@ var SimpleNameRegistry = contract(data);
 
 ```
 
-# 访问Solidity中包的合同部署地址
+# 访问 Solidity 中包的合同部署地址
 
-有时候，你可能希望你的合同与包先前部署的合同进行交互。由于部署的地址存在于包的`.json`文件中，Solidity代码不能直接读取这些文件的内容。因此，使Solidity代码访问`.json`文件中的地址的流程是通过在Solidity代码中定义函数来设置依赖合同地址，并在合同部署后使用JavaScript调用这些函数来设置依赖合同地址。
+有时候，你可能希望你的合同与包先前部署的合同进行交互。由于部署的地址存在于包的`.json`文件中，Solidity 代码不能直接读取这些文件的内容。因此，使 Solidity 代码访问`.json`文件中的地址的流程是通过在 Solidity 代码中定义函数来设置依赖合同地址，并在合同部署后使用 JavaScript 调用这些函数来设置依赖合同地址。
 
 所以你可以像这样定义你的合同代码：
 
@@ -1136,9 +1136,9 @@ module.exports = function(deployer) {
 
 ```
 
-# 使用truffle的控制台
+# 使用 truffle 的控制台
 
-有时，为了测试和调试目的或手动执行交易，与您的合同交互是很好的。Truffle为您提供了通过交互式控制台轻松执行此操作的方式，您的合同可用并且可以立即使用。
+有时，为了测试和调试目的或手动执行交易，与您的合同交互是很好的。Truffle 为您提供了通过交互式控制台轻松执行此操作的方式，您的合同可用并且可以立即使用。
 
 要打开控制台，请运行此命令：
 
@@ -1159,11 +1159,11 @@ truffle console
 
 +   `web3`对象已经可用，并设置为连接到您的以太坊节点。
 
-+   所有返回Promise的命令都将自动解析并打印结果，无需对简单命令使用`.then()`。例如，您可以编写如下代码：`MyContract.at("0xabcd...").getValue.call();`
++   所有返回 Promise 的命令都将自动解析并打印结果，无需对简单命令使用`.then()`。例如，您可以编写如下代码：`MyContract.at("0xabcd...").getValue.call();`
 
-# 在truffle的上下文中运行外部脚本
+# 在 truffle 的上下文中运行外部脚本
 
-通常，您可能希望运行与您的合约交互的外部脚本。Truffle提供了一种简单的方法来实现这一点，根据您所需的网络引导您的合约，并根据项目配置自动连接到您的以太坊节点。
+通常，您可能希望运行与您的合约交互的外部脚本。Truffle 提供了一种简单的方法来实现这一点，根据您所需的网络引导您的合约，并根据项目配置自动连接到您的以太坊节点。
 
 要运行外部脚本，请运行此命令：
 
@@ -1172,7 +1172,7 @@ truffle exec <path/to/file.js>
 
 ```
 
-为了正确运行外部脚本，truffle期望它们导出一个接受单个参数作为回调函数的函数。只要在此脚本中调用回调函数，您可以随意执行任何操作。回调函数接受一个错误作为其唯一参数。如果提供了错误，执行将停止，并且进程将返回一个非零退出代码。
+为了正确运行外部脚本，truffle 期望它们导出一个接受单个参数作为回调函数的函数。只要在此脚本中调用回调函数，您可以随意执行任何操作。回调函数接受一个错误作为其唯一参数。如果提供了错误，执行将停止，并且进程将返回一个非零退出代码。
 
 外部脚本必须遵循以下结构：
 
@@ -1184,11 +1184,11 @@ module.exports = function(callback) {
 
 ```
 
-# Truffle的构建流水线
+# Truffle 的构建流水线
 
-现在您已经知道如何使用truffle编译、部署和测试智能合约，是时候为我们的代币构建一个客户端了。在介绍如何使用truffle构建客户端之前，您需要知道它不允许我们使用存储在以太坊节点外部的账户进行交易签名；也就是说，它没有类似于`sendRawTransaction`的东西，原因与`truffle-contract`相同。
+现在您已经知道如何使用 truffle 编译、部署和测试智能合约，是时候为我们的代币构建一个客户端了。在介绍如何使用 truffle 构建客户端之前，您需要知道它不允许我们使用存储在以太坊节点外部的账户进行交易签名；也就是说，它没有类似于`sendRawTransaction`的东西，原因与`truffle-contract`相同。
 
-使用truffle构建客户端首先意味着在客户端源代码中集成truffle的构件，然后准备客户端源代码以进行部署。
+使用 truffle 构建客户端首先意味着在客户端源代码中集成 truffle 的构件，然后准备客户端源代码以进行部署。
 
 要构建客户端，您需要运行此命令：
 
@@ -1197,13 +1197,13 @@ truffle build
 
 ```
 
-当运行此命令时，truffle将通过检查项目配置文件中的`build`属性来确定如何构建客户端。
+当运行此命令时，truffle 将通过检查项目配置文件中的`build`属性来确定如何构建客户端。
 
 # 运行外部命令
 
-可以使用命令行工具构建客户端。当`build`属性为字符串时，truffle会假定我们要运行一个命令来构建客户端，因此会将字符串作为命令运行。该命令会获得充足的环境变量以与truffle集成。
+可以使用命令行工具构建客户端。当`build`属性为字符串时，truffle 会假定我们要运行一个命令来构建客户端，因此会将字符串作为命令运行。该命令会获得充足的环境变量以与 truffle 集成。
 
-您可以通过类似的配置代码让truffle运行命令行工具来构建客户端：
+您可以通过类似的配置代码让 truffle 运行命令行工具来构建客户端：
 
 ```
 module.exports = { 
@@ -1306,7 +1306,7 @@ module.exports = {
 
 # 构建一个客户端
 
-现在让我们为我们的 DApp 编写一个客户端，并使用 truffle 的默认构建器构建它。首先，根据我们设置的先前配置创建文件和目录：创建一个 `app` 目录，在其中创建一个 `index.html` 文件和两个名为 `javascripts` 和 `styelsheets` 的目录。在 `javascripts` 目录中，创建一个名为 `index.js` 的文件，在 `stylesheets` 目录中，下载并放置 Bootstrap 4 的 CSS 文件。你可以在 [https://v4-alpha.getbootstrap.com/getting-started/download/#bootstrap-css-and-js](https://v4-alpha.getbootstrap.com/getting-started/download/#bootstrap-css-and-js) 找到它。
+现在让我们为我们的 DApp 编写一个客户端，并使用 truffle 的默认构建器构建它。首先，根据我们设置的先前配置创建文件和目录：创建一个 `app` 目录，在其中创建一个 `index.html` 文件和两个名为 `javascripts` 和 `styelsheets` 的目录。在 `javascripts` 目录中，创建一个名为 `index.js` 的文件，在 `stylesheets` 目录中，下载并放置 Bootstrap 4 的 CSS 文件。你可以在 [`v4-alpha.getbootstrap.com/getting-started/download/#bootstrap-css-and-js`](https://v4-alpha.getbootstrap.com/getting-started/download/#bootstrap-css-and-js) 找到它。
 
 在 `index.html` 文件中，放置以下代码：
 
@@ -1481,28 +1481,28 @@ document.getElementById("findBalanceForm").addEventListener("submit", function(e
 
 现在继续运行 truffle build 命令，你会注意到 truffle 将在 `build` 目录中创建 `index.html`、`app.js` 和 `bootstrap.min.css` 文件，并在其中放置客户端的最终部署代码。
 
-# Truffle的服务器
+# Truffle 的服务器
 
-Truffle带有内置的Web服务器。这个Web服务器只是以适当的MIME类型设置提供`build`目录中的文件。除此之外，它没有配置为执行任何其他操作。
+Truffle 带有内置的 Web 服务器。这个 Web 服务器只是以适当的 MIME 类型设置提供`build`目录中的文件。除此之外，它没有配置为执行任何其他操作。
 
-要运行Web服务器，请运行此命令：
+要运行 Web 服务器，请运行此命令：
 
 ```
 truffle serve
 
 ```
 
-默认情况下，服务器在端口号8080上运行。但你可以使用`-p`选项指定不同的端口号。
+默认情况下，服务器在端口号 8080 上运行。但你可以使用`-p`选项指定不同的端口号。
 
-类似于truffle watch，这个Web服务器还监视`contracts`目录、`app`目录和配置文件中的更改。当有更改时，它重新编译合约并生成新的工件文件，然后重建客户端。但它不会运行迁移和测试。
+类似于 truffle watch，这个 Web 服务器还监视`contracts`目录、`app`目录和配置文件中的更改。当有更改时，它重新编译合约并生成新的工件文件，然后重建客户端。但它不会运行迁移和测试。
 
-由于truffle-default-builder将最终可部署的代码放在构建目录中，你只需运行`truffle serve`即可通过Web提供文件。
+由于 truffle-default-builder 将最终可部署的代码放在构建目录中，你只需运行`truffle serve`即可通过 Web 提供文件。
 
-让我们测试我们的Web客户端。访问`http://localhost:8080`，你会看到这个截图：
+让我们测试我们的 Web 客户端。访问`http://localhost:8080`，你会看到这个截图：
 
 ![](img/image_08_001.png)
 
-所选框中的帐户地址对你而言会有所不同。现在在部署合约时，合约将所有的metacoins分配给部署合约的地址；所以在这里，第一个帐户将有10,000个metacoins的余额。现在从第一个帐户发送五个metacoins到第二个帐户，然后点击提交。你会看到类似以下截图的屏幕：
+所选框中的帐户地址对你而言会有所不同。现在在部署合约时，合约将所有的 metacoins 分配给部署合约的地址；所以在这里，第一个帐户将有 10,000 个 metacoins 的余额。现在从第一个帐户发送五个 metacoins 到第二个帐户，然后点击提交。你会看到类似以下截图的屏幕：
 
 ![](img/image_08_002.png)
 
@@ -1512,8 +1512,8 @@ truffle serve
 
 # 摘要
 
-在本章中，我们深入了解了如何使用truffle构建DApps及其相应的客户端。我们看到truffle如何简化编写、编译、部署和测试DApps的过程。我们还看到了使用`truffle-contract`在客户端之间轻松切换网络而无需触及源代码的简便之处。现在，你已经准备好开始使用truffle构建企业级DApps了。
+在本章中，我们深入了解了如何使用 truffle 构建 DApps 及其相应的客户端。我们看到 truffle 如何简化编写、编译、部署和测试 DApps 的过程。我们还看到了使用`truffle-contract`在客户端之间轻松切换网络而无需触及源代码的简便之处。现在，你已经准备好开始使用 truffle 构建企业级 DApps 了。
 
-在下一章中，我们将使用truffle和以太坊闹钟DApp构建一个分散式闹钟应用程序，该应用程序在时间上为你支付报酬。
+在下一章中，我们将使用 truffle 和以太坊闹钟 DApp 构建一个分散式闹钟应用程序，该应用程序在时间上为你支付报酬。
 
 只需用冒号`":"`替换`i.e.`。

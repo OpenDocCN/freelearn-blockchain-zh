@@ -56,7 +56,7 @@
 
 像往常一样，我们首先用 Truffle 设置一个新项目。按照以下步骤设置你的项目：
 
-1.  克隆初创仓库（[https://github.com/merlox/dapp](https://github.com/merlox/dapp)），其中包含了在你的 React dApp 上工作的初始配置：
+1.  克隆初创仓库（[`github.com/merlox/dapp`](https://github.com/merlox/dapp)），其中包含了在你的 React dApp 上工作的初始配置：
 
 ```
 git clone https://github.com/merlox/dapp
@@ -208,7 +208,7 @@ render() {
     ))
 ```
 
-1.  添加标签块，其唯一工作是创建将显示给用户的JSX对象，使用我们刚刚使用的`generateHashtags()`函数：
+1.  添加标签块，其唯一工作是创建将显示给用户的 JSX 对象，使用我们刚刚使用的`generateHashtags()`函数：
 
 ```
 let hashtagBlock = this.state.topHashtags.map((hashtag, index) => (
@@ -250,13 +250,13 @@ let followedHashtags = this.state.followedHashtags.map((hashtag, index) => (
 }
 ```
 
-我们添加了一个名为`generateHashtags`的函数，因为我们必须在许多地方添加相同的逻辑来显示订阅按钮，所以制作一个只在需要时执行此操作而不重复这些长代码块的函数是有意义的。然后，在`render()`函数中，您可以看到我们在许多地方使用该函数来生成标签逻辑。在返回之前，我们有三个变量，只是使用我们的状态数据动态生成JSX组件。最后，`render()`函数很好地显示了这些块。
+我们添加了一个名为`generateHashtags`的函数，因为我们必须在许多地方添加相同的逻辑来显示订阅按钮，所以制作一个只在需要时执行此操作而不重复这些长代码块的函数是有意义的。然后，在`render()`函数中，您可以看到我们在许多地方使用该函数来生成标签逻辑。在返回之前，我们有三个变量，只是使用我们的状态数据动态生成 JSX 组件。最后，`render()`函数很好地显示了这些块。
 
 # 改善外观
 
 我还导入了`index.css`文件，其中包含用于以最佳方式显示我们的应用程序的网格组件，具有干净的结构，易于维护：
 
-1.  添加主要组件的一般样式到您的应用程序，例如body和按钮，以使它们看起来更好：
+1.  添加主要组件的一般样式到您的应用程序，例如 body 和按钮，以使它们看起来更好：
 
 ```
 body {
@@ -332,7 +332,7 @@ button:hover {
 }
 ```
 
-1.  为内容块提供一个看起来很棒的设计，类似于Twitter中的推文：
+1.  为内容块提供一个看起来很棒的设计，类似于 Twitter 中的推文：
 
 ```
 .content {
@@ -375,13 +375,13 @@ button:hover {
 }
 ```
 
-1.  如果您希望实现相同的外观，可以复制并粘贴该css。这是dApp目前的外观：
+1.  如果您希望实现相同的外观，可以复制并粘贴该 css。这是 dApp 目前的外观：
 
 ![](img/75137204-3f49-4c9f-8b63-407e6950bda0.png)
 
-1.  您可以在GitHub上查看完成的代码，网址是[https://github.com/merlox/social-media-dapp/tree/master/src](https://github.com/merlox/social-media-dapp/tree/master/src)。
+1.  您可以在 GitHub 上查看完成的代码，网址是[`github.com/merlox/social-media-dapp/tree/master/src`](https://github.com/merlox/social-media-dapp/tree/master/src)。
 
-我试图模拟一种简单的卡通设计，以使可视化更有趣，同时保持一个清晰的界面，人们可以轻松阅读而不会混淆。注意您创建的用户界面，因为它们是每个dApp的主要组成部分。外观专业的dApp会引起更多关注。更多的关注通常会转化为更多的收入，因为您能够在正确的时刻引导人们的注意力到正确的地方。
+我试图模拟一种简单的卡通设计，以使可视化更有趣，同时保持一个清晰的界面，人们可以轻松阅读而不会混淆。注意您创建的用户界面，因为它们是每个 dApp 的主要组成部分。外观专业的 dApp 会引起更多关注。更多的关注通常会转化为更多的收入，因为您能够在正确的时刻引导人们的注意力到正确的地方。
 
 # 构建智能合约
 
@@ -395,11 +395,11 @@ button:hover {
 
 1.  创建一个智能合约文件，并在注释中写下合约的目的描述，例如函数的工作方式以及谁将使用它。尽量简洁，因为这将有助于您和维护人员了解它的全部内容。
 
-1.  开始创建变量和函数签名，即，没有主体的函数，只有名称和参数。使用NatSpec格式为每个函数编写文档以进行额外的澄清。
+1.  开始创建变量和函数签名，即，没有主体的函数，只有名称和参数。使用 NatSpec 格式为每个函数编写文档以进行额外的澄清。
 
 1.  独立实现每个函数，直到所有函数都完成。如果需要，您可以添加更多函数。
 
-1.  通过将合约复制粘贴到remix或任何其他IDE中手动测试合约，以快速发现问题并在虚拟EVM中运行所有函数，在那里您无需支付任何gas费用或等待确认。理想情况下，您会编写Truffle测试来验证一切是否正常工作，但有时可以跳过以节省时间。
+1.  通过将合约复制粘贴到 remix 或任何其他 IDE 中手动测试合约，以快速发现问题并在虚拟 EVM 中运行所有函数，在那里您无需支付任何 gas 费用或等待确认。理想情况下，您会编写 Truffle 测试来验证一切是否正常工作，但有时可以跳过以节省时间。
 
 这是该流程的图形表示，以便您牢记：
 
@@ -412,7 +412,7 @@ button:hover {
 ```
 // This is a social media smart contract that allows people to publish strings of text in short formats with a focus on hashtags so that they can follow, read and be in touch with the latest content regarding those hashtags. There will be a mapping of the top hashtags. A struct for each piece of content with the date, author, content and array of hashtags. We want to avoid focusing on specific users that's why user accounts will be anonymous where addresses will the be the only identifiers.
 
-pragma solidity ^0.5.5;
+pragma solidity ⁰.5.5;
 
 contract SocialMedia {}
 ```
@@ -421,7 +421,7 @@ contract SocialMedia {}
 
 ![](img/04337a64-1a6c-4d78-beb8-c844baacfce8.png)
 
-当你看着界面时，你显然能看到顶部的标签和一些随机的标签。当你看着界面时，你必须问自己，我需要在我的智能合约中实现什么来使这成为可能？嗯，这似乎显而易见，但往往并不那么容易。在这种情况下，你必须创建一个函数来检索顶部的标签。该函数将从排序数组或映射中获取数据并将其发送给用户，也许还有一个参数，用于确定在任何时刻要检索多少顶部标签，以便你可以尝试不同的数量。要创建该函数，你必须实现某种排序机制，可能是一个不消耗gas的纯函数或视图函数来进行处理。另一方面，你如何确定这些标签的顺序？可能是一个增加每个标签值的分数系统，具体取决于使用情况。
+当你看着界面时，你显然能看到顶部的标签和一些随机的标签。当你看着界面时，你必须问自己，我需要在我的智能合约中实现什么来使这成为可能？嗯，这似乎显而易见，但往往并不那么容易。在这种情况下，你必须创建一个函数来检索顶部的标签。该函数将从排序数组或映射中获取数据并将其发送给用户，也许还有一个参数，用于确定在任何时刻要检索多少顶部标签，以便你可以尝试不同的数量。要创建该函数，你必须实现某种排序机制，可能是一个不消耗 gas 的纯函数或视图函数来进行处理。另一方面，你如何确定这些标签的顺序？可能是一个增加每个标签值的分数系统，具体取决于使用情况。
 
 你看，从我们整个应用程序中一个小明显的部分，你意识到你需要以下内容：
 
@@ -429,7 +429,7 @@ contract SocialMedia {}
 
 +   一个用于检索那些标签的函数，还可以使用可选参数来确定要实验的标签数量。
 
-+   对现有标签进行排序的函数，考虑到区块链的限制，必须是一个纯函数或视图函数，以避免过高的gas成本。
++   对现有标签进行排序的函数，考虑到区块链的限制，必须是一个纯函数或视图函数，以避免过高的 gas 成本。
 
 +   为每个标签分配一个分数的系统，这样我们可以根据它们的受欢迎程度对它们进行排序。
 
@@ -778,7 +778,7 @@ function checkExistingSubscription(bytes32 _hashtag) public view returns(bool) {
 
 `checkExistingSubscription` 函数循环遍历所有已订阅的标签，并在提供的标签在列表中时返回`true`。这对订阅函数很重要，以保持数组清洁，避免重复订阅。
 
-完整更新的代码可以在我的 GitHub 上查看，网址为[https://github.com/merlox/social-media-dapp](https://github.com/merlox/social-media-dapp)。
+完整更新的代码可以在我的 GitHub 上查看，网址为[`github.com/merlox/social-media-dapp`](https://github.com/merlox/social-media-dapp)。
 
 现在剩下的是测试所有这些功能是否正常工作。将代码粘贴到 Remix 或任何其他 IDE 中，以便它指出必须修复的错误。然后将合同部署到 JavaScript VM 中，这不会产生任何费用，并逐一运行这些函数。注意，你将需要将`bytes32`变量转换为十六进制，如果你安装了 MetaMask，则可以在浏览器的开发者工具中使用`web3.toHex()`函数进行转换。
 
@@ -1272,7 +1272,7 @@ async unsubscribe(hashtag) {
 
 这两个函数都相当简单。当用户按下标签名称旁边的按钮时，它们运行适当的订阅或取消订阅函数。注意我们如何使用 try catch 避免在调用合约时出现故障时破坏整个应用程序；这也是因为有时它有一个奇怪的故障系统，在没有原因的情况下停止执行。当你觉得需要时，只需添加 try catch 块。
 
-你可以在 GitHub 上找到更新版本，网址为 [https://github.com/merlox/social-media-dapp](https://github.com/merlox/social-media-dapp)，其中包含完整的实现代码供您参考。就是这样！现在你的区块链开发简历上有了一个新项目，你可以向雇主展示，或者在此基础上构建一个更好的去中心化社交媒体平台来筹集资金。
+你可以在 GitHub 上找到更新版本，网址为 [`github.com/merlox/social-media-dapp`](https://github.com/merlox/social-media-dapp)，其中包含完整的实现代码供您参考。就是这样！现在你的区块链开发简历上有了一个新项目，你可以向雇主展示，或者在此基础上构建一个更好的去中心化社交媒体平台来筹集资金。
 
 # 总结
 

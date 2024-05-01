@@ -1,4 +1,4 @@
-# 第 8 章。以太坊开发
+# 第八章。以太坊开发
 
 本章介绍与以太坊开发相关的概念、技术和工具。本章将介绍几个示例，以补充前几章提供的理论概念。本章将主要涵盖开发环境的设置以及如何使用以太坊区块链创建智能合约。将提供详细的实例步骤，帮助您了解如何利用以太坊和其他支持工具来开发和部署区块链上的智能合约。
 
@@ -17,7 +17,7 @@ $ geth --TestNet
 
 以下屏幕截图显示了示例输出。屏幕截图显示了选择的网络类型以及有关区块链下载的各种其他信息。
 
-测试网络的区块链浏览器位于 [https://testnet.etherscan.io/](https://testnet.etherscan.io/)，可用于跟踪以太坊测试网络上的交易和区块。
+测试网络的区块链浏览器位于 [`testnet.etherscan.io/`](https://testnet.etherscan.io/)，可用于跟踪以太坊测试网络上的交易和区块。
 
 ![测试网络（Ropsten）](img/image_08_001.jpg)
 
@@ -91,7 +91,7 @@ $ geth --TestNet
 
 ### 静态节点
 
-如果有需要连接到特定一组对等节点，则这些节点可以添加到一个文件中，该文件保存了`chaindata`和`keystore`文件，例如在`~/.ethereum/privatenet`目录下。文件名应该是`static-nodes.json`。在私有网络中，这样做是有价值的。下面是一个json文件的示例：
+如果有需要连接到特定一组对等节点，则这些节点可以添加到一个文件中，该文件保存了`chaindata`和`keystore`文件，例如在`~/.ethereum/privatenet`目录下。文件名应该是`static-nodes.json`。在私有网络中，这样做是有价值的。下面是一个 json 文件的示例：
 
 ```
 [ 
@@ -100,7 +100,7 @@ $ geth --TestNet
 
 ```
 
-这里，`xxx`是公共IP地址，`TCP_PORT`可以是系统上的任何有效和可用的TCP端口。长十六进制字符串是节点ID。
+这里，`xxx`是公共 IP 地址，`TCP_PORT`可以是系统上的任何有效和可用的 TCP 端口。长十六进制字符串是节点 ID。
 
 ## 启动私有网络
 
@@ -128,20 +128,20 @@ $ geth --datadir .ethereum/privatenet/ --networkid 786
 
 ![启动私有网络](img/image_08_003.jpg)
 
-启动私有网络的geth
+启动私有网络的 geth
 
-现在`geth`可以通过IPC连接到私有网络上运行的geth客户端，使用以下命令。这将允许您与私有网络上运行的`geth`会话进行交互：
+现在`geth`可以通过 IPC 连接到私有网络上运行的 geth 客户端，使用以下命令。这将允许您与私有网络上运行的`geth`会话进行交互：
 
 ```
 $ geth attach ipc:.ethereum/privatenet/geth.ipc
 
 ```
 
-如图所示，这将打开运行私有网络会话的交互式JavaScript控制台：
+如图所示，这将打开运行私有网络会话的交互式 JavaScript 控制台：
 
 ![启动私有网络](img/image_08_004.jpg)
 
-启动`geth`以连接到私有网络786
+启动`geth`以连接到私有网络 786
 
 你可能已经注意到，当`geth`启动时会出现警告消息。
 
@@ -149,9 +149,9 @@ $ geth attach ipc:.ethereum/privatenet/geth.ipc
 
 警告：没有设置以太坊基址，并且没有找到任何默认账户。
 
-此消息出现是因为新的测试网络中当前没有可用的账户，也没有设定任何账户作为以太坊基址来接收挖矿奖励。这个问题可以通过创建一个新账户并将其设置为以太坊基址来解决。在进行测试网络的挖矿时也需要这样做。以下命令显示了这一点。注意，这些命令是在geth JavaScript控制台中输入的，如前面的图所示。
+此消息出现是因为新的测试网络中当前没有可用的账户，也没有设定任何账户作为以太坊基址来接收挖矿奖励。这个问题可以通过创建一个新账户并将其设置为以太坊基址来解决。在进行测试网络的挖矿时也需要这样做。以下命令显示了这一点。注意，这些命令是在 geth JavaScript 控制台中输入的，如前面的图所示。
 
-下面的命令创建一个新的账户。在这个上下文中，账户将在私有网络ID 786上创建：
+下面的命令创建一个新的账户。在这个上下文中，账户将在私有网络 ID 786 上创建：
 
 ```
 > personal.newAccount("Password123")
@@ -159,7 +159,7 @@ $ geth attach ipc:.ethereum/privatenet/geth.ipc
 
 ```
 
-账户创建完成后，下一步是将其设置为以太坊基址/coinbase账户，以便挖矿奖励进入该账户。可以使用以下命令来实现这一点：
+账户创建完成后，下一步是将其设置为以太坊基址/coinbase 账户，以便挖矿奖励进入该账户。可以使用以下命令来实现这一点：
 
 ```
 > miner.setEtherbase(personal.listAccounts[0])
@@ -175,7 +175,7 @@ true
 
 ```
 
-最后，可以通过简单地发出以下命令启动挖矿。这个命令接受一个参数，即线程数。在下面的示例中，通过指定2作为start函数的参数，两个线程将被分配给挖矿进程：
+最后，可以通过简单地发出以下命令启动挖矿。这个命令接受一个参数，即线程数。在下面的示例中，通过指定 2 作为 start 函数的参数，两个线程将被分配给挖矿进程：
 
 ```
 > miner.start(2)
@@ -183,13 +183,13 @@ true
 
 ```
 
-挖矿开始后，首个DAG生成被执行，产生类似以下输出：
+挖矿开始后，首个 DAG 生成被执行，产生类似以下输出：
 
 ![启动私有网络](img/image_08_005.jpg)
 
-DAG生成
+DAG 生成
 
-一旦DAG生成完成并开始挖矿，`geth`将产生类似于下面截图所示的输出。可以清楚地看到，块正在成功挖掘，显示`已挖掘5个区块...`的消息。
+一旦 DAG 生成完成并开始挖矿，`geth`将产生类似于下面截图所示的输出。可以清楚地看到，块正在成功挖掘，显示`已挖掘 5 个区块...`的消息。
 
 ![启动私有网络](img/image_08_006.jpg)
 
@@ -203,7 +203,7 @@ true
 
 ```
 
-在JavaScript控制台中，可以查询总以太币的当前余额，如下所示。挖矿之后，可以看到相当大的数量，如下例所示。由于是私有网络，并且在初始文件中，网络难度也已经设置得相当低，因此挖矿非常快：
+在 JavaScript 控制台中，可以查询总以太币的当前余额，如下所示。挖矿之后，可以看到相当大的数量，如下例所示。由于是私有网络，并且在初始文件中，网络难度也已经设置得相当低，因此挖矿非常快：
 
 ```
 > eth.getBalance(eth.coinbase).toNumber();
@@ -211,13 +211,13 @@ true
 
 ```
 
-如果连续按两次空格和两次tab键，则会显示所有可用对象的完整列表。如下截图所示：
+如果连续按两次空格和两次 tab 键，则会显示所有可用对象的完整列表。如下截图所示：
 
 ![启动私有网络](img/image_08_007.jpg)
 
 可用对象
 
-此外，当输入命令时，可以按两次tab键来自动完成命令。如果按两次tab键，则还会显示可用方法的列表。如下截图所示：
+此外，当输入命令时，可以按两次 tab 键来自动完成命令。如果按两次 tab 键，则还会显示可用方法的列表。如下截图所示：
 
 ![启动私有网络](img/image_08_008.jpg)
 
@@ -247,9 +247,9 @@ true
 
 ```
 
-调试在调试问题时可能会派上用场。下面显示了一个样例命令；但是，有许多可用方法。下面的方法将返回块`0`的RLP：
+调试在调试问题时可能会派上用场。下面显示了一个样例命令；但是，有许多可用方法。下面的方法将返回块`0`的 RLP：
 
-+   **使用RLP进行编码**：
++   **使用 RLP 进行编码**：
 
 ```
 > debug.getBlockRlp(0)
@@ -300,7 +300,7 @@ Passphrase:
 
 ```
 
-+   获取编译器列表。请注意，如果没有显示任何输出，则表示未安装sol的编译器；sol编译器的安装细节将在本章的后面提供：
++   获取编译器列表。请注意，如果没有显示任何输出，则表示未安装 sol 的编译器；sol 编译器的安装细节将在本章的后面提供：
 
 ```
 > web3.eth.getCompilers()
@@ -308,44 +308,44 @@ Passphrase:
 
 ```
 
-### 在私有网络上运行Mist
+### 在私有网络上运行 Mist
 
-可以通过发出以下命令在私有网络上运行Mist。在安装`/opt/Ethereum`后，此二进制文件通常在`home`文件夹中可用：
+可以通过发出以下命令在私有网络上运行 Mist。在安装`/opt/Ethereum`后，此二进制文件通常在`home`文件夹中可用：
 
 ```
 $ ./Ethereum\ Wallet --rpc ~/.ethereum/privatenet/geth.ipc
 
 ```
 
-这将允许连接到运行中的私有网络`geth`会话，并通过Mist在私有网络上提供钱包、账户管理和合同部署等所有功能。
+这将允许连接到运行中的私有网络`geth`会话，并通过 Mist 在私有网络上提供钱包、账户管理和合同部署等所有功能。
 
-![在私有网络上运行Mist](img/image_08_010.jpg)
+![在私有网络上运行 Mist](img/image_08_010.jpg)
 
 运行以太坊钱包连接到私有网络
 
 一旦以太坊启动，它将显示此处显示的界面，清楚地表明它正在**私有网络**模式下运行。
 
-![在私有网络上运行Mist](img/image_08_011.jpg)
+![在私有网络上运行 Mist](img/image_08_011.jpg)
 
-私有网络上的Mist
+私有网络上的 Mist
 
-Mist也可以通过RPC在网络上运行。如果`geth`在不同节点上运行而Mist在另一个节点上运行，这将非常有用。这可以通过在这里显示的标志运行Mist来实现：
+Mist 也可以通过 RPC 在网络上运行。如果`geth`在不同节点上运行而 Mist 在另一个节点上运行，这将非常有用。这可以通过在这里显示的标志运行 Mist 来实现：
 
 ```
 --rpc http://127.0.0.1:8545
 
 ```
 
-### 使用Mist部署合同
+### 使用 Mist 部署合同
 
-使用Mist非常容易部署新的合同。Mist提供了一个界面，可以在其中用solidity编写合同，然后在网络上部署。
+使用 Mist 非常容易部署新的合同。Mist 提供了一个界面，可以在其中用 solidity 编写合同，然后在网络上部署。
 
-在这个练习中，将使用一个简单的合同对输入参数执行各种简单的算术计算。这里将展示如何使用Mist部署此合同。因为solidity尚未介绍，所以这里的目的是让用户体验合同部署和交互过程。本章后面将提供更多关于编码和solidity的信息，之后就会很容易理解所示的代码。那些熟悉JavaScript或任何其他类似语言的人会发现代码几乎是不言自明的。
+在这个练习中，将使用一个简单的合同对输入参数执行各种简单的算术计算。这里将展示如何使用 Mist 部署此合同。因为 solidity 尚未介绍，所以这里的目的是让用户体验合同部署和交互过程。本章后面将提供更多关于编码和 solidity 的信息，之后就会很容易理解所示的代码。那些熟悉 JavaScript 或任何其他类似语言的人会发现代码几乎是不言自明的。
 
 示例合同源代码如下所示：
 
 ```
-pragma solidity ^0.4.0; 
+pragma solidity ⁰.4.0; 
 contract SimpleContract2
 { 
   uint x; 
@@ -374,39 +374,39 @@ function currValue() constant returns (uint)
 
 ```
 
-此代码可以简单地复制到Mist的合同部分，如下所示。在左侧，可以复制源代码；一旦验证并且没有检测到语法错误，将出现在右侧下拉菜单中的**选择要部署的合同**选项。只需选择合同并按下屏幕底部的**部署**按钮。
+此代码可以简单地复制到 Mist 的合同部分，如下所示。在左侧，可以复制源代码；一旦验证并且没有检测到语法错误，将出现在右侧下拉菜单中的**选择要部署的合同**选项。只需选择合同并按下屏幕底部的**部署**按钮。
 
-![使用Mist部署合同](img/image_08_012.jpg)
+![使用 Mist 部署合同](img/image_08_012.jpg)
 
-Mist浏览器合同部署
+Mist 浏览器合同部署
 
-Mist将要求输入帐户密码，并显示类似于下面截屏的窗口：
+Mist 将要求输入帐户密码，并显示类似于下面截屏的窗口：
 
-![使用Mist部署合同](img/image_08_013.jpg)
+![使用 Mist 部署合同](img/image_08_013.jpg)
 
-使用Mist创建合同
+使用 Mist 创建合同
 
 输入密码，然后点击**发送交易**以部署合同。
 
-成功部署和挖矿后，它将出现在Mist的交易列表中，如下所示：
+成功部署和挖矿后，它将出现在 Mist 的交易列表中，如下所示：
 
-![使用Mist部署合同](img/image_08_014.jpg)
+![使用 Mist 部署合同](img/image_08_014.jpg)
 
-在Mist中创建合同后的交易列表
+在 Mist 中创建合同后的交易列表
 
-一旦合同可用，可以使用Mist执行交易并通过它调用可用函数与之交互。
+一旦合同可用，可以使用 Mist 执行交易并通过它调用可用函数与之交互。
 
-![使用Mist部署合同](img/image_08_015.jpg)
+![使用 Mist 部署合同](img/image_08_015.jpg)
 
-在Mist中使用读取和写入选项与合同交互
+在 Mist 中使用读取和写入选项与合同交互
 
-在前面的截图中，**从合同读取**和**写入合同**选项可用。此外，可以在右侧看到合同公开的函数。选择所需函数后，为函数输入适当的值并选择帐户（从which执行）；按下执行以执行交易，这将导致调用合同的选定函数。
+在前面的截图中，**从合同读取**和**写入合同**选项可用。此外，可以在右侧看到合同公开的函数。选择所需函数后，为函数输入适当的值并选择帐户（从 which 执行）；按下执行以执行交易，这将导致调用合同的选定函数。
 
 此过程如下截屏所示：
 
-![使用Mist部署合同](img/image_08_016.jpg)
+![使用 Mist 部署合同](img/image_08_016.jpg)
 
-Mist中的合同执行
+Mist 中的合同执行
 
 如截图所示，输入账户的适当密码，然后按下 **发送交易** 将交易发送到合同。
 
@@ -503,7 +503,7 @@ web3.eth.compile.solidity(contractsourcecode)
 
 #### 浏览器 solidity
 
-浏览器 solidity 是使用 solidity 进行合约开发和测试的基于 web 的环境。它不在实时区块链上运行；事实上，它是一个模拟环境，可以在其中部署、测试和调试合约。它位于 [https://ethereum.github.io/browser-solidity](https://ethereum.github.io/browser-solidity)。示例界面如下所示：
+浏览器 solidity 是使用 solidity 进行合约开发和测试的基于 web 的环境。它不在实时区块链上运行；事实上，它是一个模拟环境，可以在其中部署、测试和调试合约。它位于 [`ethereum.github.io/browser-solidity`](https://ethereum.github.io/browser-solidity)。示例界面如下所示：
 
 ![浏览器 solidity](img/image_08_019.jpg)
 
@@ -517,7 +517,7 @@ web3.eth.compile.solidity(contractsourcecode)
 
 #### 安装
 
-Remix 可在 [https://github.com/ethereum/remix](https://github.com/ethereum/remix) 上获得。第一步是克隆 GitHub 存储库：
+Remix 可在 [`github.com/ethereum/remix`](https://github.com/ethereum/remix) 上获得。第一步是克隆 GitHub 存储库：
 
 ```
 $ git clone https://github.com/ethereum/remix
@@ -742,8 +742,8 @@ bool v = true;
 
 | 关键词 | 类型 | 详情 |
 | --- | --- | --- |
-| `int` | 有符号整数 | int8到int256，这意味着关键字从int8到int256以8的增量可用，例如，int8，int16，int24。 |
-| `uint` | 无符号整数 | uint8到uint256 |
+| `int` | 有符号整数 | int8 到 int256，这意味着关键字从 int8 到 int256 以 8 的增量可用，例如，int8，int16，int24。 |
+| `uint` | 无符号整数 | uint8 到 uint256 |
 
 例如，在此代码中，请注意`uint`是`uint256`的别名：
 
@@ -765,7 +765,7 @@ uint constant z=10+10;
 
 #### 地址
 
-此数据类型保存一个160位长（20字节）的值。此类型有几个成员，可用于与合同进行交互和查询。这些成员在此处描述：
+此数据类型保存一个 160 位长（20 字节）的值。此类型有几个成员，可用于与合同进行交互和查询。这些成员在此处描述：
 
 **余额**
 
@@ -773,7 +773,7 @@ uint constant z=10+10;
 
 **发送**
 
-此成员用于向地址（以太坊的160位地址）发送以太币数量，并根据交易结果返回true或false，例如，如下所示：
+此成员用于向地址（以太坊的 160 位地址）发送以太币数量，并根据交易结果返回 true 或 false，例如，如下所示：
 
 ```
 address to = 0x6414cc08d148dce9ebf5a2d0b7c220ed2d3203da; 
@@ -788,7 +788,7 @@ if (to.balance < 10 && from.balance > 50) to.send(20);
 
 #### 数组值类型（固定大小和动态大小的字节数组）
 
-Solidity具有固定大小和动态大小的字节数组。固定大小关键字范围从`bytes1`到`bytes32`，而动态大小关键字包括bytes和strings。`bytes`用于原始字节数据，string用于以UTF-8编码的字符串。由于这些数组是按值返回的，调用它们将产生gas成本。`length`是数组值类型的成员，返回字节数组的长度。
+Solidity 具有固定大小和动态大小的字节数组。固定大小关键字范围从`bytes1`到`bytes32`，而动态大小关键字包括 bytes 和 strings。`bytes`用于原始字节数据，string 用于以 UTF-8 编码的字符串。由于这些数组是按值返回的，调用它们将产生 gas 成本。`length`是数组值类型的成员，返回字节数组的长度。
 
 静态（固定大小）数组的示例如下：
 
@@ -817,7 +817,7 @@ trades.length;
 
 #### 整数字面量
 
-整数字面量是0-9范围内的十进制数字序列。例如，如下所示：
+整数字面量是 0-9 范围内的十进制数字序列。例如，如下所示：
 
 ```
 uint8 x = 2; 
@@ -868,7 +868,7 @@ ord=Order.Filled;
 
 外部函数可以通过外部函数调用来调用。
 
-在Solidity中，函数可以标记为常量。常量函数无法更改合约中的任何内容；它们仅在被调用时返回值，且不消耗任何燃气。这是前一章讨论的*call*概念的实际实现。
+在 Solidity 中，函数可以标记为常量。常量函数无法更改合约中的任何内容；它们仅在被调用时返回值，且不消耗任何燃气。这是前一章讨论的*call*概念的实际实现。
 
 声明函数的语法如下所示：
 
@@ -930,7 +930,7 @@ bids["packt"] = 10;
 
 ### 全局变量
 
-Solidity提供了许多全局变量，这些变量始终可用于全局命名空间。这些变量提供有关区块和交易的信息。此外，加密函数和与地址相关的变量也是可用的。
+Solidity 提供了许多全局变量，这些变量始终可用于全局命名空间。这些变量提供有关区块和交易的信息。此外，加密函数和与地址相关的变量也是可用的。
 
 可用函数和变量的子集如下所示：
 
@@ -957,13 +957,13 @@ block.number
 
 ### 控制结构
 
-Solidity中可用的控制结构为`if - else`，`do`，`while`，`for`，`break`，`continue`，`return`。它们的工作方式类似于它们在C语言或JavaScript中的工作方式。
+Solidity 中可用的控制结构为`if - else`，`do`，`while`，`for`，`break`，`continue`，`return`。它们的工作方式类似于它们在 C 语言或 JavaScript 中的工作方式。
 
 #### 事件
 
-Solidity中的事件可以用于记录EVM日志中的特定事件。当需要通知外部接口合同中的任何更改或事件时，这些事件非常有用。这些日志存储在区块链上的事务日志中。日志无法从合约中访问，但它们被用作通知合同中状态变化或事件发生（满足条件）的机制。
+Solidity 中的事件可以用于记录 EVM 日志中的特定事件。当需要通知外部接口合同中的任何更改或事件时，这些事件非常有用。这些日志存储在区块链上的事务日志中。日志无法从合约中访问，但它们被用作通知合同中状态变化或事件发生（满足条件）的机制。
 
-在这里的简单示例中，如果传给`function Matcher`的参数`x`等于或大于`10`，则`valueEvent`事件将返回true：
+在这里的简单示例中，如果传给`function Matcher`的参数`x`等于或大于`10`，则`valueEvent`事件将返回 true：
 
 ```
 contract valueChecker { 
@@ -984,7 +984,7 @@ contract valueChecker {
 
 #### 继承
 
-Solidity支持继承。`is`关键字用于从另一个合约派生合约。在下面的示例中，`valueChecker2`是从`valueChecker`合约派生出来的。派生合约可以访问父合约的所有非私有成员：
+Solidity 支持继承。`is`关键字用于从另一个合约派生合约。在下面的示例中，`valueChecker2`是从`valueChecker`合约派生出来的。派生合约可以访问父合约的所有非私有成员：
 
 ```
 contract valueChecker 
@@ -1014,7 +1014,7 @@ contract valueChecker2 is valueChecker
 
 #### 库
 
-库仅在特定地址部署一次，其代码通过EVM的CALLCODE/DELEGATECALL操作码进行调用。库背后的关键思想是代码的重用性。它们类似于合约，并且充当调用合约的基础合约。库的声明如下示例所示：
+库仅在特定地址部署一次，其代码通过 EVM 的 CALLCODE/DELEGATECALL 操作码进行调用。库背后的关键思想是代码的重用性。它们类似于合约，并且充当调用合约的基础合约。库的声明如下示例所示：
 
 ```
 library Addition 
@@ -1042,7 +1042,7 @@ function Addtwovalues() returns(uint)
 
 #### 函数
 
-Solidity中的函数是与合约关联的代码模块。函数使用名称、可选参数、访问修饰符、可选的constant关键字和可选的返回类型进行声明。如下示例所示：
+Solidity 中的函数是与合约关联的代码模块。函数使用名称、可选参数、访问修饰符、可选的 constant 关键字和可选的返回类型进行声明。如下示例所示：
 
 ```
 function orderMatcher(uint x) private constant returns(bool returnvalue) 
@@ -1062,7 +1062,7 @@ function orderMatcher(uint x) private constant returns(bool returnvalue)
 
     ```
 
-+   **函数签名**：在 solidity 中，函数通过其签名来标识，这是其完整签名字符串的keccak-256哈希的前四个字节。这也可在浏览器 solidity 中看到，如下截图所示。**D99c89cb**是名为**Matcher**的函数的32字节keccak-256哈希的前四个字节。![Functions](img/image_08_027.jpg)
++   **函数签名**：在 solidity 中，函数通过其签名来标识，这是其完整签名字符串的 keccak-256 哈希的前四个字节。这也可在浏览器 solidity 中看到，如下截图所示。**D99c89cb**是名为**Matcher**的函数的 32 字节 keccak-256 哈希的前四个字节。![Functions](img/image_08_027.jpg)
 
     在浏览器 solidity 中显示的函数 hash
 
@@ -1093,9 +1093,9 @@ function orderMatcher(uint x) private constant returns(bool returnvalue)
 
     ```
 
-    一个函数可以返回多个值。在前面的例子函数中，`getValue`只返回一个值，但一个函数可以返回多达14个不同数据类型的值。未使用的返回参数的名称可以选择省略。
+    一个函数可以返回多个值。在前面的例子函数中，`getValue`只返回一个值，但一个函数可以返回多达 14 个不同数据类型的值。未使用的返回参数的名称可以选择省略。
 
-+   **内部函数调用**：在当前合同的上下文中，可以直接调用合同内部的函数。这些调用是为了调用同一合同中存在的函数。这些调用在以太虚拟机字节码级别上会产生简单的JUMP调用。
++   **内部函数调用**：在当前合同的上下文中，可以直接调用合同内部的函数。这些调用是为了调用同一合同中存在的函数。这些调用在以太虚拟机字节码级别上会产生简单的 JUMP 调用。
 
 +   **外部函数调用**：外部函数调用是通过从一个合同向另一个合同发送消息调用而进行的。在这种情况下，所有函数参数都被复制到内存中。如果使用`this`关键字调用内部函数，也被视为外部调用。`this`变量是一个指针，指向当前合同。它可以显式转换为地址，并且所有合同成员都继承自地址。
 
@@ -1109,7 +1109,7 @@ function orderMatcher(uint x) private constant returns(bool returnvalue)
 
     ```
 
-    在这种情况下，如果根据前面描述的条件调用`fallback`函数，则会调用throw，它将状态回滚到调用之前的状态。它也可以是除了throw之外的其他构造方式；例如，它可以记录一个事件，该事件可以用作将调用结果反馈给调用应用程序的警报。
+    在这种情况下，如果根据前面描述的条件调用`fallback`函数，则会调用 throw，它将状态回滚到调用之前的状态。它也可以是除了 throw 之外的其他构造方式；例如，它可以记录一个事件，该事件可以用作将调用结果反馈给调用应用程序的警报。
 
 +   **修饰器函数**：这些函数用于更改函数的行为，并且可以在其他函数之前调用。通常，它们用于在执行函数之前检查某些条件或验证。在修饰器函数中使用`_`（下划线），当调用修饰器时将其替换为函数的实际体。基本上，它象征着需要*受保护*的函数。这个概念类似于其他语言中的守护函数。
 
@@ -1125,24 +1125,24 @@ function orderMatcher(uint x) private constant returns(bool returnvalue)
 
     +   **私有**: 私有函数只对声明它们的合约可见。
 
-+   **其他重要关键字/函数throw**：`throw`用于停止执行。结果是所有状态更改都被撤销。在这种情况下，不会将任何燃气返回给交易发起者，因为所有剩余的燃气都被消耗掉了。
++   **其他重要关键字/函数 throw**：`throw`用于停止执行。结果是所有状态更改都被撤销。在这种情况下，不会将任何燃气返回给交易发起者，因为所有剩余的燃气都被消耗掉了。
 
-#### Solidity源代码文件的布局
+#### Solidity 源代码文件的布局
 
 **版本声明**
 
-为了解决未来版本Solidity编译器版本可能出现的兼容性问题，可以使用pragma来指定兼容编译器的版本，例如：
+为了解决未来版本 Solidity 编译器版本可能出现的兼容性问题，可以使用 pragma 来指定兼容编译器的版本，例如：
 
 ```
-pragma solidity ^0.5.0 
+pragma solidity ⁰.5.0 
 
 ```
 
-这将确保源文件不会在小于`0.5.0`的版本和从0.6.0开始的版本中编译。
+这将确保源文件不会在小于`0.5.0`的版本和从 0.6.0 开始的版本中编译。
 
 **导入**
 
-在Solidity中导入允许从现有的Solidity文件中导入符号到当前的全局范围。这类似于JavaScript中可用的import语句，例如：
+在 Solidity 中导入允许从现有的 Solidity 文件中导入符号到当前的全局范围。这类似于 JavaScript 中可用的 import 语句，例如：
 
 ```
 Import "module-name"; 
@@ -1151,19 +1151,19 @@ Import "module-name";
 
 **注释**
 
-在Solidity源代码文件中可以添加注释，方式与C语言类似。多行注释用`/*`和`*/`括起来，而单行注释以`//`开头。
+在 Solidity 源代码文件中可以添加注释，方式与 C 语言类似。多行注释用`/*`和`*/`括起来，而单行注释以`//`开头。
 
-一个示例的Solidity程序如下，展示了对pragma、import和注释的使用：
+一个示例的 Solidity 程序如下，展示了对 pragma、import 和注释的使用：
 
-![Solidity源代码文件的布局](img/image_08_028.jpg)
+![Solidity 源代码文件的布局](img/image_08_028.jpg)
 
-在浏览器Solidity中显示的示例Solidity程序
+在浏览器 Solidity 中显示的示例 Solidity 程序
 
-这完成了对solidity语言的简要介绍。该语言非常丰富，不断改进。详细的文档和编码指南可以在网上找到。
+这完成了对 solidity 语言的简要介绍。该语言非常丰富，不断改进。详细的文档和编码指南可以在网上找到。
 
-# 介绍Web3
+# 介绍 Web3
 
-Web3是一个JavaScript库，可以通过RPC通信与以太坊节点通信。Web3通过公开在RPC上启用的方法来工作。这允许开发使用web3库与部署在区块链上的合同进行交互的用户界面。
+Web3 是一个 JavaScript 库，可以通过 RPC 通信与以太坊节点通信。Web3 通过公开在 RPC 上启用的方法来工作。这允许开发使用 web3 库与部署在区块链上的合同进行交互的用户界面。
 
 为了通过`geth`公开方法，可以使用以下命令：
 
@@ -1174,7 +1174,7 @@ $ geth --datadir .ethereum/privatenet/ --networkid 786 --rpc --rpcapi 'web3,eth,
 
 注意`--rpcapi`标志允许使用`web3, eth`和`debug`方法。
 
-这是一个强大的库，可以通过连接`geth`实例进一步探索。稍后在本节中，您将介绍通过JavaScript/HTML前端使用web3的概念和技术。
+这是一个强大的库，可以通过连接`geth`实例进一步探索。稍后在本节中，您将介绍通过 JavaScript/HTML 前端使用 web3 的概念和技术。
 
 可以使用以下命令连接`geth`实例：
 
@@ -1183,16 +1183,16 @@ $ geth attach ipc:.ethereum/privatenet/geth.ipc
 
 ```
 
-一旦`geth` JavaScript控制台运行，可以查询web3，例如：
+一旦`geth` JavaScript 控制台运行，可以查询 web3，例如：
 
-![介绍Web3](img/image_08_029.jpg)
+![介绍 Web3](img/image_08_029.jpg)
 
-通过`geth`进行web3调用
+通过`geth`进行 web3 调用
 
-可以使用`geth`部署一个简单合同，并通过web3与其交互，`geth`提供了命令行界面（控制台或附加）来实现这一点。以下是实现该目标的步骤。例如，将使用以下源代码：
+可以使用`geth`部署一个简单合同，并通过 web3 与其交互，`geth`提供了命令行界面（控制台或附加）来实现这一点。以下是实现该目标的步骤。例如，将使用以下源代码：
 
 ```
-pragma solidity ^0.4.0; 
+pragma solidity ⁰.4.0; 
 contract valueChecker { 
     uint  price=10; 
     event valueEvent(bool returnValue); 
@@ -1213,7 +1213,7 @@ contract valueChecker {
 1.  声明一个名为`simplecontractsource`的变量，并将程序代码分配给它：
 
     ```
-    > var simplecontractsource = "pragma solidity ^0.4.0; contract  
+    > var simplecontractsource = "pragma solidity ⁰.4.0; contract  
         valueChecker { uint price=10;event valueEvent(bool returnValue);    
         function Matcher (uint8 x) returns (bool) { if (x>=price) 
         {valueEvent(true); return true; } } }"
@@ -1227,16 +1227,16 @@ contract valueChecker {
 
     ```
 
-    请注意，源代码必须在单行中，也就是说不能换行。在Linux中可以使用以下命令实现：
+    请注意，源代码必须在单行中，也就是说不能换行。在 Linux 中可以使用以下命令实现：
 
     ```
     $ tr --delete '\n' < valuechecker.sol > valuecheckersingleline.sol
 
     ```
 
-    在上面的例子中，`valuechecker.sol`是具有新行`\n`字符的文件，`valuecheckersingleline.sol`是删除文件中的新行字符后产生的输出文件。然后，可以将代码从文件复制并粘贴到`geth` JavaScript控制台中。
+    在上面的例子中，`valuechecker.sol`是具有新行`\n`字符的文件，`valuecheckersingleline.sol`是删除文件中的新行字符后产生的输出文件。然后，可以将代码从文件复制并粘贴到`geth` JavaScript 控制台中。
 
-1.  现在验证solidity编译器是否可用，如果不可用，则请参考章节中解释了solidity安装的部分：
+1.  现在验证 solidity 编译器是否可用，如果不可用，则请参考章节中解释了 solidity 安装的部分：
 
     ```
     > eth.getCompilers()
@@ -1244,7 +1244,7 @@ contract valueChecker {
 
     ```
 
-1.  创建一个变量并使用solidity进行赋值和编译代码：
+1.  创建一个变量并使用 solidity 进行赋值和编译代码：
 
     ```
     > var  
@@ -1253,9 +1253,9 @@ contract valueChecker {
 
     ```
 
-1.  输入`simplecontractcompiled`；它将显示类似于以下内容的输出。作为`simplecontractcompiled`已经分配了前面第3步的数据。
+1.  输入`simplecontractcompiled`；它将显示类似于以下内容的输出。作为`simplecontractcompiled`已经分配了前面第 3 步的数据。
 
-    simplecontractcompiled输出
+    simplecontractcompiled 输出
 
 1.  创建一个与合同进行交互的变量：
 
@@ -1343,7 +1343,7 @@ contract valueChecker {
 
     如果可用，则使用以下命令解锁账户。
 
-    首先，使用以下命令列出账户以获取账户ID：
+    首先，使用以下命令列出账户以获取账户 ID：
 
     ```
      > personal.listAccounts
@@ -1476,7 +1476,7 @@ contract valueChecker {
 
 ## POST 请求
 
-可以通过 jsonrpc 通过 HTTP 与 `geth` 进行交互。为此，可以使用 curl。以下是一些示例，以便让您熟悉 POST 请求并展示如何使用 curl 进行 post 请求。Curl 可在 [https://curl.haxx.se/](https://curl.haxx.se/) 获得。
+可以通过 jsonrpc 通过 HTTP 与 `geth` 进行交互。为此，可以使用 curl。以下是一些示例，以便让您熟悉 POST 请求并展示如何使用 curl 进行 post 请求。Curl 可在 [`curl.haxx.se/`](https://curl.haxx.se/) 获得。
 
 在使用 JsonRPC 接口通过 HTTP 之前，应该使用适当的开关启动`geth`，如下所示：
 
@@ -1528,7 +1528,7 @@ $ npm install web3
 
 ```
 
-也可以直接从 [https://github.com/ethereum/web3.js](https://github.com/ethereum/web3.js) 下载。
+也可以直接从 [`github.com/ethereum/web3.js`](https://github.com/ethereum/web3.js) 下载。
 
 可以在 HTML 文件中引用通过 `npm` 下载的 `web3.min.js`。例如，可以在 node_modules 中找到它，例如，`/home/drequinox/netstats/node_modules/web3/dist/web3.min.js`。该文件可选择地复制到主应用程序所在的目录中，并且可以从那里使用。一旦文件在 HTML 或 JS 中成功引用，就需要通过提供 HTTP 提供程序来初始化 web3。这通常是运行的 `geth` 客户端暴露的本地主机 HTTP 终端的链接。可以使用以下代码实现：
 
@@ -1609,7 +1609,7 @@ else
         }, 
         language: "Solidity", 
         languageVersion: "0.4.6", 
-        source: "pragma solidity ^0.4.0; contract valueChecker { uint         
+        source: "pragma solidity ⁰.4.0; contract valueChecker { uint         
         price=10; event valueEvent(bool returnValue);                                                                      
         function Matcher (uint8 x) returns (bool) { if (x>=price) {       
         valueEvent(true); return true; } } }", 
@@ -1622,7 +1622,7 @@ else
 
     ```
 
-    此文件包含各种元素。最重要的是 **ABI（应用程序二进制接口）**，可以使用 `geth` 查询，就像在合同部署过程中的第6步中所示的那样。
+    此文件包含各种元素。最重要的是 **ABI（应用程序二进制接口）**，可以使用 `geth` 查询，就像在合同部署过程中的第 6 步中所示的那样。
 
 1.  创建一个名为 `simplecontract.js` 的文件，如下所示：
 
@@ -1697,7 +1697,7 @@ var simplecontractaddress = "0x94a1107f2585f0ab931c71f2f8f02e9f5ab888c0
 
 ```
 
-此语句将分配部署在区块链上的合约地址的值。在语句变量成功执行后，`simplecontractaddress`将包含合约的地址。这是在前面的示例中当合约被部署时，在步骤9中创建合约的地址。只需在此处的代码中使用该地址。
+此语句将分配部署在区块链上的合约地址的值。在语句变量成功执行后，`simplecontractaddress`将包含合约的地址。这是在前面的示例中当合约被部署时，在步骤 9 中创建合约的地址。只需在此处的代码中使用该地址。
 
 **创建主合约对象**
 
@@ -1872,7 +1872,7 @@ $ sudo npm install -g truffle
 
 Truffle 帮助
 
-或者，该存储库可在 [https://github.com/ConsenSys/truffle](https://github.com/ConsenSys/truffle) 获得，可以在本地克隆以安装 truffle。可以使用 Git 使用以下命令来克隆存储库：
+或者，该存储库可在 [`github.com/ConsenSys/truffle`](https://github.com/ConsenSys/truffle) 获得，可以在本地克隆以安装 truffle。可以使用 Git 使用以下命令来克隆存储库：
 
 ```
 https://github.com/ConsenSys/truffle.git
@@ -1981,7 +1981,7 @@ build/
 
 **迁移**
 
-这是truffle将合同部署到区块链的过程。该过程依赖于`migrations`目录下的可用文件。
+这是 truffle 将合同部署到区块链的过程。该过程依赖于`migrations`目录下的可用文件。
 
 过程如下所示：
 
@@ -2007,7 +2007,7 @@ module.exports = function(deployer)
 
 如前面的输出所示，有两个文件包含了指定需要部署的合同的代码。
 
-文件名遵循一个约定，其中它们需要以数字作为前缀。这个前缀是为了记录所有迁移。文件名中的后缀可以是任何描述性的名称。首先，需要更改`truffle.js`文件以指向适当的网络。`truffle.js`文件包含有关应用程序的构建和rpc的宝贵信息。在这种情况下，`geth`已经运行，可以简单地指向使用可用客户端：
+文件名遵循一个约定，其中它们需要以数字作为前缀。这个前缀是为了记录所有迁移。文件名中的后缀可以是任何描述性的名称。首先，需要更改`truffle.js`文件以指向适当的网络。`truffle.js`文件包含有关应用程序的构建和 rpc 的宝贵信息。在这种情况下，`geth`已经运行，可以简单地指向使用可用客户端：
 
 ```
 module.exports = { 
@@ -2029,7 +2029,7 @@ module.exports = {
 
 ```
 
-在前面的文件中，`rpc`需要更改为指向适当的网络。一旦更改了`rpc`（在示例中，`geth`正在8001端口上运行，而不是通常的8545），truffle迁移可以使用以下命令运行。同样重要的是，必须在指向`rpc`的以太坊节点上运行挖掘；否则，合同将无法被挖掘。
+在前面的文件中，`rpc`需要更改为指向适当的网络。一旦更改了`rpc`（在示例中，`geth`正在 8001 端口上运行，而不是通常的 8545），truffle 迁移可以使用以下命令运行。同样重要的是，必须在指向`rpc`的以太坊节点上运行挖掘；否则，合同将无法被挖掘。
 
 可以使用下面显示的命令部署合同：
 
@@ -2038,7 +2038,7 @@ module.exports = {
 
 ```
 
-它可能会显示错误消息，如下所示。如果出现这种情况，则意味着truffle用于将合同部署到区块链的账户已被锁定，需要解锁：
+它可能会显示错误消息，如下所示。如果出现这种情况，则意味着 truffle 用于将合同部署到区块链的账户已被锁定，需要解锁：
 
 ```
 Running migration: 1_initial_migration.js
@@ -2059,9 +2059,9 @@ Error: **account is locked**
 
 ```
 
-可以通过在`geth` JavaScript控制台中使用以下命令来解锁账户。
+可以通过在`geth` JavaScript 控制台中使用以下命令来解锁账户。
 
-首先，列出账户以查看所有账户，然后选择需要解锁的账户。Truffle默认假设coinbase账户。选择适当的账户如下：
+首先，列出账户以查看所有账户，然后选择需要解锁的账户。Truffle 默认假设 coinbase 账户。选择适当的账户如下：
 
 ```
 > personal.listAccounts
@@ -2086,7 +2086,7 @@ true
 
 ```
 
-它将显示类似于此处所示的输出。需要注意的是，必须开始挖掘以完成迁移。迁移将通过查找`migrations`目录中的可用文件执行各种步骤。如示例所示，`1_initial_migration.js`和`2_deploy_contracts.js`已被用来提供truffle的迁移步骤和要求：
+它将显示类似于此处所示的输出。需要注意的是，必须开始挖掘以完成迁移。迁移将通过查找`migrations`目录中的可用文件执行各种步骤。如示例所示，`1_initial_migration.js`和`2_deploy_contracts.js`已被用来提供 truffle 的迁移步骤和要求：
 
 ```
 Running migration: 1_initial_migration.js
@@ -2108,7 +2108,7 @@ Saving artifacts...
 
 一旦命令成功完成，将返回一个命令提示符，显示消息`saving artefacts`。
 
-可以使用下面显示的几个命令通过`geth` JavaScript控制台来验证部署：
+可以使用下面显示的几个命令通过`geth` JavaScript 控制台来验证部署：
 
 ```
 > eth.getBalance("0x0be9c5de978fa927b93a5c4faab31312cea5704a")
@@ -2118,7 +2118,7 @@ Saving artifacts...
 
 ```
 
-请注意，新部署的合同地址已经从前面显示的truffle迁移命令输出中获取。（MetaCoin: 0x0be9c5de978fa927b93a5c4faab31312cea5704a）
+请注意，新部署的合同地址已经从前面显示的 truffle 迁移命令输出中获取。（MetaCoin: 0x0be9c5de978fa927b93a5c4faab31312cea5704a）
 
 +   **与合约交互**：Truffle 还提供了一个控制台（命令行界面），允许与合约交互。所有部署的合约都已经实例化并准备在控制台中使用。这是一个基于 REPL 的接口，即读取、评估和打印循环。类似地，在 geth 客户端中（通过 attach 或 console），REPL 是通过暴露 **JSRE**（**JavaScript 运行时环境**）来使用的。可以通过发出以下命令来访问控制台：
 
@@ -2171,7 +2171,7 @@ Saving artifacts...
 
     ```
 
-    这将返回交易的哈希，并且在成功时，它将使目标的余额增加50。目标账户是传递给`sendCoin`函数的参数。
+    这将返回交易的哈希，并且在成功时，它将使目标的余额增加 50。目标账户是传递给`sendCoin`函数的参数。
 
 +   **目标账户的余额**：可以使用以下命令检索：  
 
@@ -2328,7 +2328,7 @@ Truffle 服务
     (原文结束)
 
     ```
-       pragma solidity ^0.4.2; 
+       pragma solidity ⁰.4.2; 
        contract Addition
        { 
         uint8 x; 
@@ -2342,7 +2342,7 @@ Truffle 服务
     } 
     } 
     Migrations.sol: 
-    pragma solidity ^0.4.2; 
+    pragma solidity ⁰.4.2; 
     contract Migrations 
     { 
       address public owner; 
@@ -2480,16 +2480,16 @@ truffle(default)> Addition.deployed().retrievex()
 
 这可以通过几种方式实现；关键点是创建文档或文本字符串的散列并将其保存在区块链上。一旦文本被散列并保存，通过比较文档的散列与已存储的散列，可以阻止进一步请求保存相同的文本。
 
-对于此示例，将使用浏览器可靠性、Truffle和测试网（已经运行的网络ID 786，之前创建的）。首先，将编写合同的代码。可以使用任何合适的文本编辑器或集成开发环境来完成。浏览器可靠性也可以使用，因为它也为测试提供了一个模拟环境。此示例将为您提供一个学习如何将合同项目从想法开发成为 solidity 合同源代码并最终部署的机会。
+对于此示例，将使用浏览器可靠性、Truffle 和测试网（已经运行的网络 ID 786，之前创建的）。首先，将编写合同的代码。可以使用任何合适的文本编辑器或集成开发环境来完成。浏览器可靠性也可以使用，因为它也为测试提供了一个模拟环境。此示例将为您提供一个学习如何将合同项目从想法开发成为 solidity 合同源代码并最终部署的机会。
 
 让我们逐行分析一下代码：
 
 ```
-pragma solidity ^0.4.0; 
+pragma solidity ⁰.4.0; 
 
 ```
 
-此语句确保最低编译器版本为0.4.0，最高版本不得大于0.4.9。这确保了程序之间的兼容性：
+此语句确保最低编译器版本为 0.4.0，最高版本不得大于 0.4.9。这确保了程序之间的兼容性：
 
 ```
 contract PatentIdea { 
@@ -2503,23 +2503,23 @@ mapping (bytes32 => bool) private hashes;
 
 ```
 
-接下来，定义了一个映射，将byte32映射到布尔值，这基本上是一个`hashmap`（字典），将bytes32映射到布尔值：
+接下来，定义了一个映射，将 byte32 映射到布尔值，这基本上是一个`hashmap`（字典），将 bytes32 映射到布尔值：
 
 ```
 bool alreadyStored; 
 
 ```
 
-这是一个名为`alreadyStored`的声明变量，它是布尔类型，可以有一个true或false的值。此变量用于保存`SaveIdeaHash`函数的返回值：
+这是一个名为`alreadyStored`的声明变量，它是布尔类型，可以有一个 true 或 false 的值。此变量用于保存`SaveIdeaHash`函数的返回值：
 
 ```
 event ideahashed(bool); 
 
 ```
 
-同样还声明了一个事件，它将用于捕获散列函数(`SaveIdeaHash`)的失败或成功。当事件被触发时，它将返回一个布尔值true或false。
+同样还声明了一个事件，它将用于捕获散列函数(`SaveIdeaHash`)的失败或成功。当事件被触发时，它将返回一个布尔值 true 或 false。
 
-声明了一个名为`saveHash`的函数，它将以类型为bytes32的散列变量作为参数，并将其保存在散列表中。这将导致合同状态的改变。请注意，函数的可访问性已更改为私有，因为它只在合同内部需要使用，不需要在公开场合暴露：
+声明了一个名为`saveHash`的函数，它将以类型为 bytes32 的散列变量作为参数，并将其保存在散列表中。这将导致合同状态的改变。请注意，函数的可访问性已更改为私有，因为它只在合同内部需要使用，不需要在公开场合暴露：
 
 ```
  function saveHash(bytes32 hash) private 
@@ -2529,7 +2529,7 @@ event ideahashed(bool);
 
 ```
 
-另一个函数，`saveIdeaHash`，被声明，它接受类型为字符串的变量idea，并根据函数的结果返回一个布尔值（true或false）：
+另一个函数，`saveIdeaHash`，被声明，它接受类型为字符串的变量 idea，并根据函数的结果返回一个布尔值（true 或 false）：
 
 ```
 function SaveIdeaHash(string idea) returns (bool)
@@ -2549,7 +2549,7 @@ function SaveIdeaHash(string idea) returns (bool)
 
 此函数有一个名为`hashedIdea`的声明变量，它在稍后调用`HashtheIdea`函数后赋值。请注意，这个函数也可以返回一个值表示已保存，但出于简化，此处没有显示。
 
-下一个函数是`alreadyHashed`函数，它被声明为接受名为hash的类型为bytes32的变量，并在散列表中检查散列后返回一个布尔值（true或false）。这再次被声明为一个常量，可通过私有方式访问：
+下一个函数是`alreadyHashed`函数，它被声明为接受名为 hash 的类型为 bytes32 的变量，并在散列表中检查散列后返回一个布尔值（true 或 false）。这再次被声明为一个常量，可通过私有方式访问：
 
 ```
 function alreadyHashed(bytes32 hash) constant private returns(bool) 
@@ -2580,12 +2580,12 @@ function isAlreadyHashed(string idea) constant  returns (bool)
 
 ```
 
-此函数调用 solidity 的内置函数 `sha3` 并将一个字符串传递给它作为 idea 变量。此函数返回该字符串的 sha3 哈希。`sha3` 函数是 solidity 中 `keccak256()` 函数的别名，它计算传递给它的字符串的 Keccak-256 哈希。请注意，这不是 NIST 标准的 SHA-3；相反，这是 Keccak-256，原始提议用于 SHA-3 标准竞赛的 NIST。稍后经过轻微修改，并被NIST标准化为SHA-3标准。实际的 SHA-3 标准哈希函数将返回与 Keccak-256（以太坊的 `sha3` 函数）不同的哈希。
+此函数调用 solidity 的内置函数 `sha3` 并将一个字符串传递给它作为 idea 变量。此函数返回该字符串的 sha3 哈希。`sha3` 函数是 solidity 中 `keccak256()` 函数的别名，它计算传递给它的字符串的 Keccak-256 哈希。请注意，这不是 NIST 标准的 SHA-3；相反，这是 Keccak-256，原始提议用于 SHA-3 标准竞赛的 NIST。稍后经过轻微修改，并被 NIST 标准化为 SHA-3 标准。实际的 SHA-3 标准哈希函数将返回与 Keccak-256（以太坊的 `sha3` 函数）不同的哈希。
 
 完整的合同源代码如下所示：
 
 ```
-pragma solidity ^0.4.0; 
+pragma solidity ⁰.4.0; 
 contract PatentIdea 
 { 
   mapping (bytes32 => bool) private hashes; 
@@ -2784,19 +2784,19 @@ truffle(default)>
 
 **预言机**
 
-正如在[第六章](ch05.html "第五章。替代币")中所讨论的，*智能合约*，预言机是智能合约中的实时数据源。有各种服务可用来为智能合约提供预言机。其中一个相当突出的是 Oraclize，它可在 [http://www.oraclize.it/](http://www.oraclize.it/) 上找到。如果智能合约需要，例如，来自第三方源的实时价格或任何其他现实生活数据，比如特定城市的天气状况，这将特别有用。预言机能够为智能合约提供受信任的数据源，使其能够根据现实生活事件做出决策。Oraclize 使智能合约更容易地访问互联网以获取所需的数据。
+正如在第六章中所讨论的，*智能合约*，预言机是智能合约中的实时数据源。有各种服务可用来为智能合约提供预言机。其中一个相当突出的是 Oraclize，它可在 [`www.oraclize.it/`](http://www.oraclize.it/) 上找到。如果智能合约需要，例如，来自第三方源的实时价格或任何其他现实生活数据，比如特定城市的天气状况，这将特别有用。预言机能够为智能合约提供受信任的数据源，使其能够根据现实生活事件做出决策。Oraclize 使智能合约更容易地访问互联网以获取所需的数据。
 
-为了在以太坊上使用Oraclize，需要向Oraclize合约发送一个交易，同时附带适当的付款和查询。结果，Oraclize将根据请求交易中提供的查询检索结果并将其发送回合约地址。一旦交易发送回合约，将调用回调方法或回退函数。
+为了在以太坊上使用 Oraclize，需要向 Oraclize 合约发送一个交易，同时附带适当的付款和查询。结果，Oraclize 将根据请求交易中提供的查询检索结果并将其发送回合约地址。一旦交易发送回合约，将调用回调方法或回退函数。
 
-在实际的solidity中，首先需要导入Oraclize库，然后可以使用从它继承的所有方法。目前，Oraclize仅可用于PrivateNet（Ropsten）和Live Main Net Ethereum区块链上。
+在实际的 solidity 中，首先需要导入 Oraclize 库，然后可以使用从它继承的所有方法。目前，Oraclize 仅可用于 PrivateNet（Ropsten）和 Live Main Net Ethereum 区块链上。
 
-可以将Oraclize处理可视化，如下图所示：
+可以将 Oraclize 处理可视化，如下图所示：
 
 ![示例项目：理念的证明](img/image_08_048.jpg)
 
-Oraclize数据流
+Oraclize 数据流
 
-使用oraclize的solidity合约的骨架结构如下所示。请注意，导入仅在oraclize在Web上提供的开发环境中起作用；通常，此文件需要手动导入：
+使用 oraclize 的 solidity 合约的骨架结构如下所示。请注意，导入仅在 oraclize 在 Web 上提供的开发环境中起作用；通常，此文件需要手动导入：
 
 ```
 import "dev.oraclize.it/api.sol"; 
@@ -2814,21 +2814,21 @@ oraclize_query("URL", "api.somewebsite.net/price?stock=XYZ");
 
 ```
 
-Oraclize还可以利用TLS签名，以确保提供的信息是安全的和可证明的。
+Oraclize 还可以利用 TLS 签名，以确保提供的信息是安全的和可证明的。
 
-**使用IPFS在去中心化存储上部署**
+**使用 IPFS 在去中心化存储上部署**
 
-如[第1章](ch01.html "Chapter 1. Blockchain 101")中所讨论的，*区块链101*，为了充分利用去中心化平台，最好将存储和通信层去中心化。传统上，Web内容是通过集中式服务器提供的，但也可以使用分布式文件系统去中心化该部分。
+如第一章中所讨论的，*区块链 101*，为了充分利用去中心化平台，最好将存储和通信层去中心化。传统上，Web 内容是通过集中式服务器提供的，但也可以使用分布式文件系统去中心化该部分。
 
-在早期示例中显示的HTML内容可以存储在分布式和去中心化的IPFS网络中，以实现增强的去中心化。
+在早期示例中显示的 HTML 内容可以存储在分布式和去中心化的 IPFS 网络中，以实现增强的去中心化。
 
-IPFS位于[https://ipfs.io/](https://ipfs.io/)。
+IPFS 位于[`ipfs.io/`](https://ipfs.io/)。
 
-**安装IPFS**
+**安装 IPFS**
 
-IPFS可以通过以下过程安装：
+IPFS 可以通过以下过程安装：
 
-1.  使用以下命令下载IPFS包：
+1.  使用以下命令下载 IPFS 包：
 
     ```
     $ curl https://dist.ipfs.io/go-ipfs/v0.4.4/go-     
@@ -2850,7 +2850,7 @@ IPFS可以通过以下过程安装：
 
     ```
 
-1.  初始化IPFS节点：
+1.  初始化 IPFS 节点：
 
     ```
     imran@drequinox-OP7010:~$ ipfs init
@@ -2865,9 +2865,9 @@ IPFS可以通过以下过程安装：
 
 1.  输入以下命令以确保**IPFS**已成功安装：![示例项目：理念的证明](img/image_08_049.jpg)
 
-    成功安装IPFS
+    成功安装 IPFS
 
-1.  启动IPFS守护程序：
+1.  启动 IPFS 守护程序：
 
     ```
     imran@drequinox-OP7010:~$ ipfs daemon
@@ -2883,7 +2883,7 @@ IPFS可以通过以下过程安装：
 
     ```
 
-1.  使用以下命令将文件复制到IPFS上：
+1.  使用以下命令将文件复制到 IPFS 上：
 
     ```
     ~/sampleproject/build$ ipfs add --recursive --progress .
@@ -2909,11 +2909,11 @@ IPFS可以通过以下过程安装：
 
 1.  现在可以在浏览器中访问它，如下所示：![示例项目：理念的证明](img/image_08_050.jpg)
 
-    浏览器通过IPFS访问网页
+    浏览器通过 IPFS 访问网页
 
     ### 注意
 
-    请注意，URL指向IPFS文件系统。
+    请注意，URL 指向 IPFS 文件系统。
 
 1.  最后，为了使更改永久生效，可以使用以下命令：
 
@@ -2923,18 +2923,18 @@ IPFS可以通过以下过程安装：
 
     ```
 
-前面的例子演示了如何使用IPFS为智能合约的Web部分（用户界面）提供去中心化存储。
+前面的例子演示了如何使用 IPFS 为智能合约的 Web 部分（用户界面）提供去中心化存储。
 
-IPFS也可以以另一种方式与区块链一起使用。由于存储是区块链的一个重大问题，因此希望您能够将大量数据保存在其他地方，并将该数据的链接放置在区块链交易中。这样，就不需要在区块链上存储大量数据，从而导致其膨胀。IPFS可以通过将数据放置在IPFS上，然后将IPFS链接存储在区块链交易中来实现这一点，以引用存储的数据。
+IPFS 也可以以另一种方式与区块链一起使用。由于存储是区块链的一个重大问题，因此希望您能够将大量数据保存在其他地方，并将该数据的链接放置在区块链交易中。这样，就不需要在区块链上存储大量数据，从而导致其膨胀。IPFS 可以通过将数据放置在 IPFS 上，然后将 IPFS 链接存储在区块链交易中来实现这一点，以引用存储的数据。
 
-以太坊自身的swarm协议也在积极开发中，并且遵循类似的原理。然而，Swarm目前仍在开发中，相比之下IPFS更为成熟，目前似乎是更好的选择。IPFS运行良好，很可能会成为分布式部署的首选平台。Swarm允许用户通过在其中存储所有区块链数据来运行轻客户端。这在当前版本的`geth`中可用，并且提供了详细的指南，网址为[https://swarm-guide.readthedocs.io/en/latest/introduction.html](https://swarm-guide.readthedocs.io/en/latest/introduction.html)。由于该技术正在积极开发中，因此仅对该技术进行了简要介绍，因为它很可能会迅速发展。
+以太坊自身的 swarm 协议也在积极开发中，并且遵循类似的原理。然而，Swarm 目前仍在开发中，相比之下 IPFS 更为成熟，目前似乎是更好的选择。IPFS 运行良好，很可能会成为分布式部署的首选平台。Swarm 允许用户通过在其中存储所有区块链数据来运行轻客户端。这在当前版本的`geth`中可用，并且提供了详细的指南，网址为[`swarm-guide.readthedocs.io/en/latest/introduction.html`](https://swarm-guide.readthedocs.io/en/latest/introduction.html)。由于该技术正在积极开发中，因此仅对该技术进行了简要介绍，因为它很可能会迅速发展。
 
-对于以太坊中的去中心化通信，Whisper协议提供了去中心化通信层。这将作为以太坊的基于身份的消息传递层。Swarm和Whisper都被设想为Web 3.0的启用技术。
+对于以太坊中的去中心化通信，Whisper 协议提供了去中心化通信层。这将作为以太坊的基于身份的消息传递层。Swarm 和 Whisper 都被设想为 Web 3.0 的启用技术。
 
 #### 许可的分布式账本
 
-许可的分布式账本概念与公共区块链根本不同。分布式账本背后的关键思想是它们是有许可的，而不是开放的公共区块链。DLT不进行任何挖矿，因为所有参与者已经经过审查并为网络所知，而且不需要挖矿来保护网络。在私有许可的分布式账本上也不存在数字货币的概念，因为许可的区块链的目标与公共区块链不同。在公共区块链上，所有人都可以访问，并且需要某种激励和网络效应才能增长；相反，在许可的DLT上，没有这样的要求。可以在私有联盟设置中使用以太坊构建许可的DLT，特别是在现有金融系统内部运作。分布式账本系统的关键优势在于它们更快速、可管理，并且可能与现有金融系统实现互操作性。
+许可的分布式账本概念与公共区块链根本不同。分布式账本背后的关键思想是它们是有许可的，而不是开放的公共区块链。DLT 不进行任何挖矿，因为所有参与者已经经过审查并为网络所知，而且不需要挖矿来保护网络。在私有许可的分布式账本上也不存在数字货币的概念，因为许可的区块链的目标与公共区块链不同。在公共区块链上，所有人都可以访问，并且需要某种激励和网络效应才能增长；相反，在许可的 DLT 上，没有这样的要求。可以在私有联盟设置中使用以太坊构建许可的 DLT，特别是在现有金融系统内部运作。分布式账本系统的关键优势在于它们更快速、可管理，并且可能与现有金融系统实现互操作性。
 
 # 总结
 
-本章提供了关于如何搭建以太坊开发环境和创建智能合约的详细而深入的实例。这一章以介绍各种可以用于创建私有以太坊网络进行测试和开发的方法开始。之后，介绍了Solidity语言，以便让你了解语言的基本原理和语法。详细讨论了使用`geth`和web3等技术和工具的实际部署技术。此外，还提出了智能合约开发和部署的详细逐步示例。此外，还讨论了开发框架，并提供了实际示例，以便您体验以太坊区块链的智能合约开发生命周期。这是一章内容较长，通过密切跟随练习，你将深入了解在以太坊上进行合约开发、测试和部署。最后，讨论了与去中心化存储、去中心化通信和预言机相关的各种概念和工具。由于以太坊及相关技术和框架一直在不断快速发展，预计随着时间的推移会出现更先进的工具和技术；然而，本章讨论的基本原理可能会保持不变。此外，本章不可能讨论以太坊可用的每一个工具和框架，但所有讨论的工具和技术都是主流使用，并应该为您转向更高级水平提供坚实基础。本章有一些有意不讨论的话题，比如智能合约安全性、智能合约的形式验证、云区块链服务以及各行业智能合约的特定用例。这些概念将在以后的章节中讨论。希望你喜欢阅读这一章，就像我写作时一样。
+本章提供了关于如何搭建以太坊开发环境和创建智能合约的详细而深入的实例。这一章以介绍各种可以用于创建私有以太坊网络进行测试和开发的方法开始。之后，介绍了 Solidity 语言，以便让你了解语言的基本原理和语法。详细讨论了使用`geth`和 web3 等技术和工具的实际部署技术。此外，还提出了智能合约开发和部署的详细逐步示例。此外，还讨论了开发框架，并提供了实际示例，以便您体验以太坊区块链的智能合约开发生命周期。这是一章内容较长，通过密切跟随练习，你将深入了解在以太坊上进行合约开发、测试和部署。最后，讨论了与去中心化存储、去中心化通信和预言机相关的各种概念和工具。由于以太坊及相关技术和框架一直在不断快速发展，预计随着时间的推移会出现更先进的工具和技术；然而，本章讨论的基本原理可能会保持不变。此外，本章不可能讨论以太坊可用的每一个工具和框架，但所有讨论的工具和技术都是主流使用，并应该为您转向更高级水平提供坚实基础。本章有一些有意不讨论的话题，比如智能合约安全性、智能合约的形式验证、云区块链服务以及各行业智能合约的特定用例。这些概念将在以后的章节中讨论。希望你喜欢阅读这一章，就像我写作时一样。

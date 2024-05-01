@@ -1,4 +1,4 @@
-# 以太坊在PC/Web环境之外
+# 以太坊在 PC/Web 环境之外
 
 到目前为止，我们已经了解了如何在个人电脑上使用以太坊。本章将介绍以太坊在各种其他应用程序中的用途：智能手机是其中最常用的电子设备之一。当前技术的增长要求我们实现需要自动系统的物联网。本章重点讨论以下主题：
 
@@ -14,17 +14,17 @@
 
 # 以太坊在浏览器之外
 
-本节将教我们如何在浏览器之外使用以太坊。以太坊团队已经开发了可以在Java、Python、Go或.NET上使用的标准库。这些库可以直接从 GitHub（[https://github.com/ethereum](https://github.com/ethereum)）访问。
+本节将教我们如何在浏览器之外使用以太坊。以太坊团队已经开发了可以在 Java、Python、Go 或.NET 上使用的标准库。这些库可以直接从 GitHub（[`github.com/ethereum`](https://github.com/ethereum)）访问。
 
 要在浏览器之外使用以太坊，你需要的一个必要功能是与以太坊网络建立连接。这种连接可以是直接的——即直接连接到你的应用程序——或者你可以使用一个中继服务器。虽然使用中继服务器并不是最佳选择，但完全可行。要使用中继服务器，你首先需要拥有一个自己的服务器，它是集中式的，并且只接受预签名的交易。
 
 在浏览器之外使用以太坊所必需的另一个要求是你将用于开发它的语言的以太坊库。这是可选的，因为我们始终从原始数据开始任何交易。要让以太坊网络上的交易进行下去，我们需要对原始数据进行编码并分配一个私钥。交易受私钥签名保护，因此受到修改的限制。之后，你可以将其发送到网络上。这可以通过中继服务器完成。这涉及到一些选择性的静音，因此，确保你自己发送交易到网络上是更可靠的选择。根据你使用的软件，可以使用以下链接来完成这一操作：
 
-+   如果你是Python用户，可以使用`Web3.py`库。它可以在[https://github.com/ethereum/web3.py](https://github.com/ethereum/web3.py)免费获取。
++   如果你是 Python 用户，可以使用`Web3.py`库。它可以在[`github.com/ethereum/web3.py`](https://github.com/ethereum/web3.py)免费获取。
 
-+   如果你是Java的忠实用户，Java库可以在 Web3J 的 GitHub 账户上找到，网址为 [https://github.com/web3j/web3j](https://github.com/web3j/web3j)。
++   如果你是 Java 的忠实用户，Java 库可以在 Web3J 的 GitHub 账户上找到，网址为 [`github.com/web3j/web3j`](https://github.com/web3j/web3j)。
 
-对于任何其他实施，您可以在以太坊GitHub帐户下找到库，网址为[https://github.com/ethereum/](https://github.com/ethereum/)。Golem是一个很好的例子，它在浏览器之外使用以太坊。我们在第一章已经看过这个了。Golem在链下计算，但在链上验证完成的所有计算。这使得大量分布式计算能力成为可能。要获取更多信息，您可以参考Golem Github页面，并查看存储库中的代码，网址为[https://github.com/golemfactory/golem](https://github.com/golemfactory/golem)。
+对于任何其他实施，您可以在以太坊 GitHub 帐户下找到库，网址为[`github.com/ethereum/`](https://github.com/ethereum/)。Golem 是一个很好的例子，它在浏览器之外使用以太坊。我们在第一章已经看过这个了。Golem 在链下计算，但在链上验证完成的所有计算。这使得大量分布式计算能力成为可能。要获取更多信息，您可以参考 Golem Github 页面，并查看存储库中的代码，网址为[`github.com/golemfactory/golem`](https://github.com/golemfactory/golem)。
 
 # 以太坊和物联网
 
@@ -54,7 +54,7 @@
 
 Status.IM 主页
 
-使用此方法开发了一些应用程序。其中一款应用程序是 WhoPays。这是一个基于合同的机器人，可以创建用户可以通过新的聊天机器人使用命令跟踪他们向群组支付的款项。这意味着您可以使用聊天命令设置组。假设您为三个人购买了杂货，并且您支付了所有费用。其他人必须向您支付。您可以设置此安排，他们可以同意一笔金额，并使用应用程序向您支付。以下屏幕截图显示了 WhoPays GitHub 页面，网址为 [https://github.com/Nielsvdiermen/WhoPays](https://github.com/Nielsvdiermen/WhoPays)：
+使用此方法开发了一些应用程序。其中一款应用程序是 WhoPays。这是一个基于合同的机器人，可以创建用户可以通过新的聊天机器人使用命令跟踪他们向群组支付的款项。这意味着您可以使用聊天命令设置组。假设您为三个人购买了杂货，并且您支付了所有费用。其他人必须向您支付。您可以设置此安排，他们可以同意一笔金额，并使用应用程序向您支付。以下屏幕截图显示了 WhoPays GitHub 页面，网址为 [`github.com/Nielsvdiermen/WhoPays`](https://github.com/Nielsvdiermen/WhoPays)：
 
 ![](img/59dfb700-29d9-41d9-88c4-e543ab28a6a0.png)
 
@@ -88,10 +88,10 @@ Go-Ethereum GitHub 仓库
 
 另一个资源是 CoinDesk，你可以在 [www.coindesk.com](http://www.coindesk.com) 找到它。你可能已经知道这个，但这里有很多关于以太坊和区块链的新闻。
 
-Consensys 是一家公司，你可以在 [https://new.consensys.net/](https://new.consensys.net/) 找到它。他们几乎从以太坊创立之初就一直在利用以太坊，他们有很多正在进行中的项目。他们与许多非常大的公司合作，例如微软。他们几乎致力于使以太坊适用于企业。
+Consensys 是一家公司，你可以在 [`new.consensys.net/`](https://new.consensys.net/) 找到它。他们几乎从以太坊创立之初就一直在利用以太坊，他们有很多正在进行中的项目。他们与许多非常大的公司合作，例如微软。他们几乎致力于使以太坊适用于企业。
 
 最后但并非最不重要的是，请务必查看 State Of The DApps，你可以在 [www.stateofthedapps.com](http://www.stateofthedapps.com) 找到它。在这里，你可以找到很多已经制作的应用程序。你可以对它们进行分类，并查看它们是否有任何原型，或者可能有一些正在运行的应用程序。几乎所有这些应用程序都是开源的。这绝对是你最大的资源，因为有什么比从现有的应用程序中学习更好的方式呢？所以，如果你查看这些，我相信你很快就会完全掌握以太坊。
 
 # 摘要
 
-在本章中，我们了解了以太坊是如何在浏览器之外运行的。我们学习了以太坊如何用于各种物联网应用。然后，我们继续看到以太坊如何在安卓和iOS智能手机设备上使用各种方法实现。接着，您将获得一些链接到各种资源，这些资源可以帮助您掌握以太坊。在本书中，我们几乎涵盖了您构建、使用和部署自己的以太坊代币所需的一切，并为您提供了有关利用这些以太坊知识构建哪些应用的额外见解。
+在本章中，我们了解了以太坊是如何在浏览器之外运行的。我们学习了以太坊如何用于各种物联网应用。然后，我们继续看到以太坊如何在安卓和 iOS 智能手机设备上使用各种方法实现。接着，您将获得一些链接到各种资源，这些资源可以帮助您掌握以太坊。在本书中，我们几乎涵盖了您构建、使用和部署自己的以太坊代币所需的一切，并为您提供了有关利用这些以太坊知识构建哪些应用的额外见解。

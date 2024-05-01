@@ -8,48 +8,48 @@
 
 # 本书内容
 
-[第一章](c9fa3dfc-7ac8-45a8-8c00-7dafed9e9389.xhtml)，*区块链入门*，帮助您了解区块链的基础知识及各种形式和实现之间的对比。如果您已经熟悉区块链及其应用的基础知识，可以跳过本章，开始阅读[第二章](8d65a7c4-c90d-42ec-bf01-2d387f52de99.xhtml)，*AI 景观简介*。
+第一章，*区块链入门*，帮助您了解区块链的基础知识及各种形式和实现之间的对比。如果您已经熟悉区块链及其应用的基础知识，可以跳过本章，开始阅读第二章，*AI 景观简介*。
 
-[第二章](8d65a7c4-c90d-42ec-bf01-2d387f52de99.xhtml)，*AI 景观简介*，顾名思义，向您介绍了人工智能的基础知识和历史，并对其一些基本形式和实现进行了对比。如果您已经熟悉人工智能及其应用的基础知识，可以直接跳转至[第四章](75f3d1ef-59e1-4a7a-975b-114f2b50a6fe.xhtml)，*AI- and Blockchain-Driven Databases*。
+第二章，*AI 景观简介*，顾名思义，向您介绍了人工智能的基础知识和历史，并对其一些基本形式和实现进行了对比。如果您已经熟悉人工智能及其应用的基础知识，可以直接跳转至第四章，*AI- and Blockchain-Driven Databases*。
 
-[第三章](b21a701f-4a28-4570-9135-7ccf987451ae.xhtml)，*AI 和区块链的特定领域应用**,*，涵盖了一些知名的区块链和人工智能应用。
+第三章，*AI 和区块链的特定领域应用**,*，涵盖了一些知名的区块链和人工智能应用。
 
-[第四章](75f3d1ef-59e1-4a7a-975b-114f2b50a6fe.xhtml)，*AI- and Blockchain-Driven Databases*，是学习如何将区块链与人工智能相连接的关键。我们将介绍并对比传统数据管理工具和去中心化数据库，以及文件系统。
+第四章，*AI- and Blockchain-Driven Databases*，是学习如何将区块链与人工智能相连接的关键。我们将介绍并对比传统数据管理工具和去中心化数据库，以及文件系统。
 
-[第五章](b9f3aeae-120d-4954-8466-1f9683058060.xhtml)，*利用人工智能增强区块链*，涵盖了一些专属应用，这些应用同时使用人工智能和区块链来解决一些现实世界的挑战。
+第五章，*利用人工智能增强区块链*，涵盖了一些专属应用，这些应用同时使用人工智能和区块链来解决一些现实世界的挑战。
 
-[第6章](f9a00873-de32-4fe9-aae8-4c6cce1ee96c.xhtml)，*加密货币与人工智能*，探讨了人工智能在加密货币交易中的一些应用。
+第六章，*加密货币与人工智能*，探讨了人工智能在加密货币交易中的一些应用。
 
-[第7章](dce2532d-dc68-42b1-996e-8b5f3336848e.xhtml)，*DIApp的开发生命周期*，向您介绍了DIApp设计模式，并概述了涉及的**软件开发生命周期（SDLC）**流程。
+第七章，*DIApp 的开发生命周期*，向您介绍了 DIApp 设计模式，并概述了涉及的**软件开发生命周期（SDLC）**流程。
 
-[第8章](2642decc-1e7e-44f4-84a4-4b7a42ddda25.xhtml)，*实现DIApp*，演示了如何构建一个实时应用程序，利用区块链、人工智能和去中心化数据库来解决真实世界的挑战。
+第八章，*实现 DIApp*，演示了如何构建一个实时应用程序，利用区块链、人工智能和去中心化数据库来解决真实世界的挑战。
 
-[第9章](7723b87d-ec13-45e3-bd98-ed9a7f327e77.xhtml)，*区块链与人工智能的未来*，通过建议新的用例分析和应用书中的学习内容来结束本书，以构建您自己的DIApp。
+第九章，*区块链与人工智能的未来*，通过建议新的用例分析和应用书中的学习内容来结束本书，以构建您自己的 DIApp。
 
 # 为了充分利用本书
 
-虽然我们不指望您对区块链和人工智能的基础知识有透彻的了解，但熟悉这些技术会很有帮助。此外，本书的学习目标之一是了解如何构建一个结合了区块链和人工智能优势的DIApp。如果您有兴趣学习如何构建DIApp，应该熟悉Solidity智能合约、机器学习和Python的基础知识。
+虽然我们不指望您对区块链和人工智能的基础知识有透彻的了解，但熟悉这些技术会很有帮助。此外，本书的学习目标之一是了解如何构建一个结合了区块链和人工智能优势的 DIApp。如果您有兴趣学习如何构建 DIApp，应该熟悉 Solidity 智能合约、机器学习和 Python 的基础知识。
 
 | **书中涵盖的软件/硬件** | **操作系统要求** |
 | --- | --- |
 
-| 开发一款可以帮助追踪动物和物体COVID-19感染情况的DIApp需要以下工具：
+| 开发一款可以帮助追踪动物和物体 COVID-19 感染情况的 DIApp 需要以下工具：
 
 +   Python 3.7
 
 +   Node.js 12
 
-+   Firefox或基于Chromium的浏览器并具有互联网访问权限
++   Firefox 或基于 Chromium 的浏览器并具有互联网访问权限
 
 |
 
-+   macOS Mojave或更高版本
++   macOS Mojave 或更高版本
 
-+   Ubuntu 18.04 LTS或更高版本
++   Ubuntu 18.04 LTS 或更高版本
 
 |
 
-**如果您正在使用本书的数字版本，我们建议您自己输入代码或通过GitHub存储库访问代码（链接在下一节中提供）。这样做可以帮助您避免与复制粘贴代码相关的潜在错误。**
+**如果您正在使用本书的数字版本，我们建议您自己输入代码或通过 GitHub 存储库访问代码（链接在下一节中提供）。这样做可以帮助您避免与复制粘贴代码相关的潜在错误。**
 
 ## 下载示例代码文件
 
@@ -73,13 +73,13 @@
 
 +   7-Zip/PeaZip for Linux
 
-本书的代码包也托管在GitHub上，网址是[https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain](https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain)。如果代码有更新，将在现有的GitHub存储库中更新。
+本书的代码包也托管在 GitHub 上，网址是[`github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain`](https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain)。如果代码有更新，将在现有的 GitHub 存储库中更新。
 
-我们还有其他代码包来自我们丰富的书籍和视频目录，可在[https://github.com/PacktPublishing/](https://github.com/PacktPublishing/)获取。请查看！
+我们还有其他代码包来自我们丰富的书籍和视频目录，可在[`github.com/PacktPublishing/`](https://github.com/PacktPublishing/)获取。请查看！
 
 ## 下载彩色图片
 
-我们还提供了一个 PDF 文件，其中包含本书中使用的截图/图表的彩色图像。您可以在此处下载：[https://static.packt-cdn.com/downloads/9781838822293_ColorImages.pdf](https://static.packt-cdn.com/downloads/9781838822293_ColorImages.pdf)。
+我们还提供了一个 PDF 文件，其中包含本书中使用的截图/图表的彩色图像。您可以在此处下载：[`static.packt-cdn.com/downloads/9781838822293_ColorImages.pdf`](https://static.packt-cdn.com/downloads/9781838822293_ColorImages.pdf)。
 
 ## 使用的约定
 

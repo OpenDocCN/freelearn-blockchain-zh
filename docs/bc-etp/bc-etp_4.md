@@ -24,7 +24,7 @@ web3.js 为我们提供了与 geth 通信的 JavaScript API。它在内部使用
 
 在撰写本文时，web3.js 的最新版本是 1.0.0-beta.18。我们将使用此版本学习所有内容。
 
-web3.js 托管在 [https://github.com/ethereum/web3.js](https://github.com/ethereum/web3.js)，完整文档托管在 [https://github.com/ethereum/wiki/wiki/JavaScript-API](https://github.com/ethereum/wiki/wiki/JavaScript-API)。
+web3.js 托管在 [`github.com/ethereum/web3.js`](https://github.com/ethereum/web3.js)，完整文档托管在 [`github.com/ethereum/wiki/wiki/JavaScript-API`](https://github.com/ethereum/wiki/wiki/JavaScript-API)。
 
 # 导入 web3.js
 
@@ -207,15 +207,15 @@ console.log(web3.eth.getTransactionReceipt("0x9fc76417374aa880d4449a1f7
 
 +   `to`：这是可选的。这是消息的目的地地址，对于合约创建交易则未定义。
 
-+   `value`：这是可选的。交易的价值以wei为单位进行转移，如果是合约创建交易，则还包括捐赠金。
++   `value`：这是可选的。交易的价值以 wei 为单位进行转移，如果是合约创建交易，则还包括捐赠金。
 
 +   `gas`：这是可选的。这是用于交易的燃气量（未使用的燃气将退还）。如果未提供，则会自动确定。
 
-+   `gasPrice`：这是可选的。这是交易的燃气价格，以wei为单位，默认为平均网络燃气价格。
++   `gasPrice`：这是可选的。这是交易的燃气价格，以 wei 为单位，默认为平均网络燃气价格。
 
 +   `data`：这是可选的。它要么是包含消息相关数据的字节字符串，要么在合约创建交易的情况下是初始化代码。
 
-+   `nonce`：这是可选的。这是一个整数。每个交易都与`nonce`相关联。`nonce`是一个计数器，表示发送者所做交易的数量。如果未提供，它将自动确定。它有助于防止重放攻击。此`nonce`不是与块相关联的`nonce`。如果我们使用的`nonce`大于交易应该具有的`nonce`，则该交易将放入队列，直到其他交易到达。例如，如果下一个交易的`nonce`应为四，而我们将`nonce`设置为十，则geth将等待其余的六个交易到达后再广播此交易。`nonce`为十的交易称为**排队的交易**，而不是待处理的交易。
++   `nonce`：这是可选的。这是一个整数。每个交易都与`nonce`相关联。`nonce`是一个计数器，表示发送者所做交易的数量。如果未提供，它将自动确定。它有助于防止重放攻击。此`nonce`不是与块相关联的`nonce`。如果我们使用的`nonce`大于交易应该具有的`nonce`，则该交易将放入队列，直到其他交易到达。例如，如果下一个交易的`nonce`应为四，而我们将`nonce`设置为十，则 geth 将等待其余的六个交易到达后再广播此交易。`nonce`为十的交易称为**排队的交易**，而不是待处理的交易。
 
 下面是一个发送`ether`到地址的示例：
 
@@ -227,15 +227,15 @@ var txnHash = web3.eth.sendTransaction({
 }); 
 ```
 
-在这里，我们从账户编号`0`发送了一个`ether`到账户编号`1`。我们需要确保在运行geth时使用`unlock`选项来解锁两个账户。geth交互式控制台会提示输入密码，但是在交互式控制台之外使用的web3.js API如果账户被锁定，将会抛出错误。此方法返回交易的事务哈希。然后，您可以使用`getTransactionReceipt()`方法检查交易是否已被挖掘。
+在这里，我们从账户编号`0`发送了一个`ether`到账户编号`1`。我们需要确保在运行 geth 时使用`unlock`选项来解锁两个账户。geth 交互式控制台会提示输入密码，但是在交互式控制台之外使用的 web3.js API 如果账户被锁定，将会抛出错误。此方法返回交易的事务哈希。然后，您可以使用`getTransactionReceipt()`方法检查交易是否已被挖掘。
 
 你还可以使用`web3.personal.listAccounts()`、`web3.personal.unlockAccount(addr, pwd)`和`web3.personal.newAccount(pwd)` API 在运行时管理账户。
 
 # 与合约工作
 
-让我们学习如何部署新合同，使用其地址获取已部署合同的引用，向合同发送`ether`，发送交易以调用`contract`方法，并估算方法调用的gas。
+让我们学习如何部署新合同，使用其地址获取已部署合同的引用，向合同发送`ether`，发送交易以调用`contract`方法，并估算方法调用的 gas。
 
-要部署新合同或获取对已部署合同的引用，您需要首先使用`web3.eth.contract()`方法创建一个`contract`对象。它以合同ABI作为参数，并返回`contract`对象。
+要部署新合同或获取对已部署合同的引用，您需要首先使用`web3.eth.contract()`方法创建一个`contract`对象。它以合同 ABI 作为参数，并返回`contract`对象。
 
 这是创建`contract`对象的代码：
 
@@ -254,7 +254,7 @@ var proofContract = web3.eth.contract([{"constant":false,"inputs":
   :"logFileAddedStatus","type":"event"}]);
 ```
 
-一旦您获得了合同，您可以使用`contract`对象的`new`方法部署它，或者使用`at`方法获取与ABI匹配的已部署合同的引用。
+一旦您获得了合同，您可以使用`contract`对象的`new`方法部署它，或者使用`at`方法获取与 ABI 匹配的已部署合同的引用。
 
 让我们看一个部署新合同的示例，如下所示：
 
@@ -310,7 +310,7 @@ var returnValue = proof.get.call
   ("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"); 
 ```
 
-有时，有必要了解调用方法所需的gas量，以便您可以决定是否调用它。您可以使用`web3.eth.estimateGas`来实现此目的。然而，使用`web3.eth.estimateGas()`需要您直接生成交易的数据；因此，我们可以使用合同对象的`estimateGas()`方法。以下是演示此操作的示例：
+有时，有必要了解调用方法所需的 gas 量，以便您可以决定是否调用它。您可以使用`web3.eth.estimateGas`来实现此目的。然而，使用`web3.eth.estimateGas()`需要您直接生成交易的数据；因此，我们可以使用合同对象的`estimateGas()`方法。以下是演示此操作的示例：
 
 ```
 var estimatedGas = proof.get.estimateGas
@@ -407,15 +407,15 @@ setTimeout(function() {
 
 +   `blockNumber`：此日志所在的块号。 当处于待定状态时，此字段为 `null`。
 
-web3.js提供了一个`web3.eth.filter` API来检索和监视事件。您可以使用这个API，但是在前一种方法中处理事件的方式要简单得多。您可以在[https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter](https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter)了解更多信息。
+web3.js 提供了一个`web3.eth.filter` API 来检索和监视事件。您可以使用这个 API，但是在前一种方法中处理事件的方式要简单得多。您可以在[`github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter`](https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter)了解更多信息。
 
 # 为所有权合约构建客户端
 
-在上一章中，我们为所有权合约编写了Solidity代码。在上一章和本章中，我们学习了web3.js以及如何使用web3.js调用合约的方法。现在，是时候为我们的智能合约构建一个客户端，以便用户可以轻松地使用它。
+在上一章中，我们为所有权合约编写了 Solidity 代码。在上一章和本章中，我们学习了 web3.js 以及如何使用 web3.js 调用合约的方法。现在，是时候为我们的智能合约构建一个客户端，以便用户可以轻松地使用它。
 
 我们将构建一个客户端，企业用户选择文件，输入所有者细节，然后点击`提交`来广播一个交易来调用合约的`set`方法，使用文件哈希和所有者细节。一旦成功广播交易，我们将显示交易哈希。用户还可以选择一个文件，并从智能合约获取所有者的细节。客户端还将实时显示最近的`set`交易。
 
-我们将在前端使用sha1.js来获取文件哈希，使用jQuery进行DOM操作，并使用Bootstrap 4来创建响应式布局。我们将在后端使用Express.js和web3.js。我们将使用`socket.io`，这样后端就可以将最近挖掘到的交易推送到前端，而无需前端周期性地请求数据。
+我们将在前端使用 sha1.js 来获取文件哈希，使用 jQuery 进行 DOM 操作，并使用 Bootstrap 4 来创建响应式布局。我们将在后端使用 Express.js 和 web3.js。我们将使用`socket.io`，这样后端就可以将最近挖掘到的交易推送到前端，而无需前端周期性地请求数据。
 
 # 项目结构
 
@@ -425,7 +425,7 @@ web3.js提供了一个`web3.eth.filter` API来检索和监视事件。您可以�
 
 在`Initial`目录中，您会找到一个`public`目录和两个名为`app.js`和`package.json`的文件。`package.json`包含我们应用的后端依赖，`app.js`是您放置后端源代码的地方。
 
-`public`目录包含与前端相关的文件。在`public/css`目录内，您会找到`bootstrap.min.css`，这是Bootstrap库；在`public/html`目录内，您会找到`index.html`，您将在其中放置应用程序的HTML代码；而在`public/js`目录内，您会找到用于jQuery、sha1和socket.io的JS文件。在`public/js`目录内，您还会找到一个`main.js`文件，您将在其中放置我们应用的前端JS代码。
+`public`目录包含与前端相关的文件。在`public/css`目录内，您会找到`bootstrap.min.css`，这是 Bootstrap 库；在`public/html`目录内，您会找到`index.html`，您将在其中放置应用程序的 HTML 代码；而在`public/js`目录内，您会找到用于 jQuery、sha1 和 socket.io 的 JS 文件。在`public/js`目录内，您还会找到一个`main.js`文件，您将在其中放置我们应用的前端 JS 代码。
 
 # 构建后端
 
@@ -705,13 +705,13 @@ socket.on("connect", function () {
 
 这是前述代码的工作原理：
 
-+   首先，我们定义了`submit()`方法。在`submit()`方法中，我们确保选择了一个文件并且文本字段不为空。然后，我们将文件内容读取为一个数组缓冲区，并将数组缓冲区传递给sha1.js中暴露的`sha1()`方法，以便获得数组缓冲区内的内容的哈希值。一旦我们获得了哈希值，我们就使用jQuery向`/submit`路由发出AJAX请求，然后在警告框中显示事务哈希值。
++   首先，我们定义了`submit()`方法。在`submit()`方法中，我们确保选择了一个文件并且文本字段不为空。然后，我们将文件内容读取为一个数组缓冲区，并将数组缓冲区传递给 sha1.js 中暴露的`sha1()`方法，以便获得数组缓冲区内的内容的哈希值。一旦我们获得了哈希值，我们就使用 jQuery 向`/submit`路由发出 AJAX 请求，然后在警告框中显示事务哈希值。
 
 +   紧接着我们定义了`getInfo()`方法。它首先确保选择了一个文件。然后，它生成像之前生成的那样的哈希，并请求`/getInfo`端点以获取有关该文件的信息。
 
 +   最后，我们使用`socket.io`库提供的`io()`方法建立`socket.io`连接。然后，我们等待连接事件触发，这表示连接已经建立。连接建立后，我们监听来自服务器的消息，并显示交易的详细信息给用户。
 
-我们不把文件存储在以太坊区块链上。存储文件非常昂贵，因为需要很多gas。在我们的情况下，我们不需要存储文件，因为网络中的节点将能够看到文件；因此，如果用户想保持文件内容的机密性，那么他们将不能。我们应用的目的仅仅是证明文件的所有权，而不是像云服务一样存储和提供文件。
+我们不把文件存储在以太坊区块链上。存储文件非常昂贵，因为需要很多 gas。在我们的情况下，我们不需要存储文件，因为网络中的节点将能够看到文件；因此，如果用户想保持文件内容的机密性，那么他们将不能。我们应用的目的仅仅是证明文件的所有权，而不是像云服务一样存储和提供文件。
 
 # 测试客户端
 
@@ -731,10 +731,10 @@ socket.on("connect", function () {
 
 ![](img/75dc8910-fba6-4301-961c-18528b442277.png)
 
-在上个截图中，你可以看到时间戳和所有者的详细信息。现在我们已经完成了为我们的第一个DApp构建客户端。
+在上个截图中，你可以看到时间戳和所有者的详细信息。现在我们已经完成了为我们的第一个 DApp 构建客户端。
 
 # 摘要
 
-在本章中，我们首先学习了web3.js的基础知识，并查看了一些示例。我们了解了连接到节点、基本API、发送各种类型的交易以及监听事件。最后，我们为我们的所有权合约构建了适当的生产用客户端。现在，您应该能够轻松编写智能合约并为其构建UI客户端，以便简化它们的使用。
+在本章中，我们首先学习了 web3.js 的基础知识，并查看了一些示例。我们了解了连接到节点、基本 API、发送各种类型的交易以及监听事件。最后，我们为我们的所有权合约构建了适当的生产用客户端。现在，您应该能够轻松编写智能合约并为其构建 UI 客户端，以便简化它们的使用。
 
 在下一章中，我们将学习使用零知识安全层实现隐私。

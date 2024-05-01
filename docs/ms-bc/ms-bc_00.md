@@ -6,27 +6,27 @@
 
 # 本书涵盖的内容
 
-[第一章](ch01.html "第一章. 区块链 101"), *区块链 101*，介绍了区块链技术基于的分布式计算的基本概念。还涵盖了区块链的历史、定义、特征、类型和优点，以及作为区块链技术核心的共识机制。
+第一章, *区块链 101*，介绍了区块链技术基于的分布式计算的基本概念。还涵盖了区块链的历史、定义、特征、类型和优点，以及作为区块链技术核心的共识机制。
 
-[第二章](ch02.html "第二章. 去中心化"), *去中心化*，涵盖了去中心化的概念及其与区块链技术的关系。还介绍了可用于去中心化过程或系统的各种方法和平台。
+第二章, *去中心化*，涵盖了去中心化的概念及其与区块链技术的关系。还介绍了可用于去中心化过程或系统的各种方法和平台。
 
-[第三章](ch03.html "第三章. 密码学与技术基础"), *密码学与技术基础*，介绍了密码学的理论基础，这是完全理解区块链技术所必需的。包括公钥和私钥密码学等概念，并附带了实际示例。最后，还介绍了金融市场，因为在金融领域有许多有趣的区块链技术用例。
+第三章, *密码学与技术基础*，介绍了密码学的理论基础，这是完全理解区块链技术所必需的。包括公钥和私钥密码学等概念，并附带了实际示例。最后，还介绍了金融市场，因为在金融领域有许多有趣的区块链技术用例。
 
-[第四章](ch04.html "第四章. 比特币"), *比特币*，介绍了比特币，第一种也是最大的区块链。详细介绍了与比特币加密货币相关的技术概念。
+第四章, *比特币*，介绍了比特币，第一种也是最大的区块链。详细介绍了与比特币加密货币相关的技术概念。
 
-[第五章](ch05.html "第五章. 替代币"), *替代币*，介绍了在比特币发明之后引入的替代加密货币。还介绍了不同替代币的例子、它们的特性以及它们是如何开发和实施的。[第六章](ch06.html "第六章. 智能合约"), *智能合约*，深入讨论了智能合约。本章介绍了智能合约的历史、定义、理查德合约、预言机以及智能合约的理论方面。
+第五章, *替代币*，介绍了在比特币发明之后引入的替代加密货币。还介绍了不同替代币的例子、它们的特性以及它们是如何开发和实施的。第六章, *智能合约*，深入讨论了智能合约。本章介绍了智能合约的历史、定义、理查德合约、预言机以及智能合约的理论方面。
 
-[第七章](ch07.html "第七章。以太坊 101")，*以太坊 101*，详细介绍了以太坊区块链的设计和架构。它涵盖了与以太坊区块链相关的各种技术概念，解释了这个平台的基本原理、特性和组件。
+第七章，*以太坊 101*，详细介绍了以太坊区块链的设计和架构。它涵盖了与以太坊区块链相关的各种技术概念，解释了这个平台的基本原理、特性和组件。
 
-[第八章](ch08.html "第八章。以太坊开发")，*以太坊开发*，提供了使用以太坊区块链开发去中心化应用程序和智能合约的详细实用介绍。本章还包括对 solidity 和其他相关工具的介绍。
+第八章，*以太坊开发*，提供了使用以太坊区块链开发去中心化应用程序和智能合约的详细实用介绍。本章还包括对 solidity 和其他相关工具的介绍。
 
-[第九章](ch09.html "第九章。Hyperledger")，*Hyperledger*，介绍了来自 Linux 基金会的 hyperledger 项目的讨论，该项目包括其成员介绍的不同区块链项目。
+第九章，*Hyperledger*，介绍了来自 Linux 基金会的 hyperledger 项目的讨论，该项目包括其成员介绍的不同区块链项目。
 
-[第十章](ch10.html "第十章。另类区块链")，*另类区块链*，介绍了另类区块链解决方案和平台。它提供了另类区块链的技术细节和特性。
+第十章，*另类区块链*，介绍了另类区块链解决方案和平台。它提供了另类区块链的技术细节和特性。
 
-[第十一章](ch11.html "第十一章。区块链-货币之外")，*区块链-货币之外*，提供了区块链技术在除加密货币以外的领域（包括物联网、政府、媒体和金融等）的实际和详细介绍。
+第十一章，*区块链-货币之外*，提供了区块链技术在除加密货币以外的领域（包括物联网、政府、媒体和金融等）的实际和详细介绍。
 
-[第十二章](ch12.html "第十二章。可扩展性和其他挑战")，*可扩展性和其他挑战*，致力于讨论区块链技术面临的挑战以及如何解决这些挑战。
+第十二章，*可扩展性和其他挑战*，致力于讨论区块链技术面临的挑战以及如何解决这些挑战。
 
 第十三章，*当前景观和下一步*，旨在提供有关与区块链技术相关的当前景观、项目和研究工作的信息。此外，还根据当前区块链技术的现状做出了一些预测。
 
@@ -36,11 +36,11 @@
 
 与加密相关的示例是使用 OpenSSL 1.0.2g 1 Mar 2016 命令行工具开发的。
 
-以太坊智能合约示例是使用在线可用的浏览器 Solidity（[https://ethereum.github.io/browser-solidity/](https://ethereum.github.io/browser-solidity/)）开发的。以太坊的主居版用于开发与以太坊相关的示例。在撰写本文时，这是可用的最新版本，可从 [https://www.ethereum.org/](https://www.ethereum.org/) 下载。
+以太坊智能合约示例是使用在线可用的浏览器 Solidity（[`ethereum.github.io/browser-solidity/`](https://ethereum.github.io/browser-solidity/)）开发的。以太坊的主居版用于开发与以太坊相关的示例。在撰写本文时，这是可用的最新版本，可从 [`www.ethereum.org/`](https://www.ethereum.org/) 下载。
 
 使用 Raspberry Pi 套件（由 Vilros 提供）开发了与物联网相关的示例，但任何最新型号或套件均可使用。具体而言，使用了 Raspberry Pi 3 Model B V 1.2 来构建物联网的硬件示例。使用了 Node.js V7.2.1 和 npm V3.10.10 来下载相关包并运行物联网示例的 Node.js 服务器。
 
-Truffle 框架已用于一些智能合约部署示例，并可在[http://truffleframework.com/](http://truffleframework.com/)上获取。通过 npm 可获取的任何最新版本都应该适用。
+Truffle 框架已用于一些智能合约部署示例，并可在[`truffleframework.com/`](http://truffleframework.com/)上获取。通过 npm 可获取的任何最新版本都应该适用。
 
 # 本书适用人群
 
@@ -52,7 +52,7 @@ Truffle 框架已用于一些智能合约部署示例，并可在[http://truffle
 
 文本中的代码字词、数据库表名、文件夹名、文件名、文件扩展名、路径名、虚拟 URL、用户输入和 Twitter 句柄显示如下：
 
-"这行代码简单地使用`web3.eth.coinbase`方法通过调用console.log来打印coinbase。"
+"这行代码简单地使用`web3.eth.coinbase`方法通过调用 console.log 来打印 coinbase。"
 
 代码块设置如下：
 
@@ -101,7 +101,7 @@ $ geth --datadir .ethereum/PrivateNet/ --networkid 786 --rpc --rpccorsdomain 'ht
 
 ## 下载示例代码
 
-你可以从 [http://www.packtpub.com](http://www.packtpub.com) 的账户中下载本书的示例代码文件。如果你在其他地方购买了本书，你可以访问 [http://www.packtpub.com/support](http://www.packtpub.com/support) 并注册，直接将文件发送到你的邮箱。
+你可以从 [`www.packtpub.com`](http://www.packtpub.com) 的账户中下载本书的示例代码文件。如果你在其他地方购买了本书，你可以访问 [`www.packtpub.com/support`](http://www.packtpub.com/support) 并注册，直接将文件发送到你的邮箱。
 
 你可以按照以下步骤下载代码文件：
 
@@ -127,21 +127,21 @@ $ geth --datadir .ethereum/PrivateNet/ --networkid 786 --rpc --rpccorsdomain 'ht
 
 +   7-Zip / PeaZip for Linux
 
-本书的代码包也托管在 GitHub 上，网址是 [https://github.com/PacktPublishing/Mastering-Blockchain](https://github.com/PacktPublishing/Mastering-Blockchain)。我们还提供了其他代码包，涵盖了我们丰富的图书和视频目录，可在 https://github.com/PacktPublishing/ 查看！
+本书的代码包也托管在 GitHub 上，网址是 [`github.com/PacktPublishing/Mastering-Blockchain`](https://github.com/PacktPublishing/Mastering-Blockchain)。我们还提供了其他代码包，涵盖了我们丰富的图书和视频目录，可在 https://github.com/PacktPublishing/ 查看！
 
 ## 下载本书的彩色图像
 
-我们还提供了一个 PDF 文件，其中包含本书中使用的屏幕截图/图表的彩色图像。彩色图像将帮助你更好地理解输出的变化。你可以从 [https://www.packtpub.com/sites/default/files/downloads/MasteringBlockchain_ColorImages.pdf](https://www.packtpub.com/sites/default/files/downloads/MasteringBlockchain_ColorImages.pdf) 下载此文件。
+我们还提供了一个 PDF 文件，其中包含本书中使用的屏幕截图/图表的彩色图像。彩色图像将帮助你更好地理解输出的变化。你可以从 [`www.packtpub.com/sites/default/files/downloads/MasteringBlockchain_ColorImages.pdf`](https://www.packtpub.com/sites/default/files/downloads/MasteringBlockchain_ColorImages.pdf) 下载此文件。
 
 ## 勘误
 
-尽管我们已尽一切努力确保内容的准确性，但错误难免会发生。如果你在我们的书籍中发现错误——也许是文本中的错误或代码中的错误——我们将不胜感激地向我们报告。通过这样做，你可以帮助其他读者避免困扰，并帮助我们改进本书的后续版本。如果你发现任何勘误，请访问 [http://www.packtpub.com/submit-errata](http://www.packtpub.com/submit-errata)，选择你的书籍，点击 **Errata Submission Form** 链接，然后输入你的勘误详情。一旦你的勘误经过验证，你的提交将被接受，并且勘误将被上传到我们的网站或添加到该标题的现有勘误列表的勘误部分。
+尽管我们已尽一切努力确保内容的准确性，但错误难免会发生。如果你在我们的书籍中发现错误——也许是文本中的错误或代码中的错误——我们将不胜感激地向我们报告。通过这样做，你可以帮助其他读者避免困扰，并帮助我们改进本书的后续版本。如果你发现任何勘误，请访问 [`www.packtpub.com/submit-errata`](http://www.packtpub.com/submit-errata)，选择你的书籍，点击 **Errata Submission Form** 链接，然后输入你的勘误详情。一旦你的勘误经过验证，你的提交将被接受，并且勘误将被上传到我们的网站或添加到该标题的现有勘误列表的勘误部分。
 
-要查看以前提交的勘误，请转到 [https://www.packtpub.com/books/content/support](https://www.packtpub.com/books/content/support) 并在搜索框中输入书名。所需信息将显示在 **勘误** 部分下。
+要查看以前提交的勘误，请转到 [`www.packtpub.com/books/content/support`](https://www.packtpub.com/books/content/support) 并在搜索框中输入书名。所需信息将显示在 **勘误** 部分下。
 
 ## 盗版
 
-互联网上侵犯版权的问题在所有媒体上都是一个持续存在的问题。在Packt，我们非常严肃地对待我们版权和许可的保护。如果您在互联网上发现我们作品的任何非法拷贝，请立即提供给我们地址或网站名称，以便我们采取补救措施。
+互联网上侵犯版权的问题在所有媒体上都是一个持续存在的问题。在 Packt，我们非常严肃地对待我们版权和许可的保护。如果您在互联网上发现我们作品的任何非法拷贝，请立即提供给我们地址或网站名称，以便我们采取补救措施。
 
 请通过`copyright@packtpub.com`与我们联系，并附上涉嫌盗版资料的链接。
 

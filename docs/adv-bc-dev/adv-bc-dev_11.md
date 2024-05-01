@@ -1,6 +1,6 @@
 # 开发工具和框架
 
-本章介绍了用于以太坊智能合约开发的开发工具、语言和框架。我们将研究开发以太坊区块链智能合约的不同方法。我们将详细讨论Solidity语言的各种结构，这是目前以太坊智能合约开发中最流行的开发语言。
+本章介绍了用于以太坊智能合约开发的开发工具、语言和框架。我们将研究开发以太坊区块链智能合约的不同方法。我们将详细讨论 Solidity 语言的各种结构，这是目前以太坊智能合约开发中最流行的开发语言。
 
 本章将介绍以下主题：
 
@@ -22,7 +22,7 @@
 
     +   Node
 
-    +   Node包管理器（NPM）
+    +   Node 包管理器（NPM）
 
 +   其他工具和实用程序
 
@@ -34,33 +34,33 @@
 
 上述分类并未包括所有用于以太坊开发的框架和工具。它展示了最常用的工具和框架，也是我们在本章中将要用到的工具和框架。
 
-有许多与以太坊开发工具相关的资源可在以下地址找到：[http://ethdocs.org/en/latest/contracts-and-transactions/developer-tools.html#developer-tools](http://ethdocs.org/en/latest/contracts-and-transactions/developer-tools.html#developer-tools)。
+有许多与以太坊开发工具相关的资源可在以下地址找到：[`ethdocs.org/en/latest/contracts-and-transactions/developer-tools.html#developer-tools`](http://ethdocs.org/en/latest/contracts-and-transactions/developer-tools.html#developer-tools)。
 
-本章的主要重点将放在Geth、Remix IDE、Solidity、Ganache、MetaMask、solc和Truffle上。其他元素，如先决条件（Node），也将简要讨论。
+本章的主要重点将放在 Geth、Remix IDE、Solidity、Ganache、MetaMask、solc 和 Truffle 上。其他元素，如先决条件（Node），也将简要讨论。
 
 # 语言
 
 以太坊区块链的智能合约可以用多种语言编程。有五种语言可用于编写合同：
 
-+   **Mutan**：这是一种类似Go的语言，于2015年初被废弃，已不再使用。
++   **Mutan**：这是一种类似 Go 的语言，于 2015 年初被废弃，已不再使用。
 
-+   **LLL**：这是一种**低级别的Lisp式语言**，因此被命名为LLL。这也不再使用。
++   **LLL**：这是一种**低级别的 Lisp 式语言**，因此被命名为 LLL。这也不再使用。
 
-+   **Serpent**：这是一种简单、清洁的类似Python的语言。它不再用于合同开发，并且不再得到社区支持。
++   **Serpent**：这是一种简单、清洁的类似 Python 的语言。它不再用于合同开发，并且不再得到社区支持。
 
 +   **Solidity**：此语言现已成为几乎是以太坊合同编写的标准。本章将重点讨论这种语言，并在后续章节中进行详细讨论。
 
-+   **Vyper**：这种语言是一种类似Python的实验性语言，旨在为智能合约开发带来安全性、简单性和可审计性。
++   **Vyper**：这种语言是一种类似 Python 的实验性语言，旨在为智能合约开发带来安全性、简单性和可审计性。
 
 # 编译器
 
-编译器用于将高级合同源代码转换为以太坊执行环境能理解的格式。Solidity编译器是最常用的一个，并在此处讨论。
+编译器用于将高级合同源代码转换为以太坊执行环境能理解的格式。Solidity 编译器是最常用的一个，并在此处讨论。
 
-# Solidity编译器（solc）
+# Solidity 编译器（solc）
 
-solc将高级Solidity语言转换为**以太坊虚拟机**（**EVM**）字节码，以便在区块链上由EVM执行。
+solc 将高级 Solidity 语言转换为**以太坊虚拟机**（**EVM**）字节码，以便在区块链上由 EVM 执行。
 
-# 在Linux上安装
+# 在 Linux 上安装
 
 solc 可以在 Linux Ubuntu 操作系统上安装，使用以下命令：
 
@@ -169,7 +169,7 @@ solc 是一个非常强大的命令，可以使用 `--help` 标志来探索更�
 
 Remix 是基于 web 的环境，用于使用 Solidity 开发和测试合约。它是一个功能丰富的 IDE，不在实时区块链上运行；实际上，它是一个模拟环境，合约可以在其中部署、测试和调试。
 
-可在 [https://remix.ethereum.org](https://remix.ethereum.org) 找到。
+可在 [`remix.ethereum.org`](https://remix.ethereum.org) 找到。
 
 示例接口如下所示：
 
@@ -235,9 +235,9 @@ TestRPC
 
 # Ganache
 
-Ganache是为以太坊开发的众多开发工具和库的最新增加。这在某种程度上是TestRPC的替代品，使用用户友好的图形用户界面来查看交易和块以及相关细节。这是一个完全工作的启用了Byzantium的个人区块链，用于为区块链提供本地测试环境。
+Ganache 是为以太坊开发的众多开发工具和库的最新增加。这在某种程度上是 TestRPC 的替代品，使用用户友好的图形用户界面来查看交易和块以及相关细节。这是一个完全工作的启用了 Byzantium 的个人区块链，用于为区块链提供本地测试环境。
 
-Ganache基于以太坊区块链的JavaScript实现，内置区块浏览器和挖矿功能，使在系统上进行本地测试非常容易。
+Ganache 基于以太坊区块链的 JavaScript 实现，内置区块浏览器和挖矿功能，使在系统上进行本地测试非常容易。
 
 如下截图所示，您可以在前端详细查看交易、块和地址：
 
@@ -245,39 +245,39 @@ Ganache基于以太坊区块链的JavaScript实现，内置区块浏览器和挖
 
 Ganache，一个个人以太坊区块链
 
-Ganache可以从[http://truffleframework.com/ganache/](http://truffleframework.com/ganache/)下载。
+Ganache 可以从[`truffleframework.com/ganache/`](http://truffleframework.com/ganache/)下载。
 
 # MetaMask
 
-MetaMask允许通过Firefox和Chrome浏览器与以太坊区块链交互。它会在运行网站的JavaScript环境中注入一个`web3`对象，从而实现对DApps的即时接口功能。这种*注入*允许DApps直接与区块链交互。
+MetaMask 允许通过 Firefox 和 Chrome 浏览器与以太坊区块链交互。它会在运行网站的 JavaScript 环境中注入一个`web3`对象，从而实现对 DApps 的即时接口功能。这种*注入*允许 DApps 直接与区块链交互。
 
-它可以在[https://metamask.io/](https://metamask.io/)获得。
+它可以在[`metamask.io/`](https://metamask.io/)获得。
 
-MetaMask也允许账户管理。这在任何交易在区块链上执行之前充当验证方法。用户会看到一个安全界面来审查交易，然后批准或拒绝它，才能到达目标区块链。
+MetaMask 也允许账户管理。这在任何交易在区块链上执行之前充当验证方法。用户会看到一个安全界面来审查交易，然后批准或拒绝它，才能到达目标区块链。
 
-它可以在[https://github.com/MetaMask/metamask-plugin](https://github.com/MetaMask/metamask-plugin)获得。
+它可以在[`github.com/MetaMask/metamask-plugin`](https://github.com/MetaMask/metamask-plugin)获得。
 
 ![](img/1c536ff7-2b23-4dbf-9474-f9aeb29f09d8.png)
 
 MetaMask
 
-它允许与各种以太坊网络连接，如下截图所示。这是MetaMask的截图，它允许用户选择他们喜欢的网络：
+它允许与各种以太坊网络连接，如下截图所示。这是 MetaMask 的截图，它允许用户选择他们喜欢的网络：
 
 ![](img/a1581e34-a3cd-4571-a01c-ffaeb0bcf86b.png)
 
-MetaMask网络如MetaMask用户界面所示
+MetaMask 网络如 MetaMask 用户界面所示
 
-值得注意的一个有趣功能是MetaMask也可以连接到任何自定义的RPC，这允许您运行自己的区块链，例如本地或远程的私有网络，并允许您的浏览器连接到它。它还可以用于连接到本地运行的区块链，如Ganache和TestRPC。
+值得注意的一个有趣功能是 MetaMask 也可以连接到任何自定义的 RPC，这允许您运行自己的区块链，例如本地或远程的私有网络，并允许您的浏览器连接到它。它还可以用于连接到本地运行的区块链，如 Ganache 和 TestRPC。
 
-MetaMask允许账户管理，并记录所有这些账户的交易。这在下面的截图中显示：
+MetaMask 允许账户管理，并记录所有这些账户的交易。这在下面的截图中显示：
 
 ![](img/1cda9989-6659-4674-988f-79575bb1e8c5.png)
 
-MetaMask账户和交易视图
+MetaMask 账户和交易视图
 
 # Truffle
 
-Truffle（在 [http://truffleframework.com/](http://truffleframework.com/) 上可用）是一个开发环境，使得测试和部署以太坊合约更加容易和简单。Truffle 提供合约编译和链接以及使用 Mocha 和 Chai 的自动化测试框架。它还使得更容易将合约部署到任何私有网络、公共网络或测试网络以太坊区块链中。此外，提供了资产管道，使所有 JavaScript 文件都可以被处理，使其可以被浏览器使用。
+Truffle（在 [`truffleframework.com/`](http://truffleframework.com/) 上可用）是一个开发环境，使得测试和部署以太坊合约更加容易和简单。Truffle 提供合约编译和链接以及使用 Mocha 和 Chai 的自动化测试框架。它还使得更容易将合约部署到任何私有网络、公共网络或测试网络以太坊区块链中。此外，提供了资产管道，使所有 JavaScript 文件都可以被处理，使其可以被浏览器使用。
 
 # 安装
 
@@ -312,7 +312,7 @@ $ truffle
 
 Truffle 帮助
 
-或者，存储库可在 [https://github.com/ConsenSys/truffle](https://github.com/ConsenSys/truffle) 上找到，可以将其克隆到本地以安装`truffle`。可以使用以下命令使用 Git 克隆存储库：
+或者，存储库可在 [`github.com/ConsenSys/truffle`](https://github.com/ConsenSys/truffle) 上找到，可以将其克隆到本地以安装`truffle`。可以使用以下命令使用 Git 克隆存储库：
 
 ```
 $ git clone https://github.com/ConsenSys/truffle.git
@@ -505,7 +505,7 @@ uint[] OrderIds;
 这些结构可用于将一组不同类型的数据分组到一个逻辑组中。这些可以用于定义新类型，如下例所示：
 
 ```
-pragma solidity ^0.4.0; 
+pragma solidity ⁰.4.0; 
 contract TestStruct { 
   struct Trade 
   { 
@@ -625,12 +625,12 @@ Solidity 语言中可用的控制结构是`if...else`、`do`、`while`、`for`�
 
 # 事件
 
-Solidity中的事件可用于记录EVM日志中的某些事件。当需要通知外部接口发生变化或事件发生时，这些事件非常有用。这些日志存储在区块链中的交易日志中。合约无法访问日志，但它们用作通知合约状态变化或事件发生（满足条件）的机制。
+Solidity 中的事件可用于记录 EVM 日志中的某些事件。当需要通知外部接口发生变化或事件发生时，这些事件非常有用。这些日志存储在区块链中的交易日志中。合约无法访问日志，但它们用作通知合约状态变化或事件发生（满足条件）的机制。
 
 在这里的一个简单示例中，`valueEvent`事件将在函数`Matcher`传递的`x`参数等于或大于`10`时返回`true`：
 
 ```
-pragma solidity ^0.4.0;  
+pragma solidity ⁰.4.0;  
 contract valueChecker  
 {  
     uint8 price=10; 
@@ -648,10 +648,10 @@ contract valueChecker
 
 # 继承
 
-Solidity支持继承。`is`关键字用于从另一个合约派生合约。在下面的示例中，`valueChecker2`是从`valueChecker`合约派生出来的。派生合约具有对父合约的所有非私有成员的访问权限：
+Solidity 支持继承。`is`关键字用于从另一个合约派生合约。在下面的示例中，`valueChecker2`是从`valueChecker`合约派生出来的。派生合约具有对父合约的所有非私有成员的访问权限：
 
 ```
-pragma solidity ^0.4.0;  
+pragma solidity ⁰.4.0;  
 contract valueChecker 
 { 
     uint8 price = 20; 
@@ -674,7 +674,7 @@ contract valueChecker2 is valueChecker
 } 
 ```
 
-在前面的示例中，如果将 `uint8 price = 20` 更改为 `uint8 private price = 20`，那么`valueChecker2`合约将无法访问它。这是因为现在该成员被声明为私有，不允许任何其他合约访问。在Remix中您将看到的错误信息为
+在前面的示例中，如果将 `uint8 price = 20` 更改为 `uint8 private price = 20`，那么`valueChecker2`合约将无法访问它。这是因为现在该成员被声明为私有，不允许任何其他合约访问。在 Remix 中您将看到的错误信息为
 
 ```
 browser/valuechecker.sol:20:8: DeclarationError: Undeclared identifier. 
@@ -710,7 +710,7 @@ function Addtwovalues() returns(uint)
 
 # 函数
 
-Solidity中的函数是与合约关联的代码模块。函数声明包括名称、可选参数、访问修饰符、可选`constant`关键字和可选返回类型。如下例所示：
+Solidity 中的函数是与合约关联的代码模块。函数声明包括名称、可选参数、访问修饰符、可选`constant`关键字和可选返回类型。如下例所示：
 
 ```
 function orderMatcher (uint x)  
@@ -812,7 +812,7 @@ private constant returns(bool return value)
 为了解决未来版本的 solc 版本可能出现的兼容性问题，`pragma` 可以用来指定兼容编译器的版本，例如：
 
 ```
-pragma solidity ^0.5.0 
+pragma solidity ⁰.5.0 
 ```
 
 这将确保源文件不会与小于 0.5.0 的版本以及从 0.6.0 开始的版本编译。
@@ -835,7 +835,7 @@ import "module-name";
 
 在 Remix IDE 中显示的 Solidity 程序示例
 
-这完成了对 Solidity 语言的简要介绍。该语言非常丰富并在不断改进中。详细文档和编码指南可在网上查看：[http://solidity.readthedocs.io/en/latest/](http://solidity.readthedocs.io/en/latest/)。
+这完成了对 Solidity 语言的简要介绍。该语言非常丰富并在不断改进中。详细文档和编码指南可在网上查看：[`solidity.readthedocs.io/en/latest/`](http://solidity.readthedocs.io/en/latest/)。
 
 # 摘要
 

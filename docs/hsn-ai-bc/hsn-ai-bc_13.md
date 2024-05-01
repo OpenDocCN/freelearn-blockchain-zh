@@ -2,13 +2,13 @@
 
 在这个附录中，我们附上了一份重要的链接列表，其中包含互联网上可以访问的各种区块链和**人工智能**（**AI**）相关资源。以下资源应该有助于您在本书范围之外进一步学习。
 
-这些资源将通过识别在线的新资源、为您提供更深入的见解来帮助您进一步获取区块链和AI方面的技能和经验。通过这种技能提升，您可以将本书中提出的概念和技术与现实问题相连接，并借助附录中提到的区块链和AI社区以合作方式解决这些问题。
+这些资源将通过识别在线的新资源、为您提供更深入的见解来帮助您进一步获取区块链和 AI 方面的技能和经验。通过这种技能提升，您可以将本书中提出的概念和技术与现实问题相连接，并借助附录中提到的区块链和 AI 社区以合作方式解决这些问题。
 
 在这个附录中，我们将涵盖以下主题：
 
 +   区块链资源
 
-+   AI资源
++   AI 资源
 
 # 区块链资源
 
@@ -18,17 +18,17 @@
 
 ## Awesome Blockchain
 
-这个GitHub仓库是一个为顶级区块链平台提供资源的策划清单。它还列出了最佳的研究文章、案例研究、书籍等链接。您可以使用以下链接访问GitHub上的Awesome Blockchain仓库：**[https://github.com/yjjnls/awesome-blockchain](https://github.com/yjjnls/awesome-blockchain)**。
+这个 GitHub 仓库是一个为顶级区块链平台提供资源的策划清单。它还列出了最佳的研究文章、案例研究、书籍等链接。您可以使用以下链接访问 GitHub 上的 Awesome Blockchain 仓库：**[`github.com/yjjnls/awesome-blockchain`](https://github.com/yjjnls/awesome-blockchain)**。
 
 ## 新闻
 
 区块链是最敏捷的行业之一，几乎每天都在变化。如果您对保持最新信息感兴趣，以下是我建议随时关注的一些最佳新闻室：
 
-+   **以太坊新闻周报**：如果您是一名有抱负的以太坊开发者，我建议您订阅这份精彩的新闻周报。埃文·范·内斯（Evan Van Ness）非常出色地收集了最佳链接，使您随时了解以太坊社区的最新发展。您可以在这里订阅以太坊新闻周报：[https://www.weekinethereum.com/](https://www.weekinethereum.com/)**。**
++   **以太坊新闻周报**：如果您是一名有抱负的以太坊开发者，我建议您订阅这份精彩的新闻周报。埃文·范·内斯（Evan Van Ness）非常出色地收集了最佳链接，使您随时了解以太坊社区的最新发展。您可以在这里订阅以太坊新闻周报：[`www.weekinethereum.com/`](https://www.weekinethereum.com/)**。**
 
 +   **区块新闻**：由印度班加罗尔的伊山和施里卡共同创立，区块新闻是了解最新市场趋势的首选网站之一。我建议您随时关注区块新闻网站以保持更新。网站链接是[**https://blockmanity.com/**](https://blockmanity.com/)**。**
 
-+   **Cointelegraph**：Cointelegraph是我个人订阅的最早的加密货币新闻媒体之一，提供行业各个领域的所有区块链新闻的最新信息。我建议您也随时关注这里。网站链接是[**https://cointelegraph.com/**](https://cointelegraph.com/)**。**
++   **Cointelegraph**：Cointelegraph 是我个人订阅的最早的加密货币新闻媒体之一，提供行业各个领域的所有区块链新闻的最新信息。我建议您也随时关注这里。网站链接是[**https://cointelegraph.com/**](https://cointelegraph.com/)**。**
 
 ## 社区
 
@@ -38,7 +38,7 @@
 
 +   **Namma Blockchain**：这是孟买一个紧密联系在一起的区块链开发者和初创企业社区，专注于技术、去中心化，并展示最新产品。由 Aicumen Technologies Inc. 主办，这是印度最早的一个从事区块链和人工智能（AI）研发的机构，自 2017 年起一直在进行工作。如果您就在孟买附近，我建议您加入这个见面会小组。如果我在附近，您会看到我偶尔参加这个见面会！加入 Namma Blockchain 见面会请访问 [**https://www.meetup.com/Namma-Blockchain/**](https://www.meetup.com/Namma-Blockchain/)** 。
 
-+   **印度以外读者的区块链见面会**：如果您在印度以外阅读本书，Meetup.com 链接， [https://www.meetup.com/topics/blockchain/](https://www.meetup.com/topics/blockchain/) ，可以帮助您识别附近的区块链见面会小组。一些最佳的国际区块链见面会小组遍布纽约、伦敦、新加坡、多伦多、苏黎世、旧金山、柏林等主要 IT 中心。
++   **印度以外读者的区块链见面会**：如果您在印度以外阅读本书，Meetup.com 链接， [`www.meetup.com/topics/blockchain/`](https://www.meetup.com/topics/blockchain/) ，可以帮助您识别附近的区块链见面会小组。一些最佳的国际区块链见面会小组遍布纽约、伦敦、新加坡、多伦多、苏黎世、旧金山、柏林等主要 IT 中心。
 
 ## 精华博客
 
@@ -80,27 +80,27 @@
 
 现在让我们探索一些将帮助你与印度一些最好的社区联系起来的资源。除了总部位于班加罗尔的聚会之外，我还分享了一些有用的链接，帮助你在全球范围内找到人工智能聚会：
 
-+   **Applied Singularity**：作为印度一个紧密联系的社群，Applied Singularity是一个由志同道合的人组成的群体，他们利用人工智能、物联网和生物技术，旨在为技术奇点创造一个完美的生态系统，并利用其技术进步。他们的应用程序提供关于最新期刊和最佳阅读材料的信息，并积极发布印度的任何相关工作机会。您可以在此处访问该应用程序以探索更多功能，并与一个活跃的社区联系：[https://appliedsingularity.com/app/](https://appliedsingularity.com/app/)。
++   **Applied Singularity**：作为印度一个紧密联系的社群，Applied Singularity 是一个由志同道合的人组成的群体，他们利用人工智能、物联网和生物技术，旨在为技术奇点创造一个完美的生态系统，并利用其技术进步。他们的应用程序提供关于最新期刊和最佳阅读材料的信息，并积极发布印度的任何相关工作机会。您可以在此处访问该应用程序以探索更多功能，并与一个活跃的社区联系：[`appliedsingularity.com/app/`](https://appliedsingularity.com/app/)。
 
-+   **AI meetup for readers outside India**：如果您在印度以外的地方阅读本书，Meetup.com链接，[https://www.meetup.com/topics/ai/](https://www.meetup.com/topics/ai/)，将有助于确定您附近的人工智能聚会小组。一些最好的国际区块链聚会小组分布在纽约、圣保罗、伦敦、巴黎、特拉维夫、伊斯坦布尔、多伦多、加利福尼亚州的山景城、柏林和其他主要的IT中心。
++   **AI meetup for readers outside India**：如果您在印度以外的地方阅读本书，Meetup.com 链接，[`www.meetup.com/topics/ai/`](https://www.meetup.com/topics/ai/)，将有助于确定您附近的人工智能聚会小组。一些最好的国际区块链聚会小组分布在纽约、圣保罗、伦敦、巴黎、特拉维夫、伊斯坦布尔、多伦多、加利福尼亚州的山景城、柏林和其他主要的 IT 中心。
 
 ## 最核心的博客
 
 现在让我们探索一些资源，这些资源将帮助您提升数据科学领域的能力。
 
-**Towards Data Science**：作为一名技术专家，我更喜欢一篇博客，它可以让我了解人工智能技术的最新趋势，而不需要一直深入研究。Towards Data Science是全球人工智能社区驱动的最佳媒体出版物之一，用于分享人工智能领域的想法、代码和最佳实践。该博客可在此处访问：[**https://towardsdatascience.com/**](https://towardsdatascience.com/)**。**
+**Towards Data Science**：作为一名技术专家，我更喜欢一篇博客，它可以让我了解人工智能技术的最新趋势，而不需要一直深入研究。Towards Data Science 是全球人工智能社区驱动的最佳媒体出版物之一，用于分享人工智能领域的想法、代码和最佳实践。该博客可在此处访问：[**https://towardsdatascience.com/**](https://towardsdatascience.com/)**。**
 
 ### 研究
 
 现在让我们探索一些资源，这些资源将帮助您及时了解人工智能领域的最新研究和发展进展：
 
-+   **arXiv最新AI提交**：如果您是一位研究学者，并且需要及时了解人工智能领域的最新论文，这是您的首选网站。该网站按日期分类列出了所有AI论文提交。以下是访问arXiv最新AI相关论文的特定URL：[**https://arxiv.org/list/cs.AI/recent**](https://arxiv.org/list/cs.AI/recent)**。**
++   **arXiv 最新 AI 提交**：如果您是一位研究学者，并且需要及时了解人工智能领域的最新论文，这是您的首选网站。该网站按日期分类列出了所有 AI 论文提交。以下是访问 arXiv 最新 AI 相关论文的特定 URL：[**https://arxiv.org/list/cs.AI/recent**](https://arxiv.org/list/cs.AI/recent)**。**
 
 +   **AITopics**：这是我获取人工智能市场趋势最新信息的首选链接。如果您是一位决策者，我强烈建议您保持对这个网站的关注！该网站可在此处访问：[**https://aitopics.org/**](https://aitopics.org/)**。**
 
 ### 开发和操作指南
 
-现在让我们探索Kaggle上的资源，这将帮助您提升作为数据科学家所需的实际实现能力。它们如下：
+现在让我们探索 Kaggle 上的资源，这将帮助您提升作为数据科学家所需的实际实现能力。它们如下：
 
 +   **Kaggle 上的 Python 实践教程**：作为一个想进入人工智能行业的人，你需要熟练掌握 R 或 Python。最近，对 Python 的需求增长非常迅速。因此，我建议你熟练掌握编程，并且变得精通 Python。虽然有很多 Python 教程可以搜索到，但我认为 Kaggle 的这个教程会为你提供足够的基本 Python 经验，以及如何使用 Kaggle 平台的基本功能的知识。你可以在[**https://www.kaggle.com/learn/python**](https://www.kaggle.com/learn/python)**上报名参加这门课程。
 

@@ -1,22 +1,22 @@
-# 创建您的区块链和IoT解决方案
+# 创建您的区块链和 IoT 解决方案
 
-在正确理解了上一章节中提出的项目目标后，现在是让解决方案开始运行的时候了。在本章中，我将引导你创建一个使用Hyperledger Composer的区块链网络。
+在正确理解了上一章节中提出的项目目标后，现在是让解决方案开始运行的时候了。在本章中，我将引导你创建一个使用 Hyperledger Composer 的区块链网络。
 
 在本章中，我们将涵盖以下主题：
 
 +   创建区块链网络
 
-+   使用Hyperledger Composer定义资产、参与者、交易和访问控制清单
++   使用 Hyperledger Composer 定义资产、参与者、交易和访问控制清单
 
-+   将网络发布到Hyperledger环境
++   将网络发布到 Hyperledger 环境
 
-我们还将从[第二章](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)借用代码，即*创建您的第一个IoT解决方案*，以创建一个将监视货物运输并与区块链网络交互的设备。
+我们还将从第二章借用代码，即*创建您的第一个 IoT 解决方案*，以创建一个将监视货物运输并与区块链网络交互的设备。
 
 # 技术要求
 
-要访问完整的代码，您需要在您的计算机上安装Hyperledger Fabric/Composer环境，包括先决条件，以及能够开发Node.js应用程序的IDE（推荐使用Visual Studio Code）。
+要访问完整的代码，您需要在您的计算机上安装 Hyperledger Fabric/Composer 环境，包括先决条件，以及能够开发 Node.js 应用程序的 IDE（推荐使用 Visual Studio Code）。
 
-本章列出的代码可在[https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain/tree/master/ch7/hands-on-iot-blockchain.](https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain/tree/master/ch7/hands-on-iot-blockchain)找到
+本章列出的代码可在[`github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain/tree/master/ch7/hands-on-iot-blockchain.`](https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain/tree/master/ch7/hands-on-iot-blockchain)找到
 
 # 解决方案概述
 
@@ -36,7 +36,7 @@
 
 +   **消费者**: 他们是食品盒的目标受众。消费者对跟踪货箱链条很感兴趣，因此有一个查看货箱信息的映射操作。
 
-我们将使用每个参与者的名片创建一个**Composer REST服务器**的实例，因此总共将拥有四个**Composer REST服务器**实例。还有盒子和托盘。这些资产的定义如下：
+我们将使用每个参与者的名片创建一个**Composer REST 服务器**的实例，因此总共将拥有四个**Composer REST 服务器**实例。还有盒子和托盘。这些资产的定义如下：
 
 +   **食品盒**：代表在工厂生产并在整个链条中处理的产品
 
@@ -46,7 +46,7 @@
 
 # 创建区块链网络
 
-要开发区块链网络，首先需要使用Yeoman命令行创建一个业务网络项目，然后命名业务网络：
+要开发区块链网络，首先需要使用 Yeoman 命令行创建一个业务网络项目，然后命名业务网络：
 
 ```
 $ yo hyperledger-composer
@@ -68,17 +68,17 @@ Welcome to the business network generator
    create .eslintrc.yml
 ```
 
-Yeoman生成器生成一个基本空结构的Hyperledger Composer业务网络的文件夹。
+Yeoman 生成器生成一个基本空结构的 Hyperledger Composer 业务网络的文件夹。
 
 `.cto`文件包含业务网络的定义：资产、参与者、交易和查询，而`.acl`文件包含了资产和交易的访问控制列表。
 
-在后续的部分中，我们将编写业务网络定义，所以打开Visual Studio Code并打开Yeoman创建的文件夹。
+在后续的部分中，我们将编写业务网络定义，所以打开 Visual Studio Code 并打开 Yeoman 创建的文件夹。
 
 要开始开发区块链解决方案，请打开`models/com.packtpublishing.businessnetwork.cto`文件并开始编码。
 
 # 概念和枚举
 
-创建常见数据类型的组合，这些类型在资产、参与者和交易中是常见的，可以通过在Hyperledger Composer中创建更可读的结构来实现。这些结构是**概念**和**枚举**。
+创建常见数据类型的组合，这些类型在资产、参与者和交易中是常见的，可以通过在 Hyperledger Composer 中创建更可读的结构来实现。这些结构是**概念**和**枚举**。
 
 我们将在解决方案中使用以下结构：
 
@@ -166,7 +166,7 @@ participant Consumer extends FoodSafetyParticipant {
 }
 ```
 
-# 部署和测试用于Hyperledger的业务网络
+# 部署和测试用于 Hyperledger 的业务网络
 
 为了测试目的，我们将授予所有参与者对区块链网络的所有资源完全访问权限：
 
@@ -184,7 +184,7 @@ rule Default {
 
 定义了这条规则后，我们将能够部署和测试账本，而无需任何其他额外的权限。
 
-1.  在定义了网络后，我们将生成一个**业务网络归档**（`.bna`文件）并部署到Hyperledger环境中。在此之前，请确保您的环境已经正常运行。要创建`.bna`文件，请转到项目的根目录并运行以下命令：
+1.  在定义了网络后，我们将生成一个**业务网络归档**（`.bna`文件）并部署到 Hyperledger 环境中。在此之前，请确保您的环境已经正常运行。要创建`.bna`文件，请转到项目的根目录并运行以下命令：
 
 ```
 $ composer archive create -t dir -n .
@@ -249,7 +249,7 @@ Filename: networkadmin.card
 Command succeeded
 ```
 
-1.  最后，导入启动过程生成的网络管理员卡，并ping网络以确保它在环境中运行：
+1.  最后，导入启动过程生成的网络管理员卡，并 ping 网络以确保它在环境中运行：
 
 ```
 $ composer card import --file networkadmin.card
@@ -269,15 +269,15 @@ The connection to the network was successfully tested: food-safety-b10407
 Command succeeded
 ```
 
-在这一点上，我们已经创建了我们网络的第一个版本；生成了用于部署的包（`.bna`文件）；创建了`PeerAdminCard`；将网络安装到Hyperledger Fabric环境；生成了负责管理区块链网络的`NetworkAdminCard`；并启动了网络。
+在这一点上，我们已经创建了我们网络的第一个版本；生成了用于部署的包（`.bna`文件）；创建了`PeerAdminCard`；将网络安装到 Hyperledger Fabric 环境；生成了负责管理区块链网络的`NetworkAdminCard`；并启动了网络。
 
 使用管理员卡，我们将发送`ping`命令以确保网络已经启动并正常运行。现在，让我们改进我们的网络。
 
 # 通过区块链中交易操作资产
 
-交易是在Hyperledger Composer定义的业务网络中执行的原子操作，运行在Hyperledger Fabric环境和定义的业务网络的范围内。
+交易是在 Hyperledger Composer 定义的业务网络中执行的原子操作，运行在 Hyperledger Fabric 环境和定义的业务网络的范围内。
 
-在这里演示的用例中，我们创建的交易将会使用IoT设备提供的信息来更新托盘和嵌套的食品箱。
+在这里演示的用例中，我们创建的交易将会使用 IoT 设备提供的信息来更新托盘和嵌套的食品箱。
 
 它由两个结构组成。第一个是交易的定义，并在业务网络定义模型（`.cto`文件）中创建：
 
@@ -289,7 +289,7 @@ transaction updateTransportationData {
 }
 ```
 
-下一个结构是实现之前定义的交易的函数，并在JavaScript ES5兼容的脚本中创建（一个`.js`文件）：
+下一个结构是实现之前定义的交易的函数，并在 JavaScript ES5 兼容的脚本中创建（一个`.js`文件）：
 
 ```
 /**
@@ -336,7 +336,7 @@ async function updateTransportationData(tx) {
 
 # 生成并导出参与者名片
 
-为了正确使用网络，我们将为每一个类（`工厂`，`仓库`，`运输商`，`商店`，和`消费者`）创建一个参与者，生成他们各自的名片，并将它们导入Composer CLI钱包：
+为了正确使用网络，我们将为每一个类（`工厂`，`仓库`，`运输商`，`商店`，和`消费者`）创建一个参与者，生成他们各自的名片，并将它们导入 Composer CLI 钱包：
 
 1.  首先，我们将创建参与者：
 
@@ -385,7 +385,7 @@ Successfully created business network card file to
 
 ```
 
-1.  为每个参与者/生成的名片将每张名片导入Composer CLI钱包，并检查所有名片是否已成功导入：
+1.  为每个参与者/生成的名片将每张名片导入 Composer CLI 钱包，并检查所有名片是否已成功导入：
 
 ```
 $ composer card import -f consumer.card 
@@ -538,14 +538,14 @@ rule ConsumersCanReadFoodBoxes {
 ```
 {
  "engines": {
- "composer": "^0.20.4"
+ "composer": "⁰.20.4"
  },
  "name": "food-safety-b10407",
  "version": "0.0.2",
 ...
 ```
 
-1.  通过运行`composer archive create -t dir -n .`命令创建一个新的BNA文件：
+1.  通过运行`composer archive create -t dir -n .`命令创建一个新的 BNA 文件：
 
 ```
 $ composer archive create -t dir -n .
@@ -563,7 +563,7 @@ Written Business Network Definition Archive file to
 Command succeeded
 ```
 
-1.  在Hyperledger环境中安装新的归档文件：
+1.  在 Hyperledger 环境中安装新的归档文件：
 
 ```
 $ composer network install --card PeerAdmin@hlfv1 --archiveFile food-safety-b10407\@0.0.2.bna
@@ -584,21 +584,21 @@ Upgrading business network food-safety-b10407 to version 0.0.2
 Command succeeded
 ```
 
-如果所有命令都成功运行，那么业务网络现在将在新版本上运行，包括在前面的章节中创建的交易和ACLs。
+如果所有命令都成功运行，那么业务网络现在将在新版本上运行，包括在前面的章节中创建的交易和 ACLs。
 
-# 为每个参与者设置Composer REST服务器
+# 为每个参与者设置 Composer REST 服务器
 
-作为安装Hyperledger Composer开发环境的先决条件的一部分，您还将安装了Composer REST服务器。
+作为安装 Hyperledger Composer 开发环境的先决条件的一部分，您还将安装了 Composer REST 服务器。
 
-这个组件是基于Loopback框架（[http://loopback.io](http://loopback.io)）的API服务器，包括一个`loopback-connector-composer`用于连接到Hyperledger Composer环境，以及一个动态收集资产、参与者和交易模型的脚本。
+这个组件是基于 Loopback 框架（[`loopback.io`](http://loopback.io)）的 API 服务器，包括一个`loopback-connector-composer`用于连接到 Hyperledger Composer 环境，以及一个动态收集资产、参与者和交易模型的脚本。
 
-启动Composer REST服务器的最简单方法是运行`cli`命令并正确填写启动问卷。为了我们的方便，我们将使用以下命令运行它：
+启动 Composer REST 服务器的最简单方法是运行`cli`命令并正确填写启动问卷。为了我们的方便，我们将使用以下命令运行它：
 
 ```
 composer-rest-server -c "<business card name>" -n never -u true -w true -p <port defined for the participant server> 
 ```
 
-为每个参与者打开一个终端窗口，以启动专用的Composer REST服务器：
+为每个参与者打开一个终端窗口，以启动专用的 Composer REST 服务器：
 
 ```
 composer-rest-server -c "Factory@food-safety-b10407" -n never -u true -w true -p 3000
@@ -612,23 +612,23 @@ composer-rest-server -c "Consumer@food-safety-b10407" -n never -u true -w true -
 composer-rest-server -c "Transporter@food-safety-b10407" -n never -u true -w true -p 3004
 ```
 
-每个运行实例都与单个用户相关联，这意味着通过监听端口`3003`的Composer REST服务器调用的所有操作都与具有标识符5**的`Consumer`相关。例如，如果创建了一个新的`Consumer`参与者（假设ID为6），那么必须向参与者发放新的名片，并使用新的名片启动另一个Composer REST服务器实例。
+每个运行实例都与单个用户相关联，这意味着通过监听端口`3003`的 Composer REST 服务器调用的所有操作都与具有标识符 5**的`Consumer`相关。例如，如果创建了一个新的`Consumer`参与者（假设 ID 为 6），那么必须向参与者发放新的名片，并使用新的名片启动另一个 Composer REST 服务器实例。
 
 在大多数情况下，一个商业名片就足以满足整个组织的需求。其他发放名片的规则可以由治理定义，例如每个分支/子公司一个名片，或者每个用户必须有自己的名片。
 
-此时，您的计算机上应该有五个Composer REST服务器实例正在运行，每个服务器都可以通过浏览器访问以下地址：`http://localhost:<port>`。
+此时，您的计算机上应该有五个 Composer REST 服务器实例正在运行，每个服务器都可以通过浏览器访问以下地址：`http://localhost:<port>`。
 
 # 创建解决方案的物联网部分
 
 在定义了整个区块链网络并使一切正常运行之后，我们现在将设置和开发将用于更新盒子和托盘测量值的设备。
 
-为了完成这一点，我们将使用与[第二章](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)相同的方法创建一个新的设备，*创建您的第一个物联网解决方案*，并创建一个应用程序，该应用程序接收测量事件并使用Composer REST服务器提供的API更新区块链账本。
+为了完成这一点，我们将使用与第二章相同的方法创建一个新的设备，*创建您的第一个物联网解决方案*，并创建一个应用程序，该应用程序接收测量事件并使用 Composer REST 服务器提供的 API 更新区块链账本。
 
 # 硬件设置
 
 为了组装这个监控设备，我们将应用一些可能与生产环境相关的假设：
 
-+   运输车辆有可用的Wi-Fi连接，使设备可以连接到互联网
++   运输车辆有可用的 Wi-Fi 连接，使设备可以连接到互联网
 
 +   监测设备时间与应用程序时间同步，包括时区
 
@@ -640,33 +640,33 @@ composer-rest-server -c "Transporter@food-safety-b10407" -n never -u true -w tru
 
 ![](img/841670de-c230-4e24-b10c-ab7603f56f12.png)
 
-此图像是使用Fritzing创建的，并在CC BY-SA 3.0下许可；请参阅https://creativecommons.org/licenses/by-sa/3.0/
+此图像是使用 Fritzing 创建的，并在 CC BY-SA 3.0 下许可；请参阅 https://creativecommons.org/licenses/by-sa/3.0/
 
-组件的描述如下表所示。鉴于它们是[第2章](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)*创建您的第一个物联网解决方案*中所使用的子集，您应该对它们很熟悉。
+组件的描述如下表所示。鉴于它们是第二章*创建您的第一个物联网解决方案*中所使用的子集，您应该对它们很熟悉。
 
 | **数量** | **组件** |
 | --- | --- |
 | 1 | 英特尔 Edison 模块 |
-| 1 | 英特尔 Edison Arduino扩展板 |
-| 1 | Grove基本盾牌v2 |
-| 1 | Grove温度传感器v1.2 |
-| 1 | Grove通用4针线缆 |
+| 1 | 英特尔 Edison Arduino 扩展板 |
+| 1 | Grove 基本盾牌 v2 |
+| 1 | Grove 温度传感器 v1.2 |
+| 1 | Grove 通用 4 针线缆 |
 
-在这些假设的前提下，用于此应用程序的设备如下图所示连接。在这里，我们已经将Grove温度传感器连接到基本盾牌上的`A3`连接插孔。
+在这些假设的前提下，用于此应用程序的设备如下图所示连接。在这里，我们已经将 Grove 温度传感器连接到基本盾牌上的`A3`连接插孔。
 
 ![](img/ac9d03b0-a245-46f6-b129-c77f877521de.png)
 
-此图像是使用Fritzing创建的，并在CC BY-SA 3.0下许可；请参阅https://creativecommons.org/licenses/by-sa/3.0/
+此图像是使用 Fritzing 创建的，并在 CC BY-SA 3.0 下许可；请参阅 https://creativecommons.org/licenses/by-sa/3.0/
 
 这样就完成了监测食品箱运输的设备。
 
 # 固件开发
 
-下面的代码是从[第2章](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)*创建您的第一个物联网解决方案*中借用的，因为它具有相同的硬件特性和相同的目标。
+下面的代码是从第二章*创建您的第一个物联网解决方案*中借用的，因为它具有相同的硬件特性和相同的目标。
 
-唯一的修改是在已发布的JSON中：在从工厂运输到仓库时，我们必须移除`soilMoisture`属性，并在从仓库运输到商店时添加箱子ID，并在添加托盘ID时进行运输。
+唯一的修改是在已发布的 JSON 中：在从工厂运输到仓库时，我们必须移除`soilMoisture`属性，并在从仓库运输到商店时添加箱子 ID，并在添加托盘 ID 时进行运输。
 
-它获取Grove传感器的温度并将其发布到Watson IoT平台：
+它获取 Grove 传感器的温度并将其发布到 Watson IoT 平台：
 
 ```
 var iotf = require("ibmiotf");
@@ -703,9 +703,9 @@ deviceClient.on('connect', function(){
 
 # 应用程序开发
 
-由于我们在本地运行Hyperledger环境，因此在此开发的应用程序必须在与Hyperledger相同的网络上运行。鉴于我们不是在IBM Cloud/Bluemix上运行它，配置将存储在JSON文件中，在与应用程序的主`.js`文件相同的目录中运行。
+由于我们在本地运行 Hyperledger 环境，因此在此开发的应用程序必须在与 Hyperledger 相同的网络上运行。鉴于我们不是在 IBM Cloud/Bluemix 上运行它，配置将存储在 JSON 文件中，在与应用程序的主`.js`文件相同的目录中运行。
 
-配置JSON文件的内容结构列在这里，并且必须更新为在[第2章](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)*创建您的第一个物联网解决方案*中定义的详细信息。
+配置 JSON 文件的内容结构列在这里，并且必须更新为在第二章*创建您的第一个物联网解决方案*中定义的详细信息。
 
 ```
 {
@@ -743,7 +743,7 @@ appClient.on("deviceEvent", function (deviceType, deviceId, eventType, format, p
  });
 ```
 
-以下代码通过Composer REST服务器调用区块链网络中定义的交易：
+以下代码通过 Composer REST 服务器调用区块链网络中定义的交易：
 
 ```
 var updateFoodBox = function (temperature) {
@@ -795,11 +795,11 @@ var updatePallet = function (temperature) {
 
 # 端到端测试
 
-为了测试目的，我们将使用 Hyperledger Composer Playground 进行大部分操作，除了运输者更新。所以，在这一点上，您可以停止之前启动的所有Composer REST服务器，除了在传输者参与者上启动的服务器（监听端口3004）。
+为了测试目的，我们将使用 Hyperledger Composer Playground 进行大部分操作，除了运输者更新。所以，在这一点上，您可以停止之前启动的所有 Composer REST 服务器，除了在传输者参与者上启动的服务器（监听端口 3004）。
 
 如果您在开发环境设置期间安装了 Hyperledger Composer Playground，则您只需运行`composer-playground`命令，或者使用`npm`进行安装(`npm install -g composer-playground`)。
 
-您的默认浏览器将打开Composer-Playground Web应用程序，如下截图所示：
+您的默认浏览器将打开 Composer-Playground Web 应用程序，如下截图所示：
 
 ![](img/7dcc9af6-9217-4171-8159-3c623457d685.png)
 
@@ -811,13 +811,13 @@ Composer playground 登陆页面
 
 根据我们授予的权限，工厂可以创建`FoodBoxes`。让我们来看看如何：
 
-1.  找到Factory 1 @food-safety-b10407名片，选择 Connect now 选项。然后，点击屏幕左上角的测试。
+1.  找到 Factory 1 @food-safety-b10407 名片，选择 Connect now 选项。然后，点击屏幕左上角的测试。
 
 1.  在左侧面板中，选择资产 -> 食品箱，并在右上角点击 + 创建新资产：
 
 ![](img/fea4eff8-8247-45e3-a24a-6d07acaee3e5.png)
 
-1.  用以下内容填写JSON并使用“创建新建”按钮创建资产：
+1.  用以下内容填写 JSON 并使用“创建新建”按钮创建资产：
 
 ```
 {
@@ -839,7 +839,7 @@ Composer playground 登陆页面
 
 ![](img/f6a48c12-d9e5-4675-bef2-2d478e4e29d7.png)
 
-1.  返回到“工厂”身份，选择资产数据右侧的编辑按钮，并使用以下数据更新JSON文件：
+1.  返回到“工厂”身份，选择资产数据右侧的编辑按钮，并使用以下数据更新 JSON 文件：
 
 ```
 {
@@ -857,7 +857,7 @@ Composer playground 登陆页面
 
 在这一点上，我们将模拟运输过程中的温度测量。
 
-我们在IoT应用程序代码中创建了以下注释代码，因为我们在不同时间处理传输收集的数据。
+我们在 IoT 应用程序代码中创建了以下注释代码，因为我们在不同时间处理传输收集的数据。
 
 首先是当一个`FoodBox`从`工厂`运到`仓库`时，这是由`updateFoodBox`函数实现的，而`updatePallet`函数旨在处理从`仓库`到商店的运输：
 
@@ -953,6 +953,6 @@ Composer 游乐场 - 历史学家
 
 食品箱的消费者还能够追踪与该箱相关的信息，从生产链的最初开始。
 
-尽管Hyperledger Composer和Watson IoT开发相当简单，但我们所创建的解决方案解决了食品链安全方面的重大问题。
+尽管 Hyperledger Composer 和 Watson IoT 开发相当简单，但我们所创建的解决方案解决了食品链安全方面的重大问题。
 
-以下章节将向您介绍作者对实际项目中所学到的教训、实践和模式的观点，以及在当前工业4.0情景下，物联网和区块链如何成为创造业务模型和解决新挑战的必要工具。
+以下章节将向您介绍作者对实际项目中所学到的教训、实践和模式的观点，以及在当前工业 4.0 情景下，物联网和区块链如何成为创造业务模型和解决新挑战的必要工具。

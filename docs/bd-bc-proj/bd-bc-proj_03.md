@@ -25,7 +25,7 @@
 例如，看一下以下示例：
 
 ```
-pragma Solidity ^0.4.2; 
+pragma Solidity ⁰.4.2; 
 
 ```
 
@@ -88,11 +88,11 @@ contract Sample
 
 +   然后，我们定义了两种方法。第一种方法是获取`data`状态变量的值，第二种方法是改变`data`的值。
 
-在深入了解智能合约的特性之前，让我们先学习一些与Solidity相关的其他重要内容。 然后我们将回到合约。
+在深入了解智能合约的特性之前，让我们先学习一些与 Solidity 相关的其他重要内容。 然后我们将回到合约。
 
 # 数据位置
 
-所有你之前学过的编程语言都是将它们的变量存储在内存中。而在Solidity中，变量根据上下文的不同，会被存储在内存和文件系统中。
+所有你之前学过的编程语言都是将它们的变量存储在内存中。而在 Solidity 中，变量根据上下文的不同，会被存储在内存和文件系统中。
 
 根据上下文的不同，总是存在一个默认的位置。但是对于字符串、数组和结构等复杂数据类型，可以通过在类型后添加`storage`或`memory`来覆盖默认位置。函数参数（包括返回参数）的默认位置是内存，局部变量的默认位置是存储，当然状态变量的位置强制为存储。
 
@@ -108,13 +108,13 @@ contract Sample
 
 # 有哪些不同的数据类型？
 
-Solidity是一种静态类型语言；变量所持有的数据类型需要预先定义。默认情况下，所有变量的位都被赋值为0。在Solidity中，变量是函数作用域的；也就是说，在函数内部声明的任何变量都将对整个函数的作用域有效，无论它在何处声明。
+Solidity 是一种静态类型语言；变量所持有的数据类型需要预先定义。默认情况下，所有变量的位都被赋值为 0。在 Solidity 中，变量是函数作用域的；也就是说，在函数内部声明的任何变量都将对整个函数的作用域有效，无论它在何处声明。
 
-现在让我们来看看Solidity提供的各种数据类型：
+现在让我们来看看 Solidity 提供的各种数据类型：
 
 +   最简单的数据类型是 `bool`。它可以存储 `true` 或 `false`。
 
-+   `uint8`、`uint16`、`uint24` ... `uint256` 用于分别存储8位、16位、24位 ... 256位的无符号整数。同样，`int8`、`int16` ... `int256` 分别用于存储8位、16位 ... 256位的有符号整数。`uint` 和 `int` 是 `uint256` 和 `int256` 的别名。类似于 `uint` 和 `int`，`ufixed` 和 `fixed` 用于表示小数。`ufixed0x8`、`ufixed0x16` ... `ufixed0x256` 用于分别存储8位、16位 ... 256位的无符号小数。同样，`fixed0x8`、`fixed0x16` ... `fixed0x256` 用于分别存储8位、16位 ... 256位有符号小数。如果一个数字需要多于256位的存储空间，那么就使用256位的数据类型，于此情况下将存储该数字的近似值。
++   `uint8`、`uint16`、`uint24` ... `uint256` 用于分别存储 8 位、16 位、24 位 ... 256 位的无符号整数。同样，`int8`、`int16` ... `int256` 分别用于存储 8 位、16 位 ... 256 位的有符号整数。`uint` 和 `int` 是 `uint256` 和 `int256` 的别名。类似于 `uint` 和 `int`，`ufixed` 和 `fixed` 用于表示小数。`ufixed0x8`、`ufixed0x16` ... `ufixed0x256` 用于分别存储 8 位、16 位 ... 256 位的无符号小数。同样，`fixed0x8`、`fixed0x16` ... `fixed0x256` 用于分别存储 8 位、16 位 ... 256 位有符号小数。如果一个数字需要多于 256 位的存储空间，那么就使用 256 位的数据类型，于此情况下将存储该数字的近似值。
 
 +   `address` 用于通过分配十六进制文字来存储最多 20 个字节的值。它用于存储以太坊地址。`address` 类型公开两个属性：`balance` 和 `send`。`balance` 用于检查地址的余额，`send` 用于向地址转移以太币。send 方法接受需要转移的 wei 数量，并根据转移是否成功返回 true 或 false。wei 从调用 `send` 方法的合同中扣除。你可以在 Solidity 中使用 `0x` 前缀为变量分配十六进制编码的值。
 
@@ -338,7 +338,7 @@ contract sample {
 
 如果将运算符应用于不同类型，编译器会尝试将其中一个操作数隐式转换为另一个的类型。总的来说，如果语义上有意义且没有丢失信息，那么值类型之间的隐式转换是可能的：`uint8`可以转换为`uint16`，`int128`可以转换为`int256`，但`int8`无法转换为`uint256`（因为`uint256`不能容纳，例如，-1）。此外，无符号整数可以转换为相同或更大尺寸的字节，但反之则不行。任何可转换为`uint160`的类型也可以转换为`address`。
 
-Solidity还支持明确的转换。因此，如果编译器不允许两种数据类型之间的隐式转换，那么您可以进行显式转换。建议尽量避免显式转换，因为它可能会给您带来意外的结果。
+Solidity 还支持明确的转换。因此，如果编译器不允许两种数据类型之间的隐式转换，那么您可以进行显式转换。建议尽量避免显式转换，因为它可能会给您带来意外的结果。
 
 让我们来看一个明确转换的例子：
 
@@ -350,9 +350,9 @@ uint16 b = uint16(a); // b will be 0x5678 now
 
 这里我们明确地将`uint32`类型转换为`uint16`，也就是将一个大类型转换为一个小类型；因此，高阶位被截断。
 
-# 使用var
+# 使用 var
 
-Solidity提供`var`关键字来声明变量。在这种情况下，变量的类型是动态确定的，取决于分配给它的第一个值。一旦分配了一个值，类型就是固定的，因此如果您将另一个类型分配给它，就会引起类型转换。
+Solidity 提供`var`关键字来声明变量。在这种情况下，变量的类型是动态确定的，取决于分配给它的第一个值。一旦分配了一个值，类型就是固定的，因此如果您将另一个类型分配给它，就会引起类型转换。
 
 下面是一个示例来演示`var`：
 
@@ -373,7 +373,7 @@ y = z;
 
 # 控制结构
 
-Solidity支持`if`、`else`、`while`、`for`、`break`、`continue`、`return`、`? :`控制结构。
+Solidity 支持`if`、`else`、`while`、`for`、`break`、`continue`、`return`、`? :`控制结构。
 
 下面是一个演示控制结构的例子：
 
@@ -464,7 +464,7 @@ contract sample
 
 # 外部函数调用
 
-在Solidity中有两种函数调用：内部和外部函数调用。内部函数调用是指一个函数调用同一合同中的另一个函数。
+在 Solidity 中有两种函数调用：内部和外部函数调用。内部函数调用是指一个函数调用同一合同中的另一个函数。
 
 外部函数调用是指一个函数调用另一个合同中的函数。让我们看一个例子：
 
@@ -540,7 +540,7 @@ contract sample2{
 
 +   `external`：外部函数只能从其他合约或通过交易调用。外部函数`f`不能在内部调用；也就是说，`f()`不起作用，但是`this.f()`可以。你不能将`external`可见性应用于状态变量。
 
-+   `public`：公共函数和状态变量可以以所有可能的方式访问。编译器生成的访问器函数都是公共状态变量。你不能创建自己的访问器。实际上，它只生成getter，不生成setter。
++   `public`：公共函数和状态变量可以以所有可能的方式访问。编译器生成的访问器函数都是公共状态变量。你不能创建自己的访问器。实际上，它只生成 getter，不生成 setter。
 
 +   `internal`：内部函数和状态变量只能从内部访问，也就是说，只能从当前合约和继承它的合约中访问。你不能使用`this`来访问它。
 
@@ -692,19 +692,19 @@ a = 8;
 
 在修饰符或函数体中的`return`会立即退出整个函数，并且返回值被分配给它需要的任何变量。
 
-对于函数而言，在`return`之后的代码在调用者代码执行完成后执行。对于修饰符而言，在上一个修饰符的`_;`后的代码在调用者代码执行完成后执行。在前面的示例中，第5、6和7行永远不会被执行。在第4行之后，执行从第8行到第10行开始。
+对于函数而言，在`return`之后的代码在调用者代码执行完成后执行。对于修饰符而言，在上一个修饰符的`_;`后的代码在调用者代码执行完成后执行。在前面的示例中，第 5、6 和 7 行永远不会被执行。在第 4 行之后，执行从第 8 行到第 10 行开始。
 
-修饰符内部的`return`不能与值关联。它总是返回0位。
+修饰符内部的`return`不能与值关联。它总是返回 0 位。
 
 # 回退函数
 
 一个合约可以有一个未命名的函数，称为`fallback`函数。这个函数不能有参数，也不能返回任何东西。如果没有其他函数匹配给定的函数标识符，它会在调用合约时执行。
 
-当合约在没有任何函数调用的情况下接收以太时，也会执行这个函数；也就是说，交易向合约发送以太，并且不调用任何方法。在这样的情况下，通常很少有gas可用于函数调用（确切地说，只有2,300 gas），因此很重要要尽量让fallback函数尽可能便宜。
+当合约在没有任何函数调用的情况下接收以太时，也会执行这个函数；也就是说，交易向合约发送以太，并且不调用任何方法。在这样的情况下，通常很少有 gas 可用于函数调用（确切地说，只有 2,300 gas），因此很重要要尽量让 fallback 函数尽可能便宜。
 
-接收以太但没有定义fallback函数的合约会抛出异常，将以太发送回去。因此，如果你希望你的合约接收以太，你必须实现一个fallback函数。
+接收以太但没有定义 fallback 函数的合约会抛出异常，将以太发送回去。因此，如果你希望你的合约接收以太，你必须实现一个 fallback 函数。
 
-这里是一个fallback函数的例子：
+这里是一个 fallback 函数的例子：
 
 ```
 contract sample 
@@ -719,7 +719,7 @@ contract sample
 
 # 继承
 
-Solidity支持通过复制代码实现多重继承，包括多态性。即使一个合约从多个其他合约继承，区块链上只会创建一个合约；父合约的代码总是复制到最终合约中。
+Solidity 支持通过复制代码实现多重继承，包括多态性。即使一个合约从多个其他合约继承，区块链上只会创建一个合约；父合约的代码总是复制到最终合约中。
 
 下面是一个用来示范继承的例子：
 
@@ -773,7 +773,7 @@ contract sample5 is sample3(122)
 
 ```
 
-# super关键字
+# super 关键字
 
 `super`关键字用于引用继承链中的下一个合约。让我们通过一个例子来理解这一点：
 
@@ -996,7 +996,7 @@ import "filename" as symbolName;
 
 +   `block.difficulty (uint)`: 当前区块的难度。
 
-+   `block.gaslimit (uint)`: 当前的区块燃气限制。它定义了整个区块中所有事务允许消耗的最大燃气量。其目的是保持区块传播和处理时间低，从而实现足够分散的网络。矿工有权将当前区块的燃气限制设定为上一个区块燃气限制的0.0975%（1/1,024），因此得到的燃气限制应该是矿工偏好的中位数。
++   `block.gaslimit (uint)`: 当前的区块燃气限制。它定义了整个区块中所有事务允许消耗的最大燃气量。其目的是保持区块传播和处理时间低，从而实现足够分散的网络。矿工有权将当前区块的燃气限制设定为上一个区块燃气限制的 0.0975%（1/1,024），因此得到的燃气限制应该是矿工偏好的中位数。
 
 +   `block.number (uint)`: 当前的区块编号。
 
@@ -1088,9 +1088,9 @@ contract Proof
 
 # 编译和部署合约
 
-以太坊提供了 solc 编译器，它提供了一个命令行界面来编译 `.sol` 文件。访问[http://solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages](http://solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages)以找到安装说明，并访问[https://Solidity.readthedocs.io/en/develop/using-the-compiler.html](https://Solidity.readthedocs.io/en/develop/using-the-compiler.html)以找到如何使用的说明。我们不会直接使用 solc 编译器；相反，我们将使用 solcjs 和 Solidity 浏览器。Solcjs 允许我们在 Node.js 中以程序方式编译 Solidity，而浏览器 Solidity 是一个适用于小型合约的 IDE，它提供了编辑器并生成部署合约的代码。
+以太坊提供了 solc 编译器，它提供了一个命令行界面来编译 `.sol` 文件。访问[`solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages`](http://solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages)以找到安装说明，并访问[`Solidity.readthedocs.io/en/develop/using-the-compiler.html`](https://Solidity.readthedocs.io/en/develop/using-the-compiler.html)以找到如何使用的说明。我们不会直接使用 solc 编译器；相反，我们将使用 solcjs 和 Solidity 浏览器。Solcjs 允许我们在 Node.js 中以程序方式编译 Solidity，而浏览器 Solidity 是一个适用于小型合约的 IDE，它提供了编辑器并生成部署合约的代码。
 
-现在，让我们使用以太坊提供的浏览器 Solidity 编译前述合约。在[https://Ethereum.github.io/browser-Solidity/](https://ethereum.github.io/browser-solidity/)了解更多信息。您还可以下载此浏览器 Solidity 源代码并离线使用。访问[https://github.com/Ethereum/browser-Solidity/tree/gh-pages](https://github.com/Ethereum/browser-Solidity/tree/gh-pages)下载。
+现在，让我们使用以太坊提供的浏览器 Solidity 编译前述合约。在[`Ethereum.github.io/browser-Solidity/`](https://ethereum.github.io/browser-solidity/)了解更多信息。您还可以下载此浏览器 Solidity 源代码并离线使用。访问[`github.com/Ethereum/browser-Solidity/tree/gh-pages`](https://github.com/Ethereum/browser-Solidity/tree/gh-pages)下载。
 
 使用此浏览器 Solidity 的主要优势是它提供了编辑器，并且还生成部署合约的代码。
 
@@ -1136,7 +1136,7 @@ geth attach
 
 在浏览器 Solidity 的右侧面板中，复制 web3 部署文本区域中的所有内容，并将其粘贴到交互式控制台中。现在按 *Enter*。您将首先获得交易哈希，等待一段时间后，您将在交易被挖掘后获得合约地址。交易哈希是交易的哈希，对于每个交易都是唯一的。每个部署的合约都有一个唯一的合约地址，用于在区块链中标识合约。
 
-合约地址是从其创建者的地址（from 地址）和创建者发送的交易数量（交易 nonce）确定性地计算出来的。这两个参数经过 RLP 编码，然后使用 keccak-256 散列算法进行哈希处理。我们将在后面更多地了解交易 nonce。您可以在 [https://github.com/Ethereum/wiki/wiki/RLP](https://github.com/Ethereum/wiki/wiki/RLP) 了解更多关于 RLP 的信息。
+合约地址是从其创建者的地址（from 地址）和创建者发送的交易数量（交易 nonce）确定性地计算出来的。这两个参数经过 RLP 编码，然后使用 keccak-256 散列算法进行哈希处理。我们将在后面更多地了解交易 nonce。您可以在 [`github.com/Ethereum/wiki/wiki/RLP`](https://github.com/Ethereum/wiki/wiki/RLP) 了解更多关于 RLP 的信息。
 
 现在让我们存储文件的详细信息并检索它们。
 

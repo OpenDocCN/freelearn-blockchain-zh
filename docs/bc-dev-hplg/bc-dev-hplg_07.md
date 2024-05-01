@@ -6,11 +6,11 @@
 
 因此，我们来到了我们的示例。Alice，意大利 QuickFix IT 的所有者，希望从在美国经营 Conga Computers 的 Bob 那里购买计算机。Alice 将从她的银行 Dinero Bank 申请信用证，这将被 Bob 的银行 Eastwood Banks 接受作为支付形式。
 
-我们将使用在[https://github.com/hyperledger/composer-sample-applications](https://github.com/hyperledger/composer-sample-applications)找到的信用证示例应用程序尝试整个流程。该存储库包含多个业务网络的示例应用程序-我们将使用信用证示例。
+我们将使用在[`github.com/hyperledger/composer-sample-applications`](https://github.com/hyperledger/composer-sample-applications)找到的信用证示例应用程序尝试整个流程。该存储库包含多个业务网络的示例应用程序-我们将使用信用证示例。
 
 # 安装示例
 
-如果你遵循了[*第3章*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml)中的步骤，*使用业务场景做准备*，你应该已经完成了所有先决条件。现在，在你的 GitHub 账户中 fork 一个样例应用程序的存储库（[https://github.com/hyperledger/composer-sample-applications](https://github.com/hyperledger/composer-sample-applications)），然后使用以下命令将其克隆到你的本地计算机：
+如果你遵循了*第三章*中的步骤，*使用业务场景做准备*，你应该已经完成了所有先决条件。现在，在你的 GitHub 账户中 fork 一个样例应用程序的存储库（[`github.com/hyperledger/composer-sample-applications`](https://github.com/hyperledger/composer-sample-applications)），然后使用以下命令将其克隆到你的本地计算机：
 
 ```
 cd <your local git directory>
@@ -33,7 +33,7 @@ cd composer-sample-applications
 
 ![](img/02e1a8a4-6bbc-43b2-ac9c-24037c362ad6.png)
 
-# 第1步 - 准备请求信用证
+# 第 1 步 - 准备请求信用证
 
 我们首先准备我们的请求：
 
@@ -41,27 +41,27 @@ cd composer-sample-applications
 
 ![](img/26a6704f-0c89-4d89-951f-c53ad27fc18e.png)
 
-1.  您现在是Alice！您可以看到您的银行和您的账户细节。您可以通过单击“申请”按钮申请一个信用证。试试看！
+1.  您现在是 Alice！您可以看到您的银行和您的账户细节。您可以通过单击“申请”按钮申请一个信用证。试试看！
 
 1.  您将看到一个页面，您可以在该页面上请求信用证书：
 
 ![](img/3514f771-702b-4e21-a0f7-5ea9a9e58d26.png)
 
-# 第2步 - 请求信用证
+# 第 2 步 - 请求信用证
 
-这是流程的第一个阶段，您将要求从Bob购买计算机的信用证！在每个屏幕的顶部，您都能看到您在流程中的确切位置，例如：
+这是流程的第一个阶段，您将要求从 Bob 购买计算机的信用证！在每个屏幕的顶部，您都能看到您在流程中的确切位置，例如：
 
 ![](img/793cd06e-57ab-49ba-9560-1f8171ee66cb.png)
 
-在页面的左侧，您将看到商家的详情 - 阿里斯和Bob的联系方式。注意公司名称和账户详情：
+在页面的左侧，您将看到商家的详情 - 阿里斯和 Bob 的联系方式。注意公司名称和账户详情：
 
 ![](img/0ded7aab-49cc-405c-9bed-6849666833b2.png)
 
-让我们假装作为Alice提交一个申请。在屏幕的右侧，您可以输入贸易的细节。假设Alice向Bob请求1,250台计算机，每台价格为1,500欧元。该申请的总价值为1.875M EUR：
+让我们假装作为 Alice 提交一个申请。在屏幕的右侧，您可以输入贸易的细节。假设 Alice 向 Bob 请求 1,250 台计算机，每台价格为 1,500 欧元。该申请的总价值为 1.875M EUR：
 
 ![](img/e7599d23-9ac7-4fe0-88a8-109ac324ccde.png)
 
-还要注意，Alice可以根据（她银行的许可）在申请书上选择一些条款和条件。这些是与Bob签订合同的重要条款和条件 - 除非这些条件得到满足，否则双方都不会收到货物或付款：
+还要注意，Alice 可以根据（她银行的许可）在申请书上选择一些条款和条件。这些是与 Bob 签订合同的重要条款和条件 - 除非这些条件得到满足，否则双方都不会收到货物或付款：
 
 ![](img/b552ad40-03a8-4ee8-804a-eb87a541ee9d.png)
 
@@ -73,25 +73,25 @@ cd composer-sample-applications
 
 恭喜，您刚刚申请了信用证！
 
-# 第3步 - 进口银行批准
+# 第 3 步 - 进口银行批准
 
-这是流程的下一个阶段。在浏览器的下一个标签页上单击。现在您是阿里斯银行Dinero的员工Matias，需要处理她的申请！以下是Matias看到的页面：
+这是流程的下一个阶段。在浏览器的下一个标签页上单击。现在您是阿里斯银行 Dinero 的员工 Matias，需要处理她的申请！以下是 Matias 看到的页面：
 
 ![](img/f8ae0fab-645b-4d49-b438-146ab663bb07.png)
 
-它显示了来自Alice的申请，目前正等待Matias的批准。他代表Dinero银行行事，并申请批准或拒绝的信用证。我们可以设想，在一个复杂的过程中，Matias只需要批准无法自动批准的特殊信函。
+它显示了来自 Alice 的申请，目前正等待 Matias 的批准。他代表 Dinero 银行行事，并申请批准或拒绝的信用证。我们可以设想，在一个复杂的过程中，Matias 只需要批准无法自动批准的特殊信函。
 
-如果Matias点击申请，他将看到与Alice请求的内容基本相同的详细信息：
+如果 Matias 点击申请，他将看到与 Alice 请求的内容基本相同的详细信息：
 
 ![](img/be00b9b4-2cec-408f-968b-d6be5f9028ab.png)
 
-在我们的场景中，Matias将批准信用证，流程将继续！选择“接受”按钮，我们将进入下一步：
+在我们的场景中，Matias 将批准信用证，流程将继续！选择“接受”按钮，我们将进入下一步：
 
 ![](img/31eee305-e4f0-4eef-bd9f-dd50d744204c.png)
 
-# 第4步 - 出口银行批准
+# 第 4 步 - 出口银行批准
 
-在浏览器的下一个标签页上单击。现在您是Bob银行Eastwood的员工Ella，已被告知阿里斯希望与Bob做生意：
+在浏览器的下一个标签页上单击。现在您是 Bob 银行 Eastwood 的员工 Ella，已被告知阿里斯希望与 Bob 做生意：
 
 ![](img/34f1a402-6fe6-4fdb-a7cd-e78c04fcd5c2.png)
 
@@ -179,9 +179,9 @@ Bob 现在可以看到，就信用证流程而言，他已经完成了 - 订单�
 
 鲍勃向爱丽丝出售了电脑，一个他之前不认识的海外客户。信用证流程使他有信心以他本地货币美元的形式收到他货物的付款，只要爱丽丝对货物满意即可。
 
-马蒂亚斯和艾拉，分别是Dinero Bank和Eastwood Bank的代表，提供了一个系统，让爱丽丝和鲍勃能够相信彼此将履行相互同意的条件以便收到付款。他们能够为他们的服务向爱丽丝和鲍勃收取公平的价格。他们几乎实时了解业务流程的每一个步骤。
+马蒂亚斯和艾拉，分别是 Dinero Bank 和 Eastwood Bank 的代表，提供了一个系统，让爱丽丝和鲍勃能够相信彼此将履行相互同意的条件以便收到付款。他们能够为他们的服务向爱丽丝和鲍勃收取公平的价格。他们几乎实时了解业务流程的每一个步骤。
 
-现在让我们看看如何使用Hyperledger Composer和Hyperledger Fabric实现这个过程。
+现在让我们看看如何使用 Hyperledger Composer 和 Hyperledger Fabric 实现这个过程。
 
 # 分析信用证流程
 
@@ -189,7 +189,7 @@ Bob 现在可以看到，就信用证流程而言，他已经完成了 - 订单�
 
 # 操场
 
-如果您转到演示中的下一个选项卡，您会发现Hyperledger Composer Playground已经为您打开：
+如果您转到演示中的下一个选项卡，您会发现 Hyperledger Composer Playground 已经为您打开：
 
 ![](img/b8057977-b0ea-479c-938b-47ddb0afea9a.png)
 
@@ -220,7 +220,7 @@ Participants
 
 在我们的示例中，有四个参与者 **实例** ——Alice、Bob、Matias 和 Ella。但请注意，这里只有两种参与者 **类型**，即 `Customer` 和 `Employee`。在我们的网络中，Alice 和 Bob 是 `Customer` 类型的参与者，而 Matias 和 Ella 是 `BankEmployee` 类型的参与者。我们可以看到，这些类型是从银行的角度命名的——因为 Dinero 和 Eastwood 银行提供网络服务，并由 Alice 和 Bob 使用。
 
-我们很快会看到有关这些参与者类型及其网络中特定实例的更多细节。但现在，只需考虑一下我们如何将网络中的参与者简化为两种非常简单的表示。尽管我们在应用程序中看到了丰富的行为，但在参与者方面，网络却非常简单。你将在商业网络中看到这一点——尽管参与者可以有很多实例，但类型的数量通常非常有限，并且很少超过10个。当然，规则是用来打破的，但你会发现以这种方式思考网络会让分析变得更加可管理。
+我们很快会看到有关这些参与者类型及其网络中特定实例的更多细节。但现在，只需考虑一下我们如何将网络中的参与者简化为两种非常简单的表示。尽管我们在应用程序中看到了丰富的行为，但在参与者方面，网络却非常简单。你将在商业网络中看到这一点——尽管参与者可以有很多实例，但类型的数量通常非常有限，并且很少超过 10 个。当然，规则是用来打破的，但你会发现以这种方式思考网络会让分析变得更加可管理。
 
 # 资产描述
 
@@ -248,7 +248,7 @@ Transactions
 
 最后，我们可以看到相当多种类型！ 这是典型的情况 - 尽管参与者和资产类型的数量相当有限，但资产的生命周期丰富多彩。 如果你考虑我们的应用程序，信用证与网络中的不同参与者交互时会经历许多**状态**。 这些交易直接对应于这些交互。（忽略`CreateDemoParticipants`，这是设置演示的交易！）
 
-交易名称相当容易理解 - 这些与信函的生命周期密切相关。 这是您作为不同参与者使用应用程序时经历的步骤。 Alice 进行了`InitialApplication`，并有可能对信函的条款和条件进行`SuggestChanges`。 Mattias 和 Ella 可以`Approve` 或 `Reject` 信函。 Bob 调用`ShipProduct` 表示他已完成了他的交易，并且 Alice 使用`ReceiveProduct` 也是这样表示她已经收到了计算机。 最后，Matias 表示该信函已准备好进行支付，并且Ella 发出了`Close` 交易以结束流程并触发向 Bob 的付款。
+交易名称相当容易理解 - 这些与信函的生命周期密切相关。 这是您作为不同参与者使用应用程序时经历的步骤。 Alice 进行了`InitialApplication`，并有可能对信函的条款和条件进行`SuggestChanges`。 Mattias 和 Ella 可以`Approve` 或 `Reject` 信函。 Bob 调用`ShipProduct` 表示他已完成了他的交易，并且 Alice 使用`ReceiveProduct` 也是这样表示她已经收到了计算机。 最后，Matias 表示该信函已准备好进行支付，并且 Ella 发出了`Close` 交易以结束流程并触发向 Bob 的付款。
 
 没有理由交易类型的数量必须大于资产类型的数量。 人们很容易想象许多不同类型的资产，其生命周期相同且相对简单。 想象一下零售商的产品库存 - 商品可以被采购，交付，出售和退货。 这是一个相对简单的生命周期，但是不同类型的商品数量可能相当大。 然而，我们可能期望这些不同的商品通过某种行为的共性共享这种生命周期; 毕竟，它们都是产品。 关于继承的这种想法以后会有更多内容。
 
@@ -341,7 +341,7 @@ asset Payment
 o String letterId
 ```
 
-字母`o`表示这个字段是资产的**简单属性**。这是一种略显奇怪的表示方法，所以可以将它看作是一种装饰。第一个属性是`letterId`。回想一下，当在商业网络中创建一封信时，将为其分配一个唯一ID。如果回想一下，在我们的例子中，我们有`letterId`分别是`L64516AM`或`L74812PM`。这是通过字段具有`String`类型来表示的——有很多类型可用，我们很快就会看到。我们可以看到，这个定义允许我们将一个可读的标识符与资产关联起来。请注意，这个标识符必须是唯一的！
+字母`o`表示这个字段是资产的**简单属性**。这是一种略显奇怪的表示方法，所以可以将它看作是一种装饰。第一个属性是`letterId`。回想一下，当在商业网络中创建一封信时，将为其分配一个唯一 ID。如果回想一下，在我们的例子中，我们有`letterId`分别是`L64516AM`或`L74812PM`。这是通过字段具有`String`类型来表示的——有很多类型可用，我们很快就会看到。我们可以看到，这个定义允许我们将一个可读的标识符与资产关联起来。请注意，这个标识符必须是唯一的！
 
 现在让我们回到`identified by`子句：
 
@@ -387,7 +387,7 @@ asset OwnershipRecord identified by recordId {
 --> Bank exportingBank
 ```
 
-我们可以看到这些字段也是对其他对象的引用，根据它们的名称- `issuingBank`和`exportingBank`，我们可能会怀疑它们是参与者！这些类型的示例实例是**Dinero银行**和**Eastwood银行**，它们代表着Alice和Bob。
+我们可以看到这些字段也是对其他对象的引用，根据它们的名称- `issuingBank`和`exportingBank`，我们可能会怀疑它们是参与者！这些类型的示例实例是**Dinero 银行**和**Eastwood 银行**，它们代表着 Alice 和 Bob。
 
 通过这四个参考字段，我们已经建模了资产的非常丰富的结构。我们表明信用证确实有四个参与者参与其中。我们给它们起了符号化的名称和类型，并展示了它们如何与资产相关联。此外，我们没有编写任何代码就完成了这一点。稍后我们需要做一些这样的事情，但现在，请注意我们在模型中捕捉到了信用证的基本本质。值得花一点时间真正理解这一点。
 
@@ -397,7 +397,7 @@ asset OwnershipRecord identified by recordId {
 o LetterStatus status
 ```
 
-还记得文件顶部定义的ENUMs吗？很好！这个字段将包含那些不同值，例如`AWAITING_APPROVAL`或`READY_FOR_PAYMENT`。您在您的业务网络中经常，如果不是总是，会有这样的字段和枚举，因为它们以一种非常简单的形式捕捉了您模拟的业务流程中的位置。如果您熟悉工作流程或有限状态机，您可能想把这些看作**状态**-这是一个非常重要的概念。
+还记得文件顶部定义的 ENUMs 吗？很好！这个字段将包含那些不同值，例如`AWAITING_APPROVAL`或`READY_FOR_PAYMENT`。您在您的业务网络中经常，如果不是总是，会有这样的字段和枚举，因为它们以一种非常简单的形式捕捉了您模拟的业务流程中的位置。如果您熟悉工作流程或有限状态机，您可能想把这些看作**状态**-这是一个非常重要的概念。
 
 # 参与者定义
 
@@ -412,9 +412,9 @@ participant Bank identified by bankID {
 }
 ```
 
-这是我们的第一个`participant`类型定义，一个银行。在示例应用程序中，我们有两个这种类型的实例：**Dinero银行**和**Eastwood银行**。
+这是我们的第一个`participant`类型定义，一个银行。在示例应用程序中，我们有两个这种类型的实例：**Dinero 银行**和**Eastwood 银行**。
 
-我们可以看到，参与者是通过`participant`关键字`identified by`的，随后是类型名称-**银行**。在这种情况下，参与者类型是一个组织，而不是一个个人。与资产一样，每个参与者都有用于识别的唯一ID，我们可以看到对于银行来说，它是`bankID`字段：
+我们可以看到，参与者是通过`participant`关键字`identified by`的，随后是类型名称-**银行**。在这种情况下，参与者类型是一个组织，而不是一个个人。与资产一样，每个参与者都有用于识别的唯一 ID，我们可以看到对于银行来说，它是`bankID`字段：
 
 ```
 participant Bank identified by bankID
@@ -449,7 +449,7 @@ abstract participant Person identified by personId {
 }
 ```
 
-感觉我们的应用程序中有`Person`类型的四个实例——Alice和Bob，Matias和Ella！让我们来看看个体参与者是如何定义的：
+感觉我们的应用程序中有`Person`类型的四个实例——Alice 和 Bob，Matias 和 Ella！让我们来看看个体参与者是如何定义的：
 
 ```
 abstract participant Person identified by personId
@@ -472,7 +472,7 @@ o String lastName optional
 o String lastName optional
 ```
 
-我们可以看到 `optional` 关键字表示 `lastName` 可能存在也可能不存在。你可能还记得我们的示例中，Alice和Bob提供了姓氏（Hamilton和Appleton），但银行的员工Matias和Ella没有。这种选择性已经被建模了——看看它是如何帮助我们使应用程序更接近现实世界的。
+我们可以看到 `optional` 关键字表示 `lastName` 可能存在也可能不存在。你可能还记得我们的示例中，Alice 和 Bob 提供了姓氏（Hamilton 和 Appleton），但银行的员工 Matias 和 Ella 没有。这种选择性已经被建模了——看看它是如何帮助我们使应用程序更接近现实世界的。
 
 然而，最重要的字段是接下来的一个：
 
@@ -480,7 +480,7 @@ o String lastName optional
  --> Bank bank
 ```
 
-为什么？它揭示了**结构**。我们可以看到一个人与银行有关。对于Alice和Bob来说，这是他们有账户的银行。对于Matias和Bob来说，这是他们的雇主。我们将再考虑一下，这是否真的是正确的建模关系的地方，但目前重要的是，我们有一个个体参与者与组织参与者有关。你可以看到复杂结构不仅仅适用于资产——参与者也可以有复杂结构！
+为什么？它揭示了**结构**。我们可以看到一个人与银行有关。对于 Alice 和 Bob 来说，这是他们有账户的银行。对于 Matias 和 Bob 来说，这是他们的雇主。我们将再考虑一下，这是否真的是正确的建模关系的地方，但目前重要的是，我们有一个个体参与者与组织参与者有关。你可以看到复杂结构不仅仅适用于资产——参与者也可以有复杂结构！
 
 但等等，这并不是那么简单。在定义中我们跳过了一些东西，是吗？看看下面的内容：
 
@@ -488,7 +488,7 @@ o String lastName optional
 abstract participant Person identified by personId { 
 ```
 
-`抽象` 关键字几乎完全摧毁了我们刚说的关于`Person`类型的一切！抽象类型很特殊，因为*无法实例化*。真的吗？鉴于我们可以看到Alice和Bob，Matias和Ella，这似乎有违直觉。
+`抽象` 关键字几乎完全摧毁了我们刚说的关于`Person`类型的一切！抽象类型很特殊，因为*无法实例化*。真的吗？鉴于我们可以看到 Alice 和 Bob，Matias 和 Ella，这似乎有违直觉。
 
 要理解发生了什么，我们需要转向下一个参与者定义：
 
@@ -504,7 +504,7 @@ participant Customer extends Person {
 participant Customer extends Person {
 ```
 
-我们可以看到我们定义了一个称为`Customer`的特殊`Person`类型！这比以前更好，因为Alice和Bob都是`Customers`。实际上，在我们的应用程序中，我们没有`Person`参与者的实例 - 我们有`Customer`类型的实例。
+我们可以看到我们定义了一个称为`Customer`的特殊`Person`类型！这比以前更好，因为 Alice 和 Bob 都是`Customers`。实际上，在我们的应用程序中，我们没有`Person`参与者的实例 - 我们有`Customer`类型的实例。
 
 我们现在可以看到`Customer`类型定义中的`extends`关键字与`Person`类型定义中的`abstract`关键字相配对。它们是我们之前提到的类型特化和继承这一更大概念的一部分：
 
@@ -521,7 +521,7 @@ participant Customer extends Person
 o String companyName
 ```
 
-对于Alice，这将是QuickFix IT，对于Bob，将是Conga Computers。
+对于 Alice，这将是 QuickFix IT，对于 Bob，将是 Conga Computers。
 
 最后，让我们看看最后一个参与者类型，`BankEmployee`：
 
@@ -530,7 +530,7 @@ participant BankEmployee extends Person {
 }
 ```
 
-我们不需要详细描述这个 - 你可以看到，例如`Customer`，`BankEmployee`扩展了`Person`类型，但不同于它，它没有添加任何额外的属性。这没关系！在我们的应用中，Matias和Ella是这种类型的实例。
+我们不需要详细描述这个 - 你可以看到，例如`Customer`，`BankEmployee`扩展了`Person`类型，但不同于它，它没有添加任何额外的属性。这没关系！在我们的应用中，Matias 和 Ella 是这种类型的实例。
 
 我们现在可以看到为什么`Person`类型是有用的。不仅仅是因为它不能被实例化，它还捕捉到了`Customer`和`BankEmployee`之间的共同之处。它不仅仅是节省了打字的工作 - 它展示了一个内部结构，这提高并反映了我们对业务网络的理解。
 
@@ -553,7 +553,7 @@ participant BankEmployee extends Person {
 }
 ```
 
-在现实情境中，实际参与者的身份将被存储在模型之外。这是因为个人身份和不可更改的账本不是一个好的组合。在账本上存储Alice的个人信息意味着它将永远存在。
+在现实情境中，实际参与者的身份将被存储在模型之外。这是因为个人身份和不可更改的账本不是一个好的组合。在账本上存储 Alice 的个人信息意味着它将永远存在。
 
 你能看出这个模型如何展示了`Customer`与`BankEmployee`之间的银行关系性质有所不同吗？
 
@@ -608,7 +608,7 @@ transaction InitialApplication {
 
 `transaction`关键字标识接下来的内容是一个交易类型的定义。就像`asset`或`participant`关键字一样。请注意，交易定义中没有`identified by`子句。
 
-此交易定义代表了Alice为信用证所做的初始申请。这实在是显而易见，不是吗？Alice使用的应用程序会创建交易的特定实例，并且我们可以看到其中包含的信息：
+此交易定义代表了 Alice 为信用证所做的初始申请。这实在是显而易见，不是吗？Alice 使用的应用程序会创建交易的特定实例，并且我们可以看到其中包含的信息：
 
 ```
 o String letterId
@@ -618,7 +618,7 @@ o Rule[] rules
 o ProductDetails productDetails
 ```
 
-如果你回顾一下Alice的网页，你会看到所有这些信息：`申请人`Alice，`受益人`Bob，**条款和条件**（**规则**）和**产品详细信息**。请注意，申请人和受益人是参与者的引用，而规则和产品详细信息则是概念。
+如果你回顾一下 Alice 的网页，你会看到所有这些信息：`申请人`Alice，`受益人`Bob，**条款和条件**（**规则**）和**产品详细信息**。请注意，申请人和受益人是参与者的引用，而规则和产品详细信息则是概念。
 
 我们可以看到，交易的结构相对简单，但却强大地捕捉了一个`申请人`（例如，Alice）申请与`受益人`（例如，Bob）做生意的意图。
 
@@ -656,7 +656,7 @@ event highValueLetterEvent {
 
 # 检查实时网络
 
-很好 - 现在我们已经看到了业务网络中参与者、资产、交易和事件类型是如何定义的，让我们看看如何创建这些类型的实例。Playground 工具还有另一个非常好的功能 - 它允许我们在业务网络运行时查看网络内部，以查看这些类型的实例，并在Playground页面顶部选择测试选项卡：
+很好 - 现在我们已经看到了业务网络中参与者、资产、交易和事件类型是如何定义的，让我们看看如何创建这些类型的实例。Playground 工具还有另一个非常好的功能 - 它允许我们在业务网络运行时查看网络内部，以查看这些类型的实例，并在 Playground 页面顶部选择测试选项卡：
 
 ![图像](img/43d6df94-417f-44f8-a9d0-993642726ed3.png)
 
@@ -670,7 +670,7 @@ event highValueLetterEvent {
 
 # 检查信用证实例
 
-我们可以看到ID，`L73021 AM`，和实例信息。它显示为JSON文档，你可以看到结构与 `LetterOfCredit` 定义中的结构相似，但其中包含了真实的实例数据。
+我们可以看到 ID，`L73021 AM`，和实例信息。它显示为 JSON 文档，你可以看到结构与 `LetterOfCredit` 定义中的结构相似，但其中包含了真实的实例数据。
 
 你可以看到信件中包含的每个资产和参与者都有一个类（`$class`），它由命名空间与类型名称连接而成。例如：
 
@@ -786,21 +786,21 @@ event highValueLetterEvent {
 
 ![](img/9162f52c-914d-4067-8ab6-5171b709323c.png)
 
-Hyperledger Composer Playground已经让我们与实时业务网络互动！此外，如果我们选择Matias的页面，我们可以看到该信件正在等待批准：
+Hyperledger Composer Playground 已经让我们与实时业务网络互动！此外，如果我们选择 Matias 的页面，我们可以看到该信件正在等待批准：
 
 ![](img/fd927617-3e14-4ee9-b68a-ffbcd95173b2.png)
 
-注意所有属性都是您在样本交易中输入的属性！您现在可以使用Playground将此信件移动到其完整生命周期。我们建议您花一些时间这样做——这将帮助您巩固您的知识。
+注意所有属性都是您在样本交易中输入的属性！您现在可以使用 Playground 将此信件移动到其完整生命周期。我们建议您花一些时间这样做——这将帮助您巩固您的知识。
 
 # 理解事务如何实现
 
 这一切都非常令人印象深刻，但它是如何工作的——实现这些操作的逻辑在哪里，操作参与者和资产，并创建事件？要理解这一点，我们需要查看事务程序——在提交到引用这些资产、参与者和事件的网络的事务时运行的代码。
 
-事务代码保存在一个脚本文件中，如果您在Define选项卡上选择Script File，您将看到以下内容：
+事务代码保存在一个脚本文件中，如果您在 Define 选项卡上选择 Script File，您将看到以下内容：
 
 ![](img/2f87a71a-3b84-4d44-b93a-0da5c2b6ae16.png)
 
-这就是实现事务的代码！今天，Hyperledger Composer使用JavaScript来实现这些函数，这就是您在此页面上看到的内容——JavaScript。如果您浏览脚本文件，您将看到模型文件中定义的每个事务都有一个函数。
+这就是实现事务的代码！今天，Hyperledger Composer 使用 JavaScript 来实现这些函数，这就是您在此页面上看到的内容——JavaScript。如果您浏览脚本文件，您将看到模型文件中定义的每个事务都有一个函数。
 
 让我们检查到目前为止我们一直在玩的事务之一——`InitialApplication`事务。注意函数的起始方式：
 
@@ -823,7 +823,7 @@ const letter = factory.newResource(namespace, 'LetterOfCredit', application.lett
 
 `factory.newResource()`在`org.example.loc`命名空间中使用由函数调用者在输入`application.letterId`事务变量中提供的标识符创建了一个新的本地`LetterOfCredit`。此语句将此函数的结果赋给了本地`letter`变量。
 
-重要的是要理解，此语句并没有在业务网络中创建一封信件；`factory.newResource()`只是创建了一个正确形状的JavaScript对象，现在可以由以下后续逻辑来操作，并且在使用调用者提供的输入正确形成之后（例如，由Alice使用的申请），它可以被添加到业务网络中！
+重要的是要理解，此语句并没有在业务网络中创建一封信件；`factory.newResource()`只是创建了一个正确形状的 JavaScript 对象，现在可以由以下后续逻辑来操作，并且在使用调用者提供的输入正确形成之后（例如，由 Alice 使用的申请），它可以被添加到业务网络中！
 
 注意`applicant`和`beneficiary`是如何赋值的：
 
@@ -832,7 +832,7 @@ letter.applicant = factory.newRelationship(namespace, 'Customer', application.ap
 letter.beneficiary = factory.newRelationship(namespace, 'Customer', application.beneficiary.getIdentifier());
 ```
 
-交易确保Alice和Bob的标识符正确地放置在信函中。在我们的网络中，`application.applicant.getIdentifier()`会解析为`resource:org.example.loc.Customer#alice`或`resource:org.example.loc.Customer#bob`。交易逻辑有条不紊地使用提供的输入和已经存储在业务网络中的信息构建信用证。
+交易确保 Alice 和 Bob 的标识符正确地放置在信函中。在我们的网络中，`application.applicant.getIdentifier()`会解析为`resource:org.example.loc.Customer#alice`或`resource:org.example.loc.Customer#bob`。交易逻辑有条不紊地使用提供的输入和已经存储在业务网络中的信息构建信用证。
 
 接下来，请注意`issuingBank`和`exportingBank`如何通过参与者导航到其银行。程序逻辑会浏览参与者和资产定义中的引用来做到这一点：
 
@@ -869,13 +869,13 @@ emit(applicationEvent);
 
 就像处理信函一样，我们创建了一个正确形状的本地事件 - 一个`InitialApplicationEvent`，完善其细节，然后`emit()`它。通过检查不同的交易及其逻辑，您将对每个交易的精确处理变得更加熟悉 - 这个努力将给您带来丰厚的回报。
 
-# 创建业务网络API
+# 创建业务网络 API
 
-在本章的最后部分，我们将展示您的应用程序如何使用API与业务网络中的交易功能进行交互。示例应用程序和Playground都使用API与业务网络进行交互。
+在本章的最后部分，我们将展示您的应用程序如何使用 API 与业务网络中的交易功能进行交互。示例应用程序和 Playground 都使用 API 与业务网络进行交互。
 
-实际上，您可以看到从服务消费者的角度来看，无论是Alice、Bob、Matias还是Ella都不知道区块链 - 他们仅仅与一些用户界面交互，最终导致这些交易功能（或类似的功能）被执行，以根据这些交易处理函数中编码的业务逻辑来操作业务网络。
+实际上，您可以看到从服务消费者的角度来看，无论是 Alice、Bob、Matias 还是 Ella 都不知道区块链 - 他们仅仅与一些用户界面交互，最终导致这些交易功能（或类似的功能）被执行，以根据这些交易处理函数中编码的业务逻辑来操作业务网络。
 
-正是这些用户界面和应用程序使用API与业务网络进行交互。如果您对API是新手，您可以在[这里](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Introduction)阅读相关信息。尽管更加技术上准确，但很少有人使用术语**Web API** - 它就是**API**：
+正是这些用户界面和应用程序使用 API 与业务网络进行交互。如果您对 API 是新手，您可以在[这里](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Introduction)阅读相关信息。尽管更加技术上准确，但很少有人使用术语**Web API** - 它就是**API**：
 
 ![](img/9d1b5275-c84a-460e-baec-0d7e92b916a6.png)
 
@@ -887,7 +887,7 @@ emit(applicationEvent);
 
 # SWAGGER API 定义
 
-SWAGGER 是一种描述 API 的开放标准 – [https://swagger.io/specification/](https://swagger.io/specification/) 这些 API 是由 Hyperledger Composer 生成的，使用与模型中定义的相同词汇来描述为此业务网络定义的参与者、应用程序和交易！这意味着 SWAGGER API 对业务用户和技术用户都具有明显的意义。
+SWAGGER 是一种描述 API 的开放标准 – [`swagger.io/specification/`](https://swagger.io/specification/) 这些 API 是由 Hyperledger Composer 生成的，使用与模型中定义的相同词汇来描述为此业务网络定义的参与者、应用程序和交易！这意味着 SWAGGER API 对业务用户和技术用户都具有明显的意义。
 
 对于业务网络中的每种参与者、资产和交易类型，都有相应的 API。
 
@@ -1005,7 +1005,7 @@ curl -X GET --header 'Accept: application/json' 'http://localhost:3000/api/Lette
 
 我们在网络中创建了一个新的参与者。(也可以自己输入详细信息，只要确保你的参与者有有效的数据，特别是参考现有的银行。)
 
-点击**ID注册表**下的管理员。现在你将看到与 Playground 相关的**身份**列表。
+点击**ID 注册表**下的管理员。现在你将看到与 Playground 相关的**身份**列表。
 
 而 Alice 和 Bob 的数字证书是私有的，只在他们的应用程序中可见，这里我们可以看到当前 Playground 用户（业务网络管理员）相关的身份信息：
 

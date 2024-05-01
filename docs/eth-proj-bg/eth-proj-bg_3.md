@@ -26,7 +26,7 @@ OpenZeppelin 基本上只是一组智能合约，你可以导入到自己的智�
 
 如果你一直在浏览 Truffle 网站 —— [truffleframework.com](http://truffleframework.com) —— 那么你可能已经见过 **Ganache**。我们将在本节中一直使用它。**Ganache** 是一个 GUI，比 TestRPC 更容易导航，但做的事情和 TestRPC 一样多。你可以在 Ganache 的 GitHub 页面上下载它，网址为 [Ganache GitHub](http://github.com/trufflesuite/ganache/releases)。
 
-`ethereumjs-testrpc` 已被弃用，并更名为 `ganache-cli`。详细信息请访问以下链接：[https://www.npmjs.com/package/ethereumjs-testrpc](https://www.npmjs.com/package/ethereumjs-testrpc)。
+`ethereumjs-testrpc` 已被弃用，并更名为 `ganache-cli`。详细信息请访问以下链接：[`www.npmjs.com/package/ethereumjs-testrpc`](https://www.npmjs.com/package/ethereumjs-testrpc)。
 
 下载后，您可以运行它。打开应用程序后，您将看到类似以下屏幕截图的界面：
 
@@ -122,7 +122,7 @@ Ganache
 
 ![](img/a6a8ed9f-7b4c-412b-b816-452215de7d9e.png)
 
-1.  现在，这里有一个小惊喜。你可以直接使用你已经有的代码来发送这些代币。与上一个示例中的MetaCoin的不同之处在于，现在这些代币实际上遵循了一个真正的标准，即ERC20标准。它规定你需要一个名称、一个代币符号、小数位数和一个`INITIAL_SUPPLY`。
+1.  现在，这里有一个小惊喜。你可以直接使用你已经有的代码来发送这些代币。与上一个示例中的 MetaCoin 的不同之处在于，现在这些代币实际上遵循了一个真正的标准，即 ERC20 标准。它规定你需要一个名称、一个代币符号、小数位数和一个`INITIAL_SUPPLY`。
 
 1.  要转移代币，请运行`npm run dev`命令。
 
@@ -130,7 +130,7 @@ Ganache
 
 ![](img/9b849bc8-624c-4dc8-86eb-2499e1042d9a.png)
 
-1.  转到编辑器。JavaScript函数仍将尝试调用`getBalance`函数，但这已经改变了。如果你转到`BasicToken Solidity`文件，你会看到你有`balanceOf`。所以让我们去`app` | `JavaScripts` | `app.js`，然后到`refreshBalance`函数。在这里，我们将`meta.getBalance`改为`meta.balanceOf`。还要转到`sendCoin`函数并将`meta.sendCoin`更改为`meta.transfer`。确保你在`ERC20`文件夹下的`BasicToken.sol`中有相同类型的方法签名：
+1.  转到编辑器。JavaScript 函数仍将尝试调用`getBalance`函数，但这已经改变了。如果你转到`BasicToken Solidity`文件，你会看到你有`balanceOf`。所以让我们去`app` | `JavaScripts` | `app.js`，然后到`refreshBalance`函数。在这里，我们将`meta.getBalance`改为`meta.balanceOf`。还要转到`sendCoin`函数并将`meta.sendCoin`更改为`meta.transfer`。确保你在`ERC20`文件夹下的`BasicToken.sol`中有相同类型的方法签名：
 
 ![](img/1e21aa84-39f6-4e3a-a43f-a6bce2c0001d.png)
 
@@ -138,7 +138,7 @@ Ganache
 
 ![](img/8151c1b8-5ca2-4118-afe7-0408e782920b.png)
 
-# 测试ERC20代币
+# 测试 ERC20 代币
 
 我们现在将在你的第二个账户上进行测试。
 
@@ -152,7 +152,7 @@ Ganache
 
 ![](img/ea3e3bf5-a511-4b6f-97a4-b26fca502392.png)
 
-1.  切换到第一个账户并发送你的MetaCoin。输入一个值，比如5,000,000单位（等于5个代币）。这个值应该小于`INITIAL_SUPPLY`中指定的值。请记住，`INITIAL_SUPPLY`除以小数点将给出5个代币，因此是5,000,000。粘贴地址并点击发送MetaCoin:
+1.  切换到第一个账户并发送你的 MetaCoin。输入一个值，比如 5,000,000 单位（等于 5 个代币）。这个值应该小于`INITIAL_SUPPLY`中指定的值。请记住，`INITIAL_SUPPLY`除以小数点将给出 5 个代币，因此是 5,000,000。粘贴地址并点击发送 MetaCoin:
 
 ![](img/690bbde6-e618-448a-8294-67a6b912c310.png)![](img/c6e9c514-620a-4d4f-8be8-102e41a36181.png)
 
@@ -160,11 +160,11 @@ Ganache
 
 ![](img/e159a974-4452-49a9-991d-05173b43146e.png)
 
-你现在已经创建了你的第一个ERC20标准加密货币并部署了它。
+你现在已经创建了你的第一个 ERC20 标准加密货币并部署了它。
 
 # 理解代币标准
 
-在本节中，我们将更深入地研究ERC20代币以及为什么需要其他代币标准，如ERC721和ERC827。
+在本节中，我们将更深入地研究 ERC20 代币以及为什么需要其他代币标准，如 ERC721 和 ERC827。
 
 # ERC20
 
@@ -188,7 +188,7 @@ CryptoKitties 市场
 
 其中一些甚至是独家的 CryptoKitties。它们是以高数量的以太币出售的非常特殊的代币。
 
-你可以用这些CryptoKitties交易以太币，价格将会根据你所设置的内容而变化。这些是我的一些小猫：
+你可以用这些 CryptoKitties 交易以太币，价格将会根据你所设置的内容而变化。这些是我的一些小猫：
 
 ![](img/49bd4d93-e219-4130-a842-d120b2635664.png)
 
@@ -196,7 +196,7 @@ CryptoKitties 市场
 
 # ERC827
 
-再次，如果你访问[EIP GitHub](http://github.com/ethereum/EIPs/issues/827)，你将得到一个摘要，以及为什么我们需要ERC827代币标准的解释。你实际上可以指定一些数据或一个函数，在转账发生后执行。这可以通过以下函数完成：
+再次，如果你访问[EIP GitHub](http://github.com/ethereum/EIPs/issues/827)，你将得到一个摘要，以及为什么我们需要 ERC827 代币标准的解释。你实际上可以指定一些数据或一个函数，在转账发生后执行。这可以通过以下函数完成：
 
 ```
 function transferAndCall(address _to, uint256 _value, bytes _data) public payable returns (bool) {
@@ -207,7 +207,7 @@ function transferAndCall(address _to, uint256 _value, bytes _data) public payabl
   }
 ```
 
-你可以在以下链接找到这个函数：[https://github.com/ethereum/EIPs/issues/827](https://github.com/ethereum/EIPs/issues/827)。
+你可以在以下链接找到这个函数：[`github.com/ethereum/EIPs/issues/827`](https://github.com/ethereum/EIPs/issues/827)。
 
 你可以对接收方的地址调用上述函数。
 
@@ -215,15 +215,15 @@ function transferAndCall(address _to, uint256 _value, bytes _data) public payabl
 
 # 使用代币和执行逻辑
 
-你可能会想知道第三方是如何在收到代币后执行调用的。实际上，这非常容易。在JavaScript中，可以使用以太坊提供的Web3库来完成。以下是在remix上显示的智能合约。我们之前已经探索了remix：
+你可能会想知道第三方是如何在收到代币后执行调用的。实际上，这非常容易。在 JavaScript 中，可以使用以太坊提供的 Web3 库来完成。以下是在 remix 上显示的智能合约。我们之前已经探索了 remix：
 
 ![](img/583bedcc-f0c7-4b59-a921-23078441d362.png)
 
 一个智能合约
 
-这只是递增一个整数，检查它是否小于10，并且如果是，则返回true；否则返回false。你可以使用JavaScript VM解决这个问题。编译和运行后，如果点击`SampleFunc`，灰色区域会增加一个新的条目。如果点击详情，你会看到一个输入条目——你可以复制这个。这将是你为这个函数的第三个参数。你可以像执行其他函数一样执行它。
+这只是递增一个整数，检查它是否小于 10，并且如果是，则返回 true；否则返回 false。你可以使用 JavaScript VM 解决这个问题。编译和运行后，如果点击`SampleFunc`，灰色区域会增加一个新的条目。如果点击详情，你会看到一个输入条目——你可以复制这个。这将是你为这个函数的第三个参数。你可以像执行其他函数一样执行它。
 
-现在，如果你使用ERC827智能合约发送代币，这个函数将被执行。
+现在，如果你使用 ERC827 智能合约发送代币，这个函数将被执行。
 
 但是这有什么用呢？总的来说，安全性。接收方可以提取代币，引用或取消引用，并收到它们。原因在于智能合约中，你不希望仅仅发送代币并假设操作成功。像这样假设成功过去曾导致一些相当大的黑客攻击。你可以采用某种提取方案，在其中发送代币，然后使其可供接收方提取。
 

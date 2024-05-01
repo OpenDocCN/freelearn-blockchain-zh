@@ -18,13 +18,13 @@
 
 # Gnosis
 
-Gnosis是基于市场驱动的预测技术。它基于经过验证的科学研究。它有自己的平台，称为Gnosis平台，你可以在其上构建自己的平台。它基本上预测交易。而正确的预测将获得押注的代币。访问[https://gnosis.pm/](https://gnosis.pm/)以访问Gnosis。
+Gnosis 是基于市场驱动的预测技术。它基于经过验证的科学研究。它有自己的平台，称为 Gnosis 平台，你可以在其上构建自己的平台。它基本上预测交易。而正确的预测将获得押注的代币。访问[`gnosis.pm/`](https://gnosis.pm/)以访问 Gnosis。
 
-它的工作原理是你交易预测或者你对预测进行赌注。以下是Gnosis的主页：
+它的工作原理是你交易预测或者你对预测进行赌注。以下是 Gnosis 的主页：
 
 ![](img/3011112f-17b7-4eed-a7a9-f58d47f72242.png)
 
-Gnosis首页
+Gnosis 首页
 
 在上面的截图中，请注意主页上提出的问题。**杜拜的世界纪录最大跨年烟花表演**会被打破吗？你可以选择是或否进行投票，投票会使用你的代币，并且一个预言机随后会告诉你活动是否发生。区块链会对这个预言机进行验证。预言机实际上就是与外部元素进行交互的智能合约。它们能存储和检索数据，这正是以太坊交易所需要做出决定的东西。预言机是一个可信的来源，在与这个可信来源进行核实后，你就可以在区块链中确定这个活动是否真的发生了，并且你可以对此绝对确定。
 
@@ -32,11 +32,11 @@ Gnosis首页
 
 ![](img/2e9a4d73-2732-4d26-8443-870796a0c9af.png)
 
-Gnosis平台层级
+Gnosis 平台层级
 
 # FirstBlood
 
-FirstBlood 类似于 Gnosis；它是为电子竞技而设计的。在你是一名玩家的情况下，你可以使用代币注册比赛。你可以把代币拿来押注以赢取更多代币，你可以把自己放入一个由其他团队或人组成的队列中，并与他们进行比赛。你甚至可以参加比赛。游戏的获胜者获得代币。Oracle 用于决定比赛的结果。访问 [http://firstblood.io](http://firstblood.io) 以访问 FirstBlood。
+FirstBlood 类似于 Gnosis；它是为电子竞技而设计的。在你是一名玩家的情况下，你可以使用代币注册比赛。你可以把代币拿来押注以赢取更多代币，你可以把自己放入一个由其他团队或人组成的队列中，并与他们进行比赛。你甚至可以参加比赛。游戏的获胜者获得代币。Oracle 用于决定比赛的结果。访问 [`firstblood.io`](http://firstblood.io) 以访问 FirstBlood。
 
 # Dynamis
 
@@ -44,11 +44,11 @@ FirstBlood 类似于 Gnosis；它是为电子竞技而设计的。在你是一�
 
 要了解更多关于 Dynamis 的信息，请访问 [www.dynamisapp.com](http://www.dynamisapp.com)。
 
-[你也可以访问](http://www.dynamisapp.com) [http://blog.dynamisapp.com/p2p-insurance-solutions/](http://blog.dynamisapp.com/p2p-insurance-solutions/) [以获得更深入的见解。](http://www.dynamisapp.com)
+[你也可以访问](http://www.dynamisapp.com) [`blog.dynamisapp.com/p2p-insurance-solutions/`](http://blog.dynamisapp.com/p2p-insurance-solutions/) [以获得更深入的见解。](http://www.dynamisapp.com)
 
 # Ujo Music
 
-这基本上是一个为艺术家打造的去中心化音乐商店！我们都知道 iTunes、Spotify 等等。这些是坐在艺术家和他们的粉丝之间的公司，但是粉丝无法立即知道艺术家每次销售可以赚多少钱。Ujo Music 通过去中心化音乐商店来解决这个问题。没有了中间商，这意味着它们是艺术家和粉丝之间的桥梁。这当然意味着它为艺术家提供了更多的权力和金钱。不必担心许可，它只向已验证的身份提供音乐服务。要访问 Ujo Music，请访问 [https://ujomusic.com/](https://ujomusic.com/)。
+这基本上是一个为艺术家打造的去中心化音乐商店！我们都知道 iTunes、Spotify 等等。这些是坐在艺术家和他们的粉丝之间的公司，但是粉丝无法立即知道艺术家每次销售可以赚多少钱。Ujo Music 通过去中心化音乐商店来解决这个问题。没有了中间商，这意味着它们是艺术家和粉丝之间的桥梁。这当然意味着它为艺术家提供了更多的权力和金钱。不必担心许可，它只向已验证的身份提供音乐服务。要访问 Ujo Music，请访问 [`ujomusic.com/`](https://ujomusic.com/)。
 
 它的工作方式如截图所述；它们有多个层次，其许可和支付基于以太坊。它们在 uPort 上有一个持久的身份，uPort 也是基于以太坊构建的：
 
@@ -62,7 +62,7 @@ Ujo Music
 
 # Golem
 
-它是一个去中心化的超级计算机！它执行离线计算。离线计算是不在区块链上进行的计算；计算是在区块链外进行的。然后在链上，它将验证这些计算。这意味着你可以出租你多余的计算能力，或者在需要时租用额外的计算能力。你可以用于3D渲染、计算化学、人工智能机器学习——任何你喜欢的事情。要访问 Golem，请转到 [https://golem.network/](https://golem.network/)。
+它是一个去中心化的超级计算机！它执行离线计算。离线计算是不在区块链上进行的计算；计算是在区块链外进行的。然后在链上，它将验证这些计算。这意味着你可以出租你多余的计算能力，或者在需要时租用额外的计算能力。你可以用于 3D 渲染、计算化学、人工智能机器学习——任何你喜欢的事情。要访问 Golem，请转到 [`golem.network/`](https://golem.network/)。
 
 在下面的截图中，您可以看到 Golem 的 GUI。 在左侧，您可以看到一个基本的钱包； 您还可以看到正在使用多少 CPU、RAM 和磁盘空间。 在右侧，您可以看到三个任务的一个小概念，这是三个 Blender 任务，在这种情况下，是 3D 渲染任务：
 
@@ -161,7 +161,7 @@ Golem GUI
 
 1.  选择显示在网页上的最新版本：
 
-    +   安装 MetaMask。要下载 MetaMask，请访问 [https://metamask.io/](https://metamask.io/)。
+    +   安装 MetaMask。要下载 MetaMask，请访问 [`metamask.io/`](https://metamask.io/)。
 
 1.  点击“获取 Chrome 扩展程序”。
 
@@ -197,7 +197,7 @@ MetaMask 主网络
 
 1.  安装和下载 Truffle。
 
-1.  Truffle也是一个简单的节点包，来自[truffleframework.com](https://truffleframework.com/)，你可以通过复制并粘贴命令到你的终端来安装，如下所示：
+1.  Truffle 也是一个简单的节点包，来自[truffleframework.com](https://truffleframework.com/)，你可以通过复制并粘贴命令到你的终端来安装，如下所示：
 
 ![](img/6e92c6d9-9a08-4a9b-87d1-e3c8ae0e2ddf.png)
 

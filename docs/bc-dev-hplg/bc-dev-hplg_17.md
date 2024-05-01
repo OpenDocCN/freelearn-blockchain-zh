@@ -71,23 +71,23 @@ Composer-cli 是一个命令行工具，可以让你部署和管理业务网络�
 | `composer card create` | 从个别组件创建业务网络卡。 |
 | `composer card delete` | 从个别组件中删除业务网络卡。 |
 | `composer card list` | 列出存储在本地钱包中的所有业务网络卡。 |
-| `composer network deploy` | 将业务网络存档从本地磁盘部署到Hyperledger Fabric网络。 |
+| `composer network deploy` | 将业务网络存档从本地磁盘部署到 Hyperledger Fabric 网络。 |
 | `composer network list` | 列出业务网络卡的详细信息。 |
 | `composer network ping` | 测试已部署业务网络的连接。 |
 
-# 设置Hyperledger Composer环境
+# 设置 Hyperledger Composer 环境
 
-我们刚刚审查了Hyperledger Composer解决方案体系结构。在本节中，我们将设置Hyperledger开发环境。
+我们刚刚审查了 Hyperledger Composer 解决方案体系结构。在本节中，我们将设置 Hyperledger 开发环境。
 
 # 安装先决条件
 
-在安装composer工具之前，请确保按照Hyperledger Fabric环境设置 - 安装先决条件一节来获取所需的先决条件。
+在安装 composer 工具之前，请确保按照 Hyperledger Fabric 环境设置 - 安装先决条件一节来获取所需的先决条件。
 
 # 安装开发环境
 
 以下是开发环境安装命令：
 
-+   安装CLI工具：
++   安装 CLI 工具：
 
 ```
  npm install -g composer-cli@0.20
@@ -99,13 +99,13 @@ Composer-cli 是一个命令行工具，可以让你部署和管理业务网络�
  npm install -g composer-rest-server@0.20
 ```
 
-+   安装Hyperledger Composer生成器：
++   安装 Hyperledger Composer 生成器：
 
 ```
  npm install -g generator-hyperledger-composer@0.20
 ```
 
-+   安装Yeoman：
++   安装 Yeoman：
 
 ```
  npm install -g yo
@@ -117,9 +117,9 @@ Composer-cli 是一个命令行工具，可以让你部署和管理业务网络�
  npm install -g composer-playground
 ```
 
-+   安装fabric运行时：
++   安装 fabric 运行时：
 
-下载并安装composer的fabric运行时如下：
+下载并安装 composer 的 fabric 运行时如下：
 
 ```
  mkdir ~/fabric-devserver && cd ~/fabric-devserver
@@ -129,11 +129,11 @@ Composer-cli 是一个命令行工具，可以让你部署和管理业务网络�
  ./downloadFabric.sh
 ```
 
-在这一步，你已经安装了典型的composer开发环境所需的一切。
+在这一步，你已经安装了典型的 composer 开发环境所需的一切。
 
 # 分析业务场景
 
-在*[第16章](d750faf6-ca67-49d3-b78b-5837c3789633.xhtml)*，*使用Hyperledger Fabric探索企业区块链应用程序*中，我们讨论了对保险索赔的区块链用例。它包括以下步骤：
+在*第十六章*，*使用 Hyperledger Fabric 探索企业区块链应用程序*中，我们讨论了对保险索赔的区块链用例。它包括以下步骤：
 
 1.  保险人向经纪人报告索赔
 
@@ -145,19 +145,19 @@ Composer-cli 是一个命令行工具，可以让你部署和管理业务网络�
 
 1.  发行者处理并批准索赔
 
-在本章中，我们将使用相同的保险索赔用例，但也通过Hyperledger Composer构建端到端应用程序。
+在本章中，我们将使用相同的保险索赔用例，但也通过 Hyperledger Composer 构建端到端应用程序。
 
 # 业务网络存档
 
-Composer业务由四种不同类型的文件组成：模型文件（.cto）、脚本文件（.js）、访问控制列表（ACL）文件（.acl）和查询文件（.qry）。
+Composer 业务由四种不同类型的文件组成：模型文件（.cto）、脚本文件（.js）、访问控制列表（ACL）文件（.acl）和查询文件（.qry）。
 
 # 网络模型文件（.cto）
 
-CTO文件由以下元素组成：
+CTO 文件由以下元素组成：
 
 | **元素** | **描述** |
 | --- | --- |
-| 单个命名空间 | 定义composer模型命名空间；每个.cto模型文件都需要一个命名空间。 |
+| 单个命名空间 | 定义 composer 模型命名空间；每个.cto 模型文件都需要一个命名空间。 |
 | 资源 - 资产 | 可以在各方之间交换的任何有价值的东西。 |
 | 资源 - 参与者 | 业务网络成员。 |
 | 资源 - 枚举 | 由一组命名值组成的数据类型。 |
@@ -170,7 +170,7 @@ Composer 模型语言，就像其他编程语言一样，具有包括 String、D
 
 让我们看一些资产、参与者、交易和事件的示例。
 
-IBM Bluemix 提供了一个无需安装的浏览器版本 Playground；我们可以使用这个工具快速进行原型设计。这是链接：[https://composer-playground.mybluemix.net/](https://composer-playground.mybluemix.net/)。
+IBM Bluemix 提供了一个无需安装的浏览器版本 Playground；我们可以使用这个工具快速进行原型设计。这是链接：[`composer-playground.mybluemix.net/`](https://composer-playground.mybluemix.net/)。
 
 ![](img/f9a2bf09-9240-4f49-91db-595676081718.png)
 
@@ -284,7 +284,7 @@ rule EverybodyCanSubmitTransactions {
 
 1.  定义参与者和资产
 
-我们在[*第16章*](d750faf6-ca67-49d3-b78b-5837c3789633.xhtml)中编写了一个名为`claimcontract.go`的链码，*使用Hyperledger Fabric探索企业区块链应用程序*，该链码定义了被保险人、经纪人、保险人和索赔的结构。我们可以类似于这个结构定义参与者和资产。如下所示，这非常简单：
+我们在*第十六章*中编写了一个名为`claimcontract.go`的链码，*使用 Hyperledger Fabric 探索企业区块链应用程序*，该链码定义了被保险人、经纪人、保险人和索赔的结构。我们可以类似于这个结构定义参与者和资产。如下所示，这非常简单：
 
 ```
       namespace com.packt.quickstart.claim
@@ -327,7 +327,7 @@ rule EverybodyCanSubmitTransactions {
       }
 ```
 
-1.  Composer的JavaScript API提供了用于创建资源（包括参与者）的CRUD。对于保险人和经纪人，我们将使用这种方法。我们在进行测试时会更详细地解释这一点。
+1.  Composer 的 JavaScript API 提供了用于创建资源（包括参与者）的 CRUD。对于保险人和经纪人，我们将使用这种方法。我们在进行测试时会更详细地解释这一点。
 
 1.  定义`ReportLost`：被保险人向经纪人报告索赔—这启动了一个索赔，如下所示：
 
@@ -360,7 +360,7 @@ rule EverybodyCanSubmitTransactions {
 
 1.  定义`ApproveClaim`：发行人处理并批准索赔。
 
-步骤8、9和10是交易函数，与步骤7非常相似。
+步骤 8、9 和 10 是交易函数，与步骤 7 非常相似。
 
 我们在模型文件中定义了所有的交易、参与者和资产。作为下一步，我们将实现模型文件中定义的交易。
 
@@ -455,11 +455,11 @@ getParticipantRegistry(insuree.getFullyQualifiedType());
 
 # 在游乐场进行测试
 
-我们刚刚在前一节中实现了所有的模型和逻辑文件，所以现在是测试我们的composer应用程序的时候了：
+我们刚刚在前一节中实现了所有的模型和逻辑文件，所以现在是测试我们的 composer 应用程序的时候了：
 
-1.  单击游乐场左下角的部署更改按钮。这将部署composer代码。
+1.  单击游乐场左下角的部署更改按钮。这将部署 composer 代码。
 
-1.  点击顶部导航栏上的测试链接。将弹出提交交易页面。从交易类型下拉菜单中选择`init`方法。输入JSON值，如下截图所示；输入数据与我们在*[第16章](d750faf6-ca67-49d3-b78b-5837c3789633.xhtml)*中测试的相同，*使用Hyperledger Fabric探索企业区块链应用程序*。实例化面料链码步骤。提交交易，如下所示：
+1.  点击顶部导航栏上的测试链接。将弹出提交交易页面。从交易类型下拉菜单中选择`init`方法。输入 JSON 值，如下截图所示；输入数据与我们在*第十六章*中测试的相同，*使用 Hyperledger Fabric 探索企业区块链应用程序*。实例化面料链码步骤。提交交易，如下所示：
 
 ![](img/ade5d17a-471c-4b00-b442-19f15a8df835.png)
 
@@ -467,7 +467,7 @@ getParticipantRegistry(insuree.getFullyQualifiedType());
 
 ![](img/3e4a61dc-1d58-4057-b796-0ab40df02d0b.png)
 
-1.  现在，让我们入职经纪人和保险人。在参与者部分中点击公司，然后点击创建新参与者。输入经纪人数据，方式与我们在[*第16章*](d750faf6-ca67-49d3-b78b-5837c3789633.xhtml)中的`chaincodeInvokeAddBroker`步骤相同，*使用Hyperledger Fabric探索企业区块链应用程序*。点击创建新，如下所示：
+1.  现在，让我们入职经纪人和保险人。在参与者部分中点击公司，然后点击创建新参与者。输入经纪人数据，方式与我们在*第十六章*中的`chaincodeInvokeAddBroker`步骤相同，*使用 Hyperledger Fabric 探索企业区块链应用程序*。点击创建新，如下所示：
 
 ![](img/afef3a92-82ec-41e6-9b7e-3c0a09325620.png)
 
@@ -491,7 +491,7 @@ getParticipantRegistry(insuree.getFullyQualifiedType());
 
 # 部署业务网络
 
-我们在游乐场中测试了composer应用程序，接下来我们将把它部署到区块链上：
+我们在游乐场中测试了 composer 应用程序，接下来我们将把它部署到区块链上：
 
 1.  创建一个名为`insurance-claim-network`的文件夹，并导航到该文件夹。
 
@@ -515,7 +515,7 @@ getParticipantRegistry(insuree.getFullyQualifiedType());
 
 ![](img/d5be1d79-2180-4395-b6e3-7c2a45192f5f.png)
 
-1.  启动Hyperledger Fabric，如下所示：
+1.  启动 Hyperledger Fabric，如下所示：
 
 ```
  cd ~/fabric-devservers
@@ -569,7 +569,7 @@ getParticipantRegistry(insuree.getFullyQualifiedType());
 
 检查业务网络是否已成功部署
 
-# 与REST服务器集成
+# 与 REST 服务器集成
 
 我们刚刚在 fabric 网络中部署了`insurance-claim-network`。下一步是构建一个保险索赔客户端 API，与网络中的智能合约函数进行交互。Hyperledger Composer REST 服务器可用于生成 REST API。REST 客户端可以调用这些端点函数，并与 Fabric 区块链上的业务网络链码交互。
 
@@ -659,6 +659,6 @@ API 将调用 fabric 网络中的`Init`链码，并将响应返回给浏览器�
 
 # 总结
 
-我们已经到达本章末尾。在这一章中，我们概述了 Hyperledger Composer 并安装了相关工具。我们使用 composer 模型语言开发了同样的保险索赔用例，就像[*第16章*](d750faf6-ca67-49d3-b78b-5837c3789633.xhtml)中所探索过的*使用 Hyperledger Fabric 探索企业区块链应用*，并将其部署到 fabric 网络中。最后，我们将应用与 composer REST 服务器集成，生成客户端 API，并从 web 中与这些 API 进行交互。
+我们已经到达本章末尾。在这一章中，我们概述了 Hyperledger Composer 并安装了相关工具。我们使用 composer 模型语言开发了同样的保险索赔用例，就像*第十六章*中所探索过的*使用 Hyperledger Fabric 探索企业区块链应用*，并将其部署到 fabric 网络中。最后，我们将应用与 composer REST 服务器集成，生成客户端 API，并从 web 中与这些 API 进行交互。
 
 到这一步，你应该已经熟悉了 Hyperledger Composer 的工作方式。现在我们已经到了本章的结尾，我们已经了解了两种最流行的公共和企业级区块链。作为一名区块链开发者，你应该具备基本的区块链知识，以便能够编写你自己的区块链应用程序。在下一章中，我们将讨论各种真实世界的区块链使用案例。

@@ -1,4 +1,4 @@
-# 第9章 Hyperledger
+# 第九章 Hyperledger
 
 Hyperledger 不是一种区块链，而是 Linux 基金会于 2015 年 12 月发起的一个项目，旨在推进区块链技术。该项目是其成员的协作努力，旨在构建一个可以用于开发和实施跨行业区块链应用和系统的开源分布式分类帐框架。其关键重点是构建和运行支持全球业务交易的平台。该项目还专注于改善区块链系统的可靠性和性能。
 
@@ -6,21 +6,21 @@ Hyperledger 旗下的项目经历各种开发阶段，从**提案**到**孵化**
 
 # 项目
 
-目前，Hyperledger 旗下有六个项目：Fabric、Iroha、Sawtooth lake、blockchain explorer、Fabric chaintool 和 Fabric SDK Py。最近加入的项目是 Corda，预计将被纳入 Hyperledger 项目。Hyperledger 项目目前有 100 名成员，活跃度很高，有超过120名贡献者，全球范围内经常组织meet-up和讲座。
+目前，Hyperledger 旗下有六个项目：Fabric、Iroha、Sawtooth lake、blockchain explorer、Fabric chaintool 和 Fabric SDK Py。最近加入的项目是 Corda，预计将被纳入 Hyperledger 项目。Hyperledger 项目目前有 100 名成员，活跃度很高，有超过 120 名贡献者，全球范围内经常组织 meet-up 和讲座。
 
 以下简要介绍这些项目，之后我们将提供有关 Fabric 和 Sawtooth lake 的设计、架构和实现的更多细节。
 
 ## Fabric
 
-Fabric 是由 IBM 和 **数字资产控股（Digital Asset Holdings）** 提出的区块链项目。其意图是为区块链解决方案的开发提供基础，其基础架构采用可插拔架构，可以根据需要将各种组件（如共识算法）插入系统中。项目地址为 [https://github.com/hyperledger/fabric](https://github.com/hyperledger/fabric)。
+Fabric 是由 IBM 和 **数字资产控股（Digital Asset Holdings）** 提出的区块链项目。其意图是为区块链解决方案的开发提供基础，其基础架构采用可插拔架构，可以根据需要将各种组件（如共识算法）插入系统中。项目地址为 [`github.com/hyperledger/fabric`](https://github.com/hyperledger/fabric)。
 
 ## Sawtooth lake
 
-Sawtooth Lake 是由英特尔于 2016 年 4 月提出的一个区块链项目，具有一些关键创新，重点是将分类帐与交易**解耦**，通过*交易家族*在多个业务领域灵活使用，并且具有**可插拔共识**。 解耦可以通过使用称为*交易家族*的新概念来更精确地解释，这使得*交易*不再与*共识层*紧密耦合。与交易单独与分类帐耦合不同，使用交易家族，这允许更灵活，更丰富的语义和业务逻辑的不受限制的设计。交易遵循交易家族中定义的模式和结构。英特尔还引入了一种新颖的共识算法，简称为 PoET，即经过时间证明，它利用**英特尔软件保护扩展**（**Intel's SGX**）架构的**可信执行环境**（**TEE**）来提供安全和随机的领导者选举过程。它还支持有许可和无许可的设置。该项目位于 [https://github.com/hyperledger/sawtooth-core](https://github.com/hyperledger/sawtooth-core)。
+Sawtooth Lake 是由英特尔于 2016 年 4 月提出的一个区块链项目，具有一些关键创新，重点是将分类帐与交易**解耦**，通过*交易家族*在多个业务领域灵活使用，并且具有**可插拔共识**。 解耦可以通过使用称为*交易家族*的新概念来更精确地解释，这使得*交易*不再与*共识层*紧密耦合。与交易单独与分类帐耦合不同，使用交易家族，这允许更灵活，更丰富的语义和业务逻辑的不受限制的设计。交易遵循交易家族中定义的模式和结构。英特尔还引入了一种新颖的共识算法，简称为 PoET，即经过时间证明，它利用**英特尔软件保护扩展**（**Intel's SGX**）架构的**可信执行环境**（**TEE**）来提供安全和随机的领导者选举过程。它还支持有许可和无许可的设置。该项目位于 [`github.com/hyperledger/sawtooth-core`](https://github.com/hyperledger/sawtooth-core)。
 
 ## Iroha
 
-Iroha 于 2016 年 9 月由 Soramitsu、日立、NTT 数据和 Colu 提出。Iroha 的目标是构建一个可重复使用的组件库，用户可以选择在其基于 Hyperledger 的分布式分类帐上运行。Iroha 的主要目标是通过提供用 C++ 编写的可重复使用的组件来补充其他 Hyperledger 项目，重点是移动开发。该项目还提出了一种新颖的共识算法，称为 Sumeragi，这是一种基于链的拜占庭容错共识算法。Iroha 位于 [https://github.com/hyperledger/iroha](https://github.com/hyperledger/iroha)。Iroha 已经提出并正在开发的各种库，包括但不限于数字签名库（ed25519）、SHA-3 哈希库、交易序列化库、P2P 库、API 服务器库、iOS 库、Android 库和 JavaScript 库。
+Iroha 于 2016 年 9 月由 Soramitsu、日立、NTT 数据和 Colu 提出。Iroha 的目标是构建一个可重复使用的组件库，用户可以选择在其基于 Hyperledger 的分布式分类帐上运行。Iroha 的主要目标是通过提供用 C++ 编写的可重复使用的组件来补充其他 Hyperledger 项目，重点是移动开发。该项目还提出了一种新颖的共识算法，称为 Sumeragi，这是一种基于链的拜占庭容错共识算法。Iroha 位于 [`github.com/hyperledger/iroha`](https://github.com/hyperledger/iroha)。Iroha 已经提出并正在开发的各种库，包括但不限于数字签名库（ed25519）、SHA-3 哈希库、交易序列化库、P2P 库、API 服务器库、iOS 库、Android 库和 JavaScript 库。
 
 ## 区块链浏览器
 
@@ -30,53 +30,53 @@ Iroha 于 2016 年 9 月由 Soramitsu、日立、NTT 数据和 Colu 提出。Iro
 
 ## Fabric 链工具
 
-Hyperledger链代码编译器正在开发中，以支持Fabric链代码开发。其目标是构建一个工具，可以读取高级Google协议缓冲结构并生成链代码。此外，它会对链代码进行打包，以便可以直接部署。预计此工具将帮助开发人员在不同的开发阶段，如编译、测试、打包和部署。它可在 [https://github.com/hyperledger/fabric-chaintool](https://github.com/hyperledger/fabric-chaintool) 找到。
+Hyperledger 链代码编译器正在开发中，以支持 Fabric 链代码开发。其目标是构建一个工具，可以读取高级 Google 协议缓冲结构并生成链代码。此外，它会对链代码进行打包，以便可以直接部署。预计此工具将帮助开发人员在不同的开发阶段，如编译、测试、打包和部署。它可在 [`github.com/hyperledger/fabric-chaintool`](https://github.com/hyperledger/fabric-chaintool) 找到。
 
 ## Fabric SDK Py
 
-该项目的目标是构建一个基于Python的SDK库，可用于与区块链（Fabric）进行交互。它可在 [https://github.com/hyperledger/fabric-sdk-py](https://github.com/hyperledger/fabric-sdk-py) 找到。
+该项目的目标是构建一个基于 Python 的 SDK 库，可用于与区块链（Fabric）进行交互。它可在 [`github.com/hyperledger/fabric-sdk-py`](https://github.com/hyperledger/fabric-sdk-py) 找到。
 
 ## Corda
 
-Corda是R3向Hyperledger项目贡献的最新项目。它于2016年11月30日开源发布。Corda在很大程度上面向金融服务行业，并与金融行业的主要银行和组织合作开发。在撰写本文时，它尚未在Hyperledger项目的孵化下。技术上，Corda并不是一个区块链，但具有类似区块链的关键特性，例如共识、有效性、唯一性、不可变性和认证。
+Corda 是 R3 向 Hyperledger 项目贡献的最新项目。它于 2016 年 11 月 30 日开源发布。Corda 在很大程度上面向金融服务行业，并与金融行业的主要银行和组织合作开发。在撰写本文时，它尚未在 Hyperledger 项目的孵化下。技术上，Corda 并不是一个区块链，但具有类似区块链的关键特性，例如共识、有效性、唯一性、不可变性和认证。
 
-在本章的后续部分，将更详细地讨论Fabric（IBM）、Sawtooth Lake（Intel）和Corda（R3）。
+在本章的后续部分，将更详细地讨论 Fabric（IBM）、Sawtooth Lake（Intel）和 Corda（R3）。
 
-# 作为协议的Hyperledger
+# 作为协议的 Hyperledger
 
-Hyperledger的目标是构建一个由行业使用案例驱动的新区块链平台。由于社区对Hyperledger项目做出了许多贡献，Hyperledger区块链平台正在演变成一个用于商业交易的协议。与先前仅解决特定类型行业或需求的区块链解决方案相比，Hyperledger也正在演变成可用作构建区块链平台参考的规范。在接下来的部分中，Hyperledger项目发布了一个参考架构。由于这项工作正在不断且严格地开发中，这其中可能会有一些变化，但核心服务预计将保持不变。
+Hyperledger 的目标是构建一个由行业使用案例驱动的新区块链平台。由于社区对 Hyperledger 项目做出了许多贡献，Hyperledger 区块链平台正在演变成一个用于商业交易的协议。与先前仅解决特定类型行业或需求的区块链解决方案相比，Hyperledger 也正在演变成可用作构建区块链平台参考的规范。在接下来的部分中，Hyperledger 项目发布了一个参考架构。由于这项工作正在不断且严格地开发中，这其中可能会有一些变化，但核心服务预计将保持不变。
 
 ## 参考架构
 
-Hyperledger发布了一份白皮书，其中包含参考架构，可作为构建许可分布式分类帐的指南。参考架构包括两个主要组件：Hyperledger服务和Hyperledger API、SDK和CLI。Hyperledger服务提供各种服务，例如身份服务、策略服务、区块链服务和智能合约服务。另一方面，Hyperledger API、SDK和CLI通过适当的应用程序编程接口、软件开发工具包或命令行界面提供与区块链服务的接口。此外，一个事件流，基本上是一个gRPC通道，运行在所有服务之间。它可以接收和发送事件。事件可以是预定义的或自定义的。验证对等体或链代码可以发出事件，外部应用程序可以响应或监听这些事件。
+Hyperledger 发布了一份白皮书，其中包含参考架构，可作为构建许可分布式分类帐的指南。参考架构包括两个主要组件：Hyperledger 服务和 Hyperledger API、SDK 和 CLI。Hyperledger 服务提供各种服务，例如身份服务、策略服务、区块链服务和智能合约服务。另一方面，Hyperledger API、SDK 和 CLI 通过适当的应用程序编程接口、软件开发工具包或命令行界面提供与区块链服务的接口。此外，一个事件流，基本上是一个 gRPC 通道，运行在所有服务之间。它可以接收和发送事件。事件可以是预定义的或自定义的。验证对等体或链代码可以发出事件，外部应用程序可以响应或监听这些事件。
 
-在撰写本文时，Hyperledger白皮书中发布的参考架构如下图所示。Hyperledger是一个快速变化和发展的项目，因此这里显示的架构预计会有所变化。
+在撰写本文时，Hyperledger 白皮书中发布的参考架构如下图所示。Hyperledger 是一个快速变化和发展的项目，因此这里显示的架构预计会有所变化。
 
 ![参考架构](img/image_09_001.jpg)
 
-Hyperledger架构，如Hyperledger白皮书的最新草案V2.0.0中所提议的。（来源：Hyperledger白皮书）
+Hyperledger 架构，如 Hyperledger 白皮书的最新草案 V2.0.0 中所提议的。（来源：Hyperledger 白皮书）
 
 ## 要求
 
-区块链服务有一定的要求。参考架构是由Hyperledger项目的参与者提出的需求和要求驱动的，并在研究行业使用案例后制定的。从对工业使用案例的研究中推导出了几类要求，并在以下章节中进行了讨论。
+区块链服务有一定的要求。参考架构是由 Hyperledger 项目的参与者提出的需求和要求驱动的，并在研究行业使用案例后制定的。从对工业使用案例的研究中推导出了几类要求，并在以下章节中进行了讨论。
 
 ### 模块化方法
 
-Hyperledger的主要要求是具有模块化结构。预计，作为跨行业的fabric（区块链），它将在许多业务场景中使用。因此，与存储、策略、链码、访问控制、共识和许多其他区块链服务相关的功能应该是可插拔的。这些模块应该是即插即用的，用户应该能够轻松地移除和添加满足业务需求的不同模块。
+Hyperledger 的主要要求是具有模块化结构。预计，作为跨行业的 fabric（区块链），它将在许多业务场景中使用。因此，与存储、策略、链码、访问控制、共识和许多其他区块链服务相关的功能应该是可插拔的。这些模块应该是即插即用的，用户应该能够轻松地移除和添加满足业务需求的不同模块。
 
 例如，如果一个企业区块链只需要在已经信任的各方之间运行，并执行非常基本的业务操作，那么也许就不需要为保密性和隐私性提供先进的加密支持，因此用户应该能够移除该功能（模块）或将其替换为更适合其需求的模块。同样，如果用户需要运行跨行业区块链，则保密性和隐私性可能至关重要。在这种情况下，用户应该能够将高级加密和访问控制机制（模块）插入到区块链（fabric）中。
 
 ### 隐私和保密性
 
-交易和合同的隐私和保密性在商业区块链中至关重要。因此，Hyperledger的愿景是提供各种加密协议和算法，并且预计用户将能够根据其业务需求选择适当的模块。该框架应能处理复杂的加密算法，而不会影响性能。
+交易和合同的隐私和保密性在商业区块链中至关重要。因此，Hyperledger 的愿景是提供各种加密协议和算法，并且预计用户将能够根据其业务需求选择适当的模块。该框架应能处理复杂的加密算法，而不会影响性能。
 
 ### 身份
 
-为了提供隐私和机密性服务，还需要一个灵活的PKI模型，用于处理访问控制功能。密码机制的强度和类型也预计根据用户的需求和要求而有所不同。在某些场景中，可能需要用户隐藏其身份，因此预计Hyperledger将提供此功能。
+为了提供隐私和机密性服务，还需要一个灵活的 PKI 模型，用于处理访问控制功能。密码机制的强度和类型也预计根据用户的需求和要求而有所不同。在某些场景中，可能需要用户隐藏其身份，因此预计 Hyperledger 将提供此功能。
 
 ### 可审计性
 
-可审计性是Hyperledger Fabric的另一个要求。预计会保留所有身份、相关操作和任何更改的不可变审计追踪。
+可审计性是 Hyperledger Fabric 的另一个要求。预计会保留所有身份、相关操作和任何更改的不可变审计追踪。
 
 ### 互操作性
 
@@ -84,11 +84,11 @@ Hyperledger的主要要求是具有模块化结构。预计，作为跨行业的
 
 ### 可移植性
 
-可移植性要求关注的是在多个平台和环境中运行而无需在代码级别进行任何更改的能力。预计Hyperledger将具有可移植性，不仅在基础设施级别，还包括代码、库和API级别，以便支持在各种Hyperledger实现中的统一开发。
+可移植性要求关注的是在多个平台和环境中运行而无需在代码级别进行任何更改的能力。预计 Hyperledger 将具有可移植性，不仅在基础设施级别，还包括代码、库和 API 级别，以便支持在各种 Hyperledger 实现中的统一开发。
 
 # 模块
 
-为了理解Hyperledger项目孵化中的各种项目，首先要了解Hyperledger的基础。在读者接触更深入的材料之前，有些特定于Hyperledger的术语需要一些澄清。首先是Fabric的概念。
+为了理解 Hyperledger 项目孵化中的各种项目，首先要了解 Hyperledger 的基础。在读者接触更深入的材料之前，有些特定于 Hyperledger 的术语需要一些澄清。首先是 Fabric 的概念。
 
 Fabric 可以被定义为提供基础层的一组组件，用于构建区块链网络。Fabric 网络有各种类型和能力，但所有 Fabric 共享共同属性，如不可变性和共识驱动。一些 Fabric 可以提供模块化方法来构建区块链网络。在这种情况下，区块链网络可以具有多个可插拔模块，在网络上执行各种功能。例如，共识算法可以是区块链网络中的可插拔模块，根据网络的要求，可以选择并*插入*适当的共识算法到网络中。这些模块可以基于 Fabric 的某些特定规范，并包括 API、访问控制和各种其他组件。Fabric 也可以设计为私有或公开，并允许创建多个业务网络。例如，比特币是在其 Fabric（区块链网络）上运行的应用程序。如前所述，区块链可以是许可的或无许可的，对于 Hyperledger 术语中的 Fabric 也是`true`。
 
@@ -100,7 +100,7 @@ Fabric 最初是 IBM 对 Hyperledger 项目的贡献。这一贡献的目标是�
 
 ## Fabric 架构
 
-Fabric在逻辑上分为基于提供的服务类型的三个主要类别。这包括会员服务、区块链服务和链码服务。在下一节中，将详细讨论所有这些类别和相关的组件。Hyperledger Fabric的当前稳定版本为v0.6，但最新版本v1.0可用，但尚未稳定。在1.0版本中，进行了许多架构更改，在本章后面的部分中也将讨论1.0版本中所做的一些更改。
+Fabric 在逻辑上分为基于提供的服务类型的三个主要类别。这包括会员服务、区块链服务和链码服务。在下一节中，将详细讨论所有这些类别和相关的组件。Hyperledger Fabric 的当前稳定版本为 v0.6，但最新版本 v1.0 可用，但尚未稳定。在 1.0 版本中，进行了许多架构更改，在本章后面的部分中也将讨论 1.0 版本中所做的一些更改。
 
 ### 会员服务
 
@@ -116,19 +116,19 @@ Fabric在逻辑上分为基于提供的服务类型的三个主要类别。这�
 
 +   **注册机构**（RA）：用于认证用户并评估织物参与者的身份以发放证书的服务。
 
-+   **注册证书颁发机构**：**注册证书**（Ecerts）是由ECA颁发给注册参与者的长期证书，旨在为参与网络的实体提供身份识别。
++   **注册证书颁发机构**：**注册证书**（Ecerts）是由 ECA 颁发给注册参与者的长期证书，旨在为参与网络的实体提供身份识别。
 
-+   **交易证书颁发机构**：为了在网络上发送交易，参与者需要持有交易证书。TCA负责向注册证书持有者颁发交易证书，并从Ecerts派生。
++   **交易证书颁发机构**：为了在网络上发送交易，参与者需要持有交易证书。TCA 负责向注册证书持有者颁发交易证书，并从 Ecerts 派生。
 
-+   **TLS证书颁发机构**：为了确保在Fabric节点间的网络级通信安全，使用TLS证书。TLS证书颁发机构颁发TLS证书，以确保在区块链网络上传递的消息的安全性。
++   **TLS 证书颁发机构**：为了确保在 Fabric 节点间的网络级通信安全，使用 TLS 证书。TLS 证书颁发机构颁发 TLS 证书，以确保在区块链网络上传递的消息的安全性。
 
 ### 区块链服务
 
-区块链服务是Hyperledger Fabric的核心。此类别中的组件如下。
+区块链服务是 Hyperledger Fabric 的核心。此类别中的组件如下。
 
 #### 共识管理器
 
-共识管理器负责提供共识算法的接口。这充当一个适配器，接收来自其他Hyperledger实体的交易，并根据选择的算法类型执行它们。共识是可插拔的，当前在Fabric中有三种共识算法，分别是批处理PBFT协议、筛子算法和NOOPS。
+共识管理器负责提供共识算法的接口。这充当一个适配器，接收来自其他 Hyperledger 实体的交易，并根据选择的算法类型执行它们。共识是可插拔的，当前在 Fabric 中有三种共识算法，分别是批处理 PBFT 协议、筛子算法和 NOOPS。
 
 #### 分布式账本
 
@@ -160,35 +160,35 @@ Fabric在逻辑上分为基于提供的服务类型的三个主要类别。这�
 
 节点之间传递消息以执行各种功能。在超级账本 Fabric 中有四种主要类型的消息：发现、交易、同步和共识。当启动时，发现消息在节点之间交换，以发现网络上的其他对等方。
 
-交易消息可分为两种类型：部署交易和调用交易。前者用于将新链码部署到账本上，后者用于调用智能合约中的函数。交易可以是公开的、机密的和机密链码交易。公开交易对所有参与者开放和可用。机密交易只允许交易所有者和参与者查询。机密链码交易具有加密链码，只有验证节点才能解密。验证节点运行共识、验证交易并维护区块链。非验证节点则提供交易验证、流媒体服务器和REST服务。它们还充当交易者和验证节点之间的代理。同步消息由节点用于保持区块链与其他节点同步更新。共识消息用于共识管理和向验证节点广播有效负载。这些消息由共识框架内部生成。
+交易消息可分为两种类型：部署交易和调用交易。前者用于将新链码部署到账本上，后者用于调用智能合约中的函数。交易可以是公开的、机密的和机密链码交易。公开交易对所有参与者开放和可用。机密交易只允许交易所有者和参与者查询。机密链码交易具有加密链码，只有验证节点才能解密。验证节点运行共识、验证交易并维护区块链。非验证节点则提供交易验证、流媒体服务器和 REST 服务。它们还充当交易者和验证节点之间的代理。同步消息由节点用于保持区块链与其他节点同步更新。共识消息用于共识管理和向验证节点广播有效负载。这些消息由共识框架内部生成。
 
 #### 账本存储
 
-为了保存账本状态，使用RocksDB，并且存储在每个对等节点上。 RocksDB是一种高性能数据库，可在[http://rocksdb.org/](http://rocksdb.org/)获得。
+为了保存账本状态，使用 RocksDB，并且存储在每个对等节点上。 RocksDB 是一种高性能数据库，可在[`rocksdb.org/`](http://rocksdb.org/)获得。
 
 ### 链码服务
 
 这些服务允许创建用于执行链码的安全容器。这个类别中的组件如下：
 
-+   **安全容器：** 链码部署在为智能合约执行提供经过锁定的隔离环境的Docker容器中。目前支持Golang作为主要智能合约语言，但如果需要，可以添加和启用任何其他主流语言。
++   **安全容器：** 链码部署在为智能合约执行提供经过锁定的隔离环境的 Docker 容器中。目前支持 Golang 作为主要智能合约语言，但如果需要，可以添加和启用任何其他主流语言。
 
 +   **安全注册表：** 这提供包含智能合约的所有映像的记录。
 
 ### 事件
 
-区块链上的事件可以由验证节点和智能合约触发。外部应用程序可以通过事件适配器监听这些事件，并在需要时做出反应。它们类似于在上一章节中引入的Solidity的事件概念。
+区块链上的事件可以由验证节点和智能合约触发。外部应用程序可以通过事件适配器监听这些事件，并在需要时做出反应。它们类似于在上一章节中引入的 Solidity 的事件概念。
 
-### API和CLI
+### API 和 CLI
 
-应用程序编程接口通过暴露各种REST API提供对区块链的接口。此外，还提供了提供REST API子集并允许快速测试和有限与区块链交互的命令行接口。
+应用程序编程接口通过暴露各种 REST API 提供对区块链的接口。此外，还提供了提供 REST API 子集并允许快速测试和有限与区块链交互的命令行接口。
 
-## Fabric的组件
+## Fabric 的组件
 
 区块链可以包括各种组件。 这些组件包括但不限于账本、链码、共识机制、访问控制、事件、系统监控和管理、钱包和系统集成组件。
 
 ### 对等节点
 
-在fabric网络上可以运行两种主要类型的对等节点：验证的和非验证的。简单来说，验证节点运行共识，创建和验证交易，并有助于更新账本和维护链码。
+在 fabric 网络上可以运行两种主要类型的对等节点：验证的和非验证的。简单来说，验证节点运行共识，创建和验证交易，并有助于更新账本和维护链码。
 
 非验证节点不执行交易，只构建交易，然后将其转发给验证节点。
 
@@ -196,19 +196,19 @@ Fabric在逻辑上分为基于提供的服务类型的三个主要类别。这�
 
 ### 区块链上的应用
 
-Fabric上的典型应用通常由用户界面组成，通常是用JavaScript/HTML编写的，通过API层与存储在分类账上的后端链码（智能合同）交互。
+Fabric 上的典型应用通常由用户界面组成，通常是用 JavaScript/HTML 编写的，通过 API 层与存储在分类账上的后端链码（智能合同）交互。
 
 ![区块链上的应用](img/B05975_09_03.jpg)
 
 典型的区块链应用
 
-Hyperledger提供各种API和命令行界面以实现与分类账的互动。这些API包括身份、交易、链码、分类账、网络、存储和事件的接口。
+Hyperledger 提供各种 API 和命令行界面以实现与分类账的互动。这些 API 包括身份、交易、链码、分类账、网络、存储和事件的接口。
 
 #### 链码实现
 
-链码通常是用Golang或Java编写的。链码可以是公共的、机密的或受控制的。这些代码充当用户可以通过API与之交互的智能合同。用户可以调用链码中的函数，导致状态改变，并因此更新分类账。还有一些函数仅用于查询分类账，不会导致任何状态改变。
+链码通常是用 Golang 或 Java 编写的。链码可以是公共的、机密的或受控制的。这些代码充当用户可以通过 API 与之交互的智能合同。用户可以调用链码中的函数，导致状态改变，并因此更新分类账。还有一些函数仅用于查询分类账，不会导致任何状态改变。
 
-首先通过在代码中创建链码shim接口来执行链码实现。它可以是Java或Golang代码。为了实现链码，需要以下四个函数：
+首先通过在代码中创建链码 shim 接口来执行链码实现。它可以是 Java 或 Golang 代码。为了实现链码，需要以下四个函数：
 
 +   `Init()`: 当链码部署到分类账上时，会调用此函数。这将初始化链码并导致状态改变，从而相应地更新分类账。
 
@@ -218,29 +218,29 @@ Hyperledger提供各种API和命令行界面以实现与分类账的互动。这
 
 +   `Main()`: 当节点部署自己的链码副本时，将执行此函数。使用此函数向节点注册链码。
 
-以下图表说明了Hyperledger Fabric的一般概要：
+以下图表说明了 Hyperledger Fabric 的一般概要：
 
 ![链码实现](img/B05975_09_04.jpg)
 
-Hyperledger Fabric的高层概览
+Hyperledger Fabric 的高层概览
 
 #### 应用模型
 
-对于Hyperledger Fabric的任何区块链应用程序都遵循MVC-B架构。这是基于流行的MVC设计模式。该模型中的组件包括模型、视图、控制和区块链：
+对于 Hyperledger Fabric 的任何区块链应用程序都遵循 MVC-B 架构。这是基于流行的 MVC 设计模式。该模型中的组件包括模型、视图、控制和区块链：
 
-+   **视图逻辑**：这与用户界面有关。它可以是桌面、Web应用程序或移动前端。
++   **视图逻辑**：这与用户界面有关。它可以是桌面、Web 应用程序或移动前端。
 
-+   **控制逻辑**：这是用户界面、数据模型和API之间的协调者。
++   **控制逻辑**：这是用户界面、数据模型和 API 之间的协调者。
 
 +   **数据模型**：此模型用于管理链下数据。
 
 +   **区块链逻辑**：这是通过控制器管理区块链和通过交易管理数据模型。
 
-由于Hyperledger当前版本 v0.6 正在进行大规模重构以构建 V1.0，因此本节中没有引入实际的练习。
+由于 Hyperledger 当前版本 v0.6 正在进行大规模重构以构建 V1.0，因此本节中没有引入实际的练习。
 
-有望在本书出版时，有关Hyperledger fabric实际设置的信息可能已经过时。 因此，鼓励读者关注来自[https://hyperledgerfabric.readthedocs.io/en/latest/](https://hyperledgerfabric.readthedocs.io/en/latest/) 的更新。
+有望在本书出版时，有关 Hyperledger fabric 实际设置的信息可能已经过时。 因此，鼓励读者关注来自[`hyperledgerfabric.readthedocs.io/en/latest/`](https://hyperledgerfabric.readthedocs.io/en/latest/) 的更新。
 
-此外，IBM Bluemix服务提供了区块链示例应用，属于其区块链即服务。 它可以在[https://console.ng.bluemix.net/docs/services/blockchain/ibmblockchain_tutorials.html](https://console.ng.bluemix.net/docs/services/blockchain/ibmblockchain_tutorials.html) 上找到。 该服务允许用户在易于使用的环境中创建自己的区块链网络。
+此外，IBM Bluemix 服务提供了区块链示例应用，属于其区块链即服务。 它可以在[`console.ng.bluemix.net/docs/services/blockchain/ibmblockchain_tutorials.html`](https://console.ng.bluemix.net/docs/services/blockchain/ibmblockchain_tutorials.html) 上找到。 该服务允许用户在易于使用的环境中创建自己的区块链网络。
 
 # 锯齿湖
 
@@ -248,17 +248,17 @@ Hyperledger Fabric的高层概览
 
 ## PoET
 
-PoET 是一种新颖的共识算法，允许根据节点在提出区块之前等待的时间来随机选择节点。 这与其他基于领导选举和彩票的工作量证明算法形成对比，在这些算法中，为了被选为区块提议者，例如在比特币的情况下，需要使用大量电力和计算资源。 PoET 是一种工作量证明算法，但是，它不需要消耗计算资源，而是使用可信计算模型提供一种满足工作量证明要求的机制。 PoET 利用英特尔的SGX架构提供受信任的执行环境，以确保过程的随机性和密码安全性。 值得注意的是，锯齿湖目前的实现不需要真实的硬件SGX基于TEE，因为它仅用于实验目的进行模拟，因此不应在生产环境中使用。
+PoET 是一种新颖的共识算法，允许根据节点在提出区块之前等待的时间来随机选择节点。 这与其他基于领导选举和彩票的工作量证明算法形成对比，在这些算法中，为了被选为区块提议者，例如在比特币的情况下，需要使用大量电力和计算资源。 PoET 是一种工作量证明算法，但是，它不需要消耗计算资源，而是使用可信计算模型提供一种满足工作量证明要求的机制。 PoET 利用英特尔的 SGX 架构提供受信任的执行环境，以确保过程的随机性和密码安全性。 值得注意的是，锯齿湖目前的实现不需要真实的硬件 SGX 基于 TEE，因为它仅用于实验目的进行模拟，因此不应在生产环境中使用。
 
 ## 交易系列
 
-传统的智能合约范式提供了一个基于所有领域的通用指令集的解决方案。 例如，在以太坊的情况下，已经开发了一组用于以太坊虚拟机（EVM）的操作码，可以用来构建解决任何行业需求的智能合约。 尽管这种模式有其优点，但明显可见这种方法并不是非常安全的，因为它为总账提供了一个强大且表达力强的单一接口，这可能为恶意代码提供了更大的攻击面。 这种复杂性和通用虚拟机范式最近已导致一些漏洞被黑客发现和利用。 最近的一个例子是DAO被黑客攻击，以及利用一些EVM操作码的限制进行**拒绝服务**（DoS）攻击。 下图描述了传统智能合约模型，其中使用通用虚拟机为所有领域提供了区块链的接口：
+传统的智能合约范式提供了一个基于所有领域的通用指令集的解决方案。 例如，在以太坊的情况下，已经开发了一组用于以太坊虚拟机（EVM）的操作码，可以用来构建解决任何行业需求的智能合约。 尽管这种模式有其优点，但明显可见这种方法并不是非常安全的，因为它为总账提供了一个强大且表达力强的单一接口，这可能为恶意代码提供了更大的攻击面。 这种复杂性和通用虚拟机范式最近已导致一些漏洞被黑客发现和利用。 最近的一个例子是 DAO 被黑客攻击，以及利用一些 EVM 操作码的限制进行**拒绝服务**（DoS）攻击。 下图描述了传统智能合约模型，其中使用通用虚拟机为所有领域提供了区块链的接口：
 
 ![Transaction families](img/B05975_09_05.jpg)
 
 传统的智能合约范式
 
-为了解决这个问题， Sawtooth lake提出了交易族的概念。 交易族是通过将逻辑层分解成一组规则和特定领域的组合层来创建的。 其核心理念是将业务逻辑组合在交易族内，这提供了一种更安全、更强大的构建智能合约的方式。 交易族包含特定领域的规则以及另一个允许为该领域创建交易的层。 另一种看待它的方式是，交易族是数据模型和实现特定领域逻辑层的交易语言的组合。 数据模型代表了区块链（总账本）的当前状态，而交易语言修改总账本的状态。 预期用户将根据其业务需求构建自己的交易族。
+为了解决这个问题， Sawtooth lake 提出了交易族的概念。 交易族是通过将逻辑层分解成一组规则和特定领域的组合层来创建的。 其核心理念是将业务逻辑组合在交易族内，这提供了一种更安全、更强大的构建智能合约的方式。 交易族包含特定领域的规则以及另一个允许为该领域创建交易的层。 另一种看待它的方式是，交易族是数据模型和实现特定领域逻辑层的交易语言的组合。 数据模型代表了区块链（总账本）的当前状态，而交易语言修改总账本的状态。 预期用户将根据其业务需求构建自己的交易族。
 
 下图代表了这一模型，其中每个特定领域，如金融服务、数字版权管理（DRM）、供应链和健康行业，都有其自己的逻辑层，包括特定于该领域的操作和服务。 这使得逻辑层既限制又强大。 交易族可以确保仅包含与所需领域相关的操作，从而消除执行不需要的、任意的和潜在有害操作的可能性。
 
@@ -266,7 +266,7 @@ PoET 是一种新颖的共识算法，允许根据节点在提出区块之前等
 
 Sawtooth（交易族）智能合约范式
 
-英特尔已经为Sawtooth提供了三个交易族：端点注册、Integerkey和市场。
+英特尔已经为 Sawtooth 提供了三个交易族：端点注册、Integerkey 和市场。
 
 1.  **端点注册** 用于注册账本服务。
 
@@ -274,7 +274,7 @@ Sawtooth（交易族）智能合约范式
 
 1.  **MarketPlace** 用于销售、购买和交易操作和服务。
 
-`Sawtooth_bond` 已开发为证明概念，以演示债券交易平台。它可在 [https://github.com/hyperledger/sawtooth-core/tree/master/extensions/bond](https://github.com/hyperledger/sawtooth-core/tree/master/extensions/bond) 上获得。
+`Sawtooth_bond` 已开发为证明概念，以演示债券交易平台。它可在 [`github.com/hyperledger/sawtooth-core/tree/master/extensions/bond`](https://github.com/hyperledger/sawtooth-core/tree/master/extensions/bond) 上获得。
 
 ## Sawtooth 中的共识
 
@@ -284,9 +284,9 @@ Sawtooth 根据网络选择具有两种类型的共识机制。如前所述，Po
 
 本节介绍了如何为 Sawtooth lake 设置开发环境的快速介绍。为了设置开发环境，需要一些先决条件。本节中的示例假定正在运行 Ubuntu 系统并具有以下内容：
 
-1.  `vagrant`，至少版本 1.9.0，在 [https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html) 上可用。
+1.  `vagrant`，至少版本 1.9.0，在 [`www.vagrantup.com/downloads.html`](https://www.vagrantup.com/downloads.html) 上可用。
 
-1.  Virtual box，至少 5.0.10 r104061，在 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads) 上可用。
+1.  Virtual box，至少 5.0.10 r104061，在 [`www.virtualbox.org/wiki/Downloads`](https://www.virtualbox.org/wiki/Downloads) 上可用。
 
 一旦上述两个先决条件成功下载并安装，下一步是克隆存储库。
 
@@ -387,23 +387,23 @@ $ ./bin/txnvalidator -v -F ledger.transaction.integer_key --config /home/ubuntu/
 
 ```
 
-此演示只是从Sawtooth Lake文档衍生的基本示例。但是，使用Sawtooth Lake进行开发是一个非常复杂的过程，完整的章节都可以专门讨论这个问题。
+此演示只是从 Sawtooth Lake 文档衍生的基本示例。但是，使用 Sawtooth Lake 进行开发是一个非常复杂的过程，完整的章节都可以专门讨论这个问题。
 
 ![开发环境](img/image_09_011.jpg)
 
 用于市场交易家族的市场客户端
 
-Sawtooth Lake也在持续发展，因此建议读者留意[http://intelledger.github.io/](http://intelledger.github.io/)上的文档，以便了解最新的发展动态。
+Sawtooth Lake 也在持续发展，因此建议读者留意[`intelledger.github.io/`](http://intelledger.github.io/)上的文档，以便了解最新的发展动态。
 
 # Corda
 
-Corda不是一个区块链。传统的区块链解决方案，正如前面讨论的，有将交易捆绑在一起形成一个区块的概念，每个区块都与其父区块进行密码学连接，这样就提供了不可变的交易记录。但Corda并非如此：Corda完全从零开始设计，提供了一种全新的模型来提供所有区块链的好处，但没有传统的区块链。它纯粹是为金融行业开发的，旨在解决由于每个组织都管理自己的总账而产生的*真相*的不同视图，导致了矛盾和运营风险。此外，数据也会在每个组织中复制，这导致了管理各自基础设施和复杂性成本的增加。这些都是Corda旨在通过搭建一个分布式数据库平台来解决的金融行业内的问题。
+Corda 不是一个区块链。传统的区块链解决方案，正如前面讨论的，有将交易捆绑在一起形成一个区块的概念，每个区块都与其父区块进行密码学连接，这样就提供了不可变的交易记录。但 Corda 并非如此：Corda 完全从零开始设计，提供了一种全新的模型来提供所有区块链的好处，但没有传统的区块链。它纯粹是为金融行业开发的，旨在解决由于每个组织都管理自己的总账而产生的*真相*的不同视图，导致了矛盾和运营风险。此外，数据也会在每个组织中复制，这导致了管理各自基础设施和复杂性成本的增加。这些都是 Corda 旨在通过搭建一个分布式数据库平台来解决的金融行业内的问题。
 
-Corda源代码可以在[https://github.com/corda/corda](https://github.com/corda/corda)找到。它是用一种叫做Kotlin的语言编写的，这是一种针对**Java虚拟机**（**JVM**）的静态类型语言。
+Corda 源代码可以在[`github.com/corda/corda`](https://github.com/corda/corda)找到。它是用一种叫做 Kotlin 的语言编写的，这是一种针对**Java 虚拟机**（**JVM**）的静态类型语言。
 
 ## 架构
 
-Corda平台的主要组件包括状态对象、合同代码、法律文书、交易、共识和流程。
+Corda 平台的主要组件包括状态对象、合同代码、法律文书、交易、共识和流程。
 
 ### 状态对象
 
@@ -505,19 +505,19 @@ Corda 的开发环境可以通过以下步骤轻松设置。
 
 必需软件包括以下内容：
 
-1.  JDK 8，可在 [http://www.oracle.com/technetwork/java/javase/downloads/index.html](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 下载。
+1.  JDK 8，可在 [`www.oracle.com/technetwork/java/javase/downloads/index.html`](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 下载。
 
-1.  免费的 IntelliJ IDEA 社区版可在 [https://www.jetbrains.com/idea/download](https://www.jetbrains.com/idea/download) 下载。
+1.  免费的 IntelliJ IDEA 社区版可在 [`www.jetbrains.com/idea/download`](https://www.jetbrains.com/idea/download) 下载。
 
-1.  H2 数据库是一个平台无关的 zip 包，可从 [http://www.h2database.com/html/download.html](http://www.h2database.com/html/download.html) 下载。
+1.  H2 数据库是一个平台无关的 zip 包，可从 [`www.h2database.com/html/download.html`](http://www.h2database.com/html/download.html) 下载。
 
-1.  Git，可从 [https://git-scm.com/downloads](https://git-scm.com/downloads) 下载。
+1.  Git，可从 [`git-scm.com/downloads`](https://git-scm.com/downloads) 下载。
 
-1.  Kotlin 语言，可用于 IntelliJ，更多信息可在 [https://kotlinlang.org/](https://kotlinlang.org/) 找到。
+1.  Kotlin 语言，可用于 IntelliJ，更多信息可在 [`kotlinlang.org/`](https://kotlinlang.org/) 找到。
 
 1.  Gradle 是另一个用于构建 Corda 的组件。
 
-安装了所有这些工具后，可以开始智能合约开发。可以利用 [https://github.com/corda/cordapp-template](https://github.com/corda/cordapp-template) 上提供的示例模板来开发 CorDapps。有关如何开发合约代码的详细文档，请参阅 [https://docs.corda.net/](https://docs.corda.net/)。
+安装了所有这些工具后，可以开始智能合约开发。可以利用 [`github.com/corda/cordapp-template`](https://github.com/corda/cordapp-template) 上提供的示例模板来开发 CorDapps。有关如何开发合约代码的详细文档，请参阅 [`docs.corda.net/`](https://docs.corda.net/)。
 
 可使用以下命令从 GitHub 克隆 Corda：
 

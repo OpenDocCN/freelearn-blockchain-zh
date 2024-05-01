@@ -1,40 +1,40 @@
-# 使用web3.js入门
+# 使用 web3.js 入门
 
-在上一章中，我们学习了如何编写智能合同，并使用geth的交互式控制台来部署和广播使用web3.js的交易。在本章中，我们将学习web3.js以及如何在Node.js或客户端JavaScript中导入、连接到geth并使用它。我们还将学习如何使用web3.js为前一章中创建的智能合同构建一个web客户端。
+在上一章中，我们学习了如何编写智能合同，并使用 geth 的交互式控制台来部署和广播使用 web3.js 的交易。在本章中，我们将学习 web3.js 以及如何在 Node.js 或客户端 JavaScript 中导入、连接到 geth 并使用它。我们还将学习如何使用 web3.js 为前一章中创建的智能合同构建一个 web 客户端。
 
 在本章中，我们将涵盖以下主题：
 
-+   在Node.js和客户端JavaScript中导入web3.js
++   在 Node.js 和客户端 JavaScript 中导入 web3.js
 
-+   连接到geth
++   连接到 geth
 
-+   探索使用web3.js可以完成的各种事情
++   探索使用 web3.js 可以完成的各种事情
 
-+   探索web3.js的各种最常用的API
++   探索 web3.js 的各种最常用的 API
 
-+   构建一个用于所有权合同的Node.js应用程序
++   构建一个用于所有权合同的 Node.js 应用程序
 
-# [web3.js简介](https://wiki.example.org/web3.js_introduction)
+# [web3.js 简介](https://wiki.example.org/web3.js_introduction)
 
-web3.js为我们提供了JavaScript API与geth进行通信。它内部使用JSON-RPC与geth通信。web3.js也可以与支持JSON-RPC的任何其他类型的以太坊节点通信。它将所有JSON-RPC API公开为JavaScript API；也就是说，它不仅支持所有与以太坊相关的API；它还支持与Whisper和Swarm相关的API。
+web3.js 为我们提供了 JavaScript API 与 geth 进行通信。它内部使用 JSON-RPC 与 geth 通信。web3.js 也可以与支持 JSON-RPC 的任何其他类型的以太坊节点通信。它将所有 JSON-RPC API 公开为 JavaScript API；也就是说，它不仅支持所有与以太坊相关的 API；它还支持与 Whisper 和 Swarm 相关的 API。
 
-随着我们构建各种项目，你将越来越多地了解web3.js，但现在，让我们先了解一些web3.js最常用的API，然后我们将使用web3.js为我们的所有权智能合同构建一个前端。
+随着我们构建各种项目，你将越来越多地了解 web3.js，但现在，让我们先了解一些 web3.js 最常用的 API，然后我们将使用 web3.js 为我们的所有权智能合同构建一个前端。
 
-撰写此文时，web3.js的最新版本为0.16.0。我们将学习与该版本相关的所有内容。
+撰写此文时，web3.js 的最新版本为 0.16.0。我们将学习与该版本相关的所有内容。
 
-web3.js托管在[https://github.com/ethereum/web3.js](https://github.com/ethereum/web3.js)，完整的文档托管在[https://github.com/ethereum/wiki/wiki/JavaScript-API](https://github.com/ethereum/wiki/wiki/JavaScript-API)。
+web3.js 托管在[`github.com/ethereum/web3.js`](https://github.com/ethereum/web3.js)，完整的文档托管在[`github.com/ethereum/wiki/wiki/JavaScript-API`](https://github.com/ethereum/wiki/wiki/JavaScript-API)。
 
-# 导入web3.js
+# 导入 web3.js
 
-要在Node.js中使用web3.js，你只需在项目目录中运行`npm install web3`，在源代码中，你可以使用`require("web3");`进行导入。
+要在 Node.js 中使用 web3.js，你只需在项目目录中运行`npm install web3`，在源代码中，你可以使用`require("web3");`进行导入。
 
-要在客户端JavaScript中使用web3.js，你可以将位于项目源代码的`dist`目录中的`web3.js`文件加入队列。现在你将在全局范围内可以使用`Web3`对象。
+要在客户端 JavaScript 中使用 web3.js，你可以将位于项目源代码的`dist`目录中的`web3.js`文件加入队列。现在你将在全局范围内可以使用`Web3`对象。
 
 # 连接到节点
 
-web3.js可以使用HTTP或IPC与节点进行通信。我们将使用HTTP来建立与节点的通信。web3.js允许我们与多个节点建立连接。`web3`的实例表示与一个节点的连接。该实例公开API。
+web3.js 可以使用 HTTP 或 IPC 与节点进行通信。我们将使用 HTTP 来建立与节点的通信。web3.js 允许我们与多个节点建立连接。`web3`的实例表示与一个节点的连接。该实例公开 API。
 
-当应用程序在Mist中运行时，它会自动创建一个与mist节点连接的`web3`实例。实例的变量名是`web3`。
+当应用程序在 Mist 中运行时，它会自动创建一个与 mist 节点连接的`web3`实例。实例的变量名是`web3`。
 
 这里是连接到节点的基本代码：
 
@@ -106,13 +106,13 @@ web3.eth.getBalance("0x27E829fB34d14f3384646F938165dfcD30cFfB7c").toString();
 
 在这里，我们使用`web3.eth.getBalance()`方法来获取地址的余额。该方法返回一个`BigNumber`对象。我们需要在`BigNumber`对象上调用`toString()`将其转换为字符串。
 
-`BigNumber.js`无法正确处理具有20位以上小数的数字；因此，建议您将余额存储在wei单位中，并在显示时将其转换为其他单位。web3.js 本身始终以wei单位返回和接受余额。例如，`getBalance()`方法以wei单位返回地址的余额。
+`BigNumber.js`无法正确处理具有 20 位以上小数的数字；因此，建议您将余额存储在 wei 单位中，并在显示时将其转换为其他单位。web3.js 本身始终以 wei 单位返回和接受余额。例如，`getBalance()`方法以 wei 单位返回地址的余额。
 
 # 单位转换
 
-web3.js提供了API来将wei余额转换为任何其他单位，并将任何其他单位的余额转换为wei。
+web3.js 提供了 API 来将 wei 余额转换为任何其他单位，并将任何其他单位的余额转换为 wei。
 
-`web3.fromWei()`方法用于将wei数转换为任何其他单位，而`web3.toWei()`方法用于将其他单位中的数转换为wei。这里有一个示例来演示这一点：
+`web3.fromWei()`方法用于将 wei 数转换为任何其他单位，而`web3.toWei()`方法用于将其他单位中的数转换为 wei。这里有一个示例来演示这一点：
 
 ```
 web3.fromWei("1000000000000000000", "ether"); 
@@ -120,11 +120,11 @@ web3.toWei("0.000000000000000001", "ether");
 
 ```
 
-在第一行，我们将wei转换为以太，而在第二行，我们将以太转换为wei。两种方法的第二个参数可以是以下字符串之一：
+在第一行，我们将 wei 转换为以太，而在第二行，我们将以太转换为 wei。两种方法的第二个参数可以是以下字符串之一：
 
-+   `千wei/雅达`
++   `千 wei/雅达`
 
-+   `兆wei/巴贝吉`
++   `兆 wei/巴贝吉`
 
 +   `gwei/夏侬`
 
@@ -144,7 +144,7 @@ web3.toWei("0.000000000000000001", "ether");
 
 # 检索气价、余额和交易详情
 
-让我们来看一下用于检索气价、地址余额以及已挖出交易信息的API：
+让我们来看一下用于检索气价、地址余额以及已挖出交易信息的 API：
 
 ```
 //It's sync. For async use getGasPrice 
@@ -175,11 +175,11 @@ console.log(web3.eth.getTransactionReceipt("0x9fc76417374aa880d4449a1f7f31ec597f
 
 这里是前述方法的工作原理：
 
-+   `web3.eth.gasPrice()`: 通过x个最新区块的中位数气价确定气价。
++   `web3.eth.gasPrice()`: 通过 x 个最新区块的中位数气价确定气价。
 
-+   `web3.ethgetBalance()`: 返回任何给定地址的余额。所有哈希应作为十六进制字符串提供给web3.js的API，而不是作为十六进制文本。对于solidity的`address`类型的输入，也应作为十六进制字符串提供。 
++   `web3.ethgetBalance()`: 返回任何给定地址的余额。所有哈希应作为十六进制字符串提供给 web3.js 的 API，而不是作为十六进制文本。对于 solidity 的`address`类型的输入，也应作为十六进制字符串提供。 
 
-+   `web3.eth.getTransactionReceipt()`: 用于利用其哈希获取有关交易的详细信息。如果在区块链中找到交易，则返回交易收据对象；否则，返回null。交易收据对象包含以下属性：
++   `web3.eth.getTransactionReceipt()`: 用于利用其哈希获取有关交易的详细信息。如果在区块链中找到交易，则返回交易收据对象；否则，返回 null。交易收据对象包含以下属性：
 
     +   `blockHash`: 交易所在块的哈希
 
@@ -197,7 +197,7 @@ console.log(web3.eth.getTransactionReceipt("0x9fc76417374aa880d4449a1f7f31ec597f
 
     +   `gasUsed`: 该特定交易独自使用的燃气量
 
-    +   `contractAddress`: 如果交易是一个合约创建的话，返回创建的合约地址；否则，返回null
+    +   `contractAddress`: 如果交易是一个合约创建的话，返回创建的合约地址；否则，返回 null
 
     +   `日志`: 此交易生成的日志对象数组
 
@@ -209,11 +209,11 @@ console.log(web3.eth.getTransactionReceipt("0x9fc76417374aa880d4449a1f7f31ec597f
 
 +   `to`：这是可选的。这是消息的目标地址，在合约创建交易中保持未定义。
 
-+   `value`：这是可选的。这是以wei为单位的交易价值以及（如果是合约创建交易）赋予的资金。
++   `value`：这是可选的。这是以 wei 为单位的交易价值以及（如果是合约创建交易）赋予的资金。
 
 +   `gas`：这是可选的。这是用于交易的气量（未使用的气会退还）。如果未提供，则会自动确定。
 
-+   `gasPrice`：这是可选的。这是交易的气价，以wei为单位，默认为平均网络气价。
++   `gasPrice`：这是可选的。这是交易的气价，以 wei 为单位，默认为平均网络气价。
 
 +   `data`：这是可选的。它是一个包含消息关联数据的字节字符串，或者在合约创建交易的情况下是初始化代码。
 
@@ -230,7 +230,7 @@ var txnHash = web3.eth.sendTransaction({
 
 ```
 
-在这里，我们从账户号为0的账户向账户号为1的账户发送1个以太币。在运行geth时确保两个账户都使用`unlock`选项解锁。在geth交互式控制台中，它会提示输入密码，但在交互式控制台之外使用的web3.js API如果账户被锁定会抛出错误。此方法返回交易的交易哈希。您随后可以使用`getTransactionReceipt()`方法检查交易是否已被挖掘。
+在这里，我们从账户号为 0 的账户向账户号为 1 的账户发送 1 个以太币。在运行 geth 时确保两个账户都使用`unlock`选项解锁。在 geth 交互式控制台中，它会提示输入密码，但在交互式控制台之外使用的 web3.js API 如果账户被锁定会抛出错误。此方法返回交易的交易哈希。您随后可以使用`getTransactionReceipt()`方法检查交易是否已被挖掘。
 
 您还可以在运行时使用`web3.personal.listAccounts()`、`web3.personal.unlockAccount(addr, pwd)`和`web3.personal.newAccount(pwd)` API 来管理账户。
 
@@ -238,7 +238,7 @@ var txnHash = web3.eth.sendTransaction({
 
 让我们学习如何部署新合约，通过地址获取已部署合约的引用，向合约发送以太币，发送调用合约方法的交易，并估算方法调用的 gas。
 
-要部署新合约或获取已部署合约的引用，你需要首先使用`web3.eth.contract()`方法创建一个合约对象。它以合约ABI作为参数并返回合约对象。
+要部署新合约或获取已部署合约的引用，你需要首先使用`web3.eth.contract()`方法创建一个合约对象。它以合约 ABI 作为参数并返回合约对象。
 
 以下是创建合约对象的代码：
 
@@ -247,7 +247,7 @@ var proofContract = web3.eth.contract([{"constant":false,"inputs":[{"name":"file
 
 ```
 
-一旦获取到合约，你可以使用合约对象的`new`方法部署它，或者使用`at`方法获取与ABI匹配的已部署合约的引用。
+一旦获取到合约，你可以使用合约对象的`new`方法部署它，或者使用`at`方法获取与 ABI 匹配的已部署合约的引用。
 
 让我们看一个部署新合约的示例：
 
@@ -419,7 +419,7 @@ events.stopWatching();
 
     +   `blockNumber`：表示此日志所在块的块号；当其处于挂起状态时为`null`。
 
-web3.js提供了一个`web3.eth.filter`API来检索和监听事件。您可以使用此API，但较早方法处理事件的方式要简单得多。您可以在[https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter](https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter)了解更多信息。
+web3.js 提供了一个`web3.eth.filter`API 来检索和监听事件。您可以使用此 API，但较早方法处理事件的方式要简单得多。您可以在[`github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter`](https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter)了解更多信息。
 
 # 为所有权合约构建客户端
 

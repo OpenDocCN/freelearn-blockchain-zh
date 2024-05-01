@@ -22,7 +22,7 @@ web3.js 为我们提供了 JavaScript API，用于与 geth 通信。它在内部
 
 在撰写本文时，web3.js 的最新版本是 0.16.0。我们将针对该版本学习所有内容。
 
-web3.js 托管在 [https://github.com/ethereum/web3.js](https://github.com/ethereum/web3.js)，完整的文档托管在 [https://github.com/ethereum/wiki/wiki/JavaScript-API](https://github.com/ethereum/wiki/wiki/JavaScript-API)。
+web3.js 托管在 [`github.com/ethereum/web3.js`](https://github.com/ethereum/web3.js)，完整的文档托管在 [`github.com/ethereum/wiki/wiki/JavaScript-API`](https://github.com/ethereum/wiki/wiki/JavaScript-API)。
 
 # 导入 web3.js
 
@@ -231,7 +231,7 @@ var txnHash = web3.eth.sendTransaction({
 
 让我们学习如何部署一个新的合约，使用它的地址获取已部署合约的引用，向合约发送以太币，发送交易来调用合约方法，并估算方法调用的 gas。
 
-要部署一个新合约或获取对已部署合约的引用，你首先需要使用`web3.eth.contract()`方法创建一个合约对象。它将合约ABI作为参数，并返回合约对象。
+要部署一个新合约或获取对已部署合约的引用，你首先需要使用`web3.eth.contract()`方法创建一个合约对象。它将合约 ABI 作为参数，并返回合约对象。
 
 这是创建合约对象的代码：
 
@@ -239,7 +239,7 @@ var txnHash = web3.eth.sendTransaction({
 var proofContract = web3.eth.contract([{"constant":false,"inputs":[{"name":"fileHash","type":"string"}],"name":"get","outputs":[{"name":"timestamp","type":"uint256"},{"name":"owner","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"owner","type":"string"},{"name":"fileHash","type":"string"}],"name":"set","outputs":[],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"status","type":"bool"},{"indexed":false,"name":"timestamp","type":"uint256"},{"indexed":false,"name":"owner","type":"string"},{"indexed":false,"name":"fileHash","type":"string"}],"name":"logFileAddedStatus","type":"event"}]); 
 ```
 
-一旦你有了合约，你可以使用合约对象的`new`方法部署它，或者使用`at`方法获取与ABI匹配的已部署合约的引用。
+一旦你有了合约，你可以使用合约对象的`new`方法部署它，或者使用`at`方法获取与 ABI 匹配的已部署合约的引用。
 
 让我们看一个部署新合约的例子：
 
@@ -404,7 +404,7 @@ events.stopWatching();
 
     +   `blockNumber`：表示此日志所在块的块号；其状态为挂起时为`null`
 
-web3.js提供了一个`web3.eth.filter` API来检索和监听事件。你可以使用这个API，但是较早方法处理事件的方式更容易。你可以在[https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter](https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter)了解更多相关信息。
+web3.js 提供了一个`web3.eth.filter` API 来检索和监听事件。你可以使用这个 API，但是较早方法处理事件的方式更容易。你可以在[`github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter`](https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter)了解更多相关信息。
 
 # 构建所有权合约的客户端
 
@@ -434,7 +434,7 @@ web3.js 可以在前端使用。但对于这个应用程序来说，这将是一
 geth --dev --mine --rpc --unlock=0
 ```
 
-在开始编码之前，您需要做的最后一件事是使用我们在[第 4 章](12eebfe5-f775-4550-a8df-d9578dd08980.xhtml)中看到的代码部署所有权合同，并复制合同地址。
+在开始编码之前，您需要做的最后一件事是使用我们在第四章中看到的代码部署所有权合同，并复制合同地址。
 
 现在让我们创建一个单一服务器，该服务器将向浏览器提供 HTML，并接受 `socket.io` 连接：
 
@@ -696,4 +696,4 @@ else
 
 在本章中，我们首先通过示例了解了 web3.js 的基础知识。我们学习了如何连接到节点，基本的 API，发送各种类型的交易和监视事件。最后，我们为我们的所有权合同构建了一个适当的生产使用客户端。现在您将可以轻松编写智能合约并为其构建 UI 客户端，以便简化其使用。
 
-在[第 9 章](5eb488e0-cefa-4c47-b876-b506c95adfd7.xhtml)中，我们将构建一个钱包服务，用户可以轻松地创建和管理以太坊钱包，而且还是离线的。我们将专门使用LightWallet库来实现这一点。
+在第九章中，我们将构建一个钱包服务，用户可以轻松地创建和管理以太坊钱包，而且还是离线的。我们将专门使用 LightWallet 库来实现这一点。

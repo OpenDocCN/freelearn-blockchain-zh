@@ -20,7 +20,7 @@
 
 要理解什么是联盟区块链，或者换句话说，联盟需要什么样的区块链实现，让我们来看一个例子。银行希望建立一个区块链来使资金转账更加简单、快速和便宜。在这种情况下，以下是他们需要的东西：
 
-1.  **速度**：他们需要一个能够在几乎实时确认交易的区块链网络。目前，以太坊区块链网络的出块时间为12秒，客户通常需要等待几分钟才能确认一笔交易。
+1.  **速度**：他们需要一个能够在几乎实时确认交易的区块链网络。目前，以太坊区块链网络的出块时间为 12 秒，客户通常需要等待几分钟才能确认一笔交易。
 
 1.  **有权限**：他们希望区块链是有权限的。权限本身意味着各种不同的事情。例如：权限可能包括获得加入网络的许可，可能包括获得创建区块的许可，也可能包括获得发送特定交易的许可等等。
 
@@ -58,50 +58,50 @@ Aura 对于权限区块链比 PoW 是一个更好的解决方案，因为它具�
 
 你一定在想，如果由于某种原因，下一个验证节点无法创建和广播下一个区块会发生什么。为了理解这一点，让我们举个例子：假设 A 是下一个区块（即第五个区块）的验证者，B 是第六个区块的验证者。假设区块时间为五秒。如果 A 未能广播一个区块，那么五秒后当 B 轮到时，它将广播一个区块。所以实际上并没有发生什么严重的事情。区块时间戳将显示这些细节。
 
-你可能也想知道是否有可能出现网络以多个不同的区块链结束的情况，就像在PoW中两个矿工同时挖矿的情况一样。是的，这种情况可能有很多种。让我们举一个例子，了解一种可能发生的情况以及网络如何自动解决它。假设有五个验证者：A、B、C、D和E。区块时间为五秒。假设首先选择A，并且它广播了一个区块，但由于某种原因，该区块未到达D和E；因此他们会认为A没有广播该区块。现在假设选择算法选择B来生成下一个区块；那么B将在A的区块之上生成下一个区块并广播给所有节点。D和E将拒绝它，因为前一个区块的哈希值不匹配。因此，D和E将形成不同的链，而A、B和C将形成不同的链。A、B和C将拒绝来自D和E的区块，而D和E将拒绝来自A、B和C的区块。这个问题在节点之间解决，因为A、B和C持有的区块链比D和E持有的区块链更准确；因此D和E将用A、B和C持有的区块链替换他们的区块链版本。这两个版本的区块链将具有不同的准确度分数，第一个区块链的分数将比第二个区块链的分数更高。当B广播它的区块时，它还将提供其区块链的分数，由于其分数更高，D和E将用B的区块链替换他们的区块链。这就是冲突是如何解决的。区块链的链分数是使用`(U128_max * BLOCK_NUMBER_OF_LATEST_BLOCK - (UNIX_TIMESTAMP_OF_LATEST_BLOCK / BLOCK_TIME))`来计算的。首先按长度对链进行评分（区块越多，越好）。对于长度相等的链，选择最后一个区块更老的链。
+你可能也想知道是否有可能出现网络以多个不同的区块链结束的情况，就像在 PoW 中两个矿工同时挖矿的情况一样。是的，这种情况可能有很多种。让我们举一个例子，了解一种可能发生的情况以及网络如何自动解决它。假设有五个验证者：A、B、C、D 和 E。区块时间为五秒。假设首先选择 A，并且它广播了一个区块，但由于某种原因，该区块未到达 D 和 E；因此他们会认为 A 没有广播该区块。现在假设选择算法选择 B 来生成下一个区块；那么 B 将在 A 的区块之上生成下一个区块并广播给所有节点。D 和 E 将拒绝它，因为前一个区块的哈希值不匹配。因此，D 和 E 将形成不同的链，而 A、B 和 C 将形成不同的链。A、B 和 C 将拒绝来自 D 和 E 的区块，而 D 和 E 将拒绝来自 A、B 和 C 的区块。这个问题在节点之间解决，因为 A、B 和 C 持有的区块链比 D 和 E 持有的区块链更准确；因此 D 和 E 将用 A、B 和 C 持有的区块链替换他们的区块链版本。这两个版本的区块链将具有不同的准确度分数，第一个区块链的分数将比第二个区块链的分数更高。当 B 广播它的区块时，它还将提供其区块链的分数，由于其分数更高，D 和 E 将用 B 的区块链替换他们的区块链。这就是冲突是如何解决的。区块链的链分数是使用`(U128_max * BLOCK_NUMBER_OF_LATEST_BLOCK - (UNIX_TIMESTAMP_OF_LATEST_BLOCK / BLOCK_TIME))`来计算的。首先按长度对链进行评分（区块越多，越好）。对于长度相等的链，选择最后一个区块更老的链。
 
-你可以深入了解Aura在[https://github.com/paritytech/parity/wiki/Aura](https://github.com/paritytech/parity/wiki/Aura)。
+你可以深入了解 Aura 在[`github.com/paritytech/parity/wiki/Aura`](https://github.com/paritytech/parity/wiki/Aura)。
 
-# 让parity运行起来
+# 让 parity 运行起来
 
-Parity需要Rust版本1.16.0来构建。推荐通过rustup安装Rust。
+Parity 需要 Rust 版本 1.16.0 来构建。推荐通过 rustup 安装 Rust。
 
-# 安装rust
+# 安装 rust
 
-如果你还没有安装rustup，你可以像这样安装它。
+如果你还没有安装 rustup，你可以像这样安装它。
 
 # Linux
 
-在基于Linux的操作系统上，运行此命令：
+在基于 Linux 的操作系统上，运行此命令：
 
 ```
 curl https://sh.rustup.rs -sSf | sh
 
 ```
 
-Parity还需要安装`gcc`、`g++`、`libssl-dev`/`openssl`、`libudev-dev`和`pkg-config`软件包。
+Parity 还需要安装`gcc`、`g++`、`libssl-dev`/`openssl`、`libudev-dev`和`pkg-config`软件包。
 
 # OS X
 
-在OS X上，运行此命令：
+在 OS X 上，运行此命令：
 
 ```
 curl https://sh.rustup.rs -sSf | sh
 
 ```
 
-Parity还需要clang。Clang随Xcode命令行工具一起提供，或者可以使用Homebrew安装。
+Parity 还需要 clang。Clang 随 Xcode 命令行工具一起提供，或者可以使用 Homebrew 安装。
 
 # Windows
 
-确保你安装了带有C++支持的Visual Studio 2015。接下来，从[https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe](https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe)下载并运行rustup安装程序，启动"VS2015 x64 Native Tools Command Prompt"，并使用以下命令安装和设置`msvc`工具链：
+确保你安装了带有 C++支持的 Visual Studio 2015。接下来，从[`static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe`](https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe)下载并运行 rustup 安装程序，启动"VS2015 x64 Native Tools Command Prompt"，并使用以下命令安装和设置`msvc`工具链：
 
 ```
 rustup default stable-x86_64-pc-windows-msvc
 
 ```
 
-# 下载、安装和运行parity
+# 下载、安装和运行 parity
 
 现在，在您的操作系统上安装了 rust 之后，您可以运行以下简单的单行命令来安装 parity：
 

@@ -69,7 +69,7 @@ src/
 
 # 动态生成组件
 
-在改进React dApps时的另一个技巧是动态生成组件。您可能曾经处于这样一种情况，您必须生成具有不同属性的多个子组件，因为您有某种数组。这似乎很简单，但却非常不直观，因为React只能理解其虚拟HTML中的某种对象类型。
+在改进 React dApps 时的另一个技巧是动态生成组件。您可能曾经处于这样一种情况，您必须生成具有不同属性的多个子组件，因为您有某种数组。这似乎很简单，但却非常不直观，因为 React 只能理解其虚拟 HTML 中的某种对象类型。
 
 假设你有一个包含不同动物属性的对象数组，这些属性是从智能合约中获取的：
 
@@ -91,7 +91,7 @@ const myAnimals = [
 ]
 ```
 
-您想为这些对象中的每一个生成`Animal`组件。您不能只是简单地循环它们并创建组件；您必须使用带有普通括号的`.map()`函数，而不是花括号，因为React组件非常挑剔。看看它会是这样：
+您想为这些对象中的每一个生成`Animal`组件。您不能只是简单地循环它们并创建组件；您必须使用带有普通括号的`.map()`函数，而不是花括号，因为 React 组件非常挑剔。看看它会是这样：
 
 1.  首先，您可以按照以下方式设置构造函数来呈现数组中要显示的元素：
 
@@ -125,7 +125,7 @@ class AnimalContainer extends React.Component {
 ReactDOM.render(<AnimalContainer />, document.querySelector('#root'))
 ```
 
-1.  然后，设置呈现函数以通过`map()`函数查看所有元素，尽管您可以使用普通的`for()`循环来生成JSX组件数组。请注意，因为JSX要求返回动态HTML元素，我们将每个元素返回在普通的`()`括号内而不是花括号`{}`内：
+1.  然后，设置呈现函数以通过`map()`函数查看所有元素，尽管您可以使用普通的`for()`循环来生成 JSX 组件数组。请注意，因为 JSX 要求返回动态 HTML 元素，我们将每个元素返回在普通的`()`括号内而不是花括号`{}`内：
 
 ```
 render () {
@@ -143,7 +143,7 @@ render () {
 }
 ```
 
-1.  最后，创建`Animal`组件以在您的dApp上显示它：
+1.  最后，创建`Animal`组件以在您的 dApp 上显示它：
 
 ```
 class Animal extends React.Component {
@@ -163,7 +163,7 @@ class Animal extends React.Component {
 }
 ```
 
-正如你所见，`AnimalContainer`组件正在使用`.map()`函数动态生成`Animal`。这就是如何将JavaScript对象转换为React组件。请注意，我们是在render函数内生成组件的，并且`.map()`函数块在普通括号中而不是花括号中：
+正如你所见，`AnimalContainer`组件正在使用`.map()`函数动态生成`Animal`。这就是如何将 JavaScript 对象转换为 React 组件。请注意，我们是在 render 函数内生成组件的，并且`.map()`函数块在普通括号中而不是花括号中：
 
 ```
 .map(element => ())
@@ -171,9 +171,9 @@ class Animal extends React.Component {
 
 # 更快地启动项目
 
-React项目的另一个问题是，您必须始终从头安装依赖项，设置`webpack`文件，并确保一切正常运行。这很烦人，耗费了太多宝贵的时间。为了解决这个问题，有`create-react-app`库，尽管它添加了许多不必要的包，可能会在以后造成麻烦，增加了可升级性更困难，因为它基于封闭系统。
+React 项目的另一个问题是，您必须始终从头安装依赖项，设置`webpack`文件，并确保一切正常运行。这很烦人，耗费了太多宝贵的时间。为了解决这个问题，有`create-react-app`库，尽管它添加了许多不必要的包，可能会在以后造成麻烦，增加了可升级性更困难，因为它基于封闭系统。
 
-最好尽可能使用最简化的版本启动React项目。这就是我创建的开源`dapp`项目，其中包含了最小、最精简的使用Truffle启动React dApp项目的版本，让您可以立即开始。您可以使用以下代码从我的GitHub上获取最新版本：
+最好尽可能使用最简化的版本启动 React 项目。这就是我创建的开源`dapp`项目，其中包含了最小、最精简的使用 Truffle 启动 React dApp 项目的版本，让您可以立即开始。您可以使用以下代码从我的 GitHub 上获取最新版本：
 
 ```
 $ git clone https://github.com/merlox/dapp
@@ -181,7 +181,7 @@ $ git clone https://github.com/merlox/dapp
 
 然后使用`npm i`安装所有依赖项，运行`webpack watch`以在进行更改时保持文件捆绑为`webpack -d -w`，并在`dist/`文件夹中运行您选择的静态服务器。例如，您可能会选择`http-server dist/`。
 
-`dapp`项目正在为您执行以下任务，以便您可以立即开始新的dApp工作：
+`dapp`项目正在为您执行以下任务，以便您可以立即开始新的 dApp 工作：
 
 +   安装所有 `react`, `webpack`, `babel`, 和 `truffle` 的依赖项。刚刚好，因为它甚至不包括 `.css` 加载器，这样你就可以轻松管理你的包。如果你想使用它，你仍然需要全局安装 Truffle。
 
@@ -289,23 +289,23 @@ nodemon server/server.js
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.3.1",
-    "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.2",
-    "babel-polyfill": "^6.26.0",
-    "body-parser": "^1.18.3",
-    "css-loader": "^2.1.0",
-    "express": "^4.16.4",
-    "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "react": "^16.8.1",
-    "react-dom": "^16.8.1",
-    "style-loader": "^0.23.1",
-    "truffle-hdwallet-provider": "^1.0.3",
-    "web3": "^1.0.0-beta.46",
-    "webpack": "^4.29.3",
-    "webpack-cli": "^3.2.3"
+    "@babel/core": "⁷.2.2",
+    "@babel/preset-env": "⁷.3.1",
+    "@babel/preset-react": "⁷.0.0",
+    "babel-loader": "⁸.0.2",
+    "babel-polyfill": "⁶.26.0",
+    "body-parser": "¹.18.3",
+    "css-loader": "².1.0",
+    "express": "⁴.16.4",
+    "html-loader": "⁰.5.5",
+    "html-webpack-plugin": "³.2.0",
+    "react": "¹⁶.8.1",
+    "react-dom": "¹⁶.8.1",
+    "style-loader": "⁰.23.1",
+    "truffle-hdwallet-provider": "¹.0.3",
+    "web3": "¹.0.0-beta.46",
+    "webpack": "⁴.29.3",
+    "webpack-cli": "³.2.3"
   }
 }
 ```
@@ -314,7 +314,7 @@ nodemon server/server.js
 
 # 获取托管解决方案
 
-现在我们的静态服务器已经运行，我们可以将其部署到托管解决方案上，以使我们的 dApp 从外部世界访问。在此之前，将您的项目添加到 GitHub，并包含所有最新更改，以便稍后在另一台计算机上使用。转到[https://digitalocean.com](https://digitalocean.com)，并使用链接[https://m.do.co/c/db9317c010bb](https://m.do.co/c/db9317c010bb)创建帐户，这将为您提供价值 $100 的服务，免费使用 60 天，并在您添加 $25 到服务时额外获得 $25。这将足以至少运行一个基本的 VPS 服务器 3 个月。您需要添加信用卡/借记卡或添加 $5 的 PayPal 美元才能开始使用它。在我的情况下，我支付了 $5 美元。
+现在我们的静态服务器已经运行，我们可以将其部署到托管解决方案上，以使我们的 dApp 从外部世界访问。在此之前，将您的项目添加到 GitHub，并包含所有最新更改，以便稍后在另一台计算机上使用。转到[`digitalocean.com`](https://digitalocean.com)，并使用链接[`m.do.co/c/db9317c010bb`](https://m.do.co/c/db9317c010bb)创建帐户，这将为您提供价值 $100 的服务，免费使用 60 天，并在您添加 $25 到服务时额外获得 $25。这将足以至少运行一个基本的 VPS 服务器 3 个月。您需要添加信用卡/借记卡或添加 $5 的 PayPal 美元才能开始使用它。在我的情况下，我支付了 $5 美元。
 
 转到 Droplets 部分，然后单击“创建 Droplet”：
 
@@ -334,7 +334,7 @@ nodemon server/server.js
 
 # 在 VPS 主机上设置您的服务器
 
-如果您使用的是 Windows，请从官方网站下载 PuTTY 以连接到外部服务器，网址在这里：[https://www.putty.org](https://www.putty.org/)。安装后打开它：
+如果您使用的是 Windows，请从官方网站下载 PuTTY 以连接到外部服务器，网址在这里：[`www.putty.org`](https://www.putty.org/)。安装后打开它：
 
 ![](img/c181034f-f3a0-452f-ace8-9867c9dce765.png)
 
@@ -376,7 +376,7 @@ usermod -aG sudo <your-user>
 
 这是一个示例：`usermod -aG sudo merunas`。
 
-现在我们要做的是从头开始安装 Node.js 和 NGINX。Node.js 的过程有点复杂，因为他们不断改进他们的软件，所以设置起来更困难，但完全可行。转到 [https://nodejs.org/en/download/current/](https://nodejs.org/en/download/current/) 并通过右键单击其中的按钮复制源代码的链接地址：
+现在我们要做的是从头开始安装 Node.js 和 NGINX。Node.js 的过程有点复杂，因为他们不断改进他们的软件，所以设置起来更困难，但完全可行。转到 [`nodejs.org/en/download/current/`](https://nodejs.org/en/download/current/) 并通过右键单击其中的按钮复制源代码的链接地址：
 
 ![](img/70b46c66-5a68-4967-95c3-86876001ccb8.png)
 
@@ -450,21 +450,21 @@ sudo npm i -g pm2
 
 ![](img/d37552b3-b5eb-414a-97bc-4103272ccb0c.png)
 
-点击A记录旁边的铅笔图标，并将指针更改为您的IP地址，如下所示：
+点击 A 记录旁边的铅笔图标，并将指针更改为您的 IP 地址，如下所示：
 
 ![](img/f59de043-7d0c-4bc0-a1d9-f0b57edfb019.png)
 
-通过这一变化，您现在可以使用域名而不是IP连接到您的服务器，在Mac中，例如这样：
+通过这一变化，您现在可以使用域名而不是 IP 连接到您的服务器，在 Mac 中，例如这样：
 
 ```
 ssh root@socialmusic.online
 ```
 
-它将与以前完全相同的方式工作。您还可以在端口80上启动Node.js服务器，并且您将能够使用该域名访问网站。但是，当涉及与域名通信时，Node.js受到了限制，因此我们必须使用更高级的解决方案。
+它将与以前完全相同的方式工作。您还可以在端口 80 上启动 Node.js 服务器，并且您将能够使用该域名访问网站。但是，当涉及与域名通信时，Node.js 受到了限制，因此我们必须使用更高级的解决方案。
 
-# 设置NGINX
+# 设置 NGINX
 
-现在您的域名已经设置好了，是时候将NGINX配置为前端服务器，以将您的域名与Node.js实例连接起来了。NGINX将为您处理所有请求，这样您就可以专注于改进您的Node.js应用程序。
+现在您的域名已经设置好了，是时候将 NGINX 配置为前端服务器，以将您的域名与 Node.js 实例连接起来了。NGINX 将为您处理所有请求，这样您就可以专注于改进您的 Node.js 应用程序。
 
 与之前一样连接到服务器，并使用以下命令安装`nginx`：
 
@@ -472,13 +472,13 @@ ssh root@socialmusic.online
 sudo apt install nginx
 ```
 
-之后，您将需要编辑NGINX的配置文件，位于`/etc/nginx/sites-enabled/default`。只需用`vim`编辑您的默认文件：
+之后，您将需要编辑 NGINX 的配置文件，位于`/etc/nginx/sites-enabled/default`。只需用`vim`编辑您的默认文件：
 
 ```
 sudo vim /etc/nginx/sites-enabled/default
 ```
 
-然后，添加以下代码以能够在Node.js服务器中使用域名：
+然后，添加以下代码以能够在 Node.js 服务器中使用域名：
 
 ```
 upstream nodejs {
@@ -515,21 +515,21 @@ server {
 }
 ```
 
-首先，我们定义了一个`upstream`块。在这里，我们告诉NGINX我们在正确端口上运行的`node.js`服务器的位置。这对于保护端口80非常重要，因为大部分请求都会在那里执行。
+首先，我们定义了一个`upstream`块。在这里，我们告诉 NGINX 我们在正确端口上运行的`node.js`服务器的位置。这对于保护端口 80 非常重要，因为大部分请求都会在那里执行。
 
-然后，我们创建了一个`server`块。这些类型的块用于在定义的端口上设置一些配置。`listen 80;`语句告诉NGINX在该服务器块内处理端口80的请求。然后，我们为更快的加载时间添加了一些`gzip`压缩，以及一个将所有请求传递给`upstream nodejs`的位置块。另一个位置块是用于提供静态文件的，以便您有图像之类的文件，因为这是传递静态内容的更快方式。请注意，`root /home/merunas/social-music/public;`根位置是我们的静态文件的位置。
+然后，我们创建了一个`server`块。这些类型的块用于在定义的端口上设置一些配置。`listen 80;`语句告诉 NGINX 在该服务器块内处理端口 80 的请求。然后，我们为更快的加载时间添加了一些`gzip`压缩，以及一个将所有请求传递给`upstream nodejs`的位置块。另一个位置块是用于提供静态文件的，以便您有图像之类的文件，因为这是传递静态内容的更快方式。请注意，`root /home/merunas/social-music/public;`根位置是我们的静态文件的位置。
 
-请记得将`socialmusic.online`改为您的域名。您现在可以使用以下命令行运行NGINX：
+请记得将`socialmusic.online`改为您的域名。您现在可以使用以下命令行运行 NGINX：
 
 ```
 sudo service nginx restart
 ```
 
-这将重新启动服务，使其在后台保持运行。您的网站现在可以在任何浏览器中使用您的域名访问。要完成部署，我们将添加SSL。**SSL**是用于保护访问您的dApp的通信的加密算法。这是非常常见的，并且对于任何重要项目来说都必须添加。
+这将重新启动服务，使其在后台保持运行。您的网站现在可以在任何浏览器中使用您的域名访问。要完成部署，我们将添加 SSL。**SSL**是用于保护访问您的 dApp 的通信的加密算法。这是非常常见的，并且对于任何重要项目来说都必须添加。
 
-# 添加SSL安全性
+# 添加 SSL 安全性
 
-要安装SSL，我们将使用**Let's Encrypt**的免费证书，这是一个非营利性组织，其目标是为每个人提供免费SSL证书来保护互联网。以下是步骤：
+要安装 SSL，我们将使用**Let's Encrypt**的免费证书，这是一个非营利性组织，其目标是为每个人提供免费 SSL 证书来保护互联网。以下是步骤：
 
 1.  安装以下库：
 
@@ -537,17 +537,17 @@ sudo service nginx restart
 sudo apt install software-properties-common certbot python-certbot-nginx
 ```
 
-1.  运行`certbot`应用程序向您的NGINX服务器添加：
+1.  运行`certbot`应用程序向您的 NGINX 服务器添加：
 
 ```
 sudo certbot --nginx
 ```
 
-1.  提供您的电子邮件地址，接受服务条款，并选择1作为您的域名：
+1.  提供您的电子邮件地址，接受服务条款，并选择 1 作为您的域名：
 
 ![](img/1461c4f9-b450-413d-b0e7-560b199d0e66.png)
 
-1.  它会询问您是否想要将所有请求重定向到443安全的HTTPS端口。只需通过选择第二个选项说是：
+1.  它会询问您是否想要将所有请求重定向到 443 安全的 HTTPS 端口。只需通过选择第二个选项说是：
 
 ![](img/7118af8a-a3f3-4b10-aaf5-2767bd7e090a.png)
 
@@ -599,7 +599,7 @@ await this.state.contractInstance.methods.functionName(parameters).send({from: t
 
 ```
 async function send(functionName, parameters) {
-    await this.state.contractInstance.methods[functionName](parameters).send({from: this.state.userAddress})
+    await this.state.contractInstance.methodsfunctionName.send({from: this.state.userAddress})
 }
 ```
 
@@ -699,9 +699,9 @@ Oracle 是外部应用程序，它们帮助你的智能合约从外部世界获�
 
 # 构建随机生成的 Oracle
 
-Oracle是智能合约从外部世界获取信息的一种方式。它们是中心化服务器、外部区块链和API与运行在以太坊上的智能合约之间的桥梁。基本上，它们是一种服务，可以为您提供来自无法通过普通智能合约访问的地方的重要信息，它们通过设置一个中心化服务器监听您的合约的web3事件来工作。
+Oracle 是智能合约从外部世界获取信息的一种方式。它们是中心化服务器、外部区块链和 API 与运行在以太坊上的智能合约之间的桥梁。基本上，它们是一种服务，可以为您提供来自无法通过普通智能合约访问的地方的重要信息，它们通过设置一个中心化服务器监听您的合约的 web3 事件来工作。
 
-首先，创建一个名为`oracle`的新项目，运行`truffle init`以便编译合约，使用`npm init -y`设置npm，并创建一个生成事件并处理`Oracle.sol`的智能合约：
+首先，创建一个名为`oracle`的新项目，运行`truffle init`以便编译合约，使用`npm init -y`设置 npm，并创建一个生成事件并处理`Oracle.sol`的智能合约：
 
 ```
 pragma solidity 0.5.4;
@@ -724,7 +724,7 @@ contract Oracle {
 
 这很基本：当用户通过调用`generateRandom()`函数请求时，执行带有随机生成的数字的`__callback()`函数的想法。我们将设置一个事件监听器，在适当的时间给用户提供随机数，带有正确的序列标识符。
 
-记得更新您`migrations`文件夹中的`1_initial_migrations.js`文件，以告诉Truffle部署正确的合约：
+记得更新您`migrations`文件夹中的`1_initial_migrations.js`文件，以告诉 Truffle 部署正确的合约：
 
 ```
 var Oracle = artifacts.require("./Oracle.sol")
@@ -734,13 +734,13 @@ module.exports = function(deployer) {
 }
 ```
 
-然后，通过在`truffle-config.js`中设置正确的配置来将其部署到`ropsten`。您已经知道如何做到这一点，因为我们在之前的章节中学习了如何在Truffle的配置文件中设置Infura以用于Ropsten：
+然后，通过在`truffle-config.js`中设置正确的配置来将其部署到`ropsten`。您已经知道如何做到这一点，因为我们在之前的章节中学习了如何在 Truffle 的配置文件中设置 Infura 以用于 Ropsten：
 
 ```
 truffle deploy --network ropsten --reset
 ```
 
-现在，我们可以创建一个Node.js应用程序，该应用程序监听由我们的智能合约生成的事件，并使用以下代码在一个`oracle.js`文件中启动生成一个随机生成的数字类型的正确请求：
+现在，我们可以创建一个 Node.js 应用程序，该应用程序监听由我们的智能合约生成的事件，并使用以下代码在一个`oracle.js`文件中启动生成一个随机生成的数字类型的正确请求：
 
 ```
 const Web3 = require('web3')
@@ -754,9 +754,9 @@ let privateKey
 let myAddress
 ```
 
-我们已经导入了`web3`、`fs`和`path`作为与合约交互的库。然后，我们定义了一个用于连接到Ropsten部署和与合约交互的websockets Infura URL。重要的是您使用`wss`而不是`http`，因为这是接收事件的唯一方式。最后，我们添加了一些稍后会需要的全局变量。
+我们已经导入了`web3`、`fs`和`path`作为与合约交互的库。然后，我们定义了一个用于连接到 Ropsten 部署和与合约交互的 websockets Infura URL。重要的是您使用`wss`而不是`http`，因为这是接收事件的唯一方式。最后，我们添加了一些稍后会需要的全局变量。
 
-通过创建和签署使用我们的私钥的自定义交易对象，我们可以生成没有MetaMask的交易。我们可以使用以下基于`.secret`文件中的助记词生成私钥的函数：
+通过创建和签署使用我们的私钥的自定义交易对象，我们可以生成没有 MetaMask 的交易。我们可以使用以下基于`.secret`文件中的助记词生成私钥的函数：
 
 ```
 // To generate the private key and address needed to sign transactions
@@ -803,9 +803,9 @@ function start() {
 }
 ```
 
-首先，我们读取助记词的12个单词的密码来使用先前的`generateAddressesFromSeed()`函数生成我们的privateKey和address。然后，我们使用`WebsocketProvider`为我们的Ropsten Infura URL设置一个新的web3实例，因为我们无法使用`HttpProvider`监听事件。之后，我们通过从Truffle生成的包含部署合约地址的JSON文件中读取ABI数据来设置`contractInstance`。
+首先，我们读取助记词的 12 个单词的密码来使用先前的`generateAddressesFromSeed()`函数生成我们的 privateKey 和 address。然后，我们使用`WebsocketProvider`为我们的 Ropsten Infura URL 设置一个新的 web3 实例，因为我们无法使用`HttpProvider`监听事件。之后，我们通过从 Truffle 生成的包含部署合约地址的 JSON 文件中读取 ABI 数据来设置`contractInstance`。
 
-最后，我们使用`contractInstance.events.GenerateRandom()`函数为`GenerateRandom`事件设置了一个订阅，这将使用与之对应的序列调用`callback()`函数。让我们看看回调函数是什么样子的。请记住，这个函数将运行我们智能合约的`__callback()`函数，以向用户提供一个随机生成的数字，因为我们不能直接使用Solidity生成随机数：
+最后，我们使用`contractInstance.events.GenerateRandom()`函数为`GenerateRandom`事件设置了一个订阅，这将使用与之对应的序列调用`callback()`函数。让我们看看回调函数是什么样子的。请记住，这个函数将运行我们智能合约的`__callback()`函数，以向用户提供一个随机生成的数字，因为我们不能直接使用 Solidity 生成随机数：
 
 ```
 // To generate random numbers between 1 and 100 and execute the __callback function from the smart contract
@@ -833,7 +833,7 @@ function callback(sequence) {
 }
 ```
 
-这个函数接收序列参数以将值映射到正确的ID，使用户能够确定哪个事件适合他们。首先，我们使用`Math.random()`生成一个介于1和100之间的随机数，通过一些计算来使其适应我们期望的范围。然后，我们生成一个称为`tx`的交易对象，其中包括我们的函数数据，包括`sequence`和`generatedNumber`，以及一些基本参数，如`gas`和`from`地址。最后，我们通过首先使用`privateKey`进行签名，然后使用`web3.eth.sendSignedTransaction`发送该交易到我们的`Oracle`智能合约。当矿工确认时，我们会看到`console.log`显示`"Callback transaction confirmed!"`，或者在出现问题时显示错误。
+这个函数接收序列参数以将值映射到正确的 ID，使用户能够确定哪个事件适合他们。首先，我们使用`Math.random()`生成一个介于 1 和 100 之间的随机数，通过一些计算来使其适应我们期望的范围。然后，我们生成一个称为`tx`的交易对象，其中包括我们的函数数据，包括`sequence`和`generatedNumber`，以及一些基本参数，如`gas`和`from`地址。最后，我们通过首先使用`privateKey`进行签名，然后使用`web3.eth.sendSignedTransaction`发送该交易到我们的`Oracle`智能合约。当矿工确认时，我们会看到`console.log`显示`"Callback transaction confirmed!"`，或者在出现问题时显示错误。
 
 就是这样了！我们可以在底部添加`start()`函数初始化以开始监听事件。以下是完整的代码：
 
@@ -868,7 +868,7 @@ function generateAddressesFromSeed(seed) {
 }
 ```
 
-1.  创建`start`函数以设置web3监听器：
+1.  创建`start`函数以设置 web3 监听器：
 
 ```
 
@@ -893,7 +893,7 @@ function start() {
 }
 ```
 
-1.  最后，创建执行智能合约中的`__callback()`函数的回调函数。函数名称以两个下划线开头，以避免调用现有函数，因为它是一个专门由Oracle专用的特殊函数：
+1.  最后，创建执行智能合约中的`__callback()`函数的回调函数。函数名称以两个下划线开头，以避免调用现有函数，因为它是一个专门由 Oracle 专用的特殊函数：
 
 ```
 // To generate random numbers between 1 and 100 and execute the __callback function from the smart contract
@@ -921,7 +921,7 @@ function callback(sequence) {
 }
 ```
 
-1.  记得在文件加载完毕后运行`start`函数来启动oracle：
+1.  记得在文件加载完毕后运行`start`函数来启动 oracle：
 
 ```
 start()
@@ -982,9 +982,9 @@ function start() {
 }
 ```
 
-这样你就能够看到合约实际上是如何从你的Node.js oracle接收到你的随机生成数字以确认它是否正常工作的。尝试自己部署自己的Oracle，以通过唯一标识符的基于回调的机制为智能合约提供外部数据，而它们自己无法获取。此外，您可以添加一些外部证明来验证数据是否来自正确的Oracle，尽管这超出了本指南的范围，因为描述起来太复杂了。
+这样你就能够看到合约实际上是如何从你的 Node.js oracle 接收到你的随机生成数字以确认它是否正常工作的。尝试自己部署自己的 Oracle，以通过唯一标识符的基于回调的机制为智能合约提供外部数据，而它们自己无法获取。此外，您可以添加一些外部证明来验证数据是否来自正确的 Oracle，尽管这超出了本指南的范围，因为描述起来太复杂了。
 
-像往常一样，如果你想要查看最新的更改并尝试工作版本，你可以在我的GitHub上找到完整的、更新的代码（[https://github.com/merlox/oracle](https://github.com/merlox/oracle)）。如果你想要查看我是如何设置它的，可以看一下Truffle配置文件。
+像往常一样，如果你想要查看最新的更改并尝试工作版本，你可以在我的 GitHub 上找到完整的、更新的代码（[`github.com/merlox/oracle`](https://github.com/merlox/oracle)）。如果你想要查看我是如何设置它的，可以看一下 Truffle 配置文件。
 
 # 改进你的开发工作流程
 
@@ -992,9 +992,9 @@ function start() {
 
 根据我的个人经验，我创建的最好的应用程序都是通过事先进行详尽的规划而诞生的。它可能感觉是不必要的，但你工作得越多，你就越意识到通过清晰描述你的想法的详细计划来节省多少时间。
 
-你是否曾经在项目中遇到过不断出现问题，如bug或混乱？那很可能是因为你没有做足够的规划。在本节中，你将学习如何规划你的应用程序，以建立易于理解的项目，从而使你能够更有效地开发。
+你是否曾经在项目中遇到过不断出现问题，如 bug 或混乱？那很可能是因为你没有做足够的规划。在本节中，你将学习如何规划你的应用程序，以建立易于理解的项目，从而使你能够更有效地开发。
 
-假设你想要将你的技能付诸实践，以了解更多关于以太坊技术的真实项目。所以，你决定在一个相对复杂的dApp上工作。你首先得到了这个想法，然后基于你认为它应该如何工作，详细描述了你应用程序的组件，并立即开始编码以快速完成。
+假设你想要将你的技能付诸实践，以了解更多关于以太坊技术的真实项目。所以，你决定在一个相对复杂的 dApp 上工作。你首先得到了这个想法，然后基于你认为它应该如何工作，详细描述了你应用程序的组件，并立即开始编码以快速完成。
 
 对于大多数项目来说，这是一种非常常见的方法，因为我们不想浪费时间在规划上——我们想要立即完成代码的开发。对于小型项目来说这没问题，但对于更大的项目，我们必须遵循以下准则：
 
@@ -1004,9 +1004,9 @@ function start() {
 
 1.  通过写下将添加到这三个部分的函数来深入了解。这些将是你应用程序的主要函数。在一个空文件中写下它们，没有实际的代码，只有带有参数和返回值的函数。
 
-1.  使用NatSpec文档记录这些函数，以清楚地解释每个参数和返回值在技术层面上应该做什么。
+1.  使用 NatSpec 文档记录这些函数，以清楚地解释每个参数和返回值在技术层面上应该做什么。
 
-1.  开始处理较小的独立函数。这些可以是返回某个变量的getter函数，或者是用于计算值的简单函数。
+1.  开始处理较小的独立函数。这些可以是返回某个变量的 getter 函数，或者是用于计算值的简单函数。
 
 1.  移动到更复杂的函数，直到所有函数都完成为止。在这样做的同时，根据想法编写空测试，以检查这些函数的每个方面。
 
@@ -1057,6 +1057,6 @@ constructor(address _identityRegistryAddress, address _tokenAddress) public {
 
 然后，你学会了使用 NGINX 创建集中式 Node.js 应用程序，你可以将其用于智能合约不够的混合项目，包括从想法到代码再到在 VPS 服务器上部署带有 HTTPS 证书的过程中的所有步骤。之后，你探索了几个 web3.js 的改进，以创建具有事件订阅、辅助函数和可以更好地控制的 promises 的更强大的前端。
 
-当谈到创建能力强大的智能合约时，你已经经历了最有趣的话题之一：**预言机**，因为它们为智能合约提供了有价值的外部信息，这些信息对于特定应用可能是不可或缺的。最后，你发现了14个改进项目创建思路的提示，这样你就可以在努力提供更高质量代码的过程中变得熟练。
+当谈到创建能力强大的智能合约时，你已经经历了最有趣的话题之一：**预言机**，因为它们为智能合约提供了有价值的外部信息，这些信息对于特定应用可能是不可或缺的。最后，你发现了 14 个改进项目创建思路的提示，这样你就可以在努力提供更高质量代码的过程中变得熟练。
 
 在下一章中，你将开始从头构建一个非常有趣的去中心化交易所，这是一个令人兴奋的机会，你会喜欢的！

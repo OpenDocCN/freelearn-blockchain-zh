@@ -1,42 +1,42 @@
 # 构建一个投注应用程序
 
-有时，智能合约需要访问其他dapp或全球网络中的数据是必要的。但由于技术和共识挑战，让智能合约访问外部数据确实很复杂。因此，目前，以太坊智能合约没有原生支持访问外部数据。但是有第三方解决方案供以太坊智能合约访问一些热门dapp和全球网络的数据。在本章中，我们将学习如何使用Oraclize从以太坊智能合约向全球网络发出HTTP请求以访问数据。我们还将学习如何访问存储在IPFS中的文件，使用字符串库处理字符串等等。我们将通过构建一个足球投注智能合约和一个客户端来学习所有这些。
+有时，智能合约需要访问其他 dapp 或全球网络中的数据是必要的。但由于技术和共识挑战，让智能合约访问外部数据确实很复杂。因此，目前，以太坊智能合约没有原生支持访问外部数据。但是有第三方解决方案供以太坊智能合约访问一些热门 dapp 和全球网络的数据。在本章中，我们将学习如何使用 Oraclize 从以太坊智能合约向全球网络发出 HTTP 请求以访问数据。我们还将学习如何访问存储在 IPFS 中的文件，使用字符串库处理字符串等等。我们将通过构建一个足球投注智能合约和一个客户端来学习所有这些。
 
 在本章中，我们将涵盖以下主题：
 
-+   Oraclize是如何工作的？
++   Oraclize 是如何工作的？
 
-+   Oraclize有哪些不同的数据来源，它们各自是如何工作的？
++   Oraclize 有哪些不同的数据来源，它们各自是如何工作的？
 
-+   Oraclize中的共识如何工作？
++   Oraclize 中的共识如何工作？
 
-+   将Oraclize集成到以太坊智能合约中
++   将 Oraclize 集成到以太坊智能合约中
 
 +   使用字符串库`Solidity`，使处理字符串变得更加简单。
 
 +   构建一个足球投注应用程序。
 
-# Oraclize简介
+# Oraclize 简介
 
-Oraclize是一项旨在使智能合约能够从其他区块链和全球网络中获取数据的服务。该服务目前在比特币和以太坊的测试网和主网上已经上线。使Oraclize如此特殊的是您无需信任它，因为它提供了所有提供给智能合约的数据的真实性证明。
+Oraclize 是一项旨在使智能合约能够从其他区块链和全球网络中获取数据的服务。该服务目前在比特币和以太坊的测试网和主网上已经上线。使 Oraclize 如此特殊的是您无需信任它，因为它提供了所有提供给智能合约的数据的真实性证明。
 
-本章的目标是学习以太坊智能合约如何使用Oraclize服务从全球网络获取数据。
+本章的目标是学习以太坊智能合约如何使用 Oraclize 服务从全球网络获取数据。
 
 # 它是如何工作的？
 
-让我们看一下以太坊智能合约如何使用Oraclize从其他区块链和全球网络中获取数据的过程。
+让我们看一下以太坊智能合约如何使用 Oraclize 从其他区块链和全球网络中获取数据的过程。
 
-要获取存在于以太坊区块链之外的数据，以太坊智能合约需要向Oraclize发送查询，提及数据源（表示从哪里获取数据）和数据源的输入（表示获取什么）。
+要获取存在于以太坊区块链之外的数据，以太坊智能合约需要向 Oraclize 发送查询，提及数据源（表示从哪里获取数据）和数据源的输入（表示获取什么）。
 
-向Oraclize发送查询意味着向Oraclize合约发送合同调用（即内部交易）。
+向 Oraclize 发送查询意味着向 Oraclize 合约发送合同调用（即内部交易）。
 
-Oraclize服务器不断寻找向其智能合约发出的新查询。每当它看到新的查询时，它就会获取结果并通过调用您合约的`_callback`方法将其发送回给您的合约。
+Oraclize 服务器不断寻找向其智能合约发出的新查询。每当它看到新的查询时，它就会获取结果并通过调用您合约的`_callback`方法将其发送回给您的合约。
 
 # 数据来源
 
-以下是Oraclize允许智能合约获取数据的来源列表：
+以下是 Oraclize 允许智能合约获取数据的来源列表：
 
-+   URL：URL数据源使您能够进行HTTP GET或POST请求，即从全球网络获取数据。
++   URL：URL 数据源使您能够进行 HTTP GET 或 POST 请求，即从全球网络获取数据。
 
 +   `WolframAlpha`：`WolframAlpha`数据源使您能够向`WolframAlpha`知识引擎提交查询并获取答案。
 
@@ -58,7 +58,7 @@ Oraclize服务器不断寻找向其智能合约发出的新查询。每当它看
 
 可选地，Oraclize 提供了从 URL、区块链和嵌套和计算数据源返回的 TLSNotary 结果证明。这个证明对于 `WolframAlpha` 和 `IPFS` 数据源不可用。目前，Oraclize 只支持 TLSNotary 证明，但在未来，他们可能支持一些其他的认证方式。目前，TLSNotary 证明需要手动验证，但是 Oraclize 已经在进行链上证明验证的工作；也就是说，你的智能合约代码可以在从 Oraclize 接收数据的同时验证 TLSNotary 证明，以便如果证明无效则丢弃这些数据。
 
-这个工具（[https://github.com/Oraclize/proof-verification-tool](https://github.com/oraclize/proof-verification-tool)）是 Oraclize 提供的开源工具，用于验证 TLSNotary 证据，如果您愿意的话。
+这个工具（[`github.com/Oraclize/proof-verification-tool`](https://github.com/oraclize/proof-verification-tool)）是 Oraclize 提供的开源工具，用于验证 TLSNotary 证据，如果您愿意的话。
 
 理解 TLSNotary 的工作原理并不是使用 Oraclize 或验证证据的必需条件。验证 TLSNotary 证据的工具是开源的；因此，如果其中包含任何恶意代码，那么它可以很容易被发现，因此可以信任这个工具。
 
@@ -93,7 +93,7 @@ TLSNotary 的工作原理是将对称密钥和 MAC 密钥分成三个方（即�
 
 # 开始使用 Oraclize API
 
-要使用 Oraclize 服务，合约需要继承 `usingOraclize` 合约。你可以在[https://github.com/Oraclize/Ethereum-api](https://github.com/oraclize/ethereum-api)找到这个合约。
+要使用 Oraclize 服务，合约需要继承 `usingOraclize` 合约。你可以在[`github.com/Oraclize/Ethereum-api`](https://github.com/oraclize/ethereum-api)找到这个合约。
 
 `usingOraclize` 合约充当 `OraclizeI` 和 `OraclizeAddrResolverI` 合约的代理。实际上，`usingOraclize` 使得调用 `OraclizeI` 和 `OraclizeAddrResolverI` 合约变得容易，也就是说，它提供了更简单的 API。如果你觉得舒服，你也可以直接调用 `OraclizeI` 和 `OraclizeAddrResolverI` 合约。你可以查看这些合约的源代码以找到所有可用的 API。我们只会学习最必要的。
 
@@ -169,17 +169,17 @@ oraclize_query(60, "WolframAlpha", "random number between 0 and 100");
 oraclize_query("WolframAlpha", "random number between 0 and 100", 500000);
 ```
 
-在这里，您可以看到如果最后一个参数是一个数字，则假定为自定义gas。在前面的代码中，Oraclize将使用500k的`gasLimit`来进行回调事务，而不是200k。因为我们要求Oraclize提供更多的gas，所以在调用`oraclize_query`时，Oraclize将扣除更多的以太币（取决于需要多少gas）。
+在这里，您可以看到如果最后一个参数是一个数字，则假定为自定义 gas。在前面的代码中，Oraclize 将使用 500k 的`gasLimit`来进行回调事务，而不是 200k。因为我们要求 Oraclize 提供更多的 gas，所以在调用`oraclize_query`时，Oraclize 将扣除更多的以太币（取决于需要多少 gas）。
 
-请注意，如果提供的`gasLimit`太低，并且您的`__callback`方法很长，您可能永远看不到回调。还请注意，自定义的gas必须超过200k。
+请注意，如果提供的`gasLimit`太低，并且您的`__callback`方法很长，您可能永远看不到回调。还请注意，自定义的 gas 必须超过 200k。
 
 # 回调函数
 
-一旦您的结果准备好，Oraclize将向您的合约地址发送一个事务，并调用以下三种方法之一：
+一旦您的结果准备好，Oraclize 将向您的合约地址发送一个事务，并调用以下三种方法之一：
 
-+   要么`__callback(bytes32 myid, string result)`。 `Myid`是每个查询的唯一ID。该ID由`oraclize_query`方法返回。如果您的合约中有多个`oraclize_query`调用，则用于匹配此结果的查询。
++   要么`__callback(bytes32 myid, string result)`。 `Myid`是每个查询的唯一 ID。该 ID 由`oraclize_query`方法返回。如果您的合约中有多个`oraclize_query`调用，则用于匹配此结果的查询。
 
-+   如果您请求TLS Notary证明，这是结果：`__callback(bytes32 myid, string result, bytes proof)`
++   如果您请求 TLS Notary 证明，这是结果：`__callback(bytes32 myid, string result, bytes proof)`
 
 +   作为最后的手段，如果其他方法不存在，则回退函数为`function()`
 
@@ -195,17 +195,17 @@ function __callback(bytes32 myid, string result) {
 
 # 解析助手
 
-从HTTP请求返回的结果可以是HTML、JSON、XML、二进制等。在Solidity中，解析结果是困难且昂贵的。因此，Oraclize提供了解析辅助程序，让它在其服务器上处理解析，并且您只获得您需要的结果部分。
+从 HTTP 请求返回的结果可以是 HTML、JSON、XML、二进制等。在 Solidity 中，解析结果是困难且昂贵的。因此，Oraclize 提供了解析辅助程序，让它在其服务器上处理解析，并且您只获得您需要的结果部分。
 
-要求Oraclize解析结果，您需要将URL包装在以下其中一个解析助手中：
+要求 Oraclize 解析结果，您需要将 URL 包装在以下其中一个解析助手中：
 
-+   `xml(..)`和`json(..)`助手可让您要求Oraclize仅返回JSON或XML解析的部分；例如，看看以下内容：
++   `xml(..)`和`json(..)`助手可让您要求 Oraclize 仅返回 JSON 或 XML 解析的部分；例如，看看以下内容：
 
-    +   为了获得完整的响应，您使用带有`api.kraken.com/0/public/Ticker?pair=ETHUSD` URL参数的`URL`数据源
+    +   为了获得完整的响应，您使用带有`api.kraken.com/0/public/Ticker?pair=ETHUSD` URL 参数的`URL`数据源
 
-    +   如果您只想要最后价格字段，则需要使用JSON解析调用，如`json(api.kraken.com/0/public/Ticker?pair=ETHUSD).result.XETHZUSD.c.0`
+    +   如果您只想要最后价格字段，则需要使用 JSON 解析调用，如`json(api.kraken.com/0/public/Ticker?pair=ETHUSD).result.XETHZUSD.c.0`
 
-+   `html(..).xpath(..)`助手对HTML抓取很有用。只需将要作为`xpath(..)`参数的XPATH指定为您想要的；例如，看看以下内容：
++   `html(..).xpath(..)`助手对 HTML 抓取很有用。只需将要作为`xpath(..)`参数的 XPATH 指定为您想要的；例如，看看以下内容：
 
     +   要获取特定推文的文本，请使用`html(https://twitter.com/oraclizeit/status/671316655893561344).xpath(//*[contains(@class, 'tweet-text')]/text())`。
 
@@ -213,9 +213,9 @@ function __callback(bytes32 myid, string result) {
 
     +   要获取二进制文件的部分内容，可以使用`slice(offset,length)`；第一个参数是偏移量，第二个参数是您想要返回的片段的长度（以字节为单位）。
 
-    +   示例：仅从二进制CRL中获取前300字节，`binary(https://www.sk.ee/crls/esteid/esteid2015.crl).slice(0,300)`。二进制助手必须与切片选项一起使用，并且只接受二进制文件（未编码）。
+    +   示例：仅从二进制 CRL 中获取前 300 字节，`binary(https://www.sk.ee/crls/esteid/esteid2015.crl).slice(0,300)`。二进制助手必须与切片选项一起使用，并且只接受二进制文件（未编码）。
 
-如果服务器无响应或不可访问，我们将发送空响应给你。你可以使用 [http://app.Oraclize.it/home/test_query](http://app.oraclize.it/home/test_query) 测试查询。
+如果服务器无响应或不可访问，我们将发送空响应给你。你可以使用 [`app.Oraclize.it/home/test_query`](http://app.oraclize.it/home/test_query) 测试查询。
 
 # 获取查询价格
 
@@ -227,7 +227,7 @@ function __callback(bytes32 myid, string result) {
 
 有时，你可能不想透露数据源和/或数据源的输入。例如：如果存在 API 密钥，你可能不想在 URL 中透露它。因此，Oraclize 提供了一种将查询加密存储在智能合约中的方法，只有 Oraclize 的服务器有解密的密钥。
 
-Oraclize 提供了一个 Python 工具（[https://github.com/Oraclize/encrypted-queries](https://github.com/oraclize/encrypted-queries)），它可用于加密数据源和/或数据输入。它生成一个非确定性加密字符串。
+Oraclize 提供了一个 Python 工具（[`github.com/Oraclize/encrypted-queries`](https://github.com/oraclize/encrypted-queries)），它可用于加密数据源和/或数据输入。它生成一个非确定性加密字符串。
 
 加密任意文本字符串的 CLI 命令如下：
 
@@ -247,7 +247,7 @@ Oraclize 提供了一个 Python 工具（[https://github.com/Oraclize/encrypted-
 
 # Oraclize Web IDE
 
-Oraclize 提供了一个 Web IDE，你可以在其中编写、编译和测试基于 Oraclize 的应用程序。你可以在 [http://dapps.Oraclize.it/browser-Solidity/](http://dapps.oraclize.it/browser-solidity/) 找到它。
+Oraclize 提供了一个 Web IDE，你可以在其中编写、编译和测试基于 Oraclize 的应用程序。你可以在 [`dapps.Oraclize.it/browser-Solidity/`](http://dapps.oraclize.it/browser-solidity/) 找到它。
 
 如果你访问链接，你会发现它看起来与浏览器 Solidity 完全相同。实际上，它就是浏览器 Solidity 多了一个额外的功能。要理解这个功能是什么，我们需要更深入地了解浏览器 Solidity。
 
@@ -255,7 +255,7 @@ Oraclize 提供了一个 Web IDE，你可以在其中编写、编译和测试基
 
 Oraclize web IDE 的特殊之处在于它在内存执行环境中部署了 Oraclize 合约，因此您不必连接到测试网络或主网络节点，但如果使用浏览器 Solidity，则必须连接到测试网络或主网络节点以测试 Oraclize API。
 
-您可以在 [https://dev.Oraclize.it/](https://dev.oraclize.it/) 找到更多关于集成 Oraclize 的资源。
+您可以在 [`dev.Oraclize.it/`](https://dev.oraclize.it/) 找到更多关于集成 Oraclize 的资源。
 
 # 处理字符串
 
@@ -270,7 +270,7 @@ Oraclize web IDE 的特殊之处在于它在内存执行环境中部署了 Oracl
 让我们看一些使用 `strings` 库处理字符串的示例：
 
 ```
-pragma Solidity ^0.4.0; 
+pragma Solidity ⁰.4.0; 
 
 import "github.com/Arachnid/Solidity-stringutils/strings.sol"; 
 
@@ -332,20 +332,20 @@ var slice4 = "".toSlice();
 var slice5 = slice3.nextRune(slice4);
 ```
 
-您可以在[https://github.com/Arachnid/Solidity-stringutils](https://github.com/Arachnid/solidity-stringutils)了解更多关于 strings 库的信息。
+您可以在[`github.com/Arachnid/Solidity-stringutils`](https://github.com/Arachnid/solidity-stringutils)了解更多关于 strings 库的信息。
 
 # 构建赌注合同
 
 在我们的下注应用程序中，两个人可以选择在一场足球比赛上进行下注，一个人支持主队，另一个人支持客队。他们两人都应该下相同金额的赌注，获胜者将赢得所有的钱。如果比赛平局，那么他们两人将拿回他们的钱。
 
-我们将使用 FastestLiveScores API 来查找比赛结果。它提供了一个免费的 API，让我们每小时可以免费进行 100 次请求。首先，去创建一个账号，然后生成一个 API 密钥。要创建一个账号，请访问[https://customer.fastestlivescores.com/register](https://customer.fastestlivescores.com/register)，一旦账号创建完成，您将在[https://customer.fastestlivescores.com/](https://customer.fastestlivescores.com/)看到 API 密钥。您可以在[https://docs.crowdscores.com/](https://docs.crowdscores.com/)找到 API 文档。
+我们将使用 FastestLiveScores API 来查找比赛结果。它提供了一个免费的 API，让我们每小时可以免费进行 100 次请求。首先，去创建一个账号，然后生成一个 API 密钥。要创建一个账号，请访问[`customer.fastestlivescores.com/register`](https://customer.fastestlivescores.com/register)，一旦账号创建完成，您将在[`customer.fastestlivescores.com/`](https://customer.fastestlivescores.com/)看到 API 密钥。您可以在[`docs.crowdscores.com/`](https://docs.crowdscores.com/)找到 API 文档。
 
-在我们的应用程序中，每个人之间的每笔赌注都将部署一个赌注合同。合同将包含从`FastestLiveScores`API检索的比赛 ID、各方需要投资的 wei 金额以及各方的地址。一旦双方都投资了合同，他们将会得知比赛的结果。如果比赛尚未结束，那么他们将尝试在每 24 小时后检查结果。
+在我们的应用程序中，每个人之间的每笔赌注都将部署一个赌注合同。合同将包含从`FastestLiveScores`API 检索的比赛 ID、各方需要投资的 wei 金额以及各方的地址。一旦双方都投资了合同，他们将会得知比赛的结果。如果比赛尚未结束，那么他们将尝试在每 24 小时后检查结果。
 
 这是合同的代码：
 
 ```
-pragma Solidity ^0.4.0; 
+pragma Solidity ⁰.4.0; 
 
 import "github.com/Oraclize/Ethereum-api/oraclizeAPI.sol"; 
 import "github.com/Arachnid/Solidity-stringutils/strings.sol"; 
@@ -909,7 +909,7 @@ document.getElementById("find").addEventListener("submit", function(e){
 
 1.  然后，我们将 `submit` 事件监听器附加到第一个表单上，该表单用于部署合约。在事件监听器的回调中，我们通过传递 `matchId` 向 `getURL` 端点发出请求，以获取加密的查询字符串。然后，我们生成用于部署合约的数据。接着，我们找出所需的 `gas`。我们使用函数对象的 estimateGas 方法来计算所需的 gas，但你也可以使用 web3.eth.estimateGas 方法。两者在参数上有所不同；也就是说，在前一种情况下，你不需要传递交易数据。请记住，如果函数调用抛出异常，`estimateGas` 会返回区块 gas 限制。然后，我们计算随机数。这里，我们只是使用 `getTransactionCount` 方法，而不是我们之前学到的实际流程。这样做只是为了简化代码。然后，我们创建原始交易，签署它并广播。一旦交易被挖掘，我们就显示合约地址。
 
-1.  然后，我们为第二个表格附加了一个`submit`事件侦听器，用于投资合约。在这里，我们生成了交易的`data`部分，计算所需的gas，创建原始交易，签名并广播。在计算交易所需的gas时，我们从帐户地址和value对象属性传递合约地址的值，因为这是一个函数调用，gas因取决于值、from地址和合约地址而异。请记住，在寻找调用合同函数所需的gas时，您可以传递`to`,`from`和`value`属性，因为gas取决于这些值。
+1.  然后，我们为第二个表格附加了一个`submit`事件侦听器，用于投资合约。在这里，我们生成了交易的`data`部分，计算所需的 gas，创建原始交易，签名并广播。在计算交易所需的 gas 时，我们从帐户地址和 value 对象属性传递合约地址的值，因为这是一个函数调用，gas 因取决于值、from 地址和合约地址而异。请记住，在寻找调用合同函数所需的 gas 时，您可以传递`to`,`from`和`value`属性，因为 gas 取决于这些值。
 
 1.  最后，我们为第三个表单添加了一个`submit`事件侦听器，即显示已部署投注合同的信息。
 
@@ -917,13 +917,13 @@ document.getElementById("find").addEventListener("submit", function(e){
 
 现在我们已经完成了建设我们的投注平台，是时候进行测试了。在测试之前，请确保测试网区块链已完全下载并正在寻找新的入块。
 
-现在使用我们之前建立的钱包服务，生成三个帐户。使用[http://faucet.ropsten.be:3001/](http://faucet.ropsten.be:3001/)给每个帐户加一ether。
+现在使用我们之前建立的钱包服务，生成三个帐户。使用[`faucet.ropsten.be:3001/`](http://faucet.ropsten.be:3001/)给每个帐户加一 ether。
 
 然后，在`Initial`目录中运行`node app.js`，然后访问`http://localhost:8080/matches`，您将看到以下屏幕截图中显示的内容：
 
 ![](img/69b8a32a-af87-4a38-9dda-fe39a585b820.png)
 
-在这里，您可以复制任何比赛ID。假设您想要测试第一场比赛，即123945。现在访问[`http://localhost:8080`](http://localhost:8080)，您将看到以下屏幕截图中显示的内容：
+在这里，您可以复制任何比赛 ID。假设您想要测试第一场比赛，即 123945。现在访问[`http://localhost:8080`](http://localhost:8080)，您将看到以下屏幕截图中显示的内容：
 
 ![](img/e7bf2ba5-2e5f-4242-bac9-7f1a78a614b0.png)
 

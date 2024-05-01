@@ -34,9 +34,9 @@
 
 +   Linux 用户请使用 7-Zip/PeaZip
 
-本书的代码包也托管在 GitHub 上，网址为 [https://github.com/PacktPublishing/Ethereum-Projects-for-Beginners](https://github.com/PacktPublishing/Ethereum-Projects-for-Beginners)。如果代码有更新，将会更新到现有的 GitHub 代码库上。
+本书的代码包也托管在 GitHub 上，网址为 [`github.com/PacktPublishing/Ethereum-Projects-for-Beginners`](https://github.com/PacktPublishing/Ethereum-Projects-for-Beginners)。如果代码有更新，将会更新到现有的 GitHub 代码库上。
 
-我们还有其他代码包来自我们丰富的图书和视频目录，可在 **[https://github.com/PacktPublishing/](https://github.com/PacktPublishing/)** 上查看！快来看看吧！
+我们还有其他代码包来自我们丰富的图书和视频目录，可在 **[`github.com/PacktPublishing/`](https://github.com/PacktPublishing/)** 上查看！快来看看吧！
 
 # 使用的约定
 

@@ -8,9 +8,9 @@
 
 在接下来的章节中，我们将探索与概念相关的代码片段，你可以在以下地址找到链代码的完整实现：
 
-[https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/chaincode/src/github.com/trade_workflow_v1](https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/chaincode/src/github.com/trade_workflow_v1)
+[`github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/chaincode/src/github.com/trade_workflow_v1`](https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/chaincode/src/github.com/trade_workflow_v1)
 
-请注意，这也可以在我们在上一章中创建的本地 git 克隆中找到。我们有两个版本的链代码，一个在`trade_workflow`文件夹中，另一个在`trade_workflow_v1`文件夹中。我们需要两个版本来演示稍后升级，在[*第 9 章*](72e0e4f7-a8e3-49e6-935f-2c478d0ac891.xhtml)，*区块链网络的生活*中。在本章中，我们使用`v1`版本来演示如何用 Go 编写链代码。
+请注意，这也可以在我们在上一章中创建的本地 git 克隆中找到。我们有两个版本的链代码，一个在`trade_workflow`文件夹中，另一个在`trade_workflow_v1`文件夹中。我们需要两个版本来演示稍后升级，在*第九章*，*区块链网络的生活*中。在本章中，我们使用`v1`版本来演示如何用 Go 编写链代码。
 
 在本章中，我们将讨论以下主题：
 
@@ -30,7 +30,7 @@
 
 在我们可以开始编写链代码之前，我们首先需要启动我们的开发环境。
 
-设置开发环境的步骤已在[*第 3 章*](5a4b5cba-356c-4997-b816-0676a2c503c2.xhtml)，*使用商业情景设定舞台*中解释过。然而，我们现在继续启动开发模式下的 Fabric 网络。这种模式允许我们控制如何构建和运行链代码。我们将使用此网络在开发环境中运行我们的链代码。
+设置开发环境的步骤已在*第三章*，*使用商业情景设定舞台*中解释过。然而，我们现在继续启动开发模式下的 Fabric 网络。这种模式允许我们控制如何构建和运行链代码。我们将使用此网络在开发环境中运行我们的链代码。
 
 下面是我们如何以开发模式启动 Fabric 网络的步骤：
 
@@ -45,13 +45,13 @@ $ ./trade.sh up -d true
 
 `-d` true 选项告诉我们的脚本在开发网络上采取行动。
 
-我们的开发网络现在在五个Docker容器中运行。网络由单个订购者、在`devmode`中运行的单个对等体、一个链码容器、一个CA容器和一个CLI容器组成。CLI容器在启动时创建了一个名为`tradechannel`的区块链通道。我们将使用CLI与链码交互。
+我们的开发网络现在在五个 Docker 容器中运行。网络由单个订购者、在`devmode`中运行的单个对等体、一个链码容器、一个 CA 容器和一个 CLI 容器组成。CLI 容器在启动时创建了一个名为`tradechannel`的区块链通道。我们将使用 CLI 与链码交互。
 
 随时查看日志目录中的日志消息。它列出了网络启动期间执行的组件和函数。我们将保持终端开放，因为一旦安装并调用了链码，我们会在这里收到进一步的日志消息。
 
 # 编译和运行链码
 
-克隆源代码已经使用Go vendoring包含了所有的依赖关系。考虑到这一点，我们现在可以开始构建代码，并使用以下步骤运行链码：
+克隆源代码已经使用 Go vendoring 包含了所有的依赖关系。考虑到这一点，我们现在可以开始构建代码，并使用以下步骤运行链码：
 
 1.  **编译链码**：在一个新的终端中，连接到链码容器并使用以下命令构建链码：
 
@@ -73,7 +73,7 @@ $ CORE_PEER_ADDRESS=peer:7052 CORE_CHAINCODE_ID_NAME=tw:0 ./trade_workflow_v1
 
 在我们启动通道之前，现在需要在通道上安装链码，这将调用`Init`方法：
 
-1.  **安装链码**：在一个新的终端中，连接到CLI容器并按如下方式安装名称为`tw`的链码：
+1.  **安装链码**：在一个新的终端中，连接到 CLI 容器并按如下方式安装名称为`tw`的链码：
 
 ```
 $ docker exec -it cli bash 
@@ -86,19 +86,19 @@ $ peer chaincode install -p chaincodedev/chaincode/trade_workflow_v1 -n tw -v 0
 $ peer chaincode instantiate -n tw -v 0 -c '{"Args":["init","LumberInc","LumberBank","100000","WoodenToys","ToyBank","200000","UniversalFreight","ForestryDepartment"]}' -C tradechannel 
 ```
 
-CLI连接的终端现在包含了与链码交互的日志消息列表。`链码`终端显示了来自`链码`方法调用的消息，而网络终端显示了对等体和订购者之间通信的消息。
+CLI 连接的终端现在包含了与链码交互的日志消息列表。`链码`终端显示了来自`链码`方法调用的消息，而网络终端显示了对等体和订购者之间通信的消息。
 
 # 调用链码
 
 现在我们有一个正在运行的链码，我们可以开始调用一些函数。我们的链码有几种创建和检索资产的方法。目前，我们只会调用其中两个；第一个是创建一个新的交易协议，第二个是从分类账中检索它。要做到这一点，请完成以下步骤：
 
-1.  使用以下命令在分类账上放置具有唯一ID`trade-12`的新交易协议：
+1.  使用以下命令在分类账上放置具有唯一 ID`trade-12`的新交易协议：
 
 ```
 $ peer chaincode invoke -n tw -c '{"Args":["requestTrade", "trade-12", "50000", "Wood for Toys"]}' -C tradechannel
 ```
 
-1.  使用以下命令从分类账中检索ID为`trade-12`的交易协议：
+1.  使用以下命令从分类账中检索 ID 为`trade-12`的交易协议：
 
 ```
 $ peer chaincode invoke -n tw -c '{"Args":["getTradeStatus", "trade-12"]}' -C tradechannel
@@ -135,7 +135,7 @@ type Chaincode interface {
 
 `stub` 参数是我们在实现链代码功能时将使用的主要对象，因为它提供了访问和修改账本、获取调用参数等功能。
 
-另外，SHIM 包提供了其他类型和函数来构建链代码；你可以在以下链接检查整个包：[https://godoc.org/github.com/hyperledger/fabric/core/chaincode/shim.](https://godoc.org/github.com/hyperledger/fabric/core/chaincode/shim)
+另外，SHIM 包提供了其他类型和函数来构建链代码；你可以在以下链接检查整个包：[`godoc.org/github.com/hyperledger/fabric/core/chaincode/shim.`](https://godoc.org/github.com/hyperledger/fabric/core/chaincode/shim)
 
 # 设置链代码文件
 
@@ -279,7 +279,7 @@ func (t *TradeWorkflowChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Res
 
 通常，链码的实现将包含多个查询和修改函数。如果这些函数非常简单，可以直接在`Invoke`方法的主体中实现。然而，更加优雅的解决方案是独立实现每个函数，然后从`Invoke`方法中调用它们。
 
-SHIM API提供了几个函数来检索`Invoke`方法的调用参数。这些列在以下代码片段中。开发人员可以选择参数的含义和顺序；但是，通常情况下，`Invoke`方法的第一个参数是函数的名称，其后的参数是该函数的参数。
+SHIM API 提供了几个函数来检索`Invoke`方法的调用参数。这些列在以下代码片段中。开发人员可以选择参数的含义和顺序；但是，通常情况下，`Invoke`方法的第一个参数是函数的名称，其后的参数是该函数的参数。
 
 ```
 // Returns the first argument as the function name and the rest of the arguments as parameters in a string array.
@@ -297,7 +297,7 @@ func GetArgs() [][]byte
 func GetArgsSlice() ([]byte, error)
 ```
 
-在下面的代码片段中，第1行使用`stub.GetFunctionAndParameters`函数检索调用的参数。从第3行开始，一系列`if`条件将执行与参数一起传递到请求的函数（`requestTrade`、`acceptTrade`等）。每个这些函数都独立实现其功能。如果请求了一个不存在的函数，该方法将返回一个错误，指示请求的函数不存在，如第18行所示：
+在下面的代码片段中，第 1 行使用`stub.GetFunctionAndParameters`函数检索调用的参数。从第 3 行开始，一系列`if`条件将执行与参数一起传递到请求的函数（`requestTrade`、`acceptTrade`等）。每个这些函数都独立实现其功能。如果请求了一个不存在的函数，该方法将返回一个错误，指示请求的函数不存在，如第 18 行所示：
 
 ```
     function, args := stub.GetFunctionAndParameters()
@@ -326,23 +326,23 @@ func GetArgsSlice() ([]byte, error)
 
 在深入讨论`Chaincode`函数的实现之前，我们需要首先定义我们的访问控制机制。
 
-安全且受权限限制的区块链的关键特点是访问控制。在Fabric中，**成员服务提供商**（**MSP**）在启用访问控制方面发挥了关键作用。Fabric网络的每个组织都可以有一个或多个MSP提供者。MSP实现为**证书颁发机构**（**Fabric CA**）。有关Fabric CA的更多信息，包括其文档，请访问：[https://hyperledger-fabric-ca.readthedocs.io/.](https://hyperledger-fabric-ca.readthedocs.io/)
+安全且受权限限制的区块链的关键特点是访问控制。在 Fabric 中，**成员服务提供商**（**MSP**）在启用访问控制方面发挥了关键作用。Fabric 网络的每个组织都可以有一个或多个 MSP 提供者。MSP 实现为**证书颁发机构**（**Fabric CA**）。有关 Fabric CA 的更多信息，包括其文档，请访问：[`hyperledger-fabric-ca.readthedocs.io/.`](https://hyperledger-fabric-ca.readthedocs.io/)
 
-Fabric CA为网络用户颁发**注册证书**（**ecerts**）。ecert代表用户的身份，并在用户提交给Fabric时用作签名交易。在调用交易之前，用户必须首先从Fabric CA注册并获得ecert。
+Fabric CA 为网络用户颁发**注册证书**（**ecerts**）。ecert 代表用户的身份，并在用户提交给 Fabric 时用作签名交易。在调用交易之前，用户必须首先从 Fabric CA 注册并获得 ecert。
 
-Fabric支持一种**基于属性的访问控制**（**ABAC**）机制，链码可以使用该机制控制对其功能和数据的访问。ABAC允许链码根据与用户身份关联的属性做出访问控制决策。拥有ecert的用户也可以访问一系列附加属性（即，名称/值对）。
+Fabric 支持一种**基于属性的访问控制**（**ABAC**）机制，链码可以使用该机制控制对其功能和数据的访问。ABAC 允许链码根据与用户身份关联的属性做出访问控制决策。拥有 ecert 的用户也可以访问一系列附加属性（即，名称/值对）。
 
-在调用期间，链码将提取属性并做出访问控制决策。我们将在即将到来的章节中更深入地了解ABAC机制。
+在调用期间，链码将提取属性并做出访问控制决策。我们将在即将到来的章节中更深入地了解 ABAC 机制。
 
 # ABAC
 
-在接下来的步骤中，我们将向您展示如何注册用户并创建具有属性的ecert。然后我们将在链码中检索用户身份和属性，以验证访问控制。然后我们将把这个功能集成到我们的教程链码中。
+在接下来的步骤中，我们将向您展示如何注册用户并创建具有属性的 ecert。然后我们将在链码中检索用户身份和属性，以验证访问控制。然后我们将把这个功能集成到我们的教程链码中。
 
-首先，我们必须使用Fabric CA注册一个新用户。在注册过程中，我们必须定义生成ecert后将使用的属性。通过运行命令`fabric-ca-client register`来注册用户。访问控制属性可以使用后缀`:ecert`添加。
+首先，我们必须使用 Fabric CA 注册一个新用户。在注册过程中，我们必须定义生成 ecert 后将使用的属性。通过运行命令`fabric-ca-client register`来注册用户。访问控制属性可以使用后缀`:ecert`添加。
 
 # 注册用户
 
-这些步骤仅供参考，无法执行。更多信息可以参考GitHub存储库[https://github.com/HyperledgerHandsOn/trade-finance-logistics/blob/master/chaincode/abac.md](https://github.com/HyperledgerHandsOn/trade-finance-logistics/blob/master/chaincode/abac.md)
+这些步骤仅供参考，无法执行。更多信息可以参考 GitHub 存储库[`github.com/HyperledgerHandsOn/trade-finance-logistics/blob/master/chaincode/abac.md`](https://github.com/HyperledgerHandsOn/trade-finance-logistics/blob/master/chaincode/abac.md)
 
 现在让我们注册一个具有自定义属性名为`importer`和值为`true`的用户。请注意，属性的值可以是任何类型，并不仅限于布尔值，如下段所示：
 
@@ -350,7 +350,7 @@ Fabric支持一种**基于属性的访问控制**（**ABAC**）机制，链码�
 fabric-ca-client register --id.name user1 --id.secret pwd1 --id.type user --id.affiliation ImporterOrgMSP --id.attrs 'importer=true:ecert'
 ```
 
-前面的片段显示了注册具有属性`importer=true`的用户时的命令行。请注意，`id.secret`的值和其他参数取决于Fabric CA配置。
+前面的片段显示了注册具有属性`importer=true`的用户时的命令行。请注意，`id.secret`的值和其他参数取决于 Fabric CA 配置。
 
 上述命令还可以一次定义多个默认属性，例如：`--id.attrs`和`importer=true:ecert,email=user1@gmail.com`。
 
@@ -358,11 +358,11 @@ fabric-ca-client register --id.name user1 --id.secret pwd1 --id.type user --id.a
 
 | **属性名称** | **命令行参数** | **属性值** |
 | --- | --- | --- |
-| hf.EnrollmentID | (automatic) | 身份的注册ID |
+| hf.EnrollmentID | (automatic) | 身份的注册 ID |
 | hf.Type  | id.type  | 身份的类型 |
 | hf.Affiliation  | id.affiliation  | 身份的从属关系 |
 
-如果在ecert中需要任何先前的属性，则必须首先在用户注册命令中定义它们。例如，以下命令注册`user1`，其属性为`hf.Affiliation=ImporterOrgMSP`，该属性将默认复制到ecert中：
+如果在 ecert 中需要任何先前的属性，则必须首先在用户注册命令中定义它们。例如，以下命令注册`user1`，其属性为`hf.Affiliation=ImporterOrgMSP`，该属性将默认复制到 ecert 中：
 
 ```
 fabric-ca-client register --id.name user1 --id.secret pwd1 --id.type user --id.affiliation ImporterOrgMSP --id.attrs 'importer=true:ecert,hf.Affiliation=ImporterOrgMSP:ecert'
@@ -370,7 +370,7 @@ fabric-ca-client register --id.name user1 --id.secret pwd1 --id.type user --id.a
 
 # 注册用户
 
-在这里，我们将注册用户并创建ecert。`enrollment.attrs`定义了从用户注册中复制到ecert的属性。后缀opt定义了从注册中复制的这些属性中的哪些是可选的。如果一个或多个非可选属性在用户注册时未定义，则注册将失败。以下命令将注册一个带有属性`importer`的用户：
+在这里，我们将注册用户并创建 ecert。`enrollment.attrs`定义了从用户注册中复制到 ecert 的属性。后缀 opt 定义了从注册中复制的这些属性中的哪些是可选的。如果一个或多个非可选属性在用户注册时未定义，则注册将失败。以下命令将注册一个带有属性`importer`的用户：
 
 ```
 fabric-ca-client enroll -u http://user1:pwd1@localhost:7054 --enrollment.attrs "importer,email:opt"
@@ -378,21 +378,21 @@ fabric-ca-client enroll -u http://user1:pwd1@localhost:7054 --enrollment.attrs "
 
 # 在链码中检索用户身份和属性
 
-在此步骤中，我们将在执行链码期间检索用户的身份。链码可用的ABAC功能由**客户端身份链码**（**CID**）库提供。
+在此步骤中，我们将在执行链码期间检索用户的身份。链码可用的 ABAC 功能由**客户端身份链码**（**CID**）库提供。
 
-提交给链码的每个交易建议都携带着发起者的ecert – 提交交易的用户。链码通过导入CID库并调用带有参数`ChaincodeStubInterface`的库函数来访问ecert，即在`Init`和`Invoke`方法中都收到的参数`stub`。
+提交给链码的每个交易建议都携带着发起者的 ecert – 提交交易的用户。链码通过导入 CID 库并调用带有参数`ChaincodeStubInterface`的库函数来访问 ecert，即在`Init`和`Invoke`方法中都收到的参数`stub`。
 
 链码可以使用证书来提取有关调用者的信息，包括：
 
-+   调用者的ID
++   调用者的 ID
 
-+   发出调用者证书的**成员服务提供商（MSP）**的唯一ID
++   发出调用者证书的**成员服务提供商（MSP）**的唯一 ID
 
 +   证书的标准属性，如其域名、电子邮件等
 
-+   存储在证书中与客户端身份相关的ecert属性
++   存储在证书中与客户端身份相关的 ecert 属性
 
-CID库提供的函数如下所示：
+CID 库提供的函数如下所示：
 
 ```
 // Returns the ID associated with the invoking identity. 
@@ -417,7 +417,7 @@ func AssertAttributeValue(attrName, attrValue string) error
 func GetX509Certificate() (*x509.Certificate, error)  
 ```
 
-在以下的代码块中，我们定义了一个名为`getTxCreatorInfo`的函数，该函数获取调用者的基本身份信息。首先，我们必须导入CID和x509库，如第3和第4行所示。第13行检索到唯一的MSPID，第19行获取了X509证书。然后在第24行，我们检索证书的`CommonName`，其中包含网络中Fabric CA的唯一字符串。这两个属性由该函数返回，并在后续的访问控制验证中使用，如以下片段所示：
+在以下的代码块中，我们定义了一个名为`getTxCreatorInfo`的函数，该函数获取调用者的基本身份信息。首先，我们必须导入 CID 和 x509 库，如第 3 和第 4 行所示。第 13 行检索到唯一的 MSPID，第 19 行获取了 X509 证书。然后在第 24 行，我们检索证书的`CommonName`，其中包含网络中 Fabric CA 的唯一字符串。这两个属性由该函数返回，并在后续的访问控制验证中使用，如以下片段所示：
 
 ```
 import ( 
@@ -713,7 +713,7 @@ func main() {
 
 # 测试链码
 
-现在我们可以为我们的链码函数编写单元测试，我们将使用内置的自动化 Go 测试框架。有关更多信息和文档，请访问 Go 的官方网站：[https://golang.org/pkg/testing/](https://golang.org/pkg/testing/)
+现在我们可以为我们的链码函数编写单元测试，我们将使用内置的自动化 Go 测试框架。有关更多信息和文档，请访问 Go 的官方网站：[`golang.org/pkg/testing/`](https://golang.org/pkg/testing/)
 
 框架自动寻找并执行以下签名的函数：
 
@@ -804,7 +804,7 @@ func checkState(t *testing.T, stub *shim.MockStub, name string, value string) {
 
 # 测试调用方法
 
-现在是定义`Invoke`函数的测试的时候了。在以下代码块的第7行，调用`checkInit`来初始化总账，然后在第13行调用`checkInvoke`，调用`requestTrade`函数。`requestTrade`函数创建一个新的贸易资产并将其存储在总账上。在第15和16行创建并序列化一个新的`TradeAgreement`，然后在第17行计算一个新的复合键。最后，在第18行，验证键的状态是否与序列化的值相匹配。
+现在是定义`Invoke`函数的测试的时候了。在以下代码块的第 7 行，调用`checkInit`来初始化总账，然后在第 13 行调用`checkInvoke`，调用`requestTrade`函数。`requestTrade`函数创建一个新的贸易资产并将其存储在总账上。在第 15 和 16 行创建并序列化一个新的`TradeAgreement`，然后在第 17 行计算一个新的复合键。最后，在第 18 行，验证键的状态是否与序列化的值相匹配。
 
 此外，正如前面所述，我们的链码包含一系列函数，这些函数一起定义了贸易工作流程。我们将在测试中将这些函数的调用链接成一个序列，以验证整个工作流程。整个函数的代码可以在位于`chaincode`文件夹中的测试文件中找到。
 
@@ -882,7 +882,7 @@ ok       trade-finance-logistics/chaincode/src/github.com/trade_workflow_v1     
 
 # 复合键
 
-我们经常需要在总帐上存储一个类型的多个实例，比如多个贸易协议、信用证等等。在这种情况下，这些实例的键通常将由多个属性的组合构造而成，例如`"Trade" + ID, yielding ["Trade1","Trade2", ...]`。实例的键可以在代码中自定义，或者在SHIM中提供API函数来构造实例的复合键（换句话说，基于几个属性的唯一键）。这些函数简化了复合键的构造。复合键可以像普通字符串键一样使用`PutState()`和`GetState()`函数来记录和检索值。
+我们经常需要在总帐上存储一个类型的多个实例，比如多个贸易协议、信用证等等。在这种情况下，这些实例的键通常将由多个属性的组合构造而成，例如`"Trade" + ID, yielding ["Trade1","Trade2", ...]`。实例的键可以在代码中自定义，或者在 SHIM 中提供 API 函数来构造实例的复合键（换句话说，基于几个属性的唯一键）。这些函数简化了复合键的构造。复合键可以像普通字符串键一样使用`PutState()`和`GetState()`函数来记录和检索值。
 
 以下代码段显示了一系列创建和使用复合键的函数：
 
@@ -896,7 +896,7 @@ func CreateCompositeKey(objectType string, attributes []string) (string, error)
 func SplitCompositeKey(compositeKey string) (string, []string, error) 
 ```
 
-在下面的代码段中，我们可以看到一个名为`getTradeKey`的函数，它通过将关键字`Trade`与贸易的ID组合构造了一个唯一的复合键：
+在下面的代码段中，我们可以看到一个名为`getTradeKey`的函数，它通过将关键字`Trade`与贸易的 ID 组合构造了一个唯一的复合键：
 
 ```
 func getTradeKey(stub shim.ChaincodeStubInterface, tradeID string) (string, error) { 
@@ -913,7 +913,7 @@ func getTradeKey(stub shim.ChaincodeStubInterface, tradeID string) (string, erro
 
 # 范围查询
 
-除了使用唯一键检索资产之外，SHIM还提供API函数来根据范围条件检索一系列资产。此外，可以对复合键进行建模，以便查询多个键的组件。
+除了使用唯一键检索资产之外，SHIM 还提供 API 函数来根据范围条件检索一系列资产。此外，可以对复合键进行建模，以便查询多个键的组件。
 
 范围函数返回与查询条件匹配的一组键的迭代器（`StateQueryIteratorInterface`）。 返回的键按字典顺序排列。 迭代器必须通过调用`Close()`函数关闭。 此外，当复合键具有多个属性时，范围查询函数`GetStateByPartialCompositeKey()`可用于搜索匹配部分属性的键。
 
@@ -929,7 +929,7 @@ func GetStateByRange(startKey, endKey string) (StateQueryIteratorInterface, erro
 func GetStateByPartialCompositeKey(objectType string, keys []string) (StateQueryIteratorInterface, error) 
 ```
 
-我们还可以使用以下查询搜索ID范围在1-100之间的所有贸易协议：
+我们还可以使用以下查询搜索 ID 范围在 1-100 之间的所有贸易协议：
 
 ```
 startKey, err = getTradeKey(stub, "1") 
@@ -952,19 +952,19 @@ for keysIterator.HasNext() {
 }
 ```
 
-# 状态查询和CouchDB
+# 状态查询和 CouchDB
 
-默认情况下，Fabric使用LevelDB作为Worldstate的存储。 Fabric还提供了配置对等方将Worldstate存储在CouchDB中的选项。 当资产以JSON文档的形式存储时，CouchDB允许您根据资产状态执行复杂的查询。
+默认情况下，Fabric 使用 LevelDB 作为 Worldstate 的存储。 Fabric 还提供了配置对等方将 Worldstate 存储在 CouchDB 中的选项。 当资产以 JSON 文档的形式存储时，CouchDB 允许您根据资产状态执行复杂的查询。
 
-查询采用本机CouchDB声明性JSON查询语法格式化。 此语法的当前版本可在以下链接找到：[http://docs.couchdb.org/en/2.1.1/api/database/find.html.](http://docs.couchdb.org/en/2.1.1/api/database/find.html)
+查询采用本机 CouchDB 声明性 JSON 查询语法格式化。 此语法的当前版本可在以下链接找到：[`docs.couchdb.org/en/2.1.1/api/database/find.html.`](http://docs.couchdb.org/en/2.1.1/api/database/find.html)
 
-Fabric将查询转发到CouchDB并返回一个迭代器（`StateQueryIteratorInterface()`），该迭代器可用于迭代结果集。 基于状态的查询函数的声明如下所示：
+Fabric 将查询转发到 CouchDB 并返回一个迭代器（`StateQueryIteratorInterface()`），该迭代器可用于迭代结果集。 基于状态的查询函数的声明如下所示：
 
 ```
 func GetQueryResult(query string) (StateQueryIteratorInterface, error)
 ```
 
-在下面的代码片段中，我们可以看到一个基于状态的查询，用于所有状态为`ACCEPTED`且收到的付款超过1000的贸易协议。 然后执行查询，并将找到的文档写入终端，如下所示：
+在下面的代码片段中，我们可以看到一个基于状态的查询，用于所有状态为`ACCEPTED`且收到的付款超过 1000 的贸易协议。 然后执行查询，并将找到的文档写入终端，如下所示：
 
 ```
 // CouchDB query definition
@@ -1015,13 +1015,13 @@ buffer.WriteString("]")
 fmt.Printf("queryResult:\n%s\n", buffer.String())
 ```
 
-请注意，与键的查询不同，对状态的查询不会记录到交易的`ReadSet`中。 因此，交易的验证实际上无法验证在执行和提交交易之间Worldstate的更改。 因此，链码设计必须考虑到这一点； 如果查询基于预期的调用序列，那么无效的交易可能会出现。
+请注意，与键的查询不同，对状态的查询不会记录到交易的`ReadSet`中。 因此，交易的验证实际上无法验证在执行和提交交易之间 Worldstate 的更改。 因此，链码设计必须考虑到这一点； 如果查询基于预期的调用序列，那么无效的交易可能会出现。
 
 # 索引
 
-在大型数据集上执行查询是一项计算复杂的任务。 Fabric提供了在CouchDB托管的Worldstate上定义索引以提高效率的机制。 请注意，索引也是查询中排序操作所必需的。
+在大型数据集上执行查询是一项计算复杂的任务。 Fabric 提供了在 CouchDB 托管的 Worldstate 上定义索引以提高效率的机制。 请注意，索引也是查询中排序操作所必需的。
 
-索引在一个扩展名为`*.json`的单独文件中以JSON格式定义。 格式的完整定义可在以下链接找到：[http://docs.couchdb.org/en/2.1.1/api/database/find.html#db-index](http://docs.couchdb.org/en/2.1.1/api/database/find.html#db-index)。
+索引在一个扩展名为`*.json`的单独文件中以 JSON 格式定义。 格式的完整定义可在以下链接找到：[`docs.couchdb.org/en/2.1.1/api/database/find.html#db-index`](http://docs.couchdb.org/en/2.1.1/api/database/find.html#db-index)。
 
 以下代码片段说明了一个与我们之前查看的贸易协议查询匹配的索引：
 
@@ -1092,35 +1092,35 @@ fmt.Printf("queryResult:\n%s\n", buffer.String())
 
 # 多版本并发控制
 
-Fabric使用**多版本并发控制**（**MVCC**）机制来确保账本的一致性并防止双重支付。双重支付攻击旨在通过引入使用或多次修改同一资源的事务来利用系统中的缺陷，比如在加密货币网络中多次花费同一枚硬币。键碰撞是另一种可能发生的问题类型，它可能会在并行客户端提交的事务处理中尝试同时修改相同的键/值对。
+Fabric 使用**多版本并发控制**（**MVCC**）机制来确保账本的一致性并防止双重支付。双重支付攻击旨在通过引入使用或多次修改同一资源的事务来利用系统中的缺陷，比如在加密货币网络中多次花费同一枚硬币。键碰撞是另一种可能发生的问题类型，它可能会在并行客户端提交的事务处理中尝试同时修改相同的键/值对。
 
-此外，由于Fabric的去中心化架构，事务执行顺序可以在不同的Fabric组件（包括背书者，排序者和提交者）上有不同的排序和提交方式，从而在交易计算和提交之间引入延迟，其中可能发生键冲突。去中心化还使网络容易受到客户端故意或无意地修改交易顺序的潜在问题和攻击的影响。
+此外，由于 Fabric 的去中心化架构，事务执行顺序可以在不同的 Fabric 组件（包括背书者，排序者和提交者）上有不同的排序和提交方式，从而在交易计算和提交之间引入延迟，其中可能发生键冲突。去中心化还使网络容易受到客户端故意或无意地修改交易顺序的潜在问题和攻击的影响。
 
-为确保一致性，像数据库这样的计算机系统通常使用锁定机制。然而，在Fabric中无法使用这种集中式方法。同时，也值得注意的是，锁定有时可能会导致性能下降。
+为确保一致性，像数据库这样的计算机系统通常使用锁定机制。然而，在 Fabric 中无法使用这种集中式方法。同时，也值得注意的是，锁定有时可能会导致性能下降。
 
-为了应对这一点，Fabric使用了存储在总账簿上的键的版本系统。版本系统的目标是确保交易按照不引入不一致性的顺序被排序和提交到总账簿中。当在提交对等方收到一个块时，会验证块中的每笔交易。该算法会检查`ReadSet`中的键及其版本；如果`ReadSet`中每个键的版本与世界状态中相同键的版本，或同一块中之前的交易的版本相匹配，则交易被视为有效。换句话说，该算法验证执行交易期间从世界状态读取的任何数据是否已发生更改。
+为了应对这一点，Fabric 使用了存储在总账簿上的键的版本系统。版本系统的目标是确保交易按照不引入不一致性的顺序被排序和提交到总账簿中。当在提交对等方收到一个块时，会验证块中的每笔交易。该算法会检查`ReadSet`中的键及其版本；如果`ReadSet`中每个键的版本与世界状态中相同键的版本，或同一块中之前的交易的版本相匹配，则交易被视为有效。换句话说，该算法验证执行交易期间从世界状态读取的任何数据是否已发生更改。
 
 如果一个事务包含范围查询，这些查询也将得到验证。对于每个范围查询，算法会检查在链码执行期间执行查询的结果是否与之前完全相同，或者是否发生了任何修改。
 
 未通过此验证的交易将在总账簿中标记为无效，并且它们所引入的更改不会映射到世界状态中。需要注意的是，由于总账簿是不可修改的，这些交易会保留在总账簿上。
 
-如果交易通过了验证，`WriteSet`将被映射到世界状态。交易修改的每个键都会在世界状态中设置为`WriteSet`中指定的新值，并且该键在世界状态中的版本会设置为从交易中导出的版本。通过这种方式，任何重复支出等不一致性将被防止。同时，在可能发生键冲突的情况下，链码设计必须考虑MVCC的行为。针对键冲突和MVCC，存在多种公认的解决策略，如分割资产、使用多个键、事务排队等。
+如果交易通过了验证，`WriteSet`将被映射到世界状态。交易修改的每个键都会在世界状态中设置为`WriteSet`中指定的新值，并且该键在世界状态中的版本会设置为从交易中导出的版本。通过这种方式，任何重复支出等不一致性将被防止。同时，在可能发生键冲突的情况下，链码设计必须考虑 MVCC 的行为。针对键冲突和 MVCC，存在多种公认的解决策略，如分割资产、使用多个键、事务排队等。
 
 # 日志输出
 
 日志记录是系统代码的重要组成部分，它使得可以分析和检测运行时问题。
 
-Fabric中的日志记录是基于标准的Go日志包`github.com/op/go-logging`。日志机制提供基于严重性的日志控制和消息的漂亮打印装饰。日志级别按严重性递减的顺序定义，如下所示：
+Fabric 中的日志记录是基于标准的 Go 日志包`github.com/op/go-logging`。日志机制提供基于严重性的日志控制和消息的漂亮打印装饰。日志级别按严重性递减的顺序定义，如下所示：
 
 ```
 CRITICAL | ERROR | WARNING | NOTICE | INFO | DEBUG 
 ```
 
-所有组件生成的日志消息都会组合并写入标准错误文件（`stderr`）。可以通过对对等体和模块的配置以及chaincode的代码来控制日志记录。
+所有组件生成的日志消息都会组合并写入标准错误文件（`stderr`）。可以通过对对等体和模块的配置以及 chaincode 的代码来控制日志记录。
 
 # 配置
 
-对等体日志的默认配置设置为级别INFO，但可以通过以下方式控制此级别：
+对等体日志的默认配置设置为级别 INFO，但可以通过以下方式控制此级别：
 
 1.  命令行选项日志级别。此选项覆盖默认配置，如下所示：
 
@@ -1128,7 +1128,7 @@ CRITICAL | ERROR | WARNING | NOTICE | INFO | DEBUG
 peer node start --logging-level=error  
 ```
 
-请注意，通过命令行选项可以配置任何模块或chaincode，如下所示：
+请注意，通过命令行选项可以配置任何模块或 chaincode，如下所示：
 
 ```
  peer node start --logging-level=chaincode=error:main=info
@@ -1160,11 +1160,11 @@ logging:
 
 关于各种配置选项的详细信息包含在`core.yml`文件的注释中。
 
-# 日志API
+# 日志 API
 
-SHIM包提供了API，供chaincode创建和管理日志对象。这些对象生成的日志与对等体日志集成。
+SHIM 包提供了 API，供 chaincode 创建和管理日志对象。这些对象生成的日志与对等体日志集成。
 
-chaincode可以创建和使用任意数量的日志对象。每个日志对象必须有一个唯一的名称，用于在输出中添加日志记录的前缀并区分不同日志对象和SHIM的记录。（请记住，日志对象名称SHIM API是保留的，不应在chaincode中使用。）每个日志对象都设置了一个日志严重级别，在该级别下记录日志将被发送到输出中。具有严重级别`CRITICAL`的日志记录始终出现在输出中。以下节选列出了在chaincode中创建和管理日志对象的API函数。
+chaincode 可以创建和使用任意数量的日志对象。每个日志对象必须有一个唯一的名称，用于在输出中添加日志记录的前缀并区分不同日志对象和 SHIM 的记录。（请记住，日志对象名称 SHIM API 是保留的，不应在 chaincode 中使用。）每个日志对象都设置了一个日志严重级别，在该级别下记录日志将被发送到输出中。具有严重级别`CRITICAL`的日志记录始终出现在输出中。以下节选列出了在 chaincode 中创建和管理日志对象的 API 函数。
 
 ```
 // Creates a new logging object. 
@@ -1198,7 +1198,7 @@ func (c *ChaincodeLogger) Critical(args ...interface{})
 func (c *ChaincodeLogger) Criticalf(format string, args ...interface{}) 
 ```
 
-记录的默认格式由SHIM的配置定义，该配置在输入参数的打印表示之间添加空格。对于每个严重级别，日志对象还提供了一个带有后缀`f`的附加函数，这些函数允许您使用参数`format`来控制输出的格式。
+记录的默认格式由 SHIM 的配置定义，该配置在输入参数的打印表示之间添加空格。对于每个严重级别，日志对象还提供了一个带有后缀`f`的附加函数，这些函数允许您使用参数`format`来控制输出的格式。
 
 由日志对象生成的输出模板如下：
 
@@ -1206,7 +1206,7 @@ func (c *ChaincodeLogger) Criticalf(format string, args ...interface{})
 [timestamp] [logger name] [severity level] printed arguments 
 ```
 
-所有日志对象和SHIM的输出都会合并并发送到标准错误（`stderr`）中。
+所有日志对象和 SHIM 的输出都会合并并发送到标准错误（`stderr`）中。
 
 以下代码块说明了如何创建和使用日志对象的示例：
 
@@ -1222,7 +1222,7 @@ if !authenticateImporterOrg(creatorOrg, creatorCertIssuer) {
 } 
 ```
 
-# SHIM日志级别
+# SHIM 日志级别
 
 链码还可以通过使用 API 函数 `SetLoggingLevel` 直接控制其 SHIM 的日志记录严重级别，如下所示：
 

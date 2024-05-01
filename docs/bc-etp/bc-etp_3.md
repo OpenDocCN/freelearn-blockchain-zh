@@ -25,7 +25,7 @@ Solidity 源文件的识别方法是通过 `.sol` 扩展名。它有各种版本
 在源文件中，您可以使用 `pragma Solidity` 指令来指定编写代码的编译器版本。例如：
 
 ```
-pragma Solidity ^0.4.17;
+pragma Solidity ⁰.4.17;
 ```
 
 需要注意的是，源文件不会在早于 `0.4.17` 或晚于 `0.5.0`（此第二个条件使用 `^` 添加）的编译器版本下编译。编译器版本在 `0.4.17` 和 `0.5.0` 之间的情况最有可能包含 bug 修复，并且不太可能破坏任何内容。
@@ -322,7 +322,7 @@ contract sample {
 
 如果我们对不同类型的操作数应用运算符，编译器会尝试将其中一个操作数隐式转换为另一个操作数的类型。一般来说，如果在语义上有意义且不会丢失信息，那么值类型之间的隐式转换是可能的：`uint8` 可转换为 `uint16`，`int128` 可转换为 `int256`，但 `int8` 无法转换为 `uint256`（因为 `uint256` 无法容纳，例如，`-1`）。此外，无符号整数可以转换为相同或更大尺寸的字节，但反之则不行。任何可以转换为 `uint160` 的类型也可以转换为地址。
 
-Solidity还支持显式转换。如果编译器不允许两种数据类型之间的隐式转换，您可以选择显式转换。我们建议避免显式转换，因为它可能会给您带来意外的结果。
+Solidity 还支持显式转换。如果编译器不允许两种数据类型之间的隐式转换，您可以选择显式转换。我们建议避免显式转换，因为它可能会给您带来意外的结果。
 
 显式转换的以下示例，如下所示：
 
@@ -333,9 +333,9 @@ uint16 b = uint16(a); // b will be 0x5678 now
 
 在这里，我们将`uint32`类型显式转换为`uint16`，即将大类型转换为小类型；因此，高阶位被截断。
 
-# 使用var
+# 使用 var
 
-Solidity提供了`var`关键字来声明变量。在这种情况下，变量的类型是动态决定的，取决于分配给它的第一个值。一旦分配了一个值，类型就固定了；如果您给它分配另一种类型，它将导致类型转换。
+Solidity 提供了`var`关键字来声明变量。在这种情况下，变量的类型是动态决定的，取决于分配给它的第一个值。一旦分配了一个值，类型就固定了；如果您给它分配另一种类型，它将导致类型转换。
 
 让我们看看`var`的工作原理，如下所示：
 
@@ -355,7 +355,7 @@ y = z;
 
 # 控制结构
 
-Solidity支持`if...else`，`do...while`，`for`，`break`，`continue`，`return`和`?:`控制结构。
+Solidity 支持`if...else`，`do...while`，`for`，`break`，`continue`，`return`和`?:`控制结构。
 
 这里有一个结构：
 
@@ -401,7 +401,7 @@ contract sample{
 } 
 ```
 
-# 使用new操作符创建合同
+# 使用 new 操作符创建合同
 
 合同可以使用`new`关键字创建新的合同。必须了解被创建合同的完整代码。
 
@@ -429,9 +429,9 @@ contract sample2{
 
 # 异常
 
-在某些情况下，异常会自动抛出。您可以使用`assert()`，`revert()`和`require()`来抛出手动异常。异常会停止并撤销当前正在执行的调用（即，对状态和余额的所有更改都将被撤消）。在Solidity中，尚不可能捕获异常。
+在某些情况下，异常会自动抛出。您可以使用`assert()`，`revert()`和`require()`来抛出手动异常。异常会停止并撤销当前正在执行的调用（即，对状态和余额的所有更改都将被撤消）。在 Solidity 中，尚不可能捕获异常。
 
-以下三行是Solidity中抛出异常的不同方式：
+以下三行是 Solidity 中抛出异常的不同方式：
 
 ```
 if(x != y) { revert(); }
@@ -441,13 +441,13 @@ assert(x == y);
 require(x == y);
 ```
 
-`assert()`将消耗所有gas，而`require()`和`revert()`将退还剩余的gas。
+`assert()`将消耗所有 gas，而`require()`和`revert()`将退还剩余的 gas。
 
-Solidity不支持返回异常的原因，但预计会很快支持。您可以访问[https://github.com/ethereum/solidity/issues/1686](https://github.com/ethereum/solidity/issues/1686)问题进行更新。然后，您将能够编写`revert("Something bad happened")`和`require(condition, "Something bad happened")`。
+Solidity 不支持返回异常的原因，但预计会很快支持。您可以访问[`github.com/ethereum/solidity/issues/1686`](https://github.com/ethereum/solidity/issues/1686)问题进行更新。然后，您将能够编写`revert("Something bad happened")`和`require(condition, "Something bad happened")`。
 
 # 外部函数调用
 
-Solidity有两种类型的函数调用：内部和外部。内部函数调用是指函数调用同一合同中的另一个函数。外部函数调用是指函数调用另一个合同的函数。
+Solidity 有两种类型的函数调用：内部和外部。内部函数调用是指函数调用同一合同中的另一个函数。外部函数调用是指函数调用另一个合同的函数。
 
 以下是一个示例：
 
@@ -1031,7 +1031,7 @@ import "filename" as symbolName;
 
 我们将通过将文件的哈希和所有者的名称存储为对来实现所有权的证明。所有者可以是创建协议的企业。另一方面，我们将通过将文件的哈希和区块时间戳存储为对来实现存在性的证明。最后，存储哈希本身证明了文件的完整性。如果文件被修改，其哈希将更改，合同将无法找到文件，从而证明文件已被修改。
 
-我们将使用Quorum的私有交易，因为实体之间签署的协议对它们是私有的，细节不会暴露给其他实体。尽管只有文件的哈希将被暴露，但其他实体知道一个实体签署了多少协议仍然不是一个好主意。
+我们将使用 Quorum 的私有交易，因为实体之间签署的协议对它们是私有的，细节不会暴露给其他实体。尽管只有文件的哈希将被暴露，但其他实体知道一个实体签署了多少协议仍然不是一个好主意。
 
 以下是实现所有这些的智能合约代码：
 
@@ -1082,13 +1082,13 @@ contract Proof
 
 # 编译和部署合约
 
-以太坊提供了solc编译器，该编译器提供了一个命令行界面来编译`.sol`文件。访问[http://solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages](http://solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages)获取安装说明，并访问[https://Solidity.readthedocs.io/en/develop/using-the-compiler.html](https://Solidity.readthedocs.io/en/develop/using-the-compiler.html)获取使用说明。我们不会直接使用solc编译器；相反，我们将使用浏览器Solidity。浏览器Solidity是一个适用于小型合约的集成开发环境（IDE）。
+以太坊提供了 solc 编译器，该编译器提供了一个命令行界面来编译`.sol`文件。访问[`solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages`](http://solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages)获取安装说明，并访问[`Solidity.readthedocs.io/en/develop/using-the-compiler.html`](https://Solidity.readthedocs.io/en/develop/using-the-compiler.html)获取使用说明。我们不会直接使用 solc 编译器；相反，我们将使用浏览器 Solidity。浏览器 Solidity 是一个适用于小型合约的集成开发环境（IDE）。
 
-现在，让我们使用浏览器Solidity编译上述合约。了解更多信息，请访问[https://Ethereum.github.io/browser-Solidity/](https://ethereum.github.io/browser-solidity/)。您还可以下载用于离线使用的浏览器Solidity源代码：[https://github.com/Ethereum/browser-Solidity/tree/gh-pages](https://github.com/Ethereum/browser-Solidity/tree/gh-pages)。
+现在，让我们使用浏览器 Solidity 编译上述合约。了解更多信息，请访问[`Ethereum.github.io/browser-Solidity/`](https://ethereum.github.io/browser-solidity/)。您还可以下载用于离线使用的浏览器 Solidity 源代码：[`github.com/Ethereum/browser-Solidity/tree/gh-pages`](https://github.com/Ethereum/browser-Solidity/tree/gh-pages)。
 
-使用浏览器Solidity的一个主要优势是它提供了一个编辑器，并生成部署合约的代码。
+使用浏览器 Solidity 的一个主要优势是它提供了一个编辑器，并生成部署合约的代码。
 
-在编辑器中，复制并粘贴上述合约代码。您会看到它编译并给出了使用Geth交互式控制台部署它的web3.js代码。
+在编辑器中，复制并粘贴上述合约代码。您会看到它编译并给出了使用 Geth 交互式控制台部署它的 web3.js 代码。
 
 没有`privateFor`属性时，您将获得以下输出：
 
@@ -1112,9 +1112,9 @@ var proof = proofContract.new(
 
 `data`表示合约的编译版本（字节码），以太坊虚拟机（EVM）可以理解。源代码首先被转换为操作码，然后转换为字节码。每个操作码都与`gas`相关联。
 
-`web3.eth.contract`的第一个参数是ABI定义。ABI定义包含所有方法的原型，并在创建交易时使用。
+`web3.eth.contract`的第一个参数是 ABI 定义。ABI 定义包含所有方法的原型，并在创建交易时使用。
 
-现在是部署智能合约的时候了。在进一步操作之前，请确保您启动了我们在上一章中创建的由三个节点组成的raft网络。我们将假设这三个节点来自三个不同的企业。还要确保您已启用constellation，并复制所有constellation成员的公钥。在`privateFor`数组中，用您生成的公钥替换它们。在这里，我将私有智能合约对所有三个网络成员可见。
+现在是部署智能合约的时候了。在进一步操作之前，请确保您启动了我们在上一章中创建的由三个节点组成的 raft 网络。我们将假设这三个节点来自三个不同的企业。还要确保您已启用 constellation，并复制所有 constellation 成员的公钥。在`privateFor`数组中，用您生成的公钥替换它们。在这里，我将私有智能合约对所有三个网络成员可见。
 
 `privateFor` 仅在发送私有事务时使用。它被分配给一个接收者的 base64 编码的公钥数组。在上述代码中，在 `privateFor` 数组中，我只有两个公钥。这是因为发送者不必将其公钥添加到数组中。如果添加，那么将会引发错误。
 
@@ -1122,7 +1122,7 @@ var proof = proofContract.new(
 
 在浏览器 Solidity 的右侧面板中，复制 web3 部署文本区域中的所有内容，然后添加 `privateFor` 并将其粘贴到第一个节点的交互式控制台中。现在按 *Enter* 键。您将首先获得事务哈希，等待一段时间后，事务被挖掘后您将获得合同地址。事务哈希是事务的哈希值，对于每个事务都是唯一的。每个部署的合同都有一个唯一的合同地址，用于在区块链中标识合同。
 
-合同地址是从其创建者的地址（`from` 地址）和创建者发送的事务数量（事务 nonce）确定地计算出来的。这两个值都是 RLP 编码然后使用 keccak256 哈希算法进行哈希。我们将在后面了解更多关于事务 nonce 的内容。您可以在 [https://github.com/Ethereum/wiki/wiki/RLP](https://github.com/Ethereum/wiki/wiki/RLP) 了解更多关于**递归长度前缀**（**RLP**）的信息。
+合同地址是从其创建者的地址（`from` 地址）和创建者发送的事务数量（事务 nonce）确定地计算出来的。这两个值都是 RLP 编码然后使用 keccak256 哈希算法进行哈希。我们将在后面了解更多关于事务 nonce 的内容。您可以在 [`github.com/Ethereum/wiki/wiki/RLP`](https://github.com/Ethereum/wiki/wiki/RLP) 了解更多关于**递归长度前缀**（**RLP**）的信息。
 
 现在让我们存储文件详细信息并检索它们。假设前两个实体已签署协议并希望将文件的详细信息存储在区块链上。将以下代码放置以广播一个事务以存储文件的详细信息：
 
@@ -1162,6 +1162,6 @@ contract_obj.get.call("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934c
 
 # 摘要
 
-在本章中，我们学习了Solidity编程语言。我们学习了数据位置，数据类型以及合约的高级特性。我们还学习了编译和部署智能合约的最快最简单的方法。现在你应该能够轻松编写智能合约了。
+在本章中，我们学习了 Solidity 编程语言。我们学习了数据位置，数据类型以及合约的高级特性。我们还学习了编译和部署智能合约的最快最简单的方法。现在你应该能够轻松编写智能合约了。
 
 在下一章中，我们将为智能合约构建一个前端，这将使得部署智能合约和运行交易变得容易。

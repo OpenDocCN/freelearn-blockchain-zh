@@ -1,8 +1,8 @@
 # 以业务场景为背景设定舞台
 
-前两章着重于搭建一个区块链项目的舞台，并定义了一个业务框架和各种Hyperledger项目如何解决时间和信任问题。
+前两章着重于搭建一个区块链项目的舞台，并定义了一个业务框架和各种 Hyperledger 项目如何解决时间和信任问题。
 
-通过了解构成Hyperledger Fabric的组件，我们现在将深入研究应用设计和实施方面的考虑。接下来的几章将带您完成创建自己的智能合约的步骤，然后将其集成到一个应用程序中。
+通过了解构成 Hyperledger Fabric 的组件，我们现在将深入研究应用设计和实施方面的考虑。接下来的几章将带您完成创建自己的智能合约的步骤，然后将其集成到一个应用程序中。
 
 为了使这些练习相关，我们将利用一个源自一些古老文明的业务用例：贸易和信用证。
 
@@ -18,7 +18,7 @@
 
 # 贸易和信用证
 
-退回到历史的某个时刻，当商人穿越大陆购买一国的布料去另一个国家出售时。作为佛罗伦萨的羊毛商人，你可能会前往阿姆斯特丹购买这个新成立的城邦的优质羊毛，该港口汇集了整个北欧乃至更远地区的资源。然后你可以将羊毛运到佛罗伦萨，在那里可以卖给为富有客户制作精美服装的裁缝。我们谈论的是公元1300年——这是一个携带黄金或其他贵重金属作为货币购买和出售商品不安全的时代。必需的是一种跨越国界的货币形式，可以在阿姆斯特丹和佛罗伦萨以及任何地方使用！
+退回到历史的某个时刻，当商人穿越大陆购买一国的布料去另一个国家出售时。作为佛罗伦萨的羊毛商人，你可能会前往阿姆斯特丹购买这个新成立的城邦的优质羊毛，该港口汇集了整个北欧乃至更远地区的资源。然后你可以将羊毛运到佛罗伦萨，在那里可以卖给为富有客户制作精美服装的裁缝。我们谈论的是公元 1300 年——这是一个携带黄金或其他贵重金属作为货币购买和出售商品不安全的时代。必需的是一种跨越国界的货币形式，可以在阿姆斯特丹和佛罗伦萨以及任何地方使用！
 
 马可·波罗曾去过中国，看到了那个繁荣经济中的商业活动是如何进行的。在成功的可汗帝国的核心是我们今天会认识到的先进金融技术。法定货币、纸币、本票和信用证都是通过中国传入欧洲的。马可·波罗将这些想法带回了欧洲——它们帮助形成并发展了罗马帝国灭亡后新兴的欧洲的一个商业银行业。
 
@@ -60,17 +60,17 @@
 
 以下术语用于指代贸易场景中正在使用的某些工具和物品。我们在本章中构建的应用程序使用这些工具的非常简化形式：
 
-+   **信用证**：正如我们在本章开头所见，这指的是银行承诺在出具货物装运的文件证明后向出口商付款。简称L/C，此文件由进口商的银行根据其客户（进口商）的要求出具。L/C列明了构成装运证明的文件清单、要支付的金额以及受益人（在我们的案例中为出口商）的金额。下图显示了一份样本L/C：
++   **信用证**：正如我们在本章开头所见，这指的是银行承诺在出具货物装运的文件证明后向出口商付款。简称 L/C，此文件由进口商的银行根据其客户（进口商）的要求出具。L/C 列明了构成装运证明的文件清单、要支付的金额以及受益人（在我们的案例中为出口商）的金额。下图显示了一份样本 L/C：
 
 ![](img/fe15c7ed-b9ff-4c76-8ccf-4b449ac61d4c.png)
 
 我们将在我们的使用案例中引入一些小的变化，以使读者能够理解此工具。首先，信用证将由出口商的银行开具，而不是直接由出口商开具。其次，信用证规定支付将分两期进行，第一期在出具两份文件后支付，第二期在货物到达目的地后支付。
 
-+   **出口许可证**：指出口国监管机构对指定货物的运输所给予的批准。在本书中，我们将其简称为E/L。下图显示了一份样本E/L：
++   **出口许可证**：指出口国监管机构对指定货物的运输所给予的批准。在本书中，我们将其简称为 E/L。下图显示了一份样本 E/L：
 
 ![](img/622d2a54-2b10-4c02-a572-ecbc0b11e235.png)
 
-+   **提单**：这是承运人在接收货物后向出口商出具的文件。简称B/L，它同时起到收据、合同（约束承运人将货物运送到指定目的地以换取报酬）、货物所有权证明的作用。该文件也列在信用证中，并作为装运证明，将自动触发付款结清。下图显示了一份样本B/L：
++   **提单**：这是承运人在接收货物后向出口商出具的文件。简称 B/L，它同时起到收据、合同（约束承运人将货物运送到指定目的地以换取报酬）、货物所有权证明的作用。该文件也列在信用证中，并作为装运证明，将自动触发付款结清。下图显示了一份样本 B/L：
 
 ![](img/3646e790-419d-4fee-9b46-057afb898445.png)
 
@@ -86,11 +86,11 @@
 
 1.  进口商向其银行要求开具一份有利于出口商的信用证
 
-1.  进口商的银行向出口商提供一份有利于出口商且可支付给后者银行的L/C
+1.  进口商的银行向出口商提供一份有利于出口商且可支付给后者银行的 L/C
 
 1.  出口商的银行代表出口商接受信用证
 
-1.  出口商向监管机构申请E/L
+1.  出口商向监管机构申请 E/L
 
 1.  监管机构向出口商提供 E/L
 
@@ -156,19 +156,19 @@
 
 # 区块链应用的优势超过当前现实世界的流程
 
-在缺乏保障的情况下转移货物或进行支付所固有的风险（如缺乏可信的调解者）催生了银行的参与，并导致信用证和提单的产生。这些过程的一个结果不仅仅是额外的成本（银行要收取佣金来发行信用证），或者额外的开支。申请和等待授予出口许可证也会增加周转时间。在理想的贸易场景中，只有准备和运输货物的过程需要时间。最近，采用SWIFT消息传递比手动通信更高效，但并没有从根本上改变游戏规则。另一方面，区块链几乎即时的交易承诺和保证拓展了以前不存在的可能性。
+在缺乏保障的情况下转移货物或进行支付所固有的风险（如缺乏可信的调解者）催生了银行的参与，并导致信用证和提单的产生。这些过程的一个结果不仅仅是额外的成本（银行要收取佣金来发行信用证），或者额外的开支。申请和等待授予出口许可证也会增加周转时间。在理想的贸易场景中，只有准备和运输货物的过程需要时间。最近，采用 SWIFT 消息传递比手动通信更高效，但并没有从根本上改变游戏规则。另一方面，区块链几乎即时的交易承诺和保证拓展了以前不存在的可能性。
 
 作为示例，我们在我们的应用场景中引入的一个变化是分期付款，这在传统框架中无法实现，因为没有一种可靠的方式来了解和共享关于货物进展的信息。在这种情况下，这样的变化被认为是太过风险，这就是为什么支付纯粹与文件证据相关联。通过让交易协议中的所有参与方在一个共同的区块链上实施一个公共智能合同，我们可以提供一个共享的真实性来源，从而最小化风险，同时增加问责制。
 
-在接下来的章节中，我们将详细演示我们的应用是如何在Hyperledger Fabric和Composer平台上实现的。读者将能够欣赏实现的简单性和优雅性，然后可以将其用作指南，来重塑其他应用的古老流程，利用这一激动人心的新技术。然而，在跳入代码之前，我们将研究Hyperledger网络的设计，并设置我们的开发环境。
+在接下来的章节中，我们将详细演示我们的应用是如何在 Hyperledger Fabric 和 Composer 平台上实现的。读者将能够欣赏实现的简单性和优雅性，然后可以将其用作指南，来重塑其他应用的古老流程，利用这一激动人心的新技术。然而，在跳入代码之前，我们将研究 Hyperledger 网络的设计，并设置我们的开发环境。
 
 # 设置开发环境
 
-正如你现在已经知道的那样，Hyperledger Fabric区块链的一个实例被称为通道，它是以加密方式相互关联的交易日志。要设计和运行区块链应用程序，第一步是确定需要多少个通道。对于我们的贸易应用程序，我们将使用一个通道，它将维护不同参与方之间进行的交易历史记录。
+正如你现在已经知道的那样，Hyperledger Fabric 区块链的一个实例被称为通道，它是以加密方式相互关联的交易日志。要设计和运行区块链应用程序，第一步是确定需要多少个通道。对于我们的贸易应用程序，我们将使用一个通道，它将维护不同参与方之间进行的交易历史记录。
 
 一个 Fabric 节点可能属于多个通道，从应用程序的角度来看，这些通道彼此毫无所知，但它们帮助单个节点代表其所有者（或客户）在不同应用程序中运行交易。一个通道可以运行多个智能合约，每个智能合约可以是独立的应用程序，或者链接在一起形成多合约应用程序。在本章和本书中，我们将为读者介绍一个简单的单通道、单合约应用程序的设计。读者可以根据本书提供的信息以及 Fabric 文档设计更复杂的应用程序。
 
-在我们深入了解如何设置系统以安装应用程序并在智能合约上运行交易的机制之前，我们将描述如何创建和启动一个网络，该网络将安装应用程序。本章将使用一个样本网络结构来说明贸易操作（在[第 9 章](72e0e4f7-a8e3-49e6-935f-2c478d0ac891.xhtml)，*区块链网络中的生活*，您将看到如何根据需求的变化和发展修改此样本网络）。
+在我们深入了解如何设置系统以安装应用程序并在智能合约上运行交易的机制之前，我们将描述如何创建和启动一个网络，该网络将安装应用程序。本章将使用一个样本网络结构来说明贸易操作（在第九章，*区块链网络中的生活*，您将看到如何根据需求的变化和发展修改此样本网络）。
 
 # 设计网络
 
@@ -206,13 +206,13 @@
 
 1.  确保您拥有最新版本的：
 
-    +   使用 [https://docs.docker.com/install/](https://docs.docker.com/install/) 安装 Docker。
+    +   使用 [`docs.docker.com/install/`](https://docs.docker.com/install/) 安装 Docker。
 
-    +   使用 Docker-Compose：[https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
+    +   使用 Docker-Compose：[`docs.docker.com/compose/install/`](https://docs.docker.com/compose/install/)
 
-1.  我们将使用 GitHub 来共享教程的源代码。要访问 GitHub，需要安装 Git 客户端，并配置身份验证到 GitHub。有关更多信息，请访问 GitHub 的官方网站[https://help.github.com/articles/set-up-git/](https://help.github.com/articles/set-up-git/)。
+1.  我们将使用 GitHub 来共享教程的源代码。要访问 GitHub，需要安装 Git 客户端，并配置身份验证到 GitHub。有关更多信息，请访问 GitHub 的官方网站[`help.github.com/articles/set-up-git/`](https://help.github.com/articles/set-up-git/)。
 
-1.  安装业务网络示例所需的软件：[https://hyperledger.github.io/composer/latest/installing/installing-prereqs](https://hyperledger.github.io/composer/latest/installing/installing-prereqs)。
+1.  安装业务网络示例所需的软件：[`hyperledger.github.io/composer/latest/installing/installing-prereqs`](https://hyperledger.github.io/composer/latest/installing/installing-prereqs)。
 
     上述说明适用于 Mac 和 Linux。请注意，在使用 Windows 时，我们建议使用像 Vagrant 这样的解决方案在虚拟机中运行开发环境。
 
@@ -222,7 +222,7 @@
 
     +   我们还将使用 Go 来编写链代码。
 
-    +   Go 可以从[https://golang.org/](https://golang.org/)安装。
+    +   Go 可以从[`golang.org/`](https://golang.org/)安装。
 
 请注意，本书中的 Hyperledger Fabric 设置和教程应用程序的测试是使用 Go 1.9 完成的，因此建议读者安装并使用 1.9 或更高版本。
 
@@ -246,7 +246,7 @@
 
 现在，我们需要通过在 GitHub 上分叉存储库来获取原始源代码的副本。然后，我们可以使用以下步骤将源代码克隆到本地机器目录中：
 
-1.  **在 GitHub 中导航到以下存储库**：[https://github.com/HyperledgerHandsOn/trade-finance-logistics](https://github.com/HyperledgerHandsOn/trade-finance-logistics)
+1.  **在 GitHub 中导航到以下存储库**：[`github.com/HyperledgerHandsOn/trade-finance-logistics`](https://github.com/HyperledgerHandsOn/trade-finance-logistics)
 
 1.  **分叉存储库**：使用页面右上角的分叉按钮创建源代码的副本到您的帐户
 
@@ -271,19 +271,19 @@ $ git clone https://github.com/YOUR-USERNAME/trade-finance-logistics
 
 教程应用是在 Hyperledger Fabric 版本 1.1 上开发的，因此您需要获取和构建该版本的组件。
 
-1.  克隆 Fabric ([https://github.com/hyperledger/fabric/tree/release-1.1](https://github.com/hyperledger/fabric/tree/release-1.1)) 源代码存储库。如果您使用 `git clone` 命令，请添加参数 `-b release-1.1`。确保克隆的 `fabric` 文件夹存在于 `$GOPATH/src/github.com/hyperledger/` 中，或者在该路径中创建符号链接。当您尝试构建 Fabric 时，它将在此路径中查找库。
+1.  克隆 Fabric ([`github.com/hyperledger/fabric/tree/release-1.1`](https://github.com/hyperledger/fabric/tree/release-1.1)) 源代码存储库。如果您使用 `git clone` 命令，请添加参数 `-b release-1.1`。确保克隆的 `fabric` 文件夹存在于 `$GOPATH/src/github.com/hyperledger/` 中，或者在该路径中创建符号链接。当您尝试构建 Fabric 时，它将在此路径中查找库。
 
 1.  运行 `make docker` 来为对等方和排序者构建 Docker 镜像。
 
 1.  运行 `make configtxgen cryptogen` 来生成运行本节描述的网络创建命令所需的必要工具。
 
-1.  克隆 Fabric-CA ([https://github.com/hyperledger/fabric-ca/tree/release-1.1](https://github.com/hyperledger/fabric-ca/tree/release-1.1)) 源代码存储库。（如果您使用 `git clone` 命令，请添加参数 `-b release-1.1`。确保克隆的 `fabric-ca` 文件夹存在于 `$GOPATH/src/github.com/hyperledger/` 中，或者在该路径中创建符号链接。当您尝试构建 Fabric-CA 时，它将在此路径中查找库。
+1.  克隆 Fabric-CA ([`github.com/hyperledger/fabric-ca/tree/release-1.1`](https://github.com/hyperledger/fabric-ca/tree/release-1.1)) 源代码存储库。（如果您使用 `git clone` 命令，请添加参数 `-b release-1.1`。确保克隆的 `fabric-ca` 文件夹存在于 `$GOPATH/src/github.com/hyperledger/` 中，或者在该路径中创建符号链接。当您尝试构建 Fabric-CA 时，它将在此路径中查找库。
 
 1.  运行 `make docker` 来构建 MSPs 的 Docker 镜像。
 
 # 生成网络加密材料
 
-配置网络的第一步涉及为每个对等方和订购方组织的MSP以及基于TLS的通信创建证书和签名密钥。我们还需要为每个对等方和订购方节点创建证书和密钥，以便能够彼此通信以及与各自的MSP通信。这个配置必须在我们的代码库中的`network`文件夹中的`crypto-config.yaml`文件中指定。该文件包含组织结构（稍后在通道工件配置部分中更多细节），每个组织中对等方的数量以及必须为其中的每个用户创建证书和密钥的默认数量（请注意，默认情况下会创建一个`admin`用户）。例如，请参阅文件中Importer组织的定义如下：
+配置网络的第一步涉及为每个对等方和订购方组织的 MSP 以及基于 TLS 的通信创建证书和签名密钥。我们还需要为每个对等方和订购方节点创建证书和密钥，以便能够彼此通信以及与各自的 MSP 通信。这个配置必须在我们的代码库中的`network`文件夹中的`crypto-config.yaml`文件中指定。该文件包含组织结构（稍后在通道工件配置部分中更多细节），每个组织中对等方的数量以及必须为其中的每个用户创建证书和密钥的默认数量（请注意，默认情况下会创建一个`admin`用户）。例如，请参阅文件中 Importer 组织的定义如下：
 
 ```
 PeerOrgs:
@@ -310,11 +310,11 @@ cryptogen generate --config=./crypto-config.yaml
 
 为了按照组织的结构创建网络，并引导一个通道，我们需要生成以下工件：
 
-+   初始块，包含用于初始化Fabric区块链的组织特定证书。
++   初始块，包含用于初始化 Fabric 区块链的组织特定证书。
 
 +   通道配置信息。
 
-+   每个组织的锚定对等配置。锚定对等在组织内部充当支点，使用Fabric八卦协议进行跨组织账本同步。
++   每个组织的锚定对等配置。锚定对等在组织内部充当支点，使用 Fabric 八卦协议进行跨组织账本同步。
 
 与`crypto-config.yaml`文件类似，通道属性在一个名为`configtx.yaml`的文件中指定，在我们的源代码中可以在`network`文件夹中找到。我们贸易网络的高级组织如下所示：
 
@@ -349,7 +349,7 @@ Profiles:
         <<: *ApplicationCapabilities
 ```
 
-正如我们所看到的，我们要创建的通道被命名为`FourOrgsTradeChannel`，在配置文件中定义。参与此通道的四个组织被标记为`ExporterOrg`，`ImporterOrg`，`CarrierOrg`和`RegulatorOrg`，每个组织都引用了`Organizations`部分中定义的子部分。订购方属于自己的组织称为`TradeOrdererOrg`。每个组织部分包含有关其MSP的信息（ID以及加密材料的位置，如密钥和证书），以及其锚定对等方的主机名和端口信息。例如，`ExporterOrg`部分包含以下内容：
+正如我们所看到的，我们要创建的通道被命名为`FourOrgsTradeChannel`，在配置文件中定义。参与此通道的四个组织被标记为`ExporterOrg`，`ImporterOrg`，`CarrierOrg`和`RegulatorOrg`，每个组织都引用了`Organizations`部分中定义的子部分。订购方属于自己的组织称为`TradeOrdererOrg`。每个组织部分包含有关其 MSP 的信息（ID 以及加密材料的位置，如密钥和证书），以及其锚定对等方的主机名和端口信息。例如，`ExporterOrg`部分包含以下内容：
 
 ```
 - &ExporterOrg
@@ -363,7 +363,7 @@ Profiles:
 
 正如你所看到的，这个规范中的`MSPDir`变量（表示一个文件夹）引用了我们之前使用`cryptogen`工具生成的加密材料。
 
-要生成通道文件，我们使用`configtxgen`工具。要生成创世区块（将在网络引导期间发送到orderer），请从`network`文件夹运行以下命令：
+要生成通道文件，我们使用`configtxgen`工具。要生成创世区块（将在网络引导期间发送到 orderer），请从`network`文件夹运行以下命令：
 
 ```
 configtxgen -profile FourOrgsTradeOrdererGenesis -outputBlock ./channel-artifacts/genesis.block
@@ -375,7 +375,7 @@ configtxgen -profile FourOrgsTradeOrdererGenesis -outputBlock ./channel-artifact
 configtxgen -profile FourOrgsTradeChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID tradechannel
 ```
 
-我们将创建的通道名为`tradechannel`，其配置存储在`channel-artifacts/channel.tx`中。要生成出口者组织的锚定peer配置，请运行：
+我们将创建的通道名为`tradechannel`，其配置存储在`channel-artifacts/channel.tx`中。要生成出口者组织的锚定 peer 配置，请运行：
 
 ```
 configtxgen -profile FourOrgsTradeChannel -outputAnchorPeersUpdate ./channel-artifacts/ExporterOrgMSPanchors.tx -channelID tradechannel -asOrg ExporterOrgMSP
@@ -397,21 +397,21 @@ configtxgen -profile FourOrgsTradeChannel -outputAnchorPeersUpdate ./channel-art
 
 虽然您可以在这里指定任何通道名称，但请注意，本章后面用于开发中间件的配置将依赖于该名称。
 
-`GOPATH`变量在运行peer的容器中设置为`/opt/gopath`。
+`GOPATH`变量在运行 peer 的容器中设置为`/opt/gopath`。
 
 # 组合一个样例交易网络
 
-最后一个命令还具有生成网络配置文件`docker-compose-e2e.yaml`的效果，该文件用于使用docker-compose工具在一组Docker容器中启动网络。文件本身依赖于静态配置文件`base/peer-base.yaml`和`base/docker-compose-base.yaml`。这些文件共同指定服务及其属性，并使我们能够一次性在Docker容器中运行它们，而不是在一个或多个机器上手动运行这些服务的实例。我们需要运行的服务如下：
+最后一个命令还具有生成网络配置文件`docker-compose-e2e.yaml`的效果，该文件用于使用 docker-compose 工具在一组 Docker 容器中启动网络。文件本身依赖于静态配置文件`base/peer-base.yaml`和`base/docker-compose-base.yaml`。这些文件共同指定服务及其属性，并使我们能够一次性在 Docker 容器中运行它们，而不是在一个或多个机器上手动运行这些服务的实例。我们需要运行的服务如下：
 
-+   四个Fabric peer实例，每个组织一个
++   四个 Fabric peer 实例，每个组织一个
 
-+   一个Fabric orderer实例
++   一个 Fabric orderer 实例
 
-+   五个Fabric CA实例，对应于每个组织的MSP
++   五个 Fabric CA 实例，对应于每个组织的 MSP
 
-每个都可以从Docker Hub上的Hyperledger项目（[https://hub.docker.com/u/hyperledger/](https://hub.docker.com/u/hyperledger/)）获取Docker镜像，其中镜像分别为`hyperledger/fabric-peer`、`hyperledger/fabric-orderer`、`hyperledger/fabric-ca for peers`、`orderers`和`MSPs`。
+每个都可以从 Docker Hub 上的 Hyperledger 项目（[`hub.docker.com/u/hyperledger/`](https://hub.docker.com/u/hyperledger/)）获取 Docker 镜像，其中镜像分别为`hyperledger/fabric-peer`、`hyperledger/fabric-orderer`、`hyperledger/fabric-ca for peers`、`orderers`和`MSPs`。
 
-一个peer的基本配置可以如下（参见`base/peer-base.yaml`）：
+一个 peer 的基本配置可以如下（参见`base/peer-base.yaml`）：
 
 ```
 peer-base:
@@ -431,9 +431,9 @@ working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
 command: peer node start
 ```
 
-Fabric配置参数可以在此设置，但如果您使用`fabric-peer`的预构建Docker映像，则默认设置足以运行对等方服务。在配置的最后一行指定运行对等方服务的命令为`peer node start`；如果您希望通过下载Fabric源代码并在本地机器上构建来运行对等方，则这是您将要运行的命令（有关示例，请参见[*Chapter 4*](a557efde-d161-4451-b5ee-cb3e481010be.xhtml)，*使用Golang设计数据和事务模型*）。还请确保使用`CORE_LOGGING_LEVEL`变量适当配置日志级别。在我们的配置中，该变量设置为`INFO`，这意味着仅记录信息、警告和错误消息。如果您希望调试对等方并需要更广泛的日志记录，请将此变量设置为`DEBUG`。
+Fabric 配置参数可以在此设置，但如果您使用`fabric-peer`的预构建 Docker 映像，则默认设置足以运行对等方服务。在配置的最后一行指定运行对等方服务的命令为`peer node start`；如果您希望通过下载 Fabric 源代码并在本地机器上构建来运行对等方，则这是您将要运行的命令（有关示例，请参见*Chapter 4*，*使用 Golang 设计数据和事务模型*）。还请确保使用`CORE_LOGGING_LEVEL`变量适当配置日志级别。在我们的配置中，该变量设置为`INFO`，这意味着仅记录信息、警告和错误消息。如果您希望调试对等方并需要更广泛的日志记录，请将此变量设置为`DEBUG`。
 
-`IMAGE_TAG`变量在`network`文件夹中的`.env`文件中设置为latest，尽管如果您希望拉取旧的映像，可以设置特定的标签。
+`IMAGE_TAG`变量在`network`文件夹中的`.env`文件中设置为 latest，尽管如果您希望拉取旧的映像，可以设置特定的标签。
 
 此外，我们需要为每个对等方配置主机名和端口，并将使用`cryptogen`生成的加密材料同步到容器文件系统。导出器组织中的对等方在`base/docker-compose-base.yaml`中配置如下：
 
@@ -459,9 +459,9 @@ peer0.exporterorg.trade.com:
     - 7053:7053
 ```
 
-正如`extends`参数所示，这扩展了基本配置。注意，ID（`CORE_PEER_ID`）与`configtx.yaml`中为此对等方指定的ID相匹配。该标识是运行在导出器组织中的对等方的主机名，并且稍后在本章的中间件代码中将使用它。卷部分指示将在`crypto-config`文件夹中生成的加密材料复制到容器的规则。对等方服务本身侦听端口`7051`，客户端用于订阅事件的端口设置为`7053`。
+正如`extends`参数所示，这扩展了基本配置。注意，ID（`CORE_PEER_ID`）与`configtx.yaml`中为此对等方指定的 ID 相匹配。该标识是运行在导出器组织中的对等方的主机名，并且稍后在本章的中间件代码中将使用它。卷部分指示将在`crypto-config`文件夹中生成的加密材料复制到容器的规则。对等方服务本身侦听端口`7051`，客户端用于订阅事件的端口设置为`7053`。
 
-在文件中，您会看到容器内端口在对等方之间是相同的，但映射到主机机器上的端口是不同的。最后，请注意，此处指定的MSP ID也与`configtx.yaml`中指定的相匹配。
+在文件中，您会看到容器内端口在对等方之间是相同的，但映射到主机机器上的端口是不同的。最后，请注意，此处指定的 MSP ID 也与`configtx.yaml`中指定的相匹配。
 
 订购者服务的配置类似，如`base/docker-compose-base.yaml`中的以下片段所示：
 
@@ -504,11 +504,11 @@ exporter-ca:
   command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.exporterorg.trade.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/cc58284b6af2c33812cfaef9e40b8c911dbbefb83ca2e7564e8fbf5e7039c22e_sk -b admin:adminpw -d'
 ```
 
-如你所见，环境变量和命令中的变量`EXPORTER_CA_PRIVATE_KEY`已被替换为`cc58284b6af2c33812cfaef9e40b8c911dbbefb83ca2e7564e8fbf5e7039c22e_sk`。如果你现在检查`crypto-config`文件夹的内容，你会注意到在`crypto-config/peerOrganizations/exporterorg.trade.com/ca/`文件夹中存在一个名为`cc58284b6af2c33812cfaef9e40b8c911dbbefb83ca2e7564e8fbf5e7039c22e_sk`的文件。这个文件包含了出口商组织MSP的私（秘密）签名密钥。
+如你所见，环境变量和命令中的变量`EXPORTER_CA_PRIVATE_KEY`已被替换为`cc58284b6af2c33812cfaef9e40b8c911dbbefb83ca2e7564e8fbf5e7039c22e_sk`。如果你现在检查`crypto-config`文件夹的内容，你会注意到在`crypto-config/peerOrganizations/exporterorg.trade.com/ca/`文件夹中存在一个名为`cc58284b6af2c33812cfaef9e40b8c911dbbefb83ca2e7564e8fbf5e7039c22e_sk`的文件。这个文件包含了出口商组织 MSP 的私（秘密）签名密钥。
 
 前述的代码片段包含了一个样本运行的结果。每当你运行加密材料生成工具时，关键文件名将会有所变化。
 
-让我们现在更详细地看一下MSP的配置，以出口商组织MSP为例，如`docker-compose-e2e.yaml`中所指定的那样：
+让我们现在更详细地看一下 MSP 的配置，以出口商组织 MSP 为例，如`docker-compose-e2e.yaml`中所指定的那样：
 
 ```
 exporter-ca:
@@ -529,17 +529,17 @@ exporter-ca:
     - trade
 ```
 
-将在MSP中运行的服务是`fabric-ca-server`，监听端口`7054`，使用`cryptogen`创建的证书和密钥进行引导，并使用`fabric-ca`镜像中配置的默认登录名和密码（分别为`admin`和`adminpw`）。启动一个Fabric CA服务器实例的命令是`fabric-ca-server start ...`，如你在前述代码中所看到的。
+将在 MSP 中运行的服务是`fabric-ca-server`，监听端口`7054`，使用`cryptogen`创建的证书和密钥进行引导，并使用`fabric-ca`镜像中配置的默认登录名和密码（分别为`admin`和`adminpw`）。启动一个 Fabric CA 服务器实例的命令是`fabric-ca-server start ...`，如你在前述代码中所看到的。
 
-同样，对等方和CA都配置为基于TLS的通信，正如前述配置所示。读者必须注意，如果一个地方禁用了TLS，另一个地方也必须禁用TLS。
+同样，对等方和 CA 都配置为基于 TLS 的通信，正如前述配置所示。读者必须注意，如果一个地方禁用了 TLS，另一个地方也必须禁用 TLS。
 
-同样，通过检查`docker-compose-e2e.yaml`，我们可以看到，我们没有为订购方的组织创建Fabric CA服务器（和容器）。对于在本书中要进行的练习，静态创建的管理用户和订购者的凭据足够了；我们不会动态注册新的订购者组织用户，所以不需要Fabric CA服务器。
+同样，通过检查`docker-compose-e2e.yaml`，我们可以看到，我们没有为订购方的组织创建 Fabric CA 服务器（和容器）。对于在本书中要进行的练习，静态创建的管理用户和订购者的凭据足够了；我们不会动态注册新的订购者组织用户，所以不需要 Fabric CA 服务器。
 
 # 网络组件的配置文件
 
 我们已经演示了如何在 docker-compose YAML 文件中配置对等方、订购者和 CA。但是这些配置意味着覆盖了组件的默认设置。虽然这些配置的详细说明超出了本书的范围，但我们将列出各自的文件并提及用户如何对其进行更改。
 
-对于一个对等方，一个名为 `core.yaml` 的文件（[https://github.com/hyperledger/fabric/blob/release-1.1/sampleconfig/core.yaml](https://github.com/hyperledger/fabric/blob/release-1.1/sampleconfig/core.yaml)）包含了所有重要的运行时设置，包括但不限于地址、端口号、安全和隐私以及八卦协议。您可以创建自己的文件并使用自定义 `Dockerfile` 将其同步到容器中，而不是使用默认的 `hyperledger/fabric-peer` 镜像。如果您登录到一个正在运行的对等方容器（让我们从我们刚刚启动的网络中取出 Exporter 组织的对等方容器）：
+对于一个对等方，一个名为 `core.yaml` 的文件（[`github.com/hyperledger/fabric/blob/release-1.1/sampleconfig/core.yaml`](https://github.com/hyperledger/fabric/blob/release-1.1/sampleconfig/core.yaml)）包含了所有重要的运行时设置，包括但不限于地址、端口号、安全和隐私以及八卦协议。您可以创建自己的文件并使用自定义 `Dockerfile` 将其同步到容器中，而不是使用默认的 `hyperledger/fabric-peer` 镜像。如果您登录到一个正在运行的对等方容器（让我们从我们刚刚启动的网络中取出 Exporter 组织的对等方容器）：
 
 ```
 docker exec -it f86e50e6fc76 bash
@@ -547,9 +547,9 @@ docker exec -it f86e50e6fc76 bash
 
 然后您将在文件夹 `/etc/hyperledger/fabric/` 中找到 `core.yaml` 文件。
 
-类似地，订购者的默认配置位于一个名为 `orderer.yaml` 的文件中（[https://github.com/hyperledger/fabric/blob/release-1.1/sampleconfig/orderer.yaml](https://github.com/hyperledger/fabric/blob/release-1.1/sampleconfig/orderer.yaml)），该文件也与运行 `hyperledger/fabric-orderer` 镜像的容器中的 `/etc/hyperledger/fabric/` 同步。请注意，`core.yaml` 和 `orderer.yaml` 文件都同步到对等方和订购者容器，因此，如果您希望创建自定义文件，则需要将这些 YAML 文件同步到这两个容器。
+类似地，订购者的默认配置位于一个名为 `orderer.yaml` 的文件中（[`github.com/hyperledger/fabric/blob/release-1.1/sampleconfig/orderer.yaml`](https://github.com/hyperledger/fabric/blob/release-1.1/sampleconfig/orderer.yaml)），该文件也与运行 `hyperledger/fabric-orderer` 镜像的容器中的 `/etc/hyperledger/fabric/` 同步。请注意，`core.yaml` 和 `orderer.yaml` 文件都同步到对等方和订购者容器，因此，如果您希望创建自定义文件，则需要将这些 YAML 文件同步到这两个容器。
 
-Fabric CA 服务器还有一个名为 `fabric-ca-server-config.yaml` 的配置文件（[http://hyperledger-fabric-ca.readthedocs.io/en/latest/serverconfig.htm](http://hyperledger-fabric-ca.readthedocs.io/en/latest/serverconfig.htm)），它与运行 `hyperledger/fabric-ca` 镜像的容器中的 `/etc/hyperledger/fabric-ca-server/` 同步。您可以像为对等方或订购者创建和同步自定义配置一样创建和同步自定义配置。
+Fabric CA 服务器还有一个名为 `fabric-ca-server-config.yaml` 的配置文件（[`hyperledger-fabric-ca.readthedocs.io/en/latest/serverconfig.htm`](http://hyperledger-fabric-ca.readthedocs.io/en/latest/serverconfig.htm)），它与运行 `hyperledger/fabric-ca` 镜像的容器中的 `/etc/hyperledger/fabric-ca-server/` 同步。您可以像为对等方或订购者创建和同步自定义配置一样创建和同步自定义配置。
 
 # 启动示例交易网络
 
@@ -561,7 +561,7 @@ docker-compose -f docker-compose-e2e.yaml up
 
 您可以将此作为后台进程运行，并将标准输出重定向到 `log` 文件，如果您愿意的话。否则，您将看到各种容器启动和每个容器的日志显示在控制台上。
 
-请注意，在某些操作系统配置中，设置 Fabric 可能会有些棘手。如果遇到问题，请查阅文档。有关如何安装 Fabric 网络以及示例的详细说明，请访问 [https://hyperledger-fabric.readthedocs.io/en/release-1.1/samples.html](https://hyperledger-fabric.readthedocs.io/en/release-1.1/samples.html)。
+请注意，在某些操作系统配置中，设置 Fabric 可能会有些棘手。如果遇到问题，请查阅文档。有关如何安装 Fabric 网络以及示例的详细说明，请访问 [`hyperledger-fabric.readthedocs.io/en/release-1.1/samples.html`](https://hyperledger-fabric.readthedocs.io/en/release-1.1/samples.html)。
 
 网络也可以使用我们的 trade.sh 脚本在后台启动；只需运行：
 

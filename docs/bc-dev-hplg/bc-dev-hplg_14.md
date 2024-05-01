@@ -40,9 +40,9 @@ Remix 是一个强大的、开源的智能合约工具，可以帮助你直接�
 
 +   **注入的 Web3**：此选项将直接调用注入的浏览器 web3 实例，如 MetaMask，以太坊网络浏览器扩展。MetaMask 提供了许多功能和特性，就像普通的以太坊钱包一样，它允许您与 DApp 进行交互。
 
-+   **Web3提供者**：Remix 还支持 Web3 提供者。web3.js 库是官方的以太坊 JavaScript API。它用于与以太坊智能合约进行交互。您可以通过 web3j API 连接到区块链网络。Web3j 支持三种不同的提供者：HTTPProvider、WebsocketProvider 和 IpcProvider。在 Remix Web3 中，您可以提供 HTTP URL 来连接远程区块链实例。该 URL 可以指向您的本地私有区块链、测试网和其他实例端点。
++   **Web3 提供者**：Remix 还支持 Web3 提供者。web3.js 库是官方的以太坊 JavaScript API。它用于与以太坊智能合约进行交互。您可以通过 web3j API 连接到区块链网络。Web3j 支持三种不同的提供者：HTTPProvider、WebsocketProvider 和 IpcProvider。在 Remix Web3 中，您可以提供 HTTP URL 来连接远程区块链实例。该 URL 可以指向您的本地私有区块链、测试网和其他实例端点。
 
-首先使用 Remix solidity IDE：[https://remix.ethereum.org](https://remix.ethereum.org)。以下是 Remix 的 UI 截图：
+首先使用 Remix solidity IDE：[`remix.ethereum.org`](https://remix.ethereum.org)。以下是 Remix 的 UI 截图：
 
 ![](img/8f8a62a2-d60c-43d5-b345-5b6855820378.png)
 
@@ -54,7 +54,7 @@ EthFiddle 是一个非常简单的 solidity 基于浏览器的开发工具。您
 
 EthFiddle 软件界面
 
-这是 EthFiddle solidity IDE 的链接：[https://ethfiddle.com](https://ethfiddle.com)。
+这是 EthFiddle solidity IDE 的链接：[`ethfiddle.com`](https://ethfiddle.com)。
 
 # 命令行开发管理工具
 
@@ -76,14 +76,14 @@ Truffle 是一个流行的以太坊开发环境和测试框架，是以太坊的
 
 +   我们将在下一章节中进行更详细的讨论，并使用 Truffle 开发 ERC20 代币的 DApp。
 
-+   以下是 Truffle 的网站链接：[https://truffleframework.com/](https://truffleframework.com/)
++   以下是 Truffle 的网站链接：[`truffleframework.com/`](https://truffleframework.com/)
 
 # 智能合约简介
 
 让我们从最基本的智能合约示例`HelloWorld.sol`开始，如下所示：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 
 contract HelloWorld {
   string public greeting;
@@ -145,7 +145,7 @@ import {symbol1 as alias, symbol2} from " solidityFile";
 以下是使用 zeppelin solidity 库创建 ERC20 代币的示例：
 
 ```
-pragma solidity ^0.4.15;
+pragma solidity ⁰.4.15;
 import 'zeppelin/contracts/math/SafeMath.sol';
 ….
 contract ExampleCoin is ERC20 {
@@ -265,7 +265,7 @@ bytes32[] public names
 枚举是一种带有一组受限制的常量值的类型。以下是示例：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
   contract ColorEnum {
     enum Color {RED,ORANGE,YELLOW, GREEN}
     Color color;
@@ -299,7 +299,7 @@ struct person {
 映射充当由键类型和相应值类型对组成的哈希表。以下是示例：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 contract StudentScore {
     struct Student {
         uint score;
@@ -327,7 +327,7 @@ contract StudentScore {
 
 # 函数
 
-函数是合同内代码的可执行单元。以下是Solidity中函数的结构：
+函数是合同内代码的可执行单元。以下是 Solidity 中函数的结构：
 
 ```
 function (<Input parameters>) {access modifiers} [pure|constant|view|payable] [returns (<return types>)]
@@ -347,9 +347,9 @@ function setNewGreeting (string _newGreeting) {
 
 # 访问修饰符
 
-Solidity访问修饰符用于在Solidity中提供访问控制。
+Solidity 访问修饰符用于在 Solidity 中提供访问控制。
 
-Solidity中有四种类型的访问修饰符，列举如下：
+Solidity 中有四种类型的访问修饰符，列举如下：
 
 +   **Public**：可以从此合同、继承的合同和外部访问
 
@@ -369,19 +369,19 @@ function getColor() public view returns (uint){
   }
 ```
 
-在Solidity中，`pure`函数是承诺不修改或读取状态的函数。
+在 Solidity 中，`pure`函数是承诺不修改或读取状态的函数。
 
 ```
 pure|constant|view|payable
 ```
 
-如果函数修饰符定义为view，则表示该函数不会更改存储状态。
+如果函数修饰符定义为 view，则表示该函数不会更改存储状态。
 
-如果函数修饰符定义为pure，则表示该函数不会读取存储状态。
+如果函数修饰符定义为 pure，则表示该函数不会读取存储状态。
 
-如果函数修饰符定义为constant，则表示该函数不会修改合同存储。
+如果函数修饰符定义为 constant，则表示该函数不会修改合同存储。
 
-如果函数修饰符定义为payable，则修饰符可以接收资金。
+如果函数修饰符定义为 payable，则修饰符可以接收资金。
 
 ```
     uint amount =0;
@@ -393,7 +393,7 @@ pure|constant|view|payable
 在上面的示例中，`buy`函数具有可支付修饰符，这确保您可以向`buy`函数发送以太。没有任何名称，并用可支付关键字注释的函数称为可支付回退函数。
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 // this is a contract, which keeps all Ether to it with not way of
 // retrieving it.
 contract MyContract {
@@ -403,10 +403,10 @@ contract MyContract {
 
 # 修饰符
 
-在Solidity中，修饰符用于更改函数的行为。它们可以在执行函数之前自动检查条件。以下是示例：
+在 Solidity 中，修饰符用于更改函数的行为。它们可以在执行函数之前自动检查条件。以下是示例：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 contract Modifiers {
          address public admin;
     function construct () public {
@@ -429,10 +429,10 @@ contract Modifiers {
 
 # 事件
 
-事件用于跟踪发送到合同的交易的执行情况。有与EVM日志记录设施方便的接口。以下是示例：
+事件用于跟踪发送到合同的交易的执行情况。有与 EVM 日志记录设施方便的接口。以下是示例：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 contract Purchase {
     event buyEvent(address bidder, uint amount); // Event
     function buy() public payable {
@@ -443,18 +443,18 @@ contract Purchase {
 
 # 构造函数
 
-构造函数是创建和初始化合同的特殊方法。在Solidity v0.4.23中，Solidity引入了这种新的构造函数表示法，旧的构造函数已被弃用。
+构造函数是创建和初始化合同的特殊方法。在 Solidity v0.4.23 中，Solidity 引入了这种新的构造函数表示法，旧的构造函数已被弃用。
 
 ```
 //new
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 contract HelloWorld {
   function constructor() public {
     // ...
   }
 }
 //deprecated
-pragma solidity ^0.4.22;
+pragma solidity ⁰.4.22;
 contract HelloWorld {
   function HelloWorld () public {
     // ...
@@ -533,7 +533,7 @@ Solidity 中的以太可分为 Wei、Kwei、Mwei、Gwei、Szabo、Finney、Kethe
 在 Solidity 中，继承与经典的面向对象编程语言非常相似。以下是一些示例：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 contract Animal {
     constructor() public {
     }
@@ -585,7 +585,7 @@ Solidity 中的接口类似于抽象合约；它们隐式地是抽象的，不�
 +   不能定义枚举
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 //interface
 contract A {
     function doSomething() public returns (string);
@@ -609,7 +609,7 @@ contract B is A {
 限制访问是一种 solidity 安全模式。它只允许授权方访问特定功能。由于区块链的公开性质，区块链上的所有数据对任何人都是可见的。关键是声明你的合约函数、受限访问控制的状态，并提供对智能合约功能的未经授权访问的安全性。
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 contract Ownable {
  address owner;
  uint public initTime = now;
@@ -659,7 +659,7 @@ onlyOwner onlyAfter(initTime + 2 weeks) costs(50 ether) {
 }
 ```
 
-上述示例展示了访问限制模式应用于合约。我们首先定义了一个名为`Ownable`的父类，其中包含`onlyOwner`、`changeOwner`和`onlyAfter`函数修饰符。其他合约可以继承自此合约以使用定义的访问限制。`SampleContract`继承自`Ownable`合约，因此只有所有者可以访问`setValue`函数。此外，`forceOwnerChange`只能在合同创建后两周内以50以太币的成本进行调用，只有所有者才有权限执行该功能。
+上述示例展示了访问限制模式应用于合约。我们首先定义了一个名为`Ownable`的父类，其中包含`onlyOwner`、`changeOwner`和`onlyAfter`函数修饰符。其他合约可以继承自此合约以使用定义的访问限制。`SampleContract`继承自`Ownable`合约，因此只有所有者可以访问`setValue`函数。此外，`forceOwnerChange`只能在合同创建后两周内以 50 以太币的成本进行调用，只有所有者才有权限执行该功能。
 
 # 状态机
 
@@ -672,7 +672,7 @@ onlyOwner onlyAfter(initTime + 2 weeks) costs(50 ether) {
 为了说明这一点，让我们开发一个简单的状态机。我们以洗碗为例。通常的过程是*擦洗，冲洗，晾干，擦洗，冲洗，晾干*。我们将状态机阶段定义为一个枚举类型。由于这是一个广泛的用例，此处仅介绍了与状态机相关的代码。省略了任何详细动作实现的逻辑，如`rinse()`、`dry()`等。请参见以下示例：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 contract StateMachine { 
  enum Stages {
  INIT,
@@ -734,7 +734,7 @@ contract StateMachine {
 与其他外部合约交互时要非常小心，这应该是你的函数中的最后一步。它可能引入几个意外的风险或错误。外部调用可能执行恶意代码。如果可能的话，应该考虑这些调用作为潜在的安全风险，并尽量避免。
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 // THIS CONTRACT is INSECURE - DO NOT USE
 contract Fund {
     mapping(address => uint) userBalances;
@@ -773,7 +773,7 @@ contract Hacker {
 上述合约漏洞称为递归调用。为了避免这种情况，您可以使用检查-效果-交互模式，如下面的示例所示：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 contract Fund {
     mapping(address => uint) userBalances;
     funct
@@ -811,12 +811,12 @@ contractAddress.call.value(50)(bytes4(sha3("withdraw()"))); // if withdraw throw
 
 在本节中，我们将为众筹活动使用案例实现并部署智能合约。
 
-众筹的理念是从大众集资为项目或风险创业筹集资金的过程。投资者会收到代表他们投资创业公司股份的代币。项目设定了一个预定的目标和达到该目标的期限。一旦项目未达到目标，资金将被返还，这减少了投资者的风险。这种去中心化的筹资模式可以取代初创企业的资金需求，并且无需集中式的受信任平台。投资者只会在资金返还时支付gas费用。任何项目的贡献者都会得到一个代币，他们可以交易、出售或保留这些代币。在某一阶段，代币可以用来换取实际产品作为物理奖励。
+众筹的理念是从大众集资为项目或风险创业筹集资金的过程。投资者会收到代表他们投资创业公司股份的代币。项目设定了一个预定的目标和达到该目标的期限。一旦项目未达到目标，资金将被返还，这减少了投资者的风险。这种去中心化的筹资模式可以取代初创企业的资金需求，并且无需集中式的受信任平台。投资者只会在资金返还时支付 gas 费用。任何项目的贡献者都会得到一个代币，他们可以交易、出售或保留这些代币。在某一阶段，代币可以用来换取实际产品作为物理奖励。
 
 定义结构和事件，如下所示：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 
 contract CrowdFunding {
 

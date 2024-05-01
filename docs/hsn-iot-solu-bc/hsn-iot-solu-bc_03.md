@@ -36,9 +36,9 @@
 
 # 区块链与 Hyperledger
 
-周围有许多区块链框架或技术：R3（corda）、以太坊、Neo 和 Nem，每个都具有特定的设计和架构。在本书中，我们将专注于 Hyperledger 区块链技术（[https://www.hyperledger.org/](https://www.hyperledger.org/)）。
+周围有许多区块链框架或技术：R3（corda）、以太坊、Neo 和 Nem，每个都具有特定的设计和架构。在本书中，我们将专注于 Hyperledger 区块链技术（[`www.hyperledger.org/`](https://www.hyperledger.org/)）。
 
-Hyperledger 是 Linux Foundation 的一部分，于 2016 年启动，具有技术和组织治理结构以及 30 家创始企业会员。现在有超过 230 家成员参与了这一倡议。这包括了思科、日立、IBM、ABN AMRO、澳新银行、红帽、VMware 和摩根大通等公司。如今，Hyperledger 在同一伞下与许多项目合作，并专注于区块链用例的差异，以及涵盖框架和工具。你可以在[https://www.hyperledger.org](https://www.hyperledger.org)找到对 Hyperledger 项目的良好描述。在这里，指出了 Hyperledger 孵化和推广一系列企业区块链技术，包括分布式账本框架、智能合约引擎、客户端库、图形界面、实用库和示例应用程序。Hyperledger 伞策略鼓励重复使用共同的构建模块，并实现 DLT（分布式账本技术）组件的快速创新：
+Hyperledger 是 Linux Foundation 的一部分，于 2016 年启动，具有技术和组织治理结构以及 30 家创始企业会员。现在有超过 230 家成员参与了这一倡议。这包括了思科、日立、IBM、ABN AMRO、澳新银行、红帽、VMware 和摩根大通等公司。如今，Hyperledger 在同一伞下与许多项目合作，并专注于区块链用例的差异，以及涵盖框架和工具。你可以在[`www.hyperledger.org`](https://www.hyperledger.org)找到对 Hyperledger 项目的良好描述。在这里，指出了 Hyperledger 孵化和推广一系列企业区块链技术，包括分布式账本框架、智能合约引擎、客户端库、图形界面、实用库和示例应用程序。Hyperledger 伞策略鼓励重复使用共同的构建模块，并实现 DLT（分布式账本技术）组件的快速创新：
 
 ![](img/2bed88b9-3b3f-4da1-a168-d4c5aa338c94.png)
 
@@ -86,7 +86,7 @@ Hyperledger Burrow 文档的第一段含有对这个框架的良好描述。描�
 
 +   利用容器技术托管称为链代码的智能合约，这些智能合约包括系统的应用逻辑
 
-但在我们继续之前，让我们回顾一些区块链的概念，并详细探索Hyperledger Fabric：
+但在我们继续之前，让我们回顾一些区块链的概念，并详细探索 Hyperledger Fabric：
 
 ![](img/0166787c-5329-4bb9-8fde-824b3962487a.png)
 
@@ -96,11 +96,11 @@ Hyperledger Burrow 文档的第一段含有对这个框架的良好描述。描�
 
 +   **账本：** 将其视为整个交易历史的数字存储，就像数据库一样，您可以拥有查询功能来探索数据。
 
-+   **隐私：**频道：在大多数情况下，所有网络都有一个唯一的频道，但Hyperledger Fabric允许多边交易，保证隐私和机密性，因此如果网络中的两个成员由于任何原因需要在它们之间进行特定交易，它们可以有一个与其他人分离的频道。
++   **隐私：**频道：在大多数情况下，所有网络都有一个唯一的频道，但 Hyperledger Fabric 允许多边交易，保证隐私和机密性，因此如果网络中的两个成员由于任何原因需要在它们之间进行特定交易，它们可以有一个与其他人分离的频道。
 
 +   **安全和成员服务**：每个成员在网络中都有特定的权限，因此每笔交易都将被记录并可以被授权的监管者或审计者追踪。
 
-为了更好地解释我们所说的，让我们看一下Hyperledger Fabric在业务网络中的组件：
+为了更好地解释我们所说的，让我们看一下 Hyperledger Fabric 在业务网络中的组件：
 
 ![](img/6487fb41-bc1b-4cf6-916b-12b633323281.png)
 
@@ -122,11 +122,11 @@ Hyperledger Burrow 文档的第一段含有对这个框架的良好描述。描�
 
 # 证书管理机构（CA）
 
-业务网络的每个成员都可以访问由系统信任的权威颁发的数字身份。在最常见的情况下，数字身份（或简单身份）采用符合X.509标准的加密验证数字证书的形式，并由CA颁发。
+业务网络的每个成员都可以访问由系统信任的权威颁发的数字身份。在最常见的情况下，数字身份（或简单身份）采用符合 X.509 标准的加密验证数字证书的形式，并由 CA 颁发。
 
 # 排序集群
 
-队列或者交易将由提供给客户端和对等节点共享通信频道的排序服务排序，为包含交易的消息提供广播服务。在排序和分发交易的过程中，Hyperledger Fabric与**排序服务（OS）**和Kafka集群一起工作，这是保证负载平衡和共识的代理。当我们建立环境时，我们将更详细地探讨这一点。
+队列或者交易将由提供给客户端和对等节点共享通信频道的排序服务排序，为包含交易的消息提供广播服务。在排序和分发交易的过程中，Hyperledger Fabric 与**排序服务（OS）**和 Kafka 集群一起工作，这是保证负载平衡和共识的代理。当我们建立环境时，我们将更详细地探讨这一点。
 
 # SDK/ API
 
@@ -195,7 +195,7 @@ Hyperledger Fabric 1.3 有一些重要的改进。自 1.1 版本和 Node.js 链�
 
 # 区块链—食品追踪使用案例
 
-现在，让我们专注于食品追踪的用例。如今，消费者要求了解更多关于产品生产的信息和透明度。欧盟对企业供应链要求更多信息，并对不遵守规定的公司和国家进行严厉处罚。自2016年以来，中国消费者一直在追踪他们的食物是在哪生产的，以及在抵达他们餐桌之前在不同批发商和经纪人手中转手了多少次。所以，区块链似乎是一个很好的适用场景，对吧？
+现在，让我们专注于食品追踪的用例。如今，消费者要求了解更多关于产品生产的信息和透明度。欧盟对企业供应链要求更多信息，并对不遵守规定的公司和国家进行严厉处罚。自 2016 年以来，中国消费者一直在追踪他们的食物是在哪生产的，以及在抵达他们餐桌之前在不同批发商和经纪人手中转手了多少次。所以，区块链似乎是一个很好的适用场景，对吧？
 
 让我们思考区块链的五个要素：
 
@@ -211,7 +211,7 @@ Hyperledger Fabric 1.3 有一些重要的改进。自 1.1 版本和 Node.js 链�
 
 消费者要求，像欧盟和中国这样的国家都需要进行跟踪审计。
 
-1.  不可变性和5\. 最终性
+1.  不可变性和 5\. 最终性
 
 参与复杂流程的不同公司和资产。
 
@@ -229,15 +229,15 @@ Hyperledger Fabric 1.3 有一些重要的改进。自 1.1 版本和 Node.js 链�
 
 区块链具有共享和分布式分类帐功能，可以使业务网络中的交易记录和资产跟踪过程更加简单和动态。这与比特币不同，比特币是一个无权限公共分类帐的例子，并定义了一个不受监管的有大量资源的影子货币。区块链通常是受许可的、私有的，并优先考虑背书，使用基于加密货币的资产。
 
-项目称为Hyperledger，是一个协作项目，采用开源代码，旨在推广区块链技术。
+项目称为 Hyperledger，是一个协作项目，采用开源代码，旨在推广区块链技术。
 
-2017年5月，有五个活跃的框架和五个活跃的工具：
+2017 年 5 月，有五个活跃的框架和五个活跃的工具：
 
-+   **框架：** Hyperledger Burrow、Hyperledger Fabric、Hyperledger Iroha、Hyperledger Sawtooth和Hyperledger Indy
++   **框架：** Hyperledger Burrow、Hyperledger Fabric、Hyperledger Iroha、Hyperledger Sawtooth 和 Hyperledger Indy
 
-+   **工具：** Hyperledger Cello、Hyperledger Composer、Hyperledger Explorer、Hyperledger Quilt和Hyperledger Caliper
++   **工具：** Hyperledger Cello、Hyperledger Composer、Hyperledger Explorer、Hyperledger Quilt 和 Hyperledger Caliper
 
-在接下来的章节中，我们将更详细地探讨区块链平台如何解决食品链中的一些重要挑战，我们将发现Hyperledger Fabric 1.4是一个强大的区块链平台。
+在接下来的章节中，我们将更详细地探讨区块链平台如何解决食品链中的一些重要挑战，我们将发现 Hyperledger Fabric 1.4 是一个强大的区块链平台。
 
 # 问题
 
@@ -261,14 +261,14 @@ A. 区块链为解决束缚供应链的食品链挑战提供了信任和透明�
 
 要查找更多关于该主题的信息，请访问以下链接:
 
-+   可在以下链接找到 Hyperledger Sawtooth 文档: [https://sawtooth.hyperledger.org/docs/core/releases/latest/introduction.html#distinctive-features-of-sawtooth](https://sawtooth.hyperledger.org/docs/core/releases/latest/introduction.html#distinctive-features-of-sawtooth)
++   可在以下链接找到 Hyperledger Sawtooth 文档: [`sawtooth.hyperledger.org/docs/core/releases/latest/introduction.html#distinctive-features-of-sawtooth`](https://sawtooth.hyperledger.org/docs/core/releases/latest/introduction.html#distinctive-features-of-sawtooth)
 
-+   可在以下链接找到 Hyperledger Iroha 文档: [https://www.hyperledger.org/projects/iroha/resources](https://www.hyperledger.org/projects/iroha/resources)
++   可在以下链接找到 Hyperledger Iroha 文档: [`www.hyperledger.org/projects/iroha/resources`](https://www.hyperledger.org/projects/iroha/resources)
 
-+   可在以下链接找到 Hyperledger Indy 文档: [https://github.com/hyperledger/indy-node/blob/stable/getting-started.md](https://github.com/hyperledger/indy-node/blob/stable/getting-started.md)
++   可在以下链接找到 Hyperledger Indy 文档: [`github.com/hyperledger/indy-node/blob/stable/getting-started.md`](https://github.com/hyperledger/indy-node/blob/stable/getting-started.md)
 
-+   可在以下链接找到 Hyperledger Composer 文档: [https://hyperledger.github.io/composer/latest/introduction/introduction.html](https://hyperledger.github.io/composer/latest/introduction/introduction.html)
++   可在以下链接找到 Hyperledger Composer 文档: [`hyperledger.github.io/composer/latest/introduction/introduction.html`](https://hyperledger.github.io/composer/latest/introduction/introduction.html)
 
-+   可在以下链接找到 Hyperledger Framework 1.4 文档: [https://hyperledger-fabric.readthedocs.io/en/release-1.4/](https://hyperledger-fabric.readthedocs.io/en/release-1.4/)
++   可在以下链接找到 Hyperledger Framework 1.4 文档: [`hyperledger-fabric.readthedocs.io/en/release-1.4/`](https://hyperledger-fabric.readthedocs.io/en/release-1.4/)
 
-+   GitHub Hyperledger Framework 链接: [https://github.com/hyperledger/fabric](https://github.com/hyperledger/fabric)
++   GitHub Hyperledger Framework 链接: [`github.com/hyperledger/fabric`](https://github.com/hyperledger/fabric)

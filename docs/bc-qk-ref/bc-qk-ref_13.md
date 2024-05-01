@@ -52,28 +52,28 @@ Solidity 也被称为合约导向语言，因为合约类似于面向对象语�
 
 # 在 Solidity 上工作的基础知识
 
-如果你经常编程，你应该已经了解到代码编辑器或**集成开发环境**（**IDE**）。目前已经有一系列各种IDE的集成工具列表；除此之外，以太坊基金会还发布了一个基于浏览器的IDE，其中包含了集成编译器和Solidity运行环境，无需服务器组件即可编写和测试智能合约。你可以在 [remix.ethereum.org](http://remix.ethereum.org) 找到它。
+如果你经常编程，你应该已经了解到代码编辑器或**集成开发环境**（**IDE**）。目前已经有一系列各种 IDE 的集成工具列表；除此之外，以太坊基金会还发布了一个基于浏览器的 IDE，其中包含了集成编译器和 Solidity 运行环境，无需服务器组件即可编写和测试智能合约。你可以在 [remix.ethereum.org](http://remix.ethereum.org) 找到它。
 
 # 使用编译器
 
-对于小型和基于学习的 DApps 项目，建议使用以太坊基金会的基于浏览器的编译器：**Remix**。另一种方法是将Solidity编译器安装到您的计算机上。可以使用以下命令从 `npm` 安装 `solc`：
+对于小型和基于学习的 DApps 项目，建议使用以太坊基金会的基于浏览器的编译器：**Remix**。另一种方法是将 Solidity 编译器安装到您的计算机上。可以使用以下命令从 `npm` 安装 `solc`：
 
 ```
 npm install -g solc
 ```
 
-Solidity 也可以通过克隆 GitHub 链接上的 Git 存储库来构建：[https://github.com/ethereum/solidity.git](https://github.com/ethereum/solidity.git)。
+Solidity 也可以通过克隆 GitHub 链接上的 Git 存储库来构建：[`github.com/ethereum/solidity.git`](https://github.com/ethereum/solidity.git)。
 
 # 在 Solidity 中编程
 
-在本节中，我们将讨论Solidity源文件的结构和元素；我们将讨论布局、结构、数据类型、类型、单位、控件、表达式以及Solidity的其他方面。Solidity文件的格式扩展名是`.sol`。
+在本节中，我们将讨论 Solidity 源文件的结构和元素；我们将讨论布局、结构、数据类型、类型、单位、控件、表达式以及 Solidity 的其他方面。Solidity 文件的格式扩展名是`.sol`。
 
 # 设计 Solidity 文件的布局
 
-Solidity 正在进行积极的开发，并且有大量来自庞大社区的常规更改和建议；因此，在源文件的开头指定Solidity文件的版本是很重要的，以避免任何冲突。这通过 Pragma 版本来实现。这在Solidity文件的开头定义，以便任何打算运行该文件的人都知道先前的版本。看看这段代码：
+Solidity 正在进行积极的开发，并且有大量来自庞大社区的常规更改和建议；因此，在源文件的开头指定 Solidity 文件的版本是很重要的，以避免任何冲突。这通过 Pragma 版本来实现。这在 Solidity 文件的开头定义，以便任何打算运行该文件的人都知道先前的版本。看看这段代码：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 ```
 
 通过指定版本号，该特定源文件将与指定版本号之前或之后的版本一起编译。
@@ -92,12 +92,12 @@ import "filename.sol";
 
 # 注释
 
-单行(`//`)注释和多行(`/* ... */`)注释被使用，尽管除此之外还有另一种称为**Natspec注释**的注释样式，这也是可能的；在这种类型的注释中，我们可以使用`///`或`/** ... */`，它们只能在函数声明或语句之前使用。
+单行(`//`)注释和多行(`/* ... */`)注释被使用，尽管除此之外还有另一种称为**Natspec 注释**的注释样式，这也是可能的；在这种类型的注释中，我们可以使用`///`或`/** ... */`，它们只能在函数声明或语句之前使用。
 
-Natspec是自然规范的简称；根据最新的 Solidity 版本（0.4.24），这些注释不适用于变量，即使变量是公开的也是如此。以下是一个小的代码片段，其中包含了这些类型的注释的示例：
+Natspec 是自然规范的简称；根据最新的 Solidity 版本（0.4.24），这些注释不适用于变量，即使变量是公开的也是如此。以下是一个小的代码片段，其中包含了这些类型的注释的示例：
 
 ```
-pragma solidity ^0.4.19;
+pragma solidity ⁰.4.19;
 
 /// @title A simulator for Batman, Gotham's Hero
 /// @author DC-man
@@ -117,7 +117,7 @@ contract Batman {
 
 # 标签
 
-它们用于Natspec注释；每个标签根据其用法具有自己的上下文，如下表所示：
+它们用于 Natspec 注释；每个标签根据其用法具有自己的上下文，如下表所示：
 
 | **标签** | **用于** |
 | --- | --- |
@@ -149,7 +149,7 @@ Solidity 中的每个合约类似于类的概念。合约可以从其他合约�
 这些值被永久存储在合约存储中，例如：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 
 contract Gotham {
  uint storedData; // State variable
@@ -162,7 +162,7 @@ contract Gotham {
 函数可以在内部或外部调用，例如：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 
 contract Gotham {
  function joker() public Bat { // Function
@@ -176,7 +176,7 @@ contract Gotham {
 函数修饰符可用于在声明中修改函数的语义。也就是说，它们被用来改变函数的行为。例如，它们被用于在执行函数之前自动检查条件，或者根据需要在给定时间段内解锁函数。它们可以被派生合约覆盖，如下所示：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 
 contract Gotham {
  address public weapons;
@@ -200,7 +200,7 @@ modifier Bank() { // Modifier
 事件允许通过 DApp 前端方便地使用 EVM。事件可以被监测和维护。请看以下代码：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 
 contract Attendance {
       event Mark_attendance(string name, uint ID); // Event
@@ -230,7 +230,7 @@ bool b = false;
 
 上述语句将`false`赋给布尔数据类型 `b`。
 
-Solidity中的运算符与 JavaScript运算符相似，例如算术运算符、赋值运算符、字符串运算符、比较运算符、逻辑运算符、类型运算符和位运算符。这些运算符可以根据允许的用法与各种值类型一起使用。
+Solidity 中的运算符与 JavaScript 运算符相似，例如算术运算符、赋值运算符、字符串运算符、比较运算符、逻辑运算符、类型运算符和位运算符。这些运算符可以根据允许的用法与各种值类型一起使用。
 
 # 整数
 
@@ -238,7 +238,7 @@ Solidity中的运算符与 JavaScript运算符相似，例如算术运算符、�
 
 # 地址
 
-这个数值类型保存了一个20字节的数值，这个大小等同于以太坊地址的大小（40个十六进制字符或160位）。看看这个：
+这个数值类型保存了一个 20 字节的数值，这个大小等同于以太坊地址的大小（40 个十六进制字符或 160 位）。看看这个：
 
 ```
 address a = 0xe2793a1b9a149253341cA268057a9EFA42965F83
@@ -258,7 +258,7 @@ address a = 0xe2793a1b9a149253341cA268057a9EFA42965F83
 
 +   `delegatecall`
 
-`balance` 返回地址的wei单位的余额，例如：
+`balance` 返回地址的 wei 单位的余额，例如：
 
 ```
 address a = 0xe2793a1b9a149253341cA268057a9EFA42965F83;
@@ -273,19 +273,19 @@ address b = 0x126B3adF2556C7e8B4C3197035D0E4cbec1dBa83;
 if (a.balance > b.balance) b.transfer(6);
 ```
 
-当我们使用`transfer`或`send`成员时，消耗的燃气几乎相同。`transfer`是从Solidity 0.4.13开始引入的，因为`send`不发送任何燃气，也不传播异常。`transfer`被认为是从一个地址安全地发送以太到另一个地址的一种方式，因为它会抛出一个错误并允许某人传播该错误。
+当我们使用`transfer`或`send`成员时，消耗的燃气几乎相同。`transfer`是从 Solidity 0.4.13 开始引入的，因为`send`不发送任何燃气，也不传播异常。`transfer`被认为是从一个地址安全地发送以太到另一个地址的一种方式，因为它会抛出一个错误并允许某人传播该错误。
 
-`call`、`callcode`和`delegatecall`用于与没有**应用程序二进制接口**（**ABI**）的函数交互。`call`返回一个布尔值，指示函数是否在EVM中成功运行或终止。
+`call`、`callcode`和`delegatecall`用于与没有**应用程序二进制接口**（**ABI**）的函数交互。`call`返回一个布尔值，指示函数是否在 EVM 中成功运行或终止。
 
 当`a`调用`b`时，代码在`b`的上下文中运行，使用的是`b`的存储。另一方面，当`a`对`b`做`callcode`时，代码在`a`的上下文中运行，并使用`a`的存储，但是`a`的代码和存储会被使用。
 
 `delegatecall`函数用于委托一个合同使用另一个合同的存储，如有需要。
 
-所有这些成员：`call`、`delegatecall`和`callcode`都不建议使用，除非真的有必要，因为它们倾向于破坏Solidity的类型安全性。有可能`callcode`将在不久的将来被弃用。
+所有这些成员：`call`、`delegatecall`和`callcode`都不建议使用，除非真的有必要，因为它们倾向于破坏 Solidity 的类型安全性。有可能`callcode`将在不久的将来被弃用。
 
 # 数组数值类型
 
-Solidity有固定和动态数组数值类型。关键字从`bytes1`到`bytes32`在固定大小的字节数组中。另一方面，在动态大小的字节数组中，关键字可以包含字节或字符串。`bytes`用于原始字节数据，`strings`用于用`UTF-8`编码的字符串。
+Solidity 有固定和动态数组数值类型。关键字从`bytes1`到`bytes32`在固定大小的字节数组中。另一方面，在动态大小的字节数组中，关键字可以包含字节或字符串。`bytes`用于原始字节数据，`strings`用于用`UTF-8`编码的字符串。
 
 `length` 是一个成员，用于返回固定大小的字节数组或动态大小的字节数组的长度。
 

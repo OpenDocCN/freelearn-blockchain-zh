@@ -34,7 +34,7 @@ Hooked-Web3-Provider 库为我们提供了一个自定义的提供程序，它�
 
 EthereumJS 是与以太坊相关的那些库的集合。ethereumjs-tx 是其中之一，提供了与交易相关的各种 API。例如，它允许我们创建原始交易、签署原始交易、检查交易是否使用正确的密钥签名等。
 
-这两个库都适用于 Node.js 和客户端 JavaScript。从 [https://www.npmjs.com/package/hooked-web3-provider](https://www.npmjs.com/package/hooked-web3-provider) 下载 Hooked-Web3-Provider，从 [https://www.npmjs.com/package/ethereumjs-tx](https://www.npmjs.com/package/ethereumjs-tx) 下载 ethereumjs-tx。
+这两个库都适用于 Node.js 和客户端 JavaScript。从 [`www.npmjs.com/package/hooked-web3-provider`](https://www.npmjs.com/package/hooked-web3-provider) 下载 Hooked-Web3-Provider，从 [`www.npmjs.com/package/ethereumjs-tx`](https://www.npmjs.com/package/ethereumjs-tx) 下载 ethereumjs-tx。
 
 在编写本书时，Hooked-Web3-Provider 的最新版本是 1.0.0，ethereumjs-tx 的最新版本是 1.1.4。
 
@@ -90,11 +90,11 @@ web3.eth.sendTransaction({
 
 1.  现在自定义提供者获取原始交易并使用`web3.eth.sendRawTransaction()`来广播它。
 
-1.  最后，我们调用`web3.eth.sendTransaction`函数向另一个账户发送一些以太币。在这里，我们需要提供除了`nonce`之外的所有交易参数，因为自定义提供者可以计算nonce。之前，许多这些都是可选的，因为我们让以太坊节点来计算它们，但现在当我们自己签名时，我们需要提供所有这些。当交易没有任何与之关联的数据时，`gas`始终为21,000。
+1.  最后，我们调用`web3.eth.sendTransaction`函数向另一个账户发送一些以太币。在这里，我们需要提供除了`nonce`之外的所有交易参数，因为自定义提供者可以计算 nonce。之前，许多这些都是可选的，因为我们让以太坊节点来计算它们，但现在当我们自己签名时，我们需要提供所有这些。当交易没有任何与之关联的数据时，`gas`始终为 21,000。
 
 **公钥呢？**
 
-在上面的代码中，我们从未提及签名地址的公钥。你一定想知道矿工如何在没有公钥的情况下验证交易的真实性。矿工使用ECDSA的一个独特属性，该属性允许您从消息和签名中计算公钥。在交易中，消息指示了交易的意图，而签名用于确定消息是否使用了正确的私钥进行签名。这就是使ECDSA如此特殊的地方。ethereumjs-tx提供了一个API来验证交易。
+在上面的代码中，我们从未提及签名地址的公钥。你一定想知道矿工如何在没有公钥的情况下验证交易的真实性。矿工使用 ECDSA 的一个独特属性，该属性允许您从消息和签名中计算公钥。在交易中，消息指示了交易的意图，而签名用于确定消息是否使用了正确的私钥进行签名。这就是使 ECDSA 如此特殊的地方。ethereumjs-tx 提供了一个 API 来验证交易。
 
 # 什么是分层确定性钱包？
 
@@ -102,21 +102,21 @@ web3.eth.sendTransaction({
 
 **为什么用户需要多个帐户？**
 
-您可能想知道为什么用户需要多个帐户。 原因是为了隐藏他们的财富。 帐户的余额是公开可见的。 因此，如果用户A与用户B共享一个地址来接收一些以太币，那么用户B可以查看该地址中有多少以太币。 因此，用户通常会在各种帐户之间分配他们的财富。
+您可能想知道为什么用户需要多个帐户。 原因是为了隐藏他们的财富。 帐户的余额是公开可见的。 因此，如果用户 A 与用户 B 共享一个地址来接收一些以太币，那么用户 B 可以查看该地址中有多少以太币。 因此，用户通常会在各种帐户之间分配他们的财富。
 
-有各种类型的HD钱包，它们在种子格式和生成地址和密钥的算法方面有所不同，例如BIP32、Armory、Coinkite、Coinb.in等。
+有各种类型的 HD 钱包，它们在种子格式和生成地址和密钥的算法方面有所不同，例如 BIP32、Armory、Coinkite、Coinb.in 等。
 
-**什么是BIP32、BIP44和BIP39？**
+**什么是 BIP32、BIP44 和 BIP39？**
 
-**比特币改进提案**（**BIP**）是一份向比特币社区提供信息的设计文件，或者描述比特币或其流程或环境的新功能。 BIP应该提供对该功能的简明技术规范和功能的基本原理。 在撰写本书时，有152个BIPS（比特币改进提案）。 BIP32和BIP39分别提供了有关实现HD钱包和助记种子规范的算法的信息。 您可以在[https://github.com/bitcoin/bips](https://github.com/bitcoin/bips)上了解更多信息。
+**比特币改进提案**（**BIP**）是一份向比特币社区提供信息的设计文件，或者描述比特币或其流程或环境的新功能。 BIP 应该提供对该功能的简明技术规范和功能的基本原理。 在撰写本书时，有 152 个 BIPS（比特币改进提案）。 BIP32 和 BIP39 分别提供了有关实现 HD 钱包和助记种子规范的算法的信息。 您可以在[`github.com/bitcoin/bips`](https://github.com/bitcoin/bips)上了解更多信息。
 
 # 导出密钥的功能简介
 
-非对称加密算法定义了其密钥的性质以及如何生成密钥，因为密钥需要相关联。 例如，RSA密钥生成算法是确定性的。
+非对称加密算法定义了其密钥的性质以及如何生成密钥，因为密钥需要相关联。 例如，RSA 密钥生成算法是确定性的。
 
-对称加密算法仅定义密钥大小。 生成密钥交给我们。 有各种算法来生成这些密钥。 这样的算法之一是KDF。
+对称加密算法仅定义密钥大小。 生成密钥交给我们。 有各种算法来生成这些密钥。 这样的算法之一是 KDF。
 
-**密钥派生函数**（**KDF**）是一种确定性算法，用于从某个秘密值（例如主密钥、密码或口令）派生对称密钥。 有各种类型的KDF，例如bcrypt、crypt、PBKDF2、scrypt、HKDF等。 您可以在[https://en.wikipedia.org/wiki/Key_derivation_function](https://en.wikipedia.org/wiki/Key_derivation_function)上了解更多关于KDF的信息。
+**密钥派生函数**（**KDF**）是一种确定性算法，用于从某个秘密值（例如主密钥、密码或口令）派生对称密钥。 有各种类型的 KDF，例如 bcrypt、crypt、PBKDF2、scrypt、HKDF 等。 您可以在[`en.wikipedia.org/wiki/Key_derivation_function`](https://en.wikipedia.org/wiki/Key_derivation_function)上了解更多关于 KDF 的信息。
 
 要从单个秘密值生成多个密钥，可以连接一个数字并递增它。
 
@@ -140,28 +140,28 @@ LightWallet 的种子是一个包含 12 个单词的助记词，易于记忆但�
 
 # HD 派生路径
 
-HD派生路径是一个字符串，它使得易于处理多个加密货币（假设它们都使用相同的签名算法）、多个区块链、多个账户等等。
+HD 派生路径是一个字符串，它使得易于处理多个加密货币（假设它们都使用相同的签名算法）、多个区块链、多个账户等等。
 
-HD派生路径可以具有任意多个参数，并且可以使用不同值的参数，我们可以产生不同组的地址及其相关密钥。
+HD 派生路径可以具有任意多个参数，并且可以使用不同值的参数，我们可以产生不同组的地址及其相关密钥。
 
-LightWallet默认使用`m/0'/0'/0'`派生路径。这里，`/n'`是一个参数，`n`是参数值。
+LightWallet 默认使用`m/0'/0'/0'`派生路径。这里，`/n'`是一个参数，`n`是参数值。
 
-每个HD派生路径都有一个`curve`和`purpose`。`purpose`可以是`sign`或`asymEncrypt`。`sign`表示该路径用于签署交易，而`asymEncrypt`表示该路径用于加密和解密。`curve`指示ECC的参数。对于签名，参数必须是`secp256k1`，对于非对称加密，曲线必须是`curve25591`，因为LightWallet强制我们使用这些参数，由于其在这些用途上的好处。
+每个 HD 派生路径都有一个`curve`和`purpose`。`purpose`可以是`sign`或`asymEncrypt`。`sign`表示该路径用于签署交易，而`asymEncrypt`表示该路径用于加密和解密。`curve`指示 ECC 的参数。对于签名，参数必须是`secp256k1`，对于非对称加密，曲线必须是`curve25591`，因为 LightWallet 强制我们使用这些参数，由于其在这些用途上的好处。
 
 # 构建钱包服务
 
-现在我们已经学习了足够多关于LightWallet的理论知识，是时候使用LightWallet和hooked-web3-provider构建一个钱包服务。我们的钱包服务将允许用户生成唯一的种子，显示地址及其关联余额，最后，该服务将允许用户向其他账户发送以太币。所有操作都将在客户端完成，这样用户就可以轻松地信任我们。用户要么必须记住种子，要么将其存放在某处。
+现在我们已经学习了足够多关于 LightWallet 的理论知识，是时候使用 LightWallet 和 hooked-web3-provider 构建一个钱包服务。我们的钱包服务将允许用户生成唯一的种子，显示地址及其关联余额，最后，该服务将允许用户向其他账户发送以太币。所有操作都将在客户端完成，这样用户就可以轻松地信任我们。用户要么必须记住种子，要么将其存放在某处。
 
 # 先决条件
 
-在开始构建钱包服务之前，请确保您正在运行开采的geth开发实例，已启用HTTP-RPC服务器，允许来自任何域的客户端请求，并最终已解锁账户0。您可以通过运行以下命令来做到这一切：
+在开始构建钱包服务之前，请确保您正在运行开采的 geth 开发实例，已启用 HTTP-RPC 服务器，允许来自任何域的客户端请求，并最终已解锁账户 0。您可以通过运行以下命令来做到这一切：
 
 ```
     geth --dev --rpc --rpccorsdomain "*" --rpcaddr "0.0.0.0" --rpcport "8545" --mine --unlock=0
 
 ```
 
-在这里，`--rpccorsdomain`用于允许特定域与geth通信。我们需要提供一个用空格分隔的域列表，例如`"http://localhost:8080 https://mySite.com *"`。它也支持`*`通配符字符。`--rpcaddr`表示geth服务器可到达的IP地址。默认值为`127.0.0.1`，因此如果它是托管服务器，您将无法使用服务器的公共IP地址来访问它。因此，我们将其值更改为`0.0.0.0`，表示服务器可以使用任何IP地址访问。
+在这里，`--rpccorsdomain`用于允许特定域与 geth 通信。我们需要提供一个用空格分隔的域列表，例如`"http://localhost:8080 https://mySite.com *"`。它也支持`*`通配符字符。`--rpcaddr`表示 geth 服务器可到达的 IP 地址。默认值为`127.0.0.1`，因此如果它是托管服务器，您将无法使用服务器的公共 IP 地址来访问它。因此，我们将其值更改为`0.0.0.0`，表示服务器可以使用任何 IP 地址访问。
 
 # 项目结构
 
@@ -171,13 +171,13 @@ LightWallet默认使用`m/0'/0'/0'`派生路径。这里，`/n'`是一个参数�
 
 在`Initial`目录中，您将找到一个`public`目录和两个名为`app.js`和`package.json`的文件。`package.json`包含后端依赖项。我们的应用，`app.js`，是您将放置后端源代码的地方。
 
-`public`目录包含与前端相关的文件。在`public/css`中，您将找到`bootstrap.min.css`，这是bootstrap库。在`public/html`中，您将找到`index.html`，在那里您将放置我们应用的HTML代码，最后，在`public/js`目录中，您将找到用于Hooked-Web3-Provider、web3js和LightWallet的`.js`文件。在`public/js`中，您还将找到一个`main.js`文件，其中您将放置我们应用的前端JS代码。
+`public`目录包含与前端相关的文件。在`public/css`中，您将找到`bootstrap.min.css`，这是 bootstrap 库。在`public/html`中，您将找到`index.html`，在那里您将放置我们应用的 HTML 代码，最后，在`public/js`目录中，您将找到用于 Hooked-Web3-Provider、web3js 和 LightWallet 的`.js`文件。在`public/js`中，您还将找到一个`main.js`文件，其中您将放置我们应用的前端 JS 代码。
 
 # 构建后端
 
 让我们首先构建应用程序的后端。首先，在初始目录中运行`npm install`来安装我们后端所需的依赖项。
 
-这是运行express服务并提供`index.html`文件和静态文件的完整后端代码：
+这是运行 express 服务并提供`index.html`文件和静态文件的完整后端代码：
 
 ```
 var express = require("express");   
@@ -199,7 +199,7 @@ app.listen(8080);
 
 现在让我们构建应用的前端。前端将包括主要功能，即生成种子、显示种子地址和发送以太。
 
-现在让我们编写应用程序的HTML代码。将此代码放入`index.html`文件中：
+现在让我们编写应用程序的 HTML 代码。将此代码放入`index.html`文件中：
 
 ```
 <!DOCTYPE html> 
@@ -262,7 +262,7 @@ app.listen(8080);
 
 代码的工作原理如下：
 
-1.  首先，我们将一个Bootstrap 4样式表加入队列。
+1.  首先，我们将一个 Bootstrap 4 样式表加入队列。
 
 1.  然后我们显示一个信息框，我们将在其中向用户显示各种消息。
 
@@ -274,7 +274,7 @@ app.listen(8080);
 
 1.  最后，我们有另一种形式，需要一个发送地址和一个接收地址以及要转移的以太数量。发送地址必须是当前在无序列表中显示的地址之一。
 
-现在让我们编写HTML代码调用每个函数的实现。首先，让我们编写代码以生成新种子。将此代码放入`main.js`文件中：
+现在让我们编写 HTML 代码调用每个函数的实现。首先，让我们编写代码以生成新种子。将此代码放入`main.js`文件中：
 
 ```
 function generate_seed() 
@@ -292,7 +292,7 @@ function generate_seed()
 
 熵是应用程序收集用于某些算法或其他需要随机数据的地方的随机性。通常，熵是从硬件源收集的，可以是现有的源，例如鼠标移动或专门提供的随机性生成器。
 
-要生成唯一的种子，我们需要真正的高熵。LightWallet已经内置了产生唯一种子的方法。LightWallet用于生成熵的算法取决于环境。但是，如果您认为可以生成更好的熵，则可以将生成的熵传递给`generateRandomSeed()`方法，并且它将与内部由`generateRandomSeed()`生成的熵连接在一起。
+要生成唯一的种子，我们需要真正的高熵。LightWallet 已经内置了产生唯一种子的方法。LightWallet 用于生成熵的算法取决于环境。但是，如果您认为可以生成更好的熵，则可以将生成的熵传递给`generateRandomSeed()`方法，并且它将与内部由`generateRandomSeed()`生成的熵连接在一起。
 
 生成随机种子后，我们调用`generate_addresses`方法。此方法接受一个种子并在其中显示地址。在生成地址之前，它会提示用户询问他们想要多少地址。
 
@@ -456,7 +456,7 @@ function send_ether()
 
 ```
 
-到生成地址种子的代码部分为止都是自说明的。之后，我们将一个回调分配给`ks`的`passwordProvider`属性。在交易签名期间，此回调会被调用以获取解密私钥所需的密码。如果我们不提供此回调，LightWallet会提示用户输入密码。然后，我们通过将`keystore`作为交易签名者传递来创建一个`HookedWeb3Provider`实例。现在，当自定义提供程序想要签署交易时，它会调用`ks`的`hasAddress`和`signTransactions`方法。如果要签署的地址不在生成的地址列表中，`ks`将向自定义提供程序返回错误。最后，我们使用`web3.eth.sendTransaction`方法发送一些以太币。
+到生成地址种子的代码部分为止都是自说明的。之后，我们将一个回调分配给`ks`的`passwordProvider`属性。在交易签名期间，此回调会被调用以获取解密私钥所需的密码。如果我们不提供此回调，LightWallet 会提示用户输入密码。然后，我们通过将`keystore`作为交易签名者传递来创建一个`HookedWeb3Provider`实例。现在，当自定义提供程序想要签署交易时，它会调用`ks`的`hasAddress`和`signTransactions`方法。如果要签署的地址不在生成的地址列表中，`ks`将向自定义提供程序返回错误。最后，我们使用`web3.eth.sendTransaction`方法发送一些以太币。
 
 # 测试中
 
@@ -464,11 +464,11 @@ function send_ether()
 
 ![](img/image_05_001.png)
 
-现在点击"Generate New Seed"按钮生成一个新种子。你将被提示输入表示要生成的地址数量的数字。你可以提供任意数字，但出于测试目的，提供一个大于1的数字。现在屏幕会看起来像这样：
+现在点击"Generate New Seed"按钮生成一个新种子。你将被提示输入表示要生成的地址数量的数字。你可以提供任意数字，但出于测试目的，提供一个大于 1 的数字。现在屏幕会看起来像这样：
 
 ![](img/image_05_002.png)
 
-现在要测试发送以太币，你需要从coinbase账户向生成的地址中的一个发送一些以太币。一旦你向其中一个生成的地址发送了一些以太币，点击"Generate Details"按钮刷新界面，尽管用钱包服务发送以太币并不需要这样做。确保再次生成相同的地址。现在屏幕会看起来如下：
+现在要测试发送以太币，你需要从 coinbase 账户向生成的地址中的一个发送一些以太币。一旦你向其中一个生成的地址发送了一些以太币，点击"Generate Details"按钮刷新界面，尽管用钱包服务发送以太币并不需要这样做。确保再次生成相同的地址。现在屏幕会看起来如下：
 
 ![](img/image_05_003.png)
 

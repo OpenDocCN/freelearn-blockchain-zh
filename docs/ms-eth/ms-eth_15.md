@@ -1,18 +1,18 @@
 # 创建基于区块链的电子商务市场
 
-区块链技术最佳应用案例之一是分散的电子商务市场，原因很简单，你不必支付费用，也不必把数据委托给那些会为了利润出售数据的强大企业。Ethereum为此提供了一个出色的解决方案，新的ERC-721代币标准已经为您在区块链上生成数字化物体。在本章中，你将学习如何处理个人用户数据，以便为每个个体保护数据，鉴于Ethereum是一个公共系统。
+区块链技术最佳应用案例之一是分散的电子商务市场，原因很简单，你不必支付费用，也不必把数据委托给那些会为了利润出售数据的强大企业。Ethereum 为此提供了一个出色的解决方案，新的 ERC-721 代币标准已经为您在区块链上生成数字化物体。在本章中，你将学习如何处理个人用户数据，以便为每个个体保护数据，鉴于 Ethereum 是一个公共系统。
 
-在第一部分中，我们将研究电子商务网站应该如何构建，使用户可以像在真实商店一样与之互动。你将构建用户界面，用于显示使用ERC-721约定标识的独特产品。然后，你将实现React路由器模块，以在用户友好的界面中组织不同的视图。最后，你将创建实施ERC-721代币并创建管理分散式产品所需功能的智能合约。
+在第一部分中，我们将研究电子商务网站应该如何构建，使用户可以像在真实商店一样与之互动。你将构建用户界面，用于显示使用 ERC-721 约定标识的独特产品。然后，你将实现 React 路由器模块，以在用户友好的界面中组织不同的视图。最后，你将创建实施 ERC-721 代币并创建管理分散式产品所需功能的智能合约。
 
-此外，在本章中，你将学习如何在Ethereum上为您的企业创建一个完整的电子商务市场，学习以下主题：
+此外，在本章中，你将学习如何在 Ethereum 上为您的企业创建一个完整的电子商务市场，学习以下主题：
 
 +   创建用户界面
 
-+   理解ERC-721代币
++   理解 ERC-721 代币
 
 +   开发电子商务智能合约
 
-+   完成dApp
++   完成 dApp
 
 # 创建用户界面
 
@@ -32,17 +32,17 @@
 
 在这个项目中，我们不会实现任何那些高级功能，因为它们会花费太多时间来开发，尽管你可以在基本产品完成后自己添加它们。这就是为什么我们将创建一个具有以下功能的简单接口：
 
-+   通过Ethereum直接购买实物和数字产品的购买系统
++   通过 Ethereum 直接购买实物和数字产品的购买系统
 
 +   作为独立卖家，在市场上发布产品的销售功能
 
 +   作为买家和卖家查看待处理订单的订单展示功能
 
-通常情况下，用户将能够像使用信用卡一样作为普通在线商店与MetaMask进行直接付款交互。与像亚马逊这样收取约15%总付款费用的电子商务商店相比，该市场不会向用户收取费用，这真的很费钱。另一个重要的点是，不会有任何审查或需要遵循的规则，这意味着用户可以自由发布产品，而不必担心被来自中心化实体的禁令所影响，这是一个经常发生的问题，导致卖家损失了数千美元的锁定资金和撤销的订单。
+通常情况下，用户将能够像使用信用卡一样作为普通在线商店与 MetaMask 进行直接付款交互。与像亚马逊这样收取约 15%总付款费用的电子商务商店相比，该市场不会向用户收取费用，这真的很费钱。另一个重要的点是，不会有任何审查或需要遵循的规则，这意味着用户可以自由发布产品，而不必担心被来自中心化实体的禁令所影响，这是一个经常发生的问题，导致卖家损失了数千美元的锁定资金和撤销的订单。
 
-不会有多个数量的单个产品，因为我们将使用独特的**不可替代令牌**（**NFT**），这意味着每个产品都必须是唯一的。由于我们将从一个用户向另一个用户交换令牌，所以我们将无法拥有同一产品的多个副本。然而，你可以实现一个ERC-20代币或一个系统，用于为同一产品的多个数量生成相同的令牌ID的多个副本。
+不会有多个数量的单个产品，因为我们将使用独特的**不可替代令牌**（**NFT**），这意味着每个产品都必须是唯一的。由于我们将从一个用户向另一个用户交换令牌，所以我们将无法拥有同一产品的多个副本。然而，你可以实现一个 ERC-20 代币或一个系统，用于为同一产品的多个数量生成相同的令牌 ID 的多个副本。
 
-让我们首先通过克隆基础存储库（[https://github.com/merlox/dapp](https://github.com/merlox/dapp)）或自行配置`npm`和Truffle来设置项目。在设置Truffle或克隆存储库后，你应该有以下文件夹和初始文件：
+让我们首先通过克隆基础存储库（[`github.com/merlox/dapp`](https://github.com/merlox/dapp)）或自行配置`npm`和 Truffle 来设置项目。在设置 Truffle 或克隆存储库后，你应该有以下文件夹和初始文件：
 
 +   `contracts/`
 
@@ -72,9 +72,9 @@
 
 +   `truffle-config.js`
 
-+   `webpack.config.js`（记得设置好你的webpack配置）
++   `webpack.config.js`（记得设置好你的 webpack 配置）
 
-在你的`src/`文件夹内，创建一个名为`components/`的新文件夹，其中将包含每个JavaScript组件的文件，因为这是一个较大的dApp，我们将有许多不同的组件。因为我们将有多个页面，我们希望使用React路由器来管理历史位置和URL，以便用户可以在页面之间进行导航。通过在终端上运行以下命令来安装React路由器和`web3`库：
+在你的`src/`文件夹内，创建一个名为`components/`的新文件夹，其中将包含每个 JavaScript 组件的文件，因为这是一个较大的 dApp，我们将有许多不同的组件。因为我们将有多个页面，我们希望使用 React 路由器来管理历史位置和 URL，以便用户可以在页面之间进行导航。通过在终端上运行以下命令来安装 React 路由器和`web3`库：
 
 ```
 npm i -S web3 react-router-dom
@@ -93,7 +93,7 @@ import MyWeb3 from 'web3'
 import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 ```
 
-1.  创建构造函数，并添加一些具有必要属性的产品，以尽可能多地向用户显示信息，如下所示的代码。标题、描述、ID和价格等属性是必须的：
+1.  创建构造函数，并添加一些具有必要属性的产品，以尽可能多地向用户显示信息，如下所示的代码。标题、描述、ID 和价格等属性是必须的：
 
 ```
 class Main extends React.Component {
@@ -417,7 +417,7 @@ constructor(props) {
 }
 ```
 
-1.  使用以下代码片段展示的代码来实现`setup()`函数，并启动web3实例和显示产品：
+1.  使用以下代码片段展示的代码来实现`setup()`函数，并启动 web3 实例和显示产品：
 
 ```
 async setup() {
@@ -464,7 +464,7 @@ async displayProducts() {
 }
 ```
 
-1.  修改`render()`函数，并包括一个名为`redirectTo()`的函数，当用户使用React路由器点击按钮时，将允许您更改页面，如下面的代码片段所示：
+1.  修改`render()`函数，并包括一个名为`redirectTo()`的函数，当用户使用 React 路由器点击按钮时，将允许您更改页面，如下面的代码片段所示：
 
 ```
     redirectTo(location) {
@@ -495,9 +495,9 @@ async displayProducts() {
 
 +   `redirectTo`函数通过使用我们之前看到的`withRouter`历史对象加载新页面来更改我们当前所见的`Route`。当用户点击`displayProducts`函数内的`View`按钮时，将使用此函数。
 
-+   在此之后，我们添加了一个`setup`函数，该函数配置MetaMask并将所有这些示例产品的所有者地址添加到其中，这样你就可以看到谁拥有这些物品。
++   在此之后，我们添加了一个`setup`函数，该函数配置 MetaMask 并将所有这些示例产品的所有者地址添加到其中，这样你就可以看到谁拥有这些物品。
 
-+   最后，我们创建了一个名为`displayProducts()`的函数，用于为每个产品生成HTML，并将其推入产品数组并更新状态。`Home`组件然后将这些产品作为`prop`接收，并显示每个产品。
++   最后，我们创建了一个名为`displayProducts()`的函数，用于为每个产品生成 HTML，并将其推入产品数组并更新状态。`Home`组件然后将这些产品作为`prop`接收，并显示每个产品。
 
 现在我们可以添加一些 CSS 代码来改善主页的外观，如下所示：
 
@@ -1152,7 +1152,7 @@ this.setState({pendingSellOrdersHtml, pendingBuyOrdersHtml, completedSellOrdersH
 export default Orders
 ```
 
-这是一个很长的代码，因为我们在状态对象中添加了一些样本订单数据，以显示订单页面的真实视图。你可以看到我们为每个产品添加了一个`state`属性，它显示了订单是待定还是已完成。这将在智能合约中设置。`displayOrders`函数生成每种类型订单的 HTML 对象，因为我们想要分离已完成和待定以及买入和卖出的订单，以便你可以看到所有重要信息。当实现智能合约时，订单将来自`getUserOrders`函数。添加一些 CSS 使其看起来不错。你可以在官方 GitHub 上检查到我的设计，网址为[https://github.com/merlox/ecommerce-dapp](https://github.com/merlox/ecommerce-dapp)，在`src/`文件夹内。
+这是一个很长的代码，因为我们在状态对象中添加了一些样本订单数据，以显示订单页面的真实视图。你可以看到我们为每个产品添加了一个`state`属性，它显示了订单是待定还是已完成。这将在智能合约中设置。`displayOrders`函数生成每种类型订单的 HTML 对象，因为我们想要分离已完成和待定以及买入和卖出的订单，以便你可以看到所有重要信息。当实现智能合约时，订单将来自`getUserOrders`函数。添加一些 CSS 使其看起来不错。你可以在官方 GitHub 上检查到我的设计，网址为[`github.com/merlox/ecommerce-dapp`](https://github.com/merlox/ecommerce-dapp)，在`src/`文件夹内。
 
 最后，你将会得到一个很酷的订单页面，如下截图所示：
 
@@ -1214,10 +1214,10 @@ export default Orders
 
 # ERC-721 智能合约
 
-现在你已经了解了这些类型的 NFT 如何工作，让我们来看一下 ERC-721 合约接口。实现可在 GitHub 上找到 [https://github.com/merlox/ecommerce-dapp/blob/master/contracts/ERC721.sol](https://github.com/merlox/ecommerce-dapp/blob/master/contracts/ERC721.sol)，因为完整的代码太长无法在此显示：
+现在你已经了解了这些类型的 NFT 如何工作，让我们来看一下 ERC-721 合约接口。实现可在 GitHub 上找到 [`github.com/merlox/ecommerce-dapp/blob/master/contracts/ERC721.sol`](https://github.com/merlox/ecommerce-dapp/blob/master/contracts/ERC721.sol)，因为完整的代码太长无法在此显示：
 
 ```
-pragma solidity ^0.5.0;
+pragma solidity ⁰.5.0;
 
 contract IERC721{
     event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
@@ -1240,7 +1240,7 @@ contract IERC721{
 在你的 `contracts/` 文件夹中创建名为 `ERC721.sol` 的文件，并添加以下代码，我们马上就会用到它。我们将创建一个合约，该合约继承 ERC-721 智能合约以实现 `mint()` 函数，因为默认的 ERC-721 实现不可访问。在那里创建一个名为 `Ecommerce.sol` 的新文件，并使用以下代码导入 `ERC721.sol` 合约：
 
 ```
-pragma solidity ^0.5.0;
+pragma solidity ⁰.5.0;
 
 import './ERC721.sol';
 ```
@@ -1248,7 +1248,7 @@ import './ERC721.sol';
 Solidity 版本并不重要，只要功能相同即可。创建一个自定义实现你自己的 ERC-721 智能合约，继承这个合约，如下所示：
 
 ```
-pragma solidity ^0.5.0;
+pragma solidity ⁰.5.0;
 
 import './ERC721.sol';
 
@@ -1279,7 +1279,7 @@ contract EcommerceToken is ERC721 {
 
 # 开发电子商务智能合约
 
-开发与ERC-721代币交互的智能合约很简单，因为我们只需确保用户的产品关联有一个代币ID。如果用户希望这样做，他们将能够独立与他们的代币进行交互。对于我们的市场，我们将专注于创建购买和销售功能，以创建和销毁代币。像往常一样，我们还将创建多个getter从智能合约中提取数据供用户界面使用。
+开发与 ERC-721 代币交互的智能合约很简单，因为我们只需确保用户的产品关联有一个代币 ID。如果用户希望这样做，他们将能够独立与他们的代币进行交互。对于我们的市场，我们将专注于创建购买和销售功能，以创建和销毁代币。像往常一样，我们还将创建多个 getter 从智能合约中提取数据供用户界面使用。
 
 让我们开始创建电子商务合同，将所有市场逻辑放在同一个文件中，因为它不会占用太多空间：
 
@@ -1337,11 +1337,11 @@ contract Ecommerce {
 }
 ```
 
-我们必须首先设置变量，从结构开始，这种情况下是`Product`和`Order`。每个订单都将通过ID引用特定的产品，在这两种情况下ID将是相同的，这意味着每个产品将与具有相同ID的订单对应。将有映射用于尚未完成的待处理订单，并有其他映射用于已完成的订单，以便我们有已完成订单的参考。构造函数将接收令牌地址，以便电子商务合约可以创建新的代币。
+我们必须首先设置变量，从结构开始，这种情况下是`Product`和`Order`。每个订单都将通过 ID 引用特定的产品，在这两种情况下 ID 将是相同的，这意味着每个产品将与具有相同 ID 的订单对应。将有映射用于尚未完成的待处理订单，并有其他映射用于已完成的订单，以便我们有已完成订单的参考。构造函数将接收令牌地址，以便电子商务合约可以创建新的代币。
 
 # 创建发布功能
 
-创建一个功能来发布新产品，以便用户可以通过以下代码自行出售产品。图像URL将是图像所在的位置：
+创建一个功能来发布新产品，以便用户可以通过以下代码自行出售产品。图像 URL 将是图像所在的位置：
 
 ```
 /// @notice To publish a product as a seller
@@ -1473,7 +1473,7 @@ function getOrdersLength(bytes32 _type, address _owner) public view returns(uint
 }
 ```
 
-`getOrdersLength()` 函数将被用于卖家、买家或已完成的三种订单类型，以避免创建多个相似的函数。这就是整个合同。如果你想查看更新版本，请访问我的 GitHub：[https://github.com/merlox/ecommerce-dapp](https://github.com/merlox/ecommerce-dapp)。
+`getOrdersLength()` 函数将被用于卖家、买家或已完成的三种订单类型，以避免创建多个相似的函数。这就是整个合同。如果你想查看更新版本，请访问我的 GitHub：[`github.com/merlox/ecommerce-dapp`](https://github.com/merlox/ecommerce-dapp)。
 
 # 部署智能合约
 
@@ -1679,7 +1679,7 @@ async getLatestProducts(amount) {
 
 1.  我们需要一个反向循环来首先获取最新的产品。关于`for`循环的工作原理，因为可能出现我们要显示`9`时产品已用尽的情况，这是由于当我们想要显示`9`时，我们从零产品开始。这就是为什么我们创建了`condition`变量-它检查要求显示的产品数量是否实际可用；如果不可用，我们只需获取所有可用的产品，无论它们有多少。
 
-另一方面，一旦`state`对象被填充了包含在我们的智能合约中的产品，我们就使用`displayProducts()`函数，该函数负责生成每个产品所需的正确HTML，同时更新`productsHtml`状态数组。
+另一方面，一旦`state`对象被填充了包含在我们的智能合约中的产品，我们就使用`displayProducts()`函数，该函数负责生成每个产品所需的正确 HTML，同时更新`productsHtml`状态数组。
 
 最后，我们有`render`函数，这些新更新的组件略有修改，如下所示的代码所示：
 
@@ -1719,7 +1719,7 @@ render() {
 }
 ```
 
-在进行实现更改后，请查看整个索引文件，可在 GitHub 上找到，网址为 [https://github.com/merlox/ecommerce-dapp](https://github.com/merlox/ecommerce-dapp)。
+在进行实现更改后，请查看整个索引文件，可在 GitHub 上找到，网址为 [`github.com/merlox/ecommerce-dapp`](https://github.com/merlox/ecommerce-dapp)。
 
 # 更新购买组件
 
@@ -1737,7 +1737,7 @@ bytes32(name) {
 }
 ```
 
-`buyProduct()`函数获取与用户地址相关的所有状态数据，并将具有所需产品价格的交易作为交易的支付发送。`bytes32`函数是必需的，以将一些字符串值转换为`bytes32`，以节省 gas 成本。这就是此特定组件所需的所有更改。在更新的 GitHub 上检查整个组件的最终实现：[https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Buy.js](https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Buy.js)。
+`buyProduct()`函数获取与用户地址相关的所有状态数据，并将具有所需产品价格的交易作为交易的支付发送。`bytes32`函数是必需的，以将一些字符串值转换为`bytes32`，以节省 gas 成本。这就是此特定组件所需的所有更改。在更新的 GitHub 上检查整个组件的最终实现：[`github.com/merlox/ecommerce-dapp/blob/master/src/components/Buy.js`](https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Buy.js)。
 
 # 更新出售组件
 
@@ -1754,9 +1754,9 @@ async publishProduct() {
 }
 ```
 
-注意我们如何检查所有必需的参数，以便让用户知道何时缺少某些内容。你可以添加一些额外的检查，以确保提供的图片 URL 实际上是一个可以在市场上显示的有效图片。这部分就交给你了。不应该花费你超过`10分钟`的时间，这是一个练习你的 JavaScript 技能的好机会。
+注意我们如何检查所有必需的参数，以便让用户知道何时缺少某些内容。你可以添加一些额外的检查，以确保提供的图片 URL 实际上是一个可以在市场上显示的有效图片。这部分就交给你了。不应该花费你超过`10 分钟`的时间，这是一个练习你的 JavaScript 技能的好机会。
 
-最终更新的版本在 GitHub 上可用：[https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Sell.js](https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Sell.js)。
+最终更新的版本在 GitHub 上可用：[`github.com/merlox/ecommerce-dapp/blob/master/src/components/Sell.js`](https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Sell.js)。
 
 # 更新订单组件
 
@@ -1970,7 +1970,7 @@ async setup() {
 }
 ```
 
-1.  在这种情况下，我们每种类型请求五个订单，因为我们不想让用户被信息压倒，这很容易根据您的喜好进行更改。您甚至可以在UI中添加一个滑块，以便用户更改显示的项目数量。`render()`函数也已更新以反映买家的地址数据，如下所示：
+1.  在这种情况下，我们每种类型请求五个订单，因为我们不想让用户被信息压倒，这很容易根据您的喜好进行更改。您甚至可以在 UI 中添加一个滑块，以便用户更改显示的项目数量。`render()`函数也已更新以反映买家的地址数据，如下所示：
 
 ```
 render() {
@@ -1998,9 +1998,9 @@ render() {
 }
 ```
 
-这就是`Orders`组件的全部更改。请查看官方 GitHub 链接中的更新实现：[https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Orders.js](https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Orders.js)。
+这就是`Orders`组件的全部更改。请查看官方 GitHub 链接中的更新实现：[`github.com/merlox/ecommerce-dapp/blob/master/src/components/Orders.js`](https://github.com/merlox/ecommerce-dapp/blob/master/src/components/Orders.js)。
 
-您可以在[https://github.com/merlox/ecommerce-dapp/blob/master/src/index.styl](https://github.com/merlox/ecommerce-dapp/blob/master/src/index.styl)找到更新后的 CSS 代码，您将获得完全相同的设计。
+您可以在[`github.com/merlox/ecommerce-dapp/blob/master/src/index.styl`](https://github.com/merlox/ecommerce-dapp/blob/master/src/index.styl)找到更新后的 CSS 代码，您将获得完全相同的设计。
 
 这就是整个电子商务 dApp！这是它的外观，只是为了让您看到这个简单而又功能强大的应用程序的潜力：
 
@@ -2008,7 +2008,7 @@ render() {
 
 记得将你的智能合约部署到`ropsten`并运行`npm run dev`来启动 webpack 服务器，以便您可以与其交互。这是以太坊电子商务部门的一个原型；现在您理解了智能合约如何与用户界面交互，您可以在此基础上构建自己的想法。
 
-请务必查看本章节代码的 GitHub 链接：[https://github.com/merlox/ecommerce-dapp](https://github.com/merlox/ecommerce-dapp)。
+请务必查看本章节代码的 GitHub 链接：[`github.com/merlox/ecommerce-dapp`](https://github.com/merlox/ecommerce-dapp)。
 
 # 摘要
 

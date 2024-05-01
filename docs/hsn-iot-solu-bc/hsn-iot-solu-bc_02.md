@@ -18,9 +18,9 @@
 
 # 技术要求
 
-完整的解决方案代码可在 `ch2` 文件夹中找到，位于 [https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain.git](https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain.git) 存储库中。
+完整的解决方案代码可在 `ch2` 文件夹中找到，位于 [`github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain.git`](https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain.git) 存储库中。
 
-确保您还安装了 Cloud Foundry CLI 和 Bluemix CLI；这些命令行界面的安装过程在 [https://console.bluemix.net/docs/cli/index.html#overview](https://console.bluemix.net/docs/cli/index.html#overview) 中有描述。
+确保您还安装了 Cloud Foundry CLI 和 Bluemix CLI；这些命令行界面的安装过程在 [`console.bluemix.net/docs/cli/index.html#overview`](https://console.bluemix.net/docs/cli/index.html#overview) 中有描述。
 
 # 第一个物联网解决方案 - 花园解决方案
 
@@ -104,39 +104,39 @@ Edison 是一款**片上系统**（**SoC**），基于英特尔 x86 架构，内
 
 # Arduino 扩展板
 
-Intel还推出了用于Edison的Arduino扩展板，它提供了与Arduino模块相同的标准引脚接口，并与Arduino Shield兼容。由于可以使用标准的Arduino IDE、兼容的库、连接器和Shield，因此Intel Edison Arduino扩展板是原型设计和运行Arduino程序的一个不错的接口。
+Intel 还推出了用于 Edison 的 Arduino 扩展板，它提供了与 Arduino 模块相同的标准引脚接口，并与 Arduino Shield 兼容。由于可以使用标准的 Arduino IDE、兼容的库、连接器和 Shield，因此 Intel Edison Arduino 扩展板是原型设计和运行 Arduino 程序的一个不错的接口。
 
-# Grove系统
+# Grove 系统
 
-Grove是由Seeed创建的一套组件和Shield，用于创建一个标准化的模块化平台，供原型设计解决方案使用。有许多可用的原型设计，包括Grove平台的工作代码，尤其是在**DIY**社区网站上可以找到。
+Grove 是由 Seeed 创建的一套组件和 Shield，用于创建一个标准化的模块化平台，供原型设计解决方案使用。有许多可用的原型设计，包括 Grove 平台的工作代码，尤其是在**DIY**社区网站上可以找到。
 
-Grove系统针对市场上广泛采用的平台（如Arduino、Raspberry Pi和BeagleBone）提供了相应的Shield。在互联网上可以找到包含计算模块、基础Shield、Grove模块和备件的捆绑销售套装。
+Grove 系统针对市场上广泛采用的平台（如 Arduino、Raspberry Pi 和 BeagleBone）提供了相应的 Shield。在互联网上可以找到包含计算模块、基础 Shield、Grove 模块和备件的捆绑销售套装。
 
-请注意，并非每种传感器都兼容每种平台，因为一些平台缺乏某些功能。例如，Raspberry Pi不提供模拟接口，因此通过模拟接口连接的传感器将与其不兼容。
+请注意，并非每种传感器都兼容每种平台，因为一些平台缺乏某些功能。例如，Raspberry Pi 不提供模拟接口，因此通过模拟接口连接的传感器将与其不兼容。
 
-让我们来看看作为这个物联网解决方案一部分的所有Grove组件。
+让我们来看看作为这个物联网解决方案一部分的所有 Grove 组件。
 
-# 用于Arduino的Grove基础Shield
+# 用于 Arduino 的 Grove 基础 Shield
 
-在本项目中，我们将使用Arduino的Grove基础Shield，它提供了一个接口，用于将Grove标准连接器连接到Arduino引脚接口。它提供了四个模拟接口，四个I2C接口，七个数字接口和一个UART接口。
+在本项目中，我们将使用 Arduino 的 Grove 基础 Shield，它提供了一个接口，用于将 Grove 标准连接器连接到 Arduino 引脚接口。它提供了四个模拟接口，四个 I2C 接口，七个数字接口和一个 UART 接口。
 
-# Grove传感器
+# Grove 传感器
 
 在本项目中，我们将使用两种不同类型的传感器：土壤湿度传感器和温度传感器。
 
 土壤湿度传感器是一种模拟探针，可以提供土壤电阻测量数据，这一点我们将在本章后面进行解释。该传感器的温度是基于热敏电阻的，并且其规格和计算方法也在*测量环境温度*部分有详细介绍。
 
-两种传感器都使用标准的Grove连接线，为探测器提供`VCC`、`GND`和数据连接功能。
+两种传感器都使用标准的 Grove 连接线，为探测器提供`VCC`、`GND`和数据连接功能。
 
-# Grove按钮
+# Grove 按钮
 
 这个按钮与传感器一样连接到计算模块，但根据按钮是否按下，它可以提供开路或闭路状态。
 
 它可能有不同的解释：按钮按下时中断连接，这意味着除非按下按钮，否则它会持续做某事；或者按钮按下时激活连接，这意味着只有在按下按钮后才会执行某些操作。
 
-# Grove继电器
+# Grove 继电器
 
-作为预期的一样，继电器模块连接到标准的Grove接口，但由于它不提供读数，所以被归类为执行器。
+作为预期的一样，继电器模块连接到标准的 Grove 接口，但由于它不提供读数，所以被归类为执行器。
 
 其他执行器模块，如 LED、显示器、电机驱动器和蜂鸣器，用于执行动作而不是读取状态。继电器模块也有两种状态，断路或闭路，这意味着继电器的输入连接没有连接到输出。
 
@@ -188,7 +188,7 @@ Grove 模块使连接变得非常简单，如下面的步骤所示：
 
 位于 Arduino 扩展板上的英特尔 Edison ADC（模拟到数字）转换器具有 12 位分辨率，但通过软件限制为 10 位分辨率。如果我们将此作为测量的基础，我们将获得以下读数的理解：
 
-2^(10) = 1024
+2¹⁰ = 1024
 
 这意味着我们的读数将是从 0 到 1,023 的值，其中 0 表示没有水，1,023 表示水的 100%。这将因土壤中存在的其他杂质而变化，例如矿物质。然而，在这种情况下，我们将假设土壤被完美地测量。当它完全干燥时，它会给我们一个 0% 的测量值，如果是一杯没有任何土壤的水，它会给我们一个 100% 的读数。
 
@@ -231,7 +231,7 @@ setInterval(function() {
 
 与上一个代码块类似（但稍微更加数学上复杂），温度传感器返回传感器的模拟读数。
 
-如果我们查看制造商的说明 ([http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/](http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/)) 关于如何读取传感器，我们将发现传感器的 v1.2 配有一个热敏电阻，其值为 4,250，以及一个 100k 电阻。
+如果我们查看制造商的说明 ([`wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/`](http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/)) 关于如何读取传感器，我们将发现传感器的 v1.2 配有一个热敏电阻，其值为 4,250，以及一个 100k 电阻。
 
 因此，使用该传感器计算温度值的公式如下：
 
@@ -361,7 +361,7 @@ deviceClient.publish('status', 'json', '{ "temperature": ' + getTemperature() +'
 
 # 订阅操作
 
-在为设备发布事件之后，现在是定义需要由设备处理的操作的时候了。在我们的情况下，解决方案的用户John希望能够在检测到定义的土壤湿度阈值时给植物浇水，当温度达到可配置值时，或者当他触发浇水植物的事件时。
+在为设备发布事件之后，现在是定义需要由设备处理的操作的时候了。在我们的情况下，解决方案的用户 John 希望能够在检测到定义的土壤湿度阈值时给植物浇水，当温度达到可配置值时，或者当他触发浇水植物的事件时。
 
 水流由电磁阀控制，该阀由继电器模块打开和关闭。以下代码是先前代码的更新，包括订阅浇水植物动作，该动作将打开阀门一分钟。
 
@@ -405,7 +405,7 @@ var waterPlant = function(secondsToWater) {
   },secondsToWater * 1000);
 ```
 
-1.  连接到IBM Watson IoT平台并创建一个发布函数，该函数将每五分钟向平台发布事件：
+1.  连接到 IBM Watson IoT 平台并创建一个发布函数，该函数将每五分钟向平台发布事件：
 
 ```
 deviceClient.connect();
@@ -431,21 +431,21 @@ deviceClient.on("command", function (commandName,format,payload,topic) {
 });
 ```
 
-这完成了我们的设备固件的编码，以便它可以执行我们的用户John所期望的操作。
+这完成了我们的设备固件的编码，以便它可以执行我们的用户 John 所期望的操作。
 
 # 创建后端应用程序
 
-设备固件设置完成后，现在是专注于开发将处理设备事件并发送命令以便在John不在家时给他的植物浇水的应用程序的时候了。
+设备固件设置完成后，现在是专注于开发将处理设备事件并发送命令以便在 John 不在家时给他的植物浇水的应用程序的时候了。
 
-应用程序的代码将在IBM Cloud平台（Bluemix）上运行。由于这只是一个示例应用程序，我们将使用环境变量来存储参数（温度和土壤湿度阈值）。
+应用程序的代码将在 IBM Cloud 平台（Bluemix）上运行。由于这只是一个示例应用程序，我们将使用环境变量来存储参数（温度和土壤湿度阈值）。
 
-# 在IBM Cloud平台上创建一个Cloud Foundry应用程序
+# 在 IBM Cloud 平台上创建一个 Cloud Foundry 应用程序
 
-1.  要在IBM Cloud中创建一个应用程序，请访问[https://console.bluemix.net](https://console.bluemix.net)，选择创建资源选项，并在左侧菜单中选择Cloud Foundry Apps，然后选择SDK for Node.js。做完这些之后，给应用程序命名并创建运行时：
+1.  要在 IBM Cloud 中创建一个应用程序，请访问[`console.bluemix.net`](https://console.bluemix.net)，选择创建资源选项，并在左侧菜单中选择 Cloud Foundry Apps，然后选择 SDK for Node.js。做完这些之后，给应用程序命名并创建运行时：
 
 ![](img/99311d15-d0f2-4a55-88fd-d82d61f2a49f.png)
 
-1.  当应用程序创建完成后，在左侧菜单中选择 Connections，并创建到IoT服务的连接：
+1.  当应用程序创建完成后，在左侧菜单中选择 Connections，并创建到 IoT 服务的连接：
 
 ![](img/763dec81-cade-4877-8383-59b8434f5423.png)
 
@@ -559,8 +559,8 @@ bluemix cf logs <your_application_name>
 
 # 进一步阅读
 
-完成使用 IBM Watson IoT 平台的解决方案所需的大多数资源都可以在官方文档中找到，链接如下：[https://console.bluemix.net/docs/services/IoT/index.html#gettingstartedtemplate](https://console.bluemix.net/docs/services/IoT/index.html#gettingstartedtemplate)。社区还发布了许多使用 IBM Watson IoT 的配方，并可在 developerWorks 配方网站上找到，链接如下：[https://developer.ibm.com/recipes/tutorials/category/internet-of-things-iot/](https://developer.ibm.com/recipes/tutorials/category/internet-of-things-iot/)。
+完成使用 IBM Watson IoT 平台的解决方案所需的大多数资源都可以在官方文档中找到，链接如下：[`console.bluemix.net/docs/services/IoT/index.html#gettingstartedtemplate`](https://console.bluemix.net/docs/services/IoT/index.html#gettingstartedtemplate)。社区还发布了许多使用 IBM Watson IoT 的配方，并可在 developerWorks 配方网站上找到，链接如下：[`developer.ibm.com/recipes/tutorials/category/internet-of-things-iot/`](https://developer.ibm.com/recipes/tutorials/category/internet-of-things-iot/)。
 
 了解如何将项目上传到 GitHub 存储库以及如何创建交付流水线以在推送新更改到存储库时自动构建、测试和部署应用程序也非常有帮助。尽管这不在本书的范围之内，但这仍然是一个非常好的实践。
 
-关于 Grove 系统平台、模块、套件和组件规格的更多信息可以在制造商的网站上找到：[http://wiki.seeedstudio.com/Grove/](http://wiki.seeedstudio.com/Grove/)。
+关于 Grove 系统平台、模块、套件和组件规格的更多信息可以在制造商的网站上找到：[`wiki.seeedstudio.com/Grove/`](http://wiki.seeedstudio.com/Grove/)。

@@ -58,7 +58,7 @@ Oraclize 服务器不断查找其智能合约的新进入查询。每当它看�
 
 可选地，Oraclize 提供了从 URL、区块链、嵌套和计算数据源返回的 TLSNotary 结果证明。对于`WolframAlpha`和`IPFS`数据源，这种证明是不可用的。目前，Oraclize 仅支持 TLSNotary 证明，但在将来，他们可能会支持其他一些身份验证方式。目前，TLSNotary 证明需要手动验证，但 Oraclize 已经在进行链上证明验证；也就是说，你的智能合约代码可以在从 Oraclize 接收数据时自行验证 TLSNotary 证明，以便在证明无效时丢弃这些数据。
 
-这个工具（[https://github.com/Oraclize/proof-verification-tool](https://github.com/oraclize/proof-verification-tool)）是由 Oraclize 提供的开源工具，用于验证 TLSNotary 证明，如果你想要的话。
+这个工具（[`github.com/Oraclize/proof-verification-tool`](https://github.com/oraclize/proof-verification-tool)）是由 Oraclize 提供的开源工具，用于验证 TLSNotary 证明，如果你想要的话。
 
 理解 TLSNotary 如何工作并不是使用 Oraclize 或验证证明所必需的。验证 TLSNotary 证明的工具是开源的；因此，如果它包含任何恶意代码，那么它很容易被发现，因此这个工具是可信的。
 
@@ -68,34 +68,34 @@ TLSNotary 是 TLS 的修改版，Oraclize 使用它来提供密码学证明，�
 
 TLSNotary 的工作原理是将对称密钥和 MAC 密钥分配给三个参与方，即服务器、被审计者和审计员。TLSNotary 的基本思想是被审计者可以向审计员证明特定结果是服务器在特定时间返回的。
 
-下面是TLSNotary如何实现这一点的概述。审计员计算对称密钥和MAC密钥，然后仅将对称密钥提供给受审者。由于MAC签名检查确保了服务器传输的TLS数据未被修改，因此受审者不需要MAC密钥。有了对称加密密钥，受审者现在可以解密服务器的数据。因为所有消息都是由银行使用MAC密钥“签名”的，而且只有服务器和审计员知道MAC密钥，正确的MAC签名可以作为证明某些消息来自银行且未被受审者伪造的证据。
+下面是 TLSNotary 如何实现这一点的概述。审计员计算对称密钥和 MAC 密钥，然后仅将对称密钥提供给受审者。由于 MAC 签名检查确保了服务器传输的 TLS 数据未被修改，因此受审者不需要 MAC 密钥。有了对称加密密钥，受审者现在可以解密服务器的数据。因为所有消息都是由银行使用 MAC 密钥“签名”的，而且只有服务器和审计员知道 MAC 密钥，正确的 MAC 签名可以作为证明某些消息来自银行且未被受审者伪造的证据。
 
-在Oraclize服务的情况下，Oraclize是受审者，而一个特制的、开源的Amazon机器映像的受限AWS实例充当审计员。
+在 Oraclize 服务的情况下，Oraclize 是受审者，而一个特制的、开源的 Amazon 机器映像的受限 AWS 实例充当审计员。
 
-他们提供的证据数据是此AWS实例的签名证明，证明了一个正确的TLSnotary证明确实发生了。他们还提供了一些关于在AWS实例中运行的软件的额外证据，即它是否自初始化以来已被修改。
+他们提供的证据数据是此 AWS 实例的签名证明，证明了一个正确的 TLSnotary 证明确实发生了。他们还提供了一些关于在 AWS 实例中运行的软件的额外证据，即它是否自初始化以来已被修改。
 
 # 定价
 
-任何以太坊地址发起的第一个Oraclize查询调用完全免费。在测试网络上使用Oraclize调用是免费的！这仅适用于测试环境中的适度使用。
+任何以太坊地址发起的第一个 Oraclize 查询调用完全免费。在测试网络上使用 Oraclize 调用是免费的！这仅适用于测试环境中的适度使用。
 
-从第二次调用开始，你必须支付以太币来进行查询。当向Oraclize发送查询（即进行内部交易调用）时，通过将以太币从调用合约转移到Oraclize合约来扣除费用。要扣除的以太币数量取决于数据源和证明类型。
+从第二次调用开始，你必须支付以太币来进行查询。当向 Oraclize 发送查询（即进行内部交易调用）时，通过将以太币从调用合约转移到 Oraclize 合约来扣除费用。要扣除的以太币数量取决于数据源和证明类型。
 
 下表显示了发送查询时扣除的以太币数量：
 
-| **数据源** | **无证明** | **使用TLSNotary证明** |
+| **数据源** | **无证明** | **使用 TLSNotary 证明** |
 | --- | --- | --- |
 | URL | $0.01 | $0.05 |
 | 区块链 | $0.01 | $0.05 |
 | WolframAlpha | $0.03 | $0.03 |
 | IPFS | $0.01 | $0.01 |
 
-如果你正在发起一个HTTP请求，并且想要TLSNotary证明，那么调用的合约必须有价值$0.05的以太币；否则，将抛出异常。
+如果你正在发起一个 HTTP 请求，并且想要 TLSNotary 证明，那么调用的合约必须有价值$0.05 的以太币；否则，将抛出异常。
 
-# 使用Oraclize API入门
+# 使用 Oraclize API 入门
 
-要使合约使用Oraclize服务，需要继承`usingOraclize`合约。你可以在[https://github.com/oraclize/ethereum-api](https://github.com/oraclize/ethereum-api)找到这个合约。
+要使合约使用 Oraclize 服务，需要继承`usingOraclize`合约。你可以在[`github.com/oraclize/ethereum-api`](https://github.com/oraclize/ethereum-api)找到这个合约。
 
-`usingOraclize`合约充当`OraclizeI`和`OraclizeAddrResolverI`合约的代理。实际上，`usingOraclize`使调用`OraclizeI`和`OraclizeAddrResolverI`合约变得容易，也就是说，它提供了更简单的API。如果你感觉自如，你也可以直接调用`OraclizeI`和`OraclizeAddrResolverI`合约。你可以查看这些合约的源代码，找到所有可用的API。我们只会学习最必要的API。
+`usingOraclize`合约充当`OraclizeI`和`OraclizeAddrResolverI`合约的代理。实际上，`usingOraclize`使调用`OraclizeI`和`OraclizeAddrResolverI`合约变得容易，也就是说，它提供了更简单的 API。如果你感觉自如，你也可以直接调用`OraclizeI`和`OraclizeAddrResolverI`合约。你可以查看这些合约的源代码，找到所有可用的 API。我们只会学习最必要的 API。
 
 让我们看看如何设置证明类型、设置证明存储位置、进行查询、找到查询的成本等等。
 
@@ -221,30 +221,30 @@ function __callback(bytes32 myid, string result) {
 
     +   示例：仅从二进制 CRL 中获取前 300 个字节，`binary(https://www.sk.ee/crls/esteid/esteid2015.crl).slice(0,300)`。二进制辅助程序必须与切片选项一起使用，只接受二进制文件（未编码）。
 
-如果服务器无响应或无法访问，我们将发送空响应。您可以使用[http://app.Oraclize.it/home/test_query](http://app.oraclize.it/home/test_query)测试查询。
+如果服务器无响应或无法访问，我们将发送空响应。您可以使用[`app.Oraclize.it/home/test_query`](http://app.oraclize.it/home/test_query)测试查询。
 
 # 获取查询价格
 
-如果您想在实际查询之前知道查询的费用，那么您可以使用`Oraclize.getPrice()`函数来获取所需的wei数量。它接受的第一个参数是数据源，第二个参数是可选的，即自定义的gas。
+如果您想在实际查询之前知道查询的费用，那么您可以使用`Oraclize.getPrice()`函数来获取所需的 wei 数量。它接受的第一个参数是数据源，第二个参数是可选的，即自定义的 gas。
 
 这个的一个流行用例是通知客户如果合同中没有足够的以太币来进行查询，则添加以太币。
 
 # 加密查询
 
-有时，您可能不希望揭示数据源和/或数据源的输入。例如：如果有的话，您可能不希望在URL中揭示API密钥。因此，Oraclize提供了一种将查询加密存储在智能合约中，并且只有Oraclize的服务器有解密密钥的方法。
+有时，您可能不希望揭示数据源和/或数据源的输入。例如：如果有的话，您可能不希望在 URL 中揭示 API 密钥。因此，Oraclize 提供了一种将查询加密存储在智能合约中，并且只有 Oraclize 的服务器有解密密钥的方法。
 
-Oraclize提供了一个Python工具（[https://github.com/Oraclize/encrypted-queries](https://github.com/oraclize/encrypted-queries)），可用于加密数据源和/或数据输入。它生成一个非确定性的加密字符串。
+Oraclize 提供了一个 Python 工具（[`github.com/Oraclize/encrypted-queries`](https://github.com/oraclize/encrypted-queries)），可用于加密数据源和/或数据输入。它生成一个非确定性的加密字符串。
 
-加密任意文本字符串的CLI命令如下：
+加密任意文本字符串的 CLI 命令如下：
 
 ```
     python encrypted_queries_tools.py -e -p 044992e9473b7d90ca54d2886c7addd14a61109af202f1c95e218b0c99eb060c7134c4ae46345d0383ac996185762f04997d6fd6c393c86e4325c469741e64eca9 "YOUR DATASOURCE or INPUT"
 
 ```
 
-您看到的长十六进制字符串是Oraclize服务器的公钥。现在您可以使用前述命令的输出来替代数据源和/或数据源的输入。
+您看到的长十六进制字符串是 Oraclize 服务器的公钥。现在您可以使用前述命令的输出来替代数据源和/或数据源的输入。
 
-为了防止加密查询的滥用（即重放攻击），使用特定加密查询的第一个与Oraclize查询的合同将成为其合法所有者。任何其他重用完全相同字符串的合同将不被允许使用它，并将收到空结果。因此，请记住在重新部署使用加密查询的合同时始终生成新的加密字符串。
+为了防止加密查询的滥用（即重放攻击），使用特定加密查询的第一个与 Oraclize 查询的合同将成为其合法所有者。任何其他重用完全相同字符串的合同将不被允许使用它，并将收到空结果。因此，请记住在重新部署使用加密查询的合同时始终生成新的加密字符串。
 
 # 解密数据源
 
@@ -254,15 +254,15 @@ Oraclize提供了一个Python工具（[https://github.com/Oraclize/encrypted-que
 
 # Oraclize Web IDE
 
-Oraclize提供了一个Web IDE，您可以在其中编写、编译和测试基于Oraclize的应用程序。您可以在[http://dapps.Oraclize.it/browser-Solidity/](http://dapps.oraclize.it/browser-solidity/)找到它。
+Oraclize 提供了一个 Web IDE，您可以在其中编写、编译和测试基于 Oraclize 的应用程序。您可以在[`dapps.Oraclize.it/browser-Solidity/`](http://dapps.oraclize.it/browser-solidity/)找到它。
 
-如果您访问链接，那么您会注意到它看起来与浏览器Solidity完全相同。实际上，它就是带有一个额外功能的浏览器Solidity。要理解这个功能是什么，我们需要更深入地了解浏览器Solidity。
+如果您访问链接，那么您会注意到它看起来与浏览器 Solidity 完全相同。实际上，它就是带有一个额外功能的浏览器 Solidity。要理解这个功能是什么，我们需要更深入地了解浏览器 Solidity。
 
 浏览器 Solidity 不仅让我们编写、编译和为我们的合约生成 web3.js 代码，还可以在那里测试这些合约。直到现在，为了测试我们的合约，我们都是设置了以太坊节点并向其发送交易。但是浏览器 Solidity 可以在不连接到任何节点的情况下执行合约，所有操作都在内存中进行。它使用 ethereumjs-vm 实现了这一点，这是 EVM 的 JavaScript 实现。使用 ethereumjs-vm，你可以创建自己的 EVM 并运行字节码。如果需要，我们可以通过提供连接的 URL 来配置浏览器 Solidity 使用以太坊节点。用户界面非常信息丰富；因此，你可以自己尝试所有这些。
 
 Oraclize Web IDE 的特殊之处在于它在内存执行环境中部署了 Oraclize 合约，因此您不必连接到测试网或主网节点，但如果您使用浏览器 Solidity，则必须连接到测试网或主网节点以测试 Oraclize API。
 
-你可以在 [https://dev.Oraclize.it/](https://dev.oraclize.it/) 找到更多与集成 Oraclize 相关的资源。
+你可以在 [`dev.Oraclize.it/`](https://dev.oraclize.it/) 找到更多与集成 Oraclize 相关的资源。
 
 # 处理字符串
 
@@ -277,7 +277,7 @@ Oraclize Web IDE 的特殊之处在于它在内存执行环境中部署了 Oracl
 让我们看看使用 `strings` 库处理字符串的几个示例：
 
 ```
-pragma Solidity ^0.4.0; 
+pragma Solidity ⁰.4.0; 
 
 import "github.com/Arachnid/Solidity-stringutils/strings.sol"; 
 
@@ -341,20 +341,20 @@ var slice5 = slice3.nextRune(slice4);
 
 ```
 
-您可以在[https://github.com/Arachnid/Solidity-stringutils](https://github.com/Arachnid/solidity-stringutils)了解更多关于 strings 库的信息。
+您可以在[`github.com/Arachnid/Solidity-stringutils`](https://github.com/Arachnid/solidity-stringutils)了解更多关于 strings 库的信息。
 
 # 构建投注合同
 
 在我们的投注应用程序中，两个人可以选择在一场足球比赛上进行投注，一个人支持主队，另一个人支持客队。他们都应该以相同的金额进行投注，赢家将拿走所有的钱。如果比赛是平局，那么他们两人都将拿回他们的钱。
 
-我们将使用 FastestLiveScores API 来了解比赛的结果。它提供了一个免费的 API，让我们每小时可以免费进行 100 次请求。首先，去创建一个账户，然后生成一个 API 密钥。要创建一个账户，请访问 [https://customer.fastestlivescores.com/register](https://customer.fastestlivescores.com/register)，一旦账户创建完成，您将在 [https://customer.fastestlivescores.com/](https://customer.fastestlivescores.com/) 看到 API 密钥。您可以在 [https://docs.crowdscores.com/](https://docs.crowdscores.com/) 找到 API 文档。
+我们将使用 FastestLiveScores API 来了解比赛的结果。它提供了一个免费的 API，让我们每小时可以免费进行 100 次请求。首先，去创建一个账户，然后生成一个 API 密钥。要创建一个账户，请访问 [`customer.fastestlivescores.com/register`](https://customer.fastestlivescores.com/register)，一旦账户创建完成，您将在 [`customer.fastestlivescores.com/`](https://customer.fastestlivescores.com/) 看到 API 密钥。您可以在 [`docs.crowdscores.com/`](https://docs.crowdscores.com/) 找到 API 文档。
 
 对于我们应用程序中两个人之间的每次投注，都会部署一个投注合同。合同将包含从 `FastestLiveScores` API 检索到的比赛 ID，双方需要投资的 wei 金额以及双方的地址。一旦双方都在合同中投资了，他们将得知比赛的结果。如果比赛尚未结束，则他们将在每隔 24 小时后尝试检查结果。
 
 这是合同的代码：
 
 ```
-pragma Solidity ^0.4.0; 
+pragma Solidity ⁰.4.0; 
 
 import "github.com/Oraclize/Ethereum-api/oraclizeAPI.sol"; 
 import "github.com/Arachnid/Solidity-stringutils/strings.sol"; 
@@ -485,19 +485,19 @@ geth --testnet --rpc --rpccorsdomain "*" --rpcaddr "0.0.0.0" --rpcport "8545"
 
 # 规划结构
 
-在本章的练习文件中，您将找到两个目录，即Final和Initial。Final包含项目的最终源代码，而Initial包含空的源代码文件和库，以快速开始构建应用程序。
+在本章的练习文件中，您将找到两个目录，即 Final 和 Initial。Final 包含项目的最终源代码，而 Initial 包含空的源代码文件和库，以快速开始构建应用程序。
 
 要测试`Final`目录，您需要在其中运行`npm install`，然后使用`Final`目录内的`node app.js`命令运行应用程序。
 
 在`Initial`目录中，您将找到一个`public`目录和两个名为`app.js`和`package.json`的文件。`package.json`文件包含我们应用程序的后端依赖关系，`app.js`是您将放置后端源代码的地方。
 
-`public`目录包含与前端相关的文件。在`public/css`内，您将找到`bootstrap.min.css`，这是bootstrap库。在`public/html`内，您将找到`index.html`和`matches.ejs`文件，您将在其中放置我们应用程序的HTML代码，并且在`public/js`目录内，您将找到web3.js和ethereumjs-tx的js文件。在`public/js`内，您还会找到一个`main.js`文件，您将在其中放置我们应用程序的前端JS代码。您还将在Oraclize Python工具中找到加密查询的内容。
+`public`目录包含与前端相关的文件。在`public/css`内，您将找到`bootstrap.min.css`，这是 bootstrap 库。在`public/html`内，您将找到`index.html`和`matches.ejs`文件，您将在其中放置我们应用程序的 HTML 代码，并且在`public/js`目录内，您将找到 web3.js 和 ethereumjs-tx 的 js 文件。在`public/js`内，您还会找到一个`main.js`文件，您将在其中放置我们应用程序的前端 JS 代码。您还将在 Oraclize Python 工具中找到加密查询的内容。
 
 # 构建后端
 
-首先构建应用程序的后端。首先，在Initial目录内运行`npm install`以安装后端所需的依赖。
+首先构建应用程序的后端。首先，在 Initial 目录内运行`npm install`以安装后端所需的依赖。
 
-这是运行express服务并提供`index.html`文件和静态文件并设置视图引擎的后端代码：
+这是运行 express 服务并提供`index.html`文件和静态文件并设置视图引擎的后端代码：
 
 ```
 var express = require("express"); 
@@ -515,7 +515,7 @@ app.get("/", function(req, res) {
 
 ```
 
-上述代码是不言自明的。现在让我们继续进行。我们的应用程序将有另一个页面，其中将显示最近的比赛列表，包括比赛的ID和结果（如果比赛已结束）。以下是端点的代码：
+上述代码是不言自明的。现在让我们继续进行。我们的应用程序将有另一个页面，其中将显示最近的比赛列表，包括比赛的 ID 和结果（如果比赛已结束）。以下是端点的代码：
 
 ```
 var request = require("request"); 
@@ -542,9 +542,9 @@ app.get("/matches", function(req, res) {
 
 ```
 
-在这里，我们正在进行API请求以获取最近比赛的列表，然后将结果传递给`matches.ejs`文件，以便它可以在用户友好的UI中渲染结果。API结果以时间戳形式给出比赛开始时间；因此，我们正在使用moment将其转换为可读的人类格式。我们从后端而不是从前端发出此请求，以便我们不会向用户公开API密钥。
+在这里，我们正在进行 API 请求以获取最近比赛的列表，然后将结果传递给`matches.ejs`文件，以便它可以在用户友好的 UI 中渲染结果。API 结果以时间戳形式给出比赛开始时间；因此，我们正在使用 moment 将其转换为可读的人类格式。我们从后端而不是从前端发出此请求，以便我们不会向用户公开 API 密钥。
 
-我们的后端将向前端提供API，通过该API前端可以在部署合约之前加密查询。我们的应用程序不会提示用户创建API密钥，因为这将是不良的UX实践。应用程序的开发人员控制API密钥不会造成任何伤害，因为开发人员无法修改API服务器的结果；因此，即使应用程序的开发人员知道API密钥，用户仍将信任该应用程序。
+我们的后端将向前端提供 API，通过该 API 前端可以在部署合约之前加密查询。我们的应用程序不会提示用户创建 API 密钥，因为这将是不良的 UX 实践。应用程序的开发人员控制 API 密钥不会造成任何伤害，因为开发人员无法修改 API 服务器的结果；因此，即使应用程序的开发人员知道 API 密钥，用户仍将信任该应用程序。
 
 下面是加密端点的代码：
 
@@ -934,7 +934,7 @@ document.getElementById("find").addEventListener("submit", function(e){
 
 现在我们已经完成了建立我们的押注平台，是时候测试它了。在测试之前，请确保测试网络区块链已完全下载并正在寻找新的入块。
 
-现在使用我们之前构建的钱包服务，生成三个账户。使用 [http://faucet.ropsten.be:3001/](http://faucet.ropsten.be:3001/) 为每个账户添加一以太币。
+现在使用我们之前构建的钱包服务，生成三个账户。使用 [`faucet.ropsten.be:3001/`](http://faucet.ropsten.be:3001/) 为每个账户添加一以太币。
 
 然后，在`Initial`目录中运行`node app.js`，然后访问`http://localhost:8080/matches`，您将看到以下截图中显示的内容：
 

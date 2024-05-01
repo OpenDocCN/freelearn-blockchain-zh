@@ -58,7 +58,7 @@ Mist 客户端具有各种功能，例如能够创建以太坊帐户并连接到
 
 # 代币标准
 
-使用以太坊，可以创建去中心化应用程序，并且我们还可以在以太坊区块链上发行代币。就像**比特币改进提案**（**BIPs**）一样，在 GitHub 上托管了一份**以太坊改进提案**（**EIPs**）的在线列表，可以在此处找到：[https://github.com/ethereum/EIPs](https://github.com/ethereum/EIPs)。在 EIP-20 中，于 2015 年底左右引入了一个新的代币标准。这个代币标准被称为 **ERC20**。*ERC* 代表 **以太坊请求评论。**ERC 是由社区开发者编写的；在社区和核心团队的批准后，该提案成为标准。除了 ERC20 外，还有其他各种标准，例如 ERC223 和 ERC721 也在使用中。
+使用以太坊，可以创建去中心化应用程序，并且我们还可以在以太坊区块链上发行代币。就像**比特币改进提案**（**BIPs**）一样，在 GitHub 上托管了一份**以太坊改进提案**（**EIPs**）的在线列表，可以在此处找到：[`github.com/ethereum/EIPs`](https://github.com/ethereum/EIPs)。在 EIP-20 中，于 2015 年底左右引入了一个新的代币标准。这个代币标准被称为 **ERC20**。*ERC* 代表 **以太坊请求评论。**ERC 是由社区开发者编写的；在社区和核心团队的批准后，该提案成为标准。除了 ERC20 外，还有其他各种标准，例如 ERC223 和 ERC721 也在使用中。
 
 在 EIP 中定义了必须遵循的方法，以便代币可以成为 ERC20 代币合约的一部分。
 
@@ -78,9 +78,9 @@ Mist 客户端具有各种功能，例如能够创建以太坊帐户并连接到
 
 +   `transfer(address _to, unit256 _value)`: 将`_value`数量的令牌发送到地址`_to`。这是一个强制性方法。
 
-+   `transferFrom(address _from, address _to, uint256 _value)`: 此方法将`_value`数量的令牌从地址`_from`转移到地址`_to`。智能合约中必须有此方法才能成为有效的ERC20合约。
++   `transferFrom(address _from, address _to, uint256 _value)`: 此方法将`_value`数量的令牌从地址`_from`转移到地址`_to`。智能合约中必须有此方法才能成为有效的 ERC20 合约。
 
-+   `approve(address _spender, uint256 _value)`: 此方法允许地址`_spender`多次从给定账户提取；它可以提取的最大金额为`_value`。这也是一个强制性方法；建议首先将allowance设置为0，以防止任何漏洞。
++   `approve(address _spender, uint256 _value)`: 此方法允许地址`_spender`多次从给定账户提取；它可以提取的最大金额为`_value`。这也是一个强制性方法；建议首先将 allowance 设置为 0，以防止任何漏洞。
 
 +   `allowance(address _owner, address _spender)`: 返回`_spender`仍然可以从`_owner`提取的金额。智能合约中必须有此方法。
 
@@ -90,7 +90,7 @@ Mist 客户端具有各种功能，例如能够创建以太坊帐户并连接到
 
 # Web3
 
-`Web3.js`是一个JavaScript库；它可以通过JSON RPC调用与以太坊节点通信，通过连接到HTTP或IPC连接。`Web3.js`通过暴露已在RPC上启用的方法来工作。
+`Web3.js`是一个 JavaScript 库；它可以通过 JSON RPC 调用与以太坊节点通信，通过连接到 HTTP 或 IPC 连接。`Web3.js`通过暴露已在 RPC 上启用的方法来工作。
 
 可以使用以下命令通过`npm`安装`Web3`：
 
@@ -98,30 +98,30 @@ Mist 客户端具有各种功能，例如能够创建以太坊帐户并连接到
 npm install web3
 ```
 
-# Truffle框架
+# Truffle 框架
 
-**Truffle**是一个开发框架，可以简化测试和部署以太坊智能合约。可以使用以下命令通过`npm`安装Truffle：
+**Truffle**是一个开发框架，可以简化测试和部署以太坊智能合约。可以使用以下命令通过`npm`安装 Truffle：
 
 ```
 npm install -g truffle
 ```
 
-Truffle通过Mocha和Chai提供的自动化测试框架来帮助合约编译和链接。使用Truffle，我们可以轻松地将合约部署到任何`TestNet`、MainNet或私有Network ID。Truffle在DApp中完成所有工作，如编译合约、将其注入用户界面并进行测试以检查漏洞。
+Truffle 通过 Mocha 和 Chai 提供的自动化测试框架来帮助合约编译和链接。使用 Truffle，我们可以轻松地将合约部署到任何`TestNet`、MainNet 或私有 Network ID。Truffle 在 DApp 中完成所有工作，如编译合约、将其注入用户界面并进行测试以检查漏洞。
 
 # Ganache
 
-**Ganache**是由Truffle基金会引入的工具，用于在创建的以太坊区块链上运行测试。它具有命令行界面，但在需要时也可以使用图形界面。以下屏幕截图显示了**Ganache**工具：
+**Ganache**是由 Truffle 基金会引入的工具，用于在创建的以太坊区块链上运行测试。它具有命令行界面，但在需要时也可以使用图形界面。以下屏幕截图显示了**Ganache**工具：
 
 ![](img/b92978da-d252-4359-9460-505d135dee45.png)
 
 # 在智能合约上工作
 
-让我们深入了解创建智能合约的任务，以及在`TestNet`上测试智能合约的过程。运行以下讨论的代码的最简单方法是使用Remix。只需按照以下步骤进行操作：
+让我们深入了解创建智能合约的任务，以及在`TestNet`上测试智能合约的过程。运行以下讨论的代码的最简单方法是使用 Remix。只需按照以下步骤进行操作：
 
-1.  当您在浏览器中打开Remix时，默认情况下会打开`ballot.sol`文件；您可以创建一个新文件并开始编辑您的第一个智能合约。看一下这个：
+1.  当您在浏览器中打开 Remix 时，默认情况下会打开`ballot.sol`文件；您可以创建一个新文件并开始编辑您的第一个智能合约。看一下这个：
 
 ```
-pragma solidity ^0.4.24;
+pragma solidity ⁰.4.24;
 
 //This is a test comment, details about the contract can be added here
 /*details like Total supply, contract address, Name, Symbol an decimals which will help someone knowing about the contract instead of finding these details within the source code 

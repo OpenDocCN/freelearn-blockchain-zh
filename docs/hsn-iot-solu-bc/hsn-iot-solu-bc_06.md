@@ -180,43 +180,43 @@
 
 此图表向我们展示了解决方案的一些重要组件。让我们看看它们是什么：
 
-+   **消息队列遥测传输（MQTT）**：这是一种基于发布-订阅的消息传输协议，通过TCP工作。它专为需要小代码占用空间或网络带宽有限的远程连接设计。发布-订阅消息传输模式需要一个消息代理。
++   **消息队列遥测传输（MQTT）**：这是一种基于发布-订阅的消息传输协议，通过 TCP 工作。它专为需要小代码占用空间或网络带宽有限的远程连接设计。发布-订阅消息传输模式需要一个消息代理。
 
-+   **Node-RED**：Node-RED是一种用于在易于使用的流程编辑器中简单地连接硬件设备、API和在线服务的编程工具。
++   **Node-RED**：Node-RED 是一种用于在易于使用的流程编辑器中简单地连接硬件设备、API 和在线服务的编程工具。
 
 +   **IBM Cloud**：这是一套面向企业的云计算服务。
 
-+   **Bosch IoT Rollouts**: 这是Bosch IoT Suite中的一个云服务，可以让用户管理边缘设备、控制器和网关的软件更新的推出。
++   **Bosch IoT Rollouts**: 这是 Bosch IoT Suite 中的一个云服务，可以让用户管理边缘设备、控制器和网关的软件更新的推出。
 
 那么，这些组件如何组合在一起以帮助食品供应链中的各种流程？以下是：
 
-+   Node-RED控制面板仪表板使我们能够选择资产跟踪器，并检查位置、数据、设备状态和其他信息
++   Node-RED 控制面板仪表板使我们能够选择资产跟踪器，并检查位置、数据、设备状态和其他信息
 
 +   资产跟踪设备可以通过蜂窝网络进行激活或更新
 
-+   地理位置数据可以定期传输，并且可以在Node-RED中的仪表板上进行跟踪
++   地理位置数据可以定期传输，并且可以在 Node-RED 中的仪表板上进行跟踪
 
 +   资产跟踪设备查询温度数据，然后可能查询位置或速度数据
 
-+   Node-RED可以将温度、位置和速度数据写入Hyperledger Fabric
++   Node-RED 可以将温度、位置和速度数据写入 Hyperledger Fabric
 
-+   Node-RED仪表板查询Hyperledger Fabric以获取各种任务和信息，例如交易历史记录、日期和时间数据和地理传感器数据
++   Node-RED 仪表板查询 Hyperledger Fabric 以获取各种任务和信息，例如交易历史记录、日期和时间数据和地理传感器数据
 
 # API/SDK
 
-SDK或API是一个负责在区块链网络中建立连接的集成层。通常使用Node.js开发，并在调用智能合约中起着重要作用。今天，我们可以找到覆盖Go和Java的API/SDK文档，并且Python的文档正在制定中。
+SDK 或 API 是一个负责在区块链网络中建立连接的集成层。通常使用 Node.js 开发，并在调用智能合约中起着重要作用。今天，我们可以找到覆盖 Go 和 Java 的 API/SDK 文档，并且 Python 的文档正在制定中。
 
-您可以参考此链接以获取有关如何使用API/SDK将您的应用程序与区块链网络集成的更多信息：[https://hyperledger-fabric.readthedocs.io/en/release-1.3/fabric-sdks.html](https://hyperledger-fabric.readthedocs.io/en/release-1.3/fabric-sdks.html)。
+您可以参考此链接以获取有关如何使用 API/SDK 将您的应用程序与区块链网络集成的更多信息：[`hyperledger-fabric.readthedocs.io/en/release-1.3/fabric-sdks.html`](https://hyperledger-fabric.readthedocs.io/en/release-1.3/fabric-sdks.html)。
 
-以下图示显示了一个与通过API/SDK与Hyperledger Fabric交互的应用程序集成：
+以下图示显示了一个与通过 API/SDK 与 Hyperledger Fabric 交互的应用程序集成：
 
 ![](img/590b546a-02ee-460b-b83e-d139031123a0.png)
 
-Composer JavaScript SDK源自Node.js，允许开发人员将您的应用程序与他们的业务网络集成。
+Composer JavaScript SDK 源自 Node.js，允许开发人员将您的应用程序与他们的业务网络集成。
 
-有两个npm模块：
+有两个 npm 模块：
 
-+   `composer-client`：这个模块通常作为应用程序的本地依赖项安装。它提供了业务应用程序用来连接业务网络以访问资产和参与者并提交交易的API。在生产中，这是需要作为应用程序的直接依赖项添加的唯一模块。
++   `composer-client`：这个模块通常作为应用程序的本地依赖项安装。它提供了业务应用程序用来连接业务网络以访问资产和参与者并提交交易的 API。在生产中，这是需要作为应用程序的直接依赖项添加的唯一模块。
 
 +   `composer-admin`：此模块通常作为管理应用程序的本地依赖项安装。此 API 允许创建和部署业务网络定义。
 
@@ -244,7 +244,7 @@ Hyperledger Composer 是创建您的区块链网络的简单方法，与 Hyperle
 
 +   VS Code 和 Atom 编辑器插件
 
-在本书范围之外详细审查这些内容将超出范围。您可以访问此链接简要探索这些组件：[https://hyperledger.github.io/composer/latest/introduction/solution-architecture](https://hyperledger.github.io/composer/latest/introduction/solution-architecture)。
+在本书范围之外详细审查这些内容将超出范围。您可以访问此链接简要探索这些组件：[`hyperledger.github.io/composer/latest/introduction/solution-architecture`](https://hyperledger.github.io/composer/latest/introduction/solution-architecture)。
 
 # 软件组件
 
@@ -258,7 +258,7 @@ Hyperledger Composer 是创建您的区块链网络的简单方法，与 Hyperle
 
 要验证客户端，我们将需要设置一个 REST 服务器。在这个选项可用之后，客户端在被允许调用 REST API 之前应该被验证。
 
-REST 服务器使用一个名为 PASSPORT 的开源软件，这是一个用于 Node.js 的身份验证中间件。它灵活且模块化，支持通过用户名和密码、Facebook、Twitter、Google 和**轻量级目录访问协议**（**LDAP**）等方式进行身份验证。在[第7章](d067a20b-616f-49da-9614-ae0631a7e4f8.xhtml)中，*创建您的区块链和物联网解决方案*，我们将有关于此的更多细节。现在，让我们回顾一下这些组件将如何工作。
+REST 服务器使用一个名为 PASSPORT 的开源软件，这是一个用于 Node.js 的身份验证中间件。它灵活且模块化，支持通过用户名和密码、Facebook、Twitter、Google 和**轻量级目录访问协议**（**LDAP**）等方式进行身份验证。在第七章中，*创建您的区块链和物联网解决方案*，我们将有关于此的更多细节。现在，让我们回顾一下这些组件将如何工作。
 
 在下图中，我们可以看到使用 Composer REST 服务器的高级认证架构：
 
@@ -331,7 +331,7 @@ Wallet:Business network cards for the authenticated user
 
 ![](img/38e6605e-aa2b-46cd-8116-95d0f833490f.png)
 
-每个`composer-rest-server`的 API 调用必须包含`access_token`，这是由身份验证带回的。有关更多信息，请参阅[https://hyperledger.github.io/composer/v0.16/integrating/enabling-rest-authentication](https://hyperledger.github.io/composer/v0.16/integrating/enabling-rest-authentication)。
+每个`composer-rest-server`的 API 调用必须包含`access_token`，这是由身份验证带回的。有关更多信息，请参阅[`hyperledger.github.io/composer/v0.16/integrating/enabling-rest-authentication`](https://hyperledger.github.io/composer/v0.16/integrating/enabling-rest-authentication)。
 
 使用 `curl` 的一些例子包括：
 
@@ -345,7 +345,7 @@ curl -v http://localhost:3000/api/system/ping?access_token=xxxxx
 curl -v -H 'X-Access-Token: xxxxx' http://localhost:3000/api/system/ping
 ```
 
-1.  这是设置你的`composer-rest-server`的最后一步：使用Cloudant创建一个名片。
+1.  这是设置你的`composer-rest-server`的最后一步：使用 Cloudant 创建一个名片。
 
 创建具有以下属性的成员卡：
 
@@ -359,11 +359,11 @@ curl -v -H 'X-Access-Token: xxxxx' http://localhost:3000/api/system/ping
 
 ![](img/9e5250b5-5054-4fb1-b0c7-d59820f2f9ec.png)
 
-在[第七章](d067a20b-616f-49da-9614-ae0631a7e4f8.xhtml)，*创建您的区块链和物联网解决方案*中，我们将部署此实现。
+在第七章，*创建您的区块链和物联网解决方案*中，我们将部署此实现。
 
 # Hyperledger Composer 模型
 
-有许多方法来识别区块链用例。让我们记住[第三章](fe11e1f3-8540-4126-ace5-2c877b06d6bf.xhtml)中描述的一些重要指标，*解释区块链技术并使用 Hyperledger 工作*：
+有许多方法来识别区块链用例。让我们记住第三章中描述的一些重要指标，*解释区块链技术并使用 Hyperledger 工作*：
 
 +   是否涉及业务网络？
 
@@ -383,7 +383,7 @@ CTO 文件创建了具有三个主要元素的业务网络定义的域模型：
 
 +   可选的导入声明，导入来自其他命名空间的资源
 
-在[第七章](d067a20b-616f-49da-9614-ae0631a7e4f8.xhtml)，*创建您的区块链和物联网解决方案*中，我们创建了一个业务网络。让我们更详细地探讨我们在代码中使用的代码：
+在第七章，*创建您的区块链和物联网解决方案*中，我们创建了一个业务网络。让我们更详细地探讨我们在代码中使用的代码：
 
 命名空间是资产、事件、参与者和交易的基本定义，如下所示：
 
@@ -429,9 +429,9 @@ transaction SampleTransaction {
 
 有关 Hyperledger Composer 建模语言的更多信息，请访问以下链接：
 
-+   [https://hyperledger.github.io/composer/v0.16/reference/cto_language.html](https://hyperledger.github.io/composer/v0.16/reference/cto_language.html)
++   [`hyperledger.github.io/composer/v0.16/reference/cto_language.html`](https://hyperledger.github.io/composer/v0.16/reference/cto_language.html)
 
-+   [https://hyperledger.github.io/composer/v0.16/reference/js_scripts.html](https://hyperledger.github.io/composer/v0.16/reference/js_scripts.html)
++   [`hyperledger.github.io/composer/v0.16/reference/js_scripts.html`](https://hyperledger.github.io/composer/v0.16/reference/js_scripts.html)
 
 # Hyperledger Composer 访问控制语言
 
@@ -463,7 +463,7 @@ rule SampleConditionalRuleWithTransaction {
 }
 ```
 
-您可以通过访问以下链接了解有关 Hyperledger Composer 访问控制语言的更多信息：[https://hyperledger.github.io/composer/v0.16/reference/acl_language.html](https://hyperledger.github.io/composer/v0.16/reference/acl_language.html)。
+您可以通过访问以下链接了解有关 Hyperledger Composer 访问控制语言的更多信息：[`hyperledger.github.io/composer/v0.16/reference/acl_language.html`](https://hyperledger.github.io/composer/v0.16/reference/acl_language.html)。
 
 # Hyperledger Composer 事务处理函数
 
@@ -544,24 +544,24 @@ A. 是的，这并不是一项容易的任务。您可以通过验证用例来�
 
 Q. 使用 Hyperledger Fabric 或 Composer 等开源工具是否需要担心？
 
-A. 超级账本是 Linux 基金会的一部分，拥有250多家公司作为成员，包括金融、银行、供应链、制造和技术领域的领导者。例如，IBM、思科、美国运通、富士通、英特尔和摩根大通都在使用 Linux 基金会的技术。换句话说，只要在设备上采用标准的安全措施，这些工具就是安全的。
+A. 超级账本是 Linux 基金会的一部分，拥有 250 多家公司作为成员，包括金融、银行、供应链、制造和技术领域的领导者。例如，IBM、思科、美国运通、富士通、英特尔和摩根大通都在使用 Linux 基金会的技术。换句话说，只要在设备上采用标准的安全措施，这些工具就是安全的。
 
 # 进一步阅读
 
-+   有关Hyperledger Composer的更好描述可以在Composer网站上找到：[https://hyperledger.github.io/composer/v0.19/introduction/solution-architecture](https://hyperledger.github.io/composer/v0.19/introduction/solution-architecture)。
++   有关 Hyperledger Composer 的更好描述可以在 Composer 网站上找到：[`hyperledger.github.io/composer/v0.19/introduction/solution-architecture`](https://hyperledger.github.io/composer/v0.19/introduction/solution-architecture)。
 
-+   本章的主要焦点是Hyperledger Composer。如果你想探索Hyperledger Fabric的架构，可以在这里找到更多信息：[https://hyperledger-fabric.readthedocs.io/en/release-1.3/arch-deep-dive.html](https://hyperledger-fabric.readthedocs.io/en/release-1.3/arch-deep-dive.html)。
++   本章的主要焦点是 Hyperledger Composer。如果你想探索 Hyperledger Fabric 的架构，可以在这里找到更多信息：[`hyperledger-fabric.readthedocs.io/en/release-1.3/arch-deep-dive.html`](https://hyperledger-fabric.readthedocs.io/en/release-1.3/arch-deep-dive.html)。
 
-+   Yeoman是创建您的前端结构的开源框架。有关更多信息，请访问[https://yeoman.io/](https://yeoman.io/)。
++   Yeoman 是创建您的前端结构的开源框架。有关更多信息，请访问[`yeoman.io/`](https://yeoman.io/)。
 
-+   Passport是用于Node.js的身份验证中间件。有关更多信息，请访问[http://www.passportjs.org/] (http://www.passportjs.org/)。
++   Passport 是用于 Node.js 的身份验证中间件。有关更多信息，请访问[http://www.passportjs.org/] (http://www.passportjs.org/)。
 
-+   您可以通过访问以下链接了解有关Hyperledger Composer访问控制语言的更多信息：[https://hyperledger.github.io/composer/v0.16/reference/acl_language.html](https://hyperledger.github.io/composer/v0.16/reference/acl_language.html)。
++   您可以通过访问以下链接了解有关 Hyperledger Composer 访问控制语言的更多信息：[`hyperledger.github.io/composer/v0.16/reference/acl_language.html`](https://hyperledger.github.io/composer/v0.16/reference/acl_language.html)。
 
-+   您可以通过以下链接获取有关Hyperledger Composer建模语言的更多信息：
++   您可以通过以下链接获取有关 Hyperledger Composer 建模语言的更多信息：
 
-    +   [https://hyperledger.github.io/composer/v0.16/reference/cto_language.html](https://hyperledger.github.io/composer/v0.16/reference/cto_language.html)
+    +   [`hyperledger.github.io/composer/v0.16/reference/cto_language.html`](https://hyperledger.github.io/composer/v0.16/reference/cto_language.html)
 
-    +   [https://hyperledger.github.io/composer/v0.16/reference/js_scripts.html](https://hyperledger.github.io/composer/v0.16/reference/js_scripts.html)
+    +   [`hyperledger.github.io/composer/v0.16/reference/js_scripts.html`](https://hyperledger.github.io/composer/v0.16/reference/js_scripts.html)
 
-+   有关composer-rest-server的信息可以在此找到：[https://hyperledger.github.io/composer/v0.16/integrating/enabling-rest-authentication](https://hyperledger.github.io/composer/v0.16/integrating/enabling-rest-authentication)。
++   有关 composer-rest-server 的信息可以在此找到：[`hyperledger.github.io/composer/v0.16/integrating/enabling-rest-authentication`](https://hyperledger.github.io/composer/v0.16/integrating/enabling-rest-authentication)。

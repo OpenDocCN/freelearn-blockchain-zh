@@ -126,7 +126,7 @@ ganache-cli <options>
 
 按照以下说明获取以太坊开发工具，并启动以太坊私有本地区块链环境（主要用于在本地区块链上运行/部署您的智能合约）。
 
-# 安装Truffle
+# 安装 Truffle
 
 打开命令行并运行以下命令：
 
@@ -134,17 +134,17 @@ ganache-cli <options>
 npm install -g truffle
 ```
 
-# 安装Ganache
+# 安装 Ganache
 
-打开命令行并安装Ganache的命���行接口，如下所示：
+打开命令行并安装 Ganache 的命���行接口，如下所示：
 
 ```
 npm install -g ganache-cli
 ```
 
-# 创建一个Truffle项目
+# 创建一个 Truffle 项目
 
-要初始化一个新的DApp项目，我们可以运行truffle `init`命令来初始化一个空的Truffle项目。这将创建DApp目录结构，包括应用程序、合约和测试以及Truffle配置。由于Truffle Boxes提供了许多可用的模板，在我们的DApp示例中，我们将使用宠物商店模板——一个JavaScript UI库的JQuery版本——来开发我们的众筹DApp示例。
+要初始化一个新的 DApp 项目，我们可以运行 truffle `init`命令来初始化一个空的 Truffle 项目。这将创建 DApp 目录结构，包括应用程序、合约和测试以及 Truffle 配置。由于 Truffle Boxes 提供了许多可用的模板，在我们的 DApp 示例中，我们将使用宠物商店模板——一个 JavaScript UI 库的 JQuery 版本——来开发我们的众筹 DApp 示例。
 
 创建一个名为`Crowdfunding`的文件夹，打开命令行提示符，导航到`Crowdfunding`文件夹，并运行以下命令：
 
@@ -156,9 +156,9 @@ truffle unbox pet-shop
 
 ![](img/4d4b101c-137d-481c-a29d-c39e9d2e31ba.png)
 
-我们在上一章中编写了众筹智能合约。让我们将`CrowdFunding.sol`文件复制到`Crowdfunding`下的contracts文件夹中。
+我们在上一章中编写了众筹智能合约。让我们将`CrowdFunding.sol`文件复制到`Crowdfunding`下的 contracts 文件夹中。
 
-# 启动Ganache环境
+# 启动 Ganache 环境
 
 打开一个新的终端窗口并运行以下命令：
 
@@ -166,11 +166,11 @@ truffle unbox pet-shop
 Ganache-cli
 ```
 
-这将在端口`8545`上运行`Ganache-cli`，而且Ganache将为我们创建10个默认账户。每个账户默认拥有100以太币。你应该在控制台中看到类似这样的东西：
+这将在端口`8545`上运行`Ganache-cli`，而且 Ganache 将为我们创建 10 个默认账户。每个账户默认拥有 100 以太币。你应该在控制台中看到类似这样的东西：
 
 ![](img/fa7dab44-9044-4f5d-ae06-e5b83a04ca9c.png)
 
-在我们的Truffle项目中，`truffle.js`将`7545`定义为默认端口号。我们需要将端口号更新为`8545`以与Ganache的端口号匹配，如下所示：
+在我们的 Truffle 项目中，`truffle.js`将`7545`定义为默认端口号。我们需要将端口号更新为`8545`以与 Ganache 的端口号匹配，如下所示：
 
 ```
 module.exports = {
@@ -186,7 +186,7 @@ module.exports = {
 
 # 部署智能合约
 
-正如你可能已经注意到的，先前的命令创建了两个与迁移相关的文件，`Migrations.sol`和`1_initial_migration.js`。`Migrations.sol`存储了对应于最后一个应用的“迁移”脚本的编号。当你添加一个新的合约并部署合约时，存储中的最后一个部署编号将增加。合约运行一次后，就不会再次运行。编号的约定是`x_script_name.js`，x从1开始，即`1_initial_migration.js`。你的新合约通常会在以`2_...`开始的脚本中。
+正如你可能已经注意到的，先前的命令创建了两个与迁移相关的文件，`Migrations.sol`和`1_initial_migration.js`。`Migrations.sol`存储了对应于最后一个应用的“迁移”脚本的编号。当你添加一个新的合约并部署合约时，存储中的最后一个部署编号将增加。合约运行一次后，就不会再次运行。编号的约定是`x_script_name.js`，x 从 1 开始，即`1_initial_migration.js`。你的新合约通常会在以`2_...`开始的脚本中。
 
 在我们的情况下，我们将添加一个新的迁移合约以部署`CrowdFunding`。让我们创建一个名为`2_deploy_contracts.js`的文件。
 
@@ -197,9 +197,9 @@ constructor (address _owner, uint _minimumToRaise, uint _durationProjects,
         string _name, string _website)
 ```
 
-要部署合约，可以调用truffle deploy函数，带有可选的构造函数参数，`deployer.deploy(contract, args..., options)`。
+要部署合约，可以调用 truffle deploy 函数，带有可选的构造函数参数，`deployer.deploy(contract, args..., options)`。
 
-我们将使用由Ganache提供的第一个账户作为所有者账户，如下所示：
+我们将使用由 Ganache 提供的第一个账户作为所有者账户，如下所示：
 
 ```
 var CrowdFunding = artifacts.require("./CrowdFunding.sol");
@@ -219,7 +219,7 @@ truffle migrate
 
 ![](img/87d851ff-c01e-4287-bca1-6bd92a713958.png)
 
-这样可以在本地Ganache区块链环境中部署我们的众筹智能合约。
+这样可以在本地 Ganache 区块链环境中部署我们的众筹智能合约。
 
 要启动本地节点服务器，请运行以下命令，这将在我们的浏览器中打开宠物商店页面：
 
@@ -229,7 +229,7 @@ npm run dev
 
 # 编写众筹去中心化应用
 
-我们刚刚在我们的本地 Ganache 区块链环境上部署了我们的智能合约。现在，我们将开始编写 UI 代码，通过 RPC 调用触发智能合约函数。本章的源代码可在 [https://bit.ly/2X8xPBL](https://bit.ly/2X8xPBL) 上找到。
+我们刚刚在我们的本地 Ganache 区块链环境上部署了我们的智能合约。现在，我们将开始编写 UI 代码，通过 RPC 调用触发智能合约函数。本章的源代码可在 [`bit.ly/2X8xPBL`](https://bit.ly/2X8xPBL) 上找到。
 
 # 选择一个 web3 提供程序
 

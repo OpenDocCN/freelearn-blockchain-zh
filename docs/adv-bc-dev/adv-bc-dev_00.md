@@ -14,57 +14,57 @@
 
 # 本书内容
 
-[第一章](76e4e401-30ba-44f9-832f-333ba6c12cbc.xhtml)《区块链 101》介绍了基于分布式计算的基本概念，这是区块链技术的基础。它还涵盖了区块链的历史、定义、特征、类型和好处，以及构成区块链技术核心的各种共识机制。
+第一章《区块链 101》介绍了基于分布式计算的基本概念，这是区块链技术的基础。它还涵盖了区块链的历史、定义、特征、类型和好处，以及构成区块链技术核心的各种共识机制。
 
-[第二章](8e160c7c-4db4-42ce-8f49-84540a749ac9.xhtml)《去中心化》介绍了去中心化的概念及其与区块链技术的关系。还介绍了可以用于去中心化进程或系统的各种方法和平台。
+第二章《去中心化》介绍了去中心化的概念及其与区块链技术的关系。还介绍了可以用于去中心化进程或系统的各种方法和平台。
 
-[第三章](aa6e777a-a4d3-435e-a965-1ffc31cce569.xhtml)《了解以太坊的工作原理》解释了以太坊的工作原理。
+第三章《了解以太坊的工作原理》解释了以太坊的工作原理。
 
-[第四章](12eebfe5-f775-4550-a8df-d9578dd08980.xhtml)《智能合约》深入讨论了智能合约。本章介绍了智能合约的历史、定义、瑞卡迪安合约、Oracle 以及智能合约的理论方面。
+第四章《智能合约》深入讨论了智能合约。本章介绍了智能合约的历史、定义、瑞卡迪安合约、Oracle 以及智能合约的理论方面。
 
-[第 5 章](5e44a805-fb66-4135-b59e-4e03367aaed5.xhtml)，对称密码学，介绍了对称密码学的理论基础，这是理解各种安全服务如保密性和完整性是如何提供的必要基础。
+第五章，对称密码学，介绍了对称密码学的理论基础，这是理解各种安全服务如保密性和完整性是如何提供的必要基础。
 
-[第 6 章](c49f1747-2096-4ab6-a1e1-334e092ef2be.xhtml)，公钥密码学，介绍了公钥和私钥、数字签名和哈希函数等概念，并提供了实际示例。最后，还包括对金融市场的介绍，因为在金融领域有许多有趣的区块链技术用例。
+第六章，公钥密码学，介绍了公钥和私钥、数字签名和哈希函数等概念，并提供了实际示例。最后，还包括对金融市场的介绍，因为在金融领域有许多有趣的区块链技术用例。
 
-[第 7 章](6aa78900-b0c0-42f5-8640-ae201d68a76f.xhtml)，开始使用 web3.js，介绍了 web3js 以及如何导入和连接到 geth。它还解释了如何在 Node.js 或客户端 JavaScript 中使用它。
+第七章，开始使用 web3.js，介绍了 web3js 以及如何导入和连接到 geth。它还解释了如何在 Node.js 或客户端 JavaScript 中使用它。
 
-[第 8 章](0534fad3-2928-4d0f-8d31-8aabd658dadb.xhtml)，介绍比特币，涵盖了比特币，第一个也是最大的区块链。它详细介绍了与比特币加密货币相关的技术概念。
+第八章，介绍比特币，涵盖了比特币，第一个也是最大的区块链。它详细介绍了与比特币加密货币相关的技术概念。
 
-[第 9 章](5eb488e0-cefa-4c47-b876-b506c95adfd7.xhtml)，构建钱包服务，解释了如何构建一个用户可以轻松创建和管理以太坊钱包的钱包服务，即使是脱机也可以。我们将专门使用 LightWallet 库来实现这一点。
+第九章，构建钱包服务，解释了如何构建一个用户可以轻松创建和管理以太坊钱包的钱包服务，即使是脱机也可以。我们将专门使用 LightWallet 库来实现这一点。
 
-[第 10 章](1e7e53b5-c84c-4dd2-8c0b-3ee9cd6acf24.xhtml)，替代货币，介绍了比特币发明后引入的替代加密货币。它还介绍了不同的替代货币、它们的属性以及它们是如何开发和实施的。
+第十章，替代货币，介绍了比特币发明后引入的替代加密货币。它还介绍了不同的替代货币、它们的属性以及它们是如何开发和实施的。
 
-[第 11 章](d644c5a7-94a7-41a8-a82d-4007e07fd477.xhtml)，开发工具与框架，详细介绍了 Solidity 编程语言以及用于以太坊开发的不同相关工具和框架。
+第十一章，开发工具与框架，详细介绍了 Solidity 编程语言以及用于以太坊开发的不同相关工具和框架。
 
-[第 12 章](ceb1367c-09b3-44af-b930-387d0986413c.xhtml)，构建投注应用程序，解释了如何使用 Oraclize 从以太坊智能合约中进行 HTTP 请求，以访问来自万维网的数据。我们还将学习如何访问存储在 IPFS 中的文件，使用 strings 库处理字符串等。
+第十二章，构建投注应用程序，解释了如何使用 Oraclize 从以太坊智能合约中进行 HTTP 请求，以访问来自万维网的数据。我们还将学习如何访问存储在 IPFS 中的文件，使用 strings 库处理字符串等。
 
-[第 13 章](b4884f75-b110-4bb3-b30e-950551706409.xhtml)，超级账本，介绍了 Linux Foundation 的 Hyperledger 项目，该项目包括其成员介绍的不同区块链项目的讨论。
+第十三章，超级账本，介绍了 Linux Foundation 的 Hyperledger 项目，该项目包括其成员介绍的不同区块链项目的讨论。
 
-[第 14 章](16b335c4-50b3-4383-b081-c16c9a8ce457.xhtml)，替代区块链，介绍了替代区块链解决方案和平台。它提供了替代区块链和相关平台的技术细节和特点。
+第十四章，替代区块链，介绍了替代区块链解决方案和平台。它提供了替代区块链和相关平台的技术细节和特点。
 
-[第 15 章](c1f62d71-f914-4dcd-bcf8-63eeac798f6f.xhtml)，区块链 - 货币之外，提供了区块链技术在除加密货币之外的领域应用的实际和详细介绍，包括物联网、政府、媒体和金融。
+第十五章，区块链 - 货币之外，提供了区块链技术在除加密货币之外的领域应用的实际和详细介绍，包括物联网、政府、媒体和金融。
 
-[第16章](d0ef443d-d4b0-4afb-91f4-c5863ea1cf43.xhtml)，可扩展性及其他挑战，专门讨论了区块链技术面临的挑战以及如何解决这些挑战。
+第十六章，可扩展性及其他挑战，专门讨论了区块链技术面临的挑战以及如何解决这些挑战。
 
-[第17章](90243515-d303-492b-9aad-0df32d9c9486.xhtml)，构建共同体区块链，将讨论共同体区块链。
+第十七章，构建共同体区块链，将讨论共同体区块链。
 
-[第18章](326954fb-87ab-4604-84d0-0f4e8a5d1010.xhtml)，现状及展望，旨在提供与区块链技术相关的当前景观、项目和研究工作的信息。此外，还根据当前的区块链技术状况进行了一些预测。
+第十八章，现状及展望，旨在提供与区块链技术相关的当前景观、项目和研究工作的信息。此外，还根据当前的区块链技术状况进行了一些预测。
 
 # 要充分利用这本书
 
-您需要 Windows 7 SP1+、8、10 或 Mac OS X 10.8+，本书中的示例是在Ubuntu 16.04.1 LTS（Xenial）上开发的。
+您需要 Windows 7 SP1+、8、10 或 Mac OS X 10.8+，本书中的示例是在 Ubuntu 16.04.1 LTS（Xenial）上开发的。
 
-和 macOS 版本 10.13.2。因此，建议使用 Ubuntu 或任何其他类Unix系统。但是，也可以使用任何适合的操作系统，包括Windows或Linux，但是示例（尤其是与安装相关的示例）可能需要相应更改。
+和 macOS 版本 10.13.2。因此，建议使用 Ubuntu 或任何其他类 Unix 系统。但是，也可以使用任何适合的操作系统，包括 Windows 或 Linux，但是示例（尤其是与安装相关的示例）可能需要相应更改。
 
-与加密相关的示例是使用OpenSSL 1.0.2g 2016年3月1日的命令行工具开发的。
+与加密相关的示例是使用 OpenSSL 1.0.2g 2016 年 3 月 1 日的命令行工具开发的。
 
 以太坊 Solidity 示例是使用在线可用的 Remix IDE（https:/ / remix. ethereum. org）开发的。
 
-用于开发与以太坊相关示例的是Ethereum Byzantine版本。在撰写本文时，这是最新版本，并可从https:/ / www. ethereum. org/ 下载。
+用于开发与以太坊相关示例的是 Ethereum Byzantine 版本。在撰写本文时，这是最新版本，并可从 https:/ / www. ethereum. org/ 下载。
 
-与物联网相关的示例是使用Vilros的Raspberry Pi套件开发的，但可以使用适用的最新型号或套件。具体来说，Raspberry Pi 3 Model B V 1.2 用于构建IoT的硬件示例。Node.js V8.9.3 和 npm V5.5.1 用于下载相关软件包并运行IoT示例的Node js服务器。
+与物联网相关的示例是使用 Vilros 的 Raspberry Pi 套件开发的，但可以使用适用的最新型号或套件。具体来说，Raspberry Pi 3 Model B V 1.2 用于构建 IoT 的硬件示例。Node.js V8.9.3 和 npm V5.5.1 用于下载相关软件包并运行 IoT 示例的 Node js 服务器。
 
-在一些智能合约部署的示例中使用了Truffle框架，可在 http://truffleframework.com/ 找到。通过npm可使用最新版本。
+在一些智能合约部署的示例中使用了 Truffle 框架，可在 http://truffleframework.com/ 找到。通过 npm 可使用最新版本。
 
 # 下载示例代码文件
 
@@ -82,30 +82,30 @@
 
 下载文件后，请确保您使用最新版本的解压软件解压或提取文件夹：
 
-+   Windows 上的WinRAR/7-Zip
++   Windows 上的 WinRAR/7-Zip
 
 +   Mac 上的 Zipeg/iZip/UnRarX
 
 +   Linux 上的 7-Zip/PeaZip
 
-该书的代码包也托管在GitHub上：[https://github.com/TrainingByPackt/Advanced-Blockchain-Development](https://github.com/TrainingByPackt/Advanced-Blockchain-Development)。如果代码有更新，将在现有的GitHub存储库上更新。
+该书的代码包也托管在 GitHub 上：[`github.com/TrainingByPackt/Advanced-Blockchain-Development`](https://github.com/TrainingByPackt/Advanced-Blockchain-Development)。如果代码有更新，将在现有的 GitHub 存储库上更新。
 
-我们还有其他代码包，来自我们丰富的图书和视频目录，可以在**[https://github.com/PacktPublishing/](https://github.com/PacktPublishing/)**上找到。来看看吧！
+我们还有其他代码包，来自我们丰富的图书和视频目录，可以在**[`github.com/PacktPublishing/`](https://github.com/PacktPublishing/)**上找到。来看看吧！
 
 # 下载本书的彩色图片
 
-我们还为您提供了一个PDF文件，其中包含本书中使用的截图/图表的彩色图片。彩色图片将帮助您更好地理解输出的变化。您可以从[https://www.packtpub.com/sites/default/files/downloads/9781838823191_ColorImages.pdf](https://www.packtpub.com/sites/default/files/downloads/9781838823191_ColorImages.pdf)下载该文件。
+我们还为您提供了一个 PDF 文件，其中包含本书中使用的截图/图表的彩色图片。彩色图片将帮助您更好地理解输出的变化。您可以从[`www.packtpub.com/sites/default/files/downloads/9781838823191_ColorImages.pdf`](https://www.packtpub.com/sites/default/files/downloads/9781838823191_ColorImages.pdf)下载该文件。
 
 # 使用的约定
 
 整本书中使用了许多文本约定。
 
-`CodeInText`：指示文本中的代码词、数据库表名、文件夹名、文件名、文件扩展名、路径名、虚拟URL、用户输入和Twitter用户名。以下是一个示例："`input()`方法用于从用户获取输入。"
+`CodeInText`：指示文本中的代码词、数据库表名、文件夹名、文件名、文件扩展名、路径名、虚拟 URL、用户输入和 Twitter 用户名。以下是一个示例："`input()`方法用于从用户获取输入。"
 
 代码块设置如下：
 
 ```
-pragma solidity ^0.4.0;
+pragma solidity ⁰.4.0;
 contract TestStruct {
   struct Trade
   {

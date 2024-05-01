@@ -32,7 +32,7 @@
 
 `solcjs` 是一个用于编译 solidity 文件的 Node.js 库和命令行工具。它不使用 solc 命令行编译器；相反，它纯粹使用 JavaScript 进行编译，因此比 solc 更容易安装。
 
-Solc 是实际的 Solidity 编译器。Solc 是用 C++ 编写的。这个 C++ 代码使用 emscripten 编译成 JavaScript。每个 solc 版本都被编译成 JavaScript。在 [https://github.com/ethereum/solc-bin/tree/gh-pages/bin](https://github.com/ethereum/solc-bin/tree/gh-pages/bin)，你可以找到每个 solidity 版本的基于 JavaScript 的编译器。`solcjs`只是使用这些基于 JavaScript 的编译器之一来编译 solidity 源代码。这些基于 JavaScript 的编译器可以在浏览器和 Node.js 环境中运行。
+Solc 是实际的 Solidity 编译器。Solc 是用 C++ 编写的。这个 C++ 代码使用 emscripten 编译成 JavaScript。每个 solc 版本都被编译成 JavaScript。在 [`github.com/ethereum/solc-bin/tree/gh-pages/bin`](https://github.com/ethereum/solc-bin/tree/gh-pages/bin)，你可以找到每个 solidity 版本的基于 JavaScript 的编译器。`solcjs`只是使用这些基于 JavaScript 的编译器之一来编译 solidity 源代码。这些基于 JavaScript 的编译器可以在浏览器和 Node.js 环境中运行。
 
 浏览器 Solidity 使用这些基于 JavaScript 的编译器来编译 Solidity 源代码。
 
@@ -45,20 +45,20 @@ Solc 是实际的 Solidity 编译器。Solc 是用 C++ 编写的。这个 C++ �
 
 ```
 
-现在，请继续运行此命令以查看如何使用命令行编译器编译Solidity文件：
+现在，请继续运行此命令以查看如何使用命令行编译器编译 Solidity 文件：
 
 ```
     solcjs -help
 
 ```
 
-我们不会探索solcjs命令行工具；而是学习如何使用solcjs API来编译Solidity文件。
+我们不会探索 solcjs 命令行工具；而是学习如何使用 solcjs API 来编译 Solidity 文件。
 
-默认情况下，solcjs将使用匹配其版本的编译器版本。例如，如果您安装了solcjs版本0.4.8，则默认情况下将使用0.4.8编译器版本进行编译。solcjs还可以配置为使用其他编译器版本。在撰写本文时，solcjs的最新版本是0.4.8。
+默认情况下，solcjs 将使用匹配其版本的编译器版本。例如，如果您安装了 solcjs 版本 0.4.8，则默认情况下将使用 0.4.8 编译器版本进行编译。solcjs 还可以配置为使用其他编译器版本。在撰写本文时，solcjs 的最新版本是 0.4.8。
 
 # solcjs API
 
-solcjs提供了一个`compiler`方法，用于编译Solidity代码。该方法可以根据源代码是否有任何导入来以两种不同的方式使用。如果源代码没有任何导入，则它需要两个参数；即，第一个参数是Solidity源代码作为字符串，第二个参数是一个布尔值，表示是否优化字节码。如果源字符串包含多个合约，则它会将它们全部编译。
+solcjs 提供了一个`compiler`方法，用于编译 Solidity 代码。该方法可以根据源代码是否有任何导入来以两种不同的方式使用。如果源代码没有任何导入，则它需要两个参数；即，第一个参数是 Solidity 源代码作为字符串，第二个参数是一个布尔值，表示是否优化字节码。如果源字符串包含多个合约，则它会将它们全部编译。
 
 这里有一个示例来演示这一点：
 
@@ -109,11 +109,11 @@ for (var contractName in output.contracts)
 
 # 使用不同的编译器版本
 
-要使用不同版本的Solidity编译合约，您需要使用`useVersion`方法获取不同编译器的引用。`useVersion`接受一个字符串，指示保存编译器的JavaScript文件名，并在`/node_modules/solc/bin`目录中查找该文件。
+要使用不同版本的 Solidity 编译合约，您需要使用`useVersion`方法获取不同编译器的引用。`useVersion`接受一个字符串，指示保存编译器的 JavaScript 文件名，并在`/node_modules/solc/bin`目录中查找该文件。
 
-solcjs还提供了另一个方法称为`loadRemoteVersion`，它接受与`solc-bin`存储库的`solc-bin/bin`目录中的文件名匹配的编译器文件名，并下载并使用它。
+solcjs 还提供了另一个方法称为`loadRemoteVersion`，它接受与`solc-bin`存储库的`solc-bin/bin`目录中的文件名匹配的编译器文件名，并下载并使用它。
 
-最后，solcjs还提供了另一个方法称为`setupMethods`，它类似于`useVersion`但可以从任何目录加载编译器。
+最后，solcjs 还提供了另一个方法称为`setupMethods`，它类似于`useVersion`但可以从任何目录加载编译器。
 
 这里有一个示例来演示所有三种方法：
 
@@ -143,7 +143,7 @@ solc.loadRemoteVersion('latest', function(err, latestVersion) {
 
 ```
 
-要运行上述代码，您首先需要从`solc-bin`存储库下载`v0.4.7.commit.822622cf.js`文件，并将其放置在`node_modules/solc/bin`目录中。然后，您需要下载Solidity版本0.4.8的编译器文件，并将其放置在文件系统的某个位置，并将路径指向`setupMethods`调用中的该目录。
+要运行上述代码，您首先需要从`solc-bin`存储库下载`v0.4.7.commit.822622cf.js`文件，并将其放置在`node_modules/solc/bin`目录中。然后，您需要下载 Solidity 版本 0.4.8 的编译器文件，并将其放置在文件系统的某个位置，并将路径指向`setupMethods`调用中的该目录。
 
 # 链接库
 
@@ -181,7 +181,7 @@ var outputABI = abi.update("0.3.6", inputABI)
 
 ```
 
-这里，0.3.6表示 ABI 是使用 0.3.6 版本的编译器生成的。由于我们使用的是 solcjs 版本 0.4.8，因此 ABI 将被更新以匹配由 0.4.8 编译器版本生成的 ABI，而不是更新到更高版本。
+这里，0.3.6 表示 ABI 是使用 0.3.6 版本的编译器生成的。由于我们使用的是 solcjs 版本 0.4.8，因此 ABI 将被更新以匹配由 0.4.8 编译器版本生成的 ABI，而不是更新到更高版本。
 
 上述代码的输出将如下所示：
 
@@ -395,27 +395,27 @@ app.get("/deploy", function(req, res){
 
 1.  首先，Web 导入 `web3.js`、`BigNumber.js`、`ethereumjs-util` 和 `ethereumjs-tx` 库。然后，我们创建了 `Web3` 的实例。
 
-1.  然后，我们定义一个名为`etherInSpentPendingTransactions`的函数，它计算地址的待处理交易中所花费的总以太币。由于`web3.js`不提供与事务池相关的JavaScript API，我们使用`web3.currentProvider.sendAsync`来做一个原始的JSON-RPC调用。`sendAsync`用于异步进行原始的JSON-RPC调用。如果你想以同步的方式进行此调用，那么请使用`send`方法而不是`sendAsync`。在计算地址的待处理事务中的总以太币时，我们寻找事务池中的待处理事务而不是待处理区块，因为前面我们讨论的问题。在计算总以太币时，我们将每个交易的值和gas添加，因为gas也会减少以太币余额。
+1.  然后，我们定义一个名为`etherInSpentPendingTransactions`的函数，它计算地址的待处理交易中所花费的总以太币。由于`web3.js`不提供与事务池相关的 JavaScript API，我们使用`web3.currentProvider.sendAsync`来做一个原始的 JSON-RPC 调用。`sendAsync`用于异步进行原始的 JSON-RPC 调用。如果你想以同步的方式进行此调用，那么请使用`send`方法而不是`sendAsync`。在计算地址的待处理事务中的总以太币时，我们寻找事务池中的待处理事务而不是待处理区块，因为前面我们讨论的问题。在计算总以太币时，我们将每个交易的值和 gas 添加，因为 gas 也会减少以太币余额。
 
-1.  接下来，我们定义一个名为`getNonce`的函数，使用我们之前讨论的技术来检索地址的nonce。它只是将已挖掘交易的总数加上待处理交易的总数。
+1.  接下来，我们定义一个名为`getNonce`的函数，使用我们之前讨论的技术来检索地址的 nonce。它只是将已挖掘交易的总数加上待处理交易的总数。
 
 1.  最后，我们声明了`/deploy`端点。首先，我们编译合同。然后，我们只部署第一个合同。如果在提供的源代码中发现了多个合同，我们的平台设计为只部署第一个合同。你可以稍后增强应用程序来部署所有已编译的合同，而不仅仅是第一个合同。然后，我们使用`web3.eth.contract`创建一个合同对象。
 
-1.  由于我们没有使用 hooked-web3-provider 或任何拦截 `sendTransactions` 并将其转换为 `sendRawTransaction` 调用的方法，在部署合同时，我们现在需要生成交易数据部分，其中将合同字节码和构造函数参数组合并编码为十六进制字符串。实际上，合同对象让我们生成交易的数据。这可以通过调用具有函数参数的 `getData` 方法来完成。如果你想要获取部署合同的数据，然后调用 `contract.new.getData`，如果你想调用合同的一个函数，那么调用 `contract.functionName.getData`。在这两种情况下，提供参数给 `getData` 方法。因此，要生成交易的数据，你只需要合同的 ABI。要了解如何组合和编码函数名称和参数以生成数据，你可以查看[https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI＃examples](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI＃examples)，但如果你有合同的 ABI 或知道如何手动创建 ABI，则这将不需要。
+1.  由于我们没有使用 hooked-web3-provider 或任何拦截 `sendTransactions` 并将其转换为 `sendRawTransaction` 调用的方法，在部署合同时，我们现在需要生成交易数据部分，其中将合同字节码和构造函数参数组合并编码为十六进制字符串。实际上，合同对象让我们生成交易的数据。这可以通过调用具有函数参数的 `getData` 方法来完成。如果你想要获取部署合同的数据，然后调用 `contract.new.getData`，如果你想调用合同的一个函数，那么调用 `contract.functionName.getData`。在这两种情况下，提供参数给 `getData` 方法。因此，要生成交易的数据，你只需要合同的 ABI。要了解如何组合和编码函数名称和参数以生成数据，你可以查看[`github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI＃examples`](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI＃examples)，但如果你有合同的 ABI 或知道如何手动创建 ABI，则这将不需要。
 
-1.  然后，我们使用`web3.eth.estimateGas`来计算部署合同所需的gas量。
+1.  然后，我们使用`web3.eth.estimateGas`来计算部署合同所需的 gas 量。
 
-1.  稍后，我们检查地址是否有足够的以太来支付部署合约所需的gas。我们通过检索地址的余额并将其减去在未决交易中花费的余额来找到这一点，然后检查剩余余额是否大于或等于所需gas的以太数量。
+1.  稍后，我们检查地址是否有足够的以太来支付部署合约所需的 gas。我们通过检索地址的余额并将其减去在未决交易中花费的余额来找到这一点，然后检查剩余余额是否大于或等于所需 gas 的以太数量。
 
-1.  最后，我们获取nonce，签名并广播交易。我们简单地将交易哈希返回给前端。
+1.  最后，我们获取 nonce，签名并广播交易。我们简单地将交易哈希返回给前端。
 
 # 构建前端
 
-现在让我们构建应用程序的前端。我们的前端将包含一个编辑器，用户使用该编辑器编写代码。当用户单击编译按钮时，我们将动态显示输入框，每个输入框将表示一个构造函数参数。当单击部署按钮时，将从这些输入框中获取构造函数参数值。用户将需要在这些输入框中输入JSON字符串。
+现在让我们构建应用程序的前端。我们的前端将包含一个编辑器，用户使用该编辑器编写代码。当用户单击编译按钮时，我们将动态显示输入框，每个输入框将表示一个构造函数参数。当单击部署按钮时，将从这些输入框中获取构造函数参数值。用户将需要在这些输入框中输入 JSON 字符串。
 
-我们将使用codemirror库来集成编辑器到我们的前端。要了解更多关于如何使用codemirror的信息，请参考[http://codemirror.net/](http://codemirror.net/)。
+我们将使用 codemirror 库来集成编辑器到我们的前端。要了解更多关于如何使用 codemirror 的信息，请参考[`codemirror.net/`](http://codemirror.net/)。
 
-这是我们应用程序的前端HTML代码。将此代码放入`index.html`文件中：
+这是我们应用程序的前端 HTML 代码。将此代码放入`index.html`文件中：
 
 ```
 <!DOCTYPE html> 
@@ -469,9 +469,9 @@ app.get("/deploy", function(req, res){
 
 ```
 
-在这里，您可以看到我们有一个`textarea`。`textarea`标签将保存用户在codemirror编辑器中输入的内容。前面代码中的其他内容都是不言自明的。
+在这里，您可以看到我们有一个`textarea`。`textarea`标签将保存用户在 codemirror 编辑器中输入的内容。前面代码中的其他内容都是不言自明的。
 
-这是完整的前端JavaScript代码。将此代码放入`main.js`文件中：
+这是完整的前端 JavaScript 代码。将此代码放入`main.js`文件中：
 
 ```
 var editor = CodeMirror.fromTextArea(document.getElementById("editor"), { 
@@ -580,7 +580,7 @@ document.getElementById("deploy").addEventListener("click", function(){
 
 1.  首先，我们将代码编辑器添加到网页中。代码编辑器将显示在`textarea`的位置，而`textarea`将被隐藏。
 
-1.  然后我们有编译按钮的点击事件处理程序。在其中，我们保存编辑器，将编辑器的内容复制到`textarea`中。当单击编译按钮时，我们向`/compile`路径发出请求，一旦获得结果，我们解析它并显示输入框，以便用户可以输入构造函数参数。在这里，我们只读取第一个合约的构造函数参数。但是，如果有多个合约，则可以增强UI以显示所有合约的构造函数的输入框。
+1.  然后我们有编译按钮的点击事件处理程序。在其中，我们保存编辑器，将编辑器的内容复制到`textarea`中。当单击编译按钮时，我们向`/compile`路径发出请求，一旦获得结果，我们解析它并显示输入框，以便用户可以输入构造函数参数。在这里，我们只读取第一个合约的构造函数参数。但是，如果有多个合约，则可以增强 UI 以显示所有合约的构造函数的输入框。
 
 1.  最后，我们有部署按钮的点击事件处理程序。在这里，我们读取构造函数参数的值，解析并将它们放入一个数组中。然后，我们通过传递地址、密钥、代码和参数值向`/deploy`端点添加一个请求。如果有错误，则我们在弹出窗口中显示错误；否则，我们在弹出窗口中显示交易哈希。
 
@@ -590,7 +590,7 @@ document.getElementById("deploy").addEventListener("click", function(){
 
 ![](img/image_06_001.png)
 
-现在输入一些Solidity合约代码并按编译按钮。然后，您将能够看到新的输入框出现在右侧。例如，看一下以下截图：
+现在输入一些 Solidity 合约代码并按编译按钮。然后，您将能够看到新的输入框出现在右侧。例如，看一下以下截图：
 
 ![](img/image_06_002.png)
 
@@ -600,6 +600,6 @@ document.getElementById("deploy").addEventListener("click", function(){
 
 # 总结
 
-在本章中，我们学习了如何使用交易池API，如何计算正确的nonce，计算可支出的余额，生成交易的数据，编译合约等等。然后我们构建了一个完整的合同编译和部署平台。现在你可以继续增强我们构建的应用程序，部署编辑器中找到的所有合同，处理导入，添加库等等。
+在本章中，我们学习了如何使用交易池 API，如何计算正确的 nonce，计算可支出的余额，生成交易的数据，编译合约等等。然后我们构建了一个完整的合同编译和部署平台。现在你可以继续增强我们构建的应用程序，部署编辑器中找到的所有合同，处理导入，添加库等等。
 
-在下一章中，我们将通过构建一个去中心化的赌博应用程序来学习Oraclize。
+在下一章中，我们将通过构建一个去中心化的赌博应用程序来学习 Oraclize。
