@@ -844,12 +844,15 @@
   id: totrans-112
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger V1 中的共识是作为一个称为**订购者**的节点实现的，负责将交易按顺序组成一个区块。订购者不持有智能合约或账本。共识是可插拔的，目前
+    Hyperledger Fabric 中有两种类型的排序服务可用：
 - en: '**SOLO**: This is a basic ordering service intended to be used for development
     and testing purposes.'
   id: totrans-113
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**SOLO**：这是一个基本的排序服务，用于开发和测试目的。'
 - en: '**Kafka**: This is an implementation of Apache Kafka, which provides ordering
     service. It should be noted that currently Kafka only provides crash fault tolerance
     but does not provide byzantine fault tolerance. This is acceptable in a permissioned
@@ -858,17 +861,20 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Kafka**：这是 Apache Kafka 的一种实现，提供排序服务。需要注意的是，目前 Kafka 只提供了崩溃容错性，但并没有提供拜占庭容错性。这在准许网络中是可以接受的，因为恶意行为的可能性几乎为零。'
 - en: In addition to these mechanisms, the **Simple Byzantine Fault Tolerance** (**SBFT**)
     based mechanism is also under development, which will become available in the
     later releases of Hyperledger Fabric.
   id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 除了这些机制之外，基于**简单拜占庭容错**（**SBFT**）的机制也正在开发中，将在后续版本的 Hyperledger Fabric 中提供。
 - en: Distributed ledger
   id: totrans-116
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 分布式账本
 - en: Blockchain and world state are two main elements of the distributed ledger.
     Blockchain is simply a cryptographically linked list of blocks (as introduced
     in [Chapter 1](76e4e401-30ba-44f9-832f-333ba6c12cbc.xhtml), *Blockchain 101*)
@@ -881,29 +887,37 @@
   id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链和世界状态是分布式账本的两个主要元素。区块链简单来说是一个由区块构成的加密链接列表（如[第一章](76e4e401-30ba-44f9-832f-333ba6c12cbc.xhtml)介绍的，*区块链
+    101*），而世界状态是一个键值数据库。这个数据库被智能合约用来在执行过程中存储相关状态。区块链由包含交易的区块组成。这些交易包含链码，运行这些交易可以导致更新世界状态。每个节点将世界状态保存在硬盘上，使用的是
+    LevelDB 或 CouchDB，具体取决于实现。由于 Fabric 允许可插拔的数据存储，你可以选择任何数据存储方式进行存储。
 - en: A block consists of three main components called Block header, Transactions
     (Data) and block metadata.
   id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块由三个主要组件组成，称为区块头、交易（数据）和区块元数据。
 - en: 'The following diagram shows a typical block in the Hyperledger Fabric 1.0 with
     the relevant fields:'
   id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下图示展示了 Hyperledger Fabric 1.0 中典型区块的相关字段：
 - en: '![](img/3ed05257-7915-4eeb-a12f-b59d391c7754.png)'
   id: totrans-120
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3ed05257-7915-4eeb-a12f-b59d391c7754.png)'
 - en: Block structure
   id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块结构
 - en: '**Block Header** consists of three fields, namely Number, Previous hash, and
     Data hash.'
   id: totrans-122
   prefs: []
   type: TYPE_NORMAL
+  zh: '**区块头** 包括三个字段，即编号、前一个哈希和数据哈希。'
 - en: '**Transaction** is made up of multiple fields such as transaction type, version,
     timestamp, channel ID, transaction ID, epoch, payload visibility, chaincode path,
     chaincode name, chaincode version, creator identity, signature, chaincode type,
@@ -913,22 +927,27 @@
   id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: '**交易** 由多个字段组成，例如交易类型、版本、时间戳、通道 ID、交易 ID、时代、有效载荷可见性、链码路径、链码名称、链码版本、创建者身份、签名、链码类型、输入、超时、背书者身份和签名、建议哈希、链码事件、响应状态、命名空间、读集、写集、起始键、结束键、读取列表和
+    Merkle 树查询摘要。'
 - en: '**Block Metadata** consists of creator identity, relevant signatures, last
     configuration block number, flag for each transaction included in the block, and
     last offset persisted (kafka).'
   id: totrans-124
   prefs: []
   type: TYPE_NORMAL
+  zh: '**区块元数据** 包括创建者身份、相关签名、最后配置区块编号、每个包含在区块中的交易的标志，以及最后持久化的偏移量（kafka）。'
 - en: The peer to peer protocol
   id: totrans-125
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 点对点协议
 - en: The P2P protocol in the Hyperledger Fabric is built using **google RPC** (**gRPC**).
     It uses protocol buffers to define the structure of the messages.
   id: totrans-126
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric 中的 P2P 协议是使用 **Google RPC**（**gRPC**）构建的。它使用协议缓冲区来定义消息的结构。
 - en: 'Messages are passed between nodes in order to perform various functions. There
     are four main types of messages in Hyperledger Fabric: **discovery**, **transaction**,
     **synchronization**, and **consensus**. Discovery messages are exchanged between
@@ -1189,41 +1208,49 @@
   id: totrans-162
   prefs: []
   type: TYPE_NORMAL
+  zh: 顾名思义，这是一个提供加密算法和标准以供区块链网络使用的服务。此服务提供密钥管理、签名和验证操作以及加密解密机制。此服务与成员服务一起使用，为区块链的元素（如认可者、客户端和其他节点和对等体）提供加密操作支持。
 - en: After this introduction to this component of Hyperledger Fabric, in the next
     section, we will see what an application looks like when on a Hyperledger network.
   id: totrans-163
   prefs: []
   type: TYPE_NORMAL
+  zh: 在介绍了 Hyperledger Fabric 的这个组件之后，在下一节中，我们将看到在 Hyperledger 网络上运行的应用程序是什么样子的。
 - en: Applications on blockchain
   id: totrans-164
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链上的应用程序
 - en: 'A typical application on Fabric is simply composed of a user interface, usually
     written in JavaScript/HTML, that interacts with the backend chaincode (smart contract)
     stored on the ledger via an API layer:'
   id: totrans-165
   prefs: []
   type: TYPE_NORMAL
+  zh: Fabric 上的典型应用程序通常仅由一个用户界面组成，通常使用 JavaScript/HTML 编写，该用户界面通过 API 层与存储在账本上的后端链码（智能合约）进行交互：
 - en: '![](img/13ff6419-cbdc-45f7-b5bc-2afcbbd63f75.png)'
   id: totrans-166
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/13ff6419-cbdc-45f7-b5bc-2afcbbd63f75.png)'
 - en: A typical Fabric application
   id: totrans-167
   prefs: []
   type: TYPE_NORMAL
+  zh: 典型的 Fabric 应用程序
 - en: Hyperledger provides various APIs and command-line interfaces to enable interaction
     with the ledger. These APIs include interfaces for identity, transactions, chaincode,
     ledger, network, storage, and events.
   id: totrans-168
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger 提供了各种 API 和命令行接口，以实现与账本的交互。这些 API 包括身份、交易、链码、账本、网络、存储和事件接口。
 - en: Chaincode implementation
   id: totrans-169
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 链码实现
 - en: Chaincode is usually written in Golang or Java. Chaincode can be public (visible
     to all on the network), confidential, or access controlled. These code files serve
     as a smart contract that users can interact with via APIs. Users can call functions
@@ -1231,6 +1258,8 @@
   id: totrans-170
   prefs: []
   type: TYPE_NORMAL
+  zh: 链码通常是用 Golang 或 Java 编写的。链码可以是公共的（在网络上对所有人可见）、机密的或受访控制的。这些代码文件充当了用户可以通过 API
+    与之交互的智能合约。用户可以调用链码中的函数来导致状态更改，从而更新账本。
 - en: There are also functions that are only used to query the ledger and do not result
     in any state change. Chaincode implementation is performed by first creating the
     chaincode shim interface in the code. Shim provides APIs for accessing state variables
@@ -1238,10 +1267,13 @@
   id: totrans-171
   prefs: []
   type: TYPE_NORMAL
+  zh: 还有一些仅用于查询账本且不会导致任何状态更改的函数。链码实现是通过首先在代码中创建链码 shim 接口来完成的。Shim 提供了用于访问链码的状态变量和事务上下文的
+    API。它可以是 Java 或 Golang 代码。
 - en: 'The following four functions are required in order to implement the chaincode:'
   id: totrans-172
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了实现链码，需要以下四个函数：
 - en: '`Init()`: This function is invoked when chaincode is deployed onto the ledger.
     This initializes the chaincode and results in making a state change, which accordingly
     updates the ledger.'
@@ -1249,6 +1281,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`Init()`: 当链码部署到账本上时，将调用此函数。这会初始化链码并导致状态更改，相应地更新账本。'
 - en: '`Invoke()`: This function is used when contracts are executed. It takes a function
     name as parameters along with an array of arguments. This function results in
     a state change and writes to the ledger.'
@@ -1256,32 +1289,38 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`Invoke()`: 当执行合约时使用此函数。它将一个函数名称和参数数组作为参数。此函数会导致状态更改并写入账本。'
 - en: '`Query()`: This function is used to query the current state of a deployed chaincode.
     This function does not make any changes to the ledger.'
   id: totrans-175
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`Query()`: 此函数用于查询已部署链码的当前状态。此函数不会对账本进行任何更改。'
 - en: '`4()`**:** This function is executed when a peer deploys its own copy of the
     chaincode. The chaincode is registered with the peer using this function.'
   id: totrans-176
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`4()`**:** 当对等体部署自己的链码副本时执行此函数。使用此函数向对等体注册链码。'
 - en: The following diagram illustrates the general overview of Hyperledger Fabric,
     note that peers cluster at the top includes all types of nodes such as endorsers,
     committers, Orderers, and so on.
   id: totrans-177
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下图示了 Hyperledger Fabric 的一般概述，请注意，顶部的对等体集群包括各种类型的节点，如认可者、提交者、Orderers 等。
 - en: '![](img/502f40d5-83b4-4493-a8e9-6ce824b44ba8.png)'
   id: totrans-178
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/502f40d5-83b4-4493-a8e9-6ce824b44ba8.png)'
 - en: A high-level overview of Hyperledger Fabric
   id: totrans-179
   prefs: []
   type: TYPE_NORMAL
+  zh: Hyperledger Fabric 的高层概述
 - en: The preceding diagram shows that peers shown at the top middle communicate with
     each and each node has a copy of blockchain. On the top-right corner, the membership
     services are shown which validate and authenticate peers on the network by using
@@ -2300,6 +2339,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**附件**：这是附加的 ZIP 文件哈希列表。ZIP 文件可以包含与交易相关的代码和其他相关文档。文件本身不作为交易的一部分，而是单独传输和存储。'
 - en: '**Commands**: A command represents the information about the intended operation
     of the transaction as a parameter to the contract. Each command has a list of
     public keys, which represents all parties that are required to sign a transaction.'
@@ -2307,6 +2347,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**命令**：命令代表交易的预期操作信息，作为合同的参数。每个命令都有一个公钥列表，表示需要对交易进行签名的所有方。'
 - en: '**Signatures**: This represents the signature required by the transaction.
     The total number of signatures required is directly proportional to the number
     of public keys for commands.'
@@ -2314,12 +2355,14 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**签名**：这表示交易所需的签名。所需签名总数与命令的公钥数量成正比。'
 - en: '**Type**: There are two types of transactions namely, normal or notary changing.
     Notary changing transactions are used for reassigning a notary for a state.'
   id: totrans-332
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**类型**：交易有两种类型，即普通或变更公证。变更公证交易用于重新分配状态的公证。'
 - en: '**Timestamp**: This field represents a bracket of time during which the transaction
     has taken place. These are verified and enforced by notary services. Also, it
     is expected that if strict timings are required, which is desirable in many financial
@@ -2328,17 +2371,20 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**时间戳**：此字段表示交易发生的时间段。这些由公证服务进行验证和强制执行。此外，如果需要严格的时间，这在许多金融服务方案中是可取的，公证应与原子钟同步。'
 - en: '**Summaries:** This is a text description that describes the operations of
     the transaction.'
   id: totrans-334
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**摘要**：这是描述交易操作的文本描述。'
 - en: Vaults
   id: totrans-335
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 保险库
 - en: Vaults run on a node and are akin to the concept of wallets in bitcoin. As the
     transactions are not globally broadcasted, each node will have only that part
     of data in their vaults that is considered relevant to them. Vaults store their
@@ -2348,11 +2394,14 @@
   id: totrans-336
   prefs: []
   type: TYPE_NORMAL
+  zh: 保险库在节点上运行，类似于比特币中钱包的概念。由于交易不会全球广播，因此每个节点的保险库只会包含对他们而言相关的数据部分。保险库将其数据存储在标准关系数据库中，因此可以使用标准
+    SQL 进行查询。保险库可以包含在账本上和账本之外的数据，这意味着它也可以具有一些不在账本上的数据部分。
 - en: CorDapp
   id: totrans-337
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: CorDapp
 - en: The core model of Corda consists of state objects, transactions, and transaction
     protocols, which when combined with contract code, APIs, wallet plugins, and user
     interface components results in constructing a **Corda distributed application**
@@ -2360,50 +2409,60 @@
   id: totrans-338
   prefs: []
   type: TYPE_NORMAL
+  zh: Corda 的核心模型由状态对象、交易和交易协议组成，当与合同代码、API、钱包插件和用户界面组件结合使用时，结果是构建了一个**Corda 分布式应用程序**（**CorDapp**）。
 - en: Smart contracts in Corda are written using Kotlin or Java. The code is targeted
     for JVM.
   id: totrans-339
   prefs: []
   type: TYPE_NORMAL
+  zh: Corda 中的智能合约是使用 Kotlin 或 Java 编写的。代码面向 JVM。
 - en: 'JVM has been modified slightly in order to achieve deterministic results of
     execution of JVM bytecode. There are three main components in a Corda smart contract
     as follows:'
   id: totrans-340
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了实现 JVM 字节码执行结果的确定性，对 JVM 进行了轻微修改。 Corda 智能合约的三个主要组成部分如下：
 - en: Executable code that defines the validation logic to validate changes to the
     state objects.
   id: totrans-341
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 定义验证逻辑以验证对状态对象的更改的可执行代码。
 - en: State objects represent the current state of a contract and either can be consumed
     by a transaction or produced (created) by a transaction.
   id: totrans-342
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 状态对象表示合同的当前状态，可以由交易消耗，或者由交易生成（创建）。
 - en: Commands are used to describe the operational and verification data that defines
     how a transaction can be verified.
   id: totrans-343
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 命令用于描述操作和验证数据，以定义如何验证交易的方式。
 - en: The development environment – Corda
   id: totrans-344
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 开发环境 - Corda
 - en: 'The development environment for Corda can be set up easily using the following
     steps. Required software includes the following:'
   id: totrans-345
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用以下步骤可以轻松设置 Corda 的开发环境。所需软件包括以下内容：
 - en: JDK 8 (8u131), which is available at [http://www.oracle.com/technetwork/java/javase/downloads/index.html](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
   id: totrans-346
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: JDK 8（8u131），可在 [http://www.oracle.com/technetwork/java/javase/downloads/index.html](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+    获取。
 - en: IntelliJ IDEA Community edition, which is free and available at [https://www.jetbrains.com/idea/download](https://www.jetbrains.com/idea/download)[.](https://www.jetbrains.com/idea/download)
   id: totrans-347
   prefs:
