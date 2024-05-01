@@ -1,90 +1,131 @@
 - en: Day Two - Solidity Variables and Data Types
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 第二天 - Solidity 变量和数据类型
 - en: 'Welcome to day two of this book. In the previous chapter, we got our development
     environment set up and learned about the tools that we''re going to use in this
     course. In this chapter, we''re going to learn about variables in the Solidity
     programming language; we''ll cover what they are and how they''re used. The following
     topics are covered in this chapter:'
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 欢迎来到本书的第二天。在上一章中，我们设置了开发环境，并了解了本课程中要使用的工具。在本章中，我们将学习 Solidity 编程语言中的变量；我们将介绍它们是什么以及它们如何使用。本章涵盖以下主题：
 - en: Understanding Solidity variables
+  id: totrans-2
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 理解 Solidity 变量
 - en: Data types in Solidity
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Solidity 中的数据类型
 - en: Using Solidity variables
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用 Solidity 变量
 - en: Understanding Solidity operators
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 理解 Solidity 操作符
 - en: Using Solidity operators
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用 Solidity 操作符
 - en: Understanding Solidity variables
+  id: totrans-7
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 理解 Solidity 变量
 - en: If you're new to programming in general, this is a key concept to master. If
     you're an experienced programmer, there are still some valuable tips in this chapter,
     as we're going to cover some nuances specific to variables in Solidity.
+  id: totrans-8
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你是编程新手，这是一个需要掌握的关键概念。如果你是一位经验丰富的程序员，在本章中仍然有一些有价值的提示，因为我们将涵盖 Solidity 中变量特定的一些细微差别。
 - en: 'Solidity is a statically typed language; this means that, when variables are
     declared, you must state the type of variable that it is. Consider the following
     example:'
+  id: totrans-9
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 是一种静态类型语言；这意味着，在声明变量时，必须声明变量的类型。考虑以下示例：
 - en: '[PRE0]'
+  id: totrans-10
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: In the preceding example, we're declaring an unsigned integer (`uint`) as `foo`,
     and we set its visibility to `public`. We can optionally assign it a value, and
     then we end the statement with a semicolon.
+  id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 在上述示例中，我们声明了一个无符号整数 (`uint`) 作为 `foo`，并将其可见性设置为 `public`。我们可以选择为其分配一个值，然后以分号结束语句。
 - en: In JavaScript, you might see `foo` declared with `let`, or as a constant, and
     if you're looking at older JavaScript code prior to ECMAScript 2016, you may even
     see it declared as a variable.
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 JavaScript 中，你可能会看到 `foo` 用 `let` 声明，或者作为一个常量，如果你在查看 ECMAScript 2016 之前的旧
+    JavaScript 代码，甚至可能会看到它声明为一个变量。
 - en: In the next section, we're going to cover all the common types available in
     Solidity in detail, but for now, let's focus on what this visibility identifier
     means.
+  id: totrans-13
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一节中，我们将详细介绍 Solidity 中所有常见类型，但现在，让我们专注于这个可见性标识符的含义。
 - en: Understanding visibility
+  id: totrans-14
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 理解可见性
 - en: 'All state variables and Solidity must have their visibility declared, and therefore,
     we have several types of visibility:'
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 中的所有状态变量都必须声明其可见性，因此，我们有几种类型的可见性：
 - en: External
+  id: totrans-16
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 外部
 - en: Public
+  id: totrans-17
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 公共
 - en: Internal
+  id: totrans-18
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 内部
 - en: Private
+  id: totrans-19
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 私有
 - en: When visibility is declared as `external`, it means that the variable or function
     becomes part of the contract interface. This exposes the function or the variable,
     so that it can be called from other contracts and transactions. For example, if
@@ -92,164 +133,236 @@
     our game has won or lost the round, and we need to call that from a React application,
     we'll have to declare it as `external`, because, though our React application
     lives on our web server, our smart contract lives on the Ethereum network.
+  id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: 当可见性声明为 `external` 时，这意味着变量或函数成为合约接口的一部分。这暴露了函数或变量，以便可以从其他合约和交易中调用它们。例如，如果我们在智能合约中有一个函数，用于确定我们游戏的玩家是否赢了或输了一轮，并且我们需要从
+    React 应用程序中调用它，我们将不得不将其声明为 `external`，因为尽管我们的 React 应用程序位于我们的 Web 服务器上，但我们的智能合约位于以太坊网络上。
 - en: Similarly, state variables and functions with `public` visibility are part of
     the contract interface, and can be called from other contracts and transactions.
     They can't be called internally without using the keyword `this`, and an automatic
     getter function is created for all publicly declared variables.
+  id: totrans-21
   prefs: []
   type: TYPE_NORMAL
+  zh: 同样，具有 `public` 可见性的状态变量和函数是合约接口的一部分，可以从其他合约和交易中调用它们。它们无法在内部调用，而必须使用关键字 `this`，并且所有公开声明的变量都会自动生成一个自动获取器函数。
 - en: 'What does the statement *can''t be called internally without this* mean? Let''s
     use the following example:'
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: 语句 *can't be called internally without this* 是什么意思？让我们使用以下示例：
 - en: '[PRE1]'
+  id: totrans-23
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: If we have a function in our contract, `foo()` , that returns the string `Hello`,
     calling the `foo()` function directly from within that same contract is going
     to fail. If we want to call it, we need to call it as `this.foo()`. Internally
     declared variables and functions are only accessible internally, from the current
     contract and the contracts derived from it.
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果我们的合约中有一个名为 `foo()` 的函数，它返回字符串 `Hello`，那么直接从该合约中调用 `foo()` 函数将失败。如果我们想要调用它，我们需要以
+    `this.foo()` 的方式调用它。在内部声明的变量和函数只能在当前合约及其派生合约中访问。
 - en: In the same example, if we change the visibility of our `foo` function to `internal`,
     calling that function directly without the `this` keyword now works.
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 在同一个示例中，如果我们将 `foo` 函数的可见性更改为 `internal`，那么直接调用该函数而无需 `this` 关键字现在可以工作了。
 - en: Private functions are very similar to internal functions, they're available
     within the current contract, but they differ in the fact that they aren't available
     in contracts derived from that contract. It's really important to note, though,
     that this doesn't mean your code in `private` state variables and functions is
     private, it just means it can't be called.
+  id: totrans-26
   prefs: []
   type: TYPE_NORMAL
+  zh: 私有函数与内部函数非常相似，它们在当前合约内可用，但它们的不同之处在于它们在派生自该合约的合约中不可用。但需要注意的是，这并不意味着您在 `private`
+    状态变量和函数中的代码是私有的，这只是意味着它不能被调用。
 - en: Everything on the Ethereum blockchain is publicly viewable. To drive that point
     home, by using a tool such as Etherscan I can view the source code for a popular
     **decentralized application** (**dApp**) such as CryptoKitties and see all the
     source code, including the private functions and variables.
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊区块链上的所有内容都是公开可见的。为了强调这一点，通过使用诸如 Etherscan 这样的工具，我可以查看流行的**去中心化应用程序**（**dApp**）的源代码，例如
+    CryptoKitties，并查看所有源代码，包括私有函数和变量。
 - en: 'State variables declared as `public` will have a `getter` function automatically
     created. This is done as a time-saving feature. After all, as you''ve declared
     your variable as `public`, you probably have the expectation that your clients
     are going to need to access the value of that variable at some point. You don''t
     have to spend time and energy creating that function yourself, because the Solidity
     compiler is going to create one for you. Let''s consider the following example:'
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: 声明为 `public` 的状态变量将自动创建一个 `getter` 函数。这是一个节省时间的功能。毕竟，由于您将变量声明为 `public`，您可能期望您的客户在某个时候需要访问该变量的值。您不必花时间和精力来创建该函数，因为
+    Solidity 编译器会为您创建一个。让我们考虑以下示例：
 - en: '[PRE2]'
+  id: totrans-29
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: As seen in the preceding example, we have a contract named `A` that declares
     a `public` variable `foo`. This means that any transaction or contract can get
     the value of the `foo` variable by calling the `A.foo()` function. You'll notice
     that you didn't have to write any code for this to work, as the compiler just
     did it for you.
+  id: totrans-30
   prefs: []
   type: TYPE_NORMAL
+  zh: 如前例所示，我们有一个名为 `A` 的合约，声明了一个 `public` 变量 `foo`。这意味着任何交易或合约都可以通过调用 `A.foo()` 函数来获取
+    `foo` 变量的值。您会注意到，您不需要编写任何代码来使其工作，因为编译器已经为您完成了。
 - en: Now, we have learned that Solidity is a statically typed language, and we must
     declare the type of variable we are using when we declare it. With that in mind, let's
     jump into the next section, where we'll learn about the different data types available
     in Solidity and what they do.
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们已经了解到 Solidity 是一种静态类型语言，我们在声明变量时必须声明我们正在使用的变量类型。有了这个理解，让我们进入下一节，学习 Solidity
+    中可用的不同数据类型以及它们的作用。
 - en: Data types in Solidity
+  id: totrans-32
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Solidity 中的数据类型
 - en: 'Data types are broken up into two main categories in Solidity:'
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 中的数据类型分为两大类：
 - en: Value types
+  id: totrans-34
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 值类型
 - en: Reference types
+  id: totrans-35
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 引用类型
 - en: 'Value types are passed by value, which means that the value is always copied
     whenever one variable reference is the same as another. Meanwhile, reference types
     represent the more complex types that may not always fit into 256 bits. Since
     they''re larger in size, copying can sometimes be expensive, and we have two different
     locations available where we can store those: either memory or storage. Let''s
     cover value data types now.'
+  id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: 值类型是按值传递的，这意味着每当一个变量引用与另一个相同时，值总是被复制。与此同时，引用类型表示更复杂的类型，可能不总能适应 256 位。由于它们的大小较大，复制有时可能会很昂贵，我们有两个不同的位置可用于存储它们：内存或存储。现在让我们来讨论一下值数据类型。
 - en: Value types
+  id: totrans-37
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 值类型
 - en: The first value type we'll talk about is Boolean. It can have one of two values,
     either `true` or `false`. In Solidity, everything's initialized with a default
     value of 0 when created.
+  id: totrans-38
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将讨论的第一个值类型是布尔值。 它可以有两个值之一，要么是`true`，要么是`false`。 在 Solidity 中，当创建时，一切都会初始化为默认值0。
 - en: 'For Booleans, 0 translates to a default value of `false`. The operators available
     for Boolean are as follows:'
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于布尔值，0对应默认值`false`。 布尔值可用的运算符如下：
 - en: '**Logical negation**: This represents the opposite of any given value and is
     represented by the `!` sign. For example, `foo = !false`.'
+  id: totrans-40
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**逻辑否定**：表示给定值的相反，并由`!`符号表示。 例如，`foo = !false`。'
 - en: '**Logical conjunction**: This represents the logical outcome of two values
     and is represented using the `&&` sign. For example, `(foo && bar) > 1`.'
+  id: totrans-41
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**逻辑合取**：表示两个值的逻辑结果，并使用`&&`符号表示。 例如，`(foo && bar) > 1`。'
 - en: '**Logical disjunction**: This represents the outcome between two values using
     **or** and is represented using the `||` sign. For example, `(foo || bar) > 1`.'
+  id: totrans-42
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**逻辑析取**：表示两个值之间的结果使用**或**，并使用`||`符号表示。 例如，`(foo || bar) > 1`。'
 - en: '**Equality**: This is used to compare the variable to some fixed value and
     is represented using the `==` sign. For example, `foo_ == true`.'
+  id: totrans-43
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**相等性**：用于将变量与某个固定值进行比较，并使用`==`符号表示。 例如，`foo_ == true`。'
 - en: '**Inequality**: This is used to check whether the value of the variable is
     not equal to the specified value and this is represented using the `!=` sign.
     For example, `foo_!= true`.'
+  id: totrans-44
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**不等式**：用于检查变量的值是否不等于指定值，并使用`!=`符号表示。 例如，`foo_!= true`。'
 - en: 'The next value type is **integer**. Integers are whole numbers, meaning there
     are no decimal points, and they can be of two types:'
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 下一个值类型是**整数**。 整数是整数，意味着没有小数点，它们可以是两种类型：
 - en: Signed integers (`int`)
+  id: totrans-46
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 有符号整数（`int`）
 - en: Unsigned integers (`uint`)
+  id: totrans-47
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 无符号整数（`uint`）
 - en: You can declare the exact size of your integer in steps, from 8 up to 256\.
     So, the values can be declared as `uint8`, `uint16`, going all the way up to `uint256`.
     If you don't declare a size and just declare `int` or `uint`, it's an alias for
     `int256` and `uint256`. Also, it's important to know that with integers, division
     always truncates; so, the result of dividing two integers is always an integer.
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以分步声明整数的确切大小，从8到256。 因此，值可以声明为`uint8`、`uint16`，一直到`uint256`。 如果不声明大小，只声明`int`或`uint`，则它是`int256`和`uint256`的别名。
+    此外，重要的是要知道，使用整数，除法总是截断的； 因此，两个整数的除法结果始终是一个整数。
 - en: While all the previously data types are common to other programming languages,
     the **address** data type is unique to Solidity. It's a 20-byte value that's used
     to represent an address on the Ethereum network. The address can be a user's Ethereum
     account or a contract deployed to the network.
+  id: totrans-49
   prefs: []
   type: TYPE_NORMAL
+  zh: 尽管所有先前的数据类型都是其他编程语言共有的，但**地址**数据类型是 Solidity 独有的。 它是一个20字节的值，用于表示以太坊网络上的地址。
+    地址可以是用户的以太坊账户或部署到网络上的合约。
 - en: It has a `.balance()` member that can be called to check the balance associated
     with the account, and a `.transfer()` member that can be used to transfer funds
     to that address. There's also a `.send()` member, which is the low-level counterpart
     of the `.transfer()` member. If you use `.send()`, you must check the return value
     of the operation for success or failure, but if you're using `.transfer()`, the
     transfer member handles this for you automatically.
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: 它有一个`.balance()`成员，可用于检查与该账户关联的余额，以及一个`.transfer()`成员，可用于向该地址转账。 还有一个`.send()`成员，它是`.transfer()`成员的低级对应。
+    如果使用`.send()`，您必须检查操作的返回值以确定成功或失败，但如果您使用`.transfer()`，转账成员会自动处理这个问题。
 - en: The next value type is a **string**. A string is nothing but a block of text,
     but technically speaking, it's an array of bytes. This means you can do anything
     to a string that you could do to an array. When declaring them, you can use single
@@ -257,45 +370,64 @@
     *Day One* - *Application Introduction, Installation, and Setup*, double quotes
     are preferred. They're implicitly convertible to bytes. Also, string values support
     escape characters, such as the new line (`\n`) and tab characters (`\t`).
+  id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: 下一个值类型是**字符串**。 字符串只是一块文本，但从技术上讲，它是一个字节数组。 这意味着您可以对字符串执行与数组相同的操作。 在声明时，您可以使用单引号或双引号，但正如我们在[第1章](298174cd-47a3-4048-b977-943063eb6270.xhtml)中学到的那样，*第一天*
+    - *应用程序介绍、安装和设置*，双引号更受推荐。 它们可以隐式转换为字节。 此外，字符串值支持转义字符，例如换行（`\n`）和制表符（`\t`）。
 - en: We are now done with value types. Let's check out the reference types that Solidity
     has to offer.
+  id: totrans-52
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们完成了值类型。让我们来看看 Solidity 提供的引用类型。
 - en: Reference types
+  id: totrans-53
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 引用类型
 - en: 'The first one is an **array**. An array is a collection of data elements and
     it can be identified by their index number. They can be fixed in size or dynamic.
     To declare an array, you specify the data type the array is going to contain,
     followed by the variable name, and then square brackets, as seen in the following
     example:'
+  id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 第一个是一个**数组**。数组是一组数据元素，可以通过它们的索引号来识别。它们可以是固定大小的或动态的。要声明一个数组，您需要指定数组将包含的数据类型，然后是变量名称，然后是方括号，如下面的示例所示：
 - en: '[PRE3]'
+  id: totrans-55
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: If the array is declared as `public`, you'll get an automatic getter function.
     It differs from the example we saw in the previous section, in that the getter
     function needs to know which element of the array to return, and it won't return
     the entire array. So, the element or index number is a required parameter for
     this function.
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果数组声明为 `public`，您将获得一个自动 getter 函数。它与我们在上一节中看到的示例不同，因为 getter 函数需要知道要返回数组的哪个元素，并且它不会返回整个数组。因此，此函数需要元素或索引号作为参数。
 - en: It has a `.length()` member that will return the length of the array and a `.push()`
     member that's used to add new items to the end of the array.
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 它有一个 `.length()` 成员，将返回数组的长度，还有一个 `.push()` 成员，用于将新项目添加到数组的末尾。
 - en: 'The next data type is a **struct**. Structs provide a way to define new data
     types, but a struct can''t contain its own data type. You can''t define something
     that''s made up of the thing that you''re defining. Consider the following example:'
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来的数据类型是**结构体**。结构体提供了一种定义新数据类型的方法，但结构体不能包含自己的数据类型。您不能定义由您正在定义的东西组成的东西。考虑以下示例：
 - en: '[PRE4]'
+  id: totrans-59
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: The preceding example shows how to create a data type to hold information about
     each player in our game. We start by defining our data type as a `struct`, give
     it the name `Player`, and opening our curly braces. Inside, we define all the
@@ -304,8 +436,11 @@
     number of times they've lost) and then close our curly braces. Then, to create
     a new player for our game, we define a new variable of type `Player` and initialize
     the `Player` struct with the values that represent the new player.
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 上述示例展示了如何创建一个数据类型来保存我们游戏中每个玩家的信息。我们首先将数据类型定义为 `struct`，将其命名为 `Player`，并打开大括号。在里面，我们定义了所有我们存储在玩家身上的属性（例如玩家的以太坊地址、玩家的姓名、他们当前的余额、他们赢的次数以及他们输的次数），然后关闭大括号。然后，为了为我们的游戏创建一个新玩家，我们定义一个新的
+    `Player` 类型变量，并使用代表新玩家的值初始化 `Player` 结构。
 - en: 'The next one is a **mapping** key type. If you''ve worked with other programming
     languages, you may recognize mappings as being similar to a hash table. This data
     type is a mapping of a key type to a value type, and when it''s created, it''s
@@ -313,341 +448,480 @@
     a value whose byte representation is all zeros. If its visibility is set to public,
     Solidity will create an automatic getter. So, building on our previous example
     of a struct for our players, we can create a mapping of all players as follows:'
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来是**映射**键类型。如果您使用过其他编程语言，可能会认识到映射类似于哈希表。这种数据类型是键类型到值类型的映射，当它被创建时，它被虚拟初始化，以使每个可能的键都存在，并且它被映射到一个其字节表示都是零的值。如果其可见性设置为
+    `public`，Solidity 将创建一个自动 getter。因此，基于我们先前为玩家创建的结构体的示例，我们可以创建所有玩家的映射，如下所示：
 - en: '[PRE5]'
+  id: totrans-62
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: Here, we'll use an unsigned integer as the key for a mapping of player data
     types, and this object will be called `players`. Then we can add our first player
     to the mapping by specifying the first element of the mapping and assigning a
     new player to it.
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们将使用无符号整数作为玩家数据类型映射的键，这个对象将被称为 `players`。然后，我们可以通过指定映射的第一个元素并将新玩家分配给它来向映射中添加我们的第一个玩家。
 - en: Now that we understand the basic data types available in Solidity, let's learn
     how to actually use them in Solidity contracts.
+  id: totrans-64
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们了解了 Solidity 中可用的基本数据类型，让我们学习如何在 Solidity 合约中实际使用它们。
 - en: Using Solidity variables
+  id: totrans-65
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 Solidity 变量
 - en: 'Now that we have an idea of what variables in Solidity are, let''s put them
     to practical use in a contract. Let''s take a look at the contract present in
     our game:'
+  id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们已经了解了 Solidity 中变量的概念，让我们在合约中将它们实际应用起来。让我们看一下我们游戏中的合约：
 - en: '[PRE6]'
+  id: totrans-67
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: Right after the contract is declared, there are two variables declared. The
     first one is an `owner` , which is an `address` data type, and this represents
     the Ethereum address of the person who deployed this contract to the Ethereum
     network. Then we have a `bool` data type called `online`, and we'll use this to
     determine whether your game is online or offline; it allows us to take the game
     offline if we need to.
+  id: totrans-68
   prefs: []
   type: TYPE_NORMAL
+  zh: 在声明合同后面，声明了两个变量。第一个是`owner`，它是一个`address`数据类型，代表部署该合同到以太坊网络的人的以太坊地址。然后我们有一个`bool`数据类型的叫做`online`，我们将使用它来确定您的游戏是在线还是离线；如果需要，它允许我们将游戏设置为离线。
 - en: 'Well, there''s a special function in Ethereum contracts called a `constructor`,
     which executes once and only once when the contract is deployed. Inside it, we''re
     going to do two things: we''ll set the `owner` variable we declared in the beginning
     of our contract to the Ethereum address that deployed this contract to the network:'
+  id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: 嗯，在以太坊合同中有一个特殊的函数叫做`constructor`，它在合同部署时执行一次且仅执行一次。在其中，我们将做两件事：我们将把我们在合同开头声明的`owner`变量设置为将该合同部署到网络的以太坊地址：
 - en: '[PRE7]'
+  id: totrans-70
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: This means that if I deployed the contract, I own the game and if you deploy
     the contract, you own the game. This is a way for you to write contracts and deliver
     them to your clients, and when they deploy them, they own all the assets and the
     currency that the contract accumulates. We'll also set our `online` variable equal
     to `true;` we'll use this later to effectively take our game offline if we need
     to.
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 这意味着如果我部署了合同，我拥有这个游戏，如果你部署了合同，你就拥有这个游戏。这是您编写合同并将其交付给您的客户的一种方式，当他们部署它们时，他们将拥有合同积累的所有资产和货币。我们还将把我们的`online`变量设置为`true;`，我们稍后将使用它来有效地将我们的游戏设置为离线，如果需要的话。
 - en: 'We also have this function called `winOrLose()`, which we''ll call from our
     React application and supply the required parameters to determine if our player
     wins or loses this round. There''s another function called `isWinner()` that returns
     the value as true, if the player has won, and false if they lost. So let''s examine
     how that works using the following code snippet:'
+  id: totrans-72
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们还有一个叫做`winOrLose()`的函数，我们将从我们的React应用程序中调用它，并提供所需的参数来确定我们的玩家在这一轮中是赢还是输。还有另一个叫做`isWinner()`的函数，如果玩家赢了，则返回true，如果输了，则返回false。所以让我们使用以下代码片段来看一下它是如何工作的：
 - en: '[PRE8]'
+  id: totrans-73
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: Here, we've got an `if` statement, and the condition we're evaluating is contained
     within it. Next, we have our opening and closing brackets containing the code
     to execute, if this statement evaluates as `true`. Inside the parentheses, we
     have our `isWinner()` variable, which is a Boolean data type, and we use the `==`
     sign to evaluate whether this variable evaluates to a Boolean `true`.  If it does,
     it will execute the code contained within the block.
+  id: totrans-74
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们有一个`if`语句，我们正在评估其中包含的条件。接下来，我们有包含要执行的代码的大括号。在括号内部，我们有我们的`isWinner()`变量，它是一个布尔数据类型，我们使用`==`符号来评估这个变量是否评估为布尔`true`。如果是，它将执行包含在块中的代码。
 - en: This code uses a special message `sender` variable, which contains the address
     of the account calling the function. In this case that's our player. The player
     has won, so we'll use the `.transfer()` member to transfer double the amount wagered
     to the player; the reason that we're doing double, is that the player had to include
     the amount they wanted to wager with this transaction, so we need to return that
     to them, plus the amount that they won from that wager.
+  id: totrans-75
   prefs: []
   type: TYPE_NORMAL
+  zh: 这段代码使用了一个特殊的消息`sender`变量，其中包含调用该函数的账户的地址。在这种情况下，就是我们的玩家。玩家赢了，所以我们将使用`.transfer()`成员将下注金额的两倍转移给玩家；我们之所以要翻倍，是因为玩家必须在此次交易中包含他们想要下注的金额，所以我们需要将它们归还给他们，再加上他们从该赌注中赢得的金额。
 - en: If that statement doesn't evaluate as `true` though, that block of code never
     executes, so the code execution continues down to the `else if` block. It operates
     in the same way as the `if` block. It will evaluate the statement inside the parentheses,
     and if `isWinner()` is false, the block will return false to our React client.
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果该语句的评估结果不为`true`，那么该代码块将不会执行，因此代码执行会继续到`else if`代码块。它的操作方式与`if`代码块相同。它将评估括号内的语句，如果`isWinner()`为false，该代码块将返回false给我们的React客户端。
 - en: Inside our React code, we'll check for this value, and update the UI accordingly
     to let the player know that they lost this round.
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们的React代码中，我们将检查这个值，并根据情况更新UI，以告知玩家他们在这一轮中失败了。
 - en: Ether units
+  id: totrans-78
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 以太单位
 - en: While we're talking about variables, let's look at some special units that can
     be applied to variables. We'll start with **Ether** units. They're used to specify
     currency and they can be applied to any literal number. They can also convert
     between sub-denominations of Ether.
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
+  zh: 当我们谈到变量时，让我们看看可以应用于变量的一些特殊单位。我们将从**Ether**单位开始。它们用于指定货币，并且可以应用于任何文字数字。它们还可以在Ether的子单位之间进行转换。
 - en: 'The sub-denominations of Ether are as follows:'
+  id: totrans-80
   prefs: []
   type: TYPE_NORMAL
+  zh: Ether的子单位如下：
 - en: '**Wei**: This is the smallest unit of currency in Ether'
+  id: totrans-81
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Wei**：这是Ether中最小的货币单位'
 - en: '**Szabo**: Also known as microether, it''s equal to 1 times 10 to the 12^(th)
     Wei'
+  id: totrans-82
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Szabo**：也被称为微Ether，等于10的12次方Wei'
 - en: '**Finney**: Also known as milliether, this is equal to 1 times 10 to the 15^(th)
     Wei'
+  id: totrans-83
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Finney**：也被称为毫Ether，等于10的15次方Wei'
 - en: '**Ether**: This is 1 times 10 to the 18^(th) Wei'
+  id: totrans-84
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Ether**：等于10的18次方Wei'
 - en: To use these units, you just specify the unit at the end of any literal number,
     and the compiler knows how to convert between the different denominations.
+  id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: 要使用这些单位，只需在任何文字数字的末尾指定单位，编译器就知道如何在不同的子单位之间进行转换。
 - en: Other special units
+  id: totrans-86
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 其他特殊单位
 - en: 'We also have **time units** available to us and they can be used to specify
     a unit of time. They''re declared just like the currency was: any literal number
     can have the desired unit attached. The different time units that can be used
     here are:'
+  id: totrans-87
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们还有**时间单位**可供使用，并且它们可以用于指定时间单位。它们的声明方式与货币一样：任何文字数字都可以附加所需的单位。这里可以使用的不同时间单位包括：
 - en: Seconds
+  id: totrans-88
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 秒
 - en: Minutes
+  id: totrans-89
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 分钟
 - en: Hours
+  id: totrans-90
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 小时
 - en: Days
+  id: totrans-91
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 天
 - en: Weeks
+  id: totrans-92
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 周
 - en: One thing to be cautious about though, is using this for calendar calculations.
     Not every day has 24 hours due to **leap seconds**. Leap seconds are like leap
     years, except that they're seconds. Solidity actually used to have a year time
     unit as well, but because of the problem with leap years, it was deprecated.
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
+  zh: 但要注意的是，不要在日历计算中使用它。并非每一天都有24小时，这是由于**闰秒**。闰秒类似于闰年，只是它们是秒。实际上，Solidity过去也有一年的时间单位，但由于闰年的问题，已被废弃。
 - en: There are some unique variables, too. The first one is a **block number** (`block.number`).
     Remember that Ethereum miners are always confirming transactions, writing them
     to blocks, and then adding those blocks to the blockchain. This is the current
     block number from that operation; it's used to keep track of the block currently
     being mined.
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 还有一些独特的变量。第一个是**区块编号**(`block.number`)。请记住，以太坊矿工始终在确认交易，将其写入区块，然后将这些区块添加到区块链中。这是从该操作中的当前区块编号；它用于跟踪当前正在挖掘的区块。
 - en: The **block timestamp** (`block.timestamp`) is the timestamp for the current
     block reported as the number of seconds elapsed since the epoch, which was January
     1st 1970\. There's also an alias called `now` that refers to `block.timestamp`.
+  id: totrans-95
   prefs: []
   type: TYPE_NORMAL
+  zh: '**区块时间戳**(`block.timestamp`)是当前区块的时间戳，报告自1970年1月1日以来经过的秒数。还有一个别名称为`now`，它指的是`block.timestamp`。'
 - en: However, neither of these should be relied on, as they can be manipulated by
     a malicious miner to a certain degree, which could be used to exploit your contract
     if you're relying on this timestamp. In general, you can be assured that the current
     timestamp is greater than the previous block timestamp, and it's going to be less
     than the next block timestamp, but that's about it.
+  id: totrans-96
   prefs: []
   type: TYPE_NORMAL
+  zh: 然而，这两者都不应该依赖，因为它们可以在一定程度上被恶意矿工操纵，这可能被用来利用您的合约的时间戳。一般来说，您可以确信当前时间戳大于上一个区块的时间戳，并且它将小于下一个区块的时间戳，但就这样了。
 - en: '**Message value** (`msg.value`) is the amount of currency sent along with the
     message. We''re going to explore this in a lot more detail as we build our application.
     We''ll be using this to collect wagers from the players of our game.'
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: '**消息价值**(`msg.value`)是随消息发送的货币数量。在构建我们的应用程序时，我们将更详细地探讨这一点。我们将使用它来收集我们游戏玩家的赌注。'
 - en: You've already seen `msg.sender` and learned that it's the Ethereum address
     of the current caller. There's also a `tx.origin` or **transmit origin**, which
     is the Ethereum address for the sender of the transaction. You may find it tempting
     to use this, but in general, the message sender is probably what you want. The
     `tx.origin` and `mg.sender` may not be the same thing, especially in scenarios
     where contracts or functions call other contracts or functions.
+  id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: 你已经见过`msg.sender`并了解它是当前调用者的以太坊地址。还有一个`tx.origin`或**传输起源**，它是交易发送者的以太坊地址。你可能会觉得诱人，但总的来说，消息发送者可能是你想要的。`tx.origin`和`mg.sender`可能不是同一个东西，特别是在合同或功能调用其他合同或功能的情况下。
 - en: All right! So now, we've seen Solidity data types and we've learned how they're
     used in code; next, we'll take a look at the different operators that we can use
     to build complex business rules and logic in our contract.
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 好了！现在，我们已经见过Solidity数据类型，也学习了它们在代码中的使用；接下来，我们将看看不同的运算符，这些运算符可以用来构建合同中的复杂业务规则和逻辑。
 - en: Understanding Solidity operators
+  id: totrans-100
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 理解Solidity运算符
 - en: In this section, we're going to take a look at the different operators available
     in Solidity. Doing so is going to help you better understand the logical operations
     that you can write into your contracts to implement business logic.
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本节中，我们将看看Solidity中可用的不同运算符。这样做将帮助您更好地理解可以编写到合同中实现业务逻辑的逻辑操作。
 - en: 'The first three operators that we will cover are as follows:'
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将要讨论的前三个运算符如下：
 - en: Assignment
+  id: totrans-103
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 赋值
 - en: Equality
+  id: totrans-104
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 相等性
 - en: Inequality
+  id: totrans-105
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 不等式
 - en: After just getting started with programming, you may find these confusing; however,
     a minute spent now is going to save you hours of frustration down the road.
+  id: totrans-106
   prefs: []
   type: TYPE_NORMAL
+  zh: 刚开始学编程时，你可能会觉得这些很困惑；然而，现在花一分钟将为你未来节省数小时的沮丧。
 - en: '**Assignment** is used to assign a value to a variable. For example we can
     assign the variable `foo` with a value of `bar`, as seen in the following code
     snippet:'
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: '**赋值**用于将值赋给变量。例如，我们可以将变量`foo`赋值为`bar`，如下面的代码片段所示：'
 - en: '[PRE9]'
+  id: totrans-108
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: The next operator is **equality**, and we use it to determine whether one variable
     is equal to another. In the preceding example, we're checking to see whether the
     value of the variable `foo` is equal to the string `bar`, and in our case, it
     is, so this expression would evaluate to true.
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来的运算符是**相等性**，我们用它来确定一个变量是否等于另一个变量。在上面的示例中，我们正在检查变量`foo`的值是否等于字符串`bar`，在我们的案例中，是的，所以这个表达式将评估为true。
 - en: And finally we have **inequality**, which is the exact opposite of equality.
     So, in the third line of the previous example, we're checking to see if `foo`
     is not equal to `bar`, but it is equal, so this expression is going to evaluate
     to false.
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后我们有**不等式**，它与等式完全相反。所以，在前一个示例的第三行中，我们正在检查`foo`是否不等于`bar`，但它是相等的，所以这个表达式将评估为false。
 - en: We also have a set of **comparison** operators. We can use these to determine
     if one value **is greater than** (**>**), **greater than or equal t**o (**>=**),
     **less than** (**<**), or **less than or equal to** (**<=**) the other value.
     These operators work similarly to the equality and inequality operators we just
     looked at.
+  id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们还有一组**比较**运算符。我们可以使用这些来确定一个值**大于**（**>**）、**大于或等于**（**>=**）、**小于**（**<**）或**小于或等于**（**<=**）另一个值。这些运算符的工作方式与我们刚刚看过的等式和不等式运算符类似。
 - en: 'We also have some **shorthand** operators that''ll save you time when you''re
     writing code. Some of them are as follows:'
+  id: totrans-112
   prefs: []
   type: TYPE_NORMAL
+  zh: 当您编写代码时，我们还有一些**速记**运算符可以节省您的时间。其中一些如下所示：
 - en: '`+=`: This is the **addition** shorthand operator'
+  id: totrans-113
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`+=`：这是**加法**的速记运算符'
 - en: '`-=`: This is the **subtraction** shorthand operator'
+  id: totrans-114
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`-=`：这是**减法**的速记运算符'
 - en: '`*=`: This is the **multiplication** shorthand operator'
+  id: totrans-115
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`*=`：这是**乘法**的速记运算符'
 - en: '`/=`: This is the **division** shorthand operator'
+  id: totrans-116
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`/=`：这是**除法**的速记运算符'
 - en: '`%=`: This is the **remainder** shorthand operator'
+  id: totrans-117
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`%=`：这是**余数**的速记运算符'
 - en: '`|=`: This is the **logical and** shorthand operator'
+  id: totrans-118
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`|=`：这是**逻辑与**的速记运算符'
 - en: '`&=`: This is the **logical or** shorthand operator'
+  id: totrans-119
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`&=`：这是**逻辑或**的速记运算符'
 - en: Writing `a += e` is equivalent to writing `a = a + e`, but it's shorter and
     easier to type.
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: 写`a += e`等价于写`a = a + e`，但更短更容易输入。
 - en: We can also use the `a++` and `a--` operators to increment or decrement a counter
     by 1\. When executing one of these though, the expression will return the value
     of `a` prior to the change, so if `a = 1`, and we execute the `a++` operator,
     the expression returns an output of `1`, but the value of `a` is now `2`.
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们还可以使用`a++`和`a--`运算符来递增或递减计数器1。但是，在执行其中一个时，表达式将返回更改之前的`a`的值，因此如果`a = 1`，并且我们执行`a++`运算符，则表达式返回`1`的输出，但是`a`的值现在是`2`。
 - en: There are also `++a` and `--a`, which do the same thing. They increment or decrement
     by 1, but they return the actual value after the change. So, if `a = 1`, and we
     execute `++a`, the expression will return the new value of `a` , which is `2`.
+  id: totrans-122
   prefs: []
   type: TYPE_NORMAL
+  zh: 还有`++a`和`--a`，它们执行相同的操作。它们递增或递减1，但它们返回变化后的实际值。所以，如果`a = 1`，并且我们执行`++a`，表达式将返回`a`的新值，即`2`。
 - en: We can use the `delete` operator to assign the variable with the initial value
     for its type. For example, if `foo` is an integer, executing `delete foo` will
     set `foo` to a value of 0.
+  id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们可以使用`delete`运算符将变量分配给其类型的初始值。例如，如果`foo`是一个整数，执行`delete foo`将使`foo`的值设置为0。
 - en: When an operator's applied to different types, the compiler tries to implicitly
     convert one of the operands to the type of the other. Implicit conversion is possible
     if it makes sense semantically, and no information is lost in the conversion.
     For example, an 8-bit unsigned integer (`uint8`) is convertible to a `uint16`,
     a `uint28`, or `uint256`, but an 8-bit integer (`int8`) is not convertible to
     an unsigned 256 bit integer, because a `uint256` can't hold negative numbers.
+  id: totrans-124
   prefs: []
   type: TYPE_NORMAL
+  zh: 当运算符应用于不同类型时，编译器会尝试将其中一个操作数隐式转换为另一个的类型。如果在转换中语义上有意义，并且转换中没有丢失信息，则可以进行隐式转换。例如，8位无符号整数(`uint8`)可以转换为`uint16`、`uint28`或`uint256`，但8位整数(`int8`)不能转换为无符号256位整数，因为`uint256`不能保存负数。
 - en: Now that we have an understanding of operators and variables, and how to use
     them in Solidity, let's take a look at some practical examples, by using them
     to create business logic in our contracts.
+  id: totrans-125
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们对运算符和变量有了一定的了解，以及如何在 Solidity 中使用它们，让我们看一些实际的例子，通过使用它们来在我们的合约中创建业务逻辑。
 - en: Using Solidity operators
+  id: totrans-126
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 Solidity 运算符
 - en: In this section, we're going to look at some practical examples using Solidity
     operators. Doing so is going to give you the skills you need to start implementing
     your own business logic in smart contracts for decentralized apps.
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本节中，我们将看一些使用 Solidity 运算符的实际示例。这样做将使您具备在去中心化应用的智能合约中开始实现自己的业务逻辑所需的技能。
 - en: 'Let''s start by declaring a variable; we do that by specifying its type, in
     this case an unsigned integer, and naming the variable as `a`. We didn''t assign
     it a value, so Solidity assigns it an initial value of 0\. We can use the `=`
     sign to assign a value of `5` to `a`, and we could have also done the same thing
     all on one line, as shown in the following code snippet:'
+  id: totrans-128
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们从声明一个变量开始；我们通过指定其类型来做到这一点，在本例中是无符号整数，并将变量命名为`a`。我们没有为其分配一个值，因此 Solidity 将其分配一个初始值为0。我们可以使用`=`符号将值`5`赋给`a`，我们也可以像下面的代码片段中所示一样一行完成同样的事情：
 - en: '[PRE10]'
+  id: totrans-129
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: Now we can write the expression `a == b`, to check the variables `a` and `b`
     for equality. Since 5 is not equal to 10, this expression returns `false`. If
     we write the expression `a != b`, it evaluates to `true` because 5 is not equal
@@ -655,20 +929,29 @@
     than `b`, and since 5 is not greater than 10, it's going to return `false;` and
     using the less than (`<`) operator, we can check to see if `a` is less than `b`,
     and since 5 is less than 10, this expression returns true.
+  id: totrans-130
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们可以写出表达式`a == b`，以检查变量`a`和`b`是否相等。由于5不等于10，因此该表达式返回`false`。如果我们写表达式`a !=
+    b`，则其求值为`true`，因为5不等于10。我们还可以使用大于(`>`)运算符来查看`a`是否大于`b`，由于5不大于10，它将返回`false`；使用小于(`<`)运算符，我们可以检查`a`是否小于`b`，由于5小于10，该表达式返回true。
 - en: 'Let''s take a look at another example:'
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看另一个例子：
 - en: '[PRE11]'
+  id: totrans-132
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: Here, we've declared a variable `x` as an array of unsigned integers, by specifying
     our type as `uint` for the unsigned integers, then assigning our variable name
     as `x`, and including the square brackets to indicate that it's an array. Then,
     we created a `for` loop that has three parts.
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们声明了一个变量`x`作为无符号整数数组，通过将类型指定为`uint`来指定无符号整数，然后将变量名分配为`x`，并包括方括号以指示它是一个数组。然后，我们创建了一个具有三个部分的`for`循环。
 - en: The first one is our initial variable, which is the starting point for our loop,
     so it's an unsigned integer `i` that we initialize to 0\. Next comes the condition
     for our loop, which lets it know when it should stop looping; here, we want it
@@ -679,29 +962,41 @@
     the value of `i` onto our array `x`. The result is that our array `x` gets populated
     with ten values, each representing the value of `i` at that instance in time within
     the `for` loop.
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 第一个是我们的初始变量，也就是我们循环的起点，所以它是一个我们初始化为0的无符号整数`i`。接下来是我们循环的条件，它告诉循环何时停止；在这里，我们希望它在`i`小于10时继续循环。最后，我们的增量是每次`for`循环迭代时使用的。我们使用++来递增`i`的值。然后，我们有大括号，其中包含每次循环执行的代码。在这些大括号中，我们想要将`i`的值推送到我们的数组`x`中。结果是我们的数组`x`被填充了十个值，每个值代表了在`for`循环中该实例中`i`的值。
 - en: Operators in our application
+  id: totrans-135
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 我们应用中的运算符
 - en: 'Now, lets dig deeper and take a look at a function from the game we''re going
     to be building. We''re covering functions in detail in the next chapter, which
     is Chapter 3, *Day Three* - *Implementing Business Logic in your Smart Contracts*,
     so we are going to skip over the details of how this function works for now, and
     focus on the usage of operators in it. The following code snippet shows the function:'
+  id: totrans-136
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，让我们深入了解一下我们将要构建的游戏中的一个函数。我们将在下一章节中详细讨论函数，即第3章*Day Three* - *在智能合约中实现业务逻辑*，所以我们暂时跳过了解这个函数如何工作的细节，并专注于其中运算符的使用。以下代码片段显示了该函数：
 - en: '[PRE12]'
+  id: totrans-137
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: 'Here, we declare an unsigned integer named `mysteryNumber_` which gets its
     value from the function `mysteryNumber()`:'
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们声明了一个名为`mysteryNumber_`的无符号整数，它的值来自函数`mysteryNumber()`：
 - en: '[PRE13]'
+  id: totrans-139
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: We're also declaring an unsigned integer named `randomNumber` and returning
     it as a result of this function. To generate our random number, we're using a
     special variable we learned about earlier, `block.number`, which is the current
@@ -712,16 +1007,22 @@
     10\. Basically, that gives us the last digit of the `blockhash`; we'll add 1 to
     that number, which will be our random number, and the function returns this as
     the last line of its code.
+  id: totrans-140
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们还声明了一个名为`randomNumber`的无符号整数，并将其作为此函数的结果返回。为了生成我们的随机数，我们使用了之前学习过的一个特殊变量，`block.number`，它是当前正在挖掘的块，并从中减去了1，因此我们得到了前一个块的编号。然后，我们使用Solidity的`blockhash()`函数来获取该块的哈希值，然后将其转换为无符号整数，并使用取余（`%`）运算符来获得将该`blockhash`除以10的余数。基本上，这给了我们`blockhash`的最后一个数字；我们将在该数字上加1，这将是我们的随机数，并且函数将此作为其代码的最后一行返回。
 - en: 'Back in our `winOrLose()` function previously, we now have our `mysteryNumber`,
     so we declare a Boolean variable called `isWinner`, which gets its value from
     the `determineWinner()` function:'
+  id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: 回到之前的`winOrLose()`函数中，我们现在有了我们的`mysteryNumber`，所以我们声明了一个名为`isWinner`的布尔变量，它的值来自`determineWinner()`函数：
 - en: '[PRE14]'
+  id: totrans-142
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: This function takes three parameters and determines whether our player won or
     lost this round. The three parameters are the mystery number we just generated,
     the number that was displayed to the player in our React application, and the
@@ -729,119 +1030,167 @@
     their number. The first thing we do in our function is use an `if-else if` statement
     to identify whether the player has guessed higher or lower, and then execute the
     appropriate logic.
+  id: totrans-143
   prefs: []
   type: TYPE_NORMAL
+  zh: 此函数接受三个参数，并确定我们的玩家本轮是赢了还是输了。这三个参数是我们刚生成的神秘数字、在我们的React应用程序中向玩家显示的数字以及玩家猜测的神秘数字是否比他们的数字更高或更低。我们函数中的第一件事是使用`if-else
+    if`语句来确定玩家是否猜测更高还是更低，然后执行相应的逻辑。
 - en: 'It''s a complex case because those are the only two possibilities, but building
     it this way prevents some scenarios where a player could manipulate the game and
     win by guessing something other than higher or lower. That''s an important concept
     to keep in mind when you''re writing code: be explicit. Once we evaluate the player''s
     guess, we evaluate whether they were right and return true if they won and false
     if they didn''t.'
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是一个复杂的情况，因为这是唯一的两种可能性，但是以这种方式构建可以防止玩家在猜测高或低以外的情况下操纵游戏并赢得胜利。当你编写代码时，要记住这个重要的概念：要明确。一旦我们评估了玩家的猜测，我们就评估他们是否正确，并在他们赢了时返回true，在他们输了时返回false。
 - en: You might notice that this function isn't complete. For example, if the player
     guessed higher and the number was actually lower, we're not handling that condition.
     For that, we'll need an additional `else if` condition. We omitted it here intentionally,
     so that we could focus on this block without having so much code on the screen
     that it confused the concept. It will definitely be in the final code for our
     game.
+  id: totrans-145
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可能注意到这个函数还不完整。例如，如果玩家猜高了，而数字实际上更低，我们没有处理这种情况。为此，我们需要一个额外的`else if`条件。我们故意在这里省略了它，这样我们就可以专注于这个块，而不必在屏幕上显示太多代码，以至于混淆了概念。它肯定会出现在我们游戏的最终代码中。
 - en: As a matter of fact, spoiler alert! You're going to write the code! And now,
     as we wrap up day two, it's time for your assignment where you'll have the opportunity
     to apply everything that we've learned today.
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: 事实上，剧透警告！你将编写代码！现在，当我们结束第二天时，是时候完成你的作业了，在这里，你将有机会应用我们今天学到的一切。
 - en: Assignment
+  id: totrans-147
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 作业
 - en: 'All right! Let''s go over our assignment for today. In it, you''re going to
     have the opportunity to apply some of the concepts we learned today about variables
     in Solidity:'
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: 好了！让我们来看看今天的作业。在这个作业中，你将有机会应用我们今天在Solidity中学到的一些关于变量的概念：
 - en: 'The first thing you want to do is switch over to the Git branch for  day two,
     where I''ve set up some scenarios that you''ll need to access. To do this, you''ll
     open a Terminal in the directory where you downloaded the code for this book,
     and type the following command:'
+  id: totrans-149
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 你要做的第一件事是切换到第二天的Git分支，在那里我设置了一些你需要访问的场景。为此，你将在下载了本书代码的目录中打开一个终端，并输入以下命令：
 - en: '[PRE15]'
+  id: totrans-150
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: You'll also want to make sure Ganache is running; you installed it yesterday,
     and it will be needed today in order to verify you've done the exercises correctly.
+  id: totrans-151
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 你还需要确保Ganache正在运行；你昨天安装了它，今天需要它来验证你是否正确完成了练习。
 - en: 'If you run the command `truffle test`, you''re going to see a bunch of errors
     as shown in the following screenshot:'
+  id: totrans-152
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 如果你运行命令`truffle test`，你会看到一堆错误，如下面的截图所示：
 - en: '![](img/556bad42-5a1e-4a76-bb03-d2fb34615669.png)'
+  id: totrans-153
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/556bad42-5a1e-4a76-bb03-d2fb34615669.png)'
 - en: I've created some tests in this branch, and if you do the homework correctly,
     all of these errors will disappear and you'll see this with four passing tests.
+  id: totrans-154
   prefs: []
   type: TYPE_NORMAL
+  zh: 我在这个分支中创建了一些测试，如果你正确完成作业，所有这些错误都将消失，你将看到四个通过的测试。
 - en: To get those passing tests, you'll need to open the `Gaming.sol` Solidity contract
     in the `contracts` folder of the code using your editor.
+  id: totrans-155
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 要获得那些通过的测试，你需要使用编辑器打开`contracts`文件夹中的`Gaming.sol` Solidity合约。
 - en: In that contract, you'll create a `public` Boolean variable called `online`,
     and take a look at the `owner` variable in that same file if you need a hint.
+  id: totrans-156
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在那个合约中，你将创建一个名为`online`的`public`布尔变量，并查看同一文件中的`owner`变量，如果你需要提示。
 - en: 'Next, we''ll create a struct named `Player`, and remember that we name structs
     with capital letters. Create the struct with the following members: an Ethereum
     address type named `playerAddress`, a string named `playerName`, an unsigned integer
     named `playerBalance`, an unsigned integer named `playerWins`, and an unsigned
     integer named `playerLosses`.'
+  id: totrans-157
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 接下来，我们将创建一个名为`Player`的结构体，记住我们用大写字母命名结构体。创建具有以下成员的结构体：一个名为`playerAddress`的以太坊地址类型，一个名为`playerName`的字符串，一个名为`playerBalance`的无符号整数，一个名为`playerWins`的无符号整数，以及一个名为`playerLosses`的无符号整数。
 - en: Once that's done, we'll create a `public` mapping type named `players` that
     maps an unsigned integer as the key to the type `Player`.
+  id: totrans-158
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 一旦完成了这一步，我们将创建一个名为`players`的`public`映射类型，将无符号整数作为键映射到类型`Player`。
 - en: The end result is that this is going to give us a key-value pair object named
     players, where the key is an unsigned integer and the value is an instance of
     the player struct representing one of the players of our game.
+  id: totrans-159
   prefs: []
   type: TYPE_NORMAL
+  zh: 最终结果是，这将给我们一个名为players的键值对对象，其中键是无符号整数，值是表示我们游戏中一个玩家的player结构的实例。
 - en: If you get stuck, take a look at the *Data types in Solidity* section from today's
     chapter for help.
+  id: totrans-160
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你遇到困难，请查看今天章节中关于 *Solidity 中的数据类型* 部分寻求帮助。
 - en: 'Once you''ve done all that correctly, you can run the `truffle test` command
     and see the passing tests as seen in the following screenshot:'
+  id: totrans-161
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 一旦你正确完成了所有这些步骤，你可以运行`truffle test`命令，并查看如下截图所示的通过测试：
 - en: '![](img/19877c00-f2fc-4245-8f91-c761b310059f.png)'
+  id: totrans-162
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/19877c00-f2fc-4245-8f91-c761b310059f.png)'
 - en: Summary
+  id: totrans-163
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 摘要
 - en: Congratulations! You have completed day two of this book. We learned all about
     the different data types in Solidity, and how they are used. We also learned about
     operators in Solidity. Finally, we learned how to implement them in our gaming
     application.
+  id: totrans-164
   prefs: []
   type: TYPE_NORMAL
+  zh: 恭喜！你已经完成了本书的第二天。我们学习了 Solidity 中的各种数据类型以及它们的使用方法。我们还学习了 Solidity 中的运算符。最后，我们学会了如何在我们的游戏应用程序中实现它们。
 - en: Give yourself a pat on the back and take a break, because in our next chapter
     we're going to dig into Solidity functions, which are the building blocks of business
     logic for smart contracts. We'll use them to implement the rules of our little
     online game here, and at the same time, we'll learn the fundamentals of functions
     in Solidity.
+  id: totrans-165
   prefs: []
   type: TYPE_NORMAL
+  zh: 给自己一个鼓励，并休息一下，因为在我们的下一章中，我们将深入探讨 Solidity 函数，这些函数是智能合约业务逻辑的基石。我们将使用它们来实现我们这里的小型在线游戏的规则，同时，我们将学习
+    Solidity 函数的基本原理。
