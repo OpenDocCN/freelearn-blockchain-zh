@@ -1,0 +1,927 @@
+- en: Creating Your First IoT Solution
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the previous chapter, we explored the **Internet of Things** (**IoT**) as
+    well as the IBM Watson IoT Platform. We also created our first simple solution.
+    In this chapter, we will put this into practice by creating a simple end-to-end
+    solution, from selecting the device to creating the device firmware and an application
+    designed to control a simple garden watering system.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following topics will be covered in this chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding how to set up a solution
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Creating a connected device
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Creating a simple application connected to the platform
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Publishing and processing device events
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Publishing actions to devices
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How to get help when you're in trouble
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Technical requirements
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The complete solution code is available in the `ch2` folder, available at the [https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain.git](https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain.git)
+    repository.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Make sure that you have also installed Cloud Foundry CLI and Bluemix CLI; the
+    installation process for these command-line interfaces is described at [https://console.bluemix.net/docs/cli/index.html#overview](https://console.bluemix.net/docs/cli/index.html#overview).
+  prefs: []
+  type: TYPE_NORMAL
+- en: The first IoT solution – the gardening solution
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Watering systems are common first projects for using IoT in the DIY community.
+    We too will use it as an example project to get started on the IBM Watson IoT
+    Platform.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Requirements overview
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Good solutions are based on problems that really matter to people. So let''s
+    start our solution with an introduction to the actual problem:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: John lives alone in an apartment in the city. He is a businessman who has to
+    travel for work for 3-4 days in a week. When not travelling or working, John likes
+    to take care of his plants. However, since he is not home for half the week, John
+    is struggling to keep his garden healthy and beautiful.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'John has faced several challenging experiences with automated watering systems:
+    either the system did not water the plants enough (on hot or dry days, for example),
+    or it watered them too much when the weather was okay.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: John is looking for a solution that only waters his garden when a plant has
+    reached a certain soil moisture condition, or whenever he feels it is necessary.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Solution overview
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following diagram shows an overview of the solution components that will
+    be developed to solve John''s problem:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d9e49f99-00e8-4543-8afb-3791edb4ae7e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: A connected device will be attached to John's plant, and on a scheduled basis
+    will retrieve measurements from the plant and environment (soil moisture and temperature)
+    and publish the event to the IBM Watson IoT Platform. The device will also subscribe
+    to trigger commands (actions).
+  prefs: []
+  type: TYPE_NORMAL
+- en: An application deployed to the IBM Cloud (Bluemix) will subscribe to John's
+    events, and whenever a configured minimum level of soil moisture or a high temperature
+    threshold is reached, the application will send an action command to water the
+    plant for a certain duration.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Selecting the equipment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Given the requirements described in the previous section, the device that needs
+    to be created must have the following capabilities:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Be able to measure the soil's moisture level (an analog probe has a good fit
+    for this solution)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Have bidirectional communication capability (so that the user can water the
+    garden whenever he feels it is necessary)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Be able to configure the soil's moisture limit (a configurable rule)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following assumptions are also true about the solution:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The user will prov
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: ide a Wi-Fi internet connection
+  prefs:
+  - PREF_UL
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The user will provide an energy supply for the system
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The system will be used in an apartment, so there is no need for long-distance
+    connections
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Payload size is irr
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: elevant as a Wi-Fi connection will be provided
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Since we are prototyping before creating the actual device, there are a number
+    of prototyping platforms that can make it easier to wire and test the solution quickly.
+    To do this, we will use one of the most powerful and modular platforms: Intel
+    Edison and Grove.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will look for a device (or a composition) that has Wi-Fi connectivity and
+    an analog sensor connection. We will also need a soil moisture analog sensor probe,
+    a temperature and humidity sensor, and a water solenoid valve.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Consequently, the solution will require a list of parts, which will look something
+    like this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Quantity** | **Component** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | Intel Edison module |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | Intel Edison Arduino breakout board |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | Grove base shield v2 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | Grove soil moisture sensor |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | Groove temperature sensor v1.2 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | Grove relay module |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | Grove button module |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 4 | Grove universal 4-pin cable |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | 12V water solenoid valve |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | 12V 2A power supply |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 2 | Jumper cables (male to male) |'
+  prefs: []
+  type: TYPE_TB
+- en: 'The following diagram provides an overview of the parts that are specified
+    in the parts list table. Please note that the shape and color of the devices are
+    just for illustration purposes and might be different depending on the vendor,
+    edition, or other characteristics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b558ff3e-2696-417a-b8a6-9fe930be9c9a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The image was created with Fritzing and is licensed under CC BY-SA 3.0; see
+    https://creativecommons.org/licenses/by-sa/3.0/
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's quickly review the parts from this list.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Intel Edison
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Edison is a **system-on-a-chip** (**SoC**), based on Intel x86 architecture
+    with embedded Bluetooth 4.0 and Wi-Fi designed for IoT applications. Edison runs
+    a Linux distribution named Yocto; has support for many platforms, such as Python,
+    Node.js, C, and C++; and has plugins for developing solutions using Arduino IDE,
+    Eclipse, and Intel XDK.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Arduino breakout board
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Arduino breakout board for Edison was also released by Intel, which provides
+    the same standard pin interface used by Arduino modules and is compatible with
+    Arduino shields. Since you can use the standard Arduino IDE, compatible libraries,
+    connectors, and shields, the Intel Edison Arduino breakout board is a great interface
+    for prototyping and running Arduino sketches.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Grove system
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Grove is a set of components and shields that creates a standardized modular
+    platform with building blocks for prototyping solutions created by Seeed. There
+    are many available prototypes, including working code for the Grove platform available
+    on the internet, especially on **do-it-yourself** (**DIY**) community sites.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Grove system has shields for platforms with heavy adoption in the market,
+    such as Arduino, Raspberry Pi, and BeagleBone. Bundles with the compute module,
+    base shield, Grove blocks, and spare parts can be found on the internet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Note that not every sensor is compatible with every platform because some platforms
+    lack certain capabilities. For example, Raspberry Pi does not provide analog interfaces,
+    so sensors that are connectable through an analog interface will not be compatible
+    with it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's look at all the Grove components we will use as part of this IoT solution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Grove base shield for Arduino
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this project, we will use the Grove base shield for Arduino, which provides
+    an interface for Grove standard connectors to connect Grove modules to the Arduino
+    pin interface. It provides four analog interfaces, four  I2C interfaces, seven
+    digital interfaces, and a UART interface.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Grove sensors
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this project, we will be using two different types of sensors: the soil
+    moisture sensor and the temperature sensor.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The soil moisture sensor is an analog probe that provides soil resistive measurements,
+    which we will explain later in this chapter. The temperature of the sensor is
+    based on a thermistor, and its specifications and calculation are also detailed
+    later in the *Measuring environment temperature* section*.*
+  prefs: []
+  type: TYPE_NORMAL
+- en: Both sensors use the standard Grove connector cable that provides `VCC`, `GND`,
+    and data connectivity to the probe.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Grove button
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This button follows the same connectivity to the computing module as the sensors
+    but provides an open or closed circuit state, depending on whether the button
+    is pressed or not.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It can have different interpretations: either the connection is interrupted
+    when the button is pressed, meaning it will keep doing something unless the button
+    is pressed; or the connection is activated when the button is pressed, meaning
+    it will only do something after the button is pressed.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Grove relay
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The relay module, as expected, is connected to the standard Grove interface,
+    but it is classified as an actuator because it does not provide readings.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Other actuator modules such as LEDs, displays, motor drivers, and buzzers are
+    used to perform actions instead of reading states. The relay module too has two
+    states, open circuit or closed circuit, meaning that the input connection of the
+    relay is not connected to the output.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This concludes our review of the parts. Let's move on to the next step in the
+    solution development process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Wiring the device
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To assemble the hardware, we need to correctly connect the sensor probes to
+    the processing unit—in this case, the Intel Edison module.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Grove modules make the connections very simple, as the following steps show:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Using the Grove universal cables:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Attach the Grove moisture sensor to the `A0` connection jack in the base shield
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Attach the Grove temperature sensor to the `A3` connection jack in the base
+    shield
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Attach the Grove relay module to the `D2` connection jack in the base shield
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Attach the Grove button module to the `D3` connection jack in the base shield
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Using the jumpers:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Attach the solenoid valve's `V+` end to an external 12V power supply
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Attach the external `GND` pin to a `GND` pin in the base shield
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Attach a relay connection to a `GND` pin
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Attach the solenoid valve `GND` terminal to the other relay module connection
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following diagram shows the correct connections:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/85334211-c94f-4f98-97b6-424d93f791ff.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Image was created with Fritzing and it is licensed under CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0/
+  prefs: []
+  type: TYPE_NORMAL
+- en: Coding the device firmware
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Next, we will create a device application (firmware) that reads the sensor data
+    and sends it to the backing application. In the previous chapter, we used Node.js
+    to publish events from a device simulator, and now we're going to use this method
+    to leverage the previous chapter's code. Remember that the objective of this solution
+    is to water a plant whenever the temperature is high or the soil moisture is too
+    low.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The next section shows the code needed in order to create the firmware that
+    reads all the sensor data and publishes events to the IBM Watson IoT Platform.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Measuring soil moisture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The sensor probe used in this project is a resistive sensor, which measures
+    the current that is passed through the probes of the sensor. It has two probes
+    that are physically separated; one probe is attached to a positive end and the
+    other to the `GND` end. When both probes are connected by a common surface, it
+    will measure the current that is passed through that surface and give us a reading.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In our case, when the probes touch the soil, it will measure the current that
+    passes through. When soil gets wet, it becomes more conductive, meaning that more
+    current will pass through the probes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The Intel Edison ADC (analog-to-digital) converter that is in the Arduino breakout
+    board has a 12-bit resolution, but this is limited through software to a 10-bit
+    resolution. If we use this as the basis for our measurement, we will get the following
+    understanding of the readings:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 2^(10) = 1024
+  prefs: []
+  type: TYPE_NORMAL
+- en: This means that our readings will be a value from 0 to 1,023, where 0 means
+    no water at all and 1,023 means 100% of the water. This will vary because of other
+    impurities that are present in the soil, such as minerals. However, in this case,
+    we will assume that the soil is perfectly measured. When it's completely dry,
+    it will give us a measurement of 0% and if it's a glass of water without any soil,
+    it will give us a reading of 100%.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following code will read the soil moisture sensor every two seconds:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: To run the code, type `npm start` in Edison's SSH console.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For testing purposes, let''s take a look at the measurement readings of the
+    sensors that are printed to the console and gain some understanding of the values:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f169dcf4-c85c-478b-9bc3-401bfe0ae43f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'We already know that 0 means 0% water and 1,023 is 100, which means that the
+    sample measurement readings in the program are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/1b506e9d-1094-4a43-8a3c-6becd22ea4b3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Applying the reading values to the preceding formula will transform them into
+    percentage values as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Reading values** | **Moisture percentage** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 256 | 25.02% |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 307 | 30.00% |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 302 | 29.52% |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 303 | 29.61% |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 299 | 29.22% |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 298 | 29.13% |'
+  prefs: []
+  type: TYPE_TB
+- en: Measuring environmental temperature
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Similar to the previous code block (but slightly more mathematically complicated),
+    the temperature sensor returns an analog reading of the sensor.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If we look at the manufacturer's explanation ([http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/](http://wiki.seeedstudio.com/Grove-Temperature_Sensor_V1.2/))
+    on how to read the sensor, we will discover that the sensor's v1.2 is shipped
+    with a thermistor with the value of 4,250 as well as a 100k resistor.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Consequently, the formula for calculating the temperature value using this
+    sensor is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/1e626537-0760-43de-8717-0e14e451a067.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The following code will give the temperature based on the sensor readings every
+    two seconds:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The output of this code will look something like this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/fa1f254b-f63d-4171-960c-4eff6d1f306d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Using the SSH console, these readings will be logged.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Turning on the relay
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Last but not least, since we want to turn on a relay that will let water flow
+    and then turn it off, the code for turning the water on after one second and off
+    after two seconds is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: After a delay of one second, you'll see the  `D3` relay module LED turn on and
+    you will also hear a click. This means that the relay connection is closed, and
+    after two seconds it will turn off and open the connection.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Publishing events
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: At this point in the chapter, we have explored Node.js scripts that are capable
+    of reading both soil moisture and temperatures, and we have also looked at the
+    code that can turn on and turn off the relay that lets the water flow to the plant.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The goal is now to publish both of these values to the IBM Watson IoT Platform.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As shown in the previous chapter, it''s necessary to create a device and note
+    the credentials, so that we can use them to connect the device to the platform. The
+    following code performs the regular publishing of the events:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: When the scripts start, they will load the configuration from the `device.json` file,
+    connect to the IBM Watson IoT Platform, and then publish an event with the current
+    soil moisture and temperature every five minutes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Monitoring the events
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The easiest way to view the data published by the device is by using boards
+    and cards. If you keep the device script running when creating the card, it will
+    get the values from the data structure published by the device.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To create a card, access the IBM Watson IoT Platform console and select boards in
+    the left menu:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/cb898b2d-8bbb-47ab-90e1-4e771d574991.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'At the top right of the page, select + Create New Board, complete the information
+    required, and create the board. Most information that must be provided is miscellaneous,
+    but make sure it is meaningful to the target user. The board created here is supposed
+    to display the plants monitored readings:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/da127d13-85f7-4507-ae5b-e4325959228a.png)![](img/5146a0d2-0730-4074-be74-cd7f9d00965a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: A board is a set of related cards, and a card is a set of related values that
+    were published by devices to the platform.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Select the created board and create the card by selecting + Add New Card.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Select the Line chart device visualization and the device created:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/95ad08d5-7420-4223-909d-3f1a9ec02799.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'After selecting Line chart card, you need to select a data source for the event.
+    Select the device created as the data source for this card. The data source, as
+    the name says, is the source of information that will be used to populate the
+    chart with metrics collected from devices:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/6f36d579-57f0-4f32-a64e-a227fd96dcbc.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: After selecting the data source, it's necessary to select the metrics that will
+    be plotted on the chart. If the device has already published some events to the
+    IBM Watson IoT Platform, the metric names will be available to be selected. On
+    the other hand, if the device code has never been run before, you will need to
+    provide the metric names. It's recommended (not required) that you at least test
+    the device code to avoid mistakes before creating the chart.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'In the solution that is being developed, we want the card to have both metrics
+    plotted in the line chart and tracked. Add each metric with its corresponding
+    unit and maximum and minimum possible values. For the soil moisture, we use percentage,
+    so Unit should be `%` for the minimum and maximum values `0` and  `100` respectively:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/06ed102f-b3c1-4e02-a2c8-0c6df50d445f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'For temperature, measured in degrees Celsius (°C), the minimum and maximum
+    possible values are `0` and `100`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/edf3de4c-9e73-4bbc-877a-824c7e748668.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Select the size of the card you prefer to display, name the card, and create
+    it. You will now be able to visualize the published data:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/bfc97b61-a85e-4f17-a3a9-0fd3dff1843f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: It's possible to verify the measurements sent by the plant device, plotted in
+    the timeline. It's also possible to change the time frame for the chart.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Subscribing to actions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: After publishing events for the device, it's time to define actions that need
+    to be handled by the device. In our case, John, the user of the solution, wants
+    to be able to water his plants whenever a defined soil moisture threshold is detected,
+    whenever the temperature reaches a configurable value, or whenever he triggers
+    an event to water the plant.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The water flow is controlled by the solenoid valve, which is opened and closed
+    by the relay module. The following code is an update of the previous one, including
+    the subscription for the water-the-plant action, which will open the valve for
+    a minute.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The starting point is to import all package dependencies, define the `RESISTOR`
+    and `THERMISTOR` constants with predefined values, and load the configuration
+    from `device.json`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, create helper functions to transform sensor readings into usable values.
+    The following functions are responsible for retrieving the sensor values from
+    the actual device and transforming them into human-understandable values:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The next step is to create a helper function to activate the solenoid valve,
+    wait for the amount of time requested (the `secondsToWater` variable''s value),
+    and then deactivate the valve so watering will stop:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Connect to the IBM Watson IoT Platform and create a publishing function that
+    will publish events to the platform every five minutes:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'And create a function that subscribes to the `water` event, triggering the
+    `waterPlant` function:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: This concludes the coding of our device firmware so that it can perform the
+    desired actions of our user, John.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating the backend application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: With the device firmware setup completed, it's now time to focus on developing
+    the application that will process the device events and send commands so that
+    John's plant will get watered when he's not home.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The code for the application will run on the IBM Cloud Platform (Bluemix). Since
+    this is just an example application, we're going to use environment variables
+    to store parameters (temperature and soil moisture thresholds).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a Cloud Foundry application in the IBM Cloud Platform
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To create an application in IBM Cloud, access [https://console.bluemix.net](https://console.bluemix.net),
+    select the Create Resource option, and select Cloud Foundry Apps in the left menu, followed
+    by SDK for Node.js. After doing this, name the application and create the runtime:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/99311d15-d0f2-4a55-88fd-d82d61f2a49f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'When application creation is complete, select Connections in the left menu and
+    create a connection to the IoT service:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/763dec81-cade-4877-8383-59b8434f5423.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'After creating the connection to the IBM Watson IoT Platform organization,
+    select the Runtime option in the left menu followed by Environment Variables.
+    At the bottom of the screen, add two User defined variables, `MINIMUM_MOISTURE`
+    with a value of `300` and `MAXIMUM_TEMPERATURE` with a value of `50`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/a7a2b6b3-15af-4de7-8b43-1b5b5d55ab40.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Instead of using a JSON file for storing the configuration as we did in the
+    previous chapter, the only configuration needed now is in `VCAP_SERVICES` and
+    environment variables. These variables can be accessed from code using default
+    library packages, and there are accelerators in Node.js for accessing Cloud Foundry
+    environment-related facilities, such as the `cfenv` module used in the code presented
+    in the following section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Uploading the code
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Since we are deploying the application to a Cloud Foundry environment, it's
+    important to know that Cloud Foundry containers expect to have an HTTP port to
+    be published by the container, so even though we are not using the container to
+    expose HTTP resources, we're going to start an Express JS server.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The following code handles the events received from devices and publishes actions
+    if any conditions are met.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Again, the entry point of the code is to load module dependencies and gather
+    the required configuration from the Cloud Foundry environment variables:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, load configuration data from the Cloud Foundry environment and generate
+    connection configuration data:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The next step is to connect to the IBM Watson IoT Platform and subscribe to
+    target device events:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Whenever an event is received from the subscription, the application checks
+    whether the temperature reported by the device is higher or the soil moisture
+    is below the thresholds defined. If so, a water event with a specified duration
+    in seconds is published to the device so the watering valve is activated:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'And finally, start the Express server so the IBM Cloud SDK for Node.js container
+    is started and monitored by the Cloud Foundry environment:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To deploy the application, open the `manifest.yml` file and change the `name`
+    attribute of the application. Then, open a command-line terminal, switch to the
+    application base directory (the place where `manifest.yml` stands), and deploy
+    the application using the `bluemix` CLI:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: '![](img/61977231-41ec-4263-a9dc-cd3498d11217.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'After getting the successful deployment message, check the application logs
+    using the `bluemix` CLI:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The command will retrieve and display the log files from the Cloud Foundry
+    application, as shown next. To ensure you can retrieve these logs, ensure that
+    all application traces are being sent to `stdout` and `stderr`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0fe96c2d-d112-4655-89da-5cb262779827.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Log files from the Cloud Foundry application
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Looking at the device logs, you can see that whenever any of the conditions
+    were met, they got an action request to water the plants:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/8500ecd5-a346-4505-9c4f-73e0c8a1b1e8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: At this point, you already have an IoT application and device connected and
+    working properly in the IBM Cloud environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we developed a solution running on a real device that supports
+    Node.js. We also used the low-level mraa library, which interacts with the device
+    GPIO (General Purpose IO), reads analog sensors (temperature and soil moisture
+    sensors) and uses digital pins to switch a relay on and off. This looks very simple
+    but most devices have sensors and actuators, which may change the way in which
+    they are used. However, they essentially follow the same concept.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We created a dashboard in the IBM Watson IoT Platform that is helpful for looking
+    at what real-time data devices are publishing. We also created an application
+    in the IBM Cloud Platform (Bluemix) and attached backing services (the IBM Watson
+    IoT Platform organization) to the application in order to leverage configuration
+    data to connect to the service and deploy the application using the Bluemix command-line
+    interface.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The next chapters will introduce blockchain as a platform for interconnected
+    businesses and explain its value and the common use cases in which it adds value
+    to the business chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Further reading
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Most of the resources needed to complete solutions using the IBM Watson IoT
+    Platform can be found in the official documentation at the following link: [https://console.bluemix.net/docs/services/IoT/index.html#gettingstartedtemplate](https://console.bluemix.net/docs/services/IoT/index.html#gettingstartedtemplate).
+    There are also many recipes published by the community that uses IBM Watson IoT,
+    and these are available at the developerWorks Recipes website here: [https://developer.ibm.com/recipes/tutorials/category/internet-of-things-iot/](https://developer.ibm.com/recipes/tutorials/category/internet-of-things-iot/).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: It's also very helpful to understand how to upload a project to a GitHub repository
+    and how to create a delivery pipeline to automatically build, test, and deploy
+    an application whenever a new change is pushed to the repository. Doing this is
+    not within the scope of this book, but it's still a really good practice to use.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Further information on Grove system platforms, modules, bundles, and component
+    specifications can be found on the manufacturer's website: [http://wiki.seeedstudio.com/Grove/](http://wiki.seeedstudio.com/Grove/).
+  prefs: []
+  type: TYPE_NORMAL

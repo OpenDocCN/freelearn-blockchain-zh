@@ -1,0 +1,978 @@
+- en: Designing the Solution Architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this chapter, we''ll review the architecture of our IoT- and blockchain-based
+    solution for the food logistics network, exploring the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**The business side**: We''ll review the business components and the main actors
+    on the business side of things, as well as the processes that take place between
+    production and the consumer.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**The technology**: We''ll present a diagram of the technological solutions
+    that we''ll be engineering.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Software**: We''ll present a diagram detailing the solution at the software
+    level, examining layers and integration.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We'll also review some concepts and architecture involved in our IoT- and blockchain-based
+    solution in more detail.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The business of food
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The modern food chain is very large and complex. There are numerous actors involved
+    that influence the making of the product and its delivery, whether directly or
+    indirectly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We''ll be looking at this modern food production process, learning about the
+    challenges of the modern chain and proposing a new one based on blockchain and
+    IoT:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b6ef5203-faa7-4e12-bf09-9434e292eb37.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The business process shown in the preceding diagram is a simplified version
+    of the modern food chain. The chain can be much bigger than the one represented
+    here. For example, many supermarkets have their own distribution centers. However,
+    since our main goal is simplification, we didn't represent other factors, such
+    as ports and customs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For our use case, we'll seek to account for the product from the time it's delivered
+    to the manufacturer. This product could be any item, but we'll use chicken drumsticks
+    for our example.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The asset to be managed in our chain will be a box full of chicken drumsticks,
+    and our other asset will be a pallet full of boxes containing chicken drumsticks.
+    In the food chain, we''ll be looking at the processes of the following actors:
+    the manufacturer, distribution center, and retailers.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: As stated previously, there are a lot of actors in the modern food chain. Remember
+    that we're following a more simplified process, not necessarily the actual process
+    followed in real life. Our goal Here's understanding how IoT and blockchain can
+    help the parties and processes inside the food chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Challenges of the process
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The part of the food chain we have chosen to focus on has many challenges.
+    We''re listing them briefly here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Challenges from the farmer''s perspective**: Securing documentation of key
+    information on raw materials, such as product descriptions, dates of inspections,
+    date of abatement, and stock information'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Challenges from the manufacturer''s perspective**: Ensuring product origin
+    and safe delivery and receipt of products, packaging products with electronics,
+    using barcode/QR code informational labeling for regulators and consumers, and
+    aggregating products into packages'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Challenges from the retailer''s perspective**: Checking package integrity
+    and maintaining visibility of product packages across the transport lines with
+    dates, warehouse validation, and quality control'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Challenges from the consumer''s perspective**: Having confidence in the origin
+    of the product and the information contained in its packaging, as well as identifying
+    goods quickly and, if necessary, removing suspect products from the shelves and
+    consumption'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The process at the food factory
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's start from the beginning of our target process. In our use case, the product
+    arrives at the factory in large pieces, where it'll be cut, packed, and put in
+    boxes for sale. This product is stored and the boxes are put onto pallets before
+    delivery.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A pallet is a wooden, metallic, or plastic platform used for moving goods,
+    as we can see in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9159aa57-6758-47a5-b3c6-afb9d0eca173.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Next, we''ll see the important data that must be registered about the product
+    before it proceeds to the next stage. When the product arrives, the following
+    data is captured and recorded:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Stock Keeping Unit** (**SKU**)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Animal origin
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Name of producer
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Animal information
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Quality control
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Date of abatement
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Freezing
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Technical supervisor details
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Shipment date
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Temperature and transport details
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following details are captured during the registration of a box or pallet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: SKU
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Date
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Factory address
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Freezing temperature
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Quality record
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Pallet code
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Now let's check the process for the next actor in the chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The process at the distribution center
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'After being cut, packed, and delivered, the product arrives at the distribution
+    center, where it''s received and checked for storage. Depending on the process,
+    it might go to a bigger pallet that suits it better for transportation, which
+    could be by train or truck:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d2ebc4d1-c38a-4149-9875-e0bc670bd3ca.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'To avoid any issues with the product, the distribution center reviews the data
+    sent by the factory. If there''s any additional movement, such as pallet transfer,
+    new information needs to be added to the package:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For the product, it''s the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Received date
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Pallet number
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Temperature received at
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Temperature for storage
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transport company
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Quality seal
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For the pallet, it's the following**:**
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Destination code
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Pallet code
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Date
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Temperature for dispatch
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transport company
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: After inspection, the products are sent to the retailers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The process at supermarkets and stores
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The store will receive the product and check the goods to see whether they
+    fit the requirements. If they do, the pallets are disassembled and the boxes are
+    opened. This concludes the monitoring of our assets:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/77ca5156-5ff6-463d-84e9-1d486e7d9bac.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The following important data must be registered at this stage for the product
+    to reach the consumer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Received date
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Pallet number
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Temperature received at
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Temperature for storage
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transport company
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Quality seal
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Now it's the store's responsibility to put a label on the product, after which,
+    it may or may not be taken straight to the shelf.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The technological approach
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now that we have a better understanding of our process and potential problems,
+    let''s see how technology can be useful to us. Here''s a representation of a standard
+    blockchain Hyperledger Fabric architecture:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/6b953461-f3fd-45fa-a64b-fbf7a238022e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The preceding diagram shows us three important layers: frontend applications
+    (on the left), API/SDK (in the center), and Hyperledger Fabric and the IoT platforms
+    (on the right).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's review each layer in more detail.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Frontend applications
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This layer is responsible for data input and can be a packet, such as one from
+    SAP, Salesforce, or Siebel, or a custom application. It can also interact with
+    IoT devices, collecting data and registering in the blockchain ledger. The modern
+    architecture for developing frontend applications consists of these layers:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7af24390-1421-4556-ae81-32d546279b76.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Okay, I know there are a lot of other tools for each layer than those presented
+    here, but I just used the ones I'm more familiar with.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This type of frontend architecture allows us to separate our services from a
+    single interface. By doing so, we can expand the **User Experience** (**UX**) to
+    several platforms without the need to rebuild the whole application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: IoT-based asset tracking
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: IoT plays an important role in the food chain. IoT devices can track assets,
+    and there's an arsenal of models available that can do that. There are sensors
+    for measuring temperature, and location can be determined using GPS, beacons,
+    SigFox, Wi-Fi, 4G, and Sub1Ghz. These devices and networks can be used by farms,
+    factories, transportation companies, distribution centers, and retail outlets,
+    covering all actors in the food chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The major challenge in the food chain is transportation. Many foods require
+    special care, and temperature is one of the most important concerns. Since many
+    foods are perishable, and temperature control is vital for preventing contamination
+    and damage.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s take a look at how we can mitigate this challenge using an IoT-enabled
+    device. The Particle Electron Asset Tracker (pictured in the following diagram)
+    can be used to collect temperature and environmental data and identify GPS location
+    and cellular triangulation, among other things:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/5ae745ea-7620-488f-ace3-90f52b6db786.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This tracker allows us to connect with a u-blox M8 GNSS GPS receiver and Adafruit
+    LIS3DH Triple-Axis Accelerator. We can connect Grove sensors to it as well.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s look at a high-level architecture of this kind of IoT solution:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/1eb010e8-a5e7-4851-949b-ae1eba26fb37.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'This diagram shows us some important components of the solution. Let''s see
+    what they are:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Message Queuing Telemetry Transport** (**MQTT**): This refers to a publish-subscribe-based
+    messaging protocol that works over TCP. It''s designed for connections with remote
+    locations where a small code footprint is required or the network bandwidth is
+    limited. The publish-subscribe messaging pattern requires a message broker.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Node-RED**: Node-RED is a programming tool for wiring together hardware devices,
+    APIs, and online services in an easy way using a flow editor that can create JavaScript
+    functions.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**IBM Cloud**: This is a set of cloud computing services for business.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Bosch IoT Rollouts**: This is a cloud service in the Bosch IoT Suite that
+    enables users to manage the rollout of software updates to edge devices, controllers,
+    and gateways.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'So, how do these components come together to assist in the various processes
+    in the food chain? Here''s how:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Node-RED control panel dashboard enables us to select an asset tracker and
+    check the location, data, device status, and other information
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The asset tracker device can be either activated or updated over a cellular
+    network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Geolocation data can be transmitted periodically and can be followed by a dashboard
+    in Node-RED, for example
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The asset tracker device queries the temperature data and then may query for
+    location or velocity data
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Node-RED can write the temperature, location, and velocity data to Hyperledger
+    Fabric
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The Node-RED dashboard queries Hyperledger Fabric for various tasks and information,
+    such as transaction histories, date and time data, and geo-sensor data
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: API/SDK
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The SDK or API is an integration layer responsible for connection in the blockchain
+    network. It's normally developed using Node.js and plays an important role in
+    the calling of smart contracts. Today, we can find API/SDK documentation covering
+    Go and Java, with documentation for Python on the horizon.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can refer to this link for more information on how to use APIs/SDKs to integrate
+    your application with a blockchain network: [https://hyperledger-fabric.readthedocs.io/en/release-1.3/fabric-sdks.html](https://hyperledger-fabric.readthedocs.io/en/release-1.3/fabric-sdks.html).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows an application integrated with an API/SDK that
+    interacts with Hyperledger Fabric:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/590b546a-02ee-460b-b83e-d139031123a0.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Composer JavaScript SDK is derived from Node.js, and it allows developers to
+    integrate your application with their business networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There are two npm modules:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`composer-client`: This module is usually installed as a local dependency of
+    an application. It provides the API that''s used by business applications to connect
+    to a business network in order to access assets and participants and submit transactions.
+    When in production, this is the only module that needs to be added as a direct
+    dependency of the application.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`composer-admin`: This module is usually installed as a local dependency of
+    administrative applications. This API permits the creation and deployment of business
+    network definitions.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Now let's move on to the last layer in our solution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Composer – a high-level overview
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Composer is an easy way to create your blockchain network, integrated with
+    a full-stack working solution, as provided by the Hyperledger Composer architecture
+    site.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'At a high level, Hyperledger Composer is made up of the following components:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Execution runtimes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: JavaScript SDK
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Command Line Interface** (**CLI**)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: REST server
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: LoopBack connector
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Playground web user interface
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Yeoman code generator
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: VS Code and Atom editor plugins
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It would be outside the scope of this book to review each of these in detail.
+    You can visit this link to explore these components briefly: [https://hyperledger.github.io/composer/latest/introduction/solution-architecture](https://hyperledger.github.io/composer/latest/introduction/solution-architecture).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Software components
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now we'll look at the software components of our solution for an architect's
+    perspective. This is a good way to get familiarized with all of the components
+    and have a better understanding of how they are integrated.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To start, let''s explore one of the most important components: the authentication
+    process.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'How we can guarantee that each member of the blockchain has the correct access
+    permission in our frontend application? After answering this question, we''ll
+    delve into the most important components of Hyperledger Composer: the modeling
+    language and the transaction processor functions.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Composer REST server
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To authenticate clients, we'll need to set up a REST server. With this option
+    available, the clients should be authenticated before they are permitted a call
+    in the REST API.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The REST server uses an open source software named PASSPORT, an authentication
+    middleware for Node.js. It's flexible and modular and supports authentication
+    via username and password, Facebook, Twitter, Google, and **Lightweight Directory
+    Access Protocol **(**LDAP**), among others. In [Chapter 7](d067a20b-616f-49da-9614-ae0631a7e4f8.xhtml),
+    *Creating Your Blockchain and IoT Solution*, we'll have more details about this.
+    For now, let's review how the components will work.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the following diagram, we can see a high-level authentication architecture
+    using a Composer REST server:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3e2e08c9-dc65-4f1d-bcbc-fc815d3a98ab.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The following components have been described in the diagram: a frontend application,
+    a composer REST server, LDAP, and Cloudant, a NoSQL database.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you're working on a test or need to create a proof of concept quickly, I
+    strongly recommend using Facebook, Google, or Twitter for authentication. It'll
+    be easier and faster than other methods.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To use the previous approach to use the composer REST server as custom implementation,
+    we need to do some customization. Perform the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There''s a following line the `composer-rest-server` installation that needs
+    to be executed before the line:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: Make sure you have a clean environment before using this approach by cleaning
+    all previous installations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To customize our composer REST server Dockerfile, add the following command in
+    the RUN statements:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create the following environment variables:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If you''re checking the API call and receive `404`, it means you''re not logged
+    on:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Check whether we have an API in our Wallet:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To understand the process authentication better, let''s explore this execution
+    flow:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/38e6605e-aa2b-46cd-8116-95d0f833490f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Each API call of `composer-rest-server` must include `access_token`, which is
+    brought back by the authentication. For more information, see [https://hyperledger.github.io/composer/v0.16/integrating/enabling-rest-authentication](https://hyperledger.github.io/composer/v0.16/integrating/enabling-rest-authentication).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Some examples using `curl` are:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here''s another example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This is the final step in setting up your `composer-rest-server`: creating
+    a business card with Cloudant.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Create member cards with the following attributes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**ID**: `wallet-data/admin@system name`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Key**: `wallet-data/admin@system name`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Value**: `{"rev" : "5-1af3gs53gwh...."}`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Upload the attachment as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9e5250b5-5054-4fb1-b0c7-d59820f2f9ec.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: In [Chapter 7](d067a20b-616f-49da-9614-ae0631a7e4f8.xhtml), *Creating Your Blockchain
+    and IoT Solution*, we'll deploy this implementation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Composer model
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'There are many ways to identify a blockchain use case. Let''s remember some
+    important indicators of a good use case described in [Chapter 3](fe11e1f3-8540-4126-ace5-2c877b06d6bf.xhtml),
+    *Explaining Blockchain Technology and Working with Hyperledger*:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Is there a business network involved?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If yes, is there a transaction that needs validation and is auditable?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Are transparency and data immutability important?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: After determining the answers to these questions, brainstorm sessions are also
+    a good way to detail the solution and identify the best solution platform (such
+    as IBM Food Safety), or to start creating a custom development for the use case.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using Hyperledger Composer Modeling Language can be an easy way to define the
+    structure of the resource that'll be processed as a transaction and stored on
+    the ledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The CTO file creates the domain model for a business network definition with
+    three major elements:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A single namespace that contains all resource declarations within the file
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A set of resource definitions encompassing assets, transactions, participants,
+    and events
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Optional import declarations that import resources from other namespaces
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'In [Chapter 7](d067a20b-616f-49da-9614-ae0631a7e4f8.xhtml), *Creating Your
+    Blockchain and IoT Solution*, we created a business network. Let''s explore the
+    code we used in more detail:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A namespace is the base definition of an asset, event, participant, and transaction,
+    as you can see here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The declaration of resources and enumerated types is shown in the following
+    code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Transaction process functions are automatically invoked by the runtime when
+    transactions are submitted using the Business Network Connection API:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'For more information about Hyperledger Composer Modeling Language, you can
+    visit the following links:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[https://hyperledger.github.io/composer/v0.16/reference/cto_language.html](https://hyperledger.github.io/composer/v0.16/reference/cto_language.html)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[https://hyperledger.github.io/composer/v0.16/reference/js_scripts.html](https://hyperledger.github.io/composer/v0.16/reference/js_scripts.html)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The Hyperledger Composer access control language
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Composer has an access control file (`.acl`) with which you can
+    program business access control and network access control. Business access control
+    is for resources within a business network, whereas network access control refers
+    to control over administrative network changes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here''s an example of network access control being granted:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here''s another example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: You can get further information about the Hyperledger Composer access control
+    language by accessing the following link: [https://hyperledger.github.io/composer/v0.16/reference/acl_language.html](https://hyperledger.github.io/composer/v0.16/reference/acl_language.html).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Composer transaction processor functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A Hyperledger Composer business network definition is composed of a set of model
+    files and a set of scripts. The scripts may contain transaction processor functions
+    that implement the transactions defined in the business network definition's model
+    files.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here''s an example of a script file with a transaction:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: As we can see, transaction processor functions are automatically invoked by
+    the runtime when transactions are submitted using the `BusinessNetworkConnection`
+    API. Decorators within documentation comments are used to annotate the functions
+    with the metadata required for runtime processing, and each transaction type has
+    an associated registry for storing the transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The architecture described in this chapter involves many components, and the
+    implementation may seem a little complex. By now, we've established that the combination
+    of IoT and blockchain can mitigate several issues and transform the workings of
+    the modern food chain. For example, such an implementation can bring transparency
+    between members, allowing them to control data more efficiently; increase their
+    security; make the process automatic and dynamic; remove middlemen; and make the
+    chain less complex overall.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We also saw that IoT works as the extension of computing and network capabilities
+    for devices and sensors, enabling them to make machine-to-machine interactions
+    with minimal or no human input. These technological components bring advantages
+    such as unprecedented automation, cost reduction for provisioning, energy savings,
+    value-added services, and efficient management.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain's integration with IoT will make possible data exchange between edge
+    devices such as sensors, barcode and QR code scan events, and RFID-based assets.
+    Assets connected with sensors will be able to record sensitive information, such
+    as the location and temperature of a particular warehouse, and this information
+    could be automatically logged or updated on a blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With a better understanding of the architecture and the elements that comprise
+    its technical components, we'll be able to fully implement a solution with IoT
+    and blockchain for the modern food chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we'll see how to create our own blockchain with IoT.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Questions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Q. How can a lack of IoT security compromise data in a blockchain network?
+  prefs: []
+  type: TYPE_NORMAL
+- en: A. Sometimes, companies don't focus on security when they work with IoT. Perhaps
+    because it's a new technology, they don't believe it comes with imminent risk.
+    The fact is, however, that businesses are bringing insecure devices into their
+    networks and then failing to update the software. Not applying security patches
+    isn't a new phenomenon, but insecure IoT devices with a connection to the internet
+    is a disaster waiting to happen; think hackers and DDoS attacks. A strong security
+    plan should be developed for IoT devices, similar to the one for internet services.
+    Strong device identification and updates can help mitigate most problems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Q.Is blockchain technology mature enough for this application?
+  prefs: []
+  type: TYPE_NORMAL
+- en: A. Today, there're a number of blockchain platform providers available on the
+    market. Carrefour, Walmart, and others are already members of these platforms.
+    So, this indicates that big companies are already running their businesses on
+    a blockchain platform, and that such a platform is suited to this kind of application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Q. How complex is it to implement a solution using IoT and blockchain?
+  prefs: []
+  type: TYPE_NORMAL
+- en: A. Most of the technologies described in this chapter are open source and are
+    used by a huge number of companies. This shows that we're not talking about something
+    that's that complicated, but something that can be used by most developers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Q. How complex is it to have a solution that covers the entire food chain?
+  prefs: []
+  type: TYPE_NORMAL
+- en: A. Yes, it's not an easy task. You can start by validating the use case; a good
+    use case is essential. Also, check whether there's a business network involved;
+    remember, IoT also plays an important role in tracking the assets, and you should
+    have a security plan for asset tracking as well.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Q. Should I be concerned about using an open source tool such as Hyperledger
+    Fabric or Composer?
+  prefs: []
+  type: TYPE_NORMAL
+- en: A. Hyperledger is part of the Linux Foundation, which has more than 250 companies
+    as members, including leaders in finance, banking, supply chain, manufacturing, and
+    technology. For example, IBM, Cisco, American Express, Fujitsu, Intel, and JP
+    Morgan all use technology by the Linux Foundation. In other words, these tools
+    are safe to use provided you employ standard security measures on your devices.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Further reading
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A better description of Hyperledger Composer can be found on the Composer website:[ https://hyperledger.github.io/composer/v0.19/introduction/solution-architecture](https://hyperledger.github.io/composer/v0.19/introduction/solution-architecture).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The main focus in this chapter was Hyperledger Composer. If you want to explore
+    the architecture of Hyperledger Fabric, you can find further information here: [https://hyperledger-fabric.readthedocs.io/en/release-1.3/arch-deep-dive.html](https://hyperledger-fabric.readthedocs.io/en/release-1.3/arch-deep-dive.html).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Yeoman is an open source framework that creates your frontend structure. For
+    further information, visit [https://yeoman.io/](https://yeoman.io/).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Passport is an authentication middleware for Node.js. For further information,
+    go to [http://www.passportjs.org/](http://www.passportjs.org/).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You can have further information about the Hyperledger Composer access control
+    language by accessing the following link: [https://hyperledger.github.io/composer/v0.16/reference/acl_language.html](https://hyperledger.github.io/composer/v0.16/reference/acl_language.html).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'You can have further information about Hyperledger Composer Modeling Language
+    by accessing the following links:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[https://hyperledger.github.io/composer/v0.16/reference/cto_language.html](https://hyperledger.github.io/composer/v0.16/reference/cto_language.html)'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[https://hyperledger.github.io/composer/v0.16/reference/js_scripts.html](https://hyperledger.github.io/composer/v0.16/reference/js_scripts.html)'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Information about composer-rest-server can be found at [https://hyperledger.github.io/composer/v0.16/integrating/enabling-rest-authentication](https://hyperledger.github.io/composer/v0.16/integrating/enabling-rest-authentication).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL

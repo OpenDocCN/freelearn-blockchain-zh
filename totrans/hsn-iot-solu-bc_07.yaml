@@ -1,0 +1,848 @@
+- en: Creating Your Blockchain and IoT Solution
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: With a correct understanding of the project objectives that were presented in
+    the previous chapter, it's time to get the solution to work. In this chapter,
+    I will guide you through creating a blockchain network using Hyperledger Composer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a blockchain network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Defining assets, participants, transactions, and access control lists using
+    Hyperledger Composer
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Publishing the network to a Hyperledger environment
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We will also borrow code from [Chapter 2](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml),
+    *Creating Your First IoT Solution*, to create a device that will monitor shipments
+    and interact with the blockchain network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Technical requirements
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To access the complete code, you will have to install the Hyperledger Fabric/Composer
+    environment on your machine, including prerequisites, and an IDE that's capable
+    of developing Node.js applications (Visual Studio Code is recommended).
+  prefs: []
+  type: TYPE_NORMAL
+- en: The code listed in this chapter is available at [https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain/tree/master/ch7/hands-on-iot-blockchain.](https://github.com/PacktPublishing/Hands-On-IoT-Solutions-with-Blockchain/tree/master/ch7/hands-on-iot-blockchain)
+  prefs: []
+  type: TYPE_NORMAL
+- en: Solution overview
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Here, we will be dealing with one of the most important parts of the farm-to-fork
+    food life cycle: moving products from the food factory to the grocery store.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows the solutions that should be implemented for each
+    of the given stages:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/dba4c6b3-f8fa-461d-b094-99f901cab164.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Let''s look at the preceding diagram in detail. We will start with the four
+    participants:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Factory**: This is the starting point of this food safety solution. It is
+    responsible for gathering raw materials from farms and creating a box that is
+    sent to the warehouse. The actions allowed for this participant are adding a new
+    box and transferring the box to the transporter.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Transporter**: This is the company that''s responsible for handling transportation
+    from the factory to the warehouse and from the warehouse to the grocery store
+    in controlled temperatures. The actions defined for the transporter are adding
+    temperature measurements to an asset that is under its control and transferring
+    assets to a warehouse or grocery store.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Grocery Store**: This is a company that sells the food box to the consumer.
+    The grocery store is the end of the chain, and it''s where the consumer can retrieve
+    information from the food box. Grocery stores can check pallets and box data.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consumer**: They are the target of the food box. The consumer is interested
+    in tracking the box chain, so there''s a mapped action of viewing the information
+    for a box.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'We will create an instance of the **Composer REST server** using a business
+    card for each participant, and so we will have four **Composer REST server** instances
+    in total. There''s also the box and the pallet. The definitions for these assets
+    are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**FoodBox**: It represents the product that is produced at the factory and
+    is handled throughout the entire chain'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Pallet:** This represents a set of boxes that are grouped together to be
+    sent from the warehouse to the grocery store'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Let's start with our blockchain network solution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a blockchain network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To develop a blockchain network, we will first have to create a business network
+    project using the Yeoman command line, and then name the business network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: The Yeoman generator creates a folder with a basic empty structure for a Hyperledger
+    Composer business network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The `.cto` file contains the business network definitions: assets, participants,
+    transactions, and queries, whereas the `.acl` file contains the access control
+    list for the assets and transactions.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In later sections, we're going to code the business network definition, so start
+    Visual Studio Code and open the folder that was created by Yeoman.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To start developing a blockchain solution, open the `models/com.packtpublishing.businessnetwork.cto` file
+    and start coding.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Concepts and enumerations
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: It's a good practice to create combined data types that are common among assets,
+    participants, and transactions by creating more readable structures in Hyperledger
+    Composer. These structures are **concepts** and **enumerations**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We will use the following structures in the solution:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: Next, we will look at how to define assets in the business network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Asset definitions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: After defining the common structures of the blockchain network, let's define
+    the assets that will be used in it. In our solution, we will have the `FoodBox`
+    and `FoodBoxPallet` assets.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following code defines them:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: Participants
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The participants are the actors that interact with the blockchain network.
+    Each participant definition is for a different role in the business network and
+    their permissions are defined in access control lists, as shown here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: Deploying and testing the business network for Hyperledger
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'For testing purposes, we will grant all participants full access to all of
+    resources of the blockchain network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To achieve this, we will add the following lines to the `permissions.acl` file
+    (without deleting any existing rules):'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: With this rule defined, we will be able to deploy and test the ledger without
+    any other extra permissions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'After defining the network, we will generate a **Business Network Archive**
+    (`.bna` file) and deploy it to the Hyperledger environment. Make sure that your
+    environment is up and running before that. To create the `.bna` file, go into
+    the root directory for the project and run the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If you haven''t generated the `PeerAdminCard` yet, it''s time to do so and
+    import it with the `createPeerAdminCard.sh` script inside the directory where
+    we have downloaded the `fabric-dev servers`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'When you have everything set up, install the `.bna` file into the environment and
+    start the network by running the following commands:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, import the network administrator card that was generated by the start
+    process and ping the network to ensure it''s running in the environment:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: At this point, we have created the first version of our network; generated the
+    package for deployment (the `.bna` file); created the `PeerAdminCard`; installed
+    the network to the Hyperledger Fabric environment; generated the `NetworkAdminCard`,
+    which is responsible for managing the blockchain network; and started the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With the Admin cards, we will send a `ping` command to ensure that the network
+    is up and running. Now, let's improve our network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Manipulating assets via transactions in the blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Transactions are atomic operations that are performed on objects inside a Hyperledger
+    Composer-defined business network. They run on the scope of the Hyperledger Fabric
+    environment and the defined business network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the use case that's demonstrated here, the transaction that we've created
+    will update both the pallet and the nested food boxes with the information provided
+    by the IoT device.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It is composed of two structures. The first one is the definition of the transaction
+    and is created in the business network definition model (the `.cto` file):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The next structure is the function that implements the transaction that was
+    defined previously and is created in a JavaScript ES5 compliant script (a `.js`
+    file):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: Generating and exporting participant business cards
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To use the network properly, we will create one participant for each class
+    (`Factory`, `Warehouse`, `Transporter`, `Store`, and `Consumer`), generate their
+    respective business cards, and import them into a Composer CLI Wallet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'First, we will create the participants:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, we will issue an identity and import their respective business cards
+    with the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Repeat this command for each participant: `Transporter 1`, `Store 1`, `Warehouse
+    1`, and `Factory 1`.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Import each card into the Composer CLI wallet for each participant/card generated
+    and check that all cards have been imported successfully:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: Defining access control lists (ACLs)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To enforce permissions on the network, we will define some access control for
+    participants over assets with the following rules:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Only factories can create `FoodBoxes`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Since a food factory can also see what their `FoodBoxes` are and transfer them
+    to a transporter, we can use a conditional rule to define these restrictions:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The next rule refers to `Transporters`. These can read and update their own `FoodBoxes`.
+    We will do the same thing for `FoodBoxPallets`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Warehouses can also read and update their `FoodBoxes`, as well as creating,
+    updating, and reading `FoodBoxPallets`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, stores can read the `FoodBoxes` they own, while consumers can read
+    all `FoodBoxes`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: After applying these rules, the network is ready to be tested.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Upgrading the business network to a newer version
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'There are only four steps that are necessary to upgrade a deployed business
+    network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Open the `package.json` file and update the version number for the application.
+    In our case, it will update to `0.0.2`  and will look like this:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create a new BNA file by running the `composer archive create -t dir -n .` command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Install the new archive file in the Hyperledger environment:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, `upgrade` the network version to the new one:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: If all of the commands have run successfully, the business network will now
+    be running on the new version, including the transactions and ACLs that were created
+    in the preceding sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting up Composer REST servers for each participant
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As part of the prerequisites for the installation of the Hyperledger Composer
+    development environment, you would have also installed the Composer REST server.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This component is an API server based on the Loopback framework ([http://loopback.io](http://loopback.io))
+    and includes a `loopback-connector-composer` to connect to the Hyperledger Composer
+    environment and a script that dynamically gather assets, participants, and transactions
+    models.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The easiest way of starting a Composer REST server is by running the `cli`
+    commands and filling the startup questionnaire correctly. For our convenience,
+    we will be running it using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Open a terminal window for each participant to start a dedicated Composer REST
+    server for it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: Each running instance is related to a single user, meaning that all operations
+    that were invoked through the Composer REST server that is listening on port `3003`
+    are related to the `Consumer` with identifier 5**. **For example, if a new `Consumer`
+    participant is created (let's say ID 6), then a new business card must be issued
+    to the participant, and another instance of a Composer REST server must be started
+    using the new card.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In most use cases, a single business card is enough for an entire organization.
+    Other rules for issuing business cards can be defined by governance, such as a
+    business card per branch/subsidiary, or each user must have their own business
+    card.
+  prefs: []
+  type: TYPE_NORMAL
+- en: At this point, you should have five instances of the Composer REST server running
+    on your computer, and each one should be capable of being accessed through a browser
+    at the following address: `http://localhost:<port>`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating the IoT part of the solution
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: After defining the entire blockchain network and getting everything up and running,
+    we will now set up and develop the device that's going to update the ledger with
+    box and pallet measurements.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To complete that, we're going to create a new device, using the same approach
+    as [Chapter 2](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml), *Creating Your First
+    IoT Solution*, and create an application that receives events from measurements
+    and updates the blockchain ledger using the API that was exposed by the Composer
+    REST server.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hardware setup
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To assemble this monitoring device, we will apply a couple of assumptions that
+    might be pertinent to a production environment:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The transporting vehicle has a Wi-Fi connection available so that the device
+    can connect to the internet
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The monitoring device time is synchronized with the application time, including
+    the time zone
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: All boxes are transported at the same time, using the same vehicle, so that
+    the same conditions and measurements apply to all boxes in a pallet
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In a production-level application, these restrictions/assumptions have to be
+    handled with techniques such as caching non-published events and using different
+    network providers (Sigfox, LoRAWan, mobile connections, and so on), and the actual
+    time must be synchronized with the device's location.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The parts that are used in this project are shown here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/841670de-c230-4e24-b10c-ab7603f56f12.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This image was created with Fritzing and is licensed under CC BY-SA 3.0; see
+    https://creativecommons.org/licenses/by-sa/3.0/
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The description of each component is given in the following table. You should
+    be familiar with them, given that they are a subset of what was used in [Chapter
+    2](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)*, Creating Your First IoT Solution*:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Quantity** | **Component** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | Intel Edison module  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | Intel Edison Arduino breakout board |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | Grove Base Shield v2 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | Grove Temperature Sensor v1.2 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1 | Grove universal 4-pin cable |'
+  prefs: []
+  type: TYPE_TB
+- en: 'Given these assumptions, the device that''s used in this application is connected,
+    as shown in the following diagram. Here, we have attached the Grove Temperature
+    Sensor to the `A3` connection jack in the Base Shield:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ac9d03b0-a245-46f6-b129-c77f877521de.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: This image was created with Fritzing and is licensed under CC BY-SA 3.0; see
+    https://creativecommons.org/licenses/by-sa/3.0/
+  prefs: []
+  type: TYPE_NORMAL
+- en: This completes the device that will monitor food box transportation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Firmware development
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The following code has been borrowed from [Chapter 2](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)*,
+    Creating Your First IoT Solution,* since it has the same hardware characteristics
+    and the same objectives.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The only modification is in the published JSON: we have to remove the `soilMoisture`
+    property and add the box ID when transporting from the factory to the warehouse,
+    and add the pallet ID when transporting from the warehouse to the store.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It retrieves the temperature of the Grove sensor and publishes it to the Watson
+    IoT platform:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: Application development
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Since we are running the Hyperledger environment locally, the application being
+    developed here has to run on the same network as Hyperledger. Given that we're
+    not running it in IBM Cloud/Bluemix, the configuration will be stored in a JSON
+    file, in the same directory that the main `.js` file of the application will run
+    in.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The content structure of the configuration JSON file is listed here and must
+    be updated with the details that were defined in [Chapter 2](77c0cd3d-c8ef-4bce-965c-cf1a7f7035f0.xhtml)*,
+    Creating Your First IoT Solution*:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The application code receives all of the events that were published by the
+    device and updates the `FoodBoxes` in the pallet with the temperature gathered:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following code calls the defined transaction in the blockchain network
+    through the Composer REST server:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: End-to-end testing
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: For testing purposes, we are going to use the Hyperledger Composer Playground
+    for most of the operations, except transporter updates. So, at this point, you
+    can stop all of the Composer REST servers that were started in the previous section,
+    except the one that was started for the transporter participant (listening on
+    port 3004).
+  prefs: []
+  type: TYPE_NORMAL
+- en: If your Hyperledger Composer Playground was installed during the development
+    environment setup, all you have to do is run the `composer-playground` command, or install
+    it using `npm` (`npm install -g composer-playground`).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Your default browser will open the Composer-Playground web application, as
+    shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7dcc9af6-9217-4171-8159-3c623457d685.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Composer playground landing page
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can see the same participants that were created earlier.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a FoodBox
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'As per the permissions we''ve granted, factories can create `FoodBoxes`. Let''s
+    see how:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Find the Factory 1 @food-safety-b10407 business card and select the  Connect
+    now option. Then, click on Test at the top left of the screen.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'In the left-hand panel, select Assets -> FoodBox, and in the upper-right corner,
+    click on + Create New Asset:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/fea4eff8-8247-45e3-a24a-6d07acaee3e5.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Fill up the JSON with the following content and create the asset using the
+    Create New button:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: Transferring the asset to the transporter
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To transfer an asset of the food safety network using the Hyperledger Composer
+    Playground, take the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the top-right corner of the application, select the My business networks
+    option and connect as transporter.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'If you select Test, Assets → FoodBox, you will see that there are no assets
+    available:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/f6a48c12-d9e5-4675-bef2-2d478e4e29d7.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Return to the `Factory` identity, select the Edit button on the right-hand
+    side of the asset data, and update the JSON file with the following data:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: Save the asset; it will disappear from the Factory view. When you return to
+    the Transporter view, you will find that the transporter can now see the asset.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Measuring the temperature while transporting
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: At this point, we will simulate temperature measurements during transportation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We created the following commented code in the IoT application code because
+    we are handling transportation gathering data at two different points in time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The first is when a `FoodBox` is transported from the `Factory` to the `Warehouse`,
+    which is implemented by the `updateFoodBox` function, while the `updatePallet`
+    function is aimed at processing the transportation from the `Warehouse` to the
+    store:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: At this point, we are handling the transportation from the `Factory` to the
+    `Warehouse`, so uncomment line 19 of the code—`updateFoodBox(payload.temperature);`— and
+    then update lines 30, 34, 35, and 36, providing the correct values for the data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ensure that the Composer REST server for the transporter is up and running and
+    that the URLs defined in lines 2 and 3 of the device code are pointing to the
+    correct Composer REST server host.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Start the device application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transferring the asset to the warehouse
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The same thing happens when the asset is transferred to the transporter. Go
+    to the asset view of the transporter, edit the JSON file, and change the owner
+    with the respective value:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: Creating a pallet and adding the box to it
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To create a pallet, we need to follow the same process as that for a FoodBox:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the left-hand panel, select Assets → FoodBoxPallet, and in the upper-right
+    corner, click on + Create New Asset.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Then, fill the JSON with the following data. Make sure that you were using
+    the same FoodBox ID in the `foodBoxInPallet` field and the Warehouse ID (3) in
+    the `owner` field:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'After creating the pallet, transfer both the pallet and box to the transporter,
+    as before. The owner value of the JSON should be as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE35]'
+  prefs: []
+  type: TYPE_PRE
+- en: Measuring the temperature while transporting a pallet
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This follows the same rules as the measurements for the FoodBox transportation,
+    but you have to comment line 19 and uncomment line 20 of the device code, as well
+    as update lines 53, 57, 58, and 59 with the correct values for your pallet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'At the end of the transportation, transfer the asset to the store by using
+    the `owner` of the pallet and the box with the following line:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE36]'
+  prefs: []
+  type: TYPE_PRE
+- en: Tracking the FoodBox
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To track the food box as a consumer, we're going to use the Hyperledger Composer
+    Historian through `composer-playground`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To access the history of actions that have been applied to an asset, connect
+    to the Hyperledger environment using the Consumer business card and select the
+    All Transactions option from the left-hand panel of the playground.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We will be able to see all of the transactions that have been performed on
+    an asset, from its creation to the arrival of the pallet and its inner boxes to
+    the store:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3f72ea47-aeb8-4193-bdcc-a100745a00ca.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Composer playground - Historian
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We can also see the transaction details by clicking on the view record link,
+    as shown here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f70e406f-0299-4ee6-94ab-2799c4fb5670.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned how to create a business network using Hyperledger
+    Composer and the Watson IoT Platform.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the process of developing the solution, we were able to create a Hyperledger
+    Composer project using Yeoman; define shared data structures; create assets, participants
+    transactions, and access control lists; as well as create the first version of
+    a network and upgrade it to a newer version.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We were also able to create a device that is responsible for reading temperatures
+    from the hypothetical transport of a food box from a factory to a warehouse, and
+    later, from the warehouse to a store, and added that information to the food box
+    asset in the shared ledger of the blockchain network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The consumer of that food box was also able to track the information related
+    to that box from the very beginning of the production chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Even though Hyperledger Composer and Watson IoT development are quite simple,
+    the solution that we've created addresses a huge problem regarding safety in the food chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The following chapters will give you the author's point of view about lessons
+    learned, practices, and patterns used in real-world projects, and how IoT and
+    blockchain are necessary tools for creating business models and addressing new
+    challenges in the current Industry 4.0 scenario.
+  prefs: []
+  type: TYPE_NORMAL

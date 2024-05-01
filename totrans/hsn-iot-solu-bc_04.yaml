@@ -1,0 +1,631 @@
+- en: Creating Your Own Blockchain Network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we'll create a blockchain network using Hyperledger Composer.
+    We'll explore a simple use case in which the asset can be transferred between
+    the networking participants. We'll learn how to quickly install Hyperledger Fabric
+    version 1.1\. Also, we'll identify and implement a step-by-step guide for running
+    your own business network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We''ll learn all of this by exploring the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Pre-requisites for creating a blockchain network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A brief overview of Hyperledger Composer
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Exploring the Composer Playground to create a blockchain network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Setting up a local Hyperledger Fabric/Composer development environment
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Prerequisites
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To complete the exercises in this chapter, please ensure you have the following
+    installed on your computer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: curl
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Node.js 8.9.x
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Python 2.7
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Git 2.9.x or higher
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Go
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Windows 10/Ubuntu Linux 14.04/macOS 10.12
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For Windows 10, you'll need Windows Subsystem for Linux to run Ubuntu.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating your own blockchain network with Hyperledger Composer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In [Chapter 3](fe11e1f3-8540-4126-ace5-2c877b06d6bf.xhtml),  *Explaining Blockchain
+    Technology and Working with Hyperledger*, we looked at various frameworks that
+    come under the umbrella of the Hyperledger distribution ledger. We then analyzed
+    one of these, Hyperledger Composer, a powerful tool for developing a blockchain
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In terms of blockchain, one of the biggest advantages of using Hyperledger Composer
+    is the excellent documentation that comes with the framework, not just on the
+    site itself, but also on the developer's website and other websites that hold
+    examples of code and routines.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Here, we'll look at a step-by-step guide of a slightly less common use case
+    than the one found on Hyperledger Composer's tutorial site, which will demonstrate
+    how simple it's to create a blockchain network. We're going to use Hyperledger
+    Composer's platform, which is called Playground.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Accessing Hyperledger Composer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The online Hyperledger Composer Playground enables us to explorer Hyperledger
+    components without any installation. The following steps will guide you through
+    a tour of the online Composer Playground:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s access the site at the following link: [http://composer-playground.mybluemix.net/login](http://composer-playground.mybluemix.net/login).
+    As we can see in the following screenshot, the home page opens with a splash page:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/9f0f55dc-7a74-45c8-a2fc-a9751cd2c9d3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'When you click the Let''s Blockchain! button, you''ll reach the next page,
+    which works as a dashboard:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/cfaa923d-3ad6-4433-b9c9-f84f2351b970.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: On this page, you have the option of using the tutorial, which takes you through
+    a very detailed step-by-step process. This is great for exploring Hyperledger
+    Composer. For now, let's move on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Click on the Get Started link. After a few loading screens, you''ll be taken
+    to the editor, where you''ll be able to create your own blockchain network:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/9b220e70-2ec7-4e20-b268-a616cc081bbd.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: In our case, we'll have two participants and one asset, which can be a token
+    that has a value. The idea will be to move this asset and the value between the
+    participants of the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Exploring the structure of a sample blockchain network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s start with the `name.cto` model file. Model files define the assets,
+    participants, transactions, and events in our business network. Remember that,
+    after each step, you need to deploy the changes. Now we''ll see some screenshots
+    that will illustrate the process:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/a682b58f-8f7e-4839-a40d-8bb10154eea7.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Let''s use the following code to create the participants, transactions, and
+    events:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Let''s create a function to transfer the assets between the participants. We''ll
+    use the `name.js` script file:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/1df701d9-ce02-4564-8977-19e129f2d56d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: '![](img/8431598b-b8de-41ac-ac5d-29963fbc77c2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Let''s look at the code that shows the algorithm/logic used here:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The **A****ccess Control List** (**ACL**) is the feature that ensures a Hyperledger
+    Composer blockchain network segregates access for the actions that participants
+    can take on the assets. Now we''ll create a business rule to allow the members
+    of the blockchain network to have the right access control. The basic file gives
+    the current participant, the network admin, full access to the business network
+    and system-level operations:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/fcda1af1-c4ad-43ed-bd41-89930f6a8f04.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Here we have some code that shows us how to create an access control:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Define access to the access control''s assets as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Define a rule for `SystemACL`, whether network admin or user, as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We''re now ready to test our blockchain network. Click on the Test tab at the
+    top of your screen:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/1df701d9-ce02-4564-8977-19e129f2d56d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now create two participants for your blockchain network. The first participant
+    is shown here:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/d4febc29-8c93-4578-b7a1-d371dc356c86.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Use the following code to create the first participant:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The second participant is shown here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b9140319-5738-40b1-9424-8485890b01a7.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Use the following code to create the second participant:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now let''s create an asset for participant 1\. Remember to add `participantId`, `assetId`,
+    and `value`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/1a9701c4-ef27-49f1-b86b-248977bcdd67.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Use the following code to create an asset for participant 1:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Repeat the approach used for participant 1 with participant 2:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/567eea76-9a38-4918-a73d-c874f8918e1a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Use the following code to create an asset for participant 2:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We''re now ready to submit a transaction between the participants. Click on
+    the Submit button and send an amount from participant 2 to participant 1\. In
+    the following example, the value of the transaction is 300:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/2146c1f3-b3e3-468a-b289-254c5298c23b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Use the following code to transfer an amount between the participants:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Great job! You can see all of the transaction details by clicking on the records
+    in the two following screenshots. The first one shows a list of all created assets:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2f2209e4-7e4f-4aa8-8efe-04881b5a9ca8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'This second screenshot shows the history of transactions that have run on the
+    blockchain network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9c0b2500-5a65-40a0-909a-2bd10a8f2244.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Now that you have validated a use case, you're ready to make a new proof of
+    concept and present the full potential of the Hyperledger blockchain for members
+    in the business network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing your own blockchain network using Hyperledger Fabric and Composer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the previous section, we saw how easy it's to work with Hyperledger Composer
+    using Playground. Now we'll install Composer in your own (local) machine.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We''ll start with the three most important stages of installing a blockchain
+    network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing the prerequisites
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Installing Hyperledger Composer (the development environment)
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Updating the environment
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: We can install the blockchain network using Hyperledger Fabric by many means,
+    including local servers, Kubernetes, IBM Cloud, and Docker. To begin with, we'll
+    explore Docker and Kubernetes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting up Docker
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Docker can be installed using information provided on [https://www.docker.com/get-started](https://www.docker.com/get-started).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Hyperledger Composer works with two versions of Docker:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Docker Composer version 1.8 or higher
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Docker Engine version 17.03 or higher
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'If you already have Docker installed but you''re not sure about the version,
+    you can find out what the version is by using the following command in the terminal
+    or command prompt:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Be careful: many Linux-based operating systems, such as Ubuntu, come with the
+    most recent version of Python (Python 3.5.1). In this case, it''s important to
+    get Python version 2.7\. You can get it here: [https://www.python.org/download/releases/2.7/](https://www.python.org/download/releases/2.7/).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing Hyperledger Composer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We're now going to set up Hyperledger Composer and gain access to its development
+    tools, which are mainly used to create business networks. We'll also set up Hyperledger
+    Fabric, which can be used to run or deploy business networks locally. These business
+    networks can be run on Hyperledger Fabric runtimes in some alternative places
+    as well, for example, on a cloud platform.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Make sure that you've not installed the tools and used them before. If you have,
+    you'll them using this guide.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Components
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To successfully install Hyperledger Composer, you''ll need these components
+    ready:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: CLI Tools
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Playground
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: An IDE
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Once these are set up, you can begin with the steps given here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Step 1 – Setting up CLI Tools
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'CLI Tools, `composer-cli`, is a library with the most important operations,
+    such as administrative, operational, and developmental tasks. We''ll also install
+    the following tools during this step:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Yeoman**: Frontend tool for generating applications'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Library generator**: For generating application assets'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**REST server**: Utility for running a REST server (local)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Let''s start our setup of CLI Tools:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Install CLI Tools:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Install the library generator:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Install the REST server:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: This will allow for integration with a local REST server to expose your business
+    networks as RESTful APIs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Install Yeoman:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: Don't use the `su` or `sudo` commands with `npm` to ensure that the current
+    user has all permissions necessary to run the environment by itself.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Step 2 – Setting up Playground
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Playground can give you a UI in your local machine if using your browser to
+    run Playground. This will allow you to display your business networks, browse
+    apps to test edit, and test your business networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Use the following command to install Playground:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: Now we can run Hyperledger Fabric.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Step 3 – Hyperledger Fabric
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This step will allow you to run a Hyperledger Fabric runtime locally and deploy
+    your business networks:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Choose a directory, such as `~/fabric-dev-servers`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Now get the `.tar.gz` file, which contains the tools for installing Hyperledger
+    Fabric:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: You've downloaded some scripts that will allow the installation of a local Hyperledger
+    Fabric v1.2 runtime.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To download the actual environment Docker images, run the following commands
+    in your user `home` directory:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: Well done! Now you have everything required for a typical developer environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Step 4 – IDE
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Composer allows you to work with many IDEs. Two well-known ones
+    are Atom and VS Code, which both have good extensions for working with Hyperledger
+    Composer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Atom lets you use the `composer-atom` plugin ([https://github.com/hyperledger/composer-atom-plugin](https://github.com/hyperledger/composer-atom-plugin))
+    for syntax highlighting of the Hyperledger Composer Modeling Language. You can
+    download this IDE at the following link: [https://atom.io/.](https://atom.io/) Also,
+    you can download VS Code at the following link: [https://code.visualstudio.com/download](https://code.visualstudio.com/download).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing Hyperledger Fabric 1.3 using Docker
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are many ways to download the Hyperledger Fabric platform; Docker is the
+    most used method. You can use an official repository. If you're using Windows,
+    you'll want to use the Docker Quickstart Terminal for the upcoming terminal commands.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If you''re using Docker for Windows, follow these instructions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Consult the Docker documentation for shared drives, which can be found at [https://docs.docker.com/docker-for-windows/#shared-drives](https://docs.docker.com/docker-for-windows/#shared-drives),
+    and use a location under one of the shared drives.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Create a directory where the sample files will be cloned from the Hyperledger
+    GitHub repository, and run the following commands:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To download and install Hyperledger Fabric on your local machine, you have
+    to download the platform-specific binaries by running the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: The complete installation guide can be found on the Hyperledger site: [https://hyperledger-fabric.readthedocs.io/en/release-1.3/install.html](https://hyperledger-fabric.readthedocs.io/en/release-1.3/install.html).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Deploying Hyperledger Fabric 1.3 to a Kubernetes environment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This step is recommended for those of you who have the experience and skills
+    to work with Kubernetes, a cloud environment, and networks and would like an in-depth
+    exploration of Hyperledger Fabric 1.3.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Kubernetes is a container orchestration platform and is available on major cloud
+    providers such as Amazon Web Services, Google Cloud Platform, IBM, and Azure.
+    Marcelo Feitoza Parisi, one of IBM's brilliant cloud architects, has created and
+    published a guide on GitHub on how to set up a Hyperledger Fabric production-level
+    environment on Kubernetes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The guide is available at [https://github.com/feitnomore/hyperledger-fabric-kubernetes](https://github.com/feitnomore/hyperledger-fabric-kubernetes).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Our special thanks to Marcelo!
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we explored an online cloud deployment of Hyperledger Composer
+    through Composer Playground. By using the online network editor, we saw how to
+    create definitions of the network, run tests on the network, and access the historian,
+    where we were able to visualize all of the transactions that were run on the blockchain
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We also ran the installation of a local development environment and gave you
+    a resource to use to set up a production-level Hyperledger setup running on Kubernetes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we'll explore the main actors in the modern food chain
+    and their current challenges. We'll then discuss how IoT and blockchain technology
+    can help to solve these challenges.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Further reading
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: For more information about Composer, visit [https://hyperledger.github.io/composer/latest/tutorials/tutorials](https://hyperledger.github.io/composer/latest/tutorials/tutorials).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'If you want to install the full stack of Hyperledger Fabric, follow the recommendations
+    at this link: [https://github.com/feitnomore/hyperledger-fabric-kubernetes](https://github.com/feitnomore/hyperledger-fabric-kubernetes).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: All installation processes and architecture for Hyperledger can be found here: [https://github.com/feitnomore/hyperledger-fabric-kubernetes](https://github.com/feitnomore/hyperledger-fabric-kubernetes).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'A step-by-step guide to installing Hyperledger Composer can be found here:
+    [https://medium.com/kago/tutorial-to-install-hyperledger-composer-on-windows-88d973094b5c](https://medium.com/kago/tutorial-to-install-hyperledger-composer-on-windows-88d973094b5c).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL

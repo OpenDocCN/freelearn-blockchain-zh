@@ -1,0 +1,802 @@
+- en: Understanding IoT and Developing Devices on the IBM Watson IoT Platform
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In today's world, computers are able to process an unimaginable amount of data,
+    and anyone can create and sell their own devices. Because of this, **Internet
+    of Things** (**IoT**) has become a hot topic in the current business environment,
+    and people are more connected than ever.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this chapter, you will see how IoT can be a game changer and discover what
+    industries can do with this technology. We will look at how to get started in
+    the IoT world, understand the features the IBM IoT Platform provides, and learn
+    how to leverage these features when creating our own IoT solution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following topics will be covered in this chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: IoT as a business and technology
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Industries that are implementing IoT solutions
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Technical elements that are part of an IoT solution
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Features and capabilities available in the IBM Watson IoT Platform
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Creating a simple gateway, application, and device that are integrated into
+    the IBM Watson IoT Platform
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: What is IoT?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are many definitions of what IoT is, but the most common articles found
+    on the web agree that it is a set of computerized things interconnected through
+    the internet. Things can be understood as people, objects, computers, phones,
+    buildings, animals, and anything that can be connected to the internet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The term has been in use ever since embedded systems have been able to connect
+    to the internet and have become participants in the network. From computers to
+    mobile phones, smart watches to thermostats and refrigerators, entire production
+    lines can now be connected to the internet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This evolution has also been enriched by the DIY community. Around the world,
+    you will find prototyping systems, such as Arduinos, Raspberry Pis, and other
+    **systems-on-a-chip** (**SOC**) available at lower prices; user-friendly programming
+    languages; and even graphical programming.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So, how could a connected refrigerator, for example, benefit you? Well, this
+    type of technology would allow the manufacturer to monitor your behavior and see
+    that you are not at home from 9 A.M. to 6 P.M. each day because the refrigerator
+    door wasn't opened during that time frame for one month. What if the refrigerator
+    could be reprogrammed to reduce usage during that period because no one is going
+    to open the door? What if the same manufacturer looks at the data collected from
+    all the owners of that refrigerator? Getting an insight into what the different
+    groups of owners are and how they interact with the refrigerator daily could make
+    it possible to create a new model based on that information. This solution would
+    be more ecological, customizable, and cheaper. It would also make it possible
+    to update the refrigerator software to make it smarter, without the need for buying
+    a new one.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Apple has released frameworks for the IoT such as **HomeKit** and **HealthKit**.
+    These have different goals, but are still things that are connected to the internet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: People can connect objects such as door/window sensors, cameras, thermostats,
+    light bulbs, and locks to the internet and then use the Home app on their iPhones
+    to control them from anywhere in the world. This makes it possible to obtain automatic
+    changes to thermostats when you are on your way home, or to be notified of things
+    such as an open door when you're outside. It could even notify you of your daily weight, using
+    a connected weight scale. Google, Amazon, and other companies have also introduced
+    similar solutions to these use cases.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The IBM Watson IoT Platform does not intend to deliver a product. Instead, it
+    focuses on delivering a secure, scalable, and reliable platform to act as a connection
+    hub between devices and applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Common business use cases of IoT
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The refrigerator was a simple and powerful example of using IoT at home, but
+    it's not the only example of how this could be used. In this chapter, we will
+    discuss a few different cases, industries, and people that could benefit from
+    having connected devices.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Connected car
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's take the example of an autonomous car. With this, automakers can monitor
+    general driver behavior and improve various aspects of the driving experience,
+    as well as security. They can also detect failed components sooner, leading to
+    earlier recalls and thereby improving customer satisfaction while reducing the
+    production costs of problematic components. From the perspective of an automobile
+    owner, this could be beneficial as they could monitor the wear and tear of the
+    car parts and spend less money on maintenance costs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Connected persons
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: If you are a sports practitioner, you have probably already used a smartwatch
+    to monitor your fitness. If all of that information was properly stored and analyzed,
+    then medical studies could obtain more data that could predict diseases and maybe
+    even improve overall quality of life.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Furthermore, connecting health devices (such as scales, heart monitors, and
+    blood meters) and sharing data using blockchain could create a unified medical
+    report for each person. Doctors could improve diagnostics and medical decisions
+    as a result. This would also enable disease profiling and prediction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: IoT played a major role in the 2016 Olympics held in Rio de Janeiro.  Many connected
+    items were used to gather information and process which factors had an effect
+    on athletes' bodies during matches. This was also helpful for creating new equipment,
+    such as bikes, and new regeneration strategies for intense competition.
+  prefs: []
+  type: TYPE_NORMAL
+- en: These simple examples of how IoT will change our entire way of life provide
+    us with more than one reason as to why we should care about it so much.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Technical elements in IoT
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Internet of Things does not rely only on devices and applications. It requires
+    a set of capabilities that, when used in an IoT solution, deliver more value to
+    people and companies. In this section, we will discuss some of these capabilities,
+    such as devices, hardware, and software, that are essential for designing and
+    implementing an effective IoT solution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Devices
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Devices are located at the edge of the IoT solution. In fact, these devices
+    are what we call *Things* in the context of IoT. They are usually capable of sending
+    and receiving data events.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As an example, a device with an embedded soil moisture probe can detect that
+    the monitored soil has 43% moisture. It can then report this informative event
+    to the platform it's connected to. The platform can then send an action event
+    to the device, triggering a water valve to open and restore the soil moisture.
+    This interaction depends on other aspects related to the device, which will be
+    covered in upcoming sections. For now, let's focus on the device.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In order to handle these types of interactions, you may think of a device as
+    a computing unit that has analog or digital (or both) processing capabilities.
+    This means that it is able to read and write analog and digital signals to their
+    probes and actuators.
+  prefs: []
+  type: TYPE_NORMAL
+- en: An analog signal is a signal that can vary in a range of values. Let's take
+    an Arduino Uno board, for example. Arduino Uno has a 10-bit resolution **analog-to-digital
+    converter** (**ADC**), which means that it can read voltages from 0V to 5V and
+    map them into integer values between 0 and 1,023 (2^(10) = 1,024). Analog signals
+    are generally used to read data from analog sensors.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A digital signal is a binary signal, which means that it has only two possible
+    values: 0 or 1, high or low. This kind of signal is mostly used to identify or
+    change on and off states, for example, turning an LED bulb on or off.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Edge computing
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Devices are also capable of handling some actions by themselves. This could
+    either be a simple decision: for example, if the moisture level of the soil is
+    below 50%, open the water valve for a minute and check the moisture level again
+    after five minutes.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Alternatively, it can be a complex task: for example, determining whether an
+    object detected by the camera of an autonomous car is a person waiting to cross
+    the street or a tree.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Devices that have to process these kinds of analyses cannot always rely on a
+    network or an application for information or assistance. What if one of them is
+    out of service? This could cause an accident.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Therefore, such devices are provided with a different type of capability called
+    edge computing, which is the capability of processing analytics at the very edge
+    of the solution: the device itself. Basically, edge computing allows the device
+    to perform some actions and calculations "offline," without an active connection
+    to a network.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: When selecting the device or devices that will be part of your IoT solution,
+    the best method is to ensure that all capabilities are present in the device.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since there is a very high number of devices in an IoT network, exceeding capabilities
+    can lead to different problems related to cost, power supply, connection protocol,
+    user experience or even solution complexity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Networking
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Another important element of any IoT solution is networking. Today there are
+    several ways to connect devices, so this is an important aspect that has to be
+    considered when choosing your device. The most common networking standards used
+    today are cabled networks or Wi-Fi, cellular/mobile, **LPWAN**, and **LoRa**. All
+    of these have pros and cons, so let's take a closer look at their uses.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Wireless (Wi-Fi) or cabled network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Wi-Fi is the most common standard communication model on the internet. It assumes
+    that the device or object being connected to is capable of connecting to an IEEE
+    802.x network and therefore is able to handle IP-based networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are many wi-fi capable devices available in the market. Some examples
+    of Wi-Fi modules are the **ExpressIf ESP-8266** and **ESP-32** modules, **Texas
+    Instruments CC3200**, **Microchip ATSAMW25**, **Intel Edison**, and **Galileo**.
+    This is not the complete list of devices and there are many other combinations
+    that combine a Wi-Fi capable controller and an MCU.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Wi-Fi modules are relatively cheap and are generally good options for when it's
+    possible or desirable to use an available network and support high-payload transfers,
+    given their reliability and connection speed (up to 6.7 Gbps).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A Wi-Fi-based IoT solution looks pretty much like the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7aa867df-944c-4a66-9597-bd321e997957.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Multiple devices can connect to a node, such as a router, which in turn connects
+    to the internet and allows connected devices to access the internet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cellular/mobile network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A cellular network is the same connection that any mobile phone uses. The basic
+    idea with this kind of network is to divide a territory into a number of cells,
+    each one with a wireless network connection served by a base station and a number
+    of transceivers. The network provides a number of services, such as voice, text,
+    and data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mobile networks are an option when a device type in a solution is not in the
+    range of a Wi-Fi network, such as in a car. Another application that may require
+    a mobile network device is when the solution cannot depend on the user's network,
+    for example, if you are using a subscription for the device, and the device's
+    activity depends on a network connection. When using the subscription network,
+    the device will continue to do its job even if the user disables their own connection
+    to the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The image below depicts the working of a standard cellular network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/fb2fe7a9-449d-44d1-972b-122b15eec4ea.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: We can see that a cellular antenna provides a signal to a limited region. The
+    devices in range can then connect through a wireless network to the antenna and
+    use the services provided by the mobile service provider, including the available
+    internet connection.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Low-power wide-area network (LPWAN)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: LPWAN is a type of wireless network designed to work in wide areas at very low
+    bitrates, which means that the exchange in this type of network is really small.
+  prefs: []
+  type: TYPE_NORMAL
+- en: LPWAN uses low-power, low-bitrate, and low-frequency devices that are very powerful
+    when used to connect to things. This is because it enables the use of long-lasting
+    batteries and smaller devices. But there are still many restrictions, such as
+    small data payloads or a limited number of messages per day.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Having lower frequencies allows an LPWAN to be very reliable and unsusceptible
+    to interference, even when propagating messages for very large ranges. LPWAN providers
+    normally have a limit for the number of messages sent in the network. There are
+    many providers of LPWANs, and the most famous of these is probably Sigfox.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'LPWANs do not have a direct connection from the device or gateway to the internet.
+    Instead, they usually have a pre-provisioned network, where at one end of the
+    network you will have the devices and at the other end you would have a number
+    of web hooks and functions that allow you to connect to your application or platform:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ac83d29e-c501-42e3-b36e-437088f76096.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Different from a cellular network, LPWAN networks do not provide internet connection
+    to the devices, instead they provide means to create triggers on events received
+    from the devices to the network. As an example, you can create an application
+    and a trigger at the edge of the LPWAN provider network to the internet that whenever
+    a data event is received from a device, it calls a service available at the internet
+    with given data from the even published by the device.
+  prefs: []
+  type: TYPE_NORMAL
+- en: LoRa or LoRaWAN
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A LoRa network diagram is similar to an LPWAN network, except that instead
+    of using service provider infrastructure, LoRa networks can have a gateway that
+    allows devices to connect to the internet. The person responsible for a LoRa network
+    infrastructure is the owner of the network, meaning that you do not rely on a
+    network service provider. You create your own network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3575747e-24a3-47e2-8064-3b2148c10b20.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: There are a few technologies that work on the same model as LoRA, with different
+    protocols, such as ZigBee. Phillips Hue uses the same approach to connect light
+    bulbs, LED stripes, and other Hue devices to a gateway using ZigBee, and the gateway
+    then connects to the Hue cloud.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To summarize, you can use this table as a reference when selecting network
+    connections:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Type** | **Speed** | **Payload** | **Range** | **Connection initialization**
+    | **Cost** | **Infrastructure** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Wi-Fi | High | High | Low | Bidirectional | Low | Private/Public |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Mobile | High | High | High | Bidirectional | High | Provider |'
+  prefs: []
+  type: TYPE_TB
+- en: '| LPWAN | Low | Low | High | Device | Low | Provider |'
+  prefs: []
+  type: TYPE_TB
+- en: '| LoRa | Low | Low | High | Bidirectional | Low | Private |'
+  prefs: []
+  type: TYPE_TB
+- en: Application protocols
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: After deciding the most adequate device for your IoT solution, it's important
+    to define the protocol that will be used to communicate with devices. IoT solutions
+    tend to use lightweight protocols, such as MQTT. This is not the only protocol
+    that can be used in IoT, but since the IBM Watson IoT Platform relies on MQTT
+    and REST—and REST is very popular—let's focus a little on MQTT.
+  prefs: []
+  type: TYPE_NORMAL
+- en: MQTT
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: MQTT stands for **Message Queuing** **Telemetry Transport**. It is an extremely
+    lightweight messaging protocol based on the publish and subscribe pattern. As
+    with any message queuing model, it is an asynchronous protocol.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As shown in the following diagram, publish and subscribe (pub/sub) models rely
+    on three actors:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/748a8be3-d3d9-44de-9906-39b670f97f05.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The three actors are explained as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The **publisher** is the actor that produces any content and publishes it to
+    a given subject (known as a topic).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The **subscriber** is an event consumer. The subscriber subscribes to its subjects
+    (topics) of interest and gets the event published every time a **publisher** creates
+    a publication to one of its subscriptions.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The **Broker** is responsible for receiving publications and notifying the subscribers
+    of a topic of interest.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Now let's move on to the next important technical element.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Analytics and AI
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Having an analytics or artificial intelligence software component in your IoT
+    solution is not required, but it's really interesting to use them to process data
+    collected from devices to extract patterns and insights that could lead to predictive
+    maintenance, a better understanding of user behavior, and so on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For example, let's look at some data that is captured through washing machines.
+    Someone may have bought the appliance because it was supposed to save energy.
+    However, after processing the data collected, it becomes clear that the appliance
+    is consuming more energy than thought. The root cause is the lubricant as it was
+    inadequate for its motor in non-tropical countries.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Later, let's say you compare that information with sales data and realize that
+    1 million washing machines were sold in Europe approximately eight months ago.
+    The manufacturer of the washing machine can get the benefit of early shipping
+    rates for the spare parts that must be exchanged. The manufacturer can also get
+    a predictable amount of new lubricant for their supplier, and this could perhaps
+    lead to a new appliance design.
+  prefs: []
+  type: TYPE_NORMAL
+- en: IBM Watson IoT Platform features
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The IBM Watson IoT Platform is a hub for connecting devices, gateways, and applications
+    for IoT solutions. It supports REST and MQTT protocols for applications, devices,
+    gateways, event processing, and administrative tasks. The IBM Watson IoT Platform
+    is available on the IBM Cloud platform (formerly IBM Bluemix), a cloud platform
+    based on Cloud Foundry and Kubernetes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's review the pertinent features of this platform.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Features
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this section, we will discuss the following main features of the IBM Watson
+    IoT Platform:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Dashboard
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Devices, gateways, and applications,
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Security
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Let's begin!
+  prefs: []
+  type: TYPE_NORMAL
+- en: Dashboard
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This is the first thing that you will see when you access the IBM Watson IoT
+    Platform. This dashboard can be a combination a number of boards and cards, offering
+    several visualization options for your IoT solution:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c1b1ff49-ecd8-4202-a5a6-e1318222a3fa.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Explore the boards and cards available in this screen to get familiar with the
+    interface.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Devices, gateways, and applications
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Another feature available in the platform is device management control. This
+    feature makes it possible to create and remove devices, gateways, applications,
+    and device types. It also makes it possible to check and trigger actions to the
+    device, such as a firmware upgrade request or reset:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/42847cbb-d369-46a9-bb3a-11db26e7c205.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: You can also create API keys so that your applications can connect to the IoT
+    organization and interact with the other components of the solution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Security
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: You can also manage the security aspects of a solution using the IoT Platform.
+    This might include creating policies for device connections, white and black lists
+    for the device's IP address, or looking at a country's rules. You can also manage
+    users that are permitted or blocked from managing the IoT organization for solutions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating your first IoT solution
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In earlier sections of this chapter, there were many devices and applications
+    that were not explained in depth. To understand their roles in an IoT solution,
+    it's important to create one example of each.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The scenario created here will be a **Device** connected to the **IBM Watson
+    IoT Platform** that sends a timestamp as data, as well as an **Application** that
+    prints that to **stdout** using Node.js:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/55b73ec1-d430-4d44-a5d9-7841d00bda6f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'We will then improve this by adding a gateway to the solution, which looks
+    similar to the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/6d2cd20d-299d-44d4-ae2e-1e0852bcddf3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: At the end of the day, the difference of having a gateway connection and a device
+    connection is that you can create an abstraction or specialization of the device
+    connected to the IoT platform, depending on whatever is easier, cheaper, or any
+    other reasons that might drive the decision.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a gateway
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The first task of the job is to create an IoT organization. If you do not have
+    an IBM ID and IBM Cloud account, the sign-up process is very intuitive and only
+    takes a couple of minutes. If you already have an IBM Cloud account and an IBM
+    ID, access the IBM Cloud platform at [http://bluemix.net](http://bluemix.net).
+    First, log in and create a space for the exercises in this book.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'After logging in to the IBM Cloud platform and accessing the designated space,
+    select the Create resource  option to access the service catalog:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b2e09477-e9bb-4289-b430-de4c0f02b32a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Select Internet of Things in the menu and create a service called Internet of
+    Things Platform*. *Now, select the option to Create**:**
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/31c3f672-c399-4318-b420-0dde4dad3869.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'When the service is created, you can select the Launch option and access the
+    IoT Platform:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f8e06f00-6d09-4039-b5de-ed8e6c73c76c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: When you access the IoT Platform, notice that the address is `https://xxxxxx.internetofthings.ibmcloud.com/`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Here, `xxxxxx` is your organization ID; make a note of it as it will be used
+    during the entire process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating an application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Creating an application means that you''re allowing an actual application or
+    service to connect to a specific Watson IoT Platform organization:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In order to do that, access the IoT organization through the IBM Cloud dashboard,
+    select Apps from the side menu, then select *Generate API key* and fill in the
+    *Description* field with `Hands-On IoT Solutions with Blockchain - Chapter 1 App`*.*
+    Finally, click on Next:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/bfb95564-4c0e-477d-ae39-5c17967fe804.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Select the Standard Application role and click on Generate Key*.* You will
+    get an `API Key` and `Authentication Token`. Make a note of these in a table format,
+    like the one that follows, as you''ll need them to connect to your application:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '| API key | Authentication token |'
+  prefs: []
+  type: TYPE_TB
+- en: '|  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: 'Next, open the IDE of your preference, create a new Node.js project, and install
+    the `ibmiotf` dependency package:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Ensure that your `package.json` file looks something like the following:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, create a file named `application.json` with the following content:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create a file named `index.js` and add the following content:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The application can be tested by running the `npm start` command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: Congratulations, you just created your first application connected to IBM Watson
+    IoT Platform!
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, update `index.js` to have the following content:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: Now, whenever a device publishes an event, you will get the event printed to
+    `stdout`. In the next section, we will create a device to publish the events.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a device
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, you'll run through similar steps to create a fake device that
+    connects to IBM Watson IoT Platform and publishes an event.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'From the IoT Platform service created in the setup step, select Devices in
+    the menu and then select Add Device*.* Create a device type named DeviceSimulator
+    and fill in the Device ID field with `DeviceSimulator01`:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/03f7ecb0-a54f-456b-9691-1971c18dfbfd.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Since it''s only a simulator, just click on Next until you reach the end of
+    the wizard:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/c09fc701-9aa8-48cd-bf95-36e920052085.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Note the device credentials generated, in the following format:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '| Device type | Device ID | Authentication method | Authentication token |'
+  prefs: []
+  type: TYPE_TB
+- en: '|  |  |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: 'Go back to your preferred IDE and create the project with the same characteristics
+    as the previous application:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Ensure that your `package.json` file looks like the following:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then, create a file named `device.json` with the following content:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Create a file named `index.js` and add the following content:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The device simulator can be tested by running the `npm start` command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, update the code to send an event with the current timestamp to the IoT
+    Platform service:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Run `npm start` again and every two seconds the device will send an event to
+    the Watson IoT Platform. You can check the logs of the application to see whether
+    it has received the events, like so:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: Congratulations again, your device simulator is now publishing events and your
+    application is receiving them!
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we had an overview of the IoT environment. We learned about
+    some important technical elements that play a role in the successful implementation
+    of an IoT solution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We also looked at the different types of networking options, important considerations
+    when selecting a device type, and how to create a device and an application connected
+    to the IBM Watson IoT Platform.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, you will improve your development skills by creating a
+    simple connected garden.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Further reading
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Examples in other languages such as Python, Java, C++, and C# can be found
+    in the IBM Watson IoT Platform documentation at the following link: [https://console.bluemix.net/docs/services/IoT/getting-started.html#getting-started-with-iotp](https://console.bluemix.net/docs/services/IoT/getting-started.html#getting-started-with-iotp).'
+  prefs: []
+  type: TYPE_NORMAL

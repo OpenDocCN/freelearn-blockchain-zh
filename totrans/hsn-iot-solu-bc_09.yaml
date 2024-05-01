@@ -1,0 +1,338 @@
+- en: Best Practices for Developing Blockchain and IoT Solutions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As is the case for every emerging technology, being an early adopter is full
+    of challenges and lessons that need to be learned. The focus of this chapter is
+    to present some solutions that we can apply to real-world projects in order to
+    avoid getting into trouble.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following topics will be covered in this chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Reference architecture for cloud applications
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How to create cloud-native applications using the 12-factor application development
+    model
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Serverless computing
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using Hyperledger Composer as an accelerator for application development
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Developing cloud applications
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are many potential pitfalls related to cloud applications, ranging from
+    the simple misuse of resources to unsolvable problems. Applying a concise architecture
+    and using the 12-factor application development pattern ensures you won't get
+    into trouble when the application scales up or down.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A container is a standardized way to package an application with all its dependencies,
+    including its code, runtimes, middleware, libraries, and operating system. Docker
+    and Garden are containers that can be run in the IBM Cloud Platform, but there
+    are other container types that can also be used, such as Rockt. Using containers
+    increases the portability of an application, so it doesn't matter if the host
+    operating system is one particular distribution of Linux and your application
+    was built on a different distribution, because the operating system is a layer
+    of the containerized application and both distributions are shipped together.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram demonstrates the structure of a containerized application:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/541c3b3a-f9d1-4180-9ed1-e0055743938f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Cloud platforms use containerized applications and deploy them into a set of
+    servers. We can move these applications inside the flexible computing environment to
+    make better use of the existing infrastructure and to keep track of the containers
+    deployed in the service discovery component.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Each platform has its own way of using the containerized model of application
+    deployment, as shown in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/67db951b-b353-4f94-8d2e-fb8bf81b4578.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: A container is deployed based on a container image, which is a read-only definition
+    of the base image, the dependencies, and the application. Each container of the
+    same application is deployed based on that image, and any changes made to the
+    container during runtime exist only while that container is active, and only apply
+    to to that instance of the container.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Reference architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Cloud computing creates an abstract environment for deploying applications; we
+    use virtual runtimes. This means that we have no location awareness and no assurance
+    that our application will stay in the same data center or virtual machine. We
+    cannot even trust that the IP address of the application will remain the same
+    after 10 minutes. The following diagram shows a successfully applied reference
+    architecture for cloud applications using IBM Cloud Public (Bluemix):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ae67ce27-13d4-421b-8f54-9bae29273471.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Cloud-native applications should scale horizontally, which means that whenever
+    the workload demand increases, the application should increase the number of instances
+    of that application to handle new requests. Similarly, if the workload decreases,
+    the number of application instances should be decreased.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Development using the 12–factor application model
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The 12-factor application model is a set of practices that should be followed
+    in order to make cloud applications scalable. It provides support for hostile
+    cloud environment changes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The 12 principles of the model are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Code base:** Our codebase is tracked in revision control and is deployed
+    many times'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Dependencies:** We should explicitly declare and isolate dependencies'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Configuration:** We should store the application configuration parameters
+    in the environment'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Backing services:** We should treat backing services as attached resources'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Build, release, run:** We should strictly separate build and run stages'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Processes:** We should execute the app as one or more stateless processes'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Port binding:** We should export services via port binding'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Concurrency:** We should scale out via the process model'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Disposability:** We should maximize robustness with fast startup and graceful
+    shutdown'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Development/production parity:** We should keep development, staging, and
+    production as similar as possible'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Logs:** We should treat logs as event streams'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Admin processes:** We should run administration and management tasks as one-off
+    processes'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: These principles decrease the number of simple errors related to cloud computing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You don't have to apply all these concepts to all cloud-native applications
+    that you develop. For example, if you don't need a script to preload a database,
+    you do not need to apply the admin processes principle. However, if you are using
+    an application that needs to keep a state or share the state with different applications
+    (such as sessions), using backing services is essential because you never know
+    what physical or virtual computer host the container that responds to the user
+    requests is located.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Serverless computing
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Serverless computing is a model of deployment in which an application is deployed
+    in an environment but is not necessarily running all the time. Its container is
+    started when it is first executed and is kept alive while requests demand its
+    execution. After a period of inactivity, the container for that application is
+    quiesced. It is important to note that stopped containers will take time to get
+    started, so real-time responsiveness is not a strength of a serverless application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A serverless application (or, as many cloud service providers call it, a cloud
+    function) is a microservice that is deployed and attached to a trigger, which
+    is responsible for starting the container with the function and running it. A
+    trigger might be a database change, a message delivered to a broker, an HTTP request,
+    or another type of request.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cloud providers usually charge the execution of cloud functions based on the duration
+    of their execution and their resource allocation (usually memory). For example,
+    a cloud function might take 500 milliseconds and use 256 MB of memory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A successful cloud function is not computing-intensive and does not have a large
+    number of requests (scheduled procedures). To facilitate the process of building
+    and deploying serverless applications, the serverless framework is a good choice
+    since it supports Google Cloud, AWS, IBM Cloud, and Microsoft Azure implementations
+    of serverless computing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain development using Hyperledger Composer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Composer is a project hosted by the Linux Foundation under the Hyperledger
+    brand. The project aims to create a framework and toolset to accelerate the development
+    of blockchain applications using Hyperledger Fabric, and simplify integration
+    with other applications. It is important to bear in mind that any framework intends
+    to simplify an aspect of a solution by abstracting some of its complexity, but
+    that it also restricts control over the abstraction applied.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Hyperledger Composer toolkit
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Composer is not a universal solution to all the complexities presented
+    by Hyperledger Fabric. It takes away some of the flexibility over tasks that could
+    be customized without it. What it does do, however, is supply a toolkit to create
+    chaincode projects, build blockchain application packages (`.bna` files), and
+    deploy them to Hyperledger Fabric.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The development of a business network using Hyperledger Composer is focused
+    on creating assets, participants, transactions, queries, and access control lists
+    using a project structure and a common language. After creating the business network
+    definition, Composer has tools to package and deploy the application to a Hyperledger
+    Fabric platform.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Hyperledger Composer REST server
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To simplify integration with other applications, Hyperledger Composer provides
+    the Composer REST server, an API server built on top of a LoopBack framework that
+    connects to the business network defined. It retrieves information on assets,
+    transactions, and participants, and provides a REST API server and and the service
+    contract described in swagger format to interact with the business network out
+    of the box.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Composer REST server ships with many useful features. The ones that are
+    most worth taking a look at are authentication, multiuser mode, and data source
+    configuration.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Authentication and multiuser mode
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: It's not unusual to request authentication when you are creating business applications.
+    The Composer REST server provides the means to connect to many authentication
+    and authorization providers, using Passport middleware. While the project claims
+    that Passport has over 300 strategies for authentication and authorization, our
+    experience has shown that not all of these work out of the box; sometimes, you
+    have to create custom code in order to make them work. We have, however, successfully
+    implemented Google, GitHub, Auth0, and LDAP authentication strategies out of the
+    box.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Multiuser mode allows the use of a single Composer REST server for multiple
+    participants, instead of deploying a distinct Composer REST server for each participant.
+    In this mode, the API is retrieved using a master business card, but the interaction
+    with the business network is done using its own business card. This mode requires
+    user authentication to be enabled.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Data source configuration
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Composer REST server uses data sources to store user session data. This
+    doesn't mean that it has to have an explicit data source configured; if no data
+    source is configured, the Composer REST server uses an out-of-the box memory connector.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When using multiple instances of the Composer REST server for high availability
+    or load balancing, the instances do not share memory, so a data source is required.
+    Any data source that has a loopback connector available can be used. In our experience,
+    MongoDB, Cloudant, and Redis work out of the box; we just need to install the
+    connector and configure the environment variables by following the steps provided
+    by the Hyperledger.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this chapter, we have looked at the implications of developing and deploying
+    applications to a cloud environment. We have considered how containers work, how
+    to deploy containerized applications to a cloud platform, and an alternative model:
+    serverless computing. We also presented the 12-factor model principles for the
+    development of cloud-native applications.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We then looked at Hyperledger Composer as an accelerator for developing blockchain
+    solutions. We explored various features, including using authentication, multiuser
+    mode, and data source configuration.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This book provides information on creating simple applications using IBM Watson
+    IoT Platform and Hyperledger Compose. These are far from being the only platforms
+    and tools that support IoT and blockchain solutions, but the concepts are the
+    same and can be applied. If you are interested in extending capabilities with
+    the explained tools, both Watson IoT and Hyperledger Fabric / Composer,  provide
+    extensive documentation on how to use them as well as a large number of community
+    provided articles through out the internet but, our thought is that practice is
+    the best way to understand whether they fit or not to a given solution so, even
+    if you do want to learn how to use the toolkit, just try, simple use cases are
+    good teachers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Further reading
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The topics presented by this chapter are an overview and if you need more depth
+    on any topics we recommend reading the following references:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The 12-factor application methodology : [https://12factor.net/](https://12factor.net/)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The serverless framework: [https://serverless.com/](https://serverless.com/)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hyperledger Composer: [https://hyperledger.github.io/composer](https://hyperledger.github.io/composer)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
