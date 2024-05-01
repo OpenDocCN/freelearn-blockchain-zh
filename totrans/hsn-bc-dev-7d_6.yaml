@@ -1,0 +1,930 @@
+- en: Day Six - Using Wallets
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Welcome to day six. Today, we're going to be implementing the last and most
+    critical piece to our blockchain application, the wallet. A wallet gives the players
+    of our game not only a place to store their funds, but a way to send and receive
+    those funds, and cryptographically signed transactions ensuring that we can validate
+    those funds and transactions came from that wallet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This chapter will serve as the stepping stone to getting started with this
+    project, covering the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding wallets and security
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Introduction to the wallet
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: MetaMask
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding gas price and gas limit
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Viewing blockchain transactions on the Ethereum network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding online and offline wallets
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Injecting the Web3 provider
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding wallets and security
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s take a look at a typical online transaction today. A consumer will visit
+    a website and they''ll add some items to their cart, and then they''ll initiate
+    the checkout process. They''re going to have to enter their credit card number
+    on that site, but what happens to that credit card number: was it sent securely
+    to the server? And, is the merchant going to store that credit card number? If
+    they do, are they following good security practices? And, who has access to that
+    number now, because anyone with that card number can use it? Well, we have mechanisms
+    in place to deal with all of this, and in the event that something happens most
+    merchants and card issuers will work with you to resolve the issue, but that''s
+    not done out of the kindness of their heart; you''re paying for that service every
+    day in the form of fees and transaction costs:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/4c43a41b-7871-4e43-8052-beee5199ef35.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Let's take a look at that same transaction using blockchain technologies. The
+    shopping process will look the same. You add items to your cart and then start
+    the checkout process, but when you check out, you don't enter a credit card number,
+    you use your wallet to cryptographically sign a transaction containing the instructions
+    for that purchase. So, was it done securely? Hopefully it was, but if not it really
+    doesn't matter because the only thing you sent was a signed transaction with the
+    details of the purchase, and if anyone intercepts and changes that transaction
+    along the way, that signature is no longer valid.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Well, what about storing the details? Sure, the merchants can store them, and
+    it''s also going to get stored on the public blockchain, and that''s okay because
+    it''s just the details of the transactions; nothing in there can be used to create
+    additional transactions. And, what about the merchants'' security practices? Well,
+    the contract you interact with is on the public blockchain where it can be viewed
+    and audited for security, and finally your private key never left your wallet,
+    so the only way your account can be used to create malicious transactions is if
+    you lose control of that private key. So, there''s no third party involved to
+    charge you account maintenance and monitoring fees:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ba331a1b-0053-4cb1-8963-ad6dcf0f461d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Introduction to the wallet
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A wallet is a software program that stores public and private keys, and allows
+    you to interact with blockchains to sign transactions that may include sending
+    and receiving currency, or executing smart contracts. They don't actually store
+    any currency; they can only reference transactions on the blockchain tied to that
+    address.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s talk about public and private keys for a minute as it''s an important
+    concept to understand, because if you compromise your private key you will have
+    compromised everything associated with it. Each wallet has a private and public
+    key: think of the public key as a street address to your house, and the private
+    key as the key that can unlock the mailbox. Anyone can send something to your
+    mailbox using your public key, but only someone with the private key can unlock
+    the mailbox:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/10f935e4-4adf-4db4-8452-ba2ccf1ad450.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Let''s throw out a few more analogies of this, and then summarize a key point.
+    Your email address is public and the password to your email account is private:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/83f04c36-1612-456f-afbe-7bca3677e131.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Your bank info is relatively public, but you have to provide some form of identification
+    to use it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3a1306fc-c91e-49d1-b152-d5dce2feffb3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Your car is publicly viewable, but you have to have the key to unlock it; maybe
+    that particular car is a bad example, you know that might not even be the right
+    key for it, but my point''s still valid:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/04db04a2-db10-4766-a143-422ff669b778.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: In all of those scenarios, if you lose your private key you can regain access
+    to your asset by either calling a locksmith, talking to tech support, or going
+    to the bank to get a new debit card. In blockchain technologies though, if you
+    lose that private key, it's over; there's simply no way to recover a private key
+    that's been lost, and that's by design. Any scenario where you can regain access
+    once lost is because there's a middleman somewhere who still has access, whether
+    that's the bank, the locksmith, or the email provider, and you pay for that convenience.
+    With blockchain, there's no middleman and you own responsibility of your own account;
+    the benefit of this ownership is your account can't be hacked unless you allow
+    it to happen, and you don't pay a third party transaction fee for the convenience
+    of using your money.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Types of wallets
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'There are different types of wallets available:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Desktop wallet**: This wallet is downloaded and installed on your computer,
+    and it''s only accessible from the computer where it''s downloaded. It has a really
+    high level of security, but if you get hacked or you have a virus it''s vulnerable
+    to that attack. MetaMask is one such example of a desktop wallet and we''ll be
+    working with it more today.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Online wallet**: This wallet runs on a third party server and they''re really
+    convenient to use. The private keys are stored online by the wallet provider and
+    they''re controlled by that third party. Coinbase is a really popular example
+    of an online wallet provider.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Mobile wallet**: This wallet is installed as an app on your phone, and they''re
+    really useful for payments at, for instance, retail stores. Most of the time,
+    they have fewer features than desktop wallets because of the limited space available
+    on your phone. Mycelium is a really popular example of a mobile wallet.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hardware wallet**: This wallet stores the private key on the hardware itself
+    and they have a very high level of security, so high in fact that you can even
+    use a hardware wallet on infected PCs. Now, you still need a backup in case that
+    hardware fails. The Ledger nano is is one example of a hardware wallet.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Paper wallet**: This wallet is really easy to use, and has a high level of
+    security because there''s no technology to fail. And, it really is just a piece
+    of paper; I''ll show you how that works in just a minute.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Well, which wallet is best for you? The answer, is it depends on what you're
+    trying to accomplish. In this book, we're going to use MetaMask, because it provides
+    a great balance of security and ease of use. Personally, I use multiple wallets
+    where each has a different role. I have a mobile wallet on my phone with just
+    a little bit of currency on it that I can use for transactions on the fly, and
+    I also have a hardware wallet where I store the bulk of my cryptocurrencies; I
+    keep it locked in a fire safe and it's backed up with a paper wallet that's stored
+    in a separate physical building, so that if something were to happen to it I still
+    have a way to access those funds. Well, now that you have an idea of what wallets
+    are and how they're used, let's jump into the next section and configure our wallet
+    for the final part of this book.
+  prefs: []
+  type: TYPE_NORMAL
+- en: MetaMask
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We're using MetaMask as the wallet to interact with our DApp. We're going to
+    learn how to install and configure it; first, let's review some of the key points
+    of MetaMask.
+  prefs: []
+  type: TYPE_NORMAL
+- en: MetaMask turns Google Chrome, Firefox, Opera, and Brave into an Ethereum browser.
+    It lets websites retrieve information from the blockchain and allows users to
+    securely sign transactions. The account info is stored locally where MetaMask
+    is installed, and it's encrypted on the hard drive. The feature we're most interested
+    in today is that it allows the browser to interact with Ethereum applications.
+    Each transaction prompts the user to confirm and sign the transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following steps will help you to install and configure it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s visit the website, [https://metamask.io/](https://metamask.io/), and
+    click the link that says GET CHROME EXTENSION. Now, if you''re using a different
+    browser such as Firefox, Opera, or Brave, you''ll want to click the link for those.
+    Take a look at the following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/9f37d05a-7dc2-4d8f-9505-309afc5d23b1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now, it will open up the chrome web store. Hit the Add to Chrome button:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/b1f2cf09-e606-4fa8-a7ab-7fa728ef68c2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'This will add the MetaMask icon on the toolbar, and when we click on the icon,
+    it will open a new tab for MetaMask:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/81991dad-15c4-4f03-bcba-eb547ce07e51.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now, hit the CONTINUE button and you can create a new account:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/a9859074-3b99-410f-8ac1-0151b19f855d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now, we''ll actually import with a seed phrase, because we''ll connect to the
+    local Ganache installation. So here, we switch over to Ganache and copy this seed
+    phrase:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/eaa1aae1-0431-4f15-ab5b-a1f65c37ef7b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Click the Import with seed phrase link:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/5f97fc41-b5f6-4b34-b8dd-9ab3fd19b6e1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Paste the seed phrase in the Wallet Seed field, create a new password, and
+    then click the IMPORT button:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/297e5a8c-8c1f-4fdf-ac63-85154bf35607.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Now, we have to accept the terms of use and the privacy notice, and then there's
+    a phishing warning that they want you to read because there have been a lot of
+    attacks trying to hijack MetaMask to get control of private keys.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, MetaMask is connected and it''s connected us to the main Ethereum network;
+    but, we want to connect to the local Ganache installation, so we''ll choose the
+    network''s dropdown here, and you can see some of the different options:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/4e8cb5df-482b-4897-af2b-eb76aeffac24.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Here, for the main network which we are connected to, and in some test networks
+    such as Ropsten, Kovan, and Rinkeby, let's use a Custom RPC.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If we switch back over to Ganache, you can see the RPC server address:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/13954f88-4d53-48d9-9a00-367f722724fd.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'So, copy that and paste it into the New RPC URL field, and then click on SAVE:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/b5c2e2a7-da1e-4aaa-92f4-edafe410d003.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Close the Settings window, and now it is connected to Ganache. You can see
+    the 100 ETH that''s available through Ganache:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/85201655-f7a5-43d7-97eb-bdce0544eb6e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'We can also go into the details for Account 1 and can give it a meaningful
+    name, so that whenever we look at the list of accounts it has something we couldn''t
+    recognize with it:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/f1c04113-1e45-4d9e-9117-b1a5006d173a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'We can also click at the top here and create a new account, as shown in the
+    following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/022d2a30-4d4a-4dc5-986f-5ffd4f28b976.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Let''s give it a name and hit Create, and now look what happened. The Ethereum
+    address is listed right here and it ends with C7CD:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/9a8e6878-c7a7-440e-86fc-abbb30dc2ace.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'So, if we switch back over to Ganache, we can see that the second account is
+    provided by Ganache, and so using MetaMask connected to Ganache locally this way
+    allows us to use all of the accounts that are listed in the Ganache installation:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/fbad739c-d144-493c-bc27-d21e31c81f26.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'And since we''re here, we''re going to send money from the Player1 account
+    to the Owner account, and then send the Amount as 15 ETH; click on the NEXT button and
+    confirm the transaction:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/620312e3-1af1-4892-b73e-7790a8ee6206.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The following screenshot shows the balance that reflects the money that was
+    sent plus the transaction fee, or the gas fee:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9a606dd3-2e62-46d8-a370-10aeb5131ef8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'And, if we switch over to the Owner account, the 15 ETH has been added there
+    to make a total of 115 ETH:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/998338ce-9f1c-4841-8029-072189ecc6ee.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'And, if we go back over to Ganache, you can see that the balances are reflected
+    in the Ganache network itself:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/2a47d40c-53e4-4cf8-a294-e04016468f03.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now that we have MetaMask installed, we can create and sign the transactions
+    required to play our game. There are some subtleties to that though such as gas,
+    which doesn''t really make any sense at first: what does gas have to do with the
+    Ethereum transactions? Well, we''re going to find out in the next section.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding gas price and gas limits
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Earlier this week, we learned that our smart contract functions run inside the
+    **Ethereum Virtual Machine** (**EVM**). The interesting thing about this concept
+    is that your transactions, functions, and code run on computers, but not yours.
+    This gives you the infinite scalability concept right? Well, surprise, that doesn't
+    happen for free. It's like if you're renting the place where you live or work
+    and you pay the landlord for the ability to do so, likewise when our contracts
+    execute in the EVM on the Ethereum network we have to pay for the computing resources
+    we used. This is known as **gas**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In a traditional application you would either host your own database servers
+    or utilize a third party SAS application, and you would pay the fees on your own.
+    In Ethereum transactions, though, the user pays for this because they''re the
+    ones executing the transaction even though you may be the one to benefit from
+    it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9dab8b03-5703-4e1d-925a-4fb64762fd34.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Ethereum gas
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This can be thought of as similar to a transaction fee, but it's not a flat
+    rate, and that's because we're paying for the computational power required to
+    execute a transaction on the blockchain. This transaction can be a simple monetary
+    transfer, or it can be a complex processing of business logic built into your
+    contract, and the amount of computational power is different for each of those
+    scenarios, so the amount of gas paid is different as well.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Gas price
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The amount of gas used is tracked and then paid to the miner in ether, which
+    brings us to the gas price. Gas price is the amount of Ether you're willing to
+    pay for each unit of gas consumed; you can set that to anything you want and likewise
+    the miners can choose to ignore any transactions below their set gas price, which
+    gives them the ability to skip processing any transactions that won't be profitable
+    for them. If you set your gas price too low, miners are going to ignore it and
+    your transaction will never get confirmed and be written to the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following steps shows you what this actually looks like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s send Ether from one account to another:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/b3947eef-03e2-40b9-b4cb-cd0a397a3587.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Go into the Gas Fee section here, and take the gas price all the way down to
+    1 and confirm it:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/08f863ef-2fbf-4648-a4a6-5289acb3bc1d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Here, you can see that it''s been submitted, but it''s not actually getting
+    confirmed:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/1756a0c9-a57e-4262-8531-370749083725.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: And, it'll actually stay in this Submitted status because no miner is going
+    to pick it up as the gas price set is lower than what they're willing to accept.
+    If we click on the MetaMask icon and then go down to the transactions here, it
+    will actually tell me that I can increase the gas price, if I want to give that
+    transaction a better chance of succeeding. So, how much should you set the gas
+    price to? Well, MetaMask actually does a great job of estimating the gas price,
+    and you should set a fair value here because gas price multiplied by gas costs
+    is what you will pay for the transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you set your gas price too low, as we just saw, no one is going to process
+    your transaction, and if you set it too high, you'll pay too much in transaction
+    fees. There's also a gas limit, and that's the maximum amount of gas that can
+    be consumed for your transaction. So, it's okay to actually set this higher because
+    you only pay for the actual work done; if you set a high gas limit and it's not
+    all consumed, the remaining gas is refunded back to you, but if you hit the gas
+    limit for your transaction and there's still more work to do in your transaction,
+    you run out of gas, and this counts as a failed transaction. So now, the miner
+    actually did perform the work that you requested and they stopped when they reach
+    the maximum amount of gas that you said you were willing to spend; as a result,
+    the transaction fails and you're not going to get the Ether paid for gas back
+    because they did the work they said they were going to do.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'So, there''s actually a really cool website called [eth gas station info](https://ethgasstation.info/)
+    that you can use to see what current gas prices are. Using this, you can get a
+    good idea for what you should be paying for gas and how long it''s going to take
+    for a miner to confirm your transaction at that price:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/02ebb92f-04cb-4987-9701-4f26435e9dd6.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: So now, we can successfully make transactions and we can make good financial
+    decisions to control our costs, but what happens after I send that transaction?
+    Is everything cool? Well, it might be or might not be. In the next section, let's
+    learn how to tell the difference between each, by verifying blockchain transactions
+    on the Ethereum network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Viewing blockchain transactions on the Ethereum network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Well, we saw how to sign transactions using a wallet, and now we know what gas,
+    gas price and gas limits are, but there's still a little bit of a question. Let's
+    say I sold something for 10 Ether but the buyer sets their gas price so low that
+    I'll never get that transaction. We saw in the last section that the buyer is
+    going to see in their wallet that the transaction hasn't been confirmed, but what
+    about me? How can I be certain this transaction is going to succeed? Well, I can
+    use the website [etherscan.io](https://etherscan.io/) and see the block height
+    for a transaction. The block height is the number of blocks written to the blockchain,
+    since the block containing your transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's take a step back here for a minute and review how the blockchain works.
+    So, transactions are verified by miners and then written to a block, subsequent
+    blocks are written to the end of that block, and the number of blocks after the
+    block containing your transaction is known as the **block height**. The larger
+    the block height, the less likely it is that your transaction will be reverted.
+    Blocks are mined every 12 to 15 seconds currently, so it doesn't take long to
+    get a few confirmations. For large transactions though, it's advised that you
+    wait for at least six confirmations before considering the transaction successful.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s take a look at some of the other information available to us on the
+    Ethereum blockchain using just our transaction ID. Now, this is coming from the
+    website [etherscan.io](https://etherscan.io/), and it''s an Ethereum block explorer.
+    Here, you can search by Ethereum address, transaction hash, block, and a few other
+    parameters:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b80019a5-9861-4422-8e67-b47b830f1e5a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'One of the things I use this for is tracking down a transaction. For example,
+    we know that every transaction on the Ethereum network produces a unique transaction
+    ID, and we can enter that and see the details of that transaction. We''ve got
+    the transaction status, whether it was successful or failed, the block height
+    (which you now know is how many blocks have been written since this transaction
+    was included in the blockchain), and we have who it''s from and who it''s to;
+    in this case, the transaction was to the CryptoKiddiesCore contract, and we can
+    also see how much Ether was sent, the gas limit, the gas used, the gas price,
+    and the costs:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0d060c05-3a7d-4905-8f0f-326fdb69bae8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Here''s an interesting thing: each Ethereum address is a hyperlink, so I can
+    click this link for the CryptoKiddiesCore contract and see all the transactions
+    against that contract. I can see the contract balance, the contract owner, even
+    ERC 20 and ERC 721 tokens, and the contract code itself:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3cb19936-051d-40d6-8c97-6f272a058d5f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: You can also click on any address that's sent a transaction to the contract
+    and view all the other transactions made from that address. That's why Ethereum
+    is known as pseudonymous, not anonymous; all transactions are public but we don't
+    know the actual identity of this individual. Etherscan also has sites for the
+    common test nets Ropsten, Kovan, and Rinkeby, which makes it really helpful as
+    a tool when you're troubleshooting transactions outside of your own local Ganache
+    network. And, armed with that information, you're able to verify that any transaction
+    on the Ethereum network is valid and confirmed before taking action on a transaction.
+    So now, let's dig a little deeper into offline and online wallets so you have
+    a better understanding of how each of those work.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding online and offline wallets
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we'll learn about the online and offline wallets, because this
+    is a concept that is quite confusing, and I want to make sure you have a solid
+    understanding of it before I send you out in the world to become a blockchain
+    developer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Distributed ledgers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'I want to reference a term used in blockchain to describe the technology, distributed
+    ledger, specifically the word "ledger." Ledger''s aren''t new; they''ve been around
+    for centuries to document transactions between people, and they''re simply a written
+    description of a transaction, who the money came from, who it went to, and how
+    much. By looking at this ledger, you can see exactly what took place in this photography
+    business in 1836, and if this person kept all the money recorded here in the same
+    wallet, we would know from this ledger exactly how much money was in their wallet
+    on any given day:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d26cd921-f452-4e96-abee-8e0f6c6d64b1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Multiple ledgers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A blockchain is a decentralized ledger, meaning that instead of one little
+    worn-out notebook we have multiple digital copies of this ledger stored on computers
+    all around the world. The only way you can write a new entry to this ledger is
+    if you have the private key to sign a transaction for your account. The keepers
+    of this ledger, the miners, don''t know your private key but they can validate
+    a signature came from you using your public key:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/21213aa1-46c9-4801-8e9d-32478009a92c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Paper wallets
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Your wallet is the piece of technology that holds your private key, and that
+    piece of technology can be as simple as a piece of paper, because all you need
+    to make a transaction is the seed phrase for your wallet. You''ve already seen
+    how to do that with MetaMasks so it''s entirely possible for you to keep your
+    seed phrase offline on a piece of paper, enter it into MetaMask when you need
+    to make a transaction, and then remove the account from MetaMask. You can''t get
+    much better security against hacking than not having your information online at
+    all. Meanwhile, if this is the account for your online business using Ethereum,
+    your business can stay online and continue to work day and night, and all of the
+    funds earned by your business will be recorded into the decentralized ledger,
+    and you can remain confident that those funds will be there when you want them.
+    The downside to offline wallets is convenience; it''s definitely not convenient
+    to have to set up a wallet every time you want to make a transaction, and you
+    likely don''t want to carry this little piece of paper around with you everywhere.
+    I mean, what if you fall into a puddle on a rainy day and it gets wet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e00c48e6-eddf-4c15-8262-f5f31f34d2e1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Hardware wallets
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Hardware wallets like the Ledger nano provide a similar level of security as
+    paper wallets, but make it a little easier to use your account. They''re encrypted
+    devices protected by a pin code that must be entered into the device to unlock
+    it. It plugs into your computer where you can use a software wallet to interact
+    with the hardware wallet. Now, this is where it can get confusing because the
+    term "hardware wallet" seems to indicate that the funds are stored on the wallet,
+    but they''re not. What''s actually stored on the wallet is the private key used
+    to sign the transactions associated with the wallet address. Any transactions
+    created are sent to the blockchain where the ledger for your account gets updated;
+    this means that once you unplug your hardware wallet from your computer, there''s
+    no way any additional transactions can be placed from your account. Hardware wallets
+    also have a seed phrase just like the ones we''ve used with Ganache, so you can
+    write that seed phrase down on a paper wallet, and if this device ever becomes
+    damaged use the seed phrase to restore it to a new device:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/cddb024e-c776-461a-9910-ce2d77e8ea8e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'On the complete opposite end of that spectrum, we have online wallets. As I
+    mentioned in the first section, today Coinbase is the hands-down leader in this
+    category; have a look at their website which is an interface every internet user
+    across the globe is familiar with. Anyone on the internet has filled out a form
+    similar to this to create an account, and using an online wallet such as Coinbase
+    comes with some other features as well:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7df5c352-23a8-4474-b737-c7e5b2635218.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'If you forget your credentials, you can have them reset:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/24f0c7e8-71f0-4d8e-a857-0b6152ba3440.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Here, you get some advanced features for free as well, such as a new wallet
+    address after every transaction to prevent someone from building a complete financial
+    profile of your account, like we saw in the last section using a blockchain explorer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a816f3ff-60f1-46f5-bf9f-6e0faf048e3c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'On the downside though, you don''t own and you can''t get access to the private
+    keys for your account; this means the security of your account is ultimately in
+    control of the wallet provider, and if something happens to their system, you''re
+    solely dependent on them to resolve it. Now, this isn''t a brand new concept or
+    unique to cryptocurrencies; it''s the exact same way every financial account you
+    currently have works: your bank account, your savings account, stock ownership,
+    and retirement plans. Its biggest weakness is actually its most compelling feature
+    because it operates like the other financial instruments we are used to, and that
+    familiarity lowers the barrier of entry with new users, but does so at the cost
+    of security:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7573bdc4-b214-4dfa-bfa5-459f71026c84.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Mobile and desktop wallets
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Somewhere in between paper wallets and online wallets, we have desktop and
+    mobile wallets such as MetaMask. MetaMask is a browser plug-in that installs like
+    any other software your users are familiar with; this reduces the barrier of entry
+    for new users, even if they don''t understand the underlying technology. The private
+    key associated with a MetaMask wallet is stored on the computer where it''s installed,
+    and it''s also encrypted so that only someone who knows your password can access
+    it. But, computers crash right? Well, with MetaMask you can back up that private
+    key, which allows you to restore it onto another computer or even use it on multiple
+    computers. The most important feature of MetaMask for us in this book, is it integrates
+    with the browser, and this provides a seamless interaction between the DApp that
+    we created and the user''s Ethereum wallet, plus an added level of security for
+    the user because we didn''t directly access their wallet, we created a transaction
+    and MetaMask presents the transaction to the user with the option to confirm and
+    sign the transaction or reject it. Well, here''s the thing: you don''t have to
+    pick one of these wallets, you can use them all and create a personalized wallet
+    system that provides the best of all features.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can have a Coinbase account that you use to buy cryptocurrencies such as
+    Ethereum, and once you have the Ether you can transfer some of it to a wallet
+    such as MetaMask, where it can be used to interact with DApps, and any Ether that
+    you''re going to hold can be sent to a hardware wallet for storage, and you can
+    back up both your MetaMask wallet and your hardware wallet to paper wallets that
+    are stored in separate physical locations. This gives you the convenience of online
+    wallets such as Coinbase, easy interaction with DApps like the one we created
+    here using MetaMask, secure storage for holding the bulk of your cryptocurrencies
+    using a hardware wallet, and security against failure with paper wallet backups.
+    It''s a comprehensive and thorough management strategy, and it''s the exact strategy
+    that I use. The following diagram describes Coinbase with MetaMask:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/fdbeb8d2-b252-4f73-8c88-cbb71ff9e910.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Using the different types of wallets you''ve learned about here, you can create
+    a comprehensive wallet strategy that balances security and ease of use appropriate
+    to the role of the application. As you start to create DApps on your own, I encourage
+    you to include strategies and information like this in your DApp. Decentralized
+    applications are still in their infancy, and for an overwhelming majority of your
+    users, your DApp may be their first interaction with one, so they''re not going
+    to have this knowledge. Including it as part of your onboarding process ensures
+    that they know how to protect their assets, and it lowers the barrier to entry.
+    There''s still one more thing to cover: how does our app even know about MetaMask?
+    So, let''s jump into our final section of the day to find out.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Injecting the Web3 provider
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: So, we've seen how MetaMask creates and signs transactions and how it manages
+    accounts, but we haven't talked about how our app even knows that MetaMask exists.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following screenshots show the app container, which is the main container
+    loaded when our application starts:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/187f71a8-c420-46b5-aa32-1df8e788784e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'If we take a look down here at `componentDidMount`, we''re checking for `window.web3`
+    to see if it''s defined; if it''s been defined, that means that the user has MetaMask
+    loaded and it has injected the Web3 provider into the browser:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/1afe4e1c-8e30-496e-8fd3-952c98fb35fe.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Currently MetaMask prompts the user to let MetaMask inject into the browser
+    after that point. The reason that they're doing that is because one of the core
+    principles of blockchain is security, and if you're able to read their account
+    information from any DApp they may not want that, so we're changing it up a little
+    bit so that before you're allowed to read anything from there Ethereum account
+    you have to prompt them and get their permission first. And, what happens here
+    is we're checking for the Web3 provider to be injected into the browser by MetaMask;
+    if it is, then we're going to set a variable called `currentProvider` that's equal
+    to the current provider provided by Web3\. And now, things are going to look really
+    familiar here for you because we're using the same action reducer pattern that
+    we used throughout the rest of our game.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We''re going to call the provider actions. Take a look at the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/17422d77-7c33-4242-bcdc-bb551edb2350.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'So, if we take a look right here, the `ProviderActionCreator` function comes
+    from `core /actions/actions-provider`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/5f142bb6-2cf8-45c0-b6dd-79de44d104af.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Here, we''re going to call the `setProvider` function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/6ffb3b1f-87d3-4111-8f52-e1592f493f4d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Over here, we have `setProvider`, and that''s going to return a dispatch that,
+    from the provider, calls the `getAccounts` method:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/5782024b-2398-44a9-84f4-8d43144e4164.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'That''s going to dispatch to the reducer provider. Now, a reducer provider
+    is going to take that provider that we grabbed from Web3, and it''s going to save
+    it to the Redux store:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/69581fee-867e-499a-b698-88abc449d943.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Once that''s saved to our Redux store, if we take a look at our `actions-game`
+    provider, whenever we call `playRound`, you can see that we''re calling the `web3Provider`
+    from the Redux store. Then, we call the `setProvider` method, which gets the current
+    provider from that injected Web3 instance, and then we use that throughout the
+    rest of our application to make the Ethereum calls to our contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9fc19cb3-eec0-42c2-8a26-18f4d595b29e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'All of that happens because when the app loads and the component mounts, we
+    check for the `web3Provider` to see if it''s been injected into the browser; if
+    it has, we call an action that gets that `web3Provider`, dispatches it to the
+    reducer, and the reducer saves that provider to the Redux store, which makes it
+    available within our game to make our Ethereum transaction calls:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2c8af8d9-efdc-412b-b84b-199033636f51.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: And now, let's take a look at our homework for the day where you'll install
+    and configure MetaMask to interact with our DApp.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Assignment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Well, in this chapter, we created a scoreboard for your game; now, it's time
+    to play a game and test it out.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For today''s assignment, here''s what you need to do:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Install MetaMask. To do so, you'll go to [MetaMask.io](https://metamask.io/)
+    and follow the instructions, just as we did in our previous sections. Remember,
+    you need to be using Chrome, Brave, Firefox, or Opera in order for MetaMask to
+    work.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Next, launch Ganache and copy the seed phrase.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Set up your account in MetaMask using the seed phrase, and MetaMask should connect
+    to the main Ethereum network by default, so you'll need to configure it to use
+    Ganache.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Once that's done correctly, you'll see your account balance from Ganache and
+    MetaMask, and then you'll need to deploy your contracts.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'When you do, it''s likely that you''re going to see this error, so let''s take
+    a look and see what it means:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/bf3c2723-fae5-4e21-a6fc-033865ddbd3d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The key line here is, Attempting to run transaction, but recipient address (...)
+    is not a contract address. What this is telling us is that you've deployed this
+    contract with this configuration before, but the deployed address doesn't exist
+    on this network. This error is to keep you from deploying multiple instances of
+    your contract to the same network inadvertently, which is a good thing right?
+    If that were to happen, how would you know which contract on the network was the
+    right one to use?
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this particular case though, this error is okay to ignore; we're seeing it
+    because we restarted Ganache, which creates a brand new network, so the deployed
+    contract from the last time we ran Ganache truly doesn't exist.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'So, to get around that error, run the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: And now, you can play a few rounds of your game.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Check to see that the scoreboard you built yesterday is updating with the correct
+    variables, and check to see that your account balance in MetaMask is properly
+    updating when you win or lose a few rounds. Our application is now complete and
+    functioning; it's only running on your local workstation though, right?
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned all about wallets, their types, and the security
+    involved. We then learned about MetaMask, the wallet we are going to use in our
+    application. Next, we looked at the workings of Ethereum gas, and how we can use
+    it. After that, we explored the different types of online and offline wallets.
+    And finally, we learned how to inject the Web3 provider to Ethereum, for our application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In our next chapter, we're going to take a look at how to deploy our contract
+    to a public Ethereum network, and deploy our user interface to a public server
+    using AWS.
+  prefs: []
+  type: TYPE_NORMAL

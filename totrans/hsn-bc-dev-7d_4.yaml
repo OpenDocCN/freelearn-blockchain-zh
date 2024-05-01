@@ -1,0 +1,795 @@
+- en: Day Four - Creating Tests
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'You''ve been relying on tests to ensure your code is working correctly, so
+    you may have some appreciation for how important they are and how they can help
+    you write better code with fewer bugs. In this chapter, we are going to look at
+    how to create proper tests that can help our game run smoothly, without any issues.
+    The following topics will be covered in this chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding unit tests and integration tests
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Testing strategies for various applications
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Creating unit tests in Solidity
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Multiple tests for the same function under test
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Creating integration tests in JavaScript
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Running test suites
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding unit tests and integration tests
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Today, we're going to be talking all about tests. After the last few days, you've
+    actually experienced some of the benefits of tests. I wrote a test that checked
+    for a specific behavior in our smart contract and it failed, and then you wrote
+    a code and you knew that it delivered the expected results when the test passed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Why write tests?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now, imagine that on a larger scale. You''re writing code as part of a huge
+    blockchain development team delivering the latest decentralized apps to the world.
+    As part of that team, how do you know that the code from other developers on your
+    team does what it''s supposed to do? And when a bug arises, how can you ensure
+    that your code wasn''t the code responsible for it? Or how about this: If someone
+    updates your code, how can you be certain that it still does what it''s supposed
+    to do? Remember, when we''re dealing with blockchain apps, we''re dealing with
+    people''s money, so all of these are important questions and the answer to all
+    of those questions is the same: tests.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Unit tests
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We''re going to talk about two different kinds of tests today, so I want to
+    start off by introducing them to you so that you understand the role that each
+    plays. Unit tests are written by a developer to test a relatively small piece
+    of code to ensure that it''s doing what it''s supposed to be doing. Think of a
+    function that adds two numbers together:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'A test might look something like this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: It gives the function two numbers and then tests for the proper result.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here are some of the common characteristics of unit tests:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Narrow in scope
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Easy to read and write
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: No dependencies
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'This means that the test itself is entirely self-contained, doesn''t require
+    database, a network connection, manual intervention, or anything else aside from
+    the test and the code that''s being tested. In Solidity, we don''t really have
+    true unit tests because even the basic tests require Ganache or a local blockchain
+    network to function. Even with that being true, we still write tests in this manner
+    to ensure proper operation of our code. Let''s take a look at one of the unit
+    tests I''ve already written to give you a better idea of what a real functioning
+    test looks like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/1403ebac-cc4a-47f6-a2bc-4a7db3ae8667.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: In the preceding screenshot, on the left we have our `determineWinner` function
+    that you've been working with over the last couple days. On the right is the test
+    for it. We use a `function` keyword, give our test a name starting with the lowercase
+    `test` word, and then inside we declare a variable called `expected`, which is
+    what we expect this function to produce when it works properly, and then we have
+    another variable called `result`, which is the actual result from the function.
+    And then the final piece is we use an assertion or create an `assert` statement
+    that compares the expected result, or the expected answer, and the actual result
+    to ensure that they're equal, and if not there's a message displayed so that person
+    running the test has an indicator of what went wrong.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Integration tests
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Integration tests, on the other hand, are used to demonstrate that different
+    pieces of the system work together. To better illustrate an integration test,
+    let me show you the test code I wrote for assignment homework:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: This test is written in JavaScript. We first call the `winOrLose` function,
+    simulating a call from our React app with the required parameters. We wait for
+    that call to be written to the blockchain using the `await` keyword. This test
+    is checking to see that the player stats are being recorded correctly. When his
+    code completes, the player should have one recorded loss. So, now we call the
+    blockchain and execute the function to get the stats for the player, and we verify
+    that the value recorded for losses is equal to one.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So, in this test we made two trips to the blockchain and we were reliant on
+    the blockchain network operating correctly for the test to pass. That's an integration
+    test. Here are some of the common characteristics of integration tests.
+  prefs: []
+  type: TYPE_NORMAL
+- en: They demonstrate that different pieces of the system work together. Typically,
+    they cover whole applications, which you may also hear referred to as end-to-end
+    testing. They require quite a bit more effort than unit tests to put together,
+    and they also require external resources such as databases, hardware, or in our
+    case the blockchain network, and they more closely resemble the actions expected
+    to be taken by our users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next section, you're going to learn the basics of how to create unit
+    tests and integration tests using Solidity and JavaScript. With these skills,
+    you'll be able to create tests to ensure your contract does exactly what it's
+    supposed to be doing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing strategies for various applications
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'You know that you should write tests, but when you''re staring at that blank
+    screen, it''s sometimes hard to know where to start. So, in this chapter, we are
+    going to explore some strategies to help build a plan for what gets tested and
+    how you test it. We''re going to talk about four different things:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing for success
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Testing for failure
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Testing using Solidity
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Testing using JavaScript
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: When it comes to testing, there are a lot of different approaches, but rather
+    than drowning in a sea of information, we're going to keep it simple. Any tests
+    are better than no tests, so let's focus on getting some tests on our contract,
+    and later we can always refine the approach and the tests as we learn more.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing for success
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The easiest place to get started is **testing for success**, and by this, I
+    mean writing tests to ensure that your component does what it''s supposed to do,
+    when provided with the correct inputs. Consider the following code snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here, we have a function that adds two numbers. How would you check whether
+    the operation works exactly as it should? Let''s write a test to ensure that if
+    it''s given two numbers, it produces the correct answer. For this, we''ll create
+    a function called `testAddCorrect()`, which considers an expected value, and the
+    resultant value from the contract and crosschecks them to ensure that the function
+    produces the correct answer. The following code snippet further illustrates how
+    this test works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: Writing these tests should become a natural part of your development workflow.
+    As a matter of fact, there's a strategy called **test-driven** development, where
+    you write the test first, see that it fails, and then write the code to make that
+    test pass. Once it passes, you write another failing test, and then follow it
+    up with the code to make it pass. By writing each failing test, you ensure that
+    the code does what it's supposed to do, then by making each test pass, you focus
+    on writing only the minimum amount of code necessary to make your application
+    work. This is the strategy I most often use, and it works great, but there's also
+    something to be said for testing for failure.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing for failure
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'What if your function doesn''t do the right thing when provided with invalid
+    inputs? Consider the following JavaScript snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, if you provide the function with two numbers, it will add them up, but,
+    what if we gave it two strings instead?
+  prefs: []
+  type: TYPE_NORMAL
+- en: We might require that it returns an error to the caller, stating that only numbers
+    are valid inputs, but instead, it's going to return the two input strings concatenated.
+    That's what I mean by testing for failure. You need some additional tests to cover
+    what will happen when your component is given invalid input.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Most of the time, this is where bugs and security exploits come from, by using
+    a component in a way that it was never intended to be used.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing using Solidity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Our third topic is testing using Solidity. If this book is your first introduction
+    to the world of programming, this is probably where you're going to be most comfortable.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Writing a test in Solidity is almost identical to writing your contract, since
+    it's the same programming language, and as a matter of fact, your tests are just
+    another Solidity contract used by Truffle to execute your tests. Tests written
+    in Solidity are similar to unit tests. Each test suite or test contract operates
+    in a clean room environment. This means that, before each test suite runs, the
+    contract is redeployed to the test network, so that you know you're starting from
+    a known state.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since there's going to be a deploy each time you run your tests, it makes sense
+    to test against a local network, which is one of the main reasons we're using
+    Ganache. If we had to deploy to a live network, then wait for the miners to mine
+    each transaction, then getting our test results would take plenty of time, and
+    if we're honest with ourselves, we wouldn't run our tests as often as we should.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Solidity tests use the Chai Assertion Library, which is used to write the logic
+    to pass or fail our tests. You'll see exactly how to do this in the upcoming section,
+    *Creating unit tests in Solidity*. But Solidity is pretty limited in what it can
+    do from a testing perspective, it's great for testing individual functions, and
+    ensuring that functions return the correct response, and testing for exceptions,
+    but not so great for testing the overall behavior of your contract. For that,
+    we're going to use JavaScript tests.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing using JavaScript
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'JavaScript tests give us a way to fully test the behavior of a contract exactly
+    as the client is going to see it. We have access to the test accounts, thanks
+    to the `web3` provider injected into the test runner, and you''ll learn exactly
+    what web3 is in [Chapter 6](adff179e-9ea9-4ca8-bbad-789ed7a75ec1.xhtml), *Day
+    Six: Using Wallets*.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Truffle uses the Mocha testing framework and Chai assertions for the JavaScript
+    tests. If you've written JavaScript before, you may be familiar with Mocha; the
+    only difference here is that Truffle uses the `contract` function instead of Mocha's `described`
+    function. This enables the clean room feature mentioned previously, to ensure
+    that we're starting with a fresh contract for each test suite.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using the Chai Assertion Library is a nice touch, because it's the same assertion
+    library used in our Solidity test, which makes our life as a blockchain developer
+    a little bit easier. Now, let's dive into deploying contracts into a test network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating unit tests in Solidity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Our first test is going to be written in Solidity. Starting with Solidity may
+    provide a level of familiarity to this foreign concept by starting with a language
+    you already know.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Solidity test conventions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Like many things in Solidity, there are some conventions with Solidity tests:
+    things like files must have the  `.sol` extension, contract names must start with
+    the word `Test` with a capital T, functions must start with test using a lowercase
+    T, and `test` should go in the `test` folder of your application code.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To write a test, we must first do a little bit of housekeeping. We define our
+    contract and then we import the `truffle/Assert.sol` library: we''re going to
+    import the `truffle/DeployedAdresses.sol` library. Both of these may be a little
+    bit odd if you''re used to programming node applications, because normally this
+    means that the library gets imported and it''s a file found in the `node modules`
+    folder, but you''re not going to find it there, as it''s imported by Truffle directly.
+    We also need to import our contract that we''re going to be testing. For our application,
+    this is our gaming contract. This is really where you want to stop importing things,
+    as we want to keep our tests minimalistic:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: Importing additional libraries beyond this point just introduces complexity
+    and the potential for bugs, so just like the contracts we've written before, we're
+    going to define a new contract. Because it's a test contract, we're going to start
+    it with the name test.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'One of the cool things we can do now is create a variable called `initialBalance`
+    and give it some ether. When our contract gets deployed, it will be funded with
+    the amount specified here, making it available for use in our contract. It''s
+    pretty cool, right? Then we create a variable named `gaming`, which is the instance
+    of our contract `Gaming` with the capital G. Take a look at the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We can define a function called `beforeAll()` and notice that it doesn''t start
+    with the word `test` even though I just said functions must start with it. That''s
+    because this is a special function: it''s going to be run before any of the tests
+    in our test suite. Inside it, we''re going to get the instance of our deployed
+    contract and we''ll use that in the rest of our tests:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Some of the other special functions we can use are `beforeEach`, `afterAll`,
+    and `afterEach`. And so, now, let''s start writing some tests. Our first test
+    is going to test our `determineWinner` function. It gets called by the `winOrLose`
+    function, but we''re going to test it on its own to ensure that it does exactly
+    what it''s supposed to, so that we know the `winOrLose` function can count on
+    it returning the right response. We start by defining our function and give it
+    the name starting with the word `test`, and then inside our function we''re going
+    to declare a variable called `expected`. This is the result we expect to find
+    as a result of our test. The result gets populated by calling the `determineWinner`
+    function and we pass it some parameters that are required for the function to
+    execute:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'And now, here''s where our Chai Assertion Library comes in. We call the `assert`
+    library and we call the `equal` function, passing it our `expected` value, the
+    result and the message that we''re going to display when the test fails. Now,
+    this message is really important: it''s going to be the sole clue that you or
+    any other developer gets when this test fails. Make sure that it''s clear and
+    specific. This is also a great place for a code review, because getting someone
+    else''s input on these messages can help make them clear and understandable:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: Multiple tests for the same function under test
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Taking a look at a few other examples, we have three examples in addition to
+    the test that we just wrote. In each test, a different variant of parameters are
+    present, which we can supply to the `determineWinner` function, this allows us
+    to check each possible scenario we can expect from our `determineWinner` function.
+    And this is why Solidity testers are favorable: they''re pretty easy to write,
+    they''re pretty easy to read, and they use the exact same programming language
+    as our contracts. Unfortunately, if you try to do much more than this, the fun
+    and excitement starts to fade quickly:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/be38e9b2-f9f3-449d-9988-c53d16a5b0cf.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: To get to the next level of testing, we're going to use JavaScript. It's got
+    a lot of features not available to Solidity. Accessing these features will give
+    us the power and flexibility to do end-to-end testing all using JavaScript, which
+    is convenient because we're going to be writing our UI in JavaScript as well.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating integration tests in JavaScript
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: When writing tests in JavaScript, we can simulate not only the contract calls,
+    like we did in our Truffle tests, but also select different accounts, check balances,
+    and more. Let's dig through some of the tests and you'll get a better idea for
+    what I mean. We'll start by creating a new test file. For our Truffle tests, the
+    filename started with the word `test` using a capital T and ended with the `.sol`
+    extension.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Our JavaScript tests start with the name of the contract being tested followed
+    by the word test with a capital T, and end with the `.js` extension. It still
+    goes in the same `test` folder as our Solidity test, which means there's only
+    one place to look for tests regardless of which languages they are written in.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Inside of our file, we''ll create a constant that has the same name as the
+    contract under test, and we use artifacts that require the contents of that contract.
+    From here, our tests look much like a Mocha test if you''re familiar with that;
+    instead of using the scribe, though, we''ll use the Truffle keyword contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This enables the Truffle cleanroom feature, which means that every time this
+    file is run as a test, the Truffle Framework deploys a fresh instance of the contract
+    to the network, ensuring that we start from a known state:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now I''m going to declare a couple of variables. The `gaming` variable is going
+    to represent the version of our contract that''s been deployed to the network,
+    then I''m going to create two constants, `owner` and `player 1`. Each of these
+    gets an item from an array called `accounts`. The `accounts` variable is provided
+    for free through the Truffle framework, and the items in the array represent the
+    `accounts` that Ganache created for us when the application launched, so this
+    variable called `owner` is set to the first item in the account array, which is
+    the first account that you see listed when you look at Ganache, and a variable
+    called `player 1` is the second account listed. This is pretty powerful because
+    accessing these accounts allows us to take actions acting as those accounts, then
+    check back with Ganache to ensure things happened as we were expecting. It allows
+    us to test things like functions that should work for specific accounts but not
+    others, like our is `owner` function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now we''re going to have a `before` function and, much like its counterpart
+    in Truffle, this function will run before any of the tests written in this file.
+    If you have additional test files, they''ll be considered separate runs, and the
+    `before` function here won''t apply:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then we''re going to use `async` and `await` to get the deployed version of
+    our contract from the Ethereum network. So, let me break a `async` and `await`
+    down for you in case you haven''t seen that before. Let''s say we had a line of
+    JavaScript: it''s going to use the artifact we imported representing our contract
+    to get the actual contract instance deployed on the Ethereum network, but the
+    way JavaScript works once we call this function means that it thinks it''s done
+    and it moves on from here: it''s asynchronous. So, even though we called the deployed
+    function and it hasn''t returned a value, JavaScript moved on anyway. The `gaming`
+    variable is actually undefined until this call completes, which causes a lot of
+    headaches as you try to figure out why this variable sometimes has a value, and
+    sometimes doesn''t:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: So, to avoid that pain we use `async` and `await`. The way it works is we declare
+    this anonymous function here using the `async` keyword, then inside the function
+    anytime we have a function or call that we need to wait on we use the `await`
+    keyword. Now, there's a lot more going on under the hood than that, but that's
+    the bare minimum you need to know to understand this. Instead of `async` and `await`,
+    some other patterns you might see include callbacks and promises.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'And now we''ve got one more variable declared, which is a constant called `fundGame`.
+    This function lets me send some initial Ethereum to the contract, so that as we
+    start testing our contract has some funds to pay out any winners. Without this
+    Ethereum, any test that results in a winning scenario would fail because the contract
+    would have insufficient funds to cover the payout. And take a look at this: it''s
+    also using the `await` keyword, because once we call this function it doesn''t
+    mean the execution is complete. We need to wait for that block to be mined before
+    the operation is considered a success:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'And, now, we''re finally ready to write some JavaScript tests. Our tests start
+    with the word `it` and then has a sentence that describes what should happen.
+    It''s common convention to actually use the word `should` here so that it reads
+    like a sentence; in this case, it should record player losses, so let''s see how
+    we do that. We declare a constant called `gameRound` and we''ll use `await` again
+    to call the `winOrLose` function in our gaming contract. Remember, this is the
+    same function that our UI is going to call as our players play the game, so we''re
+    actually simulating real user behavior here. Our `winOrLose` function takes two
+    parameters: the number displayed on the screen to the player and their guess as
+    to whether the mystery number would be higher or lower. I want this test to ensure
+    that the number of recorded losses goes up when the player loses; that means I
+    need to ensure that when the `winOrLose` function returns, it was a losing round.
+    I can do that by supplying 10 as the number displayed to the user, and true indicating
+    that they guessed the mystery number was going to be higher.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Well, since our mystery number is a single digit from `0` to `9` there's no
+    way it can be higher than ten, ensuring that our test player is always going to
+    lose. The next important piece of this function call is an optional third parameter.
+    The first two parameters are defined in our function call. This third parameter
+    comes from Solidity and it takes the form of a JavaScript object. Inside of it,
+    we specify our `from` account, meaning the account I want this transaction to
+    come from, which is our player 1\. I can also attach a value to it that will represent
+    the player's wager. Now all the funds sent to and from the Ethereum network are
+    denominated in Wei, which, if you remember from day one, means that ten to the
+    eighteenth `Wei` equals one ether. But rather than doing that math ourselves,
+    Truffle provides us with an instance of Web3 to use when testing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Web3 is a JavaScript library of utilities for interacting with smart contracts
+    on the Ethereum network, so we can use the `web3.utils.toWei` function to convert
+    one ether to Wei and still have readable code. So, that initiates a round of the
+    game with our player. The execution of our code is going to sit here and wait
+    for that round to complete thanks to this `await` keyword, then once it does we
+    can create a new constant called `player stats`. This is the struct that you created
+    yesterday to increment the number of wins and losses:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`Players` is a mapping of addresses to a `player` struct, and that means it
+    takes an Ethereum address as the parameter to get the stash for the correct player.
+    We can use the `player1` variable name here and Truffle automatically converts
+    that to the required address parameter. And now we can finally use a circle to
+    verify that our expected number is equal to the number one. And we can also include
+    a message here that will be displayed if this test fails. Right here, though,
+    you might be looking at this wondering what the heck that''s all about. Our players
+    mapping returns a struct that includes the players'' wins and losses, but JavaScript
+    doesn''t have any idea what a struct is – that''s a Solidity thing – so, what
+    happens is, it gets converted from a struct to an array, and it gets implemented
+    in the order that the variables are listed in the struct declaration. So, we know
+    that when this array comes back the first item in the array will be the wins and
+    the second will be the losses:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: There're also some type differences between numbers and Solidity and JavaScript.
+    When we get a number from Solidity, whether it's a signed or unsigned integer,
+    it's a big number. That's actually a JavaScript type, not me saying it's a big
+    number, so what we have to do is convert that to a JavaScript number, so that
+    we can use it within our application, and we do that using the `toNumber` function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'So, let''s do one more thing. Since we''re here, let''s verify that when this
+    player lost we took their money. That''s an important part of running a gambling
+    operation and I''d like to have some tests to ensure that it works right. Before
+    we play this round, let''s get the player''s account balance; we''ll use the `web3.eth.getBalance`
+    function, and supply our player''s address:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, after we play the round we know that the player has lost we can get that
+    balance again with the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, we can assert using is `AtLeast` function. The reason I use `isAtLeast `is
+    because in addition to the 10 ether that the player just lost, they also had to
+    pay some gas for the transaction fees. So, the initial balance should be greater
+    than the final balance plus the amount wagered. Their balance should have decreased
+    by just a little bit more than 10 because of the 10 that they wagered plus the
+    gas. It''s not an exact number but it''s close enough for us to confirm that the
+    player actually lost the amount of money we were expecting them to:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: And we can do that inside the same function we've been working on. It's perfectly
+    acceptable to have multiple assertions within the same function, as long as they're
+    testing the same component or function in your code. Now we can test our functions,
+    evaluate and assert the results, as well as check balances for different accounts
+    in our tests network. In the next section, let's see how we can make them all
+    play together.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Running test suites
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'So far today, we spent a lot of time writing tests and no time running tests.
+    When I''m writing code, the approach I usually take is to write a single test,
+    run the test suite to ensure it fails, and then write the code necessary to make
+    it pass; that means I''m running tests a lot and it''s important that they complete
+    quickly. You''ve already been running tests: you''ve used them each day to verify
+    your homework. When you run Truffle tests, it runs the tests and now you know
+    where those tests come from.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You''re also aware that you have to have Ganache running in order for those
+    tests to pass, so there must be some kind of communication going on between Truffle
+    test and Ganache:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/971e5114-8240-4f5a-9e38-1cebb264be06.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Well, let''s take a peek behind the curtain. The reason Truffle knows how to
+    talk to Ganache is thanks to this file right here—`truffle.js`—specifically the
+    `Network` section. When you run Truffle tests, unless you tell it otherwise, it
+    assumes a network of development in our development configuration: we specify
+    an address of localhost and a port of 7545, which is the port that Ganache runs
+    on.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, we tell it to use any network ID that Ganache is providing, which
+    will differ for other configurations that you''ll learn about on [Chapter 7](a4cee862-9ee6-40e3-8a79-8092fbcae9ed.xhtml),
+    *Day Seven* - *Deploying to the Network*. If you change any of the settings in
+    Ganache or decide to use one of the other local Ethereum clients, you''ll need
+    to update those settings here to ensure Truffle knows how to talk to it. As far
+    as running the test suites, that''s about all there is to it. Type the following
+    Truffle test:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'But since we''re here, let me ask you this: what do you do if the tests fail?
+    While you think about how you''d handle that, let me show you one of my favorite
+    features of using Truffle, the debugger.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s take a quick peek at our `winOrLose` function. I''m going to add a new
+    `require` statement here, `require(1 != 1)`, and for normal purposes, yeah, that
+    would be a dumb thing to do, but it''s going to ensure that our function call
+    fails, allowing me to show you how to debug it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'I''m going to switch over to a Terminal session and launch a `truffle develop` console.
+    When you do that, Truffle launches and it brings its own Ethereum network with
+    it, which you can see that here whenever it starts. We get some account private
+    keys and the mnemonic we can use if we want to connect a wallet to it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c585a238-53de-4673-985f-284baa227206.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'I''m also going to open a second console window and run the `truffle develop
+    --log` command in it. Inside our developer console, we''re going to `compile`
+    our contract and then we''ll type `migrate --reset`, which migrates it to this
+    local Ethereum network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/1574df9f-0cd1-4189-bb0f-ce33bc4d4f23.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'And now, I''m going to execute this command, which calls a function on our
+    contract; but this looks like a mess whenever it''s all in one line like this,
+    so let''s break it down piece by piece so we can understand what''s going on here.
+    So, this is the same thing – it was just written as one line over in a console,
+    but here we''re going to break it out into multiple lines to demonstrate what
+    each piece is. We''ve got our gaming contract, which is our Ethereum contract,
+    and we''re calling the `deployed` method on that, just like we did in our tests.
+    Then we have a promise, so when that promise gets fulfilled we call doc, or we
+    have a function that receives that contract as a variable name to instance, and
+    inside of that function we''re going to return the `instance.winOrLose` function,
+    which executes the winOrLose function within our smart contract. When that completes,
+    we''ll have another dot then or we call another function to write out the response
+    from the Ethereum network to our console:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'So, now we can execute that. Whenever we execute it, we get the VM exception
+    processing transaction revert, so it failed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f6c63e9c-4d34-425a-be68-bbe54565c87b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The part that we want to see, though, which is why I have the develop console
+    over here, is that we get our transaction ID. So, now I can take that transaction
+    ID, type `debug`, and paste in that transaction ID, and it''s going to step me
+    through everything that that transaction did. What you''re seeing here is, it''s
+    going to walk through the code one line at a time; we''ve got some commands we
+    can enter here, we''ll walk through it one line at a time, to step over, we can
+    also set breakpoints and watch expressions. It''s actually a pretty full-featured
+    debugger:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/8eaf91d1-e6ca-47a9-8026-b612ce9d7964.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'It''s showing me here, underlined, the line of code that''s going to execute;
+    so when we''re ready to execute it we can hit *Enter*, and it moves on to executing
+    our `winOrLose` function. And now it''s going to evaluate each of the parameters
+    within that function. We''ve stepped into the first line of code within our function,
+    our require statement. It''s evaluating the variable `online`, this is `true`
+    and evaluates the variable as `true`, now it will evaluate the statement as a
+    whole, and now it''s going to evaluate the `require` statement and we''re going
+    to do the same thing to ensure that `msg.sender.balance` is greater than the message
+    value. It''s pretty verbose here right:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/90f4bb3f-4097-4f2c-85b2-6ce2e874f0c7.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Now we redirect to `1!=1`, and so it just kicked us out there, saying it halted
+    with a runtime error. The really cool part about that is that we now know exactly
+    which line of code within our contract caused the execution to fail.
+  prefs: []
+  type: TYPE_NORMAL
+- en: And now you know how to write your tests in Solidity and JavaScript. You know
+    how to run them and you learned how to use the Truffle interactive debugger when
+    things go wrong. Let's jump into today's homework.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Assignment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: For the last few days, you've been writing code and relying on tests to let
+    you know when the code is correct. Today, we're going to flip those tables. There's
+    a function in the contract called `withdrawFunds`. It takes no parameters and
+    it transfers a balance of the contract to the message sender. I want you to write
+    a test that gets the contract balance of the owner defined in our test, call the
+    `withdrawFunds` function, and then verify that the owners balance has increased
+    by 10 ether.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As a bonus assignment, you can also write an additional assertion to ensure
+    that the contract balance is zero after the withdraw. Now, you''ll want to do
+    these tests in JavaScript because you can''t access an Ethereum account using
+    Solidity testing. If you get stuck, take a look at some of the existing tests
+    already written in our JavaScript test file. There''s actually nothing wrong with
+    using those as inspiration: reading code written by others is a great way to increase
+    your own understanding of a particular topic.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We have reached the end of the chapter! We saw a comparison between the unit
+    tests versus integration. Then we looked the reason behind writing tests. After
+    which, we tested strategies for various applications, for example, Solidity and
+    JavaScript. Next, we created a unit test, and learned about Solidity test conventions.
+    We learned how to create multiple tests for the same function and also created
+    integration tests in JavaScript. And, finally, we ran test suites.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we will build a user interface for our application.
+  prefs: []
+  type: TYPE_NORMAL

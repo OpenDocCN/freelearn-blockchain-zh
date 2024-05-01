@@ -1,0 +1,735 @@
+- en: Day Three - Implementing Business Logic in Your Smart Contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Well, today is all about functions. We're going to dive deeper into how to create
+    them, how they work, and how we use them to create the business logic that makes
+    our smart contract work.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This chapter will cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Solidity functions
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Adding code to functions
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Function visibility
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using functions to execute business logic
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding modifiers
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Solidity functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A function is an executable unit of code within a contract. To create one,
+    you specify the `function` keyword, give the function a name, specify any parameters
+    it will need to complete its job, set its visibility, add any modifiers required,
+    state if it''s a view or a pure function, mark it as payable if it can receive
+    ether, and define any returned variables that it will produce; then, we have the
+    opening and closing curly braces, and in between these curly braces is where we''ll
+    add our code for the function. You won''t have all of these options in every function—this
+    is just the order that they go in when you do. For example, you can''t have a
+    function marked as pure and payable, because a pure function isn''t allowed to
+    modify state – which receiving ether would do. This will become clearer over the
+    course of today''s lessons, as we work with more functions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We use the `return` keyword in a function to indicate that a function will
+    return a value to the caller. For example, we can declare an unsigned integer
+    named `sum` that gets its value from the result of the `addThis` function, which
+    takes two parameters:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We declare that it''s a function, name it `addThis`, specify that it takes
+    two unsigned integers as `(unit a, unit b)` parameters, mark it as `internal`,
+    and then specify that it returns an unsigned integer. So, this `returns` keyword
+    doesn''t return anything, it only specifies the `function` signature that it''s
+    going to, it''s only down here in the body where we use the `return` keyword and
+    we actually return the value to the caller, in this case `return a + b` is the
+    variable sum. Both pieces – the `returns` keyword in the function signature and
+    the return itself – are required. Our add this function might look like the following
+    code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We can also specify the return like this, where we say this function will return
+    the `c` variable, and then inside the function block we assign the `c` variable to
+    the sum of `a + b` and return it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: Adding code to functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Functions create the application logic for your contract; this means they have
+    to do things, and telling them what to do means writing code. The code you write
+    goes in between the curly braces of the function. Inside the curly braces, the
+    execution of code goes one line at a time from top to bottom. The exception to
+    that is if you have conditional logic such as this `if` statement. If `isWinner`
+    is not true these lines of code within the curly braces for the `if` block or
+    skip, and program execution resumes at the first line of code after the `if` block.
+    When the function gets to the last line of code or return statement, the function
+    exits:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: Variable scope
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This brings us to a really interesting point: something called **variable scope**.
+    Take a look at this. We have a variable called `saySomething` with a value of
+    `"hello"`. Inside this `doStuff` function, we have another variable called `saySomething`
+    with a value of `"goodbye"`. So, while we''re inside this function, what do you
+    think the value of `saySomething` is? If you said goodbye, you''re right, the `saySomething` variable inside
+    the function is said to be shadowing the same variable name outside the function,
+    and as you can see that''s a bad thing. When this function exits, the value of
+    `saySomething` is now back to the original value of `"hello"`; that''s because
+    the variables declared inside this function only exist within the function. Once
+    the function exits, those variables are gone. Outside of the `doStuff` function,
+    there''s not even a thing called `saySomethingElse` that can be accessed. That''s
+    an important point to remember when you''re building your functions: what variables
+    are needed inside the function and what data is needed from the function after
+    it exits:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: Events
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There's a special type of function called an **event**; it's a way for us to
+    use the EVM or Ethereum virtual machine logging facilities. This is important
+    to us, because, if you remember, when our player takes an action in the game,
+    it's not in real time; it goes to the Ethereum Network where it waits to be confirmed
+    by miners and then and only then is it written to the blockchain. When that happens,
+    any events associated with that transaction are fired off. We can use those to
+    call JavaScript callbacks in our application and update the UI for the player.
+    Events are inheritable members of the contract, which means any events written
+    into a contract are available to any contracts inherited from it. And, finally,
+    the event arguments themselves are stored in the transactions log; that's a special
+    data structure of the blockchain where we can see which events fired as part of
+    the transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s take a look at a real event to get a better idea of what I mean. Inside
+    our contract, we define an event using the `event` keyword, give it a name—and
+    notice here that the name starts with a capital letter: `PlayerWon `—then add
+    parameters for the data points we want to index:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Inside of our `winOrLose` function, once we determine the player has won, we
+    can omit the player one event that writes the player''s address and the amount
+    they won to the transaction log. In the JavaScript for our application, we can
+    listen for this event and when we receive it let the player know the good news:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: Constructor
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Another special function I want to introduce you to is the constructor. It's
+    called when a contract is created and it can only be executed once. Once the contract
+    is created, it can never be called again. It's typically used to set the initial
+    state of variables used by your contract. You'll see some examples, and only one
+    constructor is allowed per contract, so overloading is not supported.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here, we have part of our gaming contract and inside the contract we''ve declared
+    two variables, `owner` and `online`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Next, we declare our constructors so when this contract gets created we''re
+    going to set the `owner` variable equal to the address of the person who deployed
+    this contract. At the same time, we''re going to set the `online` variable equal
+    to `true`, indicating that our game is open for business. These two variables
+    are important to us and using the constructor to set them when the contract is
+    created allows us to lock in their value as quickly as possible after creation.
+    One other variation of this you''ll see is a function with the same name as the
+    contract. So, instead of this `constructor` function, you''ll see a function named
+    `Gaming`. It does the same thing, but using the `contract` name as the function
+    name to create the constructor is deprecated and shouldn''t be used anymore. A
+    lot of code still has it, though, so I wanted you to know about it so you can
+    identify it when you see it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: Fallback function
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The last special function we're going to talk about is the **fallback functio**n.
+    A contract can have one unnamed function that's our fallback function. It can't
+    have any arguments and it can't return anything, and it's executed if a contract
+    is called and no functions in the contract match the call. It's also executed
+    when the contract receives ether but no data. You may be thinking that sounds
+    pretty useless at this point, but let me show you an example of why you may need
+    to include one.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Imagine our gaming contract. Let''s say someone sends ether to this contract
+    with no data. Our contract doesn''t know what to do with that so it reverts the
+    transaction and the ether is returned to the caller. But what if this were a different
+    application, and in that application you needed to be able to accept ether via
+    direct transfers from an external account such as directly from a person''s Ethereum
+    wallet? The only way to do that is with a fallback function. Creating a fallback
+    function and marking it as payable will allow your contract to receive direct
+    transfers of ether. The downside of this is you need to consider what you''re
+    going to do with that ether: mainly, that you have to have a way to get it out.
+    If, for instance, someone mistakenly sent ether to your contract and they meant
+    to send it to a different address, if your fallback function is marked `payable`
+    you''ll receive that ether and if you don''t have a function allowing you to withdraw
+    it, it''s going to be stuck there forever:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: Okay, that's the basics of functions. In the next section, we're going cover
+    function visibility. Let's dig deeper into how visibility affects the capabilities
+    of functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Function visibility
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The `visibility` keyword is a required element when defining a function. By
+    specifying the visibility, we can control who can call it and who can inherit
+    it. We can also optionally define whether or not the function should read state
+    variables, or even view them at all.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Visibility in a nutshell
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We defined the visibility modifiers yesterday, and today we will reinforce
+    the differences using this table:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '|  | **Called Externally** | **Called Internally** | **Inheritable** | **Automatic
+    Getter** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| **External** | Yes | No | Yes | No |'
+  prefs: []
+  type: TYPE_TB
+- en: '| **Public** | Yes | Yes | Yes | Yes |'
+  prefs: []
+  type: TYPE_TB
+- en: '| **Internal** | No | Yes | Yes | No |'
+  prefs: []
+  type: TYPE_TB
+- en: '| **Private** | No | Yes | No | No |'
+  prefs: []
+  type: TYPE_TB
+- en: External functions can be called externally. They can also be called internally
+    using the `this` keyword, but because that's kind of a workaround, I didn't check
+    the box for called internally; and they're inheritable, so you'll have access
+    to all the external functions in contracts you inherit, and any contracts that
+    inherit from you will have the external functions defined in your contract. Public
+    functions can be called externally as well as internally. Like external functions,
+    they're inheritable, and you get a free getter function for variables defined
+    as public. Internal functions can only be called internally and they're inheritable.
+    And, finally, private functions can only be called internally, but remember, this
+    doesn't mean the data is private, it just means that it can't be called or inherited;
+    it's still viewable to an observer on the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s take a look at an external function. This is the `winOrLose` function
+    from our game: it gets called by our React application to determine if a player
+    has won or lost this round. It''s marked as external because we''ll be calling
+    it from our UI, and it''s marked as payable because the player will include their
+    wager with this function call. It executes this logic to determine if the player
+    won or lost, then returns a boolean `true` if they want or boolean `false` if
+    they lost. So, this function could have been marked public as well and retained
+    the same functionality. In addition, we would have the ability to call the function
+    internally from within the contract without using the `this` keyword. So, to call
+    this function from within the contract we would just call `winOrLose,` but with
+    it marked external, if we wanted to call it from within the contract we''d have
+    to call this dot `winOrLose.` Since this function has no reason to be called from
+    within the contract, I made the visibility `external`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Our mysteryNumber function is private. It gets called by our `winOrLose` function
+    to generate the mystery number our player is wagering against. It only gets called
+    from within the contract by the `winOrLose` function so it doesn''t need external
+    or public visibility. Additionally, I don''t want inherited contracts to have
+    access to this function, so it gets marked as `private.` There''s a new keyword
+    here to `view.` Marking this function as `view` indicates that this function will
+    not attempt to modify, create, or update the state:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: View functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In the following list, we can see the things that are considered to modify
+    state meaning, and they aren''t allowed if your function is a view function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Writing to state variables
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Emitting events
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Creating other contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using self-destruct
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Sending ether via calls
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Calling any other functions not marked as view or pure
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using low-level calls
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using inline assembly that contains two op codes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Low-level calls and inline assembly op codes are beyond the scope of this course,
+    so we're not going to be covering those here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, we have an internal function, our `determineWinner` function. This
+    function evaluates the criteria for this round the mystery number, the number
+    displayed to the player, and their guests of higher or lower. It has a return
+    value of a boolean that gets returned to the `winOrLose` function when it''s called.
+    There''s no reason for anything other than the `winOrLose` function to call this
+    function, especially externally, so defining it as external or public is out of
+    the question, and I don''t mind if someone who inherits my contracting uses this
+    function, so I''ll mark it as `internal.` It''s also marked as `pure`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: Pure functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A pure function is much like a view function, in that it promises not to modify
+    the state, but it goes one step further in promising to not even read the state.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here''s a list of the things you can''t do if you mark your function as pure:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Reading state variables
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Accessing an account balance
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Accessing any member of block, tx, or message
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Calling any function not marked pure
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using inline assembly that contains certain op codes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In the next section, we're going to see how this all ties together to create
+    the business logic of our application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using functions to execute business logic
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'So, we''ve gained some confidence with functions in how they work and how we
+    create them, so now let''s put this into practical context and see how we use
+    them to implement the business logic of our smart contract. And thinking back
+    to our app, we''re going to display a random number to our player in our UI, and
+    they''ll place a wager on whether they think the mystery number is going to be
+    higher or lower. The displayed number and their wager are sent to our smart contract,
+    where we execute the rules of the game using Solidity code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a5eeb381-c28e-488b-8705-548bd80f3ee8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Let's take a look at our `winOrLose` function once again. It's changed a little
+    bit since we last saw it. When the player is ready to play around, they'll make
+    their wager and the app will call this function. When it does, it will send along
+    the number that was displayed to the player, the players guess, and their wager
+    will be attached to this transaction as the special `msg.value` variable. Since
+    this gets called from our UI, it has to be marked as external, and since it receives
+    their wager in the form of ether, it has to be marked as payable.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We define that it returns two objects: a boolean and an unsigned integer. The
+    boolean indicates whether they won or lost, and the unsigned integer will return
+    the `mysteryNumber_` that they were betting against. That''s going to allow us
+    to show the player the `mysteryNumber_` when we tell them that they won or lost:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: Inside our function, we have two require statements. I'm going to skip over
+    those because we'll be covering them in detail in the next section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We have an unsigned integer that gets its value from a function called `mysteryNumber`; that
+    means our `mysteryNumber` function must return an unsigned integer – we declare
+    that when we define the function – and since nothing outside of our contract needs
+    to access this function we''ll mark it as private. Our function also doesn''t
+    do anything to modify the state. It simply returns a number so we can mark it
+    as a `view` function as well:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'And now we have all the data we need to determine if the player won or lost
+    this round. So, we declare a boolean called `isWinner` that''s going to get its
+    value by sending all of the needed information to the `determineWinner` function,
+    and that function looks like this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: It has parameters to accept a mystery number, the displayed number, and the
+    player's guess. Once again, there's no reason for anything outside of the contract
+    to call this function, so it's marked as `internal`, and because it doesn't read
+    or modify state, we mark it as `pure`. Next, we go through all the different combinations
+    of winning and losing, and once we have enough information to determine whether
+    this round was a win or a loss, we exit the function using `return`, and then
+    `true` for a win or `false` for a loss. When that function returns, it leaves
+    us right here, where we can evaluate the `isWinner` variable, then take the appropriate
+    action based on a win or a loss, which includes emitting events to indicate the
+    status of that round, sending any money won back to the player, and returning
+    the result of that round for the player to see. Let's take a look at that visually
+    to help cement the relationships. Our app calls the `winOrLose` function, which
+    in turn gets a new mystery number from the `mysteryNumber_` function, then it
+    sends the data over to the `determineWinner` function to see if the player won
+    or lost, then it takes the appropriate actions, and finally notifies the player
+    of the results. And next up, we're going to talk about modifiers. They're powerful
+    functions that allow you to place constraints around when your function should
+    and should not execute.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding modifiers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Well, modifiers are an important component in functions: they allow us to enforce
+    rules and restrictions quickly and easily. Modifiers are used to change function
+    behavior in a declarative way. This means we get a repeatable concise way to enforce
+    rules. Modifiers are commonly used to check a condition prior to executing a function;
+    this is important in blockchain development. We pay the miners to execute our
+    functions in the form of gas, so if a function is going to fail a constraint,
+    it''s in our best interest for it to fail as quickly as possible.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are also inheritable properties, meaning that a modifier defined in a
+    contract is also available in any contracts derived from it. An important component
+    of modifiers is a convenience function called **require**. So, before we dig deeper
+    into modifiers, let's first understand the require function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The require function
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Require's a convenience function that we can use in Solidity to handle errors.
+    It's a state reverting exception, meaning that any changes to state made prior
+    to the exception are automatically rolled back; this is a great feature because
+    it ensures that all of our transaction completes, or none of it does, preventing
+    a scenario where we have to guess which parts did complete. We commonly use `require`
+    to ensure that valid conditions, such as inputs or contract state variables, are
+    met. And, optionally, we can include a string message returned to the caller when
+    a `require` statement fails, to let the caller know what happened. For me, though
+    this stream message is optional, it's a requirement; I can't even guess how many
+    hours I've spent before this feature existed troubleshooting why a function was
+    failing, only later to learn it was due to a requirement that I'd put in the function.
+    To define a require, we use the `require` keyword followed by the conditions in
+    parentheses.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If you remember from our contract definition, we set a variable called `online`, then
+    in the constructor set its value equal to `true,` so this statement checks to
+    see if the `online` variable is still `true`. If not, the program execution stops
+    here, and this is how we can effectively take our game offline:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: Order also plays an important role in require statements. Typically, you want
+    to place them at the top of the function so that the function can fail as quickly
+    as possible if the condition isn't met. Here you can see two require statements,
+    one to verify the game is online and a second to ensure that the player has enough
+    funds to cover their wager, and that's it. Require statements are pretty straightforward.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'And we can use require statements to build modifiers. A modifier is created
+    using the modifier keyword, giving it a name and then optional parameters in parentheses.
+    It''s very similar to a function. Inside the modifier, we add our conditions.
+    Here, we''re requiring that the message sender is the same address as the one
+    stored in the owner variable. This modifier has the effect of restricting any
+    function using it to only be executed by the owner of the contract. The final
+    piece of the modifier is this, the underscore, and its location is pretty important,
+    as it determines when the code calling this modifier should be executed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Let me show you an example to explain that further. This function allows the
+    caller to withdraw the funds the contract has earned from the game. We use the
+    `isOwner` modifier to ensure that only the owner of the contract can call it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now let''s see where the underscore comes into play. There are two valid locations
+    for the underscore:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/97be6c20-198b-48ac-ba4b-60105f99440e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'It can come at the beginning of the modifier:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Or it can come at the end of the modifier:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: The difference is when the code in the function runs. If you place the underscore
+    at the beginning of the modifier, when the withdraw funds function executes it
+    runs all of the code in its function, then calls the modifier. If the underscore
+    is at the end, the modifier executes its logic first, then the function executes
+    its logic.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Another way of looking at this is the underscore represents the function itself.
+    In this example, if we put the underscore first, the function executes first and
+    withdraws all of the funds from the contract, then the modifier checks to see
+    if it was the owner that did that. With the underscore last, the modifier first
+    checks to see if the call is from the owner, then it executes the function if
+    the modifier passes. That's a big difference in the desired outcome of this function,
+    so pay close attention when using modifiers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next section, we'll take a look at some practical examples using modifiers
+    to get a better understanding of their capabilities.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this section, we''ll take a look at some different use cases for modifiers.
+    I really like modifiers because they allow a lot of control over executing a function,
+    but they''re still very readable. Let''s take a look at our first example, a modifier
+    called `onlyBy`. It will allow only functions calling it to execute if it''s called
+    by the desired address:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'We can see it in action here in the `changeOwner` function. When `changeOwner`
+    is called, the `onlyBy` modifier is used to ensure that only the current owner
+    can specify a `newOwner` variable for the contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here''s another example that uses time constraints. If the current time is
+    less than the time passed in as a parameter, the modifier throws an exception
+    ending program execution. Putting it to use, we can see the `disown` function
+    using the `onlyAfter` modifier to ensure that it can only be called 6 weeks after
+    the creation time. This is a great example of using multiple modifiers to ensure
+    that multiple conditions are met. To specify multiple modifiers, you simply list
+    them one after another in your function declaration. You can do it with one on
+    each line like this, or you can do it on the same line with a space separating
+    each modifier:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Let''s look at one more example. This modifier requires a certain fee to be
+    paid with a function call, so now we can charge a fee for changing the owner.
+    As long as the required 200 ether is included with this transaction the transaction
+    will execute. There''s a caveat here, though: if the caller sends more than 200
+    ether when the function exits normally any excess ether is returned to the caller.
+    If we use a `return` explicitly, though, any excess ether won''t be returned:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: Alright, so we've covered functions and while there is much more that we can
+    discuss, this represents the basics that you need to start building your smart
+    contracts. In the next section, I'll go over today's homework with you.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Assignment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Today''s assignment has a similar format as yesterdays. In it, you''ll write
+    some code to make some tests pass, in the repository for the book. Doing so is
+    going to allow you to put the knowledge you''ve gained today about functions to
+    work. The first thing you want to do is the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Get your environment set up for today's homework.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Open a Terminal and switch to the directory containing your application code.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Type the `git stash` command. This is going to stash any changes you've made
+    to the application code to prevent any work you've done from interfering with
+    the scenario I've set up for you.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: After you stash your work, type `git checkout -b dayThree` to get the code for
+    today's homework, and you'll also need Ganache running, so make sure you start
+    it before beginning the assignment.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Run `truffle test`, and you should see something similar to the following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/c9f7923f-4199-4922-b25e-e1edc758ace8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: To get all those tests to pass, you'll need to do the following tasks – in the
+    `determineWinner()` function, we're missing some logic. If the player guesses
+    that the mystery number is going to be lower than the number displayed on their
+    screen, they should win, but the function doesn't currently do that, so I need
+    you to write the code to make that happen.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Next, we''ll create two new events: one for `playerWon` and one for `playerLost`.
+    The event should accept parameters for the player''s address, the amount they
+    wagered, the mystery number they were betting against, and the number that was
+    displayed to the player.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Now that you have your event, we'll omit the correct event whenever the player
+    wins or loses.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: And, finally, there's a mapping called `players` that maps the player's address
+    to a `Player` struct, where we can store information about their wins and losses.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We'll get the `Player` struct for the correct player from that mapping, and
+    increment the win counter if they win, and the loss counter if they lose.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'When you''re all done, you should end up with these six passing tests, which
+    set the stage for [Chapter 4](dce47cf0-e672-43db-b320-08af2133d937.xhtml), *Day
+    Four* - *Creating Tests*:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/666f127c-bacb-4b0b-9555-adf757bd93c0.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: And the cool part about this is that you've been relying on tests for the last
+    couple of days to ensure your code is working correctly, so you may have some
+    appreciation for how important they are and how they can help you write better
+    code with fewer bugs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned all about functions. We also also looked at how
+    functions are created, how they work, and how they are used to make the smart
+    contracts work. We started with learning about functions in Solidity, after which
+    we saw how to add codes to those function. We then learned how to modify the function
+    visibility. Then, we saw how to use the functions to execute business logic. And,
+    finally, we learned how to use modifiers in the functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we will learn how to create tests that will help in debugging
+    the code, so that the game functions without a glitch!
+  prefs: []
+  type: TYPE_NORMAL

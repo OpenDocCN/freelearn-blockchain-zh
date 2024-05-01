@@ -1,0 +1,1050 @@
+- en: Day Five - Building a User Interface
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we will focus on building a **user interface** (**UI**). It's
+    the part of our application that our end users will see and use. If you've built
+    websites in the past, you'll see some familiar stuff going on here, and you'll
+    learn some of the complexities of interacting with blockchain applications. If
+    you've never built a website before, that's okay too, because you will get to
+    know what we'll be doing and why we need to do it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We will cover the following topics in this chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding the role of JavaScript and React in a DApp
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Creating a React app from a template
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Displaying game state to players
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Getting player input from the UI
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Providing feedback to the player
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Implementing JavaScript promises in a networked application
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using Web3.js to communicate with the Ethereum network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Implementing JavaScript functions in a UI
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding the role of JavaScript and React in a DApp
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following screenshot shows the UI that we will be building today. We will
+    build it in React, a popular JavaScript framework:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/383a67fc-9a19-4aba-9271-d91520bd552e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: We will build the components that you see in the UI, and then write the code
+    that allows the player to submit their bet and their guess to Ganache. Ganache
+    will then execute our smart contract functions, and determine if the player won
+    or lost, and depending on that it will either keep the money the player sent,
+    or pay out the winnings for the round. In either case, we're going to provide
+    feedback to the user, letting them know if they've won or lost.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Inside our web app, we will be using React, but we'll also bee using Redux.
+    **React** is a JavaScript library for building UIs, and it does a great job of
+    letting us design the components that make up our application and the state that
+    should affect them. **Redux** is a predictable state container, what that means
+    is we will be getting a lot of data back from the Ethereum network, such as, results
+    from every round of gameplay. When some of that information changes, we need to
+    update the UI to let our player know about it. Redux provides a pattern to do
+    that, and you'll learn how to use it today.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When you think of components, think of discrete things that make up the UI.
+    So our application is one big component, but it's made up of other components,
+    such as the component that shows the player's number, the component that shows
+    the controls for placing a bet, and the component that shows the player's game
+    history. The player's game history component is also made up of smaller components.
+    There's the container tile component and a list repeater component for each game
+    history item. All of these have states. The history component state stores the
+    player history, the betting window state stores the wager amount for our player
+    and their guess, and React handles all of that.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, things are going to happen outside of our application, whereby we need
+    to update the state and let the app know that it has happened and respond accordingly
+    to React. The latter gets sorted easily, because we chose React as our tool. React
+    does a great job of tracking states, and when the state changes, it updates the
+    things on the screen that were affected by it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For updating the state, we're using Redux. In our React component, we'll do
+    something that triggers an action, such as clicking the LET'S PLAY! button. In
+    the case of clicking that button, it's going to call our contract using the `web3.js`
+    library, and execute the `winnerLose()` function we created previously. When our
+    contract function executes the function, it's going to return some data, which
+    would be either a successful response or an error message. We'll take that response
+    and dispatch it to a reducer that will update the Redux store with the new information.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The updated information gets sent back to our application as `props`, or properties,
+    where React can evaluate what needs to be updated in the UI. This whole process
+    can be summarized in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0fb65ccc-d493-488f-9309-2b3e752bf495.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: So, we have a very clear separation of the different pieces that make up a DApp.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We have the Ethereum network with our contract running on an **Ethereum Virtual
+    Machine (EVM)**, and then we have our React application running on the web server.
+    This part of our application can be anything; I chose a React application, but
+    it can just as easily be an Android or iOS app, a Python application, even an
+    old COBOL mainframe app.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The connection between the React application and the Ethereum network is done
+    using a utility library called `web3.js` to make that communication happen. This
+    library provides utilities that allow us to communicate with Ethereum nodes such
+    as Ganache, as well as nodes on the Ethereum main and test networks. There are
+    four main modules of `web3.js`, which are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`web3-eth`: Ethereum blockchain and contracts'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`web3-shh`: Whisper protocol for P2P and broadcast'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`web3-bzz`: Swarm protocol for decentralized file storage'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`web3-utils`: Helper functions'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The modules that we're going to be working with in this book are `web3-eth` for
+    communicating with the blockchain and our contract, and `web3-utils` for some
+    utility functions, such as converting different denominations of ether.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Web3 allows you to use callbacks and promises, and provides event emitters to
+    try and provide all the options you need. We're going to be using promises extensively,
+    and we'll cover them in detail in just a bit. There's a ton of boilerplate code
+    that has to get laid down before you can write the first line of code that actually
+    delivers values to your customer, company, or clients. Fortunately, there are
+    some shortcuts to minimize that time, and I'm going to show you what they are
+    in the next section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating React apps from templates
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we will look at some shortcuts for starting a new React app.
+    This a good thing as starting a new app is a lot of work and takes a lot of time,
+    which could be spent writing code to complete your app.
+  prefs: []
+  type: TYPE_NORMAL
+- en: One way to do it is use a tool created by Facebook called `create-react-app`.
+    It just spins up a boilerplate or a blank React project with some preconfigured
+    options. You can also just copy another project. If you have a similar project
+    with everything set up the way you need it, you can just clone, copy, or fork
+    that application, remove the parts you don't need and then get started from there.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There's also a third way, and that's to build everything from scratch starting
+    with nothing. It's a great exercise to do if you really want to understand React
+    under the hood, but if you're working toward deadlines, it's not something I would
+    recommend.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Pros and cons
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Each way has its pros and cons. The `create-react-app` tool creates a new project
+    with React JSX and ESX.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Getting a new project started with this tool is as simple as typing the following
+    command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: Wherein `my-app` should be replaced by the name of your application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This creates the application, and has `babel` and `webpack` preconfigured, so
+    that you don't have to do that, and updates are usually straightforward and well
+    documented, making it easy for you to keep your application up to date with the
+    latest features and security patches.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It's pretty opinionated, though, and in order to pull off a project like this
+    it has to be. Any additional dependencies you add must conform to the format of
+    the project, or you'll run into challenges. You can customize any of the preconfigured
+    tools, but doing so may leave it in a state where you're responsible for maintaining
+    it, as it will no longer receive updates as part of the official package.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Copying or forking another project can sometimes be a good way to start, especially
+    if the new project shares a lot of the same dependencies. It may already be configured
+    for your use case, and you may have access to support resources, like other developers
+    on your team, if you're using the same code base.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It does mean that you're inheriting all the problems of that project too, such
+    as out-of-date dependencies. You'll probably have to pull out any unneeded code
+    that isn't used by your application, and that can sometimes lead to things breaking.
+    Find yourself forking a project often? You'll end up with the same code duplicated
+    in multiple projects, and that can lead to a lot of extra work, when it comes
+    time to update dependencies or patch security vulnerabilities.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For me, when I'm learning something new, it's really tempting to see a project
+    that appears to be solving the same problem and use that as a starting point.
+    I think that works really well for playing around with different things on the
+    side. Over time though, those projects have almost always been the hardest to
+    maintain. So, these days if I'm building a project that will be released to production
+    with live customers, I almost always start with the Facebook tool. The only exception
+    is when there's a specific use case for a heavily customized component that will
+    benefit from having a shared code base with its parent project.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now that you have a little background information on how to create your own
+    React app for a DApp, let's get back to working on ours. It's time to start building
+    the UI, so we can start to see the visual interface that interacts with our Solidity
+    contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Displaying game state to players
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: So far, we've been talking about how React works. Well let's put that knowledge
+    into action now, and start building our UI, and at the same time learn how React
+    uses states to update components on the page.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In our app, we''ve got a file called `index.html`; you may know that this is
+    the default document that a web server serves up when a user hits a website. Inside
+    of our index page, we have an `index.js` JavaScript file that gets called, which
+    in turn adds a component named `app`, which is our React application. The following
+    diagram shows what the app looks like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/83128889-c886-4963-8113-4040411b4613.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'One of the primary goals of React is to build individual components. Inside
+    of `app`, it grabs the components that make up our game. These components include
+    the header and the game component. Each of these components is a separate file
+    on the file system, so let''s jump over into the code editor to get a feel for
+    how this looks from there. Let''s take a look at the following screenshot for
+    that:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/776260a4-5a32-4de1-bcf0-50ed4229f0a1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Inside our application, we have the `src` source folder, the `index.html` file,
+    and the `index.js` file. When you look at the `index.js` file, you can see that
+    we create the Redux store by importing `configureStore`, and then we import our
+    `App` component from the `containers/App` folder, and we create an instance of
+    that app on the page, as seen in the following code snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `App` component is stored in our `containers` folder; when you go there,
+    there's a folder called `App` and a file called `index.js`, which is where its
+    code lives. It imports the header and the game, and the game itself is another
+    folder under `containers` with its own `index.js` file, and inside this file we're
+    going to define all the components for our game.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here''s how we''re going to define those components for your UI. The whole
+    section of the screen that will be displayed is our game container, which is the
+    component referenced in the `app.js` file that gets pulled in. It''s made up of
+    three smaller components—the component that displays the player''s number, the
+    component that displays the betting controls, and the component that has the player''s
+    game history as seen in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a82e6f88-2eb0-4899-afe5-3afc0b7cb82f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: To create all those containers and controls, I'm using the Material-UI library.
+    This library makes it incredibly easy to create high-quality professional-looking
+    UI components.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Our game component starts by importing a few libraries:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: As seen here, we need `React` itself as well as the component library to create
+    the component classes, `PropTypes`, `connect`, and `bindActionCreators` for Redux,
+    and we'll go over their roles in the coming section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Then we create a class named `Game`, and inside it we have a `constructor`
+    function. This works in a similar way to the constructor function we created in
+    our Solidity contract, and it runs once at the beginning when the class is initialized
+    to set the initial state. The following code snippet shows what the class contains:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: As seen in the preceding code block, we'll set the initial state for some variables
+    that we're going to need, such as the number displayed to our player for this
+    round, their guesses of higher or lower, how much they're betting on this round,
+    and an array where we'll store the results of the previous rounds. React components
+    have one required function, `render()`. This function gets called when the component
+    is rendered.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We''re now ready to start laying out the UI elements for this component. We''ll
+    start by building our first component on the `index.html` page, the display window
+    that shows the player the number for this round. We''ll define a card from the
+    Material-UI library, then we''ll define a card header with a title and subtitle
+    to provide the player with some information on what they''re looking at, and finally
+    we have a heading element that displays the number itself. This can be summarized
+    using the following code snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This should generate a window that looks similar to the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0b3f7adc-0483-4d33-8ed5-329e86f5d928.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The number displayed in the card is the state variable that we defined in our
+    constructor. Since we added the card in the card header to our component from
+    the Material-UI library, we have to import that as well, so that React knows where
+    to get those from. We do that by adding the card and card header as imports, along
+    with the other imports we declared at the top of our file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's come back to the command used in `h1`. How does that get from being a
+    string of text to the number you saw displayed on the screen? In React, when you
+    enclose a string with the curly braces, it takes on a special meaning, but it's
+    actually just JavaScript at that point, so we can do anything that we can do in
+    JavaScript. This means that `this` gets created as a variable, and the result
+    of that variable is what gets displayed on the screen.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There''s a special React life cycle function called `componentDidMount()` that
+    gets called by React after our component mounts. By mounts, it means that it has
+    been rendered in the DOM, and is available to call programmatically. Putting our
+    code here, ensures that we don''t try to access a component before it actually
+    exists in the DOM. We''re going to call `this.setState()` and assign the `playerNumber` state
+    variable. The result of the function generates the current player number. The
+    `generatePlayerNumber()` function looks like this and just returns a random number
+    between 0 and 9\. The end result is that our component on the page renders the
+    random number for the player to see. This is shown in the following code snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Next, we''ve got our betting window, which is another card with a card header
+    just like our player display component. It''s got a radio button group with two
+    radio buttons for the player''s choice as Higher or Lower:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: Notice how the selected value reads the value of the state of the `highLow`
+    variable, and on change it calls the `handleChange()` function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We also have a text field for a player to indicate how much they want to wager,
+    and a button to execute when they're ready to initiate the round of gameplay.
+    We already imported the card and card header, so now we'll have to import the
+    radio button group, the radio button, the text field, and the raised button in
+    the same way.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can always refer to the source code you got with the book, in case you
+    get confused somewhere down the line. For both the radio button group and the
+    text field, we call the `handleChange()` function, which looks similar to this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This function receives the name of the state variable to update as a parameter,
+    and then updates the state with the value from the control that called the function.
+    All this culminates into something similar to this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9120eeef-5449-42c8-aeb8-c46a430343e5.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Our final component is the history window, and, just like the other components,
+    it''s a card with a card header, and that really highlights one of the benefits
+    of using libraries. We''ve reused this library multiple times in this component,
+    as it was easy to define, and we didn''t have to write any of the code to do it.
+    Next, we have a list where we''re taking our history from the state, which is
+    an array, and each item in the array is the result of one of the previous rounds
+    of gameplay. So, we map over that and create a list item for each element in the
+    array. This is summarized in the following code snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This results in the following output:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a66ce344-33cc-47f8-9283-86ae8cfcc7a5.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Now, let's jump over to our code editor again, and take a look at how all of
+    these pieces come together into a single React class. So, in our `src/containers/Game` folder,
+    we've got our `index.js` file, which we'll have a look at now.
+  prefs: []
+  type: TYPE_NORMAL
+- en: At the top, we import everything that we need to build the components on this
+    page from React, Redux, and the Material-UI library. We've got a little bit of
+    CSS here to make the formatting of the page look nice, and then we have our game
+    class that extends the React component. Inside that, you'll find the `constructor`
+    where we set our initial state variables, and then the React life cycle components.
+    Then, there's our render method where we return all of the elements that get rendered
+    on the page.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We've got the card in the card header for the player number; we've got our second
+    card that represents the betting window, and then we have our third card that
+    represents the player's game history. Following that, we have our user-defined
+    functions for handling change events, initiating game play, and generating the
+    random number.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So, it's all starting to come together and look like a real application. Let's
+    push the envelope a little bit further and jump into the next section, where we're
+    going to dissect the Let's Play! button to see how we get the input from the UI
+    and turn that into a game for our user.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Getting player input from the UI
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Here, we''ll continue with the code that gets executed, when our player clicks
+    the Let''s Play! button. The following code snippet shows how it works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we're defining an action that we get from `this.props`, and then we call
+    a function that exists within that action, and finally we update the `playerNumber`
+    state variable with a new random number.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Next, we have the function that we called from our game component, which is
+    `playRound()`. This function accepts the wager, the player's number and guess
+    as parameters, then it returns with a `dispatch` parameter. The `dispatch()` function
+    returns a JSON object with a type that's one of our constants, and the parameters
+    we passed into the function. Our types are defined in `types.js`. In it, we define
+    our initial state, which represents the state variables that get set when the
+    application starts, and this keeps you from getting a variable undefined error
+    when your application starts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Then, we export our game reducer function, which contains a switch statement
+    based on the action type that we will provide in our action. When the matching
+    type is found in our reducer, it returns the object defined to the Redux store.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'And there''s one final piece to this puzzle, which is `rootReducer`. This takes
+    all the reducers that we''ll have for our application and combines them. The following
+    code snippet shows what this contains:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'So, let''s bring this full circle one more time, this time referencing what
+    we have just learned. From our game component, we call the `playRound()` function,
+    and that''s made available by `props`. The `playRound()` function takes the parameters
+    received from the player and dispatches them to the reducer in `core/reducers/reduce-
+    game.js`. The reducer matches the dispatch received with the work to be performed,
+    using the constant provided in `core/types.js`, and it sends the results to the
+    Redux store. The Redux store then sends the new data to our application as `props`,
+    and when `props` changes, React notices it and updates our history component with
+    the new data. This can be summarized as shown in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7a2ca057-c01d-40b1-bfbe-20474b191744.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The thing that makes React so powerful is that the only thing that changes on
+    the screen when that happens is the history component updates, and nothing else
+    does. In the next section, we're going to step through all of this real in time,
+    so if it's not making sense just yet, I think it will in the next section, as
+    you get to test it out yourself.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Providing feedback to the player
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We've now laid out the code to connect our React components to Redux for managing
+    the state of our application. That can be a tough concept to wrap your head around,
+    so in this section we're going to use the Visual Code debugger to play our game,
+    and step through the code in real time. Doing so is going to allow you to see
+    exactly how your application behaves when it executes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Knowing how to debug can be one of the most useful techniques you can learn,
+    because it gives you access to new information when you need it most. Getting
+    it set up is incredibly easy using Visual Code. You just have to install the *Debugger
+    for Chrome* tool from Microsoft, using the extensions panel in Visual Code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/acac0b9c-4369-4802-aa52-22017ee5023d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Then, you''ll create a launch configuration in the Debug menu with the following
+    code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: Now, we'll navigate to the first line inside of our `playGame()` function in
+    the `index.js` file. Since `playGame()` is a function, it gets executed when the
+    player clicks on the Let's Play! button within the game. We'll now set a debug
+    point here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now we''ll switch over to the debug menu in Visual Code and hit the green play
+    button there. When the browser launches, we should have something similar to this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/de3ab638-ef03-4ca3-b331-36cbb4da2496.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: We have our player number window with the number 3 and our betting window.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We can enter in a wager, so let's go ahead and do that, and then click Let's
+    Play! So, immediately, that toggles us back over to Visual Code and trips the
+    debug point that we set. We can use our controls at the top to play through to
+    the next debug point or step over each function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As we step through each function, you will see that the parameters of those
+    functions, in the debug window, start populating with their values in real time.
+    You can also hover over them within the code window and get a little pop-up window
+    that tells you all about it. So, you can inspect the variables in real time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When we get to our `playRound()` function from our `actions` object, instead
+    of stepping over that, we want to step into it to follow the code execution through
+    that function, and that takes us to our `actions-game.js` file, where we have
+    our `playRound()` function that returns the `dispatch` parameter. We'll then step
+    into that, and now it's ready to return our JSON object that it's going to dispatch
+    over to the reducer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We then end up in the function for our game reducer with our switch statement,
+    and if we hover over our action type, we can see that the result of that variable
+    is equal to `Round_Results`. And so we assign those key value pairs to the Redux
+    store. Our Redux store then pushes those updated properties back to our game `index.js`
+    file as `props`, and then we''ll return back to our browser with our updated history
+    populating the history pane, as seen in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/09e99ca4-360f-417a-9072-270b48049c13.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: So now the cycle has come full circle, and our app has just received new `props`
+    from React. So how do we put those to use? We'll do it by putting another React
+    life cycle method to use, `componentDidUpdate()`. It's a function that fires after
+    new props are sent. It has a parameter called previous props or `prevProps`, so
+    that you can reference what the props were, before the props that were just received,
+    and determine if you need to respond or not. This is incredibly important as your
+    app will receive new props all the time, but not all of them need responding to,
+    so we'll use conditions to identify the ones we care about.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We're going to compare the timestamp of the previous game object to the timestamp
+    of the current game object; if it's different, we know that we received a new
+    history item for our array. In that case, we'll make a copy of the current history
+    and state, and then push the data from the `props` game object onto it. Once that's
+    done, we'll replace the history object with the new history array that we just
+    created, and now we'll refer back to our card that displays our game history.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Remember that we mapped across all items in the state history array. React is
+    going to notice that we have just updated that state variable and re-render this
+    component causing it to update and show the results of our last round. Here, we
+    just took the parameter sent by the game and dispatched them immediately, but
+    that's not what we really want. What we really want is to call our smart contract,
+    give it those game parameters, and have it determine if our player won or lost.
+    To do that, we need our action to call the smart contract and then wait for those
+    results. So, in the next section, we're going to explore promises, what they do,
+    how they work, and how we'll use them to communicate with our Ethereum network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Implementing JavaScript promises in a networked application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In our last section, we saw how to take input from the player of our game and
+    send that through Redux to update the application state, and then refresh the
+    user interface. But as we learned on day one, when we submit a call to the Ethereum
+    network we don't get an immediate response, and there's a delay. Unfortunately,
+    we can't proceed until we have that response, so what do we do?
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Before we answer that question, let me show you what the underlying problem
+    is. It stems from the way JavaScript works. Let''s take a look at this code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: In the preceding code, we have four lines, each printing out the numbers 1 to
+    4\. Well, what happens when we run this? If you predicted that it prints out **1**,**3**,**4**,**2**,
+    you'd be right, because what happens is JavaScript executes the first line, it
+    prints out the number 1, then it executes the second line. This line is where
+    the problem starts as it executes the `setTimeout()` function, but doesn't know
+    that we want it to wait until the timer completes. So it calls the `setTimeout()`
+    function, and it moves on to the next line where it prints out 3, then on to the
+    final line where there's another timer. One second later, it prints out the number
+    four, and two seconds after that it finally prints out the number 2, when the
+    3,000 millisecond delay that was specified expires.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, imagine if instead of writing a number out to the console log, we were
+    actually waiting for data to return from our Solidity contract, so we can use
+    it in our application, wouldn't that cause problems, because we would be trying
+    to use data before it actually existed? So, how do we use JavaScript promises
+    to solve this problem?
+  prefs: []
+  type: TYPE_NORMAL
+- en: How a promise works
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A JavaScript promise is an object which essentially produces a value or output
+    in the future, much like real life promises. A promise can have three states:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fulfilled
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Rejected
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Pending
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We will understand this further using the scenario in the preceding code block
+    as an example.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We''re going to create a new function that returns a promise to handle our
+    delayed events. A promise takes one argument, which is a function that takes two
+    parameters, `resolve` and `reject`. Inside our promise, we''ve got our `setTimeout()`
+    function. The following code snippet shows how we can use a promise to solve our
+    preceding timer problem:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: This function ensures that the compiler waits until the timer is complete, prints
+    out the number 2, and then moves on to printing number 3.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Most of the time, it's going to be something that doesn't return immediately,
+    such as executing a function on a Solidity contract. When our `setTimeout` function
+    completes, we're going to call the `resolve()` function that was one of our promise
+    parameters; this signals that the promise has completed successfully. Likewise,
+    we can call the `reject` function if things don't go as planned.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, we can rewrite our original code. Our first line remains the same, but
+    for our second line we are going to use the `waitForMe()` function and pass two
+    parameters into it, which are input (`2`) and delay (`3000`). This ensures that
+    when the function is called, the compiler waits for three seconds, then prints
+    out the number 2, and finally, proceeds to the next step. We''ll print out 3 directly
+    from the console as before, and then we will use the same `waitForMe()` function
+    again for number 4\. The following code snippet shows the revised code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: Let's quickly recap promises. Promises provide assurance that something will
+    be done, but not when it will be done. Unlike real promises, JavaScript promises
+    tell you which one they did by either resolving the promise to fulfill it or rejecting
+    it to break it. That allows you to decide what to do in either case. And now,
+    we're ready to tackle the problem of communicating with our contract on the Ethereum
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using Web3.js to communicate with the Ethereum network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Earlier, we saw how to take input from the player of our game and send that
+    through Redux to update the application state, then refresh the user interface.
+    In the previous section, we learned about JavaScript promises. Now, we're going
+    to learn how those two work together to call the functions we created in our contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We're going to rework the `playRound()` function in the `actions-game.js` file
+    of our application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We'll take the dispatch function present in it, and move it out to its own function.
+    Then, we'll get an instance of our contract from the Ethereum network and create
+    a promise that calls the function in our contract and waits for a response. When
+    it gets that response, it will then call our new dispatch function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To get started, we need to import a few new dependencies into our application,
+    such as the `contract` library from Truffle contracts, our `Gaming` file from
+    `contract/Gaming.json`, and finally the `web3` library, as seen in the following
+    code snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: We are now going to modify our `playRound()` function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We''ll move the `dispatch` function into two new functions, `dispatchRoundComplete()` and
+    `dispatchRoundFailed()`. We replace it with a constant called `web3Provider`,
+    which comes from our state in the Redux store. Then, we declare our gaming contract
+    by calling our `contract` library, passing it to the JSON representation of our
+    contract. We do a little bit of setup here; we set the provider of our contract
+    to the provider specified in the `web3Provider`. This is where MetaMask gets injected,
+    and our app automatically detects whether MetaMask gets injected and sets the
+    provider. The following screenshot shows how our `playRound()` function looks
+    now:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/bee90cc6-29a1-4fe6-9bae-1e1dbcdf1e56.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: You're going to learn more about MetaMask tomorrow. MetaMask allows you to select
+    from different accounts just like we did when writing our unit tests. Using the
+    `web3Provider.eth.defaultAccount` object ensures that we send our transactions
+    from the currently selected account. We create a new promise and we define two
+    parameters, `resolve` and `reject`. When our function call in our Ethereum contract
+    completes, we're going to check its status. If it's successful, we're going to
+    call the resolved function, and if it fails, we're going to call the reject function.
+    That way when this promise comes back, we'll know if it was successful or not.
+    Inside that promise, we call the `winOrLose()` function, which is a new function,
+    but you may recognize the name.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s take a look at it, and then we''ll come back to see what happens in
+    the rest of the preceding function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9e3be7ca-293c-4bfb-b322-08d1f466c7f1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'If you think the function name `winOrLose` sounds familiar, you''re right:
+    it''s the name of the function we created in our Solidity contract. One of the
+    things I do in my React applications is give the function that calls a smart contract
+    the same name as the function it''s calling in the smart contract. So, now looking
+    at our UI code, we know that this is going to call the `winOrLose()` function,
+    which is present in our contract. This just helps us keep track of things.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: One of the parameters we pass to this function is `GamingContract`, which was
+    the instance of our online contract that we created just a minute ago. It has
+    a `deployed` method that returns a promise. What it does is it gets the deployed
+    version of our contract, which means it gets the information necessary to communicate
+    with it on the Ethereum network. It finds out which network it's on, what its
+    deployed address is, and how to talk to it. Since it's a promise, we can wait
+    for that to complete by using `then`; it means that we should execute this code,
+    and whenever it completes, proceed with the execution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `gameContract.winOrLose()` function is the actual function that communicates
+    with our Solidity contract. Remember that in Solidity, we always work with currency
+    in the **Wei** denomination. Most users of Ethereum are familiar with the **ether** denomination,
+    so in our UI we allow them to place their bets in ether, and then we use the `web3`
+    utility to convert from ether to Wei when we attach it to our transaction. This
+    entire deployed function is another promise.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When this completes, we go to the `then` function, passing along the results
+    of the transaction as a variable named `results`. When it resolves, we''ll call
+    the `resolve` function that we passed in as a parameter when we called the function.
+    In that function, we''re returning `result.logs[0]`, which looks pretty specific.
+    Let''s take a look and see what''s going on:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d3553a91-b904-4e29-9035-1ef1f9d226b3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'This is a core part of our Solidity contract. I have highlighted two specific
+    lines in the preceding image, which are what we are going to be looking at now.
+    When our player wins or loses, we emit the `RoundComplete()` event and provide
+    the details of the transaction, how much money was won or lost, the number that
+    was displayed to the player, the mystery number generated by our contract, the
+    player''s guesses of higher or lower, and whether they won or lost the round.
+    Remember that events get emitted when the transaction is written to the blockchain.
+    The following screenshot shows the actual result we get back from the transaction:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3d47e096-f3cb-429f-be2b-29957597ce12.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: There's a lot here, so let's take a look at the logs array. Item 0 in that array
+    has an `args` key, and if you look closely at it, you see that it's the event
+    that we're emitting, containing all of the details we need to refresh our UI for
+    the player. So, when we resolve this function, we strip away everything and just
+    return that key to our `resolve` function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The final piece in the `winOrLose()` function is a `catch` statement, which
+    will get executed if anything in the promise fails. When that happens, we catch
+    the error and send it back to our original promise using the `reject` function,
+    which brings us back to our `playRound()` function. Depending on whether we call
+    the `resolve` or `reject` function, we're going to execute the `then` function
+    or the `catch` function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When it resolves successfully, we return that object from the logs that contain
+    our event, and we''ll pass it to another new function, `dispatchRoundComplete()`,
+    and call our parameter event. This function may look familiar to you: it''s the
+    dispatch that we created in the last section, but we''ve modified it just a bit
+    as seen in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3e7421a4-262c-4736-a0c1-ddbadff151f3.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: We still have the same type, but we swapped out the timestamp key and replaced
+    it with  `transactionHash.` The reason this field exists at all is because we
+    map over the array in the UI to populate the game history table. React requires
+    a unique key for every element in that array, so when it updates, it knows exactly
+    which one to update.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Previously, we didn't have a unique key, so I just threw a timestamp on there
+    as a unique value, but now we've got the transaction hash for our transaction,
+    which is absolutely guaranteed to be unique, so we don't need that timestamp any
+    longer. We've got our wager and our player number, and we've added the mystery
+    number that the player was betting against. Then we have what their guess was
+    and the result of the round.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We also have a boolean `success` key here that we can use to toggle whether
+    or not this transaction was successful. When the promise completes successfully,
+    we set `success` to `true`, and if the promise was rejected, then the dispatch
+    round failed function will set `success` to `false`. Our dispatch behaves just
+    like before and notifies the reducer that takes the dispatch action and sends
+    it to the Redux store, and the Redux store is now going to notify our UI via a
+    new `props` file, which we'll use to update the user interface in the next section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Implementing JavaScript functions in a UI
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: At this point, you've seen how to get input from the user controls on your UI,
+    work them through the Redux life cycle, and have the end product show back up
+    in the UI as new props. In this section, we're going to dig into the functions
+    in our UI that tie into the user controls.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When our reducer receives the action from the `dispatch` function, it creates
+    and sends this object to the Redux store, and it does so along with all the other
+    reducers our application may have, so we have a `rootReducer` constant that combines
+    all of these reducers. The following screenshot shows what this looks like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/fff860da-06dd-453c-aa76-6f7d79a490ec.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Here you can see that we've defined a new key named `game` in `rootReducer`,
+    and it's going to get populated with the data from `gameReducer.` This is what
+    gets sent to the Redux store, and we know that the Redux store is going to send
+    this into our component as `props`. So, in our JavaScript file for our game UI,
+    we have this function `mapStateToProps()`, as you can guess from the name, this
+    is what maps the Redux state to the props in the component.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'So, all the values that we sent to the Redux store can be accessed and read
+    in our component as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: All props are read-only and you can't change them. We'll look at how to change
+    them in just a minute, but what about when they change on the backend? How does
+    our UI update if the value of one of these keys changes in the Redux store?
+  prefs: []
+  type: TYPE_NORMAL
+- en: Well, depending on whether you're using React 15 or React 16, there are two
+    methods you can use, both behave similarly, but as you can tell from the name,
+    they fire at different times. In React 16, we use `componentDidUpdate()` , and
+    it receives a parameter called `prevProps` that allows us to compare the value
+    of the props with their previous value and then take action accordingly. In React
+    15, we'll use `componentWillReceiveProps()`, which fires before the component
+    receives the new properties. The parameter name reflects that as well. It's a
+    parameter called `nextProps`, which contains what the new incoming values for
+    the props are. You can use `componentWillReceiveProps()` in React 16, so if you're
+    upgrading an existing React 15 app to React 16, this will still work.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the next version of React, `componentWillReceiveProps()` is going to be
+    marked as deprecated and then be removed in the version after that. When we add
+    these functions to our component, we need to evaluate why it was called. It''s
+    going to get called a lot and by things that you don''t care about, so you need
+    to evaluate the conditions to see if you care about it or not. Let''s look at
+    the following example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e95c58c4-3f9d-4c86-a6d6-efa032060448.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: We'll start with an `if` statement that checks to see whether `game.transactionHash`
+    from the `nextProps` parameter is different than the one in `this.props`. If it
+    is that tells us we have a new transaction hash, and since a transaction hash
+    is specific to a transaction, we know that the player has completed a round of
+    the game. Next, we set our `success` key; remember, this was the key that we set
+    to `true` if the promise wrapping our contract transaction completed successfully,
+    and we set to `false`, if the promise was rejected. This gives us an opportunity
+    to relay an error message if we need to. If our promise resolved successfully
+    then we'll have some new transaction details to add to our game history window.
+    I'm storing that game history as an array in the component state.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So, let's create a new variable for our history, and then we'll push all of
+    the details of our latest transaction onto that array. We can't update the component
+    state directly, so we call `this.setState` and set the `history` value to the
+    new history array we just created. And finally we've got a `snackbar` control,
+    which is a little toaster-style pop-up control, and the values for it are stored
+    in the component state as well, so we can update them and assign values to them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When this renders, it''s going to translate into a sentence that reads something
+    like **lost ten ether**, or whatever the correct values are, and add the results
+    from that round to the history window as seen in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a985264c-e1dd-4496-8dbb-2884ff931847.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Other than updating the state variable, we didn't have to do anything to get
+    our UI components to handle the update on the page, because we bound the control
+    to the state variables. React knows to re-render them when they change. Because
+    React only wants to render variables that change, it's important to have this
+    key when we map our history array. The key allows React to identify each item
+    in the array uniquely, and only render the ones that have changed. And now, it's
+    time for our last section today, the assignment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Assignment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'All right! It''s time to take what we have learned today and put it into action.
+    This assignment is going to reinforce the concepts we learned using React and
+    Redux for state management, along with promises for handling latent network requests.
+    You''re going to add a scoreboard to our game UI that will reflect the player''s
+    current record, as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/af0340dd-4b30-4dcf-ab3a-01dc7522aa2d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: You can create a new component on the page to display it, or you can add it
+    inline to an existing component similar to the preceding component. Now, think
+    all the way back to day two, where we created a struct for our player that holds
+    this information, and we created a mapping that maps player addresses to the structs.
+    Remember that public variables and Solidity come with a free getter function,
+    and if that variable is a mapping, the mapping key is a required parameter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In our case, that''s our player''s address. There are multiple ways to solve
+    this problem, and so as long as your solution meets the criteria of updating the
+    players score every time it changes, it''s a fine solution. If it were me, I would
+    look for some place in our code where we are already doing something because the
+    score has changed. You might find some inspiration in the following code snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: You can use the preceding code block and follow the patterns and examples using
+    code that already exists in the application. You call an action from the UI, and
+    that action will return a promise that calls a Solidity function containing our
+    stats; that promise will resolve, then we can dispatch our contract function results,
+    sending them to a reducer that will update the Redux store, which will update
+    the props presented to the UI, and the UI will update to reflect the new props.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You won't be able to finish this homework assignment until tomorrow because
+    we're missing a piece to test it out, but do write the code today, and we'll check
+    out the rest of it tomorrow, because you'll need a wallet to test this out.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned all about implementing the UI for our application.
+    We learned how to use React to create our UI, and how JavaScript plays a vital
+    role in a DApp. We learned how to create React apps from templates and apply them,
+    and how to modify various states in the application so that everything runs as
+    it's supposed to. We learned how to take user input and provide feedback to them,
+    and how to use Web3.js to communicate those actions to the Ethereum network. Finally,
+    we learned how to deploy all the functions into the React UI.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we're going to learn about the different types of wallets
+    available, and we're going to learn how to configure MetaMasks to work with our
+    application.
+  prefs: []
+  type: TYPE_NORMAL

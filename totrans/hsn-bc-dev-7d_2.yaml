@@ -1,0 +1,847 @@
+- en: Day Two - Solidity Variables and Data Types
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Welcome to day two of this book. In the previous chapter, we got our development
+    environment set up and learned about the tools that we''re going to use in this
+    course. In this chapter, we''re going to learn about variables in the Solidity
+    programming language; we''ll cover what they are and how they''re used. The following
+    topics are covered in this chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding Solidity variables
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Data types in Solidity
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using Solidity variables
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding Solidity operators
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using Solidity operators
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding Solidity variables
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: If you're new to programming in general, this is a key concept to master. If
+    you're an experienced programmer, there are still some valuable tips in this chapter,
+    as we're going to cover some nuances specific to variables in Solidity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Solidity is a statically typed language; this means that, when variables are
+    declared, you must state the type of variable that it is. Consider the following
+    example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: In the preceding example, we're declaring an unsigned integer (`uint`) as `foo`,
+    and we set its visibility to `public`. We can optionally assign it a value, and
+    then we end the statement with a semicolon.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In JavaScript, you might see `foo` declared with `let`, or as a constant, and
+    if you're looking at older JavaScript code prior to ECMAScript 2016, you may even
+    see it declared as a variable.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next section, we're going to cover all the common types available in
+    Solidity in detail, but for now, let's focus on what this visibility identifier
+    means.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding visibility
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'All state variables and Solidity must have their visibility declared, and therefore,
+    we have several types of visibility:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: External
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Public
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Internal
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Private
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: When visibility is declared as `external`, it means that the variable or function
+    becomes part of the contract interface. This exposes the function or the variable,
+    so that it can be called from other contracts and transactions. For example, if
+    we have a function in our smart contract that determines whether the player of
+    our game has won or lost the round, and we need to call that from a React application,
+    we'll have to declare it as `external`, because, though our React application
+    lives on our web server, our smart contract lives on the Ethereum network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Similarly, state variables and functions with `public` visibility are part of
+    the contract interface, and can be called from other contracts and transactions.
+    They can't be called internally without using the keyword `this`, and an automatic
+    getter function is created for all publicly declared variables.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'What does the statement *can''t be called internally without this* mean? Let''s
+    use the following example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: If we have a function in our contract, `foo()` , that returns the string `Hello`,
+    calling the `foo()` function directly from within that same contract is going
+    to fail. If we want to call it, we need to call it as `this.foo()`. Internally
+    declared variables and functions are only accessible internally, from the current
+    contract and the contracts derived from it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the same example, if we change the visibility of our `foo` function to `internal`,
+    calling that function directly without the `this` keyword now works.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private functions are very similar to internal functions, they're available
+    within the current contract, but they differ in the fact that they aren't available
+    in contracts derived from that contract. It's really important to note, though,
+    that this doesn't mean your code in `private` state variables and functions is
+    private, it just means it can't be called.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Everything on the Ethereum blockchain is publicly viewable. To drive that point
+    home, by using a tool such as Etherscan I can view the source code for a popular
+    **decentralized application** (**dApp**) such as CryptoKitties and see all the
+    source code, including the private functions and variables.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'State variables declared as `public` will have a `getter` function automatically
+    created. This is done as a time-saving feature. After all, as you''ve declared
+    your variable as `public`, you probably have the expectation that your clients
+    are going to need to access the value of that variable at some point. You don''t
+    have to spend time and energy creating that function yourself, because the Solidity
+    compiler is going to create one for you. Let''s consider the following example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: As seen in the preceding example, we have a contract named `A` that declares
+    a `public` variable `foo`. This means that any transaction or contract can get
+    the value of the `foo` variable by calling the `A.foo()` function. You'll notice
+    that you didn't have to write any code for this to work, as the compiler just
+    did it for you.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, we have learned that Solidity is a statically typed language, and we must
+    declare the type of variable we are using when we declare it. With that in mind, let's
+    jump into the next section, where we'll learn about the different data types available
+    in Solidity and what they do.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Data types in Solidity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Data types are broken up into two main categories in Solidity:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Value types
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Reference types
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Value types are passed by value, which means that the value is always copied
+    whenever one variable reference is the same as another. Meanwhile, reference types
+    represent the more complex types that may not always fit into 256 bits. Since
+    they''re larger in size, copying can sometimes be expensive, and we have two different
+    locations available where we can store those: either memory or storage. Let''s
+    cover value data types now.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Value types
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The first value type we'll talk about is Boolean. It can have one of two values,
+    either `true` or `false`. In Solidity, everything's initialized with a default
+    value of 0 when created.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For Booleans, 0 translates to a default value of `false`. The operators available
+    for Boolean are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Logical negation**: This represents the opposite of any given value and is
+    represented by the `!` sign. For example, `foo = !false`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Logical conjunction**: This represents the logical outcome of two values
+    and is represented using the `&&` sign. For example, `(foo && bar) > 1`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Logical disjunction**: This represents the outcome between two values using
+    **or** and is represented using the `||` sign. For example, `(foo || bar) > 1`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Equality**: This is used to compare the variable to some fixed value and
+    is represented using the `==` sign. For example, `foo_ == true`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Inequality**: This is used to check whether the value of the variable is
+    not equal to the specified value and this is represented using the `!=` sign.
+    For example, `foo_!= true`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The next value type is **integer**. Integers are whole numbers, meaning there
+    are no decimal points, and they can be of two types:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Signed integers (`int`)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Unsigned integers (`uint`)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You can declare the exact size of your integer in steps, from 8 up to 256\.
+    So, the values can be declared as `uint8`, `uint16`, going all the way up to `uint256`.
+    If you don't declare a size and just declare `int` or `uint`, it's an alias for
+    `int256` and `uint256`. Also, it's important to know that with integers, division
+    always truncates; so, the result of dividing two integers is always an integer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: While all the previously data types are common to other programming languages,
+    the **address** data type is unique to Solidity. It's a 20-byte value that's used
+    to represent an address on the Ethereum network. The address can be a user's Ethereum
+    account or a contract deployed to the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It has a `.balance()` member that can be called to check the balance associated
+    with the account, and a `.transfer()` member that can be used to transfer funds
+    to that address. There's also a `.send()` member, which is the low-level counterpart
+    of the `.transfer()` member. If you use `.send()`, you must check the return value
+    of the operation for success or failure, but if you're using `.transfer()`, the
+    transfer member handles this for you automatically.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The next value type is a **string**. A string is nothing but a block of text,
+    but technically speaking, it's an array of bytes. This means you can do anything
+    to a string that you could do to an array. When declaring them, you can use single
+    or double quotes, but as we learned in [Chapter 1](298174cd-47a3-4048-b977-943063eb6270.xhtml),
+    *Day One* - *Application Introduction, Installation, and Setup*, double quotes
+    are preferred. They're implicitly convertible to bytes. Also, string values support
+    escape characters, such as the new line (`\n`) and tab characters (`\t`).
+  prefs: []
+  type: TYPE_NORMAL
+- en: We are now done with value types. Let's check out the reference types that Solidity
+    has to offer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Reference types
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The first one is an **array**. An array is a collection of data elements and
+    it can be identified by their index number. They can be fixed in size or dynamic.
+    To declare an array, you specify the data type the array is going to contain,
+    followed by the variable name, and then square brackets, as seen in the following
+    example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: If the array is declared as `public`, you'll get an automatic getter function.
+    It differs from the example we saw in the previous section, in that the getter
+    function needs to know which element of the array to return, and it won't return
+    the entire array. So, the element or index number is a required parameter for
+    this function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It has a `.length()` member that will return the length of the array and a `.push()`
+    member that's used to add new items to the end of the array.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The next data type is a **struct**. Structs provide a way to define new data
+    types, but a struct can''t contain its own data type. You can''t define something
+    that''s made up of the thing that you''re defining. Consider the following example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding example shows how to create a data type to hold information about
+    each player in our game. We start by defining our data type as a `struct`, give
+    it the name `Player`, and opening our curly braces. Inside, we define all the
+    attributes we store on our player (such as the player's Ethereum address, the
+    player's name, their current balance, the number of times they've won, and the
+    number of times they've lost) and then close our curly braces. Then, to create
+    a new player for our game, we define a new variable of type `Player` and initialize
+    the `Player` struct with the values that represent the new player.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The next one is a **mapping** key type. If you''ve worked with other programming
+    languages, you may recognize mappings as being similar to a hash table. This data
+    type is a mapping of a key type to a value type, and when it''s created, it''s
+    virtually initialized such that every possible key exists and it''s mapped to
+    a value whose byte representation is all zeros. If its visibility is set to public,
+    Solidity will create an automatic getter. So, building on our previous example
+    of a struct for our players, we can create a mapping of all players as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we'll use an unsigned integer as the key for a mapping of player data
+    types, and this object will be called `players`. Then we can add our first player
+    to the mapping by specifying the first element of the mapping and assigning a
+    new player to it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now that we understand the basic data types available in Solidity, let's learn
+    how to actually use them in Solidity contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using Solidity variables
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now that we have an idea of what variables in Solidity are, let''s put them
+    to practical use in a contract. Let''s take a look at the contract present in
+    our game:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: Right after the contract is declared, there are two variables declared. The
+    first one is an `owner` , which is an `address` data type, and this represents
+    the Ethereum address of the person who deployed this contract to the Ethereum
+    network. Then we have a `bool` data type called `online`, and we'll use this to
+    determine whether your game is online or offline; it allows us to take the game
+    offline if we need to.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Well, there''s a special function in Ethereum contracts called a `constructor`,
+    which executes once and only once when the contract is deployed. Inside it, we''re
+    going to do two things: we''ll set the `owner` variable we declared in the beginning
+    of our contract to the Ethereum address that deployed this contract to the network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: This means that if I deployed the contract, I own the game and if you deploy
+    the contract, you own the game. This is a way for you to write contracts and deliver
+    them to your clients, and when they deploy them, they own all the assets and the
+    currency that the contract accumulates. We'll also set our `online` variable equal
+    to `true;` we'll use this later to effectively take our game offline if we need
+    to.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We also have this function called `winOrLose()`, which we''ll call from our
+    React application and supply the required parameters to determine if our player
+    wins or loses this round. There''s another function called `isWinner()` that returns
+    the value as true, if the player has won, and false if they lost. So let''s examine
+    how that works using the following code snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we've got an `if` statement, and the condition we're evaluating is contained
+    within it. Next, we have our opening and closing brackets containing the code
+    to execute, if this statement evaluates as `true`. Inside the parentheses, we
+    have our `isWinner()` variable, which is a Boolean data type, and we use the `==`
+    sign to evaluate whether this variable evaluates to a Boolean `true`.  If it does,
+    it will execute the code contained within the block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This code uses a special message `sender` variable, which contains the address
+    of the account calling the function. In this case that's our player. The player
+    has won, so we'll use the `.transfer()` member to transfer double the amount wagered
+    to the player; the reason that we're doing double, is that the player had to include
+    the amount they wanted to wager with this transaction, so we need to return that
+    to them, plus the amount that they won from that wager.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If that statement doesn't evaluate as `true` though, that block of code never
+    executes, so the code execution continues down to the `else if` block. It operates
+    in the same way as the `if` block. It will evaluate the statement inside the parentheses,
+    and if `isWinner()` is false, the block will return false to our React client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Inside our React code, we'll check for this value, and update the UI accordingly
+    to let the player know that they lost this round.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ether units
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: While we're talking about variables, let's look at some special units that can
+    be applied to variables. We'll start with **Ether** units. They're used to specify
+    currency and they can be applied to any literal number. They can also convert
+    between sub-denominations of Ether.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The sub-denominations of Ether are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Wei**: This is the smallest unit of currency in Ether'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Szabo**: Also known as microether, it''s equal to 1 times 10 to the 12^(th)
+    Wei'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Finney**: Also known as milliether, this is equal to 1 times 10 to the 15^(th)
+    Wei'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Ether**: This is 1 times 10 to the 18^(th) Wei'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To use these units, you just specify the unit at the end of any literal number,
+    and the compiler knows how to convert between the different denominations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Other special units
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We also have **time units** available to us and they can be used to specify
+    a unit of time. They''re declared just like the currency was: any literal number
+    can have the desired unit attached. The different time units that can be used
+    here are:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Seconds
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Minutes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hours
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Days
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Weeks
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: One thing to be cautious about though, is using this for calendar calculations.
+    Not every day has 24 hours due to **leap seconds**. Leap seconds are like leap
+    years, except that they're seconds. Solidity actually used to have a year time
+    unit as well, but because of the problem with leap years, it was deprecated.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are some unique variables, too. The first one is a **block number** (`block.number`).
+    Remember that Ethereum miners are always confirming transactions, writing them
+    to blocks, and then adding those blocks to the blockchain. This is the current
+    block number from that operation; it's used to keep track of the block currently
+    being mined.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The **block timestamp** (`block.timestamp`) is the timestamp for the current
+    block reported as the number of seconds elapsed since the epoch, which was January
+    1st 1970\. There's also an alias called `now` that refers to `block.timestamp`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: However, neither of these should be relied on, as they can be manipulated by
+    a malicious miner to a certain degree, which could be used to exploit your contract
+    if you're relying on this timestamp. In general, you can be assured that the current
+    timestamp is greater than the previous block timestamp, and it's going to be less
+    than the next block timestamp, but that's about it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Message value** (`msg.value`) is the amount of currency sent along with the
+    message. We''re going to explore this in a lot more detail as we build our application.
+    We''ll be using this to collect wagers from the players of our game.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: You've already seen `msg.sender` and learned that it's the Ethereum address
+    of the current caller. There's also a `tx.origin` or **transmit origin**, which
+    is the Ethereum address for the sender of the transaction. You may find it tempting
+    to use this, but in general, the message sender is probably what you want. The
+    `tx.origin` and `mg.sender` may not be the same thing, especially in scenarios
+    where contracts or functions call other contracts or functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: All right! So now, we've seen Solidity data types and we've learned how they're
+    used in code; next, we'll take a look at the different operators that we can use
+    to build complex business rules and logic in our contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding Solidity operators
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we're going to take a look at the different operators available
+    in Solidity. Doing so is going to help you better understand the logical operations
+    that you can write into your contracts to implement business logic.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The first three operators that we will cover are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Assignment
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Equality
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Inequality
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: After just getting started with programming, you may find these confusing; however,
+    a minute spent now is going to save you hours of frustration down the road.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Assignment** is used to assign a value to a variable. For example we can
+    assign the variable `foo` with a value of `bar`, as seen in the following code
+    snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: The next operator is **equality**, and we use it to determine whether one variable
+    is equal to another. In the preceding example, we're checking to see whether the
+    value of the variable `foo` is equal to the string `bar`, and in our case, it
+    is, so this expression would evaluate to true.
+  prefs: []
+  type: TYPE_NORMAL
+- en: And finally we have **inequality**, which is the exact opposite of equality.
+    So, in the third line of the previous example, we're checking to see if `foo`
+    is not equal to `bar`, but it is equal, so this expression is going to evaluate
+    to false.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We also have a set of **comparison** operators. We can use these to determine
+    if one value **is greater than** (**>**), **greater than or equal t**o (**>=**),
+    **less than** (**<**), or **less than or equal to** (**<=**) the other value.
+    These operators work similarly to the equality and inequality operators we just
+    looked at.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We also have some **shorthand** operators that''ll save you time when you''re
+    writing code. Some of them are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`+=`: This is the **addition** shorthand operator'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-=`: This is the **subtraction** shorthand operator'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`*=`: This is the **multiplication** shorthand operator'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`/=`: This is the **division** shorthand operator'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`%=`: This is the **remainder** shorthand operator'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`|=`: This is the **logical and** shorthand operator'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`&=`: This is the **logical or** shorthand operator'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Writing `a += e` is equivalent to writing `a = a + e`, but it's shorter and
+    easier to type.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We can also use the `a++` and `a--` operators to increment or decrement a counter
+    by 1\. When executing one of these though, the expression will return the value
+    of `a` prior to the change, so if `a = 1`, and we execute the `a++` operator,
+    the expression returns an output of `1`, but the value of `a` is now `2`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are also `++a` and `--a`, which do the same thing. They increment or decrement
+    by 1, but they return the actual value after the change. So, if `a = 1`, and we
+    execute `++a`, the expression will return the new value of `a` , which is `2`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We can use the `delete` operator to assign the variable with the initial value
+    for its type. For example, if `foo` is an integer, executing `delete foo` will
+    set `foo` to a value of 0.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When an operator's applied to different types, the compiler tries to implicitly
+    convert one of the operands to the type of the other. Implicit conversion is possible
+    if it makes sense semantically, and no information is lost in the conversion.
+    For example, an 8-bit unsigned integer (`uint8`) is convertible to a `uint16`,
+    a `uint28`, or `uint256`, but an 8-bit integer (`int8`) is not convertible to
+    an unsigned 256 bit integer, because a `uint256` can't hold negative numbers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now that we have an understanding of operators and variables, and how to use
+    them in Solidity, let's take a look at some practical examples, by using them
+    to create business logic in our contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using Solidity operators
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we're going to look at some practical examples using Solidity
+    operators. Doing so is going to give you the skills you need to start implementing
+    your own business logic in smart contracts for decentralized apps.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s start by declaring a variable; we do that by specifying its type, in
+    this case an unsigned integer, and naming the variable as `a`. We didn''t assign
+    it a value, so Solidity assigns it an initial value of 0\. We can use the `=`
+    sign to assign a value of `5` to `a`, and we could have also done the same thing
+    all on one line, as shown in the following code snippet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: Now we can write the expression `a == b`, to check the variables `a` and `b`
+    for equality. Since 5 is not equal to 10, this expression returns `false`. If
+    we write the expression `a != b`, it evaluates to `true` because 5 is not equal
+    to 10\. We can also use the greater than (`>`) operator to see if `a` is greater
+    than `b`, and since 5 is not greater than 10, it's going to return `false;` and
+    using the less than (`<`) operator, we can check to see if `a` is less than `b`,
+    and since 5 is less than 10, this expression returns true.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s take a look at another example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we've declared a variable `x` as an array of unsigned integers, by specifying
+    our type as `uint` for the unsigned integers, then assigning our variable name
+    as `x`, and including the square brackets to indicate that it's an array. Then,
+    we created a `for` loop that has three parts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The first one is our initial variable, which is the starting point for our loop,
+    so it's an unsigned integer `i` that we initialize to 0\. Next comes the condition
+    for our loop, which lets it know when it should stop looping; here, we want it
+    to continue looping as long as `i` is less than 10\. Finally, our increment is
+    used each time our `for` loop iterates through the loop. We're using the ++ shorthand
+    to increment the value of `i` by 1\. Then, we have our curly braces that contain
+    the code to be executed each time it loops. Inside those braces, we want to push
+    the value of `i` onto our array `x`. The result is that our array `x` gets populated
+    with ten values, each representing the value of `i` at that instance in time within
+    the `for` loop.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Operators in our application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now, lets dig deeper and take a look at a function from the game we''re going
+    to be building. We''re covering functions in detail in the next chapter, which
+    is Chapter 3, *Day Three* - *Implementing Business Logic in your Smart Contracts*,
+    so we are going to skip over the details of how this function works for now, and
+    focus on the usage of operators in it. The following code snippet shows the function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here, we declare an unsigned integer named `mysteryNumber_` which gets its
+    value from the function `mysteryNumber()`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: We're also declaring an unsigned integer named `randomNumber` and returning
+    it as a result of this function. To generate our random number, we're using a
+    special variable we learned about earlier, `block.number`, which is the current
+    block being mined, and we're subtracting 1 from it, so we're getting the previous
+    block number. Then, we use the Solidity `blockhash()` function to get the hash
+    value for that block, and we convert that into an unsigned integer and use the
+    remainder (`%`) operator to get the remainder of dividing that `blockhash` by
+    10\. Basically, that gives us the last digit of the `blockhash`; we'll add 1 to
+    that number, which will be our random number, and the function returns this as
+    the last line of its code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Back in our `winOrLose()` function previously, we now have our `mysteryNumber`,
+    so we declare a Boolean variable called `isWinner`, which gets its value from
+    the `determineWinner()` function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: This function takes three parameters and determines whether our player won or
+    lost this round. The three parameters are the mystery number we just generated,
+    the number that was displayed to the player in our React application, and the
+    player's guess as to whether the mystery number would be higher or lower than
+    their number. The first thing we do in our function is use an `if-else if` statement
+    to identify whether the player has guessed higher or lower, and then execute the
+    appropriate logic.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It''s a complex case because those are the only two possibilities, but building
+    it this way prevents some scenarios where a player could manipulate the game and
+    win by guessing something other than higher or lower. That''s an important concept
+    to keep in mind when you''re writing code: be explicit. Once we evaluate the player''s
+    guess, we evaluate whether they were right and return true if they won and false
+    if they didn''t.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: You might notice that this function isn't complete. For example, if the player
+    guessed higher and the number was actually lower, we're not handling that condition.
+    For that, we'll need an additional `else if` condition. We omitted it here intentionally,
+    so that we could focus on this block without having so much code on the screen
+    that it confused the concept. It will definitely be in the final code for our
+    game.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As a matter of fact, spoiler alert! You're going to write the code! And now,
+    as we wrap up day two, it's time for your assignment where you'll have the opportunity
+    to apply everything that we've learned today.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Assignment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'All right! Let''s go over our assignment for today. In it, you''re going to
+    have the opportunity to apply some of the concepts we learned today about variables
+    in Solidity:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The first thing you want to do is switch over to the Git branch for  day two,
+    where I''ve set up some scenarios that you''ll need to access. To do this, you''ll
+    open a Terminal in the directory where you downloaded the code for this book,
+    and type the following command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: You'll also want to make sure Ganache is running; you installed it yesterday,
+    and it will be needed today in order to verify you've done the exercises correctly.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'If you run the command `truffle test`, you''re going to see a bunch of errors
+    as shown in the following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/556bad42-5a1e-4a76-bb03-d2fb34615669.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: I've created some tests in this branch, and if you do the homework correctly,
+    all of these errors will disappear and you'll see this with four passing tests.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To get those passing tests, you'll need to open the `Gaming.sol` Solidity contract
+    in the `contracts` folder of the code using your editor.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: In that contract, you'll create a `public` Boolean variable called `online`,
+    and take a look at the `owner` variable in that same file if you need a hint.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Next, we''ll create a struct named `Player`, and remember that we name structs
+    with capital letters. Create the struct with the following members: an Ethereum
+    address type named `playerAddress`, a string named `playerName`, an unsigned integer
+    named `playerBalance`, an unsigned integer named `playerWins`, and an unsigned
+    integer named `playerLosses`.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Once that's done, we'll create a `public` mapping type named `players` that
+    maps an unsigned integer as the key to the type `Player`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The end result is that this is going to give us a key-value pair object named
+    players, where the key is an unsigned integer and the value is an instance of
+    the player struct representing one of the players of our game.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you get stuck, take a look at the *Data types in Solidity* section from today's
+    chapter for help.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Once you''ve done all that correctly, you can run the `truffle test` command
+    and see the passing tests as seen in the following screenshot:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/19877c00-f2fc-4245-8f91-c761b310059f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Congratulations! You have completed day two of this book. We learned all about
+    the different data types in Solidity, and how they are used. We also learned about
+    operators in Solidity. Finally, we learned how to implement them in our gaming
+    application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Give yourself a pat on the back and take a break, because in our next chapter
+    we're going to dig into Solidity functions, which are the building blocks of business
+    logic for smart contracts. We'll use them to implement the rules of our little
+    online game here, and at the same time, we'll learn the fundamentals of functions
+    in Solidity.
+  prefs: []
+  type: TYPE_NORMAL
