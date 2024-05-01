@@ -3,6 +3,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 web3.js 入门
 - en: In the previous chapter, we learned how to write and deploy smart contracts
     using Solidity. In this chapter, we will learn about **web3.js** and how to import
     it, connect to geth, and use it in Node.js or client-side JavaScript. We will
@@ -11,46 +12,56 @@
   id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 在上一章中，我们学习了如何使用 Solidity 编写和部署智能合约。在本章中，我们将学习有关 **web3.js** 的知识，以及如何导入它，连接到
+    geth，并在 Node.js 或客户端 JavaScript 中使用它。我们还将学习如何使用 web3.js 构建一个网络客户端，用于上一章中创建的智能合约。
 - en: 'In this chapter, we''ll cover the following topics:'
   id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: Importing web3.js in Node.js and client-side JavaScript
   id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在 Node.js 和客户端 JavaScript 中导入 web3.js
 - en: Connecting to geth
   id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 连接到 geth
 - en: Exploring web3.js
   id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 探索 web3.js
 - en: Discovering the most-used APIs of web3.js
   id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 发现 web3.js 最常用的 API
 - en: Building a Node.js application for an ownership contract
   id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 为所有权合约构建 Node.js 应用程序
 - en: This chapter is same as chapter present in author's previous book *Blockchain
     for Projects*. This is not a second edition book,it is used to explain fundamental
     concepts to the readers.
   id: totrans-8
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章与作者之前的书籍 *Blockchain for Projects* 中的章节相同。这不是第二版书籍，而是用于向读者解释基本概念。
 - en: Introduction to web3.js
   id: totrans-9
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: web3.js 简介
 - en: web3.js provides us with JavaScript APIs to communicate with geth. It uses JSON-RPC
     internally to communicate with geth. web3.js can also communicate with any other
     kind of Ethereum node that supports JSON-RPC. It exposes all JSON-RPC APIs as
@@ -59,59 +70,77 @@
   id: totrans-10
   prefs: []
   type: TYPE_NORMAL
+  zh: web3.js 为我们提供了与 geth 通信的 JavaScript API。它在内部使用 JSON-RPC 与 geth 通信。web3.js 也可以与支持
+    JSON-RPC 的任何其他类型的以太坊节点通信。它将所有 JSON-RPC API 公开为 JavaScript API。它不仅支持与以太坊相关的所有 API，还支持与
+    **Whisper** 和 **Swarm** 相关的 API。
 - en: As we build various projects, you will keep learning more about web3.js. For
     now, though, let's go through some of the most used APIs for web3.js. Later, we
     will build a frontend for our ownership smart contract using web3.js.
   id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 随着我们构建各种项目，你将继续学习更多关于 web3.js 的知识。不过，现在让我们先了解一些 web3.js 最常用的 API。稍后，我们将使用 web3.js
+    为我们在上一章中创建的所有权智能合约构建一个前端。
 - en: At the time of writing, the latest version of web3.js is 1.0.0-beta.18\. We
     will learn everything using this version.
   id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 在撰写本文时，web3.js 的最新版本是 1.0.0-beta.18。我们将使用此版本学习所有内容。
 - en: web3.js is hosted at [https://github.com/ethereum/web3.js](https://github.com/ethereum/web3.js)
     and the complete documentation is hosted at [https://github.com/ethereum/wiki/wiki/JavaScript-API](https://github.com/ethereum/wiki/wiki/JavaScript-API).
   id: totrans-13
   prefs: []
   type: TYPE_NORMAL
+  zh: web3.js 托管在 [https://github.com/ethereum/web3.js](https://github.com/ethereum/web3.js)，完整文档托管在
+    [https://github.com/ethereum/wiki/wiki/JavaScript-API](https://github.com/ethereum/wiki/wiki/JavaScript-API)。
 - en: Importing web3.js
   id: totrans-14
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 导入 web3.js
 - en: Simply run `npm install web3` inside your project directory to use web3.js in
     Node.js. In the source code, you can import it using `require("web3");`.
   id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 只需在项目目录中运行 `npm install web3` 即可在 Node.js 中使用 web3.js。在源代码中，可以使用 `require("web3");`
+    进行导入。
 - en: To use web3.js in client-side JavaScript, you can enqueue the `web3.js` file,
     which can be found inside the `dist` directory of the project source code. Now,
     the `web3` object will be available globally.
   id: totrans-16
   prefs: []
   type: TYPE_NORMAL
+  zh: 要在客户端 JavaScript 中使用 web3.js，可以将 `web3.js` 文件入队，该文件位于项目源代码的 `dist` 目录中。现在，`web3`
+    对象将全局可用。
 - en: Connecting to nodes
   id: totrans-17
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 连接到节点
 - en: web3.js can communicate with nodes using HTTP or IPC, and allows us to connect
     with multiple nodes. We will use HTTP for our node communication. An instance
     of `web3` represents a connection with a node. The instance exposes the APIs.
   id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: web3.js 可以使用 HTTP 或 IPC 与节点通信，并允许我们连接多个节点。我们将使用 HTTP 进行节点通信。`web3` 的一个实例表示与节点的连接。该实例公开了
+    API。
 - en: When an app is running inside mist, it automatically makes an instance of `web3`
     available that is connected to the mist node. The variable name of the instance
     is `web3`.
   id: totrans-19
   prefs: []
   type: TYPE_NORMAL
+  zh: 当应用程序在 mist 中运行时，它会自动创建一个连接到 mist 节点的 `web3` 实例。实例的变量名为 `web3`。
 - en: 'Here is the basic code to connect to a node:'
   id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是连接到节点的基本代码：
 - en: '[PRE0]'
   id: totrans-21
   prefs: []
@@ -252,6 +281,8 @@
   id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们使用 `web3.eth.getBalance()` 方法获取地址的余额。此方法返回一个 `BigNumber` 对象。我们需要对 `BigNumber`
+    对象调用 `toString()` 来将其转换为数字字符串。
 - en: BigNumber.js fails to correctly handle numbers with more than 20 floating point
     digits. Therefore, it is recommended that you store the balance in a wei unit,
     and while it is displayed, convert it to other units. web3.js itself always returns
@@ -260,22 +291,27 @@
   id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: BigNumber.js 无法正确处理具有超过 20 个浮点数字的数字。因此，建议您将余额存储在 wei 单位中，并在显示时将其转换为其他单位。web3.js
+    本身总是以 wei 单位返回和接受余额。例如，`getBalance()` 方法返回以 wei 为单位的地址余额。
 - en: Unit conversion
   id: totrans-42
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 单位转换
 - en: web3.js provides APIs to convert the wei balance into any other unit and vice
     versa.
   id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: web3.js 提供了将 wei 余额转换为任何其他单位以及反之的 API。
 - en: 'The `web3.fromWei()` method converts a wei number into another unit, whereas
     the `web3.toWei()` method converts a number in any other unit into wei. Here is
     an example to demonstrate this:'
   id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: '`web3.fromWei()` 方法将 wei 数字转换为另一个单位，而 `web3.toWei()` 方法将任何其他单位的数字转换为 wei。以下是一个示例来演示这一点：'
 - en: '[PRE3]'
   id: totrans-45
   prefs: []
@@ -286,66 +322,79 @@
   id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 在第一行中，我们将 wei 转换为 `ether`；在第二行中，我们将 `ether` 转换为 wei。这两个方法中的第二个参数可以是以下字符串之一：
 - en: '`kwei` or `ada`'
   id: totrans-47
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`kwei` 或 `ada`'
 - en: '`mwei` or `babbage`'
   id: totrans-48
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`mwei` 或 `babbage`'
 - en: '`gwei` or `shannon`'
   id: totrans-49
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`gwei` 或 `shannon`'
 - en: '`szabo`'
   id: totrans-50
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`szabo`'
 - en: '`finney`'
   id: totrans-51
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`finney`'
 - en: '`ether`'
   id: totrans-52
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`ether`'
 - en: '`kether` / `grand` / `einstein`'
   id: totrans-53
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`kether` / `grand` / `einstein`'
 - en: '`mether`'
   id: totrans-54
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`mether`'
 - en: '`gether`'
   id: totrans-55
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`gether`'
 - en: '`tether`'
   id: totrans-56
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`tether`'
 - en: Retrieving gas price, balance, and transaction details
   id: totrans-57
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 检索 gas 价格、余额和交易详细信息
 - en: 'Let''s take a look at the APIs to retrieve the gas price, the balance of an
     address, and information on a mined transaction:'
   id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们来看一下检索 gas 价格、地址余额以及已挖掘交易信息的 API：
 - en: '[PRE4]'
   id: totrans-59
   prefs: []
@@ -355,6 +404,7 @@
   id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 输出将以此格式显示：
 - en: '[PRE5]'
   id: totrans-61
   prefs: []
@@ -364,12 +414,14 @@
   id: totrans-62
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是前述方法的工作原理：
 - en: '`web3.eth.gasPrice()`: Determines the gas price by the *x* latest blocks''
     median gas price.'
   id: totrans-63
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`web3.eth.gasPrice()`: 通过 *x* 最新区块的中位数 gas 价格确定 gas 价格。'
 - en: '`web3.eth.getBalance()`: Returns the balance of any given address. All the
     hashes should be provided as hexadecimal strings (not hexadecimal literals) to
     the web3.js APIs. The input for the Solidity address type should also be in hexadecimal
@@ -378,6 +430,8 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`web3.eth.getBalance()`: 返回给定地址的余额。所有的哈希都应该以十六进制字符串（而不是十六进制字面值）的形式提供给 web3.js
+    API。对于 Solidity 地址类型的输入也应该是十六进制字符串。'
 - en: '`web3.eth.getTransactionReceipt()`: This is used to get details about a transaction
     using its hash. It returns a transaction receipt object if the transaction was
     found in the blockchain; otherwise, it returns `null`. The transaction receipt
@@ -386,24 +440,29 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`web3.eth.getTransactionReceipt()`: 用于使用其哈希获取有关交易的详细信息。如果在区块链中找到了交易，则返回一个交易收据对象；否则返回
+    `null`。交易收据对象包含以下属性：'
 - en: '`blockHash`: The hash of the block where this transaction was located.'
   id: totrans-66
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`blockHash`: 交易所在区块的哈希。'
 - en: '`blockNumber`: The block number where this transaction was located.'
   id: totrans-67
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`blockNumber`: 此交易所在的区块编号。'
 - en: '`transactionHash`: The hash of the transaction.'
   id: totrans-68
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`transactionHash`: 交易的哈希。'
 - en: '`transactionIndex`: The integer of the transactions'' index position in the
     block.'
   id: totrans-69
@@ -411,12 +470,14 @@
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`transactionIndex`: 交易在区块中的位置的整数。'
 - en: '`from`: The address of the sender.'
   id: totrans-70
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`from`: 发送者的地址。'
 - en: '`to`: The address of the receiver; this is left as `null` when it''s a contract
     creation transaction.'
   id: totrans-71
@@ -424,6 +485,7 @@
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`to`: 接收方的地址；当它是一个合约创建交易时，这个参数被设为 `null`。'
 - en: '`cumulativeGasUsed`: The total amount of gas used when this transaction was
     executed in the block.'
   id: totrans-72
@@ -431,12 +493,14 @@
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`cumulativeGasUsed`: 在该交易在区块中执行时使用的总 gas 量。'
 - en: '`gasUsed`: The amount of gas used by this specific transaction alone.'
   id: totrans-73
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`gasUsed`: 仅由此特定交易使用的 gas 量。'
 - en: '`contractAddress`: The contract address created if the transaction was a contract
     creation. Otherwise, this is left as `null`.'
   id: totrans-74
@@ -444,17 +508,20 @@
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`contractAddress`: 如果交易是合约创建，则创建的合约地址。否则，这将被设为 `null`。'
 - en: '`logs`: The array of log objects that this transaction generated.'
   id: totrans-75
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`logs`: 此交易生成的日志对象数组。'
 - en: Sending ether
   id: totrans-76
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 发送 ether
 - en: 'Let''s look at how to send `ether` to any address. To send `ether`, you need
     to use the `web3.eth.sendTransaction()` method. This method can be used to send
     any kind of transaction but is mostly used to send `ether`. This is because deploying
@@ -564,16 +631,19 @@
   id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们学习如何部署新合同，使用其地址获取已部署合同的引用，向合同发送`ether`，发送交易以调用`contract`方法，并估算方法调用的gas。
 - en: To deploy a new contract or to get a reference to an already deployed contract,
     you need to first create a `contract` object using the `web3.eth.contract()` method.
     It takes the contract ABI as an argument and returns the `contract` object.
   id: totrans-91
   prefs: []
   type: TYPE_NORMAL
+  zh: 要部署新合同或获取对已部署合同的引用，您需要首先使用`web3.eth.contract()`方法创建一个`contract`对象。它以合同ABI作为参数，并返回`contract`对象。
 - en: 'Here is the code to create a `contract` object:'
   id: totrans-92
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是创建`contract`对象的代码：
 - en: '[PRE7]'
   id: totrans-93
   prefs: []
@@ -585,10 +655,12 @@
   id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦您获得了合同，您可以使用`contract`对象的`new`方法部署它，或者使用`at`方法获取与ABI匹配的已部署合同的引用。
 - en: 'Let''s take a look at an example of how to deploy a new contract, as follows:'
   id: totrans-95
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看一个部署新合同的示例，如下所示：
 - en: '[PRE8]'
   id: totrans-96
   prefs: []
@@ -603,6 +675,7 @@
   id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里，`new`方法是异步调用的，因此如果交易成功创建并广播，则回调将被调用两次。第一次，在交易广播后调用，第二次，在交易挖掘后调用。如果您不提供回调函数，则`proof`变量的`address`属性将设置为`undefined`。一旦`contract`被挖掘，`address`属性将被设置。
 - en: In the `proof` contract, there is no constructor, but if there is one, then
     the arguments for the constructor should be placed at the beginning of the `new`
     method. The object we passed contains the `from` address, the bytecode of the
@@ -613,11 +686,13 @@
   id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: 在`proof`合同中，没有构造函数，但如果有构造函数，则构造函数的参数应该放在`new`方法的开头。我们传递的对象包含`from`地址，合同的字节码和要使用的最大`gas`。这三个属性必须存在才能创建交易。此对象可以具有传递给`sendTransaction()`方法的对象中存在的属性，但在这里，`data`是合同的字节码，`to`属性被忽略。
 - en: 'You can use the `at` method to get a reference to an already deployed contract.
     Here is the code to demonstrate this:'
   id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以使用`at`方法获取已部署合同的引用。以下是演示此操作的代码：
 - en: '[PRE9]'
   id: totrans-100
   prefs: []
@@ -628,6 +703,7 @@
   id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在让我们看一下发送交易以调用合同方法的情况。以下是演示此操作的示例：
 - en: '[PRE10]'
   id: totrans-102
   prefs: []
@@ -639,12 +715,14 @@
   id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们为同名方法调用对象的`sendTransaction`方法。传递给此`sendTransaction`方法的对象具有与`web3.eth.sendTransaction()`相同的属性，只是忽略了`data`和`to`属性。
 - en: 'If you want to invoke a method on the node itself, rather than creating a transaction
     and broadcasting it, then you can use `call` instead of `sendTransaction`. Here''s
     how:'
   id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果您想调用节点本身的方法，而不是创建交易并广播它，那么您可以使用`sendTransaction`而不是`sendTransaction`。如下所示：
 - en: '[PRE11]'
   id: totrans-105
   prefs: []
@@ -658,6 +736,7 @@
   id: totrans-106
   prefs: []
   type: TYPE_NORMAL
+  zh: 有时，有必要了解调用方法所需的gas量，以便您可以决定是否调用它。您可以使用`web3.eth.estimateGas`来实现此目的。然而，使用`web3.eth.estimateGas()`需要您直接生成交易的数据；因此，我们可以使用合同对象的`estimateGas()`方法。以下是演示此操作的示例：
 - en: '[PRE12]'
   id: totrans-107
   prefs: []
@@ -668,6 +747,7 @@
   id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: 要向合同发送一些`ether`而不调用任何方法，您可以简单地使用`web3.eth.sendTransaction`方法。
 - en: Retrieving and listening to contract events
   id: totrans-109
   prefs:
