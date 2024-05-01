@@ -1,4 +1,5 @@
 - en: Cryptography in Blockchain
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -8,22 +9,27 @@
     chapter, we will cover some of the applications of cryptographic primitives, which
     will include hash functions and digital signatures. We will cover them in-depth
     by actually implementing them in a basic blockchain application.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
 - en: 'In this chapter, we''ll cover the following topics:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
 - en: Hashing in blockchain
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Digital signatures in blockchain
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: One thing to note is that each cryptographic primitive that is used with blockchain
     technology has a distinct role. Hash functions and digital signatures are two
     concepts of cryptography that are extensively used with blockchain.
+  id: totrans-5
   prefs: []
   type: TYPE_NORMAL
 - en: We can mainly observe three layers in the blockchain technology. These are a
@@ -35,14 +41,17 @@
     and also acts as a key ingredient of consensus algorithms, such as Bitcoin's Proof
     of Work. The digital signature, on the other hand, deals with the application
     layer, where it is used to validate events by embedding them in transactions.
+  id: totrans-6
   prefs: []
   type: TYPE_NORMAL
 - en: Since hashing and digital signatures contribute to the blockchain at different
     layers, we will cover the significance of these concepts throughout different
     sections of this chapter.
+  id: totrans-7
   prefs: []
   type: TYPE_NORMAL
 - en: Hashing in blockchain
+  id: totrans-8
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -54,9 +63,11 @@
     the Byzantine failure problem, which we'll cover in depth, later in the chapter.
     To begin with, we'll explore some concepts of blockchain that make use of hash
     functions.
+  id: totrans-9
   prefs: []
   type: TYPE_NORMAL
 - en: Linking blocks in a blockchain
+  id: totrans-10
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -70,6 +81,7 @@
     that it is infeasible to find two blocks that will result in the same hash value.
     As a result, the hash function guarantees the uniqueness of the identity created
     for the block.
+  id: totrans-11
   prefs: []
   type: TYPE_NORMAL
 - en: 'When a new block is created, it will backreference the previous block using
@@ -84,13 +96,16 @@
     chain is ensured as each block references the previous block. The only way to
     modify the data of a block is by modifying all the subsequent blocks by updating
     its reference to the previous block:'
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/9b6db5b7-1e6e-4916-a9ce-655846464019.png)'
+  id: totrans-13
   prefs: []
   type: TYPE_IMG
 - en: 'Figure 3.1: Linking blocks using hashes from *A Peer-to-Peer Electronic Cash
     System*, S. Nakamoto'
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
 - en: The preceding *Figure 3.1* shows the design of blockchain from the original
@@ -100,9 +115,11 @@
     value, thereby linking each block in the blockchain. Anyone who holds a copy of
     the blockchain ledger will be able to verify whether all of the blocks in the
     blockchain are valid just by verifying each block's hash with the next block.
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
 - en: Linking blocks using an SHA256 hashing algorithm
+  id: totrans-16
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -111,20 +128,25 @@
     platform since it was used in the Bitcoin implementation. Firstly, we will define
     the structure and functionality of the blocks, before finally constructing the
     blockchain with the help of the hashing algorithm.
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
 - en: Block structure
+  id: totrans-18
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'Let''s consider a simple block whose header and data are combined to create
     a data structure called **Block**. Each Block will contain the following: an index,
     the previous hash, a timestamp, data, and its own hash value:'
+  id: totrans-19
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE0]'
+  id: totrans-20
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: The preceding code snippet defines a Python class called `Block` that has all
     the basic attributes of a blockchain block. Usually, a block will contain both
     a header and a body, with the header containing metadata about the block. However,
@@ -132,96 +154,124 @@
     blockchain application, such as Bitcoin, will have a huge set of data that could
     be in the form of transactions, but in the example, we will consider the data
     to be of a `string` type.
+  id: totrans-21
   prefs: []
   type: TYPE_NORMAL
 - en: A typical block will also contain a nonce and a difficulty target in the header.
     This information is used in consensus algorithms, such as Proof of Work. Since
     our intention is just to describe a blockchain, these fields are outside the scope
     of this section.
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
 - en: Blockchain functionality
+  id: totrans-23
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: The block linking process consists of several elements, such as creating a structure
     from the information, calculating the hash of the block, and appending it to the
     blockchain.
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
 - en: 'Let''s break down each of these functionalities into blockchain methods:'
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE1]'
+  id: totrans-26
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: 'The preceding class is a collection of class methods that create a valid blockchain
     using a hash function. The constructor of the `Blockchain` will initialize a chain
     by appending a genesis block, which is the first block of the blockchain, and
     doesn''t have any reference to a previous block:'
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE2]'
+  id: totrans-28
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: 'A genesis block is a hardcoded block that is appended to the beginning of the
     blockchain. It is created with static contents. The preceding genesis block has
     a hardcoded hash value that is created using SHA-256, as follows:'
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE3]'
+  id: totrans-30
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: '`calculate_hash` is a crucial method in the blockchain because this method
     creates a hash value that binds all the blocks together. An SHA-256 hash value
     is created using the PyCryptodome package, as shown in the previous chapter. This
     method concatenates the block index, the hash value of the previous block, the
     timestamp, and the data required to create a string that needs to be hashed. The
     SHA256 hash function generates a digest that is the hash value of that block.'
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
 - en: 'We need to find the hash value of the previous block during the creation of
     the next block. The following function identifies the last block appended to the
     chain:'
+  id: totrans-32
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE4]'
+  id: totrans-33
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: 'The following function will build a block by constructing all the attributes
     that are required to create a `Block` object. It will also calculate the hash
     value for the current block. A new `Block` object consisting of the block structure
     will finally be created:'
+  id: totrans-34
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE5]'
+  id: totrans-35
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'Note: We have created `next_timestamp` based on a static timestamp value that
     is created when the blockchain object is created. Although this is not true in
     an actual blockchain, we have done this intentionally to explain a particular
     case that will be explained during the code execution.'
+  id: totrans-36
   prefs: []
   type: TYPE_NORMAL
 - en: 'The following functions are used to add, reset, and read the blocks of the
     blockchain. The `add_block` method and the `chain` attribute are the only class
     members that need to be exposed to the user:'
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE6]'
+  id: totrans-38
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: Creating a blockchain
+  id: totrans-39
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'Now that we have defined all the required functionalities of a simple blockchain
     linker, we''ll emulate one by creating both a few blocks and a blockchain:'
+  id: totrans-40
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE7]'
+  id: totrans-41
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: The preceding code snippet creates a `Blockchain` object and adds three blocks
     to it, along with an existing genesis block. This operation is performed again
     after resetting the blockchain. An important observation here is that both outputs
@@ -229,37 +279,48 @@
     shown in the following output. This is due to the fact that all the attributes
     contributing to the creation of the hash value are the same during execution.
     The hash function always produces the same hash value if fed with the same input.
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
 - en: 'The timestamp is hardcoded in the genesis block and is intentionally kept constant
     for all the blocks to show that hash values computed with the similar data will
     generate the same value every time:'
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE8]'
+  id: totrans-44
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: The preceding output will be generated two times during the actual execution.
     The output shows how the blocks in our blockchain are linked using cryptographic
     hashes. Each block in the blockchain has a `previous_hash` value that matches
     the hash value of the previous block. Index `0` is the hardcoded genesis block
     with no `previous_hash`, and index `1` has a `previous_hash` value that matches
     the genesis block's hash. All the other blocks are linked in the same manner.
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
 - en: 'Let''s try to alter the data in a block and insert the rest of the blocks in the
     chain:'
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE9]'
+  id: totrans-47
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: 'This would produce the following list of blocks in the blockchain:'
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE10]'
+  id: totrans-49
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: 'The preceding list of blocks shows similar block link properties to the earlier
     blockchain, but an interesting observation is that although only the block data
     of index `1` has been modified, the hash values of all the other blocks are different
@@ -268,14 +329,17 @@
     by this modification. This leads to the creation of a new blockchain. This is
     the reason why blockchains are secure: A single block cannot be modified without
     affecting the other blocks in the ledger.'
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
 - en: The complete script of the preceding sample blockchain application can be found
     in the GitHub repository of the book ([https://github.com/PacktPublishing/Foundations-of-Blockchain](https://github.com/PacktPublishing/Foundations-of-Blockchain)),
     along with Python packaging.
+  id: totrans-51
   prefs: []
   type: TYPE_NORMAL
 - en: Byzantine failure problem in blockchain
+  id: totrans-52
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -287,6 +351,7 @@
     own version of blockchain since the block creation is not a difficult task. This
     is a well-known distributed system problem called the Byzantine Generals' Problem,
     or Byzantine failure.
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
 - en: Byzantine failure is a fault that presents different symptoms to different observers.
@@ -294,6 +359,7 @@
     a consensus. This kind of failure is witnessed in distributed systems, where it
     is difficult to gather information about the status of components, and the presence
     of bad actors makes it more difficult to reach a consensus.
+  id: totrans-54
   prefs: []
   type: TYPE_NORMAL
 - en: The term Byzantine failure is derived from the Byzantine Generals' Problem,
@@ -311,6 +377,7 @@
     This is a classic agreement problem for which there is no one single solution.
     The solution to the Byzantine General's Problem is to find a majority vote among
     the honest generals.
+  id: totrans-55
   prefs: []
   type: TYPE_NORMAL
 - en: A system that displays a **Byzantine fault tolerance** (**BFT**) is one that
@@ -319,6 +386,7 @@
     systems by creating unforgeable message signatures. Achieving data integrity can
     provide some resistance to the Byzantine failure problem, but it would not be
     a complete solution.
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
 - en: Now that we understand the Byzantine problem, we can notice that the problem
@@ -333,10 +401,12 @@
     a consensus on how to attain a universal blockchain state. Miners, in particular,
     should reach a consensus because they are the ones that contribute to the growth
     of the blockchain.
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
 - en: A blockchain miner is a node that not only validates the data of the blockchain,
     but also contributes resources to create a new block in the blockchain ledger.
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
 - en: Bitcoin was the first decentralized application that solved the Byzantine problem.
@@ -347,6 +417,7 @@
     using a hashing algorithm. Although the stamp creation was time consuming, verification
     could be performed instantly. Similarly, Bitcoin's Proof of Work also uses a cryptographic
     hash function to achieve consensus in the network.
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
 - en: There are several consensus algorithms that achieve a common global view in
@@ -354,15 +425,18 @@
     of Elapsed Time are just a few examples. Even the popular Ethereum blockchain
     framework currently uses the Proof of Work consensus, but there have been active
     development efforts to include Proof of Stake in the future release of Ethereum.
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
 - en: How does Proof of Work ensure Byzantine fault tolerance?
+  id: totrans-61
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Proof of Work is a consensus algorithm designed to make sure that each participant
     node in the network that creates a block must prove that it has done a certain
     amount of work on the block before it is inserted in the public blockchain ledger.
+  id: totrans-62
   prefs: []
   type: TYPE_NORMAL
 - en: Bitcoin's Proof of Work consensus algorithm was designed to make sure that blockchain
@@ -377,10 +451,12 @@
     requires a lot of computation power. However, you'll find that often, the work
     of a bad actor will be rejected by the majority of the network because it was
     not able to keep up with the work done by the honest nodes.
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
 - en: Thus, Proof of Work helps to achieve a BFT system, even in the presence of dishonest
     nodes.
+  id: totrans-64
   prefs: []
   type: TYPE_NORMAL
 - en: Although Proof of Work provides a practical solution to the Byzantine failure
@@ -390,20 +466,24 @@
     faulty nodes and still function without failing. This is the fault tolerance of
     Bitcoin's consensus mechanism. The 51% attack is covered in more detail in [Chapter
     10](53dc28ad-de3d-463a-8244-e48d0d19d616.xhtml), *Blockchain Security*.
+  id: totrans-65
   prefs: []
   type: TYPE_NORMAL
 - en: How does Proof of Work use cryptography?
+  id: totrans-66
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Proof of Work is a consensus algorithm that uses a cryptographic hashing puzzle
     to make sure that a certain amount of work has been done before a block is created.
     Bitcoin's Proof of Work uses the SHA-256 hash function to create a hashing puzzle.
+  id: totrans-67
   prefs: []
   type: TYPE_NORMAL
 - en: Blocks in a blockchain network are created by a special type of validator node
     called a miner. These miner nodes compete with each other to solve the hashing
     puzzle in order to produce a block to be appended to the ledger.
+  id: totrans-68
   prefs: []
   type: TYPE_NORMAL
 - en: 'Blockchain miners will start to solve the hashing puzzle whenever they have
@@ -413,12 +493,15 @@
     of the header, generally using the SHA256 hash function. The puzzle here is to
     find a hash value for the header so that the hash begins with a known number of
     zero bits:'
+  id: totrans-69
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/1a796572-692a-4590-a208-f62bd628007a.png)'
+  id: totrans-70
   prefs: []
   type: TYPE_IMG
 - en: 'Figure 3.2: The basic structure of a block header'
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
 - en: We have mentioned previously the characteristics of a hash function; that is,
@@ -431,6 +514,7 @@
     assigned to create a different header for the hash function. Once the miner finds
     a nonce that will produce a hash value with the required number of zero bits,
     the puzzle is solved, and the nonce is recorded in the block header.
+  id: totrans-72
   prefs: []
   type: TYPE_NORMAL
 - en: Using a hash function to perform Proof of Work turns out to be a good approach
@@ -438,9 +522,11 @@
     characteristics. Hash functions make sure that a certain amount of CPU effort
     has been used to compute hash values, and that the hash rate of the computer is
     the Proof of Work during this process.
+  id: totrans-73
   prefs: []
   type: TYPE_NORMAL
 - en: An example implementation of Proof of Work
+  id: totrans-74
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -448,6 +534,7 @@
     We also looked at computing a target hash to solve the hashing puzzle. We're now
     going to implement a Proof of Work algorithm using the SHA-256 algorithm in order
     to analyze how hashing and probability contribute to this consensus algorithm.
+  id: totrans-75
   prefs: []
   type: TYPE_NORMAL
 - en: Since the main intention of the Proof of Work algorithm is to find a nonce that,
@@ -461,6 +548,7 @@
     Although finding the solution depends on luck, the puzzle is often solved by the
     miner node that has done the most work. This is due to the fact that the probability
     of finding the nonce increases with the amount of work done.
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
 - en: Each puzzle solved in the Proof of Work has a difficulty level that decides
@@ -470,38 +558,49 @@
     hash values. This is again due to the fact that the probability of finding a small
     hash value is lower than the probability of finding any hash values including
     the large hash values due to the smaller sample space.
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
 - en: 'This example implementation of Proof of Work will illustrate the role of probability
     in this consensus algorithm:'
+  id: totrans-78
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE11]'
+  id: totrans-79
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: The code to demonstrate nonce is inspired by the code snippet from *Mastering
     Bitcoin – First Edition* by *Andreas M. Antonopoulos*.
+  id: totrans-80
   prefs: []
   type: TYPE_NORMAL
 - en: The preceding code snippet is a simple example of generating hashes to solve
     the Proof of Work hashing puzzle. The nonce is created in an incremental fashion
     and appended to the input data. The hash value is computed using the SHA-256 algorithm,
     and this is repeated for all the nonce values.
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
 - en: 'The program will generate the following hashes for the nonce-appended data:'
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE12]'
+  id: totrans-83
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: Although each input for the preceding hash values differs by only the last two
     digits, the hash output values are completely different due to the properties
     of hash functions. This is why it is infeasible to detect a nonce that would produce
     the target hash value and therefore solve the puzzle.
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
 - en: Example of finding a nonce to solve Proof of Work
+  id: totrans-85
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -512,42 +611,56 @@
     we created earlier on to include the Proof of Work algorithm while creating a
     new block. Firstly, let's modify a few functions of the blockchain example to
     include the consensus algorithm.
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
 - en: 'The `Block` class used to create a new block to be added to blockchain is modified
     to take two extra members, called `difficulty_bits` and `nonce`. We''ll also include
     `difficulty_bits` in the header of any Proof of Work-based blockchain application:'
+  id: totrans-87
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE13]'
+  id: totrans-88
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: '`self.difficulty_bits` is also included in the `Blockchain` class to use as
     a parameter while a miner is performing the Proof of Work algorithm:'
+  id: totrans-89
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE14]'
+  id: totrans-90
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: 'The `create_block` function will add both `nonce` and `difficulty_bits`, which
     are both set by the user while mining a new block. This information is included
     in the block to verify the block later once it is broadcast to every node in the
     network:'
+  id: totrans-91
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE15]'
+  id: totrans-92
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: 'The `calculate_hash` method is then modified to compute a header and call the
     function to perform Proof of Work by computing the nonce:'
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE16]'
+  id: totrans-94
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: The `proof_of_work` method performs a search on each nonce by incrementing its
     value in order to find a hash value that is less than the target value. The target
     value is computed by using the `difficulty_bits` value provided.
+  id: totrans-95
   prefs: []
   type: TYPE_NORMAL
 - en: 'Each time a hash value is calculated using the SHA256 hash function, the resulting
@@ -555,37 +668,48 @@
     decimal value. If the computed hash value is less than the target value, it signifies
     that the hash value starts with a value that is greater than or equal to the `difficulty_bits`,
     so the nonce and the hash value is returned:'
+  id: totrans-96
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE17]'
+  id: totrans-97
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE17]'
 - en: 'The following Python main method will create a new Blockchain object class
     that will create a new chain with a genesis block. The `for` loop will create
     a new block, each time increasing `difficulty_bits` by 1\. The `proof_of_work`
     function will be invoked each time a block is created:'
+  id: totrans-98
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE18]'
+  id: totrans-99
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE18]'
 - en: 'We''ll find the output of the proof of work example as follows. It prints out
     the hashing power of the system used, the nonce, and the time elapsed during the
     creation of the block:'
+  id: totrans-100
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE19]'
+  id: totrans-101
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE19]'
 - en: It is quite evident from this example output that the time taken to compute
     the solution is directly proportional to the number of difficulty bits used. To
     be precise, for every bit increase in the difficulty level, the probability of
     finding the nonce decreases by half because the target space decreases by half.
     Although occasionally luck might help us solve some puzzles, probability theory
     holds for the majority of cases with the proof of work consensus algorithm.
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
 - en: Digital signatures in blockchain
+  id: totrans-103
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -596,6 +720,7 @@
     events in transactions that are inserted in the blocks. They are used to validate
     the transactions, since verification can be performed by anyone who possesses
     the public key of the generated public-private key pair.
+  id: totrans-104
   prefs: []
   type: TYPE_NORMAL
 - en: The asymmetric key cryptography provides a way to identify an entity. Anyone
@@ -603,9 +728,11 @@
     participants allows them to perform operations such as asset management. We will
     explore digital identity and asset management in depth in this section in order
     to understand the role of digital signatures in blockchain.
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
 - en: Creating an identity
+  id: totrans-106
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -614,37 +741,49 @@
     To recap, they provide a way for a node that possesses the private key to sign
     a message to prove their identity. This can then be verified by anyone who has
     access to the distributed public key.
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
 - en: 'An identity is created by generating a public-private key pair. This is similar
     to creating an account in the blockchain network. The following code shows how
     a public-private key pair is generated by the `ecdsa` Python package using an
     elliptic curve:'
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE20]'
+  id: totrans-109
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE20]'
 - en: 'The key pair is generated using a special elliptic curve, secp256k1, which
     is also used in Bitcoin''s digital signature generation. The following lines of
     code will create a public-private key pair:'
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE21]'
+  id: totrans-111
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE21]'
 - en: 'A 64-character (256-bit) private key and a 128-character public key are generated
     in hexadecimal format as follows:'
+  id: totrans-112
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE22]'
+  id: totrans-113
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE22]'
 - en: The private key is always kept secret, and the public key is used to generate
     the public address of the user and is then embedded in the transaction.
+  id: totrans-114
   prefs: []
   type: TYPE_NORMAL
 - en: Signatures in transaction
+  id: totrans-115
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -653,6 +792,7 @@
     the transaction. A transaction embedded into the block will contain a certain
     action that is being signed by someone who possesses the private key. Owning the
     private key thus proves the identity of the signer.
+  id: totrans-116
   prefs: []
   type: TYPE_NORMAL
 - en: 'The following code shows a simple transaction with transaction id, signature,
@@ -661,49 +801,66 @@
     platforms have several fields in the transaction to perform value transfer, while
     transactions of cryptocurrency are covered in greater detail in [Chapter 5](15831d35-9bb3-4752-98d7-46e23efca78b.xhtml),
     *Cryptocurrency*:'
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE23]'
+  id: totrans-118
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE23]'
 - en: 'A signature is then created by signing the hashed content of the transaction
     with the private key of the corresponding public key:'
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE24]'
+  id: totrans-120
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE24]'
 - en: 'The transaction is then verified with the help of only the transaction contents,
     created signature, and the public key. Verification will only fail if the signature
     or the transaction contents were modified. This operation also verifies the integrity
     of the transaction:'
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE25]'
+  id: totrans-122
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE25]'
 - en: 'A transaction can be successfully verified every time as long as the signature
     or data is not altered. The following code generates a signature and successfully
     verifies it:'
+  id: totrans-123
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE26]'
+  id: totrans-124
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE26]'
 - en: 'When the transaction contents are modified or, in this case, the transaction
     ID is, then the verification fails:'
+  id: totrans-125
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE27]'
+  id: totrans-126
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE27]'
 - en: The transaction constructed in this section demonstrates the basic signing and
     verification process. An actual transaction can be used to transfer value from
     one user to other. In the next section, we'll cover the basic asset management
     that can be performed using the transactions.
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
 - en: Asset ownership in blockchain
+  id: totrans-128
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -715,6 +872,7 @@
     Nodes can perform operations such as asset creation or asset transfer. Each operation
     that deals with assets is valid if they are approved by the asset owner. The asset
     owners prove their identity by signing the transactions using their private key.
+  id: totrans-129
   prefs: []
   type: TYPE_NORMAL
 - en: Asset management operations, such as transferring the asset, can only be performed
@@ -723,9 +881,11 @@
     owners to sign those transactions. They then broadcast these transactions to every
     node in the blockchain so that they are included in the next block to be appended
     to the blockchain ledger.
+  id: totrans-130
   prefs: []
   type: TYPE_NORMAL
 - en: Transferring an asset
+  id: totrans-131
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -734,6 +894,7 @@
     an asset needs to be transferred, users use their private key to sign the transaction,
     firstly proving their ownership, and from there transferring the ownership to
     the desired user.
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
 - en: 'We''re now going to look at a detailed example to better explain asset ownership.
@@ -745,12 +906,15 @@
     a signing algorithm, which also made use of an ECC key pair. The  following *Figure
     3.3* shows how Alice creates a signature by signing the transaction contents that
     contain asset transfer information:'
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/bc9d6401-de45-44e3-bc10-e30fc7e674f9.png)'
+  id: totrans-134
   prefs: []
   type: TYPE_IMG
 - en: 'Figure 3.3: Alice signing a transaction to transfer an asset'
+  id: totrans-135
   prefs: []
   type: TYPE_NORMAL
 - en: All the information provided in this example of creating a transaction is from
@@ -758,9 +922,11 @@
     blockchain applications. A detailed explanation of transactions is outside the
     scope of this chapter, but it will be covered in [Chapter 5](15831d35-9bb3-4752-98d7-46e23efca78b.xhtml),
     *Cryptocurrency*.
+  id: totrans-136
   prefs: []
   type: TYPE_NORMAL
 - en: Transmitting the transaction
+  id: totrans-137
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -768,26 +934,32 @@
     such as the user''s public key for verification, the destination public address,
     and other information that is necessary for verification, is provided. This information
     is broadcast to all the nodes so that it can be included in the blockchain:'
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/8350aa72-ff57-41c0-8494-9bf233982bbe.jpg)'
+  id: totrans-139
   prefs: []
   type: TYPE_IMG
 - en: 'Figure 3.4: Information in a transaction'
+  id: totrans-140
   prefs: []
   type: TYPE_NORMAL
 - en: As shown in the preceding *Figure 3.4*, Alice will include information such
     as her public key and Bob's address in the transaction. The information provided
     in the transaction should suffice for Bob to claim that the asset belongs to him
     once the transaction has been included in any of the blocks in the blockchain.
+  id: totrans-141
   prefs: []
   type: TYPE_NORMAL
 - en: The public address of the node acts as an identifier for the node and is constructed
     from the public key by performing hashing and encoding. [Chapter 5](15831d35-9bb3-4752-98d7-46e23efca78b.xhtml),
     *Cryptocurrency*, will cover this in detail.
+  id: totrans-142
   prefs: []
   type: TYPE_NORMAL
 - en: Claiming the asset
+  id: totrans-143
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -797,18 +969,22 @@
     included. When the transaction is included in the blockchain, everyone will be
     able to see this transaction, but only the owner to whom it was addressed will
     be able to claim the asset:'
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/1e190536-4a69-45b4-9e40-d4c602c579dc.png)'
+  id: totrans-145
   prefs: []
   type: TYPE_IMG
 - en: 'Figure 3.5: Bob verifying the transaction by means of public information'
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
 - en: The level of security provided by the asymmetric key cryptography used in the
     digital signature will make sure that only the node that owns the private key
     corresponding to the public address will be able to claim the asset that was transferred
     to that address.
+  id: totrans-147
   prefs: []
   type: TYPE_NORMAL
 - en: The preceding *Figure 3.5* shows that when Bob's node recognizes that a transaction
@@ -819,9 +995,11 @@
     belongs to him. This is how digital signatures ensure that an asset can easily
     be transferred by creating transactions, and the blockchain ensures the distribution
     of the transaction throughout the decentralized network.
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
 - en: Blockchain wallets
+  id: totrans-149
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -829,17 +1007,20 @@
     by a particular user. While physical wallets hold hard cash, blockchain wallets
     hold all the private keys a user possesses, which will help the user claim assets
     that belong to them.
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
 - en: Wallets are a famous concept in cryptocurrency. A user holding the private key
     will be able to view their account balance when a transaction is recorded in the
     blockchain. Wallet nodes used in Bitcoin are called **Simplified Payment Verification**
     (**SPV**) nodes.
+  id: totrans-151
   prefs: []
   type: TYPE_NORMAL
 - en: 'A single wallet can store any number of keys, which means a node can have multiple
     destination addresses. These keys are created in two distinct ways: deterministically
     and non-deterministically.'
+  id: totrans-152
   prefs: []
   type: TYPE_NORMAL
 - en: A **non-deterministic wallet** is a collection of randomly created private keys
@@ -847,6 +1028,7 @@
     difficult to maintain because it is difficult to reconstruct the keys in the event
     that they are lost. So, every key in the wallet has to be backed up to prevent
     any loss that could take place in the event of a wallet failure.
+  id: totrans-153
   prefs: []
   type: TYPE_NORMAL
 - en: A **deterministic wallet** is also called a seed wallet because all the keys
@@ -855,9 +1037,11 @@
     created by hashing a string and an incremental nonce. In the case of wallet failure,
     seed information alone is sufficient to recover the private keys, so there is
     no need to back up all the keys in the wallet.
+  id: totrans-154
   prefs: []
   type: TYPE_NORMAL
 - en: Summary
+  id: totrans-155
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -865,11 +1049,14 @@
     blockchain by identifying its application in the basic blockchain architecture.
     This will serve as a foundation for the more advanced blockchain topics that we'll
     cover in later chapters.
+  id: totrans-156
   prefs: []
   type: TYPE_NORMAL
 - en: Now that we have been introduced to the basic blockchain architecture, with
     cryptography as its backbone, it's time to move on to the counterpart of blockchain
     technology – decentralized networking. This will be covered in the next chapter
     and will help us to understand the use of blockchain within a trustless network.
+  id: totrans-157
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们已经介绍了基本的区块链架构，以加密学作为其支柱，是时候转向区块链技术的对应部分 - 去中心化网络。这将在下一章中介绍，并将帮助我们了解区块链在无需信任的网络中的应用。

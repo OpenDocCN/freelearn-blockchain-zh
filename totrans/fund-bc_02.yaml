@@ -1,34 +1,48 @@
 - en: A Bit of Cryptography
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 一点点密码学
 - en: 'This chapter will cover all the basics of cryptography that are required for
     you to understand the vital role it plays in blockchain technology. We will delve
     deeply into all the aspects of cryptography that blockchain relies on. We will
     explain a few concepts in practical terms so that we can implement them with ease
     in later chapters. These include the following:'
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章将涵盖你理解它在区块链技术中发挥的重要作用所需的所有密码学基础知识。我们将深入探讨区块链依赖的密码学的所有方面。我们将用实际术语解释一些概念，以便我们可以在后面的章节中轻松地实施它们。这些包括以下内容：
 - en: Cryptography in blockchain
+  id: totrans-2
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 区块链中的密码学
 - en: Classical cryptography
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 古典密码学
 - en: Cryptographic primitives
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 密码学原语
 - en: Merkle trees
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Merkle 树
 - en: Encoding schemes
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 编码方案
 - en: Modern cryptography is the study of private or secure communication. The fundamental
     objective of cryptography is to enable two people to communicate over an unsecure
     medium. This is achieved by encrypting a plaintext from the sender to form a ciphertext
@@ -39,70 +53,94 @@
     wide variety of fields, including blockchain. We will start our overview of cryptography
     with an underlying and fundamental cipher implementation, and then we will move
     on to advanced and modern cryptography topics.
+  id: totrans-7
   prefs: []
   type: TYPE_NORMAL
+  zh: 现代密码学是研究私人或安全通信的学科。密码学的基本目标是使两个人能够在不安全的媒介上进行通信。这是通过对发送者的明文进行加密以形成只能由接收者解密的密文来实现的，发送者与接收者共享一个秘密。然而，第三方可以访问传输密文的通道，但文本对它没有任何意义，因此通道是安全的与否都无所谓。密码学已经发展，并且现在可以应用于各种领域，包括区块链。我们将从一个基础和基本的密码实现开始概述密码学，然后我们将进入高级和现代密码学主题。
 - en: 'Cryptography is crucial for information security services such as authentication,
     confidentiality, and integrity. In the 19th century, **Auguste Kerckhoffs** outlined
     what has come to be known as Kerckhoffs''s principle: A cryptosystem should be
     secure even if everything about the system, except the key, is public knowledge.
     The key is the only asset in cryptography that has to be kept secret and protected
     from intruder attacks.'
+  id: totrans-8
   prefs: []
   type: TYPE_NORMAL
+  zh: 密码学对于身份验证、保密性和完整性等信息安全服务至关重要。在19世纪，**奥古斯特·凯克霍夫** 概述了后来被称为凯克霍夫原则的原则：一个加密系统应该是安全的，即使系统的一切都是公开的，除了密钥。密钥是密码学中唯一需要保密和保护免受入侵攻击的资产。
 - en: Cryptography in blockchain
+  id: totrans-9
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链中的密码学
 - en: Although we have mentioned that cryptography is crucial to the success of blockchain
     technology, we haven't explored any topic in particular. Most cryptographic primitives
     have some role or other in the creation of a decentralized blockchain application.
     We will study all the primitives that contribute to blockchain in this chapter.
+  id: totrans-10
   prefs: []
   type: TYPE_NORMAL
+  zh: 虽然我们已经提到密码学对区块链技术的成功至关重要，但我们并没有探讨任何特定的主题。大多数密码学原语在创建去中心化区块链应用程序中都扮演着某种角色。我们将在本章中研究所有有助于区块链的原语。
 - en: Hashing is used in most blockchain applications to create links between blocks.
     It is also used in consensus algorithms such as proof-of-work, which basically
     exploits the hashing power of the computing systems that form the blockchain network.
     Digital signatures are used to sign and verify events such as transactions. Asymmetric
     key cryptography is a core concept in blockchain applications that gives identity
     to the participants of the network or can prove the ownership of assets.
+  id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 哈希算法被大多数区块链应用程序用于创建区块之间的链接。它还用于诸如工作量证明之类的共识算法，基本上利用了形成区块链网络的计算系统的哈希能力。数字签名用于签署和验证诸如交易之类的事件。非对称密钥密码学是区块链应用程序中的核心概念，它为网络参与者赋予身份或证明资产的所有权。
 - en: Hence, cryptography is an excellent tool for accomplishing some of the tasks
     required to replace trusted third parties and create a trustless environment in
     a decentralized network.
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，密码学是实现取代可信第三方和在分散网络中创建无信任环境所需任务的绝佳工具。
 - en: Classical cryptography
+  id: totrans-13
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 古典密码学
 - en: 'In this section, we''ll look at a number of cryptographical techniques that
     have been used in historical ciphers. These ad hoc ciphers are not secure enough
     to be used in modern applications, but because of their simplicity, they can encourage
     us to learn more about cryptography. Exploring the weaknesses of classical cryptography
     also helps us to learn more about some of the principles of cryptography. Take
     a look at the following diagram:'
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本节中，我们将研究一些在历史密码中使用过的加密技术。这些临时密码不够安全，不能用于现代应用，但因其简单性，可以鼓励我们更多地了解密码学。探索古典密码学的弱点还有助于我们更多地了解一些密码学原理。看一下下面的图表：
 - en: '![](img/007f3440-7362-4b07-a0a4-6692594d84a4.jpg)'
+  id: totrans-15
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/007f3440-7362-4b07-a0a4-6692594d84a4.jpg)'
 - en: 'Figure 2.1: Model of conventional encryption'
+  id: totrans-16
   prefs: []
   type: TYPE_NORMAL
+  zh: '*图 2.1*：传统加密模型'
 - en: '*Figure 2.1* shows the conventional encryption model used to encrypt a plaintext
     using a secret key that is shared with the other user over a secure channel. The
     user who wants to read the text will decrypt the ciphertext using the secret key,
     which will return the original plaintext. The key is private, and the encryption
     and decryption algorithms are made public because it is impossible to decrypt
     the ciphertext without the key.'
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: '*图 2.1*显示了使用与其他用户共享的秘密密钥通过安全通道加密明文的传统加密模型。想要阅读文本的用户将使用秘密密钥解密密文，将返回原始明文。密钥是私密的，加密和解密算法是公开的，因为没有密钥就无法解密密文。'
 - en: 'Two types of operation are used to transform plaintext to ciphertext: substitution
     and transposition. Both of these techniques ensure that the operation is reversible,
     and therefore they could be used in encryption algorithms.'
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: 有两种操作用于将明文转换为密文：替换和换位。这两种技术都可以确保操作是可逆的，因此它们可以用于加密算法。
 - en: 'A substitution cipher is an encryption method in which the characters in plaintext
     are replaced by other characters in a fixed manner. The simplest example of a
     substitution cipher is Caesar''s cipher, where plaintext letters are substituted
@@ -115,32 +153,45 @@
     or an exhaustive search attack. The polyalphabetic cipher was the next stage in
     the evolution of ciphers. This cipher introduced a number of substitutions at
     different positions in the message.'
+  id: totrans-19
   prefs: []
   type: TYPE_NORMAL
+  zh: 替换密码是一种加密方法，其中明文中的字符以固定的方式被其他字符所替换。替换密码的最简单示例是凯撒密码，其中明文字母通过将字母表向后移动三个位置来进行替换：A
+    替换为 D，B 替换为 E，依此类推。这种密码的明显问题在于方法是固定的，并且没有涉及到密钥。引入了凯撒密码的变种，称为移位密码，其中从明文到密文的移位量变化，并且这个移位量可以作为密钥。尽管这解决了当前的问题，但它并不够实用，因为密钥可以通过暴力破解或穷举搜索攻击来猜测。多表密码是密文进化的下一个阶段。这种密码在消息的不同位置引入了多个替换。
 - en: A transposition cipher is an encryption method where the positions of plaintext
     letters are shifted according to a known system. Only the order of plaintext is
     altered. All the letters of the plaintext remain the same. The Rail Fence cipher
     and the Route cipher are two well-known transposition ciphers. This kind of cipher
     technique could be decrypted by finding the transposition patterns using anagramming.
+  id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: 一种换位密码是一种加密方法，其中明文字母的位置根据已知系统进行了移位。只有明文的顺序发生了改变。明文的所有字母都保持不变。栅栏密码和转位密码是两种著名的换位密码。这种密码技术可以通过使用变位分析法找到换位模式来进行解密。
 - en: Cryptographic primitives
+  id: totrans-21
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 密码基元
 - en: 'Cryptographic primitives are low-level cryptographic algorithms that are used
     to construct cryptographic protocols used by applications. These are the building
     blocks of designing a cryptographic system. A designer planning to implement a
     cryptographic protocol in a system doesn''t have to worry about the low-level
     abstraction of the primitives and can concentrate entirely on building the application:'
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: 密码基元是低级密码算法，用于构建应用程序使用的加密协议。这些是设计密码系统的构建模块。计划在系统中实施加密协议的设计人员无需担心基元的低级抽象，可以完全集中精力构建应用程序：
 - en: '![](img/4dbb211c-b98c-4fdf-80d7-a11207db5209.png)'
+  id: totrans-23
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/4dbb211c-b98c-4fdf-80d7-a11207db5209.png)'
 - en: 'Figure 2.2: Taxonomy of cryptographic primitives'
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: 图2.2：密码学原语的分类
 - en: '*Figure 2.2* shows a detailed classification of cryptographic primitives. Blockchain
     technology makes use of most of these cryptographic primitives to achieve basic
     blockchain functionalities and secure data on the decentralized network: asymmetric
@@ -148,28 +199,38 @@
     importantly, hashing, which is the backbone of the blockchain, are some of the
     most commonly used primitives of cryptography. We will cover all of these primitives,
     along with some others, to get a clear insight into them.'
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: '*图2.2*显示了密码学原语的详细分类。区块链技术利用这些密码学原语中的大多数来实现基本的区块链功能并在分散式网络上保护数据：非对称加密用于管理密钥；数字签名用于交易；而最重要的是哈希，它是区块链的支柱，是最常用的密码学原语之一。我们将涵盖所有这些原语以及其他一些内容，以便更清晰地了解它们。'
 - en: Symmetric key cryptography
+  id: totrans-26
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 对称密钥加密
 - en: The symmetric key is a key-based cryptography whose algorithms use the same
     keys to perform encryption of plaintext and decryption of the ciphertext. These
     keys are shared between two parties over a secure channel. Any participant owning
     the shared key can perform both encryption and decryption operations on the data.
     A symmetric key cipher can either be stream encrypted or block encrypted.
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: 对称密钥是一种基于密钥的加密，其算法使用相同的密钥来执行明文的加密和密文的解密。这些密钥在两个参与方之间通过安全信道共享。拥有共享密钥的任何参与者都可以对数据执行加密和解密操作。对称密钥密码可以是流加密或块加密。
 - en: Symmetric key cryptography doesn't play any significant role in blockchain-based
     applications. However, it will provide a better insight into key-based cryptography
     before we look into asymmetric cryptography.
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于基于区块链的应用程序来说，对称密钥加密并不起到重要作用。然而，在我们研究非对称加密之前，它会更好地理解基于密钥的加密。
 - en: Stream cipher
+  id: totrans-29
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 流密码
 - en: The stream cipher uses symmetric key cryptography. Each plaintext character
     is encrypted one at a time, like a stream, to create the ciphertext. A keystream,
     or stream of characters, is used to encrypt the plaintext characters. A pseudorandom
@@ -177,24 +238,34 @@
     from a random seed value using digital shift registers (generator) as shown in
     *Figure 2.3*. The seed used is the secret key, which is also used to decrypt the
     created ciphertext.
+  id: totrans-30
   prefs: []
   type: TYPE_NORMAL
+  zh: 流密码使用对称密钥加密。每个明文字符都是一个接一个地加密，就像流一样，以创建密文。一个密钥流，或字符流，用于加密明文字符。使用伪随机字符串，其作为密钥流。这个伪随机字符串是使用数字移位寄存器（生成器）从一个随机种子值生成的，如*图2.3*所示。使用的种子是秘密密钥，它也用于解密创建的密文。
 - en: 'For a stream cipher to be secure, its pseudorandom generator should be unpredictable,
     and its seed value used to generate the keystream should never be reused to reduce
     the possible attacks. Stream ciphers are generally faster than block ciphers and
     have low hardware requirements, as demonstrated in the following diagram:'
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了使流密码安全，其伪随机生成器应该是不可预测的，并且用于生成密钥流的种子值不应该被重复使用以减少可能的攻击。流密码通常比块密码更快，并且硬件要求低，如下图所示：
 - en: '![](img/2c8c166b-7ff7-4891-9986-7ea414bd8261.png)'
+  id: totrans-32
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/2c8c166b-7ff7-4891-9986-7ea414bd8261.png)'
 - en: 'Figure 2.3: Flow diagram of the stream cipher'
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 图2.3：流密码的流程图
 - en: Block cipher
+  id: totrans-34
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 块密码
 - en: A block cipher is a cipher in which encryption is performed on a fixed-length
     block of characters from the plaintext. This cipher technique is widely used to
     implement encryption on bulk data. The usual block sizes are 64 bits, 128 bits,
@@ -206,12 +277,16 @@
     such as hash functions and random number generators. **Data Encryption Standard**
     (**DES**), **Advanced Encryption Standard** (**AES**), **International Data Encryption
     Algorithm** (**IDEA**), and **Blowfish** are some popular block cipher algorithms.
+  id: totrans-35
   prefs: []
   type: TYPE_NORMAL
+  zh: 块密码是一种对明文中的固定长度字符块进行加密的密码。这种密码技术被广泛用于对大量数据进行加密。通常的块大小为64位、128位和256位。例如，64位块密码将接收64位明文作为输入并输出64位密文。在某些明文长度不足填满一个块的情况下，明文将填充一些块。由于块密码中使用的密钥相当长，它们能够抵御穷举攻击。这些密码也是其他加密协议的基本构件，如哈希函数和随机数生成器。**数据加密标准**（**DES**）、**高级加密标准**（**AES**）、**国际数据加密算法**（**IDEA**）和**Blowfish**都是一些常见的块密码算法。
 - en: Data Encryption Standard
+  id: totrans-36
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 数据加密标准
 - en: DES used to be the most widely used block cipher, and it was used as an industrial
     standard as well. It's still popular, but it has been replaced by other advanced
     block ciphers in many applications. DES uses 64-bit blocks with a 64-bit key.
@@ -220,69 +295,97 @@
     and some cryptanalysis attacks, which is due to its limited key size. 3DES was
     introduced to overcome this problem by running DES three times with different
     56-bit keys. But 3DES proved to be slower than other block ciphers, such as AES.
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: DES曾经是最广泛使用的块密码，并且也是工业标准。尽管仍然很受欢迎，但在许多应用中已被其他先进的块密码所替代。DES使用64位块和64位密钥。在密钥中的8位被用作奇偶校验位以用于错误检测，因此密钥实际上为56位。已经证明它容易受到穷举攻击和一些密码分析攻击的影响，这是由于其有限的密钥长度所致。为了克服这个问题，3DES通过使用不同的56位密钥三次运行DES来进行加密。但是3DES被证明比其他块密码（如AES）更慢。
 - en: DES uses 8 bits of the key as parity bits for error detection while transmitting
     or storing the keys. The bits in the 8th, 16th, 24th, ..., 64th positions are
     used to calculate odd parity, that is, the number of 1s in each byte of the key
     is odd.
+  id: totrans-38
   prefs: []
   type: TYPE_NORMAL
+  zh: DES在传输或存储密钥时使用8位密钥作为奇偶校验位，用于错误检测。第8、16、24、…、64位的位用于计算奇校验，即密钥每个字节中的1的个数是奇数。
 - en: Advanced Encryption Standard
+  id: totrans-39
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 高级加密标准
 - en: 'AES is one of the most widely used block ciphers in modern applications. The
     Rijndael algorithm was selected as the AES after a 5-year public competition to
     choose a replacement for DES. It has a fixed block size of 128 bits and varying
     key sizes of 128, 192, or 256 bits. AES is an iterated cipher: the number of rounds
     of iteration depends on the key length.'
+  id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: AES是现代应用中最广泛使用的块密码之一。Rijndael算法被选定为AES，在经过5年的公开竞赛后成为DES的替代品。其固定的块大小为128位，密钥大小为128、192或256位。AES是迭代密码：迭代轮数取决于密钥长度。
 - en: AES is secure against all known attacks. There appear to be no ways to attack
     AES that are faster than exhaustive search. The best ways to attack AES only apply
     to variants of the cipher that have the fewest iterations.
+  id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: AES对所有已知的攻击都是安全的。看起来没有比穷尽搜索更快的攻击AES的方法。攻击AES的最佳方法只适用于迭代轮数最少的密码变体。
 - en: An example implementation of AES
+  id: totrans-42
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: AES的一个示例实现
 - en: Let's implement the AES cipher technique using a Python cryptographic library
     called `PyCryptodome`. We will be using the `PyCryptodome` library throughout
     this chapter to implement other ciphers and hashing algorithms.
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们使用名为`PyCryptodome`的Python加密库来实现AES密码技术。在本章节中，我们将使用这个库来实现其他密码和哈希算法。
 - en: PyCryptodome is a self-contained Python package of low-level cryptographic primitives.
     PyCryptodome is a forked project of the `PyCrypto` library and is an active project
     with extended primitive support. So, it is an almost drop-in replacement for the
     old `PyCrypto` library.
+  id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: PyCryptodome是一个自包含的低级密码原语Python包。PyCryptodome是`PyCrypto`库的分支项目，是一个具有扩展原语支持的活跃项目。因此，它几乎可以替代旧的`PyCrypto`库。
 - en: 'We will use the AES module from `Crypto.Cipher` package and we will also import
     a module from `Crypto.Random` package to generate a random key for AES, as follows:'
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将从`Crypto.Cipher`包中使用AES模块，还将从`Crypto.Random`包中导入一个模块来为AES生成一个随机密钥，如下所示：
 - en: '[PRE0]'
+  id: totrans-46
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: 'The encrypting end will create the ciphertext by using a randomly selected
     symmetric key. Once we have imported the required modules, a 16-byte key is generated
     using the `Crypto.Random` package. This is written to a file, which needs to be
     kept secret:'
+  id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 加密端将使用随机选择的对称密钥创建密文。一旦导入所需模块，使用`Crypto.Random`包生成一个16字节的密钥。这个密钥被写入一个需要保密的文件中：
 - en: '[PRE1]'
+  id: totrans-48
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: 'The AES cipher object is created by passing the key. Cipher mode EAX is used
     in the code. This object is used to encrypt the data. Nonce, tag, and ciphertext
     are stored and transmitted to the decryption end:'
+  id: totrans-49
   prefs: []
   type: TYPE_NORMAL
+  zh: 通过传递密钥创建AES密码对象。代码中使用了Cipher模式EAX。此对象用于加密数据。Nonce、标签和密文被存储并传输到解密端：
 - en: '[PRE2]'
+  id: totrans-50
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: 'The decryption part of AES uses the same 16-byte symmetric key generated during
     encryption. Ideally, this key has to be transferred over a secure channel to the
     recipient. The received encrypted binary file is read to get the nonce, tag, and
@@ -290,37 +393,54 @@
     nonce value. Finally, decryption is performed using the `decrypt_and_verify` method
     by providing `cipher_text` and `tag`. The tag is provided to perform verification;
     it checks for any modifications in the ciphertext:'
+  id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: AES的解密部分使用在加密过程中生成的相同的16字节对称密钥。理想情况下，这个密钥必须通过安全渠道传输给接收方。读取接收到的加密二进制文件以获取Nonce、标签和密文本身。使用相同的密钥和Nonce值创建AES密码对象。最后，通过提供`cipher_text`和`tag`执行解密的`decrypt_and_verify`方法。标签用于执行验证；它检查密文中是否有任何修改：
 - en: '[PRE3]'
+  id: totrans-52
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: 'A successful execution of both the encryption and decryption operations will
     produce the following output:'
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: 成功执行加密和解密操作将产生以下输出：
 - en: '[PRE4]'
+  id: totrans-54
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: 'When the encryption and decryption parts of the AES program are run, we get
     the original data back after decryption. Any modification to the ciphertext would
     result in a MAC check error, and Python would throw `ValueError: MAC check failed`.'
+  id: totrans-55
   prefs: []
   type: TYPE_NORMAL
+  zh: '当运行AES程序的加密和解密部分时，我们在解密后获得原始数据。对密文进行任何修改都会导致MAC检查错误，并且Python会抛出`ValueError:
+    MAC check failed`。'
 - en: A detailed Jupyter Notebook and scripts included in this chapter can be found
     in the GitHub repository for this book.
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章中包含的详细的Jupyter Notebook和脚本可以在本书的GitHub存储库中找到。
 - en: Asymmetric key cryptography
+  id: totrans-57
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 非对称密钥密码学
 - en: Asymmetric key cryptography is a widely used encryption technique in modern
     cryptography. It has a lot of applications other than encryption. It is also commonly
     used in several elements of blockchain, so we will cover this cryptography technique
     in depth, along with its primitives.
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: 非对称密钥密码学是现代密码学中广泛使用的加密技术。除了加密之外，它还有许多其他应用。它也经常在区块链的几个元素中使用，因此我们将深入介绍这种密码学技术及其原语。
 - en: Symmetric key cryptography uses a shared key for both encryption and decryption.
     The biggest problem with this is that the shared key needs to be exchanged between
     participants over a secure channel, which can be quite hard to achieve. It also
@@ -328,30 +448,42 @@
     in the first place. This is where asymmetric cryptography comes in. It uses a
     pair of keys called a public/private pair. The public key is constructed from
     the private key and can be freely broadcasted to other users.
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 对称密钥密码学使用共享密钥进行加密和解密。这样做的最大问题是共享密钥需要在参与者之间通过安全渠道交换，这可能非常难以实现。如果我们首先就有一个安全的通信渠道，这也会破坏加密的目的。这就是非对称密码学的用武之地。它使用称为公钥/私钥对的一对密钥。公钥是从私钥构造的，可以自由广播给其他用户。
 - en: In 1978, Ronald Rivest, Adi Shamir, and Leonard Adleman created the first public-key
     algorithm, known as the RSA algorithm.
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 1978年，Ronald Rivest、Adi Shamir和Leonard Adleman创建了第一个公钥算法，称为RSA算法。
 - en: Public-key algorithms enable the creation of a public key from a randomly generated
     private key. The created public key could not be used to infer the private key.
     In other words, the creation of the public key from the private key is a one-way
     process. This is the concept on which the security of public-key cryptography
     relies. The public-key algorithm not only performs encryption, but also provides
     authentication functionality.
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 公钥算法使得可以从随机生成的私钥创建公钥。创建的公钥不能用于推断私钥。换句话说，从私钥创建公钥是一个单向过程。这是公钥加密安全性依赖的概念。公钥算法不仅执行加密，还提供认证功能。
 - en: 'The holder of the private key can use this key to authenticate to a system
     that is aware of the user''s public key, as demonstrated in the following diagram:'
+  id: totrans-62
   prefs: []
   type: TYPE_NORMAL
+  zh: 持有私钥的用户可以使用该密钥对已知用户公钥的系统进行身份验证，如下图所示：
 - en: '![](img/9be5dbd8-4fdd-45c6-a7fa-e2294268776b.jpg)'
+  id: totrans-63
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/9be5dbd8-4fdd-45c6-a7fa-e2294268776b.jpg)'
 - en: 'Figure 2.4: Asymmetric key cryptography'
+  id: totrans-64
   prefs: []
   type: TYPE_NORMAL
+  zh: 图 2.4：非对称密钥加密
 - en: 'As we can see in the diagram, there is no need for a secure channel to share
     the keys, unlike in symmetric cryptography. The encryption and decryption algorithms
     are identical, and the constructed key pairs play a vital role in the encryption/decryption
@@ -364,8 +496,11 @@
     ownership. Thus, blockchain technology relies mainly on asymmetric cryptographic
     algorithms. Diffie-Hellman key exchange, DSA, ElGamal, RSA, and **Elliptic-curve
     cryptography** (**ECC**) are some  of the approaches to asymmetric key cryptography.'
+  id: totrans-65
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们在图中看到的，与对称加密不同，不需要安全通道来共享密钥。加密和解密算法是相同的，构造的密钥对在加密/解密过程中起着至关重要的作用。正如前面讨论的，非对称密钥算法也可以用于提供认证。这种机制的一个应用是数字签名：只有具有私钥的用户才能签署消息，任何拥有公钥的人都可以验证消息的真实性。数字签名也可以用于不可否认。区块链应用，特别是加密货币，利用数字签名用私钥签署交易以证明所有权。因此，区块链技术主要依赖于非对称加密算法。Diffie-Hellman
+    密钥交换，DSA，ElGamal，RSA 和**椭圆曲线密码**（**ECC**）是一些非对称密钥密码学的方法。
 - en: The strength of a public-key cryptography system depends on how feasible it
     is to infer the private key from the publicly available information about the
     key. Although it is infeasible, it is not impossible, and security relies solely
@@ -373,8 +508,10 @@
     due to their complexity and the time it takes to encrypt/decrypt large files.
     They are commonly used in digital signatures or key exchange mechanisms rather
     than in encryption protocols.
+  id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 公钥密码系统的强度取决于从公开可用的有关密钥的信息中推断出私钥的可行性。虽然这是不可行的，但并非不可能，安全性完全依赖于密钥大小和密钥生成机制。由于其复杂性和加密/解密大型文件所需的时间，非对称密钥并不广泛使用。它们通常用于数字签名或密钥交换机制，而不是加密协议。
 - en: 'All asymmetric key algorithms are based on a number theory problem that ensures
     the characteristics required for key generation and the encryption and decryption
     processes. Based on different ways of solving the mathematical problem in number
@@ -382,24 +519,32 @@
     factorization, discrete logarithm, and elliptic-curve. All public-private key
     algorithms are based on these mathematical problems. All these problems are similar
     in functionality to trapdoor functions.'
+  id: totrans-67
   prefs: []
   type: TYPE_NORMAL
+  zh: 所有非对称密钥算法都基于确保密钥生成和加密解密过程所需特性的数论问题。根据在数论中解决数学问题的不同方式，非对称密钥生成在三个方面广泛特征化：素数分解，离散对数和椭圆曲线。所有公钥私钥算法都基于这些数学问题。所有这些问题在功能上类似于陷门函数。
 - en: A trapdoor function is a function where it is easy to compute the values in
     one way but infeasible to find the inverse. This means that it is difficult to
     find the original input values supplied to the function from the result. This
     functionality is widely used in asymmetrical cryptography.
+  id: totrans-68
   prefs: []
   type: TYPE_NORMAL
+  zh: 陷阱门函数是一个函数，其中计算一方面的值很容易，但是从结果中找到逆是不可行的。这意味着很难从结果中找到供给函数的原始输入值。这个功能在非对称加密中广泛使用。
 - en: Prime factorization
+  id: totrans-69
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 素数分解
 - en: Prime factorization is a concept in number theory regarding the decomposition
     of a number into the product of two prime numbers. Prime factorization is a subset
     of integer factorization, in which a composite number is factored into the product
     of any two integers.
+  id: totrans-70
   prefs: []
   type: TYPE_NORMAL
+  zh: 素数分解是关于将数字分解为两个素数乘积的数论概念。素数分解是整数分解的一个子集，其中复合数被分解为任意两个整数的乘积。
 - en: It is challenging to find the factors of semi-primes (numbers that result from
     the product of two prime numbers) because they have only a single pair of factors,
     and the complexity of finding the factors increases as the size of the prime number
@@ -408,12 +553,16 @@
     presuming that it's really difficult to find the private key from the exposed
     product of prime numbers. This presumed difficulty is the reason behind the use
     of prime factorization in cryptography.
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 要找出半素数（由两个素数相乘得到的数字）的因数是具有挑战性的，因为它们只有一对因数，并且随着用于乘积的素数的大小增加，找到因数的复杂性增加。当数字达到一定大小时，没有已知的高效分解算法用于找到因数。RSA使用素数分解，假定从素数乘积中暴露的私钥是非常困难的。这种假设的困难性是密码学中使用素数分解的原因。
 - en: Discrete logarithm
+  id: totrans-72
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 离散对数
 - en: A discrete logarithm is based on the modular arithmetic settings on a discrete
     logarithm where the solution is infeasible to find. The logarithm log[b]a is a
     discrete logarithm that has the integer solution *x* so that *b^x = a*. There
@@ -421,61 +570,87 @@
     When modular arithmetic is used with a discrete logarithm, it's known as modular
     exponentiation, and this problem becomes really difficult. This problem is generally
     used with the Diffie-Hellman key exchange algorithm.
+  id: totrans-73
   prefs: []
   type: TYPE_NORMAL
+  zh: 离散对数是基于离散对数的模算术设置的，在这里找到解决方案是不可行的。对数*log[b]a*是一个离散对数，具有整数解*x*，使得*b^x = a*。对于找到离散对数的解决方案，没有通用的高效方法。当离散对数与模算术一起使用时，它被称为模指数，这个问题变得非常困难。这个问题通常与Diffie-Hellman密钥交换算法一起使用。
 - en: 'Let''s consider an example of modular exponentiation:'
+  id: totrans-74
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们考虑一个模指数的例子：
 - en: '[PRE5]'
+  id: totrans-75
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: It is easy to find the result of the preceding function, which is 2, but it
     is difficult to find the exponent value 3 from the result. The preceding modulo
     operation can also be represented with a *congruence as 3³* *≅ 2 (mod 5)*.
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 很容易找到前述函数的结果，即2，但是从结果中找到指数值3是困难的。前述的模操作也可以表示为*同余，即3³* *≅ 2 (mod 5)*。
 - en: Suppose *a* and *b* are two integers, and *m* is a positive integer. Then the
     phrase *a ≅ b (mod m)* is called **congruence** and is read as "a is congruent
     to b modulo m," which states that *m divides a-b*.
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
+  zh: 假设*a*和*b*是两个整数，*m*是一个正整数。那么短语*a ≅ b (mod m)*被称为**同余**，并读作"a模m同余b"，这表明*m*除以*a-b*。
 - en: Elliptic-curve
+  id: totrans-78
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 椭圆曲线
 - en: 'An elliptic curve is a plane real algebraic curve with an equation in the form
     *y² = x³ + ax +b*. An elliptic curve should be a non-singular curve, meaning no
     cusps, self-intersections, or isolated points. An elliptic curve on a finite field
     is used in the cryptography system. ECC is used in Bitcoin to generate private-public
     key pair, so we will be covering this in depth in a later section of the chapter:'
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
+  zh: 椭圆曲线是具有方程*y² = x³ + ax + b*形式的平面实代数曲线。椭圆曲线应该是一个非奇异曲线，意味着没有尖点、自交点或孤立点。在密码系统中使用了有限域上的椭圆曲线。ECC在比特币中用于生成私钥-公钥对，因此我们将在本章的后面部分深入讨论此问题：
 - en: '![](img/9d29d8f3-1966-41d5-bf0c-3e7e9cce6b0d.png)'
+  id: totrans-80
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/9d29d8f3-1966-41d5-bf0c-3e7e9cce6b0d.png)'
 - en: 'Figure 2.5: An elliptic curve (similar to that used in Bitcoin)'
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
+  zh: 图2.5：一个椭圆曲线（类似于比特币中使用的曲线）
 - en: The public-private key concept in asymmetric cryptography is used in bitcoin
     and other cryptocurrencies to identify the owner of the asset. Private keys are
     used to represent the ownership of coins in cryptocurrency.
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: 在比特币等加密货币中，非对称加密中的公私钥概念用于识别资产的所有者。私钥用于代表加密货币的所有权。
 - en: RSA cryptosystem
+  id: totrans-83
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: RSA加密系统
 - en: RSA is one of the initial implementations of public-private cryptography. It
     uses the principle of prime factorization to generate a public-private key pair,
     which acts as a trapdoor function. Encryption is performed using the public key,
     which is distributed to everyone, and decryption is performed using the secretly
     kept private key.
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: RSA是公私密钥密码学的最初实现之一。它使用素数因子分解原理生成公私密钥对，这充当了一个陷阱函数。加密使用公钥进行，而解密使用秘密保存的私钥进行。
 - en: The idea of an asymmetric public-private key cryptosystem is attributed to Whitfield
     Diffie and Martin Hellman, who published this concept in 1976.
+  id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: 对称公私密钥密码系统的概念归功于惠特菲尔德·迪菲和马丁·赫尔曼，他们在1976年发表了这个概念。
 - en: The public and private key pair are computed with the help of two large prime
     numbers. The public key is published to the user, and the private key is kept
     secret. The prime numbers are also kept secret. As long as the prime numbers used
@@ -483,153 +658,225 @@
     whole RSA cryptosystem is based on the number theory problem of integer factorization,
     which ensures that the difficulty of prime factorization is proportional to the
     size of the prime numbers used.
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 利用两个大质数计算公私钥对。公钥发布给用户，私钥保密。大质数也要保密。只要使用的大质数足够大，就不可能从公钥计算出私钥。整个RSA密码系统基于整数因子分解的数论问题，确保了素数分解的困难程度与使用的素数大小成正比。
 - en: RSA parameter generation
+  id: totrans-87
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: RSA参数生成
 - en: 'Before looking at encryption and decryption using RSA, we need to consider
     the RSA parameter generation process. Here are the steps involved in this process:'
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 在讨论RSA加密和解密之前，我们需要考虑RSA参数生成过程。以下是此过程涉及的步骤：
 - en: Select two distinct large prime numbers, *p*, and *q.*
+  id: totrans-89
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 选择两个不同的大质数*p*和*q*。
 - en: Compute *n = p***q* and *φ(n) = (p − 1)***(q − 1).*
+  id: totrans-90
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 计算*n = p***q*和*φ(n) = (p − 1)***(q − 1).*
 - en: Choose a random integer *e*, such that *1 < e < φ(n)* and *gcd (e, φ(n)) = 1*,
     that is, integer *e* and *φ(n)*, are coprime.
+  id: totrans-91
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 选择一个随机整数* e*，使得*1 < e < φ(n)*，且*gcd (e, φ(n)) = 1* ，即整数* e* 和* φ(n)* 为互质数。
 - en: Find *d ≡ e^(-1) (mod φ(n))*, where e^(-1) is the modular multiplicative inverse
     of *e*.
+  id: totrans-92
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 找到*d ≡ e^(-1) (mod φ(n))*,其中e^(-1)是*e*的模乘逆元。
 - en: A modular multiplicative inverse of an integer *a* is an integer *x*, such that
     the product *ax* is congruent to *1* with respect to the modulus *m*.
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
+  zh: 整数*a*的模乘逆元是整数*x*，使得乘积*ax*对于模数*m*是同余于*1*。
 - en: More clearly, find *d* such that *d***e* *≡ 1 (mod* *φ(n))*, meaning find a
     value *d* such that *d***e* has a remainder of *1* when divided by *φ(n)*.
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 更具体地说，找到*d*，使得*d***e* *≡ 1 (mod* *φ(n))*，即找到一个值*d*，使得当*d***e*被*φ(n)*除时余数为*1*。
 - en: The public key is denoted by *(e, n)* and the private key by *(d, p, q)*. Here,
     *e* is called the public exponent, and *d* the private exponent.
+  id: totrans-95
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 公钥用*(e, n)*表示，私钥用*(d, p, q)*表示。这里，*e*称为公钥指数，*d*称为私钥指数。
 - en: Encryption and decryption using RSA
+  id: totrans-96
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用RSA进行加密和解密
 - en: 'Encryption is performed in RSA using the distributed public key. Message *M*
     is converted to integer *m* such that *0 ≤ m < n*. Ciphertext *c* is computed
     using the exposed public exponent, as follows:'
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: RSA中使用分发的公钥进行加密。消息*M*被转换为整数*m*，使得*0 ≤ m < n*。密文*c*使用公开的公钥指数计算如下：
 - en: '*c ≡ m^e mod (n)*'
+  id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: '*c ≡ m^e mod (n)*'
 - en: 'Anyone who possesses the public exponent can perform encryption on the message
     and transmit it to whoever possesses the private exponent. Whoever has access
     to the ciphertext and private exponent can perform decryption as follows:'
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 拥有公钥指数的任何人都可以对消息进行加密并将其传输给拥有私钥指数的人。拥有密文字和私钥指数的任何人可以按以下方式进行解密：
 - en: '*m ≡ c^d mod (n)*'
+  id: totrans-100
   prefs: []
   type: TYPE_NORMAL
+  zh: '*m ≡ c^d mod (n)*'
 - en: Message *M* could be regenerated from the decrypted integer *m*. This is how
     RSA makes use of the prime factorization technique to perform encryption and decryption.
     The process could be performed reasonably quickly for small messages, but it is
     not the preferred way of encryption for large messages. This is why RSA is widely
     used in cryptographic primitives, such as digital signatures, rather than encryption.
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 从解密的整数*m*中可以重新生成消息*M*。这就是RSA如何利用素数分解技术来进行加密和解密的方式。对于小消息，这个过程可以相对快速地完成，但它不是大消息首选的加密方式。这就是为什么RSA广泛用于加密原语，如数字签名，而不是加密的原因。
 - en: An example implementation of RSA
+  id: totrans-102
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: RSA的一个示例实现
 - en: 'The example uses the RSA packages in the Python `PyCryptodome` library. The
     following packages are imported for RSA key generation and the encryption and
     decryption operations:'
+  id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 示例中使用了 Python `PyCryptodome` 库中的 RSA 包。以下包被导入以进行 RSA 密钥生成和加密解密操作：
 - en: '[PRE6]'
+  id: totrans-104
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: 'A 2048-bit RSA key is created using the `generate` method from the `RSA` package.
     The public key is exported from this generated key and made public. The `key`
     object should be kept secret. A cipher object is created using the public key,
     and encryption is performed on the message using this object:'
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用 `RSA` 包中的 `generate` 方法创建了一个 2048 位的 RSA 密钥。从这个生成的密钥中导出了公钥，并公开了。应该保密 `key`
+    对象。使用公钥创建了一个密码对象，并使用该对象对消息进行加密：
 - en: '[PRE7]'
+  id: totrans-106
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: 'The decryption operation is performed in a similar way to the encryption operation,
     but the private part of the key pair is used instead of the public part. The ciphertext
     is given as input to the `decrypt` method, which decrypts it and gives back the
     decrypted message:'
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 解密操作的执行方式与加密操作类似，但使用的是密钥对的私有部分而不是公共部分。密文被作为输入传递给 `decrypt` 方法，该方法对其进行解密并返回解密后的消息：
 - en: '[PRE8]'
+  id: totrans-108
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: 'A successful execution of the preceding script will output the following:'
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 前述脚本的成功执行将输出以下内容：
 - en: '[PRE9]'
+  id: totrans-110
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: Elliptic-curve cryptography
+  id: totrans-111
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 椭圆曲线密码学
 - en: ECC is a public-private cryptography based on the elliptic curve mentioned earlier.
     It performs the addition of points on the elliptic curve to compute public-private
     key pairs. ECC requires smaller key sizes than other asymmetric key cryptosystems,
     such as RSA. ECC is widely used in key exchange mechanisms and digital signatures
     and is rarely used in encryption systems.
+  id: totrans-112
   prefs: []
   type: TYPE_NORMAL
+  zh: ECC 是基于前述椭圆曲线的公私密钥加密。它在椭圆曲线上执行点的加法以计算公私钥对。ECC 需要比其他非对称密钥密码系统（如 RSA）更小的密钥尺寸。ECC
+    在密钥交换机制和数字签名中被广泛使用，并且在加密系统中很少使用。
 - en: ECC provides the same level of security as RSA, but has a smaller key size.
     A 256-bit ECC key is equivalent to a 3,072-bit RSA key. Similarly, a 384-bit ECC
     key provides the same level of security as a 7,680-bit RSA key, and so on. We
     can clearly see the advantage of less computation time due to the smaller key
     size in ECC.
+  id: totrans-113
   prefs: []
   type: TYPE_NORMAL
+  zh: ECC 提供了与 RSA 相同的安全级别，但密钥尺寸更小。256 位 ECC 密钥相当于 3,072 位 RSA 密钥。同样，384 位 ECC 密钥提供了与
+    7,680 位 RSA 密钥相同的安全级别，依此类推。我们可以清楚地看到由于密钥尺寸较小而导致的较少计算时间的优势。
 - en: Due to its key size advantage compared to RSA, ECC is used in *Bitcoin's* addressing
     system, along with transaction signing operations. It is also popular in other
     blockchain applications. Other applications of ECC are Tor, iMessages, SSH, and
     SSL/TLS.
+  id: totrans-114
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于与 RSA 相比的密钥尺寸优势，ECC 在 *比特币* 的地址系统中被使用，以及在交易签名操作中被使用。它还在其他区块链应用中很受欢迎。ECC 的其他应用包括
+    Tor、iMessages、SSH 和 SSL/TLS。
 - en: 'Before diving into the cryptography applications of ECC, let''s look at some
     of its properties:'
+  id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 在深入研究 ECC 的密码应用之前，让我们看看它的一些特性：
 - en: 'An elliptic curve is represented by a cubic equation:'
+  id: totrans-116
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 椭圆曲线由一个三次方程式表示：
 - en: '*y^(2 )= x³ + ax + b*'
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: '*y^(2 )= x³ + ax + b*'
 - en: An elliptic curve has horizontal symmetry
+  id: totrans-118
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 椭圆曲线具有水平对称性
 - en: A non-vertical line will intersect the curve at a maximum of three points
+  id: totrans-119
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 非垂直线将在曲线上最多相交三个点
 - en: RSA cryptography uses prime factorization. The factorization of a semi-prime
     number is really difficult. When used in this domain, it forms a trapdoor (one
     way) function. Similarly, elliptic-curve-based algorithms can use discrete logarithms.
@@ -637,308 +884,447 @@
     to a point on the same curve is a severe problem. We will go through the step-by-step
     procedure of constructing a public key from a private key and study the one-way
     nature of the ECC key generation process.
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: RSA 加密使用素数分解。半素数的分解是非常困难的。在这个领域使用时，它形成一个陷阱门（单向）函数。同样，基于椭圆曲线的算法可以使用离散对数。找到与同一曲线上的点相关的椭圆曲线上的随机元素的离散对数是一个严重的问题。我们将逐步介绍如何从私钥构建公钥，并研究
+    ECC 密钥生成过程的单向性质。
 - en: Operations on elliptic curves
+  id: totrans-121
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 椭圆曲线上的运算
 - en: 'Elliptic curves used in cryptography are curves that are constructed in a finite
     field. They have the following form:'
+  id: totrans-122
   prefs: []
   type: TYPE_NORMAL
+  zh: 在密码学中使用的椭圆曲线是在有限域中构造的曲线。它们的形式如下：
 - en: '*y^(2 )= x³ + ax + b mod (p)*'
+  id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: '*y^(2 )= x³ + ax + b mod (p)*'
 - en: The modulus operation on *p* indicates that the curve is over a finite field
     of prime numbers of the order *p*. We need to understand some terminology and
     operations of elliptic curves before moving on to the cryptographic applications.
+  id: totrans-124
   prefs: []
   type: TYPE_NORMAL
+  zh: 对*p*的模运算表示曲线在阶为*p*的素数的有限域上。在进入密码应用程序之前，我们需要了解一些椭圆曲线的术语和操作。
 - en: A finite field is a field with a finite number of elements defined by parameter
     *p*, which is a prime number. Thus, the finite field is *F[p] = {0, . . ., p-1}*.
     It is represented by modulo *p* in the equation.
+  id: totrans-125
   prefs: []
   type: TYPE_NORMAL
+  zh: 有限域是由参数*p*定义的具有有限元素数量的域，其中*p*是素数。因此，有限域为*F[p] = {0, . . ., p-1}*。它在方程中由模*p*表示。
 - en: 'All the elements used in ECC must be agreed upon by the cryptography actors.
     These elements are called elliptical curve domain parameters. {*p*, *a*, *b*,
     *G*, *n*, *h*} are the parameters used in ECC. These parameters are defined as
     follows:'
+  id: totrans-126
   prefs: []
   type: TYPE_NORMAL
+  zh: 在ECC中使用的所有元素必须由密码学参与者达成一致。这些元素称为椭圆曲线域参数。{*p*, *a*, *b*, *G*, *n*, *h*}是ECC中使用的参数。这些参数的定义如下：
 - en: '*p*: The finite field is defined by this prime number.'
+  id: totrans-127
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*p*：有限域由这个素数定义。'
 - en: '*a* and *b*: These are the constants used in the equation.'
+  id: totrans-128
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*a*和*b*：这些是方程中使用的常数。'
 - en: '*G*: The set of all points in the curve is defined by this generator, also
     known as the base point.'
+  id: totrans-129
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*G*：这个生成器定义了曲线上所有点的集合，也称为基点。'
 - en: '*n*: This represents the order of the base point or generator G, a smallest
     positive number *n* such that *nG = ∞*.'
+  id: totrans-130
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*n*：这代表基点或生成器*G*的阶数，一个最小的正数*n*，使得*nG = ∞*。'
 - en: '*h*: This is the cofactor, which is the ratio of the orders of the group and
     sub group (*n*), and it must be small (*h <= 4*), usually *h=1*.'
+  id: totrans-131
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*h*：这是余因子，是组和子组（*n*）的阶数的比值，必须很小（*h <= 4*），通常*h=1*。'
 - en: Bitcoin's **Elliptical Curve Digital Signature Algorithm**
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币的**椭圆曲线数字签名算法**
 - en: (**ECDSA**) curve uses a unique set of domain parameters defined in secp256k1\.
     You can find the technical specifications of the curve used in secp256k1 in a
     later section of this chapter.
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
+  zh: (**ECDSA**)曲线使用在secp256k1中定义的一组唯一的域参数。您可以在本章的后续部分找到secp256k1中使用的曲线的技术规格。
 - en: 'The operations performed on an elliptical curve are called dot operations,
     and they are point addition and point doubling. We will explain both of these
     operations using a geometrical approach to facilitate a clear understanding. Python
     scripts and notebooks related to these operations can be found in the GitHub repository
     for this book:'
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 在椭圆曲线上执行的操作称为点运算，它们是点加法和点加倍。我们将使用几何方法来解释这两种操作，以便清晰理解。与这些操作相关的Python脚本和笔记本可以在本书的GitHub仓库中找到：
 - en: '![](img/85ced93e-f2f2-4b5d-a6b7-3e1cf63bd25e.png)'
+  id: totrans-135
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/85ced93e-f2f2-4b5d-a6b7-3e1cf63bd25e.png)'
 - en: 'Figure 2.6: An elliptical graph with co-ordinates and grids (created using
     www.desmos.com)'
+  id: totrans-136
   prefs: []
   type: TYPE_NORMAL
+  zh: 图2.6：具有坐标和网格的椭圆图（使用www.desmos.com创建）
 - en: We will use the elliptical curve in *Figure 2.6* to perform all the operations.
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将使用*图2.6*中的椭圆曲线来执行所有操作。
 - en: Point addition
+  id: totrans-138
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 点加法
 - en: 'Let''s assume that *P* and *Q* are two points on the elliptic curve. *P* is
     not equal to *Q*; they are two distinct points on the curve. Point addition is
     explained geometrically as follows:'
+  id: totrans-139
   prefs: []
   type: TYPE_NORMAL
+  zh: 假设*P*和*Q*是椭圆曲线上的两个点。*P*不等于*Q*；它们是曲线上的两个不同的点。点加法的几何解释如下：
 - en: '![](img/fc027fe5-a3ac-43e8-b1c6-7204a3029cea.png)'
+  id: totrans-140
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/fc027fe5-a3ac-43e8-b1c6-7204a3029cea.png)'
 - en: 'Figure 2.7: Point addition of P and Q'
+  id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: 图2.7：点*P*和*Q*的加法
 - en: The following steps are performed on the elliptic curve as shown in *Figure
     2.7* to add two points.
+  id: totrans-142
   prefs: []
   type: TYPE_NORMAL
+  zh: 在椭圆曲线上执行如下步骤来添加两个点，如*图2.7*所示。
 - en: Draw a straight line between points *P (x1, y1)* and *Q (x2, y2)*
+  id: totrans-143
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在点*P（x1, y1）*和*Q（x2, y2）*之间画一条直线
 - en: The line will intersect the elliptic curve at point *R¹*
+  id: totrans-144
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 这条线将在椭圆曲线上的点*R¹*处相交
 - en: A reflection of point *R¹* about the *x* axis gives point *R (x3, y3)*, which
     is the result of the addition of *P* and **Q**
+  id: totrans-145
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 关于*x*轴的点*R¹*的反射给出了点*R（x3, y3）*，这是*P*和**Q**的加法结果
 - en: Point doubling
+  id: totrans-146
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 点加倍
 - en: 'Point doubling is a similar operation to point addition, with the exception
     that point *Q* is moved to the same location as point *P (P = Q)*:'
+  id: totrans-147
   prefs: []
   type: TYPE_NORMAL
+  zh: 点加倍是与点加法类似的操作，唯一的区别在于点*Q*移动到与点*P（P = Q）*相同的位置：
 - en: '![](img/bf3a9138-80c3-4cd9-a245-f2da1fd15123.png)'
+  id: totrans-148
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/bf3a9138-80c3-4cd9-a245-f2da1fd15123.png)'
 - en: 'Figure 2.8: Point doubling of P'
+  id: totrans-149
   prefs: []
   type: TYPE_NORMAL
+  zh: 图2.8：点*P*的加倍
 - en: 'The following steps are performed on the elliptic curve as shown in *Figure
     2.8* to compute point doubling:'
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
+  zh: 在椭圆曲线上执行如下步骤来计算点加倍，如*图2.8*所示：
 - en: Draw a tangent (since there is only one point) to the curve at point *P*
+  id: totrans-151
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在*P*点处作一条切线（因为只有一个点）。
 - en: This line will intersect the curve at point *R¹*
+  id: totrans-152
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 这条线将在点*R¹*处与曲线交汇。
 - en: A reflection of point *R¹* about the *x* axis gives point *R*, and this is point
     doubling or a multiple of *R* (*2R*)
+  id: totrans-153
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: '*R¹*关于*x*轴的镜像得到点*R*，这就是点加倍或*R*的倍数（*2R*）'
 - en: Point doubling is the concept used in ECC to construct the public key from the
     private key. The following section explains in depth how point doubling is used
     in the generation of the public key.
+  id: totrans-154
   prefs: []
   type: TYPE_NORMAL
+  zh: 点加倍是ECC中用于从私钥构造公钥的概念。下一节将深入解释点加倍如何用于生成公钥。
 - en: Computing the public key
+  id: totrans-155
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 计算公钥
 - en: Now that we have defined point doubling, we can calculate a point on the curve
     that is the multiple of the given point generator, point G (for example, *4G =
     G + G + G + G*), and this could be computed using point doubling.
+  id: totrans-156
   prefs: []
   type: TYPE_NORMAL
+  zh: 既然我们已经定义了点加倍，我们可以计算曲线上一点是给定点发生器的倍数的点，点G（例如，*4G = G + G + G + G*），这可以使用点加倍计算。
 - en: Let's use this concept to compute a public-private key pair in an asymmetric
     cryptography system.
+  id: totrans-157
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们使用这个概念在不对称加密系统中计算公钥-私钥对。
 - en: 'Every curve domain parameter is the same for a given specification. Refer to
     the technical specifications of the secp256k1 standard in a later section of this
     chapter that is used in Bitcoin and other blockchain applications'' digital signature
     algorithms. Let''s say *k* is a randomly chosen private key, and *K* is the public
     key to be generated. The generator of the curve, *G*, has a standard value. The
     public key could be computed by performing the following operation on the curve:'
+  id: totrans-158
   prefs: []
   type: TYPE_NORMAL
+  zh: 给定规格的每个曲线域参数都是相同的。请参阅本章后面用于Bitcoin和其他区块链应用数字签名算法的secp256k1标准的技术规格。假设*k*是随机选择的私钥，*K*是要生成的公钥。曲线的生成器*G*具有标准值。可以通过在曲线上执行以下操作来计算公钥：
 - en: '*K = k*G*'
+  id: totrans-159
   prefs: []
   type: TYPE_NORMAL
+  zh: '*K = k*G*'
 - en: 'We can generate the public key using this equation on an elliptic curve using
     point doubling. Point doubling on an elliptic curve is a one-way operation. It
     is, therefore, a challenging task to compute the multiplied value *k* after the
     required point *K* has been found:'
+  id: totrans-160
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们可以使用这个方程在椭圆曲线上使用点加倍来生成公钥。在椭圆曲线上的点加倍是一个单向操作。因此，在找到所需点*K*后计算乘值*k*是一项具有挑战性的任务：
 - en: '![](img/235f76f6-7473-464a-8eb5-1626ec92bb8f.png)'
+  id: totrans-161
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/235f76f6-7473-464a-8eb5-1626ec92bb8f.png)'
 - en: 'Figure 2.9: Multiplying the generator by an integer using point doubling'
+  id: totrans-162
   prefs: []
   type: TYPE_NORMAL
+  zh: 图2.9：使用点加倍将生成器乘以整数
 - en: '*Figure 2.9* shows the process of multiplying an integer value by the base
     point *G*. In this case, points *2G* and *4G* are derived using point doubling
     of *G* on the given curve. This geometrical method could be used to generate the
     public key, *K*, by multiplying the generator by the private key *k* times.'
+  id: totrans-163
   prefs: []
   type: TYPE_NORMAL
+  zh: '*图2.9*显示了在给定曲线上使用点加倍从基点*G*派生出点*2G*和*4G*的过程。这种几何方法可以通过将生成器*G*乘以私钥*k*次数来生成公钥*K*。'
 - en: Technical details of secp256k1
+  id: totrans-164
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: secp256k1的技术细节
 - en: 'Bitcoin uses a specific elliptical curve, and the domain parameters used in
     the curve are defined in the secp256k1 standard. This curve is represented by
     the following cubic equation in a finite field of prime order *p*:'
+  id: totrans-165
   prefs: []
   type: TYPE_NORMAL
+  zh: Bitcoin使用特定的椭圆曲线，曲线中使用的域参数在secp256k1标准中得到定义。这条曲线在素数次序*p*的有限域内由以下立方方程表示：
 - en: '*y² mod (p) = x³ + 7 mod (p)*'
+  id: totrans-166
   prefs: []
   type: TYPE_NORMAL
+  zh: '*y² mod (p) = x³ + 7 mod (p)*'
 - en: '![](img/562e8165-cd73-45fa-8943-7f2258cc10f0.png)'
+  id: totrans-167
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/562e8165-cd73-45fa-8943-7f2258cc10f0.png)'
 - en: 'Figure 2.10: secp256k1''s elliptic curve over real numbers'
+  id: totrans-168
   prefs: []
   type: TYPE_NORMAL
+  zh: 图2.10：secp256k1的椭圆曲线对实数
 - en: 'As the name suggests, secp256k1 can have a key size of up to 256 bits. The
     details of the domain parameters used by secp256k1 are represented in hexadecimal
     strings and are as follows:'
+  id: totrans-169
   prefs: []
   type: TYPE_NORMAL
+  zh: 如名称所示，secp256k1的密钥大小可达256位。secp256k1使用的域参数的细节用十六进制字符串表示，如下所示：
 - en: Large prime numbers are used in the finite field.
+  id: totrans-170
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 大素数被用在有限域中。
 - en: '*p = FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFE **FFFFFC2F*'
+  id: totrans-171
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*p = FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFE **FFFFFC2F*'
 - en: 'The preceding hexadecimal representation of *p* will have the following decimal
     value:'
+  id: totrans-172
   prefs: []
   type: TYPE_NORMAL
+  zh: '*p*的前面十六进制表示将具有以下十进制值：'
 - en: '*p = 2^(256) - 2^(32) - 2⁹ - 2⁸ - 2⁷ - 2⁶ - 2⁴ - 1*'
+  id: totrans-173
   prefs: []
   type: TYPE_NORMAL
+  zh: '*p = 2^(256) - 2^(32) - 2⁹ - 2⁸ - 2⁷ - 2⁶ - 2⁴ - 1*'
 - en: 'Constants of the curve *y² = x³ + 7* are as follows:'
+  id: totrans-174
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*y² = x³ + 7*曲线的常数如下：'
 - en: '*a = 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000*'
+  id: totrans-175
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*a = 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000*'
 - en: '*b = 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000007*'
+  id: totrans-176
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*b = 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000007*'
 - en: 'The original representation of base point *G* has a lengthier hexadecimal string,
     but it can be represented in a compressed form as follows:'
+  id: totrans-177
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 基点*G*的原始表示形式有一个较长的十六进制字符串，但可以压缩表示形式如下：
 - en: '*G = 02 79BE667E F9DCBBAC 55A06295 CE870B07 029BFCDB 2DCE28D9 59F2815B **16F81798*'
+  id: totrans-178
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*G = 02 79BE667E F9DCBBAC 55A06295 CE870B07 029BFCDB 2DCE28D9 59F2815B **16F81798*'
 - en: 'The order *n* of *G* and the cofactor are as follows:'
+  id: totrans-179
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*G*的顺序*n*和余因子如下：'
 - en: '*n = FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFE BAAEDCE6 AF48A03B **BFD25E8C D0364141*'
+  id: totrans-180
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*n = FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFE BAAEDCE6 AF48A03B **BFD25E8C D0364141*'
 - en: '*h = 01*'
+  id: totrans-181
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*h = 01*'
 - en: All these values remain the same for any computation in secp256k1\. And this
     specification is strong enough to withstand brute-force attempts to compute the
     private key from the public key.
+  id: totrans-182
   prefs: []
   type: TYPE_NORMAL
+  zh: 所有这些值对于secp256k1中的任何计算都保持不变。而且这个规范足够强大，能够抵御通过公钥计算私钥的穷举尝试。
 - en: Digital signatures
+  id: totrans-183
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 数字签名
 - en: So far, we have covered various different methods of encryption in the categories
     of symmetric and asymmetric cryptography. We also had a look at a few of the advantages
     of symmetric encryption techniques compared to asymmetric techniques. Thus, asymmetric
     cryptography is a rarely used encryption methodology. But the distinct design
     of asymmetrical keys makes it a suitable technique for applications other than
     encryption, and digital signature is one of them.
+  id: totrans-184
   prefs: []
   type: TYPE_NORMAL
+  zh: 到目前为止，我们已经涵盖了对称和非对称密码学的各种不同加密方法。我们还研究了对称加密技术与非对称技术相比的一些优点。因此，非对称密码学是一种很少使用的加密方法。但不对称密钥的独特设计使其成为非加密应用的合适技术之一，数字签名就是其中之一。
 - en: A digital signature is a method of providing proof of ownership of digital documents.
     Public-private key cryptography is widely used in the field of digital signatures
     due to their asymmetric key property. The owner can use the private key to sign
     a message or document, and the verifier can verify their ownership using the public
     key, which is distributed to everyone.
+  id: totrans-185
   prefs: []
   type: TYPE_NORMAL
+  zh: 数字签名是提供数字文档所有权证明的方法。由于其不对称密钥属性，公私密钥加密术在数字签名领域被广泛使用。所有者可以使用私钥对消息或文档进行签名，验证者可以使用公钥验证他们的所有权，这个公钥被分发给所有人。
 - en: 'The process is similar to the handwritten signatures used in the real world,
     where an owner of an asset can use their signature to perform any action on that
     asset and anyone can verify the signature by comparing it with a signature that
     was used previously. The digital signature is more secure than the hand-written
     signature since it is infeasible to forge a signature without owning the private
     key:'
+  id: totrans-186
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个过程类似于在现实世界中使用的手写签名，在那里，资产所有者可以使用他们的签名对该资产执行任何操作，任何人都可以通过将其与以前使用过的签名进行比较来验证签名。数字签名比手写签名更安全，因为在不拥有私钥的情况下，伪造签名是不可能的：
 - en: '![](img/3d59ad92-75c0-45b2-a3d6-5bf8944a1296.jpg)'
+  id: totrans-187
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3d59ad92-75c0-45b2-a3d6-5bf8944a1296.jpg)'
 - en: 'Figure 2.11: Design diagram of a digital signature'
+  id: totrans-188
   prefs: []
   type: TYPE_NORMAL
+  zh: 图2.11：数字签名的设计图示
 - en: Digital signatures could be used as a mechanism for ensuring the authenticity,
     non-repudiation, and integrity of an action. We can take an example of a software
     company distributing updates to its clients. How do these clients ensure that
@@ -946,46 +1332,66 @@
     to provide authenticity and integrity for those updates by allowing clients to
     verify them with the distributed public keys. Only the owners of the software
     can sign the software updates because they possess the private key.
+  id: totrans-189
   prefs: []
   type: TYPE_NORMAL
+  zh: 数字签名可以用作确保行动的真实性、不可否认性和完整性的机制。我们可以以软件公司向其客户分发更新为例。这些客户如何确保他们可以信任这些软件更新？这就是数字签名在通过允许客户使用分发的公钥验证更新来提供真实性和完整性方面发挥作用的地方。只有软件所有者才能签署软件更新，因为他们拥有私钥。
 - en: How does it work?
+  id: totrans-190
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 它是如何工作的？
 - en: 'As shown in *Figure 2.11*, the digital signature process consists of two parts:
     signing, and verification. Unlike with encryption, the digital signature performs
     the first operation, signing using the private key. Verification uses the public
     key distributed by the signer.'
+  id: totrans-191
   prefs: []
   type: TYPE_NORMAL
+  zh: 如*图2.11*所示，数字签名过程包括两部分：签署和验证。与加密不同，数字签名先执行第一个操作，即使用私钥进行签署。验证使用由签署者分发的公钥。
 - en: A hashing algorithm generates a unique fixed length value that is used during
     the construction and verification of a digital signature. Refer to the next section
     for a detailed explanation of cryptographic hashing.
+  id: totrans-192
   prefs: []
   type: TYPE_NORMAL
+  zh: 哈希算法生成一个唯一的固定长度值，用于数字签名的构建和验证。详细的密码哈希解释请参考下一节。
 - en: Signing process
+  id: totrans-193
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 签名过程。
 - en: 'The signing operation is performed by the owner of the message using the private
     key to prove their authenticity. Let''s say Alice is the owner of a document that
     has a message *m*, and wants to distribute it to others in the network. Now, Alice
     will initially hash the message and use her private key to sign the document.
     The signature is created as follows, where F[s] is the signature function, F[h]
     is the hashing function, *m* is the message, and *dA* is Alice''s private key:'
+  id: totrans-194
   prefs: []
   type: TYPE_NORMAL
+  zh: 拥有消息所有者使用私钥执行签名操作以证明其真实性。假设 Alice 是拥有具有消息 *m* 的文档的所有者，并希望将其分发给网络中的其他人。现在，Alice
+    最初将对消息进行哈希处理，并使用她的私钥对文档进行签名。签名如下创建，其中 F[s] 是签名函数，F[h] 是哈希函数，*m* 是消息，*dA* 是 Alice
+    的私钥：
 - en: '*S = F[s] (F[h] (m), dA)*'
+  id: totrans-195
   prefs: []
   type: TYPE_NORMAL
+  zh: '*S = F[s] (F[h] (m), dA)*'
 - en: Alice will now distribute her signature, along with the message, to everyone
     in the network.
+  id: totrans-196
   prefs: []
   type: TYPE_NORMAL
+  zh: Alice 现在将与消息一起分发她的签名给网络中的每个人。
 - en: Verification process
+  id: totrans-197
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 验证过程。
 - en: Verification is a process performed by anyone who possesses information that
     is made public by the owner. Public information usually has a public key, a message,
     and the signature of the message. Let's assume that Bob possesses all the public
@@ -994,233 +1400,344 @@
     public key, and the signature. The algorithm will verify that the message hasn't
     been tampered with by anyone. An implemented example of both the signing and verification
     processes can be found later in the chapter.
+  id: totrans-198
   prefs: []
   type: TYPE_NORMAL
+  zh: 验证是由任何拥有业主公开信息的人执行的过程。公开信息通常包括公钥、消息和消息的签名。假设 Bob 拥有所有公开信息并希望验证消息以检查其真实性。Bob
+    使用签名验证算法，该算法需要消息的哈希值、公钥和签名。该算法将验证消息是否被任何人篡改。在本章后面可以找到签名和验证过程的实现示例。
 - en: Elliptical Curve Digital Signature Algorithm (ECDSA)
+  id: totrans-199
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 椭圆曲线数字签名算法（ECDSA）。
 - en: ECDSA is a digital signature algorithm that makes use of ECC to create the key
     pairs used in the signing and verification process of the digital signature. Because
     of the advantages of ECC compared to other public-key algorithms, it is commonly
     used in blockchain applications to sign transactions or events.
+  id: totrans-200
   prefs: []
   type: TYPE_NORMAL
+  zh: ECDSA 是一种数字签名算法，利用 ECC 创建用于数字签名的密钥对。由于 ECC 相对于其他公钥算法的优势，它通常在区块链应用中用于签署交易或事件。
 - en: 'ECDSA makes use of temporary key pairs to calculate a signature pair, *R* and
     *S*. A temporary private key *k* is chosen randomly on the elliptical curve, and
     the corresponding public key is calculated as *P = k*G*. The signature is calculated
     as follows:'
+  id: totrans-201
   prefs: []
   type: TYPE_NORMAL
+  zh: ECDSA 利用临时密钥对计算签名对 *R* 和 *S*。在椭圆曲线上随机选择一个临时私钥 *k*，并计算对应的公钥为 *P = k*G*。签名计算如下：
 - en: '*S = k^(-1) (Hash(m) + dA * R) mod (p)*'
+  id: totrans-202
   prefs: []
   type: TYPE_NORMAL
+  zh: '*S = k^(-1) (Hash(m) + dA * R) mod (p)*'
 - en: 'Variables used in the signing operation are defined as follows:'
+  id: totrans-203
   prefs: []
   type: TYPE_NORMAL
+  zh: 用于签名操作的变量定义如下：
 - en: '*k* is the temporary private key'
+  id: totrans-204
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*k* 是临时私钥。'
 - en: '*R* is the *x* coordinate of the temporary public key'
+  id: totrans-205
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*R* 是临时公钥的 *x* 坐标。'
 - en: '*dA* is the private key'
+  id: totrans-206
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*dA* 是私钥。'
 - en: '*m* is the message'
+  id: totrans-207
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*m* 是消息。'
 - en: '*p* is the prime order of the elliptic curve'
+  id: totrans-208
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*p* 是椭圆曲线的素数阶。'
 - en: 'Verification is performed in ECDSA using the *R*, *S* pair and the public key.
     The point *P* is derived as follows:'
+  id: totrans-209
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 ECDSA 中，使用 *R*、*S* 对和公钥进行验证。点 *P* 的导出如下：
 - en: '*P = S^(-1)*Hash(m)*G + S^(-1)*R*Qa*'
+  id: totrans-210
   prefs: []
   type: TYPE_NORMAL
+  zh: '*P = S^(-1)*Hash(m)*G + S^(-1)*R*Qa*'
 - en: 'Variables used in the verification operation are defined as follows:'
+  id: totrans-211
   prefs: []
   type: TYPE_NORMAL
+  zh: 用于验证操作的变量定义如下：
 - en: '*Qa* is the public key of the signer'
+  id: totrans-212
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*Qa* 是签名者的公钥。'
 - en: '*m* is the message'
+  id: totrans-213
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*m* 是消息。'
 - en: '*G* is the generator point of the elliptical curve'
+  id: totrans-214
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*G* 是椭圆曲线的生成点。'
 - en: An ECDSA digital signature algorithm is used in Bitcoin to sign transactions
     created by the owner by using their own private key.
+  id: totrans-215
   prefs: []
   type: TYPE_NORMAL
+  zh: Bitcoin 中使用 ECDSA 数字签名算法为交易签名，该交易由所有者使用其自己的私钥创建。
 - en: ECDSA example to create and verify a digital signature
+  id: totrans-216
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: ECDSA 创建和验证数字签名的示例。
 - en: 'The following packages are used to perform hashing, ECC key creation, and signature
     creation and verification:'
+  id: totrans-217
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下包用于执行哈希、ECC 密钥创建和签名创建和验证：
 - en: '[PRE10]'
+  id: totrans-218
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: 'The key is generated on the secp256k1 elliptical curve using the `ECC.generate`
     method, and both public and private keys are exported:'
+  id: totrans-219
   prefs: []
   type: TYPE_NORMAL
+  zh: 密钥是使用 `ECC.generate` 方法在 secp256k1 椭圆曲线上生成的，并且公钥和私钥都被导出：
 - en: '[PRE11]'
+  id: totrans-220
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: 'Messages that need to be signed are hashed using the `SHA256` algorithm, and
     then a signer object is created using the `DSS` package by providing a private
     key. The hashed message is then signed by the owner:'
+  id: totrans-221
   prefs: []
   type: TYPE_NORMAL
+  zh: 需要签名的消息使用 `SHA256` 算法进行哈希处理，然后通过提供私钥使用 `DSS` 包创建签名者对象。 然后，所有者签署了哈希消息：
 - en: '[PRE12]'
+  id: totrans-222
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: 'Signature verification in the following code is similar to that of signing.
     The received message is hashed initially since the hashing was performed at the
     sender side as well. The distributed public key is imported and used to create
     a new DSS object for verification. The hashed message and the received signature
     are used for verification. The `verify` function throws a `ValueError` if the
     message or signature was tampered with:'
+  id: totrans-223
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面代码中的签名验证类似于签名。 收到的消息最初被哈希化，因为发送方也进行了哈希化。 分布式公钥被导入并用于创建新的 DSS 对象进行验证。 使用哈希消息和接收到的签名进行验证。
+    如果消息或签名被篡改，`verify` 函数会抛出 `ValueError`：
 - en: '[PRE13]'
+  id: totrans-224
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: Cryptographic hashing
+  id: totrans-225
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 密码哈希
 - en: A cryptographic hash function is a type of function that maps arbitrary sized
     data to a fixed size string called a hash. Hash functions possess certain properties
     that make them ideal for use in cryptography.
+  id: totrans-226
   prefs: []
   type: TYPE_NORMAL
+  zh: 密码哈希函数是一种将任意大小的数据映射到称为哈希的固定大小字符串的函数类型。 哈希函数具有使它们非常适合在密码学中使用的某些属性。
 - en: Hash functions are widely used in hash table data structures. A hash table stores
     the data in a key-value pair. Hash tables are used when large keys need to be
     converted into smaller keys using a hash function, and then the values are mapped
     to these smaller keys. This makes the mapping of key to value quite easy, and
     this could be achieved in O(1) time complexity. This is due to the fact that hash
     functions have a constant time complexity.
+  id: totrans-227
   prefs: []
   type: TYPE_NORMAL
+  zh: 哈希函数广泛用于哈希表数据结构中。 哈希表将数据存储在键值对中。 当需要使用哈希函数将大键转换为小键时，将值映射到这些小键。 这使得键到值的映射非常容易，并且可以在
+    O(1) 的时间复杂度内实现。 这是因为哈希函数具有恒定的时间复杂度。
 - en: We have repeatedly mentioned that hashing is the backbone of blockchain architecture,
     and it has several properties that make it really valuable and ideal for blockchain
     implementation.
+  id: totrans-228
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们已经多次提到，哈希是区块链架构的支柱，它具有几个属性，使其非常有价值并且非常适合于区块链实现。
 - en: 'Every hash function has the following properties:'
+  id: totrans-229
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个哈希函数都具有以下属性：
 - en: 'Pre-image resistance: Given a computed hash *h = hash (m)*, where *m* is the
     message, it should be infeasible to find the message from the given hash value.'
+  id: totrans-230
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 预像阻力：给定计算的哈希 *h = hash (m)*，其中 *m* 是消息，应该无法从给定的哈希值中找到消息。
 - en: 'Second pre-image resistance: Given a message *m1*, it should be infeasible
     to find another message *m2* such that *hash (m1) = hash (m2)*.'
+  id: totrans-231
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 第二个预像阻力：给定消息 *m1*，应该很难找到另一条消息 *m2* 使得 *hash (m1) = hash (m2)*。
 - en: 'Collision resistance: A hash is said to have collided when there are at least
     two messages that produce the same hash value. It should be infeasible to find
     two messages *m1* and *m2* where *hash (m1) = hash (m2)*, that is, it should be
     challenging to find two messages that have the same hash value. This is similar
     to the second pre-image resistance, but any two messages can be chosen here. So,
     this property implies second pre-image resistance.'
+  id: totrans-232
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 碰撞阻力：当至少有两条消息产生相同的哈希值时，哈希被认为发生了碰撞。 应该无法找到两个消息 *m1* 和 *m2* 其中 *hash (m1) = hash
+    (m2)*，也就是说，应该很难找到具有相同哈希值的两个消息。 这类似于第二个预像阻力，但是这里可以选择任意两个消息。 因此，此属性意味着第二个预像阻力。
 - en: 'Although every hash function has these properties, a good hash function is
     expected to possess additional properties in order to provide strong security:'
+  id: totrans-233
   prefs: []
   type: TYPE_NORMAL
+  zh: 尽管每个哈希函数都具有这些属性，但是一个良好的哈希函数应该具有额外的属性以提供强大的安全性：
 - en: A hash function should take a constant time for any input.
+  id: totrans-234
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 哈希函数对于任何输入应该需要恒定的时间。
 - en: Any bit changed in the message should result in a completely new hash value
     compared to the hash of the previous message. It should be very difficult to analyze
     the hash value created by the hash function.
+  id: totrans-235
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 消息中的任何位的更改应该导致与先前消息的哈希值相比产生全新的哈希值。 分析由哈希函数创建的哈希值应该非常困难。
 - en: Hashing is used in blockchain to create a unique identity string for each block
     by computing its hash value. Each block will maintain the hash value of the previous
     block and thus form a chain of blocks. Hashing provides integrity to the blocks
     of the blockchain ledger.
+  id: totrans-236
   prefs: []
   type: TYPE_NORMAL
+  zh: 在区块链中，散列用于为每个区块创建一个唯一的身份字符串，方法是计算其散列值。每个区块都将维护前一个区块的散列值，从而形成区块链。散列为区块链分类帐的块提供了完整性。
 - en: Hashing algorithms
+  id: totrans-237
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 散列算法
 - en: Hashing algorithms are categorized based on their implementation, resulting
     digest size, and many other things. Some of the classifications include Message
     Digest, **Secure Hashing Algorithms** (**SHA**), and **RACE Integrity Primitives
     Evaluation Message Digest** (**RIPEMD**).
+  id: totrans-238
   prefs: []
   type: TYPE_NORMAL
+  zh: 散列算法根据其实现、生成的摘要大小等进行分类。一些分类包括消息摘要、**安全散列算法**（**SHA**）和 **RACE Integrity Primitives
+    Evaluation Message Digest**（**RIPEMD**）。
 - en: Message Digest
+  id: totrans-239
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 消息摘要
 - en: This is one of the popular hashing algorithm groups used during the early 1990s.
     They are 128-bit hash functions, and `md4` and `md5` are its variants. Many vulnerabilities
     have been detected in the function since its adoption. Still, these functions
     are used to create file digests to ensure their integrity.
+  id: totrans-240
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是 1990 年代早期使用的流行哈希算法组之一。它们是 128 位哈希函数，其中 `md4` 和 `md5` 是它的变体。自采用以来，已经检测到许多漏洞。尽管如此，这些函数被用来创建文件摘要以确保其完整性。
 - en: Secure Hash Algorithms (SHA)
+  id: totrans-241
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 安全散列算法（SHA）
 - en: SHA-0 is the first version of the SHA algorithm. In 2004, several weaknesses
     were exposed in this algorithm, resulting in the creation of a stronger version
     of SHA-0 called SHA-1\. In 2005, an attack on SHA-1 reported that it would find
     a collision in fewer hashing operations.
+  id: totrans-242
   prefs: []
   type: TYPE_NORMAL
+  zh: SHA-0 是 SHA 算法的第一个版本。在 2004 年，该算法暴露出了几个弱点，导致了 SHA-0 的更强版本 SHA-1 的创建。在 2005 年，对
+    SHA-1 的攻击报告称，它将在更少的散列操作中找到碰撞。
 - en: SHA-2 was created to overcome SHA-1's vulnerabilities, and it could be implemented
     with a digest size of 224, 256, 384, and 512 bits. SHA-2 is a widely used standard
     in modern cryptographic applications. Bitcoin uses the SHA-256 variant as a hashing
     algorithm to solve proof-of-work puzzles.
+  id: totrans-243
   prefs: []
   type: TYPE_NORMAL
+  zh: SHA-2 被创建来克服 SHA-1 的弱点，它可以以 224、256、384 和 512 位的摘要大小实现。SHA-2 是现代密码应用中广泛使用的标准。比特币使用
+    SHA-256 变体作为散列算法来解决工作量证明难题。
 - en: SHA-3 is the latest family of functions with 224-, 256-, 384-, and 512-bit variants.
+  id: totrans-244
   prefs: []
   type: TYPE_NORMAL
+  zh: SHA-3 是具有 224、256、384 和 512 位变体的最新函数族。
 - en: Hashing example using an SHA-256 algorithm
+  id: totrans-245
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 SHA-256 算法的散列示例
 - en: 'The following example script uses the SHA-256 hashing algorithm to compute
     a digest of the message:'
+  id: totrans-246
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下示例脚本使用 SHA-256 散列算法计算消息的摘要：
 - en: '[PRE14]'
+  id: totrans-247
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: 'Let''s consider the output of the preceding script and make a few observations:'
+  id: totrans-248
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们考虑上述脚本的输出并做出一些观察：
 - en: '[PRE15]'
+  id: totrans-249
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: As we can see, both the hash values in the output have 64 hexadecimal digits
     (256 bits) irrespective of the size of the message. The first hash value has a
     message "First," and the second one has "Firstd" (the update function appends
@@ -1228,105 +1745,151 @@
     at the end, the entire SHA-256 hash value looks completely different. This property
     of SHA-256 makes sure that it is pre-image resistant, and thus very difficult
     to break.
+  id: totrans-250
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们所见，输出中的两个散列值都有 64 个十六进制数字（256 位），而消息的大小则无关紧要。第一个散列值有一个消息“First”，第二个散列值有一个消息“Firstd”（更新函数将新消息附加到上一个消息）。尽管末尾有一个字符的差异，但整个
+    SHA-256 散列值看起来完全不同。SHA-256 的这种属性确保它是预像抗性的，因此很难被破解。
 - en: Merkle hash trees
+  id: totrans-251
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Merkle 哈希树
 - en: A Merkle tree is a binary tree where all the leaf nodes represent hashes of
     the data blocks. Each parent node has the hashed value of the hashes of its children.
     Hashing continues until the root node of the tree. Merkle trees are used to summarize
     bulk sets of data and create a fingerprint for each set.
+  id: totrans-252
   prefs: []
   type: TYPE_NORMAL
+  zh: Merkle 树是一种二叉树，其中所有叶节点代表数据块的哈希值。每个父节点具有其子节点的哈希值的哈希值。哈希继续直到树的根节点。Merkle 树用于总结大量数据并为每组数据创建指纹。
 - en: 'A tree is a data structure in computer science that consists of a root node
     and a subtree of parent and children nodes and is represented by positioning a
     root node at the top. A binary tree is a tree where each parent has at most two
     nodes. Merkle trees are used in Bitcoin, Ethereum, and other blockchain applications
     to summarize all the transactions included in each block. SHA-256 is used as a
     hash function in bitcoin''s Merkle tree, as can be seen in the following diagram:'
+  id: totrans-253
   prefs: []
   type: TYPE_NORMAL
+  zh: 树是计算机科学中的一种数据结构，由根节点和一组父节点和子节点的子树组成，并通过将根节点放置在顶部来表示。二叉树是每个父节点最多有两个节点的树。 Merkle
+    树用于比特币、以太坊和其他区块链应用程序中，用于总结每个区块中包含的所有交易。SHA-256 在比特币的 Merkle 树中用作哈希函数，如下图所示：
 - en: '![](img/e27f3eb7-42fd-4571-aca2-259db4221cd9.png)'
+  id: totrans-254
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/e27f3eb7-42fd-4571-aca2-259db4221cd9.png)'
 - en: 'Figure 2.12: Merkle tree that summarizes all the leaves'
+  id: totrans-255
   prefs: []
   type: TYPE_NORMAL
+  zh: 图 2.12：总结所有叶子节点的 Merkle 树
 - en: 'A Merkle tree is constructed from the bottom up from the leaf nodes. In *Figure
     2.12*, leaf nodes will consist only of hashed values of data blocks A, B, C, and
     D represented by H[A], H[B], H[C], and H[D] respectively. Each parent node will
     construct its hash by concatenating the hash values of the child nodes and hashing
     them again:'
+  id: totrans-256
   prefs: []
   type: TYPE_NORMAL
+  zh: Merkle 树是从叶节点向上构建的。在 *图 2.12* 中，叶节点将只包含数据块 A、B、C 和 D 的哈希值，分别由 H[A]、H[B]、H[C]
+    和 H[D] 表示。每个父节点将通过连接子节点的哈希值并再次哈希来构造其哈希：
 - en: '*H[AB] = Hash (H[A] + H[B])*'
+  id: totrans-257
   prefs: []
   type: TYPE_NORMAL
+  zh: '*H[AB] = Hash (H[A] + H[B])*'
 - en: This process is continued until the root node hash value *H[ABCD]* is calculated.
+  id: totrans-258
   prefs: []
   type: TYPE_NORMAL
+  zh: 此过程一直持续到计算出根节点哈希值 *H[ABCD]* 为止。
 - en: Since each Merkle tree node (other than leaf nodes) calculates its hash based
     on its child nodes, it has to maintain a balanced tree, that is, each node (other
     than leaf nodes) should have two child nodes. This could be achieved by duplicating
     existing single child nodes.
+  id: totrans-259
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于每个 Merkle 树节点（除了叶节点）都根据其子节点计算其哈希，因此它必须保持平衡的树形结构，即每个节点（除了叶节点）应该有两个子节点。这可以通过复制现有的单个子节点来实现。
 - en: Merkle trees not only provide a way of summarizing an entire data block, but
     they can also efficiently verify whether a data block exists. Verification could
     be achieved in just *log[2](n)* complexity.
+  id: totrans-260
   prefs: []
   type: TYPE_NORMAL
+  zh: Merkle 树不仅提供了总结整个数据块的方式，而且还可以有效地验证数据块是否存在。验证可以在 *log[2](n)* 复杂度内完成。
 - en: Encoding schemes
+  id: totrans-261
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 编码方案
 - en: Encoding schemes are generally used in data storage or the transmission of textual
     data over a medium. You can often observe the conversion of binary to text-encoding
     schemes in primitive cryptographic implementations.
+  id: totrans-262
   prefs: []
   type: TYPE_NORMAL
+  zh: 编码方案通常用于数据存储或通过媒介传输文本数据。你经常可以观察到二进制到文本编码方案的转换在原始加密实现中。
 - en: Encoding schemes provide a compact way of representing long sequences of characters
     using a base. For example, a decimal system uses base 10, which uses characters
     from 0-9, and a hexadecimal system uses additional characters from A-F, along
     with the numbers from the decimal system. The bigger the base of a system, the
     smaller the size of the encoded string.
+  id: totrans-263
   prefs: []
   type: TYPE_NORMAL
+  zh: 编码方案提供了一种紧凑的方式来使用基数表示长字符序列。例如，十进制系统使用基数10，使用0-9的字符，十六进制系统使用十进制系统中的数字以及A-F的附加字符。系统的基数越大，编码字符串的大小就越小。
 - en: Base64 is an encoding scheme that is widely used to store and transmit large
     files such as an image. It uses 26 lowercase letters, 26 uppercase letters, 10
     numerical characters, and 2 special characters ("+" and "/").
+  id: totrans-264
   prefs: []
   type: TYPE_NORMAL
+  zh: Base64 是一种广泛用于存储和传输大文件（例如图像）的编码方案。它使用 26 个小写字母、26 个大写字母、10 个数字字符和 2 个特殊字符（“+”和“/”）。
 - en: Base58 is an encoding scheme developed for Bitcoin and used in several blockchain
     applications. Base58 is actually a subset of Base64 and was created with the intention
     of providing better readability. The characters in Base64 that are omitted in
     Base58 are 0 (zero), O (uppercase o), l (lowercase L), I (uppercase i), and the
     special characters "+" and "/."
+  id: totrans-265
   prefs: []
   type: TYPE_NORMAL
+  zh: Base58 是为比特币开发的一种编码方案，用于几种区块链应用程序中。Base58 实际上是 Base64 的子集，旨在提供更好的可读性。在 Base58
+    中省略的 Base64 字符是 0（零）、O（大写 o）、l（小写 L）、I（大写 i）以及特殊字符“+”和“/”。
 - en: 'Bitcoin''s 34-character Base58-encoded wallet address is as follows:'
+  id: totrans-266
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币的 34 位 Base58 编码钱包地址如下：
 - en: '*16RhN7MhhTRMDdrS3szys5pEpmS2YGTMsk*'
+  id: totrans-267
   prefs: []
   type: TYPE_NORMAL
+  zh: '*16RhN7MhhTRMDdrS3szys5pEpmS2YGTMsk*'
 - en: Summary
+  id: totrans-268
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 总结
 - en: This chapter covered all the essential cryptography topics, from classic cipher
     techniques to advanced cryptographic primitives. We began the chapter by discussing
     the classical cipher techniques. We explored both symmetric and asymmetric cryptography,
     along with a few examples. Cryptographic primitives, such as hashing and digital
     signatures, were covered in greater detail as they will act as the foundation
     for the blockchain concepts covered throughout this book.
+  id: totrans-269
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章涵盖了所有基本的密码学主题，从经典的密码技术到高级的密码原语。我们在章节开始时讨论了经典的密码技术。我们探讨了对称加密和非对称加密，以及一些示例。诸如哈希和数字签名之类的密码原语将会被更详细地讨论，因为它们将作为本书中涵盖的区块链概念的基础。
 - en: Since we have covered some of the essential concepts in cryptography and looked
     at their respective applications, in the next chapter, we will try to implement
     some of the cryptography concepts that are applicable to the blockchain protocol
     by looking at a simple blockchain example.
+  id: totrans-270
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于我们已经涵盖了密码学中一些基本概念，并查看了它们各自的应用，在下一章中，我们将通过查看一个简单的区块链示例来尝试实现一些适用于区块链协议的密码学概念。
