@@ -1,7 +1,9 @@
 - en: Managing Solutions on Oracle Blockchain Platform
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在 Oracle 区块链平台上管理解决方案
 - en: The previous chapter covered the business scenario and allowed us to explore
     **Oracle Blockchain Platform** (**OBP**). Managing solutions using OBP is a cinch;
     it allows you to experiment with the doing rather than reading about the doing,
@@ -17,550 +19,832 @@
     the two options are not large and are also self-explanatory. This chapter primarily
     covers translating the network topology on OBP, adding business smartness to the
     OBP network and using the Administration REST Interface.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 上一章涵盖了商业场景，并允许我们探索 **Oracle 区块链平台** (**OBP**)。使用 OBP 管理解决方案非常简单；它允许您实践而不是阅读实践，并通过示例有效地展示实践。本章提供了关于
+    OBP 的深入知识，并允许您具备 OBP 的实际知识。通过本章，您将深入了解将网络拓扑映射到 OBP 上、创建网络利益相关者以及配置 OBP 实例的实际操作。这份知识的账本说明了设置交易基础设施、将参与者加入业务网络、访问控制、向业务网络添加智能性（链码）以及使用
+    REST 代理配置将链码暴露给 dApps。在很大程度上，OBP SDK 和 Oracle Cloud 上的 OBP 在功能上相似，除了让您创建 OBP 实例的步骤。这两个选项之间的差异不大，也很容易理解。本章主要涵盖了将网络拓扑转换为
+    OBP、为 OBP 网络增加业务智能和使用管理 REST 接口。
 - en: Translating the network topology onto OBP
+  id: totrans-2
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 将网络拓扑映射到 OBP 上
 - en: 'This section describes how to create network instances on OBP. As described
     in the *Designing the solution* section of [Chapter 4](d772bd8e-2659-4dcc-be5f-ab1c68314cdf.xhtml),
     *Engage in Business Case on Blockchain Platform*, a blockchain network requires
     the following business entities:'
+  id: totrans-3
   prefs: []
   type: TYPE_NORMAL
+  zh: 本节描述如何在 OBP 上创建网络实例。如 [第四章](d772bd8e-2659-4dcc-be5f-ab1c68314cdf.xhtml) *区块链平台的商业案例*
+    的 *设计解决方案* 部分所述，区块链网络需要以下业务实体：
 - en: '**Oracle Empire University** (**OEU**) as a founder entity'
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Oracle 帝国大学** (**OEU**) 作为创始者实体'
 - en: '**Oracle Red School** (**ORS**) and **Certificate Viewer**/**Verifier** (**CVs**)
     as participant entities'
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Oracle 红校** (**ORS**) 和 **证书查看器**/**验证器** (**CVs**) 作为参与者实体'
 - en: Creating network stakeholders with OBP instances
+  id: totrans-6
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 OBP 实例创建网络利益相关者
 - en: 'The foundational step toward building an OBP solution involves the creation
     of OBP instances for the stakeholder entities. Perform the following steps in
     order to create the necessary OBP instances for the use case:'
+  id: totrans-7
   prefs: []
   type: TYPE_NORMAL
+  zh: 构建 OBP 解决方案的基础步骤包括为利益相关者实体创建 OBP 实例。按照以下步骤执行，以便为用例创建必要的 OBP 实例：
 - en: Launch and log in to the OBP provisioning console. Refer to the *Setting up
     OBP SDK* section of [Chapter 4](d772bd8e-2659-4dcc-be5f-ab1c68314cdf.xhtml), *Engage
     in Business Case on Blockchain Platform*, to get the OBP provisioning console
     details.
+  id: totrans-8
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 启动并登录到 OBP 供应控制台。参考 [第四章](d772bd8e-2659-4dcc-be5f-ab1c68314cdf.xhtml) *区块链平台的商业案例*
+    的 *设置 OBP SDK* 部分，获取 OBP 供应控制台的详细信息。
 - en: After logging in, start creating OBP instances by filling instance details.
+  id: totrans-9
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 登录后，通过填写实例详细信息开始创建 OBP 实例。
 - en: 'The following screenshot shows the sample values for creating an instance.
     Note these two important points:'
+  id: totrans-10
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 下面的截图显示了创建实例的示例值。请注意这两个重要点：
 - en: The Founder checkbox must only be selected for Founder instances.
+  id: totrans-11
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 创始人复选框只能对创始者实例进行选择。
 - en: 'Provide values of different OBP instances for Start Port. Make sure that these
     port values are considerably far apart as OBP assigns multiple values consecutive
     to the start port internally, as shown in the following screenshot:'
+  id: totrans-12
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 为启动端口提供不同 OBP 实例的值。确保这些端口值相距较远，因为 OBP 在内部将多个值连续分配给起始端口，如下截图所示：
 - en: '![](img/4bb4a2d8-af0a-4189-827b-f7eb6709a5ed.png)'
+  id: totrans-13
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/4bb4a2d8-af0a-4189-827b-f7eb6709a5ed.png)'
 - en: Creating an instance
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: 创建一个实例
 - en: 'Once all the OBP instances for our use case are created (and activated), they
     will show on the provisioning console, as shown in the following screenshot:'
+  id: totrans-15
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 一旦我们的用例的所有 OBP 实例被创建（并激活），它们将显示在供应控制台上，如下截图所示：
 - en: '![](img/c62e1d9e-b8b3-49b1-a81d-7c879b19a298.png)'
+  id: totrans-16
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/c62e1d9e-b8b3-49b1-a81d-7c879b19a298.png)'
 - en: Summary of the FOUNDER and PARTICIPANT instances
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 创始人和参与者实例的摘要
 - en: 'Click on the context menu for each of the OBP instances and select Console
     URL to navigate to the OBP dashboard of the respective instance. The next steps
     for the OBP network creation of our use case are done through the OBP dashboard:'
+  id: totrans-18
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 单击每个 OBP 实例的上下文菜单，并选择 Console URL，导航到相应实例的 OBP 仪表板。我们案例中 OBP 网络创建的下一步是通过 OBP
+    仪表板完成的：
 - en: '![](img/61b43cee-b7d7-44b7-a637-94ee008ca756.png)'
+  id: totrans-19
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/61b43cee-b7d7-44b7-a637-94ee008ca756.png)'
 - en: Context menu for the OBP instance
+  id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: OBP 实例的上下文菜单
 - en: As **oeu** is the founder organization, it will have more OBP system components
     than the other participant OBP instances. Additionally, as the founder organization, **oeu**
     is a self-sufficient organization, so it also has different visualization elements
     on the dashboard. Once we finish the network setup with participant instances,
     we will also get a similar visualization on the dashboard.
+  id: totrans-21
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于 **oeu** 是创始组织，它将拥有比其他参与者 OBP 实例更多的 OBP 系统组件。此外，作为创始组织，**oeu** 是一个自给自足的组织，因此在仪表板上还有不同的可视化元素。一旦我们完成了参与者实例的网络设置，我们也将在仪表板上获得类似的可视化效果。
 - en: 'The following table gives us the default values under the OBP artifacts:'
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下表格给出了 OBP 工件下的默认值：
 - en: '| **OBP artifacts** | **Founder** (**OEU**) | **Participant** (**ORS or CVs**)
     |'
+  id: totrans-23
   prefs: []
   type: TYPE_TB
+  zh: '| **OBP 工件** | **创始人** (**OEU**) | **参与者** (**ORS 或 CVs**) |'
 - en: '| Channel | 1 | 0 |'
+  id: totrans-24
   prefs: []
   type: TYPE_TB
+  zh: '| 通道 | 1 | 0 |'
 - en: '| Peers | 2 | 2 |'
+  id: totrans-25
   prefs: []
   type: TYPE_TB
+  zh: '| 对等点 | 2 | 2 |'
 - en: '| Orderer | 1 | 0 |'
+  id: totrans-26
   prefs: []
   type: TYPE_TB
+  zh: '| 排序器 | 1 | 0 |'
 - en: '| CA | 1 | 1 |'
+  id: totrans-27
   prefs: []
   type: TYPE_TB
+  zh: '| CA | 1 | 1 |'
 - en: '| REST Proxy | 2 | 2 |'
+  id: totrans-28
   prefs: []
   type: TYPE_TB
+  zh: '| REST 代理 | 2 | 2 |'
 - en: 'The following screenshot shows the **oeu** dashboard, which is the dashboard
     for the founder organization (oeu):'
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下截图显示了 **oeu** 仪表板，这是创始组织 (oeu) 的仪表板：
 - en: '![](img/1d579638-4954-4df4-9c5c-990171ccfc1c.png)'
+  id: totrans-30
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/1d579638-4954-4df4-9c5c-990171ccfc1c.png)'
 - en: OBP founder dashboard
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: OBP 创始人仪表板
 - en: 'Take a look at the **ors** dashboard. Theors and cvs dashboards have a similar
     appearance:'
+  id: totrans-32
   prefs: []
   type: TYPE_NORMAL
+  zh: 查看 **ors** 仪表板。ors 和 cvs 仪表板具有相似的外观：
 - en: '![](img/56bef2e1-8b74-42ec-abeb-c6d02733bd42.png)'
+  id: totrans-33
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/56bef2e1-8b74-42ec-abeb-c6d02733bd42.png)'
 - en: OBP participant dashboard
+  id: totrans-34
   prefs: []
   type: TYPE_NORMAL
+  zh: OBP 参与者仪表板
 - en: Configuring the OBP network infrastructure
+  id: totrans-35
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 配置 OBP 网络基础设施
 - en: After creating OBP instances, the next step in building the OBP solution is
     to establish a blockchain transactional network between these instances. This
     section will take you through the steps to connect all OBP instances in a network
     and enable an underlying shared ledger infrastructure.
+  id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: 创建 OBP 实例后，构建 OBP 解决方案的下一步是在这些实例之间建立区块链交易网络。本节将带您完成连接所有 OBP 实例并启用底层共享账本基础设施的步骤。
 - en: The following sections lay out the steps.
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下部分阐述了步骤。
 - en: Exporting/importing participant certificates
+  id: totrans-38
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 导出/导入参与者证书
 - en: 'Export the participant (**ors** and **cvs**) organization/instance certificates
     and import them to the founder OBP instance. The steps are as follows:'
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 导出参与者 (**ors** 和 **cvs**) 组织/实例证书并导入到创始人 OBP 实例。步骤如下：
 - en: Export the participant organization certificates
+  id: totrans-40
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 导出参与者组织证书
 - en: Import the participant organization certificates to the founder organization
+  id: totrans-41
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 将参与者组织证书导入创始组织
 - en: 'The first step is to export the participant organization certificates. You
     can export a participant''s OBP instance certificate by either of the following
     two options:'
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 第一步是导出参与者组织证书。您可以通过以下两种选项之一导出参与者的 OBP 实例证书：
 - en: '**Option 1**: Using the dashboard wizard, as shown in the following screenshot:'
+  id: totrans-43
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**选项 1**：使用仪表板向导，如下截图所示：'
 - en: '![](img/d7250a5b-6843-4200-a549-756c081e500a.png)'
+  id: totrans-44
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/d7250a5b-6843-4200-a549-756c081e500a.png)'
 - en: OBP participant export certificate flow
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: OBP 参与者导出证书流程
 - en: '**Option 2**: From the organization''s context menu under the Network tab of
     the OBP dashboard for the participants (**ors** and **cvs**):'
+  id: totrans-46
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**选项 2**：从参与者 (**ors** 和 **cvs**) 的 OBP 仪表板的网络选项卡下的组织上下文菜单：'
 - en: '![](img/a1446219-2545-46a9-921e-e156bc32678e.png)'
+  id: totrans-47
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a1446219-2545-46a9-921e-e156bc32678e.png)'
 - en: OBP participant network summary
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: OBP 参与者网络摘要
 - en: 'A participant certificate is a JSON file containing its certificate keys for
     admin, **c****ertificate authority** (**CA**), and **Transport Layer Security**
     (**TLS**), along with its signature. The following screenshot provides a glimpse
     of one of the participant certificates:'
+  id: totrans-49
   prefs: []
   type: TYPE_NORMAL
+  zh: 参与者证书是包含其管理员、**证书机构** (**CA**) 和 **传输层安全性** (**TLS**) 的证书密钥及其签名的 JSON 文件。以下截图提供了参与者证书之一的一瞥：
 - en: '![](img/8fbb2efa-1d61-40f6-80df-eab90c62aa45.png)'
+  id: totrans-50
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/8fbb2efa-1d61-40f6-80df-eab90c62aa45.png)'
 - en: OBP participant certificate snapshot
+  id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: OBP 参与者证书快照
 - en: 'The second step is to import participant organization certificates into the
     founder organization. Follow these steps to import the participant certificate
     into the founder organization:'
+  id: totrans-52
   prefs: []
   type: TYPE_NORMAL
+  zh: 第二步是将参与者组织证书导入到创始者组织中。按照以下步骤将参与者证书导入到创始者组织中：
 - en: Move over to the founder dashboard (oeu) to import these participants' certificates. This
     can be achieved by selecting the Add Organizations option under the Network tab
     on the oeu page. These steps are depicted in the following screenshot.
+  id: totrans-53
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 转到创始者仪表板（oeu），以导入这些参与者的证书。这可以通过在 oeu 页面的**网络**标签下选择**添加组织**选项来实现。以下截图中展示了这些步骤。
 - en: 'Add an organization by importing the participant certificates of ors and cvs:'
+  id: totrans-54
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 通过导入 ors 和 cvs 的参与者证书添加一个组织：
 - en: '![](img/565ebed0-5e91-41c1-b6de-22649db57b59.png)'
+  id: totrans-55
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/565ebed0-5e91-41c1-b6de-22649db57b59.png)'
 - en: Importing the participant certificates
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 导入参与者证书
 - en: 'The Network tab for the founder allows us to import the participant certificate:'
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 创始者的**网络**标签允许我们导入参与者证书：
 - en: '![](img/a2ab671f-6a71-4718-9388-de704d13b39b.png)'
+  id: totrans-58
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a2ab671f-6a71-4718-9388-de704d13b39b.png)'
 - en: Founder network summary
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 创始者网络摘要
 - en: Orderer configuration
+  id: totrans-60
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 订单者配置
 - en: The next set of steps for setting up the OBP network is importing the orderer
     configuration from Founder to Participant.
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 设置 OBP 网络的下一组步骤是从创始者到参与者导入订购者配置。
 - en: Since the orderer is associated with the founder instance at the infrastructure
     level, it becomes imperative to perform this setup. It ensures that any blockchain
     proposals (transactions) submitted by Participant peers are taken up by the same
     orderer for validation, as well as ordering of ledger blocks, before finally being
     written to the shared ledger.
+  id: totrans-62
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于订单者与基础设施级别的创始者实例相关联，因此执行此设置变得必要。这确保了由参与者对等体提交的任何区块链提案（交易）被同一订购者进行验证，并在最终写入共享账本之前对账本块进行排序。
 - en: 'The following steps provide step-by-step instructions on how to complete the
     orderer configuration setup:'
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下步骤提供了如何完成订单者配置设置的逐步说明：
 - en: 'Export the orderer settings of the Founder instance by using the **Export Orderer
     Settings** option, which is under the Network tab:'
+  id: totrans-64
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 使用**导出订购者设置**选项在**网络**标签下导出创始者实例的订购者设置：
 - en: '![](img/97a9dc0b-3afd-4943-979e-b392326876e3.png)'
+  id: totrans-65
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/97a9dc0b-3afd-4943-979e-b392326876e3.png)'
 - en: Export the orderer settings of the Founder instance
+  id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 导出创始者实例的订购者设置
 - en: 'Technically, the orderer settings in OBP are also represented and stored as
     a JSON file and contain founder certificates, signatures, and orderer endpoints.
     You will also get a similar JSON file for the orderer, as shown in the following
     screenshot:'
+  id: totrans-67
   prefs: []
   type: TYPE_NORMAL
+  zh: 从技术上讲，OBP 中的订购者设置也以 JSON 文件的形式表示和存储，并包含创始者证书、签名和订购者端点。您还会收到一个类似的订购者的 JSON 文件，如下截图所示：
 - en: '![](img/c5606234-8adc-4f07-a03c-5bb883fa7842.png)'
+  id: totrans-68
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/c5606234-8adc-4f07-a03c-5bb883fa7842.png)'
 - en: JSON file of the orderer settings
+  id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: 订单者设置的 JSON 文件
 - en: Import the orderer settings to each of the participants (ors and cvs), as shown
     in the next few screenshots.
+  id: totrans-70
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 将订单者设置导入到每个参与者（ors 和 cvs），如下几个截图所示。
 - en: 'Click the Orderer Settings import option under the Network tab of the ors dashboard:'
+  id: totrans-71
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 单击 ors 仪表板的**网络**标签下的**订购者设置导入**选项：
 - en: '![](img/cc00ff84-0da6-498c-97da-6f06c3a3c615.png)'
+  id: totrans-72
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/cc00ff84-0da6-498c-97da-6f06c3a3c615.png)'
 - en: Orderer settings JSON file
+  id: totrans-73
   prefs: []
   type: TYPE_NORMAL
+  zh: 订购者设置的 JSON 文件
 - en: 'Upload the orderer file exported from the oeu instance:'
+  id: totrans-74
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 上传从 oeu 实例导出的订购者文件：
 - en: '![](img/d3087c10-ce50-4334-a465-1fcac50113b7.png)'
+  id: totrans-75
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/d3087c10-ce50-4334-a465-1fcac50113b7.png)'
 - en: Importing orderer settings to participants
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 将订购者设置导入到参与者
 - en: 'Once the Orderer settings import is complete, you can choose the Orderer Settings
     View option to verify the orderer details. Please note that the following Orderer
     Addresses instance is the same as the orderer endpoint in the Orderer settings
     JSON file exported from founder:'
+  id: totrans-77
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 订单者设置导入完成后，您可以选择**查看订单者设置**选项来验证订单者详情。请注意，以下**订单者地址**实例与从创始者导出的订单者设置 JSON 文件中的订单者端点相同：
 - en: '![](img/b3111596-52c3-4635-b065-f2536e03814a.png)'
+  id: totrans-78
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/b3111596-52c3-4635-b065-f2536e03814a.png)'
 - en: Matching the orderer settings
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
+  zh: 匹配订购者设置
 - en: Configuring the OBP transaction infrastructure
+  id: totrans-80
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 配置 OBP 交易基础设施
 - en: After setting the base OBP network infrastructure, as seen in the previous section,
     it is now time to set up an OBP transaction infrastructure. Primarily, this is
     defining the shared ledger in system configurations and associating parties (OBP
     instances) who can read/write to the ledger.
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
+  zh: 在上一节中设置了基本的OBP网络基础设施后，现在是设置OBP交易基础设施的时候了。主要是在系统配置中定义共享账本，并将能够读/写账本的参与方（OBP实例）相关联。
 - en: For our use case, this would involve setting up a channel with OEU (the founder)
     and adding the ORS, CVs, and OBP instances to the same channel. Refer to the *Network
     topology* and *Channels* sections of [Chapter 4](d772bd8e-2659-4dcc-be5f-ab1c68314cdf.xhtml),
     *Engage in Business Case on Blockchain Platform*, for more details.
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于我们的用例，这将涉及与OEU（创始人）建立频道，并将ORS、CVs和OBP实例添加到同一频道。有关更多详细信息，请参阅[第4章](d772bd8e-2659-4dcc-be5f-ab1c68314cdf.xhtml)中的*网络拓扑*和*频道*部分，*参与区块链平台的业务案例*。
 - en: As the name suggests, channels are logical or configuration constructs in OBP,
     which allow two or more network stakeholders to share data. This sharing of data
     is done via the shared ledger. Hence, each channel in OBP essentially also represents
     the underlying shared ledger associated with it.
+  id: totrans-83
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如其名称所示，频道是OBP中的逻辑或配置构造，允许两个或多个网络利益相关者共享数据。此数据共享通过共享账本完成。因此，OBP中的每个频道本质上也表示与之关联的基础共享账本。
 - en: Channel setup
+  id: totrans-84
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 频道设置
 - en: 'Let''s proceed with the necessary channel creation for the use case:'
+  id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们为用例继续进行必要的频道创建：
 - en: Go to the Channels tab of the oeu dashboard and click on Create a New Channel.
+  id: totrans-86
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 转到oeu仪表板的 频道 选项卡，然后单击创建新频道。
 - en: 'Update the following fields:'
+  id: totrans-87
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 更新以下字段：
 - en: 'Channel Name: Provide a name for the channel.'
+  id: totrans-88
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 频道名称：为频道提供一个名称。
 - en: Keep a note of it because you will need it when making chaincode calls.
+  id: totrans-89
   prefs:
   - PREF_IND
   - PREF_IND
   type: TYPE_NORMAL
+  zh: 请注意，当进行链码调用时，您将需要它。
 - en: Select the checkboxes for the ors and cvs instances.
+  id: totrans-90
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 选择ors和cvs实例的复选框。
 - en: 'Select one or more peers of **oeu** to join the channel, as shown in the following
     screenshot:'
+  id: totrans-91
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 选择一个或多个oeu的对等节点加入频道，如下图所示：
 - en: '![](img/f2595ba9-8fc4-4edf-8185-6a106e18bb54.png)'
+  id: totrans-92
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/f2595ba9-8fc4-4edf-8185-6a106e18bb54.png)'
 - en: Creating a channel
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
+  zh: 创建频道
 - en: 'Once the channel creation is successful, you can see a corresponding notification
     on the oeu dashboard, and the newly created channel will be shown in the existing
     **Channels** list. The **oeu **Channels tab will look similar to the following
     screenshot:'
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 频道创建成功后，您可以在oeu仪表板上看到相应的通知，并且新创建的频道将显示在现有的**频道**列表中。 **oeu **频道选项卡将类似于以下屏幕截图：
 - en: '![](img/4e30b7d0-e90a-408d-8750-1f0febe5da25.png)'
+  id: totrans-95
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/4e30b7d0-e90a-408d-8750-1f0febe5da25.png)'
 - en: Create channel summary
+  id: totrans-96
   prefs: []
   type: TYPE_NORMAL
+  zh: 创建频道摘要
 - en: Joining participant peers to a channel
+  id: totrans-97
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 将参与者节点加入频道
 - en: After creating a channel with OEU's OBP instance, add the peer nodes of the
     participants, ORS and CVS, to the same channel. By doing so, we ensure that any
     transaction submitted by the application clients of the respective OBP instances
     for that channel will be taken by the peer nodes and added to the channel for
     validation, chaincode execution, and RWSet creation. This RWSet will then be submitted
     to the orderer for the sequencing of ledger blocks.
+  id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用OEU的OBP实例创建频道后，将参与者的对等节点ORS和CVS添加到同一频道。通过这样做，我们确保由各自OBP实例的应用客户端提交的任何交易都将被对等节点接受，并添加到频道进行验证、链码执行和RWSet创建。然后，此RWSet将提交给订购者以排序分类帐块。
 - en: 'You can add a participant''s peer to a channel by either of the following options:'
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以通过以下任一选项将参与者的对等节点添加到频道：
 - en: 'Using the context menu of the peer node under the Nodes tab of the participant
     OBP dashboard, as shown in the following screenshot:'
+  id: totrans-100
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用参与者OBP仪表板的 节点 选项卡下的对等节点的上下文菜单，如下图所示：
 - en: '![](img/02f2c198-240b-471c-9423-9ddf18dfe76d.png)'
+  id: totrans-101
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/02f2c198-240b-471c-9423-9ddf18dfe76d.png)'
 - en: Node summary
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
+  zh: 节点摘要
 - en: 'Using the context menu of the channel under the Channels tab of the participant
     OBP dashboard, as shown in the following screenshot:'
+  id: totrans-103
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用参与者OBP仪表板的 频道 选项卡下的频道的上下文菜单，如下图所示：
 - en: '![](img/b3b51e57-3324-4bed-bba6-6736db6f7834.png)'
+  id: totrans-104
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/b3b51e57-3324-4bed-bba6-6736db6f7834.png)'
 - en: Channel summary
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 频道摘要
 - en: 'Moving ahead with option 2, you will be asked to select the **Peers to Join
     Channel **option. You can select one or more peers of the instance to join:'
+  id: totrans-106
   prefs: []
   type: TYPE_NORMAL
+  zh: 继续选择选项2，您将被要求选择**加入频道的对等节点**选项。您可以选择一个或多个实例的对等节点加入：
 - en: '![](img/08dfb2aa-03f6-436b-b387-330d7f533439.png)'
+  id: totrans-107
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/08dfb2aa-03f6-436b-b387-330d7f533439.png)'
 - en: Joining the channel
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: 加入频道
 - en: Once the participant peers have joined the channel, the topology view of the
     OBP instance nodes should look as shown in the screenshots in the following sections.
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦参与方节点加入通道，OBP 实例节点的拓扑视图应该如下所示的截图所示。
 - en: Founder node summary
+  id: totrans-110
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创始者节点摘要
 - en: 'The following screenshot shows the node summary for the founder organization:'
+  id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下截图显示创始组织的节点摘要：
 - en: '![](img/e9e3ea38-20d4-4c6c-83db-92e4f119ade4.png)'
+  id: totrans-112
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/e9e3ea38-20d4-4c6c-83db-92e4f119ade4.png)'
 - en: Founder node summary
+  id: totrans-113
   prefs: []
   type: TYPE_NORMAL
+  zh: 创始者节点摘要
 - en: Participant (ors) node summary
+  id: totrans-114
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 参与者（ors）节点摘要
 - en: 'The following screenshot shows the node summary for the ors organization:'
+  id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下截图显示了 ors 组织的节点摘要：
 - en: '![](img/bf684277-c276-4dd5-90b3-4d63403049e4.png)'
+  id: totrans-116
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/bf684277-c276-4dd5-90b3-4d63403049e4.png)'
 - en: Participant node summary
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 参与者节点摘要
 - en: Participant (cvs) node summary
+  id: totrans-118
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 参与者（cvs）节点摘要
 - en: 'The following screenshot shows the node summary for another participant (cvs)
     organization:'
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下截图显示了另一个参与者（cvs）组织的节点摘要：
 - en: '![](img/30c35059-127d-4466-b5b7-ef2f4d7d0f8a.png)'
+  id: totrans-120
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/30c35059-127d-4466-b5b7-ef2f4d7d0f8a.png)'
 - en: Participant node summary
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 参与者节点摘要
 - en: Additionally, verify that the network topology view for OEU, ORS, and CVs are
     showing the visualizations shown in the following screenshots.
+  id: totrans-122
   prefs: []
   type: TYPE_NORMAL
+  zh: 另外，请验证 OEU、ORS 和 CV 的网络拓扑视图是否显示如下截图所示的可视化效果。
 - en: Founder network summary
+  id: totrans-123
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创始者网络摘要
 - en: 'The following screenshot shows the founder organization''s (oeu) network summary:'
+  id: totrans-124
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下截图显示了创始组织（oeu）的网络摘要：
 - en: '![](img/3c347e6f-5e4f-4105-83d9-339c25fc165d.png)'
+  id: totrans-125
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3c347e6f-5e4f-4105-83d9-339c25fc165d.png)'
 - en: Founder network summary
+  id: totrans-126
   prefs: []
   type: TYPE_NORMAL
+  zh: 创始者网络摘要
 - en: Participant (ors) network summary
+  id: totrans-127
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 参与者（ors）网络摘要
 - en: 'The following screenshot shows one of the participant organization''s network
     summary:'
+  id: totrans-128
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下截图显示了参与组织的网络摘要之一：
 - en: '![](img/26c09a3b-87f8-4e9a-8d49-ca7ad6de285c.png)'
+  id: totrans-129
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/26c09a3b-87f8-4e9a-8d49-ca7ad6de285c.png)'
 - en: Participant (ors) network summary
+  id: totrans-130
   prefs: []
   type: TYPE_NORMAL
+  zh: 参与者（ors）网络摘要
 - en: Participant (cvs) network summary
+  id: totrans-131
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 参与者（cvs）网络摘要
 - en: 'The following screenshot shows the other participant organization''s (cvs)
     network summary:'
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下截图显示了其他参与组织（cvs）的网络摘要：
 - en: '![](img/26356d2e-dc02-433d-9b34-760450aa84d4.png)'
+  id: totrans-133
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/26356d2e-dc02-433d-9b34-760450aa84d4.png)'
 - en: Participant (cvs) network summary
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 参与者（cvs）网络摘要
 - en: Adding smartness to the OBP network
+  id: totrans-135
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 向 OBP 网络添加智能性
 - en: The subsequent chapter extensively covers adding business smartness to the OBP
     network through chaincode development and exposing chaincode functionality to
     client applications. The following section provides a sneak preview of it.
+  id: totrans-136
   prefs: []
   type: TYPE_NORMAL
+  zh: 随后的章节广泛涵盖了通过链码开发向 OBP 网络添加业务智能性，并将链码功能暴露给客户应用程序。以下部分提供了其 sneak preview。
 - en: Developing chaincode to add smartness to the OBP network
+  id: totrans-137
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 开发链码以向 OBP 网络添加智能性
 - en: After completing the steps to configure the OBP network, the next set of implementation
     involves adding smartness to it. Typically, this means adding our use case business
     logic as smart contracts or chaincode. It deals with the installation and instantiation of
     chaincode on all the nodes of the network instances.
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 完成配置 OBP 网络的步骤后，下一步的实施集合涉及向其添加智能性。通常，这意味着将我们的用例业务逻辑添加为智能合约或链码。它涉及在网络实例的所有节点上安装和实例化链码。
 - en: The next chapter of this book covers the implementation of chaincode and related
     network artifacts for our use case. [Chapter 6](0bf3e2e3-9ad5-4a97-aa1a-20a0aa7da463.xhtml), *Developing
     Solutions on Oracle Blockchain Platform*, covers the development, deployment,
@@ -568,333 +852,469 @@
     the design of network artifacts, refer to the *Network artifacts* section of [Chapter
     4](d772bd8e-2659-4dcc-be5f-ab1c68314cdf.xhtml), *Engage in Business Case on Blockchai**n
     Platform*.
+  id: totrans-139
   prefs: []
   type: TYPE_NORMAL
+  zh: 本书的下一章涵盖了为我们的用例实现链码和相关网络构件。 [第6章](0bf3e2e3-9ad5-4a97-aa1a-20a0aa7da463.xhtml)，*在
+    Oracle 区块链平台上开发解决方案*，涵盖了开发、部署和实例化链码，以满足用例需求。关于网络构件设计的更多细节，请参考[第4章](d772bd8e-2659-4dcc-be5f-ab1c68314cdf.xhtml)，*参与区块链平台上的业务案例*，中的*网络构件*部分。
 - en: Exposing chaincode via REST proxy configuration
+  id: totrans-140
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 通过 REST 代理配置公开链码
 - en: These configurations typically include definitions to expose chaincode functionality
     to a client application (such as a dApp). For the sake of sequential continuity,
     refer to the chaincode deployment section of [Chapter 6](0bf3e2e3-9ad5-4a97-aa1a-20a0aa7da463.xhtml),
     *Developing Solutions on Oracle Blockchain Platform*, for details on REST proxy
     configuration.
+  id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些配置通常包括定义，以将链码功能暴露给客户端应用程序（如 dApp）。为了保持连续性，请参考[第 6 章](0bf3e2e3-9ad5-4a97-aa1a-20a0aa7da463.xhtml)中的链码部署部分，*在
+    Oracle 区块链平台上开发解决方案*，了解 REST 代理配置的详细信息。
 - en: REST Interface for OBP
+  id: totrans-142
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: OBP 的 REST 接口
 - en: 'All the administration and configuration steps for setting up and managing
     your OBP network (as mentioned in previous sections) can also be performed using
     OBP''s Administration REST services. These services are useful for scenarios where
     the following is required:'
+  id: totrans-143
   prefs: []
   type: TYPE_NORMAL
+  zh: 设置和管理您的 OBP 网络的所有管理和配置步骤（如前文所述）也可以使用 OBP 的管理 REST 服务来执行。这些服务对于需要以下情况非常有用：
 - en: Reducing the manual mode of these activities
+  id: totrans-144
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 减少这些活动的手动模式
 - en: Implementing an automated way (such as the DevOps pipeline) for setting up and
     managing the OBP network
+  id: totrans-145
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 实施自动化方式（例如 DevOps 流水线）设置和管理 OBP 网络
 - en: Representing OBP administration information in a customized way
+  id: totrans-146
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 以自定义方式表示 OBP 管理信息
 - en: These administration REST interfaces include services related to organizations,
     nodes, channels, and chaincode. Additionally, OBP also provides a bundle of OBP
     Statistics REST services.
+  id: totrans-147
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些管理 REST 接口包括与组织、节点、渠道和链码相关的服务。此外，OBP 还提供了一系列 OBP 统计 REST 服务。
 - en: 'The following is the list of OBP Administration REST services:'
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是 OBP 管理 REST 服务列表：
 - en: 'Organizations REST endpoints: Under organizations REST endpoints, the following
     are the list of services:'
+  id: totrans-149
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 组织 REST 端点：在组织 REST 端点下，以下是服务列表：
 - en: Get organization certificates
+  id: totrans-150
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取组织证书
 - en: Get organization admin credentials
+  id: totrans-151
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取组织管理员凭证
 - en: Get the ordering service settings in a founder organization
+  id: totrans-152
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取创始组织中的订购服务设置
 - en: Join a new organization to a founder organization
+  id: totrans-153
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将一个新组织加入到创始组织
 - en: Set an ordering service to a participant organization
+  id: totrans-154
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将订购服务设置给参与者组织
 - en: 'Nodes REST endpoint: Under nodes REST endpoint, following are the list of services:'
+  id: totrans-155
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 节点 REST 端点：在节点 REST 端点下，以下是服务列表：
 - en: Get node list
+  id: totrans-156
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取节点列表
 - en: Get a list of peers on a channel
+  id: totrans-157
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取特定渠道上的节点列表
 - en: Get a list of peers for a specific chaincode
+  id: totrans-158
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取特定链码的节点列表
 - en: Add a peer node
+  id: totrans-159
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 添加对等节点
 - en: Start/stop a peer node
+  id: totrans-160
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 启动/停止对等节点
 - en: Remove a peer node
+  id: totrans-161
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 移除对等节点
 - en: Get/set a peer node's attributes
+  id: totrans-162
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取/设置对等节点属性
 - en: Join a peer to a channel
+  id: totrans-163
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将节点加入到渠道中
 - en: Export/import peers
+  id: totrans-164
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 导出/导入节点
 - en: Start/stop an orderer
+  id: totrans-165
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 启动/停止订购者
 - en: Get/set an orderer's attributes
+  id: totrans-166
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取/设置订购者属性
 - en: Start/stop a CA node
+  id: totrans-167
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 启动/停止 CA 节点
 - en: Get/set a CA's attributes
+  id: totrans-168
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取/设置 CA 的属性
 - en: Start/stop REST proxy
+  id: totrans-169
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 启动/停止 REST 代理
 - en: Get/set REST proxy's configuration
+  id: totrans-170
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取/设置 REST 代理的配置
 - en: 'Channel REST endpoint: Under channels REST endpoint, the following are the
     list of services:'
+  id: totrans-171
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 渠道 REST 端点：在渠道 REST 端点下，以下是服务列表：
 - en: Create a channel
+  id: totrans-172
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 创建一个渠道
 - en: Get a channel list
+  id: totrans-173
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取渠道列表
 - en: Get a channel list for chaincode
+  id: totrans-174
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取链码的频道列表
 - en: Get a channel list for a peer
+  id: totrans-175
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取对等方的渠道列表
 - en: Update a channel configuration
+  id: totrans-176
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 更新渠道配置
 - en: Get a channel information
+  id: totrans-177
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取渠道信息
 - en: Get a ledger block by block ID
+  id: totrans-178
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 通过块 ID 获取账本块
 - en: Get blocks by ID range
+  id: totrans-179
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 通过 ID 范围获取块
 - en: Get blocks by time range
+  id: totrans-180
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 通过时间范围获取块
 - en: 'Chaincode REST endpoint: Under chaincode REST endpoint, the following are the
     list of services:'
+  id: totrans-181
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 链码 REST 端点：在链码 REST 端点下，以下是服务列表：
 - en: Get a list of installed chaincodes
+  id: totrans-182
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取已安装链码列表
 - en: Get a list of chaincodes on a specific peer
+  id: totrans-183
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取特定对等方上的链码列表
 - en: Get a list of chaincodes on a channel
+  id: totrans-184
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取渠道上的链码列表
 - en: Install chaincode
+  id: totrans-185
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 安装链码
 - en: Instantiate chaincode
+  id: totrans-186
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 实例化链码
 - en: Get chaincode info
+  id: totrans-187
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 获取链码信息
 - en: 'Statistics REST endpoint: Under statistics REST endpoint, the following are
     the list of services:'
+  id: totrans-188
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 统计 REST 端点：在统计 REST 端点下，以下是服务列表：
 - en: List of the currently existing channels and the peers joined on each channel
+  id: totrans-189
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 当前存在的渠道列表以及每个渠道上加入的对等点列表
 - en: Current number and list of channels joined by the specified peer
+  id: totrans-190
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 指定对等方当前已加入的渠道数量和列表
 - en: Current number and list of installed chaincodes on the specified peer
+  id: totrans-191
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 指定对等方上当前已安装的链码数量和列表
 - en: Current number of instantiated chaincodes on the specified channel
+  id: totrans-192
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 指定渠道上已实例化链码的当前数量
 - en: List of configured chaincodes for a specified proxy or for all proxies
+  id: totrans-193
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 指定代理或所有代理的配置链码列表
 - en: Node health status
+  id: totrans-194
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 节点健康状态
 - en: Node usage related metrics (CPU, memory, disk usage)
+  id: totrans-195
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 与节点使用相关的指标（CPU、内存、磁盘使用情况）
 - en: Total number of asynchronous invocations
+  id: totrans-196
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 总异步调用次数
 - en: Number of billable transactions
+  id: totrans-197
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 计费交易数
 - en: Number of blocks
+  id: totrans-198
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 区块数量
 - en: Number of commits
+  id: totrans-199
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 提交次数
 - en: Number of endorsements
+  id: totrans-200
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 背书数量
 - en: Total number of synchronous invocations
+  id: totrans-201
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 总同步调用次数
 - en: Number of user transactions for peer or channel or the entire network
+  id: totrans-202
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 用于对等方或通道或整个网络的用户事务数量
 - en: For more details about these services, please refer to the OBP documentation.
+  id: totrans-203
   prefs: []
   type: TYPE_NORMAL
+  zh: 有关这些服务的更多详细信息，请参阅OBP文档。
 - en: Summary
+  id: totrans-204
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 摘要
 - en: This chapter primarily covered the first set of steps toward experimenting with
     an OBP solution. We have covered translating the network topology on OBP, configuring
     the OBP network infrastructure, configuring the OBP transaction infrastructure,
     adding business smartness to the OBP network, REST proxy configuration, and administrating
     the REST Interface.
+  id: totrans-205
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章主要涵盖了对OBP解决方案进行实验的第一组步骤。我们已经涵盖了将网络拓扑转换为OBP，配置OBP网络基础设施，配置OBP事务基础设施，向OBP网络添加业务智能，REST代理配置以及管理REST接口。
 - en: The next chapter explores chaincode development, such as language section, development
     tools, and the development environment setup. It also covers the full life cycle
     of chaincode from development to updates, which includes installing, initiating,
@@ -902,5 +1322,7 @@
     with Go and Node.js. It also illustrates endorsement policies, private data collection,
     chaincode testing via shim and REST endpoints, and integrating client apps with
     a business network using an SDK, REST, and events.
+  id: totrans-206
   prefs: []
   type: TYPE_NORMAL
+  zh: 下一章探讨了链码开发，例如语言部分、开发工具和开发环境设置。它还涵盖了链码从开发到更新的完整生命周期，包括安装、初始化、测试和版本控制。它展示了一个使用Go和Node.js构建的代码库的完整链码。它还说明了背书策略、私有数据收集、通过shim和REST端点进行链码测试，以及使用SDK、REST和事件将客户端应用程序与业务网络集成。
