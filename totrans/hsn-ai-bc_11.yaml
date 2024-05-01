@@ -1,0 +1,2192 @@
+- en: Implementing DIApps*"Blockchain and AI are the binary stars in IT. **They are
+    here to help save humanity from an invisible virus."*
+  prefs: []
+  type: TYPE_NORMAL
+- en: With it being more than 10 years since the advent of blockchain and AI, there
+    is now a whole new range of solutions that can be built by combining both technologies.
+    By combining these two technologies in a new way, we can address some tough problems.
+    In this chapter, we'll propose a better pattern for application development that
+    leverages the combination of AI and blockchain. This is a hands-on chapter where
+    you will learn more about using blockchain and AI techniques to build a smart
+    application that could potentially save us from further outbreaks of COVID-19,
+    along with other agents of infection. By the end of this chapter, you will be
+    able to identify the benefits of **Decentralized intelligent application** (**DIApp**)
+    as you build a sample contact tracing application using the DIApp design pattern.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This chapter will cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Evolution of decentralized applications
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building a sample DIApp
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Testing the sample DIApp
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Deploying the sample DIApp
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Retrospecting the sample DIApp
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Let's get started!
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Technical** r**equirements**'
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'While following the tutorials in this chapter, please ensure that the following
+    software is installed on your system:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Just (v0.5.11 and above): [https://github.com/casey/just#installation](https://github.com/casey/just#installation)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Python (v3.6.9 and above): [https://www.python.org/downloads/](https://www.python.org/downloads/)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Node.js (12.18.2 LTS and above): [https://nodejs.org/en/download/](https://nodejs.org/en/download/)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Brave browser (v1.5.123 and above): [https://brave.com/download/](https://brave.com/download/)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Jupyter Notebook: [https://jupyter.org/install](https://jupyter.org/install)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: With the preceding software dependencies installed, we have tested the code
+    on Linux (Ubuntu) and macOS (Mojave) to ensure it works.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In order to understand and appreciate the content in this chapter, you must
+    be familiar with the basic concepts of the DIApp design pattern, as explained
+    in [Chapter 7](dce2532d-dc68-42b1-996e-8b5f3336848e.xhtml), *Development Life
+    Cycle of a DIApp*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This chapter also assumes that you are familiar with the basic concepts of blockchains,
+    as explained in [Chapter 1](c9fa3dfc-7ac8-45a8-8c00-7dafed9e9389.xhtml), *Getting
+    Started with Blockchain*. It is also assumed that you are familiar with the basic
+    concepts of AI, as explained in [Chapter 2](8d65a7c4-c90d-42ec-bf01-2d387f52de99.xhtml),
+    *Introduction to the AI Landscape*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To appreciate the connection between these two technologies and apply them in
+    this chapter, you are also expected to understand the benefits of decentralized
+    database technologies, which were articulated, along with examples, in [Chapter
+    4](75f3d1ef-59e1-4a7a-975b-114f2b50a6fe.xhtml), *AI and Blockchain-Driven Databases*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Evolution of decentralized applications**'
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s begin this chapter by quickly refreshing our memory about the current
+    state of decentralized applications in a chronological manner. The following diagram
+    shows how applications have evolved over the past three decades:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/eabe417c-b3ab-4cc8-9371-9584e8fac5d2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Fig 8.1: Evolution of applications since the dawn of the internet'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Here, we can observe three major shifts in the application design pattern. We
+    can also observe the three major aspects of how applications evolve over time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will discuss each in the following sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Traditional web applications**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: Although prominent work for the foundation of the internet was laid out in the
+    1970s and the 1980s, it was the World Wide Web that made a significant leap in
+    how information can be shared easily among nodes in a network. Traditional web
+    applications such as blogs, chatrooms, and e-commerce websites emerged since the
+    advent of the public internet in the mid-1990s. The majority of internet traffic
+    is still driven by such applications, offering information and services to internet
+    users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Most of these applications started with a simple web server in the backend.
+    Servers were hosted to accept limited client connections across the world but
+    easily crashed after reaching the desired threshold. Now, the majority of these
+    applications have moved toward an n-tier architecture.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The currently used **n-tier architecture**, also called **multi-tier architecture**
+    or **multi-layer architecture**, is used to manage large-scale web applications
+    such as e-commerce websites, social media sites, chatrooms, blogging platforms,
+    and so on. Dedicated infrastructures are managed on the cloud in order for companies
+    to facilitate transactions performed by users. Compared to the primitive version
+    of the client-server model, the n-tier model separates the functions into many
+    layers (hence the name). This also means that the n-tier model is serving as a
+    better version of the client-server model in terms of handling failures and managing
+    the liveness of traditional web applications. Companies manage their own infrastructure,
+    such as servers, which is needed to provide services to users. Most of the infrastructure
+    used by companies can be purchased or rented from cloud providers for a short
+    period of time. This means the costs of operating traditional web applications
+    are almost fixed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, let's try to understand how decentralized applications have evolved on
+    the internet over the past 10 years.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Decentralized applications**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: The foremost characteristic of a decentralized application is the fact that
+    it is not controlled by a single entity. Another important characteristic is that
+    it facilitates a common bar of entry to use the app. By textbook definition, Napster
+    and BitTorrent were some of the earliest decentralized applications that could
+    be used to host and share various files of sorts in a peer-to-peer format.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Some of you might be wondering whether blockchains were used to build these
+    apps. It is partially true that these peer-to-peer file sharing protocols used
+    the fundamental cryptographic and networking technologies we use in blockchains
+    today.
+  prefs: []
+  type: TYPE_NORMAL
+- en: At the time of writing, in 2020, we associate decentralized applications mostly
+    with business logic running on blockchains such as Bitcoin and Ethereum. We must
+    understand that decentralized applications are also a design pattern that existed
+    long before the invention of Bitcoin.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Comparing decentralized applications with traditional web applications, we can
+    see that decentralized applications run on more than one server or computer. Also,
+    such computers are not necessarily owned and operated by a single entity or individual.
+    They usually consist of interested parties who are willing to run the software
+    for a benefit or an incentive. Hence, it is safe to conclude that most of the
+    decentralized applications run on a peer-to-peer network. Unlike traditional web
+    applications, these applications do not experience a single point of failure.
+  prefs: []
+  type: TYPE_NORMAL
+- en: These peer-to-peer networks are defined by a protocol and are usually fault-tolerant
+    to protect the users from many attack vectors. Compared to a client-server model,
+    it is very difficult to compromise a peer-to-peer network due to its distributed
+    topology. Incentivization and penalties in a blockchain protocol make it more
+    difficult to compromise the network as the cost of an attack is much higher than
+    the returns gained from such an attack.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Although decentralized applications address the two aforementioned problems,
+    the cost of running business and mission-critical applications is challenging
+    due to the volatility associated with token prices. At the time of writing, efforts
+    are being made to reduce this volatility in terms of signing the transaction on
+    behalf of the user or paying the user in advance for the transactional costs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So far, we have learned that traditional web applications and centralized services
+    offer predictable performance at a fixed cost, whereas decentralized applications
+    offer independent services without risking the network, vendor, or user. However,
+    we have also learned that, in achieving independence using decentralized applications,
+    we invite some degree of uncertainty in terms of fees. Finally, we have also observed
+    that users opt for centralized models to achieve performance and security in an
+    internal environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, let's try to understand how decentralized intelligent applications are
+    evolving on the internet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Decentralized intelligent applications**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: Now that business models are leaning toward transparency and efficiency, there
+    is a need for a new design pattern that favors a combination of traceability,
+    decentralization, and predictability. Decentralized intelligent applications can
+    use reliable infrastructure in a peer-to-peer network. This network is composed
+    of nodes operated by more than one entity that may have vested interests in serving
+    users and growing their businesses. Also, transactions on this kind of network
+    are usually confirmed in a very short period of time at significantly lower fees.
+    Similar to large public networks, it would be costly to attempt to compromise
+    the network due to the deficit between the benefit of the attack and the cost
+    of performing an attack.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A key differentiator between this pattern and others is the closer integration
+    of AI models with the help of decentralized databases. This makes it possible
+    to build mission-critical and business-centric applications with traceability
+    and insights as first-class features.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, let's summarize our analysis of all three models.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contrast and analysis**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: We can summarize our learning and decide the right design pattern by weighing
+    the benefits of each pattern against its trade-offs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the case of traditional web applications, we may observe better performance
+    when using a centralized and dedicated infrastructure. The transactions will achieve
+    near-immediate finality at a reasonable and fixed cost for the company developing
+    the app. However, this design pattern may lack some security and traceability
+    features offered by other design patterns.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the case of decentralized applications, we may observe reasonable performance
+    and traceability at the expense of variable transaction costs. Compared to traditional
+    web applications, the speed of transactions may be impacted.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the case of decentralized intelligent applications, we may observe predictable
+    costs and near-immediate finality for most of the transactions. Apart from better
+    cost, speed, security, and performance, the pattern also provides decentralized
+    storage for building privacy-preserving applications that can be used to derive
+    actionable insights with ethical usage of AI models on user data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now that we''ve analyzed the three major patterns, let''s end this section
+    with a table summarizing their differences:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '|  | **Traditional web application (App)** | **Decentralized application (DApp,
+    dApp, or Dapp)** | **Decentralized intelligent application (DIApp)** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| **Network** | The client-server model is used with n-tier architectures.
+    | A distributed network topology is used to allow anyone to join the network.
+    | A distributed network topology is used to allow anyone to join the network.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| **Security** | Single points of failure are very likely. Data can be hacked
+    or leaked due to weak encryption or centralized control over data. | The user
+    is the owner of the data. All the data and operations are secured by a unique
+    key pair. Limited data can be stored. | Users can store and operate on larger
+    sizes of data with the same key pair security in order to own their own data.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| **Cost** | Fixed costs in managing a dedicated infrastructure throughout
+    the year. | The costs of transactions are volatile since the costs depend on the
+    price of the native token in the blockchain. | Prices are relatively stable in
+    smaller yet decentralized groups of nodes. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| **Transparency** | Apps and data operations are not transparent to the user
+    or other stakeholders. | The logic of the app and most of the operations are transparent.
+    Private transactions are optionally allowed. | Logic and operations are transparent,
+    with options to use privacy without harming security. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| **Performance** | A large number of transactions can be processed with immediate
+    finality | The throughput is low due to the large distribution of nodes. Finality
+    is slower. | Transaction throughputs are higher. Finality is also achieved quickly.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| **Privacy** | Complete privacy and the anonymity of user data is seldom practiced
+    by companies while harnessing insights as data is hosted on a centralized or distributed
+    database controlled by organizations. | Anonymity is practiced through wallets,
+    but data management on blockchain networks is a costly affair. The privacy of
+    the user depends on the application''s policies. AI models are not used regularly.
+    | DIApps aim to provide complete privacy and anonymity to users while providing
+    meaningful and actionable insights using AI in a fair manner, without hampering
+    the anonymity of the user. |'
+  prefs: []
+  type: TYPE_TB
+- en: The preceding table shows the benefits and drawbacks of different application
+    patterns.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now that we have had a quick recap of the evolution of apps, let's build a sample
+    DIApp that addresses real-world challenges.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Building a sample DIApp**'
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we will cover the problem statement, find a solution to the
+    stated problem, come up with a technical architecture as per the DIApp design
+    pattern, and observe how to develop all the deliverables needed to launch the
+    DIApp.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's begin by understanding the problem statement in the following section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Problem statement**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'A novel coronavirus that goes by the name of **Severe Acute Respiratory Syndrome
+    coronavirus 2** (**SARS-CoV-2**) has created a new pandemic outbreak called **Coronavirus
+    Disease 2019** (**COVID-19**). At the time of writing this chapter, the virus
+    has infected over 11 million people globally through various modes of transmission,
+    tragically taking the lives of more than 500,000 people: a sad page in the history
+    books of humanity. Although efforts have been made by local governments to reduce
+    these infections, some virus carriers appear to be asymptomatic. This means that
+    a person may be carrying the virus without knowing it. Sometimes, the prescribed
+    checkups could also fail to recognize the virus in its early stage of incubating
+    inside the patient''s body.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Current challenges**'
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: This virus has introduced humanity to new challenges. Let's take a look at the
+    two major challenges that are, at the time of writing, being faced.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Detecting the virus in asymptomatic patients**: As discussed previously,
+    the SARS-CoV-2 virus poses a new challenge to medical professionals in terms of
+    identifying infections in a human body that fails to show any symptoms. Such people
+    may be allowed to continue their daily life, thus risking the wellness of the
+    entire community they belong to. This leaves a gaping hole in security checks,
+    which may allow asymptomatic people to access public services or interact with
+    people who may potentially contract the virus from the patient.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Tracing the transmission of the virus**: Although it is difficult to detect
+    the virus in its early stages for a few people who are asymptomatic, symptoms
+    do surface over time. Once they do, and the person tests positive, it is important
+    to trace back all the actions of the diagnosed patient in order to contain the
+    infection. This is difficult to achieve without an accurate history of the patient''s
+    activity over the past couple of weeks. Any efforts to jot it down will need time
+    and will remain inaccurate due to human errors.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To contain such infections, medical professionals resort to contact tracing.
+    We'll learn more about contact tracing in the following section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contact tracing**'
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Contact tracing is a process of identifying all the people involved in the patient's
+    activities over the past few days or weeks since the diagnosis of the infection.
+    This is a process carried out by health department officials in coordination with
+    law enforcement agencies.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A generic workflow of contact tracing is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The doctor has diagnosed the patient as positive for SARS-CoV-2.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A contact tracer is assigned to the case.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The contact tracer interacts with the patient to identify the activity of the
+    patient.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Depending on the jurisdiction/country, the contact tracer is responsible for
+    collecting accurate information about the patient's whereabouts for a designated
+    number of days or weeks. For example, a patient that tests positive in India might
+    be asked to share their activity for the past 14 calendar days.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Based on the input provided by the patient, the contact tracers may verify some
+    information.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: If the information shared by the patient is convincing, more contact tracers
+    are hired to identify the first-degree people infected by the patient.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Once this manual search is over, the people who have been contacted are tested
+    for the virus.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Depending on the jurisdiction, the people who have been contacted may be placed
+    under mandatory quarantine for up to 14 days to check whether symptoms develop.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The quarantined people are tested for the virus periodically.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: If there are no signs of the virus, the suspected people are released. However,
+    if they test positive, the same process repeats.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Although you may find this process to be tightly planned and sophisticated,
+    most of the steps mentioned here are manually carried out by many countries. Although
+    some countries have opted to automate contact tracing with the help of digital
+    technologies, they do not consider all the agents of infection.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Issues with contact tracing**'
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: As we discussed previously, contact tracing is an arduous process. Although
+    some countries have successfully been able to automate this process digitally,
+    it is very difficult to track infections from non-human sources.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We tend to forget that a significant number of hypotheses claim that the origin
+    of the virus leads back to bats, animals that live in forests and rural and urban
+    areas. It has also been observed by many researchers that the virus can remain
+    on many forms of surfaces for a few hours. Modern supply chains are so advanced
+    that goods can be transferred from one point to another in just a matter of hours.
+    Unfortunately, this velocity of the supply chain provides a potential window for
+    the virus being transmitted from one container to another while the cargo is airborne.
+    Such infections not only risk the supply chain of normal goods but could also
+    infect a wide range of people who may use these products without effective sanitization.
+    Assessing the risks of infection before delivering goods to the public should
+    be considered. Similarly, we want to protect our pets and other important species
+    of animals.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hence, it is imperative to consider monitoring animals and non-living objects
+    for infections of the SARS-CoV-2 virus. As such, there is a need for a digital
+    contact tracing algorithm that can address the possibility of infections among
+    these two agents in the ecosystem.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With the need for digital contact tracing for animals and objects clearly established,
+    let's try to formulate a solution approach.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Solution approach**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: Since we are developing a sample application to track potential infections from
+    animals and non-living objects, I would like to name the solution **Decentralized
+    Intelligent Contact Tracing for Animals and Objects** (**DICTAO**). As discussed
+    in the preceding section, there is a need to track animals and objects. We must
+    be able to track down the infection status at a granular level for the sake of
+    transparency. A public blockchain with a decentralized and open ledger can offer
+    this feature. Similarly, we must understand that the global supply chain is a
+    busy world of its own. Manually tracking down all potential contacts is virtually
+    impossible. Similarly, it is very difficult to identify potential contacts between
+    animals. Hence, there is a need for an automated but intelligent way of identifying
+    the potential infections and separating them from the noise. Thus comes the need
+    for blockchain and AI in tracing animals and objects.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the following sections, we will see how DICTAO can be built.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Choosing the blockchain technology**'
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: As discussed previously, blockchains are essential in maintaining the transparency
+    of the status of animals and objects. Since this is a tutorial to building a sample
+    DIApp, I am going to keep the context very simple and accessible to everyone.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The Ethereum network has many testnets for developers to deploy and test their
+    applications in a sandboxed test environment. One of the most famous test networks
+    is called the **Kovan** testnet. Kovan is a **Proof of Authority** (**PoA**)-based
+    Ethereum blockchain network. It is maintained by the Ethereum developer community.
+    The Kovan testnet is known for its speed of execution, reliability, and free access
+    to test ethers made available through a faucet. You can read more about the Kovan
+    testnet here: [https://kovan-testnet.github.io/website/](https://kovan-testnet.github.io/website/).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Faucet is a piece of software used by smart contract developers and users to
+    acquire testnet tokens for free, without the need for mining them on their local
+    PCs. Most of the blockchain testnets have their own respective faucets.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'I have chosen Kovan to only help you understand and get along with blockchains
+    as easily as possible. Kovan is a test network, so it is not intended to be used
+    for any production-grade Ethereum applications. If you wish to deploy this example
+    for a live use case, I recommend that you either use the Ethereum mainnet or prefer
+    sidechains such as Matic. If you wish to deploy it live, you can learn more about
+    the Matic sidechain here: [https://matic.network/](https://matic.network/).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Choosing a decentralized database**'
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Digital contact tracing often involves collecting data. To enable accuracy and
+    provide high-quality predictions, more data could be collected at a high frequency.
+    Over time, data can become very large. Such data should not be stored on a blockchain
+    directly since it incurs a high cost. Also, storing huge amounts of data can often
+    lead to bottleneck issues and may hamper the performance of a blockchain. Hence,
+    there is a need to store the activity of the animals or objects in a decentralized
+    database.
+  prefs: []
+  type: TYPE_NORMAL
+- en: I will be using the MóiBit REST API as the decentralized database for this sample
+    DIApp. MóiBit offers a developer-friendly API environment, which makes it an easy
+    choice.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since MóiBit is an IPFS-based decentralized storage service, each change to
+    a new file or an existing file generates a new hash. Similar to blockchains, each
+    new hash represents a successful state change. However, updating the data on MóiBit
+    will be cheaper and faster compared to blockchains. Since it is driven by hashes,
+    the file's integrity is also secured and easily verifiable.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To learn more about MóiBit's APIs, visit their documentation at [https://apidocs.moibit.io/](https://apidocs.moibit.io/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Choosing an AI technique**'
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Tracking innumerable objects and animals across an area – even a small one –
+    will lead to a humongous quantity of data points. It is virtually impossible to
+    perform contact tracing manually on these data points. Due to some low-quality
+    data points, the efforts of a manual contact tracer could easily go to waste.
+    As the number of positive cases increases, more pressure mounts on the manual
+    contact tracers to close a case and move on to the next one. This could also lead
+    to inaccurate identification of infections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In order to reduce errors and automate the process of cleaning, ordering, grouping,
+    and predicting the infections, we can leverage AI techniques.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As discussed previously, contract tracing usually involves the process of analyzing
+    the activity of the infected person/animal/object. It is safe to assume that snapshotting
+    the location data, along with a timestamp of when it occurred, will provide enough
+    insights into potential contact cases. Therefore, we will be analyzing geolocation
+    data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We'll use geospatial analysis to identify some anomalies in the data points.
+    Specifically, we will be using the **Density-Based Spatial Clustering of Applications
+    with Noise** (**DBSCAN**) algorithm to perform geospatial analysis to identify
+    potential infections among animals and objects. It is a data clustering algorithm
+    used to effectively group data points in a range under a cluster and drop the
+    outliers that cannot be reached by other data points.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To learn more about the DBSCAN algorithm, consult the following Wikipedia article:
+    [https://en.wikipedia.org/wiki/DBSCAN](https://en.wikipedia.org/wiki/DBSCAN).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now that we have decided what technologies and techniques will be used in the
+    sample DIApp, let's try to formalize it in the form of a reference technical architecture
+    by borrowing it from the DIApp design pattern.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**The technical architecture of the sample DIApp**'
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: 'In this section, I will be proposing the technical architecture of the sample
+    DIApp. Based on the decisions made in the preceding sections, I have compiled
+    all the solution components into one diagram, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/fb964d60-6a4b-4ee4-9918-83c09b8c90f8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Fig 8.2: DIApp reference architecture of our sample application'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the preceding diagram, we have represented all the solution components as
+    per the DIApp reference architecture proposed in the DIApp design pattern. Now,
+    let''s examine each component:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Sensor**: A sensor is a hardware device attached to the animal or object
+    that needs to be tracked in case of infection. Each sensor is identified by a
+    unique wallet address that is recognizable on the Ethereum blockchain. Also, it
+    is important to note that each sensor gets a dedicated file on MóiBit where the
+    location history of the corresponding sensor can be stored.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: An application will run inside the sensor. This application is expected to automatically
+    read its location and update the location to its dedicated file on MóiBit. The
+    current location of the sensor can be accessed by making a call to a geolocation
+    API. In our sample DIApp example, we are using the Google Maps API to retrieve
+    the current location of the sensor. When called, the Google Maps Geolocation API
+    returns the latitude, longitude, and accuracy of the coordinates back to the sensor.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For the sake of simplicity, we will be ignoring the accuracy value returned
+    by the Google Maps API and uploading the rest of the data to MóiBit. Since the
+    example DIApp is trying to demonstrate the convergence of AI and blockchain technologies,
+    optimizations are not given priority in this book. Handling the accuracy of the
+    data while predicting infections will take us out of the scope of this book. However,
+    I look forward to solving that problem with you offline.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, once the sensor receives the response from the Google Maps Geolocation
+    API, the data is restructured and uploaded to the dedicated location history file
+    on MóiBit. We will discuss the design and structure of the client application
+    in the *Developing the client code for sensors* section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Smart contract in the blockchain**: The significance of the smart contract
+    in this sample DIApp is to maintain proof for each location update performed by
+    every sensor. Every time a sensor updates its location history on MóiBit, a new
+    function call is made to the smart contract to update the **Content Identifier**
+    (**CID**) value for the corresponding wallet designated for the sensor. We will
+    discuss the design and structure of the smart contract in later sections.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contact tracing dashboard**: The contact tracing dashboard is a simple Express-based
+    Node.js web application that spawns a local server to host a single HTML file.
+    Through the dashboard web page rendered by the Node.js application, users can
+    enter the suspected wallet ID. The web application performs basic form validation
+    and returns a list of potentially infected wallet IDs, if any. We will discuss
+    the design and structure of the contact tracing dashboard in later sections.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contact tracing API**: The user input to track a suspected wallet ID is received
+    by the contact tracing API. This is a backend API that also predicts the infected
+    IDs in order to return them to the dashboard. We will discuss the design and structure
+    of the contact tracing API in later sections.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Developing the smart contract**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: In this section, we will discuss the design and structure of the smart contract
+    used to record the proof each time the location history is updated. As discussed
+    in the previous section, we will be using the Ethereum blockchain and therefore
+    I will be showing you how to develop the smart contract in the Solidity language.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you are not familiar with the Solidity programming language, I suggest that
+    you take a look at their website for more technical details, know-how, and documentation: [https://solidity.readthedocs.io/](https://solidity.readthedocs.io/en/v0.6.11/).
+    It is important that you understand the semantics of the Solidity programming
+    language to understand this section and learn the benefits of a smart contract
+    in the proposed DIApp solution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s start by identifying the actors. We know that the solution aims to trace
+    infections that originate from animals and objects. Hence, we understand that
+    a tracking device or sensor is necessary. Let''s assume that each sensor can be
+    identified by a unique Ethereum wallet address. Apart from sensors, we also have
+    end users such as medical professionals and enforcement teams who may want to
+    identify the potentially infected actors from a given animal or object:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Each time the sensor has a new location to update on MóiBit, it makes the necessary
+    update and receives a hash back from MóiBit. We are using that hash and the wallet
+    address from the calling sensor to maintain a mapping on the smart contract. Each
+    time a new location coordinate is updated by a sensor, the corresponding value
+    of the sensor''s wallet address needs to be updated. Hence, we need to define
+    a mapping to record any changes that are made to the location history of each
+    sensor. We can do this with the following mapping:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: From the preceding mapping, we can see that the address serves as a unique key
+    to an updated string value, which is basically the CID received from MóiBit when
+    the location of the corresponding sensor is updated.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Apart from the preceding mapping, we will also need another mapping to track
+    all the sensors by their addresses to confirm whether they have ever updated their
+    location. We can achieve this by persisting a list of all the wallet addresses
+    in the following mapping:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: From the preceding mapping, we can see that every sensor that has ever updated
+    its history will be recorded in this mapping. We will learn more about the reason
+    behind this soon.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, we will record the address of each and every sensor that has ever
+    updated its history to this smart contract with the following array of wallet
+    addresses:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: From the preceding array declaration, designated users can access the list of
+    all the addresses that have ever updated their location history in the smart contract.
+    Do not confuse the `deviceIDs` array with the `deviceIDExists` mapping. The array
+    is used to directly access each and every sensor's wallet address, whereas the
+    mapping is used to check whether a sensor has already updated the location history
+    before.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Before we move on to the functional aspects of this smart contract, we have
+    two more declarations: a modifier and an event.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A modifier is a conditional instruction that must be fulfilled before executing
+    a function. If the conditions of a modifier for a function are not satisfied,
+    that function call will not happen. In our case, we use a modifier to control
+    who can update the location history mapping: `deviceIDToLatestCID`. As you may
+    have observed, this mapping needs to be updated with the CIDs pointing to the
+    latest location history of a sensor. But we also need to make sure that only the
+    sensor can update its own value. Other sensors, users, or developers should not
+    be allowed to update the location history of an unknown sensor. This important
+    design decision will prevent other rogue actors from corrupting the reputation
+    of a good standing sensor on the blockchain.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'To achieve this, we can use the following modifier:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: From the preceding modifier declaration, we can observe that a function with
+    the preceding modifier is executed only if the caller is the same as the address
+    whose location history is being updated in the blockchain. We will understand
+    the implication of this `onlyBy` mapping when we understand how the location is
+    updated by the `setLatestCID` function. But before that, let's quickly go through
+    one last declaration of an event.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Events are very helpful when working on complex use cases. As a user who may
+    be depositing some ethers or other tokens to a wallet, we wait for the transaction
+    receipt as confirmation. For confirmation of some logical execution, we can't
+    just wait for transaction receipts. There may be other sub-components that may
+    have to be triggered, depending on the successful execution of the logic. Events
+    come to our rescue here. Events in Solidity are a logging feature that helps non-blockchain
+    applications take a cue point and continue with their execution.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'We''ll declare one event in our smart contract, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: From the preceding event declaration, we can see that an event can be emitted
+    with the wallet address of a sensor, along with its latest CID. This event is
+    emitted every time the mapping is successfully updated with the new CID pointing
+    to the latest location history of a sensor on MóiBit.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We will learn more about the application of this `MappingUpdated` event by
+    looking in the `setLatestCID` function body, as shown here:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see from the preceding function declaration, `setLatestCID` is a
+    setter function that allows each and every sensor to update its own location history
+    by passing its wallet address, along with the CID pointing to the latest history
+    on MóiBit. The `address` and `string` types are used to define the `deviceID`
+    and `latestCID` input parameters. `deviceID` is the wallet address of the sensor,
+    which is calling the function, while `latestCID` is the hash pointing to the latest
+    history of the corresponding sensor on MóiBit. The `public` keyword defines that
+    the function can be called by anyone globally. Thereafter, we see the `onlyBy`
+    modifier being used to validate the function call. It takes the same input argument,
+    `deviceID`, and checks whether the caller intending to update the location history
+    is the sensor itself. If the modifier conditions are validated to be true, the
+    remaining function body is executed. Otherwise, the transaction will be reverted.
+    Now that we have a fair understanding of the `setLatestCID` function's header,
+    let's understand its body.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Inside the function's body, we can observe that the `latestCID` value is assigned
+    to `deviceID` immediately. Once the mapping is updated, it checks whether the
+    sensor had previously updated its location. This is made possible by checking
+    the status bit for the corresponding sensor's wallet address in the `deviceIDExists`
+    mapping. If no entry exists for the given wallet address, it is added to the `deviceIDExists`
+    mapping and the corresponding status bit value is set to 1\. Simultaneously, we
+    can also observe that we are appending the `deviceIDs` array to the new array.
+    Updating this array under this condition ensures that the wallet address is not
+    added to the array again as a duplicate. This means that the `setLatestCID` function
+    only appends the wallet address when a new sensor is onboarded to the smart contract.
+    Finally, once the location mapping is updated and status bits are managed, the
+    `MappingUpdated` event is emitted by the function. You can see that the input
+    parameters have been supplied in the parentheses to log the event for corresponding
+    values. This summarizes the details of the `setLatestCID` setter function. Now,
+    let's take a look at some of the other `getter` functions in the smart contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once we set the location history mapping with a new CID for a given sensor,
+    we may have to read the mapping in case we need the details of a sensor.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Hence, we will define a `getter` function to read the latest CID of the sensor
+    from the mapping, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, the `getter` function, `getLatestCID`, reads one input parameter.
+    The `deviceID` input parameter represents the wallet address of a sensor, with
+    the Solidity type address. Since anyone should be able to read the proof that
+    a sensor is updating its location from time to time, we have to make this `getter`
+    function accessible globally. This is possible by using the `public` keyword.
+    Also, since this is a function that only fetches the data from the blockchain
+    and does not intend to make changes, it is also required to use the `view` keyword.
+    This ensures that the `getLatestCID` function has read-only powers. Since we want
+    anybody to be able to call the function, we do not have modifiers for this function.
+    In the function's body, we can only see one line of instructions, and that is
+    to return the CID value of the corresponding sensor from the `deviceIDToLatestCID`
+    mapping. Since the returned value is a string that has been defined in the mapping,
+    the function's header also defines the same. This summarizes the `getter` function, `getLatestCID`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, let's look at the peripheral functions required by the backend scripts.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'We''ll continue with one more `getter` function, as defined here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, `getDeviceIDsLength` is a getter function that does not take
+    any input, but simply returns the current length of the `deviceIDs` array. Since
+    we need to call this from a backend program, we have set the visibility of this
+    function to `public` too. Similar to our previous function, this function is also
+    a read-only function returning an unsigned integer value. Hence, `view` and `uint256`
+    are used in the function's header. This summarizes the `getter` function, `getDeviceIDsLength`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, let''s take a look at the last function in the contract:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can  see, `getIDByIndex` is a `getter` function that returns the wallet
+    address by the index value from the `deviceIDs` array. Since it is complicated
+    to return composite values in Solidity directly, I have resorted to reading them
+    one by one. If you are a sophisticated Solidity developer, you may eliminate this
+    function and read the whole array directly at the client side without spending
+    too much on gas costs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The complete Solidity smart contract code is available at the following GitHub
+    link: [https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/tree/master/Chapter08](https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/tree/master/Chapter08).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now that we have a way to manage proofs of location updates, let's go ahead
+    and develop the client code for sensors, which can make location history updates
+    on MóiBit and call this contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Developing the client code for sensors**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: In this section, we will discuss the design and structure of the sensor application.
+    The application is used to get the current location of the sensor in a periodic
+    manner and update the location history to MóiBit. Once the location history is
+    successfully updated, the new CID or hash received by MóiBit is used as proof
+    that the sensor is in good standing by updating its location in a periodic manner.
+    The applications will now call the appropriate blockchain function to maintain
+    its reputation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'I have chosen to implement this application in the Python language since it
+    is a well-known language for reference implementation across the fields of **AI**,
+    the **Internet of Things** (**IoT**), and blockchain. It is important that you
+    understand Python in order to make sense of this section. I suggest that you enroll
+    yourself in a Packt micro-course to understand the basic concepts of the Python
+    language: [https://subscription.packtpub.com/interactive-courses/data/introduction-to-python](https://subscription.packtpub.com/interactive-courses/data/introduction-to-python).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'My implementation is a single Python script. First things first, the following
+    `import` statements are required to make the necessary calls in the Python script:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Please make sure that you install the third-party libraries mentioned in the
+    `import` statements using the `pip install` command:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'There are some important variables that I''ll be using throughout the script.
+    They are as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: From the preceding code block, you can observe that `url` is a string variable
+    with the URL to Google Maps' Geolocation API. `myobj` is a request object that
+    I'll be passing to the Geolocation API during requests. Since the Geolocation
+    API is protected by an API key registered by the user, I need to pass it along
+    with every request I make to Google Maps' Geolocation API. Inside the `myobj`
+    variable, you can observe that `key` is mapped to `API KEY`, which is set inside
+    the shell and accessible through `os.environ[‘GMAPS_API_KEY’]`. Basically, it
+    fetches the value of the `GMAPS_API_KEY` environment variable and uses it as the
+    corresponding value to `key`. We will observe how to set the value for `GMAPS_API_KEY`
+    in later sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, let''s understand some of the common variables I use for MóiBit operations:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, `conn` is a variable that represents the HTTPS connection that's
+    been established between the sensor as a client, and MóiBit as a server. `moibit_url`
+    is a string variable that points to the base URL of the MóiBit API. Furthermore,
+    `moibit_header_obj` is a JSON object that I need to pass as part of the request
+    header. Since the MóiBit API is also protected by an API key and API secret, I
+    need to pass these two values in order to authenticate my requests with the MóiBit
+    network. These are represented by the `api_key` and `api_secret` fields, respectively.
+    Both fields are, again, mapped to the `MOIBIT_API_KEY` and `MOIBIT_API_SECRET` environment
+    variables, respectively. `os.environ` fetches the value of the corresponding environment
+    variables from the shell.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finally, the `content-type` field represents the metadata of the request header.
+    Since it is a JSON object, we use `"application/json"` as the corresponding value.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, let''s look at the variables related to blockchain interactions within
+    the script:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: From the preceding code block, we can observe that the `blockchain_url` string
+    variable points to the URL of the Ethereum Kovan testnet, which is accessible
+    via the service provider Infura. Since Infura's API is also protected, we need
+    to pass a project ID that's been created under an Infura user account. This is
+    observed as we append the string with the value of the `WEB3_INFURA_PROJECT_ID` environment
+    variable that we read from the shell using `os.environ`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Since we interact with a smart contract on the blockchain, we also have to
+    define its corresponding **Contract Application Binary Interface** (**ABI**) in
+    our script, as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: Do not panic if you do not understand this. This is basically a serialized JSON
+    representation of the contract's variables, functions, and input and output specifications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you are not a Solidity smart contract developer, I suggest that you get acquainted
+    with ABI by going to [https://solidity.readthedocs.io/en/v0.5.3/abi-spec.html](https://solidity.readthedocs.io/en/v0.5.3/abi-spec.html).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now that we have defined every variable that's important to the functionality
+    of the script, let's go ahead and understand the functionality of the following
+    script.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'As usual, the entry point to our Python script starts with the `main()` function,
+    as defined in the following code extract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: From the preceding code block, we can understand that when the `main` function
+    is called, it reads the wallet address of the sensor from the `WALLET_ADDRESS` environment
+    variable as `Tracking_ID`. Once it identifies its wallet address, the `getGeoCordinates`
+    function is called to get the current latitude and longitude. Now that we have
+    the current latitude and longitude, the `getCurrentTime` function is called immediately
+    to get the current UNIX timestamp at that time. Now, all four variables – `Tracking_ID`,
+    `latitude`, `longitude`, and `timestamp` – are expected to be formed as one JSON
+    object. Hence, the `Marshal` function is called to marshal the four values into
+    one JSON object under the `id`, `latitude`, `longitude`, and `timestamp` fields,
+    respectively. The resulting variable, `jsonData`, is now ready to be updated in
+    the corresponding location history file dedicated to that sensor on MóiBit. Now,
+    the `updateLocationHistory` function is called by passing the wallet address variable, `Tracking_ID`,
+    along with `jsonData`. Once the latest location data is updated in MóiBit, the
+    function returns the latest CID back to the main function as `latest_cid`. This
+    is now used to sign a new transaction on the blockchain via the smart contract.
+    Once the transaction is signed and placed in the Ethereum Kovan blockchain, the
+    transaction hash is returned as `txnHash`. The same hash is suffixed to an URL
+    for preview purposes. The resulting URL can be used to review the status of the
+    transaction. This summarizes the `main` function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Since `main` needs the geocoordinates first, it calls the `getGeoCordinates`
+    function, which is defined as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: From the preceding code block, we can see that the `getGeoCordinates` function
+    is making a POST API call to the Google Maps Geolocation API, along with the credentials.
+    The API response, `res`, is parsed to extract the latitude and longitude. You
+    can observe that we are rounding off the decimal degrees of both values to seven
+    places. You can also observe that we are ignoring the `accuracy` field since optimizing
+    this solution is simply out of the scope of this book.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Once the `main` function receives the `lat` and `long` values, it now captures
+    the timestamp instantly by calling the `getCurrentTime` function, which is defined
+    as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can observe from the preceding code block, the `getCurrentTime` function
+    simply captures the UNIX timestamp based on the local time of the sensor and returns
+    it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now that we have all the necessary data, the `main` function needs it in a
+    presentable format for MóiBit. Hence, it calls the `Marshal` function, which is
+    defined as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, the `Marshal` function simply takes the four values and returns
+    the marshaled version of the data in JSON format.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'With the new location data of the sensor ready to be updated, the `updateLocationHistory`
+    function is called, which is defined at this link [https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/iot-client-code/python/main.py](https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/iot-client-code/python/main.py):'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: As you can see, the `updateLocationHistory` function checks whether a dedicated
+    file for the sensor already exists on MóiBit by calling the `checkIfFileExists`
+    function. Based on the status value returned by the `checkIfFileExists` function,
+    a new file is created if a dedicated file does not exist for the sensor on MóiBit.
+    Once created, the JSON marshaled data is uploaded to the newly created file and
+    the CID of the file is returned to the main function as `latest_cid`. However,
+    if a dedicated file for the sensor already exists on MóiBit, the current location
+    history of the sensor is first downloaded, and then the newly marshaled location
+    data is appended to it. Once appended, the updated location history is now uploaded
+    to MóiBit. As a new update to the file, the CID hash of the file with the new
+    location data is returned to `main` as `latest_cid`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In case of any errors, suitable response error codes are printed, along with
+    data from the response body and headers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The `checkIfFileExists` function is defined as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, the `checkIfFileExists` function sweeps across the entire `dictao` folder
+    to check whether there is a dedicated file for a sensor. Since the name of the
+    file is the same as the wallet address, it is easier to simply pass the wallet
+    address of the sensor and check whether a dedicated file exists for the sensor
+    on MóiBit. If the wallet address of the calling sensor is `0xABC`, then the dedicated
+    file for this sensor on MóiBit would be `0xABC.json`. If a file is found under
+    the root folder, `dictao`, of your respective MóiBit developer accounts, it returns
+    the Boolean value `True` to the `updateLocationHistory` function. If such a file
+    does not exist, it will return `False`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, once the `main` function receives the updated CID hash of the location
+    data of the sensor, it needs to maintain the proof of this location update on
+    the blockchain. Hence, it calls the `CommitTxn` function, which is defined as
+    follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: From the preceding code block, you can see that the `CommitTxn` function is
+    taking the wallet address and the latest cid using `id` and `CID`, respectively.
+    The function now creates a new `web3` object connected to one of the Ethereum
+    nodes run by Infura. Once connected to the Ethereum Kovan blockchain network,
+    it connects to the smart contract deployed on the blockchain by passing the contract
+    address. The contract address is also fed into the shell as `PROOF_SMART_CONTRACT_ADDRESS`,
+    which can be read by `os.environ`. Using this address, the contract variable is
+    initiated and points to the smart contract instance on the blockchain. Now, a
+    new transaction is created by using the input data; that is, `id` and `CID`. The
+    transaction is created using the `buildTransaction` call that's offered by the
+    Python `web3` library. The `chainId` field represents the network ID of the Ethereum
+    Kovan blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To find out more about each parameter passed to this function, I suggest that
+    you go through the documentation of how to send raw transactions using `web3.py`
+    here: [https://web3py.readthedocs.io/en/stable/web3.eth.account.html#sign-a-contract-transaction](https://web3py.readthedocs.io/en/stable/web3.eth.account.html#sign-a-contract-transaction).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once the transaction has been built, sent, and verified by the network, a receipt
+    is obtained as `tx_receipt`. We wait for this receipt and then send the transaction
+    hash back to the `main` function as `tx_hash` for reference purposes. This summarizes
+    the `CommitTxn` function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now that the location history data has been updated and proof is available on
+    the blockchain, let's learn how to apply AI techniques in order to predict the
+    potential infections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Training the model**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: In this section, I will walk you through all the steps needed to build a contact
+    tracing algorithm by leveraging AI techniques. We will go through the common steps
+    in training an AI model to predict an outcome or a value. With the help of our
+    sample DIApp, we'll understand the 10 common steps taken when training an AI model
+    and reapply them to our use case. We will be using Jupyter Notebook to explain
+    each step involved.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The steps to building our AI-based contact tracing algorithm are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Preparing the training dataset**: As mentioned in the previous section, the
+    location history of each sensor is stored in a separate file under MóiBit. Each
+    file serves as a subset of the main DataFrame and will be used to identify potential
+    infections. The DataFrame of an individual sensor looks as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '** ![](img/42e31115-bf5d-405d-87a7-729e90bc4400.png)**'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Fig 8.3: Location history of an individual sensor captured in Jupyter Notebook
+    using the pandas DataFrame view'
+  prefs: []
+  type: TYPE_NORMAL
+- en: To detect potential infections and cluster the infections in an intelligent
+    manner, we are going to use the DBSCAN algorithm.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**DBSCAN** is a data clustering algorithm that separates high-density data
+    points from low-density points. The algorithm was proposed by Martin Ester, Hans-Peter
+    Kriegel, Jörg Sander, and Xiaowei Xu in 1996\. Basically, the DBSCAN algorithm
+    clusters a group of data points that are close to each other in a certain space
+    and ignores the outliers as noise.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In order to understand the location history and its applicability in DBSCAN,
+    we generated a training dataset with preset random IDs, a timestamp, and lat-long
+    values. It is not easy or safe to assign random values by ourselves. Hence, we
+    used the **JSON Generator** tool. JSON Generator allows users to generate JSON
+    documents with random values in a customizable manner. This is made possible by
+    programming the JSON generator to use specific values for a given field.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We used the following syntax to generate 100 JSON objects with random values
+    for the ID, timestamp, latitude, and longitude:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/785fd3e5-a6c8-4e8c-b3aa-9dde96be2186.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Fig 8.4: Schema required to generate a training dataset on JSON Generator'
+  prefs: []
+  type: TYPE_NORMAL
+- en: As shown in the preceding screenshot, the schema specifies all four attributes
+    desired in the dataset. Since this is a dataset, the `id` attribute has a set
+    of dummy wallet addresses. The `timestamp` attribute also has a set of UNIX timestamps
+    ranging between 24 hours with at least a 1-hour gap between each other. Finally,
+    the `latitude` and `longitude` attributes have also been specified to take any
+    value between the specified minimum and maximum values at a precision of seven
+    decimal places.
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the preceding schema, we can generate exactly 100 random JSON objects.
+    However, this may not be enough. Hence, I regenerated some more random JSON objects
+    to form a training dataset consisting of 1,000 JSON objects. I concatenated the
+    100 JSON objects that were generated by the preceding schema repeatedly 10 times.
+    The resulting dataset is an array of 1,000 random JSON objects.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The resulting dataset can be viewed on Jupyter Notebook by executing the `head()`
+    function of the `pandas` library, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a5cb8a90-ff44-4b23-80ee-ab5fab1ef7b1.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Fig 8.5**:** Output of the df.head() function call on Jupyter Notebook
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the preceding screenshot, we can see that a training dataset has been created
+    and read on Jupyter Notebook.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Analyzing the training dataset**: Now that we have created a training dataset
+    with random values and loaded it into Jupyter Notebook, we shall analyze it a
+    bit further to understand the dataset. This process is called analyzing the training
+    dataset. This step helps us understand more about the nature of the data points
+    and how they are distributed.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'First, we begin the analysis by describing how to get topline information about
+    the dataset. We do this by calling the `info` function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/5c196a9c-570d-44c4-889d-2cfa2252567f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Fig 8.6**:** Output of the df.info() function call on Jupyter Notebook
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the preceding screenshot, we can observe that there are 1,001 entries in
+    the dataset. The output of the `info` function call also lists all the columns
+    in the DataFrame, including their types. It also checks whether there are any
+    null values. Since our schema for JSON Generator was very specific, we do not
+    have any null values in any rows of the DataFrame.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Next, we need to understand the distribution of the data points by tasking
+    pandas with describing the dataset using the `describe()` function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7d152ae1-0558-4462-8c69-0befbc1c0829.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Fig 8.7: Output of the df.describe() function call on Jupyter Notebook'
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the preceding screenshot, we can observe the statistical summary of the
+    same DataFrame. We can see that `count` represents the total number of non-null
+    rows in the training DataFrame, `df. mean` represents the average values of the
+    latitude and longitude columns at around 12.973009 and 77.621612, respectively.
+    `min` represents the minimum latitude and longitude value ever recorded in the
+    DataFrame at 12.879612 and 77.445554, respectively. `max` represents the maximum
+    latitude and longitude value ever recorded in the DataFrame at 13.069226 and 77.798141,
+    respectively. Although `count`, `mean`, `min`, and `max` highlight the boundaries,
+    they do not explain the distribution of data points. However, the distribution
+    of the data points can be understood by the `std`, `25%`, `50%`, and `75%` parameters.
+    Let's understand what they mean.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`std` numerically represents how far the latitude and longitude values are
+    from the mean latitude and longitude value. In this case, the values are 0.054532
+    and 0.101059, respectively. The `std` values are so low in our training dataset
+    because of the minimum and maximum value range we have entered into our JSON Generator
+    schema. Although it looks like all the rows in the DataFrame are close enough,
+    each of them is placed kilometers away from one another due to a change or shift
+    in one decimal degree as well.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: If the `df` DataFrame were to be sorted, the first 250 columns of the DataFrame
+    would have latitude values ranging from 12.879612 to 12.925427\. Similarly, the
+    longitude values would be ranging from 77.445554 to 77.535446\. This is represented
+    by the resulting parameter, `25%`. The same can be interpreted for the remaining
+    parameters – `50%`, `75%`, and `max` – by cascading 250 rows while analyzing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It is also important to note that the summary is helpful in understanding whether
+    the data points are distributed enough.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Feature engineering**: Feature engineering usually involves identifying critical
+    data points, transforming the data points, and grooming them for a better analysis.
+    Since there are no missing values or NaN values in our dataset, we will not be
+    performing any featuring engineering on our dataset.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Exploratory data analysis**: Next, we will try to visually analyze our dataset.
+    Since we are dealing with geographic data, it is better to understand the data
+    points by plotting them against a real map. We are going to be using the Plotly
+    library to plot the lat-long coordinates on a real map. By doing so, we''ll obtain
+    the following visualization:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/ec706f28-a9af-4205-861d-36da131f3065.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Fig 8.8**:** Graphical output of the datapoints on Jupyter Notebook using Plotly
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the preceding screenshot, we can see that all the data points are being
+    plotted across many areas in Bengaluru city. This is because of the limits we
+    have set in our training dataset. As you can see, we have manually set the limitations
+    for the latitude and longitude in the JSON Generator schema. Hence, we cannot
+    see any other data points beyond the city limits of Bengaluru. While trying out
+    this tutorial, you may wish to change it as per your requirements and mention
+    a city-specific lat-long range or keep it very wide open in your JSON Generator
+    schema.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Apart from plotting the lat-long data on a map, we can also analyze the data
+    points using a scatterplot. Under a scatterplot, we plot the lat-long values on
+    a two-dimensional graph, with the *x *axis representing the latitude and the *y *axis
+    representing the longitude.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, let''s take a look at a simpler version of a scatterplot on our training
+    dataset:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/38be23ca-910f-4412-9712-549b74e26782.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Fig 8.9: The scatterplot''s output of the datapoints on Jupyter Notebook using
+    Seaborn'
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the preceding screenshot, we can observe the location history of all 10
+    IDs randomly scattered across the geographic space. Each color represents an ID,
+    while all the colored dots on the graph represent its corresponding location history.
+    You can get more creative by applying more parametric filters and also performing
+    analysis using other charts, including, but not limited to, box plot, joint plot,
+    heatmap, and so on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To find out more about visualizing your training dataset, I recommend that you
+    use Seaborn and Plotly. To learn more about Seaborn, visit [https://seaborn.pydata.org/](https://seaborn.pydata.org/).
+    To learn more about Plotly, visit [https://plotly.com/](https://plotly.com/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Splitting the training dataset**: Most of the time, we split the training
+    dataset into two parts. One part is used to train the model, while the other part
+    is used to predict the values and compare the predicted values with the actual
+    values in the training dataset. Since we are clustering the data and not using
+    regression-based models to actually predict a value, there is no need to split
+    our training dataset.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Selecting the model**: When it comes to performing digital contact tracing
+    for animals and objects, one approach is to use clustering algorithms that can
+    provide customizations as per the new-found medical data and approaches. Although
+    there are many clustering approaches, such as K-means, hierarchical clustering,
+    and density-based clustering, we chose density-based clustering in this sample
+    application as it is simple to understand and also offers some customizations
+    that can be applied for practical use cases.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: K-means clustering is also easy to understand but it generally does not have
+    a strong reputation when it comes to analyzing geocoordinates and spatial data.
+    Although hierarchical clustering can help us analyze spatial data, it does not
+    offer an easy learning curve like DBSCAN does.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We are going to use the DBSCAN algorithm for this, which is available under
+    the scikit-learn machine learning library.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For more information about the features that are available, visit the following
+    link: [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Training and fitting**: Now that we have created the training dataset, analyzed
+    it, and visualized it, we need to use the training dataset to train our model
+    using the DBSCAN algorithm to cluster the data points and identify them distinctly.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: As per the medical norms accepted by many practitioners globally, it is a popular
+    opinion that we can contract coronavirus if people are not maintaining the minimum
+    safety distance of at least 6 feet. So, we are assuming the same accepted metric
+    for physical distancing and creating our model so that it clusters data points
+    that are connected to each other whose distance is less than or equal to 6 feet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Based on the criteria we''ve discussed so far, we''ll define the model using
+    Jupyter Notebook as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7d48ac4e-5077-4e0d-8aaa-a4c31360b64c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Fig 8.10: Initiating the DBSCAN model with the training dataset'
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the preceding screenshot, we can observe that a `model` has been initiated
+    based on the DBSCAN algorithm. The inputs given to the DBSCAN algorithm are the
+    training dataset, `df`, itself. Along with df, the `epsilon` variable is also
+    sent. `Epsilon` is the maximum distance between any two given data points. We
+    choose 0.0018288 as the value of the `epsilon` variable since it is the kilometer
+    equivalent of 6 feet. This is a crucial parameter while setting up a DBSCAN-based
+    model. Along with `epsilon`, the `min_sample` variable is also sent to the DBSCAN
+    algorithm to initiate the model. `min_sample` defines the minimum number of data
+    points that need to be present within the `epsilon` radius to form a cluster.
+    We chose 2 as the value of the `min_sample` variable since it takes a minimum
+    of two actors to spread the infection.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finally, we need to choose the metric function, based on which the distance
+    between the data points is calculated. Since we are working on geographic coordinates,
+    we chose `haversine` as the metric function to calculate the distance between
+    the data points to form the cluster.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To find out more about the haversine geographic distance formula, visit the
+    following Wikipedia article: [https://en.wikipedia.org/wiki/Haversine_formula](https://en.wikipedia.org/wiki/Haversine_formula).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Once the model has been initialized, the clusters are formed and assigned to
+    the respective data points by us adding the new column, called `cluster`, to the
+    training dataset. You can now see that the same DataFrame is updated with one
+    more column cluster, as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c2e38a31-e307-411e-ba4c-4567665cfaed.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Fig 8.11**:** Reading the updated contents of the DataFrame with the new column
+    cluster by using the df.head() function call on Jupyter Notebook
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When the clusters are plotted on the graph with the *x* axis representing latitude
+    and the *y* axis representing the longitude, this results in the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/dd99de8d-4673-4fa9-80d4-db8a9f7f0a3a.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Fig 8.12: Scatterplotting all the clusters, including noise'
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the preceding plotted graph, we can observe that there are 74 normal clusters
+    ranging from **cluster-0** to **cluster-73**. It is also important to observe
+    that there is one more cluster that goes by the name **cluster--1**, which represents
+    all the data points that do not belong to any cluster. Such data points are considered
+    **noise** and hence they are irrelevant to our further efforts in contact tracing.
+    Noise data points occur if the sensors were attached to animals or objects that
+    have likely been isolated and have not interacted with another animal or object
+    wearing a sensor.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It is difficult to analyze the data since there's so much noise in the preceding
+    graph, so let's go ahead and remove all the data points in the DataFrame that
+    are considered noise.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We can remove the noise and replot the graph as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/44450a4f-2eeb-41b9-952e-41199daeba1e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Fig 8.13**:** Removing the noise cluster before plotting again
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the preceding screenshot, we can observe that we have dropped all the rows
+    that belonged to **cluster -1**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The resulting graph is cleaner and can be observed as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/198b97e9-517f-4c75-ab76-39e445feb247.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Fig 8.14: Replotting the clusters without noise'
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the preceding screenshot, you can observe that the DBSCAN model has been
+    successfully initiated with the configured parameters. Now, let's check the accuracy
+    of the model.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Evaluating the model**: Usually, prediction models use logistic regressors
+    or classifiers. But in our sample application, we are not predicting any new values;
+    we''re simply using machine learning to split the data into smaller, customized
+    clusters.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Now that we have been able to split the dataset into clusters of two or more
+    data points, we need to check whether the clustering is working effectively. In
+    simpler terms, we need to check the basic correctness of the model. In our case,
+    we can perform a basic evaluation by checking whether the model is generating
+    any false positives; that is, we need to check whether the model is clustering
+    two or more data points whose haversine distance is more than the specified distance.
+    If such data points are grouped under one new cluster, we can easily conclude
+    that the model has its limitations with false positives. Similarly, we also need
+    to check whether the model is prone to false negatives; that is, we need to check
+    whether the model is clustering two or more data points whose haversine distance
+    is less than the specified valid distance, but the model fails to recognize it
+    as a potential infection by not clustering them together. Due to the limited scope
+    of this book, we will conclude by making one observation that the current model
+    seems to be generating false positives for data points up to 10 meters in haversine
+    distance. As far as false negatives are concerned, we have not observed such anomalies
+    or limitations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Tuning the parameters**: There are only three main input parameters that
+    are required by the DBSCAN algorithm. They are `epsilon`, `min_sample`, and the
+    haversine metric function. Apart from these parameters, you can also add some
+    more parameters when you are trying this solution on your system.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'For more information regarding the other parameters, visit the documentation
+    at the following link: [https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Due to the limited scope of this book, I will not be focusing on the optimization
+    of the model since it does a decent job with clustering as-is.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Predicting infections**:The model is now ready to take live data from MóiBit
+    and predict the potential infections by clustering the data points using the preceding
+    parameters. Of course, the model will be prone to some false positives for neighboring
+    data points of up to 10 meters as it is not fully tuned. It is out of the scope
+    of this book to only focus on optimizing the AI component of the sample solution.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'All the screenshots in this section have been borrowed from Madhusudhan Kumble''s
+    Jupyter Notebook. The complete implementation of the notebook is available on
+    his GitHub: [https://github.com/madatpython/PRANA/blob/packt/prana_contact_tracing_using_DBSCAN.ipynb](https://github.com/madatpython/PRANA/blob/packt/prana_contact_tracing_using_DBSCAN.ipynb).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now that we understand how to apply the DBSCAN algorithm to our use case and
+    we have developed a fair understanding of its limitations, let's incorporate this
+    model in the backend API.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Developing the backend**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: In this section, we will be discussing the design and structure of the contact
+    tracing backend API. The backend API is responsible for performing contact tracing
+    by reading a wallet address and returning the wallet addresses of any other potentially
+    infected sensors.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Similar to sensor application code, I will be implementing the contact tracing
+    backend API in the Python language as it is easier to bridge the language gaps
+    between the AI, IoT, and blockchain communities.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'As usual, we start by noting down all the `import` statements that are necessary
+    for proceeding with the API''s development:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: Please make sure that you have all the external packages installed through the `pip
+    install` command.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To develop the contact tracing backend API, I will be using the Flask framework.
+    You can read more about the Flask web application framework here: [https://flask.palletsprojects.com/en/1.1.x/](https://flask.palletsprojects.com/en/1.1.x/).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We initiate the API by defining the `flask` web app, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, the API is allowing any source on the internet to query the
+    API. This is made possible by using `CORS(app)`. Also, I have set the app to debug
+    mode to help you get more exposure to the API as you follow these instructions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The entry point to this API script is made by using the following instruction
+    in the script:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: For those of you who are not familiar with the Flask framework, this is equivalent
+    to the `main` function, which we discussed when we looked at the IoT client code
+    for sensors.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Similar to other programs, this API is also manifested in a single-file Python
+    script. As such, we will have to use a few variables.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s look at them in the following code block:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can observe from the preceding code block, we are using the same techniques
+    as that of a sensor application in order to access the blockchain network and
+    access the smart contract through the ABI.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Similarly, we also reuse the variables needed for interacting with MóiBit:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can observe from the preceding code block, the same variables are used
+    to access resources from MóiBit. Unlike the sensor application, the variables
+    will be used in this script to read the location history of each sensor and build
+    a dataset for further analysis. To summarize, all these variables are used for
+    read-only purposes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When the script is run, it procedurally falls back to the home function defined,
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: As the name suggests, the `home` function is a handler function used to respond
+    to the `GET`-based API requests made to the root of the API. In this case, I am
+    returning simple HTML content.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To make sure that we send a proper response for any illicit request or invalid
+    requests, we have defined the `page_not_found` handler function, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: As shown in the preceding code block, this function returns a string response
+    along with an HTTP response code 404 back to the client, which means **file/resource
+    not found**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Apart from illicit or invalid client requests, we also need to cover some of
+    the internal errors that may occur. This can be achieved by defining the `internal_server_error`
+    function, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: As shown in the preceding code block, when an `internal_server_error` function
+    is called by the API program, along with an error or an exception, the same will
+    be returned to the client, along with the HTTP response code 500, which means
+    an internal error occurred on the server.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now that we have covered the API by designing the contingent communications,
+    let's focus on the main logic of the API program. Our API will respond to requests
+    made by web clients at the `/api/v0/get_infections` endpoint. For example, if
+    the API is hosted at `example.com`, then the API calls must be sent to the following
+    URL: [https://example.com/api/v0/get_infections](https://example.com/api/v0/get_infections).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, let''s continue with the logic that supports such API calls. Here is the
+    code link [https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/backend-contact-tracing/server.py](https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/backend-contact-tracing/server.py):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A new app router is now set up for the `/api/v0/get_infections` endpoint. The
+    type of API calls accepted by this router has been set to `GET`. This means that
+    there is a response from the server being waited on by the web client. `get_infections`
+    is the handler function responsible for handling the API calls landing at the
+    said endpoint. As you may be able to predict from the code, `get_infections` is
+    returning a list of potentially infected wallet addresses back to the web client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A wallet address is communicated as `ID` in this section as it aligns with the
+    design of the backend and that of the dataset.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When the API receives the wallet address from the web client, it is checked
+    for any possible corruption or loss of data. If the received ID is not an empty
+    string, then the API makes the next move by retrieving all the wallet addresses
+    registered on the smart contract. For each wallet address registered in the smart
+    contract, the latest location history CID of each wallet is retrieved from the
+    blockchain. Furthermore, each CID is used to retrieve the location history data
+    of each registered sensor from MóiBit.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The corresponding code can be seen in the following code block:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: From the preceding code block, you can observe that the `getLatestCID` function
+    is used to fetch the latest CIDs of the respective wallet addresses of the sensors,
+    once the `get_infections` function retrieves each and every wallet address. The
+    CID value read from the mapping in the smart contract is returned to the caller
+    function, `get_infections`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now that the `get_infections` handle function contains the CID hashes of the
+    corresponding wallet addresses of each and every registered sensor, it is used
+    to retrieve the location history data from MóiBit, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: From the preceding code block, you can see that the retrieved `cid` from the
+    `getLatestCID` function is passed along to the `getJsonDataFromMoiBit` function.
+    This CID is used to retrieve the latest location history data of the corresponding
+    sensors.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now that the data is available for analysis, the AI-based contact tracing algorithm
+    we designed in the previous section comes into the picture.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The AI model is incorporated in the following function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can see, the `get_infected_ids` function can be called to fetch all the
+    potentially infected IDs. When called, this function basically clusters the live
+    dataset generated at runtime and checks whether the given ID exists in any of
+    the clusters. If the IDs exist in the cluster, all the neighboring IDs are considered
+    to be affected by the coronavirus infection. Each neighboring ID in the same cluster
+    is appended to an array and the search for the potentially infected IDs continues
+    until the function reaches the last cluster. Once the potentially infected IDs
+    have been identified, they are returned to the caller function, `get_infections`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Developing the frontend**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: In this section, we will discuss the design and structure of the contact tracing
+    dashboard web application. In short, let's call it the dashboard. The purpose
+    of the dashboard is to help us identify all the potentially infected IDs by entering
+    the ID or wallet address of the suspected sensor that may be attached to an animal
+    or an object.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The dashboard application is simply composed of two components: an Express
+    server that hosts the static files and an `index.html` HTML file that reads the
+    input from a user, calls the contact tracing API, and prints all IDs returned
+    by the backend API.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The dashboard web server code is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: As you can observe from the preceding code block, this is a simple Express-based
+    Node.js application that starts a web server locally at port 3000 and starts hosting
+    the `index.html` file for users who visit the root of the server. The web server
+    also logs all the requests made by the clients.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can visit the markup code for the dashboard at [https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/frontend-tracking-dashboard/public/index.html](https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/blob/master/Chapter08/frontend-tracking-dashboard/public/index.html):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the preceding code block, we can observe that the markup code, `index.html`,
+    is hosting a simple form to take the wallet address of the suspected sensor as
+    input from the user. The input is confirmed when the user clicks the submit button.
+    On clicking the submit button, the JavaScript `getInfectedIDs` function is called.
+    Now, the `getInfectedIDs` function is responsible for performing basic form validations
+    and alerting the user in case of any faulty inputs. If not, the function is responsible
+    for calling the contact tracing backend API to retrieve the list of potentially
+    infected sensors. If it receives a non-null response from the API, it populates
+    the received IDs or wallet addresses in a table.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, let's go take a look at some of the testing tools available to test our
+    sample DIApp.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Testing the sample DIApp**'
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Unfortunately, due to the limited scope of this book, we cannot cover too much
+    on testing, so I will point you to some relevant resources in this section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Testing smart contracts**: Truffle is one of the most renowned toolchains
+    for Solidity smart contract development. You can follow the test instructions
+    mentioned in their documentation, which are available at the following link: 
+    [https://www.trufflesuite.com/docs/truffle/testing/testing-your-contracts](https://www.trufflesuite.com/docs/truffle/testing/testing-your-contracts).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Testing sensor implementation**: The sensor application is implemented using
+    basic Python programming skills. You may have already observed that the script
+    interacts with the Google Maps Geolocation API,  Ethereum, and MóiBit. Hence,
+    I suggest that you heavily test the HTTP client code. I highly encourage you to
+    perform unit testing with as many test cases as possible. You can learn all about
+    testing basic Python code by viewing the Python documentation that''s available
+    at the following link: [https://docs.python-guide.org/writing/tests/](https://docs.python-guide.org/writing/tests/).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Testing the AI model for accuracy**: Testing the AI models with **Mean Absolute
+    Error** (**MAE**) is pretty simple and straightforward. However, we are not using
+    regressors or classifiers in our sample DIApp. Hence, I urge you to play with
+    the dataset by adding new data points so that you can manually verify the results.
+    You can check whether the model responds with a false positive or false negative
+    in such edge cases. This is your opportunity to get fluent with geospatial analysis!
+    Finding content for calculating the accuracy of unsupervised clustering algorithms
+    is pretty rare in my experience.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'However, there are a few resources that are hidden gems. I recommend that you
+    read [https://www.cs.kent.edu/~jin/DM08/ClusterValidation.pdf](https://www.cs.kent.edu/~jin/DM08/ClusterValidation.pdf)
+    to understand more about measuring the accuracy of clustering algorithms through
+    various approaches. You can also visit the scikit-learn documentation, which highlights
+    some aspects of clustering performance: [https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation](https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Testing the contact tracing backend API**: Since we have written our API
+    using the Flask framework, I highly recommend that you visit the official testing
+    documentation of Flask for more information on testing Flask web applications:
+    [https://flask.palletsprojects.com/en/1.1.x/testing/](https://flask.palletsprojects.com/en/1.1.x/testing/).
+    I suggest that you test each route with more than one test case for each route
+    and handler function defined in the script.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Testing the web dashboard frontend app**: Finally, the frontend web application
+    is a simple piece of implementation. As there isn''t much to test on the Node.js
+    side, I suggest that you test the inline JavaScript function in `index.html` to
+    get better form validation, pagination, and other edge cases that can make the
+    UX better while you''re presenting it.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Now that you have a basic understanding of testing tools and techniques, let's
+    deploy the sample DIApp solution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Deploying the sample DIApp**'
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: So far in this chapter, we have been able to explain the problem statement,
+    design a solution for addressing the problem, build the solution, and also make
+    some recommendations regarding testing. The whole effort will be fruitful if you
+    deploy this application on your own. Hence, in the following sections, I will
+    be suggesting that you sign up for the appropriate services that are needed to
+    deploy this sample DIApp. I will also instruct you to set up your local system
+    with another important special piece of configuration management software required
+    to run these programs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Signing up for the Google Maps API**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'As you know, we use the Google Maps Geolocation API to get the current lat-long
+    coordinates of the sensor. Hence, please follow the instructions in the following
+    documentation and get yourself an API key: [https://developers.google.com/maps/premium/apikey/geolocation-apikey](https://developers.google.com/maps/premium/apikey/geolocation-apikey).
+    Make sure that you do not share your API key with anyone. It is also important
+    that you do not disseminate the API key on open source code hosting platforms.
+    If your API key is exposed and still valid, someone could exploit this credential,
+    and this will surprise you with a fat invoice. If you think that your API key
+    may be exposed, you can delete or disable it and regenerate a new one for our
+    sample DIApp.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Signing up for MóiBit**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'As you know, we use the MóiBit decentralized file storage API to store the
+    location history data of each sensor. Hence, you are required to sign up for the
+    MóiBit API. The signup process for MóiBit is very straightforward. You can sign
+    up for MóiBit at the following link: [https://account.moibit.io/#/signup](https://account.moibit.io/#/signup).
+    Once you''ve verified your email address and your password, a new API key will
+    be generated for you.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using these credentials, you are expected to create a new folder under the root
+    folder. Please create a new folder there and name it `dictao`, as it is hardcoded
+    into our current implementation. This makes sure that all the files will be persisted
+    in a dedicated folder. This will also help you use MóiBit for other applications
+    without any hassle or clutter. Again, make sure that your API key is not visible
+    or accessible to the public.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Signing up for Infura**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'We use Infura to connect to the Ethereum Kovan blockchain. You need to create
+    a new Infura account and create a new project. Once you''ve created a new project,
+    you will need to copy the credentials for the project and use them to get dedicated
+    access to the blockchain using Infura''s infrastructure. The registration process
+    for Infura is also pretty straightforward. You can sign up for an Infura account
+    here: [https://infura.io/register](https://infura.io/register).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Updating your local justfile**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'As you may have already observed, we use a lot of credentials in our sample
+    DIApp. To ensure that these credentials are safely managed, I suggest that you
+    manage an isolated file on the host that can privately share these credentials
+    to the respective processes. To achieve this, we will be using the `just` command.
+    You can install the `just` command by following the instructions available on
+    GitHub: [https://github.com/casey/just#installation](https://github.com/casey/just#installation).
+    Please follow the installation instructions that fit your system the best, and
+    make sure that you create a `justfile`, which is untracked by the `git` protocol.
+    This is possible by adding the name justfile to the `.gitignore` file.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Fill in the necessary fields by replacing the question marks with the appropriate
+    credentials for the services you have now signed up for:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: Depending on where you write the source code, you may need to change the relative
+    paths of the source code files as well. Just make sure that the justfile is in
+    the root of a project folder where you manage all the source code for this chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, your **justfile** is ready to launch the necessary applications, along
+    with your credentials.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Deploying smart contracts**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'Paste the final smart contract code into [https://remix.ethereum.org/](https://remix.ethereum.org/)
+    and deploy the contract on the Ethereum Kovan testnet blockchain. If you are not
+    very familiar with the Remix IDE or smart contract development, I recommend that
+    you follow the instructions provided in the official Remix documentation, which
+    is available here: [https://remix-ide.readthedocs.io/en/latest/create_deploy.html](https://remix-ide.readthedocs.io/en/latest/create_deploy.html).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Deploying client code into sensors**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'In this section, I will show you how to deploy the sensor application. You
+    can deploy the sensor application by running the `just` command, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: If the credentials entered by you are valid and under the service quota, your
+    client application will run. Also, make sure that the relative path to the Python
+    script is updated in the **justfile**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Deploying the backend API**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'In this section, I will help you launch the contact tracing backend API. You
+    can deploy the contact tracing backend API by running the `just` command, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: If the credentials entered by you are valid and under the service quota, your
+    backend API will run. Also, make sure that the relative path to the Python script
+    is updated in the **justfile**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Deploying the web dashboard**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'In this section, I will help you launch the frontend web dashboard, which can
+    be used to query the backend for any potential infections. You can deploy the
+    web dashboard application by running the `just` command, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE35]'
+  prefs: []
+  type: TYPE_PRE
+- en: If the credentials entered by you are valid and under the service quota, your
+    dashboard application will run. Also, make sure that the relative path to the
+    Node.js script is updated in the **justfile**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If you are confused about the setup process or the code, you can find the complete
+    implementation, including the justfile template, at the following GitHub link:
+    [https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/tree/master/Chapter08](https://github.com/PacktPublishing/Hands-On-Artificial-Intelligence-for-Blockchain/tree/master/Chapter08).
+    Add your credentials in the appropriate fields of the justfile, and you should
+    be able to deploy easily. Feel free to raise an issue if you find difficulties
+    in understanding the code or running it. You can also propose improvements to
+    the branch by forking the repo and creating a pull request with your suggested
+    changes.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Retrospecting the sample DIApp**'
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we will try to analyze the pros and cons of the proposed sample
+    DIApp.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Merits of the sample DIApp**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'Here are some of the merits of our proposed sample DIApp solution:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: It covers other agents of infection, apart from humans.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It helps in restoring the global economy and normalcy.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It allows insurance companies and organizations to assess supply chain risks.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: However, there are some limitations in the sample DIApp we must acknowledge
+    and understand.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Limitations of the sample DIApp**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'Here are some of the limitations in our proposed sample DIApp solution:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The AI algorithm can be prone to some false positives. Optimization will be
+    needed.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Due to a lack of hardware precision, software accuracy, and a better approach
+    to computational complexity, the current implementation of the DIApp cannot be
+    used in production.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The DIApp is unable to trace infections indoors as GPS is unable to identify
+    the floor that the sensor is currently placed in. Other alternatives such as Wi-Fi,
+    Bluetooth, a manual check-in register, and CCTV image analysis can be considered
+    to boost the accuracy of the model.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Now, let's look at some future enhancements.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Future enhancements**'
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'I think that the proposed sample DIApp is simply the beginning of a new revolution.
+    You can consider making the following enhancements to the code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Better precision with other modes of input, apart from GPS
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Better accuracy by optimizing the models to prevent false positives
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Better data retention management for preserving privacy
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Installing beacons to develop a heat map and assessing risks
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You can always reach out to me on GitHub by creating new issues for each of
+    the suggestions or by participating in existing issue threads.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Summary**'
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Both AI and blockchain are major technologies that are catalyzing the pace of
+    innovation. The combination of these two technologies is expected to redesign
+    the whole industrial paradigm. This chapter has articulated how we can empower
+    blockchain and its decentralized applications using various AI techniques and
+    models. We covered the evolution of applications and contrasted different types.
+    We also explained the latest problems caused by the COVID-19 pandemic and discussed
+    how to tackle these problems by taking contact tracing as an example use case.
+    We covered the problem statement, the solution approach, and the technical architecture
+    in order to develop a sample contact tracing application using the DIApp design
+    pattern. We also highlighted the tools needed to test each solution component
+    and make it more robust. Finally, we explained how to sign up for each of the
+    dependent services used by the solution. This chapter has enabled you to develop
+    a paradigm of thinking where you combine both AI and blockchain technologies to
+    bring about productive and robust applications aimed at the next generation of
+    the internet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If the DIApp tutorial in this chapter has inspired you, I highly recommend that
+    you contribute what you've learned to a live use case called Tracy. Tracy is a
+    privacy-preserving mobile application suite that offers many features to citizens,
+    businesses, and government authorities so that they can handle the COVID-19 pandemic
+    and beyond. To find out more about how you can contribute to Tracy, please join
+    the telegram community at, [https://telegram.me/ProjectTracy](https://telegram.me/ProjectTracy).
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we will cover some of the potential use cases of building
+    DIApps, where blockchain, AI, and decentralized storage can be used to address
+    challenging problems.
+  prefs: []
+  type: TYPE_NORMAL
