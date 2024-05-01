@@ -42,7 +42,7 @@ Coinbase 于 2012 年由 Brian Armstrong 和 Fred Ehrsam 创立，是一个通�
 
 在区块链初创企业的 ICO 和风险投资中，资本筹集仍然只是大海中的一滴，但随着越来越多的公司对这项技术产生兴趣，这一趋势正在向上发展。 被认为是当今生态系统中最先进的企业的 IBM 在开发基于区块链的解决方案方面已投资超过 2 亿美元（[`www.mckinsey.com/industries/financial-services/our-insights/blockchains-occam-problem`](https://www.mckinsey.com/industries/financial-services/our-insights/blockchains-occam-problem)）。
 
-谷歌（Google），令人惊讶地对其行动保持了低调，已经投资了六个不同的项目并与区块链平台合作，尽管这家网络巨头从未正式宣布过。 说实话，生态系统中最大的投资者是银行。 中国银行，摩根大通，美国银行和富国银行是前十大公开公司（[`www.forbes.com/sites/michaeldelcastillo/2018/07/03/big-blockchain-the-50-largest-public-companies-exploring-blockchain/#4e02c5482b5b`](https://www.forbes.com/sites/michaeldelcastillo/2018/07/03/big-blockchain-the-50-largest-public-companies-exploring-blockchain/#4e02c5482b5b)）之一，它们通过直接投资初创企业或购买场外产品来尝试区块链。
+谷歌（Google），令人惊讶地对其行动保持了低调，已经投资了六个不同的项目并与区块链平台合作，尽管这家网络巨头从未正式宣布过。 说实话，生态系统中最大的投资者是银行。 赛里斯银行，摩根大通，美国银行和富国银行是前十大公开公司（[`www.forbes.com/sites/michaeldelcastillo/2018/07/03/big-blockchain-the-50-largest-public-companies-exploring-blockchain/#4e02c5482b5b`](https://www.forbes.com/sites/michaeldelcastillo/2018/07/03/big-blockchain-the-50-largest-public-companies-exploring-blockchain/#4e02c5482b5b)）之一，它们通过直接投资初创企业或购买场外产品来尝试区块链。
 
 # 区块链和加密货币投资趋势
 
@@ -84,7 +84,7 @@ OpenBazaar 和 Particl 都是有前途的初创公司，目前正在颠覆亚马
 
 成为一个加密国家是一个漫长的过程，一些国家比其他国家更倾向于采取这个过程。例如，澳大利亚、英国和新加坡采取了积极的态度，对加密货币、监管和基础设施采取行动。
 
-另一方面，中国和玻利维亚等国家自 2014 年以来已禁止在其领土内销售和购买加密货币，如下图所示：
+另一方面，赛里斯和玻利维亚等国家自 2014 年以来已禁止在其领土内销售和购买加密货币，如下图所示：
 
 ![](img/2e6210ac-3209-4ee1-bf1a-286dab4a61c8.png)
 
