@@ -1,53 +1,77 @@
 - en: Understanding How Ethereum Works
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 了解以太坊的工作原理
 - en: In the previous chapter, we saw what DApps are. We also saw an overview of some
     of the popular DApps. One of them was Ethereum. At present, Ethereum is the most
     popular DApp after bitcoin. In this chapter, we will learn in depth about how
     Ethereum works and what we can develop using Ethereum. We will also see the important
     Ethereum clients and node implementations.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 在上一章中，我们看到了什么是DApps。我们还看到了一些流行DApps的概述。其中之一是以太坊。目前，以太坊是继比特币之后最流行的DApp。在本章中，我们将深入学习以太坊的工作原理以及我们可以使用以太坊开发什么。我们还将看到重要的以太坊客户端和节点实现。
 - en: 'In this chapter, we will cover the following topics:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: Ethereum user accounts
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 以太坊用户账户
 - en: What are smart contracts and how do they work?
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 智能合约是什么，它们是如何工作的？
 - en: Ethereum virtual machine
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 以太坊虚拟机
 - en: How does mining work in the proof-of-work consensus protocol?
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 工作量证明共识协议中的挖掘是如何工作的？
 - en: Learning how to use the geth command
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 学习如何使用geth命令
 - en: Setting up the Ethereum Wallet and Mist
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 设置以太坊钱包和Mist
 - en: Overview of Whisper and Swarm
+  id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Whisper和Swarm概述
 - en: The future of Ethereum
+  id: totrans-10
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 以太坊的未来
 - en: Overview of Ethereum
+  id: totrans-11
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 以太坊概述
 - en: Ethereum is a decentralized platform, which allows us to deploy DApps on top
     of it. Smart contracts are written using the solidity programming language. DApps
     are created using one or more smart contracts. Smart contracts are programs that
@@ -58,19 +82,25 @@
     deploy smart contracts or to call their methods, we need ether. There can be multiple
     instances of a smart contract just like any other DApp, and each instance is identified
     by its unique address. Both user accounts and smart contracts can hold ether.
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊是一个分散式平台，允许我们在其上部署DApps。智能合约使用Solidity编程语言编写。DApps使用一个或多个智能合约创建。智能合约是完全按照程序运行的程序，没有任何停机、审查、欺诈或第三方接口的可能性。在以太坊中，智能合约可以用几种编程语言编写，包括Solidity、LLL和Serpent。Solidity是其中最流行的语言。以太坊有一种内部货币称为以太。部署智能合约或调用其方法需要以太。就像任何其他DApp一样，智能合约可以有多个实例，每个实例都由其唯一地址标识。用户账户和智能合约都可以持有以太。
 - en: 'Ethereum uses blockchain data structure and proof-of-work consensus protocol.
     A method of a smart contract can be invoked via a transaction or via another method.
     There are two kinds of nodes in the network: regular nodes and miners. Regular
     nodes are the ones that just have a copy of the blockchain, whereas miners build
     the blockchain by mining blocks.'
+  id: totrans-13
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊使用区块链数据结构和工作量证明共识协议。智能合约的一种方法可以通过交易或另一种方法调用。网络中有两种类型的节点：常规节点和矿工。常规节点只是拥有区块链的副本，而矿工通过挖掘区块来构建区块链。
 - en: Ethereum accounts
+  id: totrans-14
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 以太坊账户
 - en: To create an Ethereum account, we just need an asymmetric key pair. There are
     various algorithms, such as RSA, ECC, and so on, for generating asymmetric encryption
     keys. Ethereum uses **elliptic curve cryptography** (**ECC**). ECC has various
@@ -78,40 +108,56 @@
     the `secp256k1` parameter. To go in depth about ECC and its parameters will require
     mathematical knowledge, and it's not necessary to understand it in depth for building
     DApps using Ethereum.
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 要创建一个以太坊账户，我们只需要一个非对称密钥对。有各种算法，如RSA、ECC等，用于生成非对称加密密钥。以太坊使用**椭圆曲线加密**（**ECC**）。ECC有各种参数。这些参数用于调整速度和安全性。以太坊使用`secp256k1`参数。深入了解ECC及其参数将需要数学知识，并且对于使用以太坊构建DApps而言，深入理解它并非必需。
 - en: Ethereum uses 256-bit encryption. An Ethereum private/public key is a 256-bit
     number. As processors cannot represent such big numbers, it's encoded as a hexadecimal
     string of length 64.
+  id: totrans-16
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊使用256位加密。以太坊私钥/公钥是一个256位数。由于处理器无法表示如此大的数字，它被编码为长度为64的十六进制字符串。
 - en: 'Every account is represented by an address. Once we have the keys we need to
     generate the address, here is the procedure to generate the address from the public
     key:'
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个账户由一个地址表示。一旦我们有了生成地址所需的密钥，这里是从公钥生成地址的步骤：
 - en: First, generate the `keccak-256` hash of the public key. It will give you a
     256-bit number.
+  id: totrans-18
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 首先，生成公钥的`keccak-256`哈希。这将给你一个256位的数字。
 - en: Drop the first 96 bits, that is, 12 bytes. You should now have 160 bits of binary
     data, that is, 20 bytes.
+  id: totrans-19
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 放弃前96位，也就是12个字节。你现在应该有160个位的二进制数据，也就是20个字节。
 - en: Now encode the address as a hexadecimal string. So finally, you will have a
     bytestring of 40 characters, which is your account address.
+  id: totrans-20
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 现在将地址编码为十六进制字符串。因此最终，你将得到一个由40个字符组成的字节字符串，这就是你的账户地址。
 - en: Now anyone can send ether to this address.
+  id: totrans-21
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在任何人都可以向这个地址发送以太币。
 - en: Transactions
+  id: totrans-22
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 交易
 - en: A **transaction** is a signed data package to transfer ether from an account
     to another account or to a contract, invoke methods of a contract, or deploy a
     new contract. A transaction is signed using **ECDSA** (**Elliptic Curve Digital
@@ -126,23 +172,31 @@
     of gas used and gas price is called transaction fees. To send ether or to execute
     a contract method, you need to broadcast a transaction to the network. The sender
     needs to sign the transaction with its private key.
+  id: totrans-23
   prefs: []
   type: TYPE_NORMAL
+  zh: '**交易**是一个签名的数据包，用于将以太坊从一个账户转移到另一个账户或合约，调用合约的方法，或部署新的合约。交易使用**ECDSA**（**椭圆曲线数字签名算法**）进行签名，这是基于ECC的数字签名算法。交易包含了消息的接收者，用于识别发送者并证明其意图的签名，要转移的以太币数量，交易执行允许的最大计算步骤数（称为gas限制），以及发送者愿意支付每个计算步骤的费用（称为gas价格）。如果交易的目的是调用合约的方法，它还包含了输入数据；或者如果其目的是部署合约，那么它可以包含初始化代码。gas使用量和gas价格的乘积被称为交易费用。要发送以太币或执行合约方法，你需要向网络广播一笔交易。发送者需要用私钥对交易进行签名。'
 - en: A transaction is said to be confirmed if we are sure that it will always appear
     in the blockchain. It is recommended to wait for 15 confirmations before assuming
     a transaction to be confirmed.
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果我们确信一笔交易将永远出现在区块链中，那么这笔交易就被确认。建议在假定一笔交易已确认之前等待15个确认。
 - en: Consensus
+  id: totrans-25
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 共识
 - en: Every node in the Ethereum network holds a copy of the blockchain. We need to
     make sure that nodes cannot tamper with the blockchain, and we also need a mechanism
     to check whether a block is valid or not. And also, if we encounter two different
     valid blockchains, we need to have a way to find out which one to choose.
+  id: totrans-26
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊网络中的每个节点都保存着区块链的副本。我们需要确保节点无法篡改区块链，还需要一种机制来检查一个区块是否有效。此外，如果我们遇到两个不同的有效区块链，我们需要一种方法来找出选择哪一个。
 - en: Ethereum uses the proof-of-work consensus protocol to keep the blockchain tamper-proof.
     A proof-of-work system involves solving a complex puzzle to create a new block.
     Solving the puzzle should require a significant amount of computational power
@@ -152,8 +206,10 @@
     the same set of algorithms. They may differ in terms of what the puzzle miners
     need to solve, how difficult the puzzle is, how much time it takes to solve it,
     and so on. We will learn about proof-of-work with respect to Ethereum.
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊使用工作量证明共识协议来保持区块链的防篡改性。工作量证明系统涉及解决一个复杂的谜题以创建一个新的区块。解决这个谜题应该需要大量的计算能力，因此难以创建区块。在工作量证明系统中创建区块的过程称为挖矿。矿工是网络中挖矿的节点。使用工作量证明的所有DApp并不完全实现相同的一组算法。它们可能在矿工需要解决的谜题，谜题的难度，解决时间等方面有所不同。我们将学习有关以太坊工作量证明的内容。
 - en: Anyone can become a miner in the network. Every miner solves the puzzle individually;
     the first miner to solve the puzzle is the winner and is rewarded with five ether
     and transaction fees of all the transactions in that block. If you have a more
@@ -164,15 +220,19 @@
     behaves like a lottery system, and processing power can be thought as the number
     of lottery tickets a person has. Networks security is not measured by total number
     of miners; instead, it's measured by the total processing power of the network.
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: 任何人都可以成为网络中的矿工。每个矿工都独立解决谜题；第一个解决谜题的矿工是赢家，并且将获得五个以太和该区块中所有交易的交易费用。如果你拥有比网络中任何其他节点更强大的处理器，这并不意味着你总会成功，因为谜题的参数对所有矿工来说并不完全相同。但是，如果你拥有比网络中任何其他节点更强大的处理器，这会增加你成功的机会。工作证明的行为类似于彩票系统，处理能力可以被视为一个人拥有的彩票数量。网络安全性不是由矿工的总数来衡量的；相反，它是由网络的总处理能力来衡量的。
 - en: There is no limit to the number of blocks the blockchain can have, and there
     is no limit to the total ether that can be produced. Once a miner successfully
     mines a block, it broadcasts the block to all other nodes in the network. A block
     has a header and a set of transactions. Every block holds hash of the previous
     block, thereby creating a connected chain.
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链可以拥有的区块数量没有限制，可以生产的总以太币数量也没有限制。一旦一个矿工成功挖掘一个区块，它就会将该区块广播到网络中的所有其他节点。一个区块有一个头和一组交易。每个区块都持有前一个区块的哈希，从而创建了一个连接的链。
 - en: 'Let''s see what the puzzle the miners need to solve is and how it''s solved
     at a high level. To mine a block, first of all, a miner collects the new un-mined
     transactions broadcasted to it, and then it filters out the not-valid transactions.
@@ -191,33 +251,46 @@
     to make it easier to deal with. The lower the target, the more time it takes to
     find the nonce, and the higher the target, the less time it takes to find the
     nonce. Here is the formula to calculate the difficulty of the puzzle:'
+  id: totrans-30
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看看矿工需要解决的难题是什么，以及在高层次上如何解决它。要挖掘一个区块，首先，矿工收集到的新未开采的交易被广播到它，然后过滤掉无效的交易。一个有效的交易必须使用私钥正确签名，账户必须有足够的余额来进行交易等等。现在矿工创建一个区块，它有一个头和内容。内容是该区块包含的交易列表。头包含诸如前一个区块的哈希、区块号、随机数、目标、时间戳、难度、矿工地址等内容。时间戳表示区块创建时的时间。然后随机数是一个毫无意义的值，它被调整以找到谜题的解决方案。这个谜题基本上是找到这样的随机数值，当区块被散列时，散列小于或等于目标。以太坊使用
+    ethash 哈希算法。找到随机数的唯一方法是枚举所有可能性。目标是一个 256 位数字，它是根据各种因素计算出来的。头中的难度值是目标的不同表示，以便更容易处理。目标越低，找到随机数的时间就越长，目标越高，找到随机数的时间就越短。这是计算谜题难度的公式：
 - en: '[PRE0]'
+  id: totrans-31
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: Now any node in the network can check whether the blockchain they have is valid
     or not by first checking whether the transactions in the blockchain are valid,
     the timestamp validation, then whether the target and nonce of all the blocks
     are valid, a miner has assigned a valid reward itself, and so on.
+  id: totrans-32
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在网络中的任何节点都可以通过首先检查区块链中的交易是否有效、时间戳验证，然后检查所有区块的目标和随机数是否有效，矿工是否为自己分配了有效的奖励等等来检查他们所拥有的区块链是否有效。
 - en: If a node in the network receives two different valid blockchains, then the
     blockchain whose combined difficulty of all blocks is higher is considered to
     be the valid blockchain.
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果网络中的一个节点接收到两个不同的有效区块链，那么所有区块的综合难度更高的区块链将被视为有效的区块链。
 - en: Now, for example, if a node in the network alters some transactions in a block,
     then the node needs to calculate the nonce of all the succeeding blocks. By the
     time it re-finds the nonce of the succeeding blocks, the network would have mined
     many more blocks and therefore reject this blockchain as its combined difficulty
     would be lower.
+  id: totrans-34
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，举个例子，如果网络中的一个节点改变了某个区块中的一些交易，那么该节点需要计算所有后续区块的随机数。当它重新找到后续区块的随机数时，网络可能已经挖掘了更多的区块，因此将拒绝此区块链，因为其综合难度将较低。
 - en: Timestamp
+  id: totrans-35
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 时间戳
 - en: The formula to calculate the target of a block requires the current timestamp,
     and also every block has the current timestamp attached to its header. Nothing
     can stop a miner from using some other timestamp instead of the current timestamp
@@ -236,37 +309,49 @@
     malicious miner will have a lower difficulty than the blockchain the network has.
     Due to these reasons, miners always use accurate timestamps, otherwise they gain
     nothing.
+  id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: 计算区块目标的公式需要当前时间戳，而且每个区块的头部都附有当前时间戳。没有任何东西能阻止矿工在挖掘新区块时使用其他时间戳而不是当前时间戳，但他们通常不会这样做，因为时间戳验证会失败，其他节点不会接受该区块，而且这将是矿工资源的浪费。当一个矿工广播一个新挖掘的区块时，它的时间戳会通过检查该时间戳是否大于上一个区块的时间戳来进行验证。如果一个矿工使用的时间戳大于当前时间戳，则难度将较低，因为难度与当前时间戳成反比；因此，区块时间戳为当前时间戳的矿工将被网络接受，因为它的难度将更高。如果一个矿工使用的时间戳大于上一个区块的时间戳且小于当前时间戳，则难度将更高，因此，挖掘区块将需要更多的时间；在区块被挖掘时，网络可能已经产生了更多的区块，因此，这个区块将被拒绝，因为恶意矿工的区块链的难度将低于网络的区块链。由于这些原因，矿工们总是使用准确的时间戳，否则他们将一无所获。
 - en: Nonce
+  id: totrans-37
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 随机数
 - en: The nonce is a 64-bit unsigned integer. The nonce is the solution to the puzzle.
     A miner keeps incrementing the nonce until it finds the solution. Now you must
     be wondering if there is a miner who has hash power more than any other miner
     in the network, would the miner always find nonce first? Well, it wouldn't.
+  id: totrans-38
   prefs: []
   type: TYPE_NORMAL
+  zh: 随机数是一个 64 位无符号整数。随机数是谜题的解答。矿工不断递增随机数，直到找到解答。现在你一定在想，如果有一名矿工的哈希功率超过网络中的任何其他矿工，那么该矿工是否总能第一个找到随机数？嗯，并不是。
 - en: The hash of the block that the miners are mining is different for every miner
     because the hash depends on things such as the timestamp, miner address, and so
     on, and it's unlikely that it will be the same for all miners. Therefore, it's
     not a race to solve the puzzle; rather, it's a lottery system. But of course,
     a miner is likely to get lucky depending on its hash power, but that doesn't mean
     the miner will always find the next block.
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 矿工正在挖掘的区块的哈希对于每个矿工都是不同的，因为哈希依赖于时间戳、矿工地址等因素，而且不太可能对所有矿工都相同。因此，这不是一个解决难题的竞赛，而是一个抽奖系统。但当然，根据其哈希功率，一个矿工可能会有好运气，但这并不意味着矿工总能找到下一个区块。
 - en: Block time
+  id: totrans-40
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块时间
 - en: The block difficulty formula we saw earlier uses a 10-second threshold to make
     sure that the difference between the time a parent and child block mines is in
     is between 10-20 seconds. But why is it 10-20 seconds and not some other value?
     And why there such a constant time difference restriction instead of a constant
     difficulty?
+  id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们之前看到的区块难度公式使用了一个 10 秒的阈值，以确保父区块和子区块的挖掘时间之差在 10-20 秒之间。但为什么是 10-20 秒而不是其他值呢？为什么存在这样一个恒定的时间差限制，而不是一个恒定的难度呢？
 - en: Imagine that we have a constant difficulty, and miners just need to find a nonce
     to get the hash of the block less and equal to the difficulty. Suppose the difficulty
     is high; then in this case, users will have no way to find out how long it will
@@ -282,8 +367,11 @@
     will have the ability to control the DApp. It is not possible to find a constant
     difficulty value that can make the network stable because the network's computational
     power is not constant.
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 想象一下，我们有一个恒定的难度，矿工只需要找到一个随机数（nonce），使得区块的哈希值小于或等于难度。假设难度很高；在这种情况下，用户将无法知道发送以太币给另一个用户需要多长时间。如果网络的计算能力不足以快速找到满足难度的随机数，则可能需要很长时间。有时，网络可能会很幸运地快速找到随机数。但这种系统很难吸引用户，因为用户总是想知道交易完成需要多长时间，就像我们从一个银行账户向另一个银行账户转账时，会给出一个应该在其中完成的时间段。如果恒定的难度较低，它将危害区块链的安全性，因为大型矿工可以比小型矿工更快地挖掘区块，而网络中最大的矿工将有能力控制
+    DApp。不可能找到一个能使网络稳定的恒定难度值，因为网络的计算能力不是恒定的。
 - en: Now we know why we should always have an average time for how long it should
     take for the network to mine a block. Now the question is what the most suitable
     average time is as it can be anything from 1 second to infinite seconds. A smaller
@@ -291,16 +379,20 @@
     can be achieved by increasing the difficulty. But what are the merits and demerits
     of a lower and higher average time? Before we discuss this, we need to first know
     what stale blocks are.
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们知道为什么我们应该始终有一个网络挖掘一个区块需要多长时间的平均时间了。现在的问题是，最适合的平均时间是多长，因为它可以是从 1 秒到无限秒的任何值。通过降低难度可以实现较小的平均时间，通过增加难度可以实现较高的平均时间。但较低和较高平均时间的优缺点是什么？在讨论这个问题之前，我们需要先知道什么是陈旧区块。
 - en: What happens if two miners mine the next block at nearly the same time? Both
     the blocks will be valid for sure, but the blockchain cannot hold two blocks with
     the same block number, and also, both the miners cannot be awarded. Although this
     is a common issue, the solution is simple. In the end, the blockchain with the
     higher difficulty will be the one accepted by the network. So the valid blocks
     that are finally left out are called stale blocks.
+  id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果两个矿工几乎同时挖掘出下一个区块会发生什么？这两个区块肯定都是有效的，但区块链不能容纳两个具有相同区块编号的区块，而且两个矿工也不能都获得奖励。尽管这是一个常见的问题，但解决方法很简单。最终，难度较高的区块将被网络接受。因此，最终被留下的有效区块被称为陈旧区块。
 - en: The total number of stale blocks produced in the network is inversely proportional
     to the average time it takes to generate a new block. Shorter block generation
     time means there would be less time for the newly mined block to propagate throughout
@@ -313,8 +405,10 @@
     block can be propagated and the other miners can stop mining that block and proceed
     towards mining the next block. If stale blocks occur frequently in the network,
     they cause major issues, but if they occur rarely, they do no harm.
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 网络中产生的陈旧区块的总数量与生成新区块的平均时间成反比。更短的区块生成时间意味着新挖出的区块在整个网络中传播的时间更短，多于一个矿工找到谜题解决方案的机会更大，因此在区块通过网络传播时，其他矿工也可能已经解决了谜题并进行了广播，从而产生了陈旧区块。但是，如果平均区块生成时间更长，则多个矿工有较小机会解决谜题，即使他们解决了谜题，解决之间可能存在时间差，在此期间第一个解决的区块可以传播，其他矿工可以停止挖掘该区块，并转向挖掘下一个区块。如果网络中频繁出现陈旧区块，则会造成重大问题，但是如果很少出现陈旧区块，则不会造成危害。
 - en: But what's the problem with stale blocks? Well, they delay the confirmation
     of a transaction. When two miners mine a block at nearly the same time, they may
     not have the same set of transactions, so if our transactions appears in one of
@@ -322,8 +416,10 @@
     appeared may be stale. And we should wait for a few more blocks to be mined. Due
     to stale blocks, the average confirmation time is not equal to average block generation
     time.
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 那么陈旧区块有什么问题？它们延迟了交易的确认。当两个矿工几乎同时挖掘一个区块时，它们可能没有相同的交易集，因此如果我们的交易出现在其中一个区块中，我们不能说它已被确认，因为包含该交易的区块可能是陈旧的。我们需要等待更多的区块被挖掘。由于陈旧区块的存在，平均确认时间不等于平均区块生成时间。
 - en: Do stale blocks impact blockchain security? Yes, they do. We know that the network's
     security is measured by the total computation power of the miners in the network.
     When computation power increases, the difficulty is increased to make sure that
@@ -341,8 +437,10 @@
     as it took more time than the average block time to mine the block. The decrease
     in difficulty impacts the overall blockchain security. If the stale rate is too
     high, it will affect the blockchain security by a huge margin.
+  id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 陈旧区块会影响区块链安全吗？是的，会。我们知道，网络安全是由网络中矿工的总计算能力来衡量的。当计算能力增加时，难度也会增加，以确保区块不会比平均区块时间提前产生。因此，更高的难度意味着更安全的区块链，因为要篡改节点，现在需要更多的哈希算力，这使得篡改区块链更加困难；因此，可以说区块链更安全。当几乎同时挖掘两个区块时，我们将把网络分成两部分，分别为两个不同的区块链，但其中一个将成为最终的区块链。因此，工作在陈旧区块上的网络部分在陈旧区块上挖掘下一个区块，这导致网络的哈希算力损失，因为哈希算力被用于一些不必要的事情。网络的两个部分挖掘下一个区块的时间可能比平均区块时间长，因为它们丢失了哈希算力；因此，在挖掘下一个区块后，难度将减少，因为挖掘该区块所需的时间比平均区块时间长。难度的降低影响整体区块链安全性。如果陈旧率过高，它将对区块链安全性造成巨大影响。
 - en: Ethereum tackles the security issue caused by stale blocks using something known
     as ghost protocol. Ethereum uses a modified version of the actual ghost protocol.
     The ghost protocol covers up the security issue by simply adding the stale blocks
@@ -355,16 +453,22 @@
     in the stale blocks are not used for calculating confirmations, and also, the
     stale block miners don't receive the transaction fees of the transactions included
     in the stale blocks. Note that Ethereum calls stale blocks uncle blocks.
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊利用所谓的幽灵协议来解决陈旧区块带来的安全问题。以太坊使用了实际幽灵协议的修改版本。幽灵协议通过简单地将陈旧区块添加到主区块链中来掩盖安全问题，从而增加了区块链的总难度，因为区块链的总难度也包括陈旧区块的难度之和。但是如何将陈旧区块插入主区块链而不发生交易冲突呢？嗯，任何区块都可以指定0个或多个陈旧区块。为了激励矿工将陈旧区块包含在内，矿工会因包含陈旧区块而获得奖励。而且，陈旧区块的挖矿者也会获得奖励。陈旧区块中的交易不用于计算确认，并且，陈旧区块的挖矿者不会收到陈旧区块中包含的交易的交易费。请注意，以太坊将陈旧区块称为叔区块。
 - en: 'Here is the formula to calculate how much reward a miner of a stale block receives.
     The rest of the reward goes to the nephew block, that is, the block that includes
     the orphan block:'
+  id: totrans-49
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里是计算陈旧区块挖矿者获得多少奖励的公式。剩余的奖励归侄子区块，即包含孤立区块的区块：
 - en: '[PRE1]'
+  id: totrans-50
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: As not rewarding the miners of stale blocks doesn't harm any security, you must
     be wondering why miners of stale blocks get rewarded? Well, there is another issue
     caused when stale blocks occur frequently in the network, which is solved by rewarding
@@ -381,31 +485,43 @@
     but much more than it should get, we don't award stale block miners the same as
     the nephew block; instead, we award a lesser amount to balance it. The preceding
     formula balances it pretty well.
+  id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于不奖励陈旧区块的挖矿者不会损害任何安全性，你可能会想为什么陈旧区块的挖矿者会得到奖励？嗯，当网络中频繁出现陈旧区块时会引起另一个问题，这个问题通过奖励陈旧区块的挖矿者来解决。挖矿者应该获得与其为网络贡献的哈希算力百分比相似的奖励百分比。当两个不同的挖矿者几乎同时挖掘出一个区块时，由于挖矿者挖掘下一个区块的效率更高，更有可能将由哈希算力更大的挖矿者挖掘的区块添加到最终的区块链中；因此，小挖矿者将失去奖励。如果陈旧率低，这不是一个大问题，因为大挖矿者将获得少量奖励增加；但是如果陈旧率高，就会引起一个大问题，即网络中的大挖矿者最终将获得比应该获得的更多的奖励。幽灵协议通过奖励陈旧区块的挖矿者来平衡这一点。由于大挖矿者并不获取所有奖励，但获取比应该得到的更多，因此我们不像侄子区块一样奖励陈旧区块的挖矿者；而是奖励更少的金额来平衡。前述公式相当好地平衡了这一点。
 - en: Ghost limits the total number of stale blocks a nephew can reference so that
     miners don't simply mine stale blocks and stall the blockchain.
+  id: totrans-52
   prefs: []
   type: TYPE_NORMAL
+  zh: 幽灵限制了侄子可以引用的陈旧区块的总数，以防止矿工简单地挖掘陈旧区块并使区块链停滞。
 - en: So wherever a stale block appears in the network, it somewhat affects the network.
     The more the frequency of stale blocks, the more the network is affected by it.
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: 不管在网络中出现多少陈旧的区块，都会在某种程度上影响网络。陈旧区块的频率越高，网络受到的影响就越大。
 - en: Forking
+  id: totrans-54
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 分叉
 - en: 'A fork is said to have happened when there is a conflict among the nodes regarding
     the validity of a blockchain, that is, more than one blockchain happens to be
     in the network, and every blockchain is validated for some miners. There are three
     kinds of forks: regular forks, soft fork, and hard fork.'
+  id: totrans-55
   prefs: []
   type: TYPE_NORMAL
+  zh: 当节点之间就区块链的有效性存在冲突时，即网络中存在多个区块链，并且每个区块链都被某些矿工验证时，就会发生分叉。有三种类型的分叉：常规分叉、软分叉和硬分叉。
 - en: A regular fork is a temporary conflict occurring due to two or more miners finding
     a block at nearly the same time. It's resolved when one of them has more difficulty
     than the other.
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 常规分叉是由于两个或多个矿工几乎同时找到一个区块而发生的暂时冲突。当其中一个的难度高于另一个时，冲突将得到解决。
 - en: A change to the source code could cause conflicts. Depending on the type of
     conflict, it may require miners with more than 50% of hash power to upgrade or
     all miners to upgrade to resolve the conflict. When it requires miners with more
@@ -417,116 +533,162 @@
     have more difficulty and finally get accepted by the whole network. An example
     of a hard fork would be an if update in the source code was to change the rewards
     for miners, then all the miners needs to upgrade to resolve the conflict.
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 对源代码的更改可能导致冲突。根据冲突的类型，可能需要拥有超过50％哈希算力的矿工进行升级，或者所有矿工进行升级以解决冲突。当需要拥有超过50％哈希算力的矿工进行升级以解决冲突时，称为软分叉；而当需要所有矿工进行升级以解决冲突时，则称为硬分叉。软分叉的一个例子是，如果对源代码的更新使一部分旧区块/交易无效，那么当超过50％的哈希算力的矿工进行了升级后，这个问题可以解决，因为新的区块链将具有更高的难度最终被整个网络接受。硬分叉的一个例子是，如果源代码的更新是为了更改矿工的奖励，那么所有矿工都需要进行升级以解决冲突。
 - en: Ethereum has gone through various hard and soft forks since its release.
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: 自发布以来，以太坊经历了各种硬分叉和软分叉。
 - en: Genesis block
+  id: totrans-59
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创世块
 - en: A genesis block is the first block of the blockchain. It's assigned to block
     number 0\. It's the only block in the blockchain that doesn't reference to a previous
     block because there isn't any. It doesn't hold any transactions because there
     isn't any ether produced yet.
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 创世块是区块链中的第一个块。它被分配到块编号0。它是区块链中唯一一个不引用以前块的块，因为以前没有任何块。它不包含任何交易，因为目前还没有产生任何以太币。
 - en: Two nodes in a network will only pair with each other if they both have the
     same genesis block, that is, blocks synchronization will only happen if both peers
     have the same genesis block, otherwise they both will reject each other. A different
     genesis block of high difficulty cannot replace a lower difficult one. Every node
     generates its own genesis block. For various networks, the genesis block is hardcoded
     into the client.
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 两个网络中的节点只有在它们都拥有相同的创世块（genesis block）时才会配对，也就是说，只有当两个节点拥有相同的创世块时，区块同步才会发生，否则它们将互相拒绝。高难度的不同创世块不能取代低难度的创世块。每个节点都生成自己的创世块。对于各种网络，创世块是硬编码到客户端中的。
 - en: Ether denominations
+  id: totrans-62
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 以太币面额
 - en: 'Ether has various denominations just like any other currency. Here are the
     denominations:'
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太币和任何其他货币一样，有各种面额。以下是各种面额：
 - en: 1 Ether = 1000000000000000000 Wei
+  id: totrans-64
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 1 以太币 = 1000000000000000000 维（Wei）
 - en: 1 Ether = 1000000000000000 Kwei
+  id: totrans-65
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 1 以太币 = 1000000000000000 千维（Kwei）
 - en: 1 Ether = 1000000000000 Mwei
+  id: totrans-66
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 1 以太币 = 1000000000000 英美制微（Mwei）
 - en: 1 Ether = 1000000000 Gwei
+  id: totrans-67
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 1 以太币 = 1000000000 吉（Gwei）
 - en: 1 Ether = 1000000 Szabo
+  id: totrans-68
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 1 以太币 = 1000000 萨博（Szabo）
 - en: 1 Ether = 1000 Finney
+  id: totrans-69
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 1 以太币 = 1000 芬尼（Finney）
 - en: 1 Ether = 0.001 Kether
+  id: totrans-70
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 1 以太币 = 0.001 开斯（Kether）
 - en: 1 Ether = 0.000001 Mether
+  id: totrans-71
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 1 以太币 = 0.000001 兆斯（Mether）
 - en: 1 Ether = 0.000000001 Gether
+  id: totrans-72
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 1 以太币 = 0.000000001 盖撒币（Gether）
 - en: 1 Ether = 0.000000000001 Tether
+  id: totrans-73
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 1 以太币 = 0.000000000001 泰达币（Tether）
 - en: Ethereum virtual machine
+  id: totrans-74
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 以太坊虚拟机
 - en: EVM (or Ethereum virtual machine) is the Ethereum smart contracts byte-code
     execution environment. Every node in the network runs EVM. All the nodes execute
     all the transactions that point to smart contracts using EVM, so every node does
     the same calculations and stores the same values. Transactions that only transfer
     ether also require some calculation, that is, to find out whether the address
     has a balance or not and deduct the balance accordingly.
+  id: totrans-75
   prefs: []
   type: TYPE_NORMAL
+  zh: EVM（或以太坊虚拟机）是以太坊智能合约字节码执行环境。网络中的每个节点都运行 EVM。所有节点都使用EVM执行指向智能合约的交易，因此每个节点都进行相同的计算并存储相同的值。只转移以太币的交易也需要一些计算，即找出地址是否有余额，并相应地扣除余额。
 - en: Every node executes the transactions and stores the final state due to various
     reasons. For example, if there is a smart contract that stores the names and details
     of everyone attending a party, whenever a new person is added, a new transaction
     is broadcasted to the network. For any node in the network to display details
     of everyone attending the party, they simply need to read the final state of the
     contract.
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个节点都执行交易并存储最终状态，原因有很多。例如，如果有一个存储参加派对的每个人的姓名和详情的智能合约，每当添加一个新人时，一个新的交易就会被广播到网络中。对于网络中的任何节点来说，他们只需要读取合约的最终状态就可以显示参加派对的每个人的详情。
 - en: Every transaction requires some computation and storage in the network. Therefore,
     there needs to be a transaction cost, otherwise the whole network will be flooded
     with spam transactions, and also without a transaction cost, miners will have
     no reason to include transactions in blocks, and they will start mining empty
     blocks. Every transaction requires different amount of computation and storage;
     therefore, every transaction has different transaction costs.
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
+  zh: 网络中的每笔交易都需要进行一些计算和存储。因此，需要有一定的交易费用，否则整个网络将被垃圾邮件交易淹没。此外，如果没有交易成本，矿工将没有理由将交易包含在区块中，他们将开始挖掘空块。每笔交易需要不同量的计算和存储；因此，每笔交易都有不同的交易成本。
 - en: There are two implementations of EVM, that is, byte-code VM and JIT-VM. At the
     time of writing this book, JIT-VM is available for use, but its development is
     still not completed. In either case, the Solidity code is compiled to byte code.
     In the case of JIT-VM, the byte code is further compiled. JIT-VM is more efficient
     than it's counterpart.
+  id: totrans-78
   prefs: []
   type: TYPE_NORMAL
+  zh: EVM 有两种实现，即字节码虚拟机和JIT-VM。在编写本书时，JIT-VM 可以使用，但其开发尚未完成。无论哪种情况，Solidity 代码都会被编译成字节码。在JIT-VM的情况下，字节码会进一步被编译。JIT-VM比其对应的更高效。
 - en: Gas
+  id: totrans-79
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 气体
 - en: Gas is a unit of measurement for computational steps. Every transaction is required
     to include a gas limit and a fee that it is willing to pay per gas (that is, pay
     per computation); miners have the choice of including the transaction and collecting
@@ -535,40 +697,54 @@
     are reverted, except that the transaction is still valid and the fee (that is,
     the product of the maximum gas that can be used and gas price) can still be collected
     by the miner.
+  id: totrans-80
   prefs: []
   type: TYPE_NORMAL
+  zh: 气体是计算步骤的度量单位。每笔交易都需要包括一个气体限制和它愿意支付的每单位气体费用（即每次计算的费用）；矿工可以选择包含该交易并收取该费用。如果交易使用的气体少于或等于气体限制，交易将被处理。如果总气体超过了气体限制，那么所有的更改都将被撤销，除了交易仍然有效，矿工仍然可以收取费用（即最大可使用的气体和气体价格的乘积）。
 - en: The miners decide the gas price (that is, price per computation). If a transaction
     has a lower gas price than the gas price decided by a miner, the miner will refuse
     to mine the transaction. The gas price is an amount in a wei unit. So, a miner
     can refuse to include a transaction in a block if the gas price is lower than
     what it needs.
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
+  zh: 矿工决定气体价格（即每次计算的价格）。如果一笔交易的气体价格低于矿工决定的气体价格，矿工将拒绝挖掘该交易。气体价格是以 wei 为单位的一笔金额。因此，如果气体价格低于矿工所需的价格，矿工可以拒绝在区块中包含交易。
 - en: Each operation in EVM is assigned a number of how much gas it consumes.
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: EVM 中的每个操作都被分配了消耗的气体数量。
 - en: Transaction costs affect the maximum ether an account can transfer to another
     account. For example, if an account has an ether balance of five, it cannot transfer
     all five ethers to another account because if all ethers are transferred, there
     would be no balance in the account to deduct transaction fees from.
+  id: totrans-83
   prefs: []
   type: TYPE_NORMAL
+  zh: 交易成本会影响账户可以向另一个账户转移的最大以太币数量。例如，如果一个账户有五个以太币的余额，它不能将所有五个以太币转移到另一个账户，因为如果所有以太币都转移了，那么账户中就没有余额可以从中扣除交易费用。
 - en: If a transaction invokes a contract method and the method sends some ether or
     invokes some other contract method, the transaction fee is deducted from the account
     that invoked the contract method.
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果一个交易调用了一个合约方法，并且该方法发送了一些以太币或调用了其他合约方法，交易费将从调用合约方法的账户中扣除。
 - en: Peer discovery
+  id: totrans-85
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 对等发现
 - en: For a node to be part of the network, it needs to connect to some other nodes
     in the network so that it can broadcast transactions/blocks and listen to new
     transactions/blocks. A node doesn't need to connect to every node in the network;
     instead, a node connects to a few other nodes. And these nodes connect to a few
     other nodes. In this way, the whole network is connected to each other.
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 要使节点成为网络的一部分，它需要连接到网络中的一些其他节点，以便它可以广播交易/区块并监听新的交易/区块。一个节点不需要连接到网络中的每个节点；相反，一个节点连接到一些其他节点。而这些节点连接到另一些节点。通过这种方式，整个网络相互连接。
 - en: But how does a node find some other nodes in the network as there is no central
     server that everyone can connect to so as to exchange their information? Ethereum
     has its own node discovery protocol to solve this problem, which is based on the
@@ -579,34 +755,49 @@
     nodes ,which share the lists of peers that have connected to them in the last
     predefined time period. The connecting peers then connect and synchronize with
     the peers.
+  id: totrans-87
   prefs: []
   type: TYPE_NORMAL
+  zh: 但是节点如何在网络中找到其他节点呢？因为没有一个所有人都可以连接的中央服务器来交换信息。以太坊有自己的节点发现协议来解决这个问题，该协议基于 Kadelima
+    协议。在节点发现协议中，我们有一种特殊类型的节点称为引导节点。引导节点在一段时间内维护着与它们连接的所有节点的列表。它们不保存区块链本身。当节点连接到以太坊网络时，它们首先连接到引导节点，后者共享了最后一个预定义时间段内连接到它们的节点的列表。连接的节点然后连接并与节点同步。
 - en: There can be various Ethereum instances, that is, various networks, each having
     its own network ID. The two major Ethereum networks are mainnet and testnet. The
     mainnet one is the one whose ether is traded on exchanges, whereas testnet is
     used by developers to test. Until now, we have learned everything with regards
     to the mainnet blockchain.
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以有各种各样的以太坊实例，即各种网络，每个网络都有自己的网络 ID。两个主要的以太坊网络是主网和测试网。主网是在交易所交易其以太币的网络，而测试网是开发者用来测试的。到目前为止，我们已经了解了关于主网区块链的所有内容。
 - en: Bootnode is the most popular implementation of an Ethereum Bootstrap node. If
     you want to host your own Bootstrap node, you can use bootnode.
+  id: totrans-89
   prefs: []
   type: TYPE_NORMAL
+  zh: Bootnode 是以太坊引导节点的最流行实现。如果你想托管自己的引导节点，可以使用 bootnode。
 - en: Whisper and Swarm
+  id: totrans-90
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Whisper 和 Swarm
 - en: Whisper and Swarm are a decentralized communication protocol and a decentralized
     storage platform respectively, being developed by Ethereum developers. Whisper
     is a decentralized communication protocol, whereas Swarm is a decentralized filesystem.
+  id: totrans-91
   prefs: []
   type: TYPE_NORMAL
+  zh: Whisper 和 Swarm 分别是由以太坊开发者开发的去中心化通信协议和去中心化存储平台。Whisper 是一个去中心化的通信协议，而 Swarm
+    是一个去中心化的文件系统。
 - en: Whisper lets nodes in the network communicate with each other. It supports broadcasting,
     user-to-user, encrypted messages, and so on. It's not designed to transfer bulk
     data. You can learn more about Whisper at [https://github.com/ethereum/wiki/wiki/Whisper](https://github.com/ethereum/wiki/wiki/Whisper),
     and you can see a code example overview at [https://github.com/ethereum/wiki/wiki/Whisper-Overview](https://github.com/ethereum/wiki/wiki/Whisper-Overview).
+  id: totrans-92
   prefs: []
   type: TYPE_NORMAL
+  zh: Whisper 让网络中的节点相互通信。它支持广播、用户间加密消息等。它不是设计用来传输大量数据的。你可以在[https://github.com/ethereum/wiki/wiki/Whisper](https://github.com/ethereum/wiki/wiki/Whisper)了解更多关于
+    Whisper 的信息，也可以在[https://github.com/ethereum/wiki/wiki/Whisper-Overview](https://github.com/ethereum/wiki/wiki/Whisper-Overview)查看代码示例概述。
 - en: Swarm is similar to Filecoin, that is, it differs mostly in terms of technicalities
     and incentives. Filecoin doesn't penalize stores, whereas Swarm penalizes stores;
     therefore, this increases the file availability further. You must be wondering
@@ -620,32 +811,46 @@
     stores. You can learn more about the difference between Swarm and IPFS/Filecoin
     at [https://github.com/ethersphere/go-ethereum/wiki/IPFS-&-SWARM](https://github.com/ethersphere/go-ethereum/wiki/IPFS-&-SWARM) 
     and see the smart contract code at [https://github.com/ethersphere/go-ethereum/blob/bzz-config/bzz/bzzcontract/swarm.sol](https://github.com/ethersphere/go-ethereum/blob/bzz-config/bzz/bzzcontract/swarm.sol).
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
+  zh: Swarm类似于Filecoin，主要区别在于技术和激励机制。 Filecoin不惩罚存储，而Swarm惩罚存储，因此进一步增加了文件的可用性。 你可能会想了解Swarm中的激励机制是如何工作的。
+    它是否有内部货币？ 实际上，Swarm没有内部货币，而是使用以太坊的激励机制。 以太坊中有一个智能合约，用于跟踪激励机制。显然，智能合约无法与Swarm通信；相反，Swarm与智能合约通信。
+    因此，你通过智能合约支付存储，付款在到期日期之后释放给存储。 你还可以向智能合约举报文件丢失，这种情况下它可以惩罚相应的存储。 你可以在[https://github.com/ethersphere/go-ethereum/wiki/IPFS-&-SWARM](https://github.com/ethersphere/go-ethereum/wiki/IPFS-&-SWARM)中了解更多有关Swarm和IPFS/Filecoin之间的区别，并在[https://github.com/ethersphere/go-ethereum/blob/bzz-config/bzz/bzzcontract/swarm.sol](https://github.com/ethersphere/go-ethereum/blob/bzz-config/bzz/bzzcontract/swarm.sol)上查看智能合约代码。
 - en: At the time of writing this book, Whisper and Swarm are still under development;
     so, many things are still not clear.
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 在撰写本书时，Whisper和Swarm仍在开发中，因此许多事情仍不清楚。
 - en: Geth
+  id: totrans-95
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Geth
 - en: Geth (or called as go-ethereum) is an implementation of Ethereum, Whisper, and
     Swarm nodes. Geth can be used to be part of all of these or only selected ones.
     The reason for combining them is to make them look like a single DApp and also
     so that via one node, a client can access all three DApps.
+  id: totrans-96
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth（或称为go-ethereum）是以太坊、Whisper和Swarm节点的实现。 Geth可用于成为所有这些的一部分或仅选定的一部分。 将它们合并的原因是使它们看起来像一个单一的DApp，以便通过一个节点，客户端可以访问所有三个DApps。
 - en: Geth is a CLI application. It's written in the go programming language. It's
     available for all the major operating systems. The current version of geth doesn't
     yet support Swarm and supports whisper a some of the features of Whisper. At the
     time of writing this book, the latest version of geth was 1.3.5.
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth是一个命令行应用程序。 它是用go编程语言编写的。 它适用于所有主要操作系统。 目前的geth版本尚未支持Swarm，并且仅支持Whisper的一些功能。在撰写本书时，最新版本的geth是1.3.5。
 - en: Installing geth
+  id: totrans-98
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 安装geth
 - en: 'Geth is available for OS X, Linux, and Windows. It supports two types of installation:
     binary and scripted installation. At the time of writing this book, the latest
     stable version of geth is 1.4.13\. Let''s see how to install it in various operating
@@ -653,143 +858,210 @@
     you have to modify something in the geth source code and install it. We don''t
     want to make any changes to the source code, therefore, we will go with binary
     installation.'
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth适用于OS X、Linux和Windows。 它支持两种安装类型：二进制安装和脚本安装。 在撰写本书时，最新的稳定版本是1.4.13\. 让我们看看如何在各种操作系统上使用二进制安装方法安装它。
+    当你必须修改geth源代码并安装它时，才使用脚本化安装。 我们不希望对源代码进行任何更改，因此我们将选择二进制安装。
 - en: OS X
+  id: totrans-100
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: OS X
 - en: 'The recommended way of installing geth in OS X is using brew. Run these two
     commands in the terminal to install geth:'
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 在OS X上安装geth的推荐方法是使用brew。 在终端中运行这两个命令以安装geth：
 - en: '[PRE2]'
+  id: totrans-102
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: Ubuntu
+  id: totrans-103
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Ubuntu
 - en: 'The recommended way to install geth in Ubuntu is to use `apt-get`. Run these
     commands in Ubuntu terminal to install geth:'
+  id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: 推荐在Ubuntu上安装geth的方法是使用`apt-get`。 在Ubuntu终端中运行这些命令以安装geth：
 - en: '[PRE3]'
+  id: totrans-105
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: Windows
+  id: totrans-106
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Windows
 - en: Geth comes as an executable file for Windows. Download the zip file from [https://github.com/ethereum/go-ethereum/wiki/Installation-instructions-for-Windows](https://github.com/ethereum/go-ethereum/wiki/Installation-instructions-for-Windows),
     and extract it. Inside it, you will find the `geth.exe` file.
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth 为 Windows 提供可执行文件。从 [https://github.com/ethereum/go-ethereum/wiki/Installation-instructions-for-Windows](https://github.com/ethereum/go-ethereum/wiki/Installation-instructions-for-Windows)
+    下载 zip 文件，并进行解压。在其中，您将找到 `geth.exe` 文件。
 - en: To find more about installing geth on various operating systems, visit [https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum](https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum).
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: 要了解更多关于在各种操作系统上安装 geth 的信息，请访问[https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum](https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum)。
 - en: JSON-RPC and JavaScript console
+  id: totrans-109
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: JSON-RPC 和 JavaScript 控制台
 - en: 'Geth provides JSON-RPC APIs for other applications to communicate with it.
     Geth serves JSON-RPC APIs using HTTP, WebSocket, and other protocols. The APIs
     provided by JSON-RPC are divided into these categories: admin, debug, eth, miner,
     net, personal, shh, txpool, and web3\. You can find more information about it
     these [https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console](https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console).'
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth 为其他应用程序提供了 JSON-RPC API 以进行通信。Geth 使用 HTTP、WebSocket 和其他协议提供 JSON-RPC API。JSON-RPC
+    提供的 API 分为以下类别：admin、debug、eth、miner、net、personal、shh、txpool 和 web3。您可以在此处找到更多关于它的信息[https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console](https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console)。
 - en: Geth also provides an interactive JavaScript console to interact with it programmatically
     using JavaScript APIs. This interactive console uses JSON-RPC over IPC to communicate
     with geth. We will learn more about the JSON-RPC and the JavaScript APIs in later
     chapters.
+  id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth 还提供了一个交互式 JavaScript 控制台，以便使用 JavaScript API 与其进行程序化交互。此交互式控制台使用 JSON-RPC
+    通过 IPC 与 geth 进行通信。我们将在后续章节中了解更多关于 JSON-RPC 和 JavaScript API 的内容。
 - en: Sub-commands and options
+  id: totrans-112
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 子命令和选项
 - en: Let's learn some of the important sub-commands and options of the geth command
     using examples. You can find the list of all sub-commands and options by using
     the help sub-command. We will see a lot more about geth and its commands throughout
     the following chapters.
+  id: totrans-113
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们通过示例来学习 geth 命令的一些重要子命令和选项。您可以使用 help 子命令找到所有子命令和选项的列表。在接下来的章节中，我们将看到更多关于
+    geth 及其命令的内容。
 - en: Connecting to the mainnet network
+  id: totrans-114
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 连接到主网网络
 - en: Nodes in the Ethereum network, by default, communicate using `30303` port. But
     nodes are also free to listen on some other port numbers.
+  id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊网络中的节点默认使用 `30303` 端口进行通信。但节点也可以选择监听其他端口号。
 - en: 'To connect to the mainnet network, you just need to run the `geth` command.
     Here is an example of how to specify the network ID explicitly and specify a custom
     directory where geth will store the downloaded blockchain:'
+  id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 要连接到主网网络，只需运行 `geth` 命令。以下是明确指定网络 ID 和指定 geth 将存储下载的区块链的自定义目录的示例：
 - en: '[PRE4]'
+  id: totrans-117
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: The `--datadir` option is used to specify where to store the blockchain. If
     it's not provided, the default path is `$HOME/.ethereum`.
+  id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: '`--datadir` 选项用于指定区块链存储位置。如果没有提供，默认路径为 `$HOME/.ethereum`。'
 - en: '`--networkid` is used to specify the network ID. 1 is the ID of the mainnet
     network. If it''s not provided, the default value is 1\. The network ID of testnet
     is 2.'
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: '`--networkid` 用于指定网络 ID。1 是主网的ID。如果未提供，默认值为 1。测试网的网络 ID 为 2。'
 - en: Creating a private network
+  id: totrans-120
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建私有网络
 - en: To create a private network, you just need to give a random network ID. Private
     networks are usually created for development purposes. Geth also provide various
     flags related to logging and debugging, which are useful during development. So,
     instead of giving a random network ID and putting the various logging and debugging
     flags, we can simply use the `--dev` flag, which runs a private network with various
     debugging and logging flags enabled.
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 要创建一个私有网络，只需提供一个随机网络 ID。私有网络通常用于开发目的。Geth 还提供了与日志记录和调试相关的各种标志，在开发过程中非常有用。因此，我们可以简单地使用
+    `--dev` 标志，该标志会启用各种调试和日志记录标志来运行私有网络，而无需提供随机网络 ID 和各种日志记录和调试标志。
 - en: Creating accounts
+  id: totrans-122
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建账户
 - en: 'Geth also lets us create accounts, that is, generate keys and addresses associated
     with them. To create an account, use the following command:'
+  id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: Geth 还允许我们创建账号，即生成与其关联的密钥和地址。要创建账户，请使用以下命令：
 - en: '[PRE5]'
+  id: totrans-124
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: When you run this command, you will be asked to enter a password to encrypt
     your account. If you forget your password, there is no way to access your account.
+  id: totrans-125
   prefs: []
   type: TYPE_NORMAL
 - en: 'To get a list of all accounts in your local Wallet, use the following command:'
+  id: totrans-126
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE6]'
+  id: totrans-127
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: The preceding command will print a list of all the addresses of the accounts.
     Keys are, by default, stored in the `--datadir` path, but you can use the `--keystore`
     option to specify a different directory.
+  id: totrans-128
   prefs: []
   type: TYPE_NORMAL
 - en: Mining
+  id: totrans-129
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'By default, geth doesn''t start mining. To instruct geth to start mining, you
     just need to provide the `--mine` option. There are a few other options related
     to mining:'
+  id: totrans-130
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE7]'
+  id: totrans-131
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: Here, along with the `--mine` option, we have provided various other options.
     The `--minerthreads` option specifies the total number of threads to use while
     hashing. By default, eight threads are used. Etherbase is the address to which
@@ -800,14 +1072,17 @@
     is required to deposit the mining rewards. One or more accounts can be unlocked
     using the -unlock option. Multiple addresses can be provided by separating the
     addresses using comma.
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
 - en: '`--minergpus` is used to specify the GPUs to use for mining. To get the list
     of GPUs, use the `geth gpuinfo` command. For each GPU, you need to have 1-2 GB
     of RAM. By default, it doesn''t use GPUs, instead only CPU.'
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
 - en: Fast synchronization
+  id: totrans-134
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -815,6 +1090,7 @@
     it may take several hours or days if you have a slow Internet connection. Ethereum
     implements a fast synchronization algorithm, which can download the blockchain
     faster.
+  id: totrans-135
   prefs: []
   type: TYPE_NORMAL
 - en: Fast synchronization doesn't download the entire blocks; instead, it only downloads
@@ -822,10 +1098,12 @@
     don't have to download and replay all transactions. To check blockchain integrity,
     the algorithm downloads a full block after every defined number of blocks. To
     learn more about fast synchronization algorithm, visit [https://github.com/ethereum/go-ethereum/pull/1889](https://github.com/ethereum/go-ethereum/pull/1889).
+  id: totrans-136
   prefs: []
   type: TYPE_NORMAL
 - en: To use fast sync while downloading the blockchain, you need to use the `--fast`
     flag while running geth.
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
 - en: Due to security reasons, fast sync will only run during an initial sync (that
@@ -834,22 +1112,29 @@
     feature, if a fast sync fails close to or after the random pivot point, it is
     disabled as a safety precaution, and the node reverts to full, block-processing-based
     synchronization.
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
 - en: Ethereum Wallet
+  id: totrans-139
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Ethereum Wallet is an Ethereum UI client that lets you create account, send
     ether, deploy contracts, invoke methods of contracts, and much more.
+  id: totrans-140
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊钱包是一个以太坊 UI 客户端，允许您创建账户、发送以太币、部署合约、调用合约的方法等等。
 - en: Ethereum Wallet comes with geth bundled. When you run Ethereum, it tries to
     find a local geth instance and connects to it, and if it cannot find geth running,
     it launches its own geth node. Ethereum Wallet communicates with geth using IPC.
     Geth supports file-based IPC.
+  id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊钱包随附了 geth。当您运行以太坊时，它会尝试找到本地的 geth 实例并连接到它，如果找不到正在运行的 geth，则启动自己的 geth 节点。以太坊钱包使用
+    IPC 与 geth 进行通信。Geth 支持基于文件的 IPC。
 - en: If you change the data directory while running geth, you are also changing the
     IPC file path. So for Ethereum Wallet to find and connect to your geth instance,
     you need to use the `--ipcpath` option to specify the IPC file location to its
@@ -857,86 +1142,126 @@
     won't be able to find it and will start its own geth instance. To find the default
     IPC file path, run geth help, and it will show the default path next to the `--ipcpath`
     option.
+  id: totrans-142
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果在运行 geth 时更改数据目录，则还会更改 IPC 文件路径。因此，为了让以太坊钱包找到并连接到您的 geth 实例，您需要使用 `--ipcpath`
+    选项将 IPC 文件位置指定为其默认位置，以便以太坊钱包可以找到它；否则，以太坊钱包将无法找到它，并将启动自己的 geth 实例。要找到默认的 IPC 文件路径，请运行
+    geth 帮助，并且它将在 `--ipcpath` 选项旁边显示默认路径。
 - en: 'Visit [https://github.com/ethereum/mist/releases](https://github.com/ethereum/mist/releases) 
     to download Ethereum Wallet. It''s available for Linux, OS X, and Windows. Just
     like geth, it has two installation modes: binary and scripted installation.'
+  id: totrans-143
   prefs: []
   type: TYPE_NORMAL
+  zh: 访问 [https://github.com/ethereum/mist/releases](https://github.com/ethereum/mist/releases)
+    下载以太坊钱包。它适用于 Linux、OS X 和 Windows。与 geth 一样，它有两种安装模式：二进制和脚本安装。
 - en: 'Here is an image that shows what Ethereum Wallet looks like:'
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是一个显示以太坊钱包外观的图像：
 - en: '![](img/image_02_001.png)'
+  id: totrans-145
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/image_02_001.png)'
 - en: Mist
+  id: totrans-146
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Mist
 - en: Mist is a client for Ethereum, Whisper, and Swarm. It lets us send transactions,
     send Whisper messages, inspect blockchains, and so on.
+  id: totrans-147
   prefs: []
   type: TYPE_NORMAL
+  zh: Mist 是以太坊、Whisper 和 Swarm 的客户端。它让我们发送交易、发送 Whisper 消息、检查区块链等等。
 - en: The relation between Mist and geth is similar to the relation between Ethereum
     Wallet and geth.
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: Mist 与 geth 的关系类似于以太坊钱包与 geth 的关系。
 - en: The most popular feature of Mist is that it comes with a browser. Currently,
     the frontend JavaScript running in the browser can access the web3 APIs of the
     geth node using the `web3.js` library (a library that provides Ethereum console's
     JavaScript APIs for other applications to communicate with geth).
+  id: totrans-149
   prefs: []
   type: TYPE_NORMAL
+  zh: Mist 最受欢迎的功能是它带有一个浏览器。目前，在浏览器中运行的前端 JavaScript 可以使用 `web3.js` 库（一种提供以太坊控制台 JavaScript
+    API 以便其他应用程序与 geth 通信的库）访问 geth 节点的 web3 API。
 - en: The basic idea of Mist is to build the third generation web (Web 3.0), which
     would wipe out the need to have servers by using Ethereum, Whisper, and Swarm
     as replacements for centralized servers.
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
+  zh: Mist 的基本理念是构建第三代互联网（Web 3.0），通过使用以太坊、Whisper 和 Swarm 替代集中式服务器，从而消除了需要服务器的需求。
 - en: 'Here is an image, showing what Mist looks like:'
+  id: totrans-151
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是一张图像，展示了 Mist 的外观：
 - en: '![](img/image_02_002.png)'
+  id: totrans-152
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/image_02_002.png)'
 - en: Weaknesses
+  id: totrans-153
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 弱点
 - en: Every system has some weaknesses. Similarly, Ethereum also has some weaknesses.
     Obviously, just like any other application, Ethereum source code can have bugs.
     And also just like any other network-based application, Ethereum is also exposed
     to DoS attacks. But let's see the unique and most important weaknesses of Ethereum.
+  id: totrans-154
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个系统都有一些弱点。同样，以太坊也有一些弱点。显然，就像任何其他应用程序一样，以太坊源代码可能存在错误。而且就像任何其他基于网络的应用程序一样，以太坊也容易受到
+    DoS 攻击。但让我们看看以太坊的独特和最重要的弱点。
 - en: Sybil attack
+  id: totrans-155
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Sybil 攻击
 - en: An attacker can attempt to fill the network with regular nodes controlled by
     him; you would then be very likely to connect only to the attacker nodes. Once
     you have connected to the attacker nodes, the attacker can refuse to relay blocks
     and transactions from everyone, thereby disconnecting you from the network. The
     attacker can relay only blocks that he creates, thereby putting you on a separate
     network, and so on.
+  id: totrans-156
   prefs: []
   type: TYPE_NORMAL
+  zh: 攻击者可以试图填充网络，控制由他控制的普通节点；然后你很可能只连接到攻击者节点。一旦你连接到攻击者节点，攻击者就可以拒绝中继所有人的区块和交易，从而使你与网络断开连接。攻击者只能中继他创建的区块，从而将您置于另一个网络中，依此类推。
 - en: 51% attack
+  id: totrans-157
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 51% 攻击
 - en: If the attacker controls more than half of the network hashrate, the attacker
     can generate blocks faster than the rest of the network. The attacker can simply
     preserve his private fork until it becomes longer than the branch built by the
     honest network and then broadcast it.
+  id: totrans-158
   prefs: []
   type: TYPE_NORMAL
 - en: With more than 50% of hash power, the miner can reverse transactions, prevent
     all/some transactions from getting mined, and prevent other miners' mined blocks
     from getting inserted to the blockchain.
+  id: totrans-159
   prefs: []
   type: TYPE_NORMAL
 - en: Serenity
+  id: totrans-160
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -945,9 +1270,11 @@
     fork. Serenity will change the consensus protocol to casper, and will integrate
     state channels and sharding. Complete details of how these will work is still
     unclear at this point of time. Let's see a high level overview of what these are.
+  id: totrans-161
   prefs: []
   type: TYPE_NORMAL
 - en: Payment and state channels
+  id: totrans-162
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -970,18 +1297,22 @@
     broadcast the final signed record to the network to withdraw funds to his account.
     If X fails to withdraw in 24 hours, the complete refund is made to Y. So in the
     blockchain, we will see only two transactions: lock and unlock.'
+  id: totrans-163
   prefs: []
   type: TYPE_NORMAL
 - en: Payment channel is for transactions related to sending ether. Similarly, a state
     channel allows us to combine transactions related to smart contracts.
+  id: totrans-164
   prefs: []
   type: TYPE_NORMAL
 - en: Proof-of-stake and casper
+  id: totrans-165
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Before we get into what the casper consensus protocol is, we need to understand
     how the proof-of-stake consensus protocol works.
+  id: totrans-166
   prefs: []
   type: TYPE_NORMAL
 - en: Proof-of-stake is the most common alternative to proof-of-work. Proof-of-work
@@ -991,47 +1322,69 @@
     accounts is treated as a stake, and the probability of a miner mining the block
     is directly proportional to the stake the miner holds. So if the miner holds 10%
     of the stake in the network, it will mine 10% of the blocks.
+  id: totrans-167
   prefs: []
   type: TYPE_NORMAL
+  zh: 股权证明是工作证明的最常见替代方案。工作证明浪费了太多计算资源。 POW和POS的区别在于，在POS中，矿工不需要解决难题；相反，矿工需要证明拥有股份才能挖掘区块。
+    在POS系统中，帐户中的以太被视为股份，矿工挖掘区块的概率与矿工持有的股份成正比。 所以，如果矿工在网络中持有10％的股份，它将挖掘10％的区块。
 - en: But the question is how will we know who will mine the next block? We cannot
     simply let the miner with the highest stake always mine the next block because
     this will create centralization. There are various algorithms for next block selection,
     such as randomized block selection, and coin-age-based selection.
+  id: totrans-168
   prefs: []
   type: TYPE_NORMAL
+  zh: 但问题是我们怎么知道谁会挖掘下一个区块？ 我们不能简单地让持有最高股份的矿工始终挖掘下一个区块，因为这将造成中心化。 有各种算法用于下一个区块的选择，例如随机化的区块选择和基于货币年龄的选择。
 - en: Casper is a modified version of POS that tackles various problems of POS.
+  id: totrans-169
   prefs: []
   type: TYPE_NORMAL
+  zh: Casper是POS的修改版本，解决了POS的各种问题。
 - en: Sharding
+  id: totrans-170
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 划分
 - en: At present, every node needs to download all transactions, which is huge. At
     the rate at which blockchain size is increasing, in the next few years, it will
     be very difficult to download the whole blockchain and keep it in sync.
+  id: totrans-171
   prefs: []
   type: TYPE_NORMAL
+  zh: 目前，每个节点都需要下载所有交易，这是庞大的。 随着区块链大小的增长速度，在未来几年内，下载整个区块链并将其同步将非常困难。
 - en: If you are familiar with distributed database architecture, you must be familiar
     with sharding. If not, then sharding is a method of distributing data across multiple
     computers. Ethereum will implement sharding to partition and distribute the blockchain
     across nodes.
+  id: totrans-172
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果您熟悉分布式数据库架构，您一定熟悉划分。 如果不熟悉，那么划分是一种将数据分布在多台计算机上的方法。 以太坊将实现分片，以在节点之间分区和分布区块链。
 - en: You can learn more about sharding a blockchain at [https://github.com/ethereum/wiki/wiki/Sharding-FAQ](https://github.com/ethereum/wiki/wiki/Sharding-FAQ).
+  id: totrans-173
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以在[https://github.com/ethereum/wiki/wiki/Sharding-FAQ](https://github.com/ethereum/wiki/wiki/Sharding-FAQ)了解更多关于对区块链进行划分的信息。
 - en: Summary
+  id: totrans-174
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 总结
 - en: In this chapter, we learned in detail about how Ethereum works. We learned how
     block time affects security and about the weaknesses of Ethereum. We also saw
     what Mist and Ethereum Wallet are and how to install them. We also saw some of
     the important commands of geth. Finally, we learned what is going to be new in
     Serenity updates for Ethereum.
+  id: totrans-175
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们详细了解了以太坊的工作原理。 我们了解了区块时间如何影响安全性以及以太坊的弱点。 我们还了解了Mist和以太坊钱包是什么以及如何安装它们。
+    我们还看到了geth的一些重要命令。 最后，我们了解了以太坊Serenity更新中的新内容。
 - en: In the next chapter, we will learn about the various ways to store and protect
     ether.
+  id: totrans-176
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一章中，我们将学习有关存储和保护以太的各种方法。
