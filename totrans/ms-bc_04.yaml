@@ -1803,6 +1803,8 @@
   id: totrans-246
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币网络是一个 P2P 网络，节点之间交换交易和区块。网络上有不同类型的节点。主要有两种类型的节点，完整节点和 SPV 节点。完整节点如其名所示，是比特币核心客户端的实现，执行钱包、矿工、完整的区块链存储和网络路由功能。然而，并不需要执行所有这些功能。SPV
+    节点或轻量级客户端仅执行钱包和网络路由功能。比特币协议的最新版本是 70014，是通过比特币核心客户端 0.13.0 引入的。
 - en: Some nodes prefer to be full blockchain nodes only and contain complete blockchain
     and perform network routing functions but do not perform mining or store private
     keys (the wallet function). Another type is solo miner nodes that can perform
@@ -1810,6 +1812,7 @@
   id: totrans-247
   prefs: []
   type: TYPE_NORMAL
+  zh: 一些节点只愿意成为完整的区块链节点，包含完整的区块链并执行网络路由功能，但不进行挖矿或存储私钥（钱包功能）。另一种类型是独立挖矿节点，它可以进行挖矿、存储完整的区块链，并充当比特币网络路由节点。
 - en: There are a few nonstandard but heavily used nodes that are called pool protocol
     servers. These nodes make use of alternative protocols, such as the stratum protocol.
     Some nodes perform only mining functions and are called mining nodes. Nodes that
@@ -1819,6 +1822,8 @@
   id: totrans-248
   prefs: []
   type: TYPE_NORMAL
+  zh: 有一些非标准但被广泛使用的节点被称为池协议服务器。这些节点使用替代协议，如 Stratum 协议。一些节点仅执行挖矿功能，称为挖矿节点。只计算哈希的节点使用
+    Stratum 协议将其解决方案提交给矿池。可以在没有区块链的情况下运行 SPV 客户端，它运行钱包和网络路由功能。
 - en: Most protocols on the Internet are line-based, which means that each line is
     delimited by a carriage return and newline *\r \n* character. Stratum is also
     a line-based protocol that makes use of plain TCP sockets and human-readable JSON-RPC
@@ -1826,28 +1831,35 @@
   id: totrans-249
   prefs: []
   type: TYPE_NORMAL
+  zh: 互联网上的大多数协议都是基于行的，这意味着每一行都由回车和换行符 *\r \n* 分隔。Stratum 也是一种基于行的协议，它利用普通的 TCP 套接字和易读的
+    JSON-RPC 在节点之间进行操作和通信。
 - en: 'Bitcoin network is identified by its different magic values. A list is shown
     as follows:'
   id: totrans-250
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币网络通过其不同的魔法值进行识别。以下是一个列表：
 - en: '![The bitcoin network](img/Capture-2.png)'
   id: totrans-251
   prefs: []
   type: TYPE_IMG
+  zh: '![比特币网络](img/Capture-2.png)'
 - en: Bitcoin network magic values
   id: totrans-252
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币网络魔法值
 - en: Magic values are used to indicate the message origin network.
   id: totrans-253
   prefs: []
   type: TYPE_NORMAL
+  zh: 魔法值用于指示消息的来源网络。
 - en: 'A full node performs four functions: wallet, miner, blockchain, and the network
     routing node.'
   id: totrans-254
   prefs: []
   type: TYPE_NORMAL
+  zh: 完整节点执行四个功能：钱包、矿工、区块链和网络路由节点。
 - en: When a bitcoin core node starts up, first, it initiates the discovery of all
     peers. This is achieved by querying DNS seeds that are hardcoded into the bitcoin
     core client and are maintained by bitcoin community members. This lookup returns
@@ -1856,14 +1868,18 @@
   id: totrans-255
   prefs: []
   type: TYPE_NORMAL
+  zh: 当比特币核心节点启动时，首先会初始化发现所有对等节点。这是通过查询硬编码到比特币核心客户端中并由比特币社区成员维护的 DNS 种子来实现的。此查找返回多个
+    DNS A 记录。比特币协议默认在 TCP 端口 8333 上运行于主网络，TCP 18333 上运行于测试网络。
 - en: '![The bitcoin network](img/image_04_020.jpg)'
   id: totrans-256
   prefs: []
   type: TYPE_IMG
+  zh: '![比特币网络](img/image_04_020.jpg)'
 - en: DNSSeeds in chainparams.cpp
   id: totrans-257
   prefs: []
   type: TYPE_NORMAL
+  zh: chainparams.cpp 中的 DNSSeeds
 - en: First, the client sends a protocol message *Version* that contains various fields,
     such as version, services, timestamp, network address, nonce, and some other fields.
     The remote node responds with its own version message followed by verack message
@@ -1871,12 +1887,15 @@
   id: totrans-258
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先，客户端发送一个包含各种字段的协议消息 *Version*，如版本、服务、时间戳、网络地址、随机数和一些其他字段。远程节点响应其自己的版本消息，然后两个节点之间进行
+    verack 消息交换，表示连接已建立。
 - en: After this, **G** ***etaddr*** and ***addr*** messages are exchanged to find
     the peers that the client do not know. Meanwhile, either of the nodes can send
     a ping message to see whether the connection is still live.
   id: totrans-259
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，**G** ***etaddr*** 和 ***addr*** 消息交换以查找客户端不知道的对等节点。同时，任一节点都可以发送一个 ping 消息来查看连接是否仍然活动。
 - en: Now the block download can begin. If the node already has all blocks fully synchronized,
     then it listens for new blocks using the *Inv* protocol message; otherwise, it
     first checks whether it has a response to *inv* messages and have inventories
@@ -1886,20 +1905,25 @@
   id: totrans-260
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在可以开始区块下载。如果节点已经完全同步了所有区块，那么它会使用 *Inv* 协议消息监听新区块；否则，它首先检查是否对 *inv* 消息有响应并且已经有了存货。如果有，那么它使用
+    ***Getdata*** 协议消息请求区块；如果没有，那么它使用 *GetBlocks* 消息请求存货。这种方法一直被使用直到版本0.9.3。
 - en: '![The bitcoin network](img/B05975_04_19.jpg)'
   id: totrans-261
   prefs: []
   type: TYPE_IMG
+  zh: '![比特币网络](img/B05975_04_19.jpg)'
 - en: Protocol visualization node discovery
   id: totrans-262
   prefs: []
   type: TYPE_NORMAL
+  zh: 协议可视化节点发现
 - en: Initial block download can use blocks first or the headers-first method to synchronize
     blocks depending on the version of the bitcoin core client. The blocks-first method
     is very slow and was discontinued since version 0.10.0.
   id: totrans-263
   prefs: []
   type: TYPE_NORMAL
+  zh: 初始区块下载可以使用区块优先或标题优先的方法来同步区块，具体取决于比特币核心客户端的版本。区块优先方法非常慢，在版本0.10.0之后被停止使用。
 - en: Since version 0.10.0, the initial block download method named headers-first
     was introduced. This resulted in major performance improvement and the blockchain
     synchronization that used to take days to complete started taking only a few hours.
@@ -1910,6 +1934,7 @@
   id: totrans-264
   prefs: []
   type: TYPE_NORMAL
+  zh: 自版本0.10.0以来，引入了名为标题优先的初始区块下载方法。这导致了主要的性能改进，原本需要数天才能完成的区块链同步现在只需要几个小时。其核心思想是，新节点首先向对等方请求区块头并验证它们。一旦完成，就可以从所有可用的对等方并行请求区块，因为完整链的蓝图已经以区块头链的形式下载。
 - en: In this method, when the client starts up, it checks whether the block chain
     is fully synchronized already if the header chain is already synchronized; if
     not, which is the case the first time the client starts up, it requests headers
@@ -1921,16 +1946,21 @@
   id: totrans-265
   prefs: []
   type: TYPE_NORMAL
+  zh: 在此方法中，当客户端启动时，它会检查区块链是否已完全同步，如果标题链已经同步，则会从其他对等方请求标题，如果没有，则会请求其他对等方的头部链。区块链已经完全同步，则通过
+    *Inv* 消息监听新区块，如果已经完全同步了头部链，则使用 *Getdata* 协议消息请求区块。节点还会检查标题链是否比区块多，然后通过发出 *Getdata*
+    协议消息请求区块。
 - en: '![The bitcoin network](img/B05975_04_20.jpg)'
   id: totrans-266
   prefs: []
   type: TYPE_IMG
+  zh: '![比特币网络](img/B05975_04_20.jpg)'
 - en: Bitcoin Core Client >= 0.10.0 header and block synchronization, IBD = Initial
     block download and sync node means the node from where the blocks are being requested
     from
   id: totrans-267
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币核心客户端 >= 0.10.0 标题和区块同步，IBD = 初始区块下载和同步节点指的是从该节点请求区块的节点
 - en: '`Getblockchaininfo` and `getpeerinfo` RPCs were updated with a new functionality
     to cater for this change. An RPC, *getchaintips*, is used to list all known branches
     of the blockchain. This also includes headers only blocks. `Getblockchaininfo`
@@ -1940,6 +1970,9 @@
   id: totrans-268
   prefs: []
   type: TYPE_NORMAL
+  zh: '`Getblockchaininfo` 和 `getpeerinfo` RPCs 更新了新功能以适应这一变化。一个名为 *getchaintips*
+    的 RPC 用于列出区块链的所有已知分支。这也包括仅包含标题的区块。`Getblockchaininfo` 用于提供有关当前区块链状态的信息。`Getpeerinfo`
+    用于列出对等方之间共有的区块数和标题数。'
 - en: Wireshark can also be used to visualize message exchange between peers and can
     serve as an invaluable tool to learn about the Bitcoin protocol. A sample is shown
     here. This is a basic example showing the version, verack, getaddr, ping, addr,
@@ -1947,30 +1980,37 @@
   id: totrans-269
   prefs: []
   type: TYPE_NORMAL
+  zh: Wireshark 也可以用于可视化对等方之间的消息交换，并且可以作为学习比特币协议的宝贵工具。这里展示了一个示例。这是一个基本示例，显示了版本、verack、getaddr、ping、addr
+    和 inv 消息。
 - en: In the details, valuable information such as the packet type, command name,
     and results of the protocol messages can be seen.
   id: totrans-270
   prefs: []
   type: TYPE_NORMAL
+  zh: 在详细信息中，可以看到诸如数据包类型、命令名称和协议消息结果等有价值的信息。
 - en: '![The bitcoin network](img/image_04_023.jpg)'
   id: totrans-271
   prefs: []
   type: TYPE_IMG
+  zh: '![比特币网络](img/image_04_023.jpg)'
 - en: A sample block message in wireshark
   id: totrans-272
   prefs: []
   type: TYPE_NORMAL
+  zh: Wireshark中的样本块消息
 - en: A protocol graph showing the flow of data between the two peers is shown here.
     This can help you understand when a node starts up and what type of messages are
     used.
   id: totrans-273
   prefs: []
   type: TYPE_NORMAL
+  zh: 此处显示了两个对等方之间数据流动的协议图。 这可以帮助您了解节点何时启动以及使用了什么类型的消息。
 - en: In the following example, the bitcoin dissector is used to analyze the traffic
     and identify the Bitcoin protocol commands.
   id: totrans-274
   prefs: []
   type: TYPE_NORMAL
+  zh: 在以下示例中，比特币解析器被用来分析流量并识别比特币协议命令。
 - en: Exchange of messages such as the **version**, **getaddr**, and **getdata** can
     be seen in the following example along with the appropriate comment describing
     the message name. This exercise can be very useful in order to learn bitcoin and
@@ -1980,16 +2020,19 @@
   id: totrans-275
   prefs: []
   type: TYPE_NORMAL
+  zh: 在以下示例中，可以看到消息的交换，如**version**，**getaddr**和**getdata**，以及描述消息名称的适当注释。 这个练习对于学习比特币可能非常有用，建议在比特币测试网络上进行实验，可以在该网络上发送各种消息和交易，然后通过Wireshark进行分析。
 - en: '![The bitcoin network](img/image_04_024.jpg)'
   id: totrans-276
   prefs: []
   type: TYPE_IMG
+  zh: '![比特币网络](img/image_04_024.jpg)'
 - en: 'There are 27 types of protocol messages in total, but they''re likely to increase
     over time as the protocol grows. The most commonly used protocol messages and
     their explanation are listed as follows:'
   id: totrans-277
   prefs: []
   type: TYPE_NORMAL
+  zh: 总共有27种协议消息，但随着协议的增长，它们很可能会增加。 最常用的协议消息及其解释如下：
 - en: '**Version**: This is the first message that a node sends out to the network,
     advertising its version and block count. The remote node then replies with the
     same information and the connection is then established.'
@@ -1997,62 +2040,73 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Version：** 这是节点向网络发送的第一个消息，宣传其版本和块计数。 然后，远程节点以相同的信息回复，连接随后建立。'
 - en: '**Verack :** This is the response of the version message accepting the connection
     request.'
   id: totrans-279
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Verack：** 这是版本消息的响应，接受连接请求。'
 - en: '**Inv:** This is used by nodes to advertise their knowledge of blocks and transactions.'
   id: totrans-280
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Inv：** 节点使用此消息广告其对块和交易的了解。'
 - en: '**Getdata :** This is a response to inv, requesting a single block or transaction
     identified by its hash.'
   id: totrans-281
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Getdata：** 这是对inv的响应，请求由其哈希标识的单个块或交易。'
 - en: '**Getblocks:** This returns an *inv* packet containing the list of all blocks
     starting after the last known hash or 500 blocks.'
   id: totrans-282
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Getblocks：** 这返回一个包含自上一个已知哈希或500个块之后的所有块列表的*inv*数据包。'
 - en: '**Getheaders :** This is used to request block headers in a specified range.'
   id: totrans-283
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Getheaders：** 这用于请求指定范围内的块头。'
 - en: '**Tx :** This is used to send a transaction as a response to the getdata protocol
     message.'
   id: totrans-284
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Tx：** 这用于作为对getdata协议消息的响应发送交易。'
 - en: '**Block:** This sends a block in response to the *getdata* protocol message.'
   id: totrans-285
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Block：** 这是对*getdata*协议消息的响应，发送一个块。'
 - en: '**Headers:** This packet returns up to 2,000 block headers as a reply to the
     getheaders request.'
   id: totrans-286
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Headers：** 此数据包作为对getheaders请求的回复返回高达2000个块头。'
 - en: '**Getaddr:** This is sent as a request to get information about known peers.'
   id: totrans-287
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Getaddr：** 这作为获取已知对等方信息的请求发送。'
 - en: '**Addr:** This provides information about nodes on the network. It contains
     the number of addresses and address list in the form of IP address and port number.'
   id: totrans-288
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Addr：** 这提供有关网络上节点的信息。 它包含地址数量和地址列表，格式为IP地址和端口号。'
 - en: '**Full client and SPV client**:Full clients are thick clients or full nodes
     that download the entire blockchain; this is the most secure method of validating
     the blockchain as a client. Bitcoin network nodes can operate in two fundamental
@@ -2067,6 +2121,9 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**完整客户端和SPV客户端：** 完整客户端是下载整个区块链的厚客户端或完整节点； 这是作为客户端验证区块链最安全的方法。 比特币网络节点可以以两种基本模式运行：完整客户端或轻量级SPV客户端。
+    SPV客户端用于验证支付而无需下载完整的区块链。 SPV节点仅保留当前有效最长区块链的块头副本。 验证是通过查看将交易链接到交易被接受的原始块的默克尔分支来执行的。
+    这不太实用，需要更实用的方法，该方法已使用BIP37实施，其中使用了布隆过滤器仅过滤出相关交易。'
 - en: '**Bloom filters**:Bloom filter is basically a data structure (a bit vector
     with indexes) that is used to test the membership of an element in a probabilistic
     manner. It basically provides probabilistic lookup with false positives but no
@@ -2082,6 +2139,8 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**布隆过滤器**：布隆过滤器基本上是一种数据结构（带有索引的位向量），用于以概率方式测试元素的成员资格。它基本上提供了具有误报但没有误报的概率查询。元素被添加到布隆过滤器后，通过对它们进行多次哈希，然后将相应的位设置为1来设置位向量中的相应索引。为了检查元素在布隆过滤器中的存在，应用相同的哈希函数并将其与位向量中的位进行比较，以查看是否将相同的位设置为1。并非每个哈希函数（例如
+    SHA1）都适用于布隆过滤器，因为它们需要快速、独立和均匀分布。布隆过滤器最常用的哈希函数是 fnv、mumur 和 Jenkins。'
 - en: These filters are mainly used by simple payment verification SPV clients to
     request transactions and the merkle blocks they are interested in. A merkle block
     is a lightweight version of the block, which includes a block header, some hashes,
@@ -2101,36 +2160,43 @@
   id: totrans-291
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些过滤器主要由简单支付验证（SPV）客户端使用，以请求交易和他们感兴趣的默克尔块。默克尔块是区块的轻量级版本，其中包括区块头、一些哈希、1位标志位列表和交易计数。然后可以使用这些信息构建默克尔树。这通过创建一个仅匹配SPV客户端请求的交易和块的过滤器来实现。一旦版本消息被交换并且节点之间建立了连接，节点就可以根据自己的需求设置过滤器。这些概率过滤器根据设置的精确程度或宽松程度提供不同程度的隐私或精度。严格的布隆过滤器只会过滤节点请求的交易，但会以泄露用户地址的可能性为代价，对手可能会将交易与他们的IP地址相关联，从而损害隐私。另一方面，宽松设置的过滤器可能导致检索更多不相关的交易，但会提供更多的隐私。此外，对于SPV客户端，布隆过滤器允许它们使用低带宽，而不是下载所有交易进行验证。
 - en: '**BIP 37** proposed the bitcoin implementation of bloom filters and introduced
     three new messages to the Bitcoin protocol.'
   id: totrans-292
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**BIP 37** 提出了比特币布隆过滤器的实现，并向比特币协议引入了三个新消息。'
 - en: '**Filterload:** This is used to set the bloom filter on the connection.'
   id: totrans-293
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Filterload:** 这用于在连接上设置布隆过滤器。'
 - en: '**Filteradd:** This adds a new data element to the current filter.'
   id: totrans-294
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Filteradd:** 这将新的数据元素添加到当前过滤器中。'
 - en: '**FilterClear**: This deletes the currently loaded filter.'
   id: totrans-295
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**FilterClear:** 这会删除当前加载的过滤器。'
 - en: More details can be found in the BIP37 specification.
   id: totrans-296
   prefs: []
   type: TYPE_NORMAL
+  zh: 更多细节可以在 BIP37 规范中找到。
 - en: Wallets
   id: totrans-297
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: 钱包
 - en: 'The wallet software is used to store private or public keys and bitcoin address.
     It performs various functions, such as receiving and sending bitcoins. Nowadays,
     software usually offers both functionalities: bitcoin client and wallet. On the
@@ -2138,6 +2204,7 @@
   id: totrans-298
   prefs: []
   type: TYPE_NORMAL
+  zh: 钱包软件用于存储私钥或公钥和比特币地址。它执行各种功能，例如接收和发送比特币。现在，软件通常提供两种功能：比特币客户端和钱包。在磁盘上，比特币核心客户端钱包存储为伯克利数据库文件：
 - en: '[PRE2]'
   id: totrans-299
   prefs: []
@@ -2147,6 +2214,7 @@
   id: totrans-300
   prefs: []
   type: TYPE_NORMAL
+  zh: '`wallet.dat`: 伯克利数据库（B树，版本9，本机字节顺序）'
 - en: Private keys can be generated in different ways and are used by different types
     of wallets. Wallets do not store any coins, and there is no concept of wallets
     storing balance or coins for a user. In fact, in the bitcoin network, *coins* do
@@ -2156,22 +2224,26 @@
   id: totrans-301
   prefs: []
   type: TYPE_NORMAL
+  zh: 私钥可以以不同的方式生成，并由不同类型的钱包使用。钱包不存储任何硬币，也没有钱包为用户存储余额或硬币的概念。事实上，在比特币网络中，*硬币*并不存在；相反，只有交易信息存储在区块链上（更确切地说，是UTXO，未花费的输出），然后用于计算比特币的数量。
 - en: Wallet types
   id: totrans-302
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 钱包类型
 - en: In bitcoin, there are different types of wallets that can be used to store private
     keys. As a software program, they also provide some functions to the users to
     manage and carry out transactions on the bitcoin network.
   id: totrans-303
   prefs: []
   type: TYPE_NORMAL
+  zh: 在比特币中，有不同类型的钱包可以用来存储私钥。作为软件程序，它们还为用户提供一些功能，以在比特币网络上管理和执行交易。
 - en: Non-deterministic wallets
   id: totrans-304
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 非确定性钱包
 - en: These wallets contain randomly generated private keys and are also called *Just
     a Bunch of Key wallets*. The bitcoin core client generates some keys when first
     started and generates keys as and when required. Managing a large number of keys
@@ -2181,11 +2253,13 @@
   id: totrans-305
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些钱包包含随机生成的私钥，也称为*一堆键钱包*。比特币核心客户端在首次启动时生成一些密钥，并在需要时生成密钥。管理大量密钥非常困难，一个错误的过程可能导致偷窃和硬币丢失。此外，有必要定期备份密钥并适当保护它们，以防止偷窃或丢失。
 - en: Deterministic wallets
   id: totrans-306
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 确定性钱包
 - en: In this type of wallet, keys are derived out of a seed value via hash functions.
     This seed number is generated randomly and is commonly represented by human-readable
     *mnemonic code* words. Mnemonic code words are defined in BIP39\. This phrase
@@ -2194,11 +2268,13 @@
   id: totrans-307
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这种类型的钱包中，密钥通过哈希函数从种子值派生而来。这个种子号码是随机生成的，并且通常用人类可读的*助记码*词来表示。助记码词在BIP39中定义。这个短语可以用来恢复所有密钥，并使私钥管理相对容易。
 - en: Hierarchical deterministic wallets
   id: totrans-308
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 分层确定性钱包
 - en: Defined in BIP32 and BIP44, HD wallets store keys in a tree structure derived
     from a seed. The seed generates the parent key (master key), which is used to
     generate child keys and, subsequently, grandchild keys. Key generation in HD wallets
@@ -2210,11 +2286,13 @@
   id: totrans-309
   prefs: []
   type: TYPE_NORMAL
+  zh: 在BIP32和BIP44中定义，HD钱包将密钥存储在从种子派生的树结构中。种子生成父密钥（主密钥），用于生成子密钥，随后生成孙密钥。HD钱包中的密钥生成不直接生成密钥；相反，它产生一些信息（私钥生成信息），可以用来生成一系列私钥。如果已知主私钥，HD钱包中的私钥完整层次结构很容易恢复。正是因为这个属性，HD钱包非常容易维护，并且非常便携。
 - en: Brain wallets
   id: totrans-310
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 大脑钱包
 - en: The master private key can also be derived from the hash of passwords that are
     memorized. The key idea is that this passphrase is used to derive the private
     key and if used in HD wallets, this can result in a full HD wallet that is derived
@@ -2224,11 +2302,13 @@
   id: totrans-311
   prefs: []
   type: TYPE_NORMAL
+  zh: 主私钥也可以从被记忆的密码的哈希派生出来。关键的想法是这个密码用于派生私钥，如果在HD钱包中使用，这可以导致从单个记忆的密码派生出的完整HD钱包。这被称为大脑钱包。这种方法容易受到密码猜测和暴力破解攻击，但是可以使用*密钥延展*等技术来减慢攻击者的进展。
 - en: Paper wallets
   id: totrans-312
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 纸质钱包
 - en: As the name implies, this is a paper-based wallet with the required key material
     printed on it. It requires physical security to be stored. Paper wallets can be
     generated online from various service providers, such as [https://bitcoinpaperwallet.com/](https://bitcoinpaperwallet.com/)
@@ -2236,11 +2316,13 @@
   id: totrans-313
   prefs: []
   type: TYPE_NORMAL
+  zh: 顾名思义，这是一个纸质钱包，上面打印了所需的密钥材料。它需要物理安全来存储。纸质钱包可以从各种服务提供商在线生成，例如[https://bitcoinpaperwallet.com/](https://bitcoinpaperwallet.com/)或[https://www.bitaddress.org/](https://www.bitaddress.org/)。
 - en: Hardware wallets
   id: totrans-314
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 硬件钱包
 - en: Another method is to use a tamper-resistant device to store keys. This tamper-resistant
     device can be custom-built or with the advent of NFC-enabled phones, this can
     also be a **secure element** (**SE**) in NFC phones. Trezor and Ledger wallets
@@ -2248,19 +2330,23 @@
   id: totrans-315
   prefs: []
   type: TYPE_NORMAL
+  zh: 另一种方法是使用防篡改设备来存储密钥。这种防篡改设备可以是定制的，或者随着NFC手机的出现，它也可以是NFC手机中的**安全元素**（**SE**）。Trezor和Ledger钱包（各种类型）是最常用的比特币硬件钱包。
 - en: '![Hardware wallets](img/B05975_04_23.jpg)'
   id: totrans-316
   prefs: []
   type: TYPE_IMG
+  zh: '![硬件钱包](img/B05975_04_23.jpg)'
 - en: Trezor Wallet
   id: totrans-317
   prefs: []
   type: TYPE_NORMAL
+  zh: Trezor钱包
 - en: Online wallets
   id: totrans-318
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 线上钱包
 - en: Online wallets, as the name implies, are stored entirely online and are provided
     as a service usually via cloud. They provide a web interface to the users to manage
     their wallets and perform various functions such as making and receiving payments.
@@ -2268,11 +2354,13 @@
   id: totrans-319
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如名称所示，线上钱包完全存储于网络上，并通常通过云服务提供。它们为用户提供一个网页界面，用以管理钱包并执行诸如支付和接收款项等多种功能。它们使用方便，但前提是用户需要信任线上钱包服务提供商。
 - en: Mobile wallets
   id: totrans-320
   prefs:
   - PREF_H4
   type: TYPE_NORMAL
+  zh: 移动钱包
 - en: Mobile wallets, as the name suggests, are installed on mobile devices. They
     can provide various methods to make payments, most notably the ability to use
     smart phone cameras to scan QR codes quickly and make payments. Mobile wallets
@@ -2281,19 +2369,23 @@
   id: totrans-321
   prefs: []
   type: TYPE_NORMAL
+  zh: 如名称所示，移动钱包安装在移动设备上。它们可以提供各种支付方法，最显著的是能够使用智能手机相机快速扫描二维码并进行支付。移动钱包适用于Android平台和iOS，例如breadwallet、copay和Jaxx。
 - en: '![Mobile wallets](img/image_04_026.jpg)'
   id: totrans-322
   prefs: []
   type: TYPE_IMG
+  zh: '![移动钱包](img/image_04_026.jpg)'
 - en: Jaxx Mobile wallet
   id: totrans-323
   prefs: []
   type: TYPE_NORMAL
+  zh: Jaxx移动钱包
 - en: Bitcoin payments
   id: totrans-324
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 比特币支付
 - en: Bitcoins can be accepted as payments using various techniques. Bitcoin is not
     recognized as a legal currency in many jurisdictions, but it is increasingly being
     accepted as a payment method by many online merchants and e-commerce websites.
@@ -2309,38 +2401,46 @@
   id: totrans-325
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用各种技术可以接受比特币作为支付。虽然比特币在许多司法管辖区内并未被认可为合法货币，但它越来越多地被许多在线商家和电子商务网站接受为支付方式。有许多方法可以让买家向接受比特币的商家支付。例如，在线商店中可以使用比特币商家解决方案，而在传统的实体商店中，可以使用销售点终端和其他专用硬件。顾客可以简单地扫描含有卖家支付URI的二维码，并通过移动设备进行支付。比特币URI允许用户通过点击链接或扫描二维码来进行支付。**URI**（**统一资源标识符**）基本上是代表交易信息的字符串。它在BIP21中定义。二维码可以显示在销售终端附近。几乎所有的比特币钱包都支持这一功能。
 - en: Business can use the following screenshot to advertise that they can accept
     bitcoins as payment.
   id: totrans-326
   prefs: []
   type: TYPE_NORMAL
+  zh: 商家可以使用以下截图来宣传他们可以接受比特币作为支付方式。
 - en: '![Bitcoin payments](img/image_04_027.jpg)'
   id: totrans-327
   prefs: []
   type: TYPE_IMG
+  zh: '![比特币支付](img/image_04_027.jpg)'
 - en: bitcoin accepted here logo
   id: totrans-328
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币接受此处标志
 - en: Various payment solutions, such as xbtterminal and 34 bytes bitcoin POS terminal
     are available commercially.
   id: totrans-329
   prefs: []
   type: TYPE_NORMAL
+  zh: 各种支付解决方案，如xbtterminal和34字节比特币POS终端，均可商业购买。
 - en: '![Bitcoin payments](img/B05975_04_26.jpg)'
   id: totrans-330
   prefs: []
   type: TYPE_IMG
+  zh: '![比特币支付](img/B05975_04_26.jpg)'
 - en: 34 bytes POS solution.
   id: totrans-331
   prefs: []
   type: TYPE_NORMAL
+  zh: 34字节POS解决方案。
 - en: Bitcoin payment processor, offered by many online service providers, allows
     integration with e-commerce websites. A simple Internet search can reveal many
     options.
   id: totrans-332
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币支付处理器，由许多在线服务提供商提供，支持与电子商务网站集成。简单的互联网搜索可以揭示许多选项。
 - en: 'Various BIPs have been proposed and finalized in order to introduce and standardize
     bitcoin payments. Most notably, BIP 70 (secure payment protocol) describes the
     protocol for secure communication between a merchant and customers. This protocol
@@ -2355,11 +2455,13 @@
   id: totrans-333
   prefs: []
   type: TYPE_NORMAL
+  zh: 已经提出并最终确定了各种BIP，以引入和规范化比特币支付。最值得注意的是，BIP70（安全支付协议）描述了商户和客户之间进行安全通信的协议。该协议使用X.509证书进行身份验证，并在HTTP和HTTPS上运行。该协议中有三条消息：PaymentRequest、Payment和PaymentACK。这一提议的关键特点是防范中间人攻击和安全的支付证明。中间人攻击可能导致这样一种情况：攻击者位于商户和买家之间，买家看起来似乎在与商户交谈，但实际上，“中间人”正在与买家而不是商户交互。这可能导致篡改商户的比特币地址以欺诈买家。
 - en: Several others BIPs, such as BIP71 and BIP72, have also been proposed to standardize
     payment message encapsulation and URI scheme to support BIP70.
   id: totrans-334
   prefs: []
   type: TYPE_NORMAL
+  zh: 还有其他几个BIP，比如BIP71和BIP72，也已经被提出，以规范支付消息封装和URI方案，以支持BIP70。
 - en: Bitcoin lightning network, a solution for scalable off-chain instant payments,
     was introduced in early 2016, which allows off-blockchain payments. The network
     makes use of payments channels that run off the blockchain. This allows greater
@@ -2369,11 +2471,13 @@
   id: totrans-335
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币闪电网络，是一个可扩展的链下即时支付解决方案，于2016年初推出，允许链下支付。该网络利用在区块链之外运行的支付通道。这使得比特币的速度和可扩展性更大。此论文可在[https://lightning.network/](https://lightning.network/)获取，鼓励感兴趣的读者阅读论文，以了解这一发明背后的理论和基础。
 - en: Bitcoin investment and buying and selling bitcoins
   id: totrans-336
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: 比特币投资和买卖比特币
 - en: There are many online exchanges where users can buy and sell bitcoins. This
     is a big business on the Internet now and it offers bitcoin trading, CFDs, spread
     betting, margin trading, and various other choices. Traders can buy bitcoins or
@@ -2386,60 +2490,74 @@
   id: totrans-337
   prefs: []
   type: TYPE_NORMAL
+  zh: 有许多在线交易所，用户可以在那里买卖比特币。这现在是互联网上的一个大生意，它提供比特币交易、差价合约、点差投注、保证金交易以及各种其他选择。交易员可以通过开设多头或空头头寸来购买比特币或交易，从而在比特币价格上涨或下跌时获利。还有其他一些功能，比如将比特币兑换成其他虚拟货币，也是可能的，许多在线比特币交易所提供了这个功能。还提供了高级市场数据、交易策略、图表和相关数据，以支持交易员。这里展示了**CEX.IO**的一个示例。其他交易所提供类似类型的服务。
 - en: '![Bitcoin investment and buying and selling bitcoins](img/image_04_029.jpg)'
   id: totrans-338
   prefs: []
   type: TYPE_IMG
+  zh: '![比特币投资和买卖比特币](img/image_04_029.jpg)'
 - en: Example of bitcoin exchange cex.io
   id: totrans-339
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币交易所 cex.io 的示例
 - en: 'The following screenshot shows the order book at the exchange where all buy
     and sell orders are listed:'
   id: totrans-340
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面的截图显示了交易所的订单簿，其中列出了所有的买单和卖单：
 - en: '![Bitcoin investment and buying and selling bitcoins](img/image_04_030.jpg)'
   id: totrans-341
   prefs: []
   type: TYPE_IMG
+  zh: '![比特币投资和买卖比特币](img/image_04_030.jpg)'
 - en: Example of bitcoin order book at exchange cex.io
   id: totrans-342
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币交易所 cex.io 的订单簿示例
 - en: Bitcoin installation
   id: totrans-343
   prefs:
   - PREF_H2
   type: TYPE_NORMAL
+  zh: 比特币安装
 - en: 'The bitcoin core client can be installed from [https://bitcoin.org/en/download](https://bitcoin.org/en/download).
     This is available for different architectures and platforms ranging from x86 windows
     to ARM Linux, as shown in the following image:'
   id: totrans-344
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币核心客户端可从[https://bitcoin.org/en/download](https://bitcoin.org/en/download)下载安装。该软件适用于不同的架构和平台，从x86
+    Windows到ARM Linux，如下图所示：
 - en: '![Bitcoin installation](img/image_04_031.jpg)'
   id: totrans-345
   prefs: []
   type: TYPE_IMG
+  zh: '![比特币安装](img/image_04_031.jpg)'
 - en: Setting up a bitcoin node
   id: totrans-346
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 设置比特币节点
 - en: A sample run of the bitcoin core installation on Ubuntu is shown here; for other
     platforms, you can get details from [www.bitcoin.org](http://www.bitcoin.org/).
   id: totrans-347
   prefs: []
   type: TYPE_NORMAL
+  zh: 在此处显示了在Ubuntu上运行比特币核心安装的示例；对于其他平台，可以从[www.bitcoin.org](http://www.bitcoin.org/)获取详细信息。
 - en: '![Setting up a bitcoin node](img/image_04_032.jpg)'
   id: totrans-348
   prefs: []
   type: TYPE_IMG
+  zh: '![设置比特币节点](img/image_04_032.jpg)'
 - en: 'Step 2:'
   id: totrans-349
   prefs: []
   type: TYPE_NORMAL
+  zh: 步骤2：
 - en: '[PRE3]'
   id: totrans-350
   prefs: []
@@ -2450,6 +2568,7 @@
   id: totrans-351
   prefs: []
   type: TYPE_NORMAL
+  zh: 根据需要的客户端，用户可以使用以下命令之一，或者同时发出两个命令：
 - en: '[PRE4]'
   id: totrans-352
   prefs: []
@@ -2460,12 +2579,14 @@
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 设置源代码
 - en: 'The bitcoin source code can be downloaded and compiled if users wish to participate
     in the bitcoin code or for learning purpose. Git can be used to download the bitcoin
     source code:'
   id: totrans-354
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果用户希望参与比特币代码或学习目的，可以下载并编译比特币源代码。可以使用Git下载比特币源代码：
 - en: '[PRE5]'
   id: totrans-355
   prefs: []
@@ -2475,6 +2596,7 @@
   id: totrans-356
   prefs: []
   type: TYPE_NORMAL
+  zh: 将目录更改为比特币：
 - en: '[PRE6]'
   id: totrans-357
   prefs: []
@@ -2484,6 +2606,7 @@
   id: totrans-358
   prefs: []
   type: TYPE_NORMAL
+  zh: 当前步骤完成后，代码可以编译：
 - en: '[PRE7]'
   id: totrans-359
   prefs: []
@@ -2494,6 +2617,7 @@
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 设置bitcoin.conf
 - en: '`bitcoin.conf` file is a configuration file that is used by the bitcoin core
     client to save configuration settings. All command line options for the bitcoind
     client with the exception of `-conf` switch can be set up in the configuration
@@ -2502,23 +2626,27 @@
   id: totrans-361
   prefs: []
   type: TYPE_NORMAL
+  zh: '`bitcoin.conf`文件是一个配置文件，被比特币核心客户端用来保存配置设置。所有bitcoind客户端的命令行选项（除了`-conf`开关）都可以在配置文件中设置，在bitcoin-qt或bitcoind启动时，将从该文件中获取配置信息。'
 - en: In Linux systems, this is usually found in `$HOME/.bitcoin/`, or it can also
     specified in the command line using the `-conf=<file>` switch to bitcoind core
     client software.
   id: totrans-362
   prefs: []
   type: TYPE_NORMAL
+  zh: 在Linux系统中，通常可以在`$HOME/.bitcoin/`中找到，或者也可以在命令行中使用`-conf=<file>`开关指定给bitcoind核心客户端软件。
 - en: Starting up a node in testnet
   id: totrans-363
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 在测试网络中启动节点
 - en: The bitcoin node can be started in the testnet mode if you want to test the
     bitcoin network and run an experiment. This is a faster network as compared to
     the live network and has relaxed rules for mining and transactions.
   id: totrans-364
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果您想要测试比特币网络并进行实验，可以以测试网络模式启动比特币节点。与现场网络相比，这是一个更快的网络，并且对于挖矿和交易有更宽松的规定。
 - en: Various faucet services are available for the bitcoin test network. One example
     is Bitcoin TestNet sandbox, where users can request bitcoins to be paid to their
     testnet bitcoin address. This can be accessed via [https://testnet.manu.backend.hamburg/](https://testnet.manu.backend.hamburg/).
@@ -2526,10 +2654,12 @@
   id: totrans-365
   prefs: []
   type: TYPE_NORMAL
+  zh: 可用于比特币测试网络的各种水龙头服务。一个例子是Bitcoin TestNet sandbox，用户可以请求比特币支付到他们的测试网比特币地址。可以通过[https://testnet.manu.backend.hamburg/](https://testnet.manu.backend.hamburg/)访问。这对于在测试网络上进行交易实验非常有用。
 - en: 'The command line to start up test net is as follows:'
   id: totrans-366
   prefs: []
   type: TYPE_NORMAL
+  zh: 启动测试网络的命令行如下：
 - en: '[PRE8]'
   id: totrans-367
   prefs: []
@@ -2540,15 +2670,18 @@
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 在regtest中启动节点
 - en: The regtest mode (regression testing mode) can be used to create a local blockchain
     for testing purposes.
   id: totrans-369
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用regtest模式（回归测试模式）创建用于测试的本地区块链。
 - en: 'The following commands can be used to start up a node in the reg test mode:'
   id: totrans-370
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用以下命令启动regtest模式中的节点：
 - en: '[PRE9]'
   id: totrans-371
   prefs: []
@@ -2558,6 +2691,7 @@
   id: totrans-372
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用以下命令生成区块：
 - en: '[PRE10]'
   id: totrans-373
   prefs: []
@@ -2568,14 +2702,17 @@
   id: totrans-374
   prefs: []
   type: TYPE_NORMAL
+  zh: 在Linux系统中，可以在`.bitcoin/regtest`目录下的`debug.log`中查看相关日志消息。
 - en: '![Starting up a node in regtest](img/image_04_033.jpg)'
   id: totrans-375
   prefs: []
   type: TYPE_IMG
+  zh: '![在regtest中启动节点](img/image_04_033.jpg)'
 - en: 'After block generation, the balance can be viewed as follows:'
   id: totrans-376
   prefs: []
   type: TYPE_NORMAL
+  zh: 在生成区块后，可以通过以下方式查看余额：
 - en: '[PRE11]'
   id: totrans-377
   prefs: []
@@ -2585,6 +2722,7 @@
   id: totrans-378
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以使用以下命令停止节点：
 - en: '[PRE12]'
   id: totrans-379
   prefs: []
@@ -2595,6 +2733,7 @@
   prefs:
   - PREF_H3
   type: TYPE_NORMAL
+  zh: 在主网中启动节点
 - en: '*Bitcoind* is the core client software that can be run as a daemon, and it
     provides the JSON RPC interface. *Bitcoin-cli* is the command line feature-rich
     tool to interact with the daemon; the daemon then interacts with the blockchain
@@ -2603,12 +2742,15 @@
   id: totrans-381
   prefs: []
   type: TYPE_NORMAL
+  zh: '***Bitcoind***是可以作为守护程序运行的核心客户端软件，并提供JSON RPC接口。*Bitcoin-cli*是用于与守护程序交互的功能丰富的命令行工具；然后守护程序与区块链交互并执行各种功能。
+    Bitcoin-cli仅调用JSON-RPC函数，不会在区块链上执行任何操作。'
 - en: '*Bitcoin-qt* is the bitcoin core client GUI. When the wallet software starts
     up first, it verifies the blocks on the disk and then starts up and shows the
     following GUI:'
   id: totrans-382
   prefs: []
   type: TYPE_NORMAL
+  zh: '*Bitcoin-qt*是比特币核心客户端的图形用户界面。当钱包软件首次启动时，它会验证磁盘上的区块，然后启动并显示以下图形用户界面：'
 - en: '![Starting up a node in live mainnet](img/image_04_034.jpg)'
   id: totrans-383
   prefs: []
@@ -2760,6 +2902,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**标准 BIP**：用于描述对比特币系统产生重大影响的主要更改，例如区块大小更改、网络协议更改或交易验证更改。'
 - en: '**Process BIP**: A major difference between standard and process BIPs is that
     standard BIPs cover protocol changes, whereas process BIPs usually deal with proposing
     a change in a process that is outside the core Bitcoin protocol. These are implemented
@@ -2768,17 +2911,20 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**流程 BIP**：标准 BIP 和流程 BIP 的主要区别在于，标准 BIP 涵盖协议更改，而流程 BIP 通常涉及提议改变核心比特币协议之外的流程。这些只有在比特币用户之间达成共识后才会实施。'
 - en: '**Informational BIP**: These are usually used to just advise or record some
     information about the bitcoin ecosystem, such as design issues.'
   id: totrans-408
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**信息性 BIP**：通常用于仅建议或记录有关比特币生态系统的一些信息，例如设计问题。'
 - en: Summary
   id: totrans-409
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 摘要
 - en: This chapter introduced bitcoin and related concepts. It started with some history
     and basic definitions related to bitcoin. Concepts such as keys and addresses
     along with public keys and private keys were introduced. How transactions work
@@ -2792,3 +2938,5 @@
   id: totrans-410
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章介绍了比特币及相关概念。从一些与比特币相关的历史和基本定义开始。介绍了诸如密钥和地址以及公钥和私钥等概念。还讨论了比特币网络中的交易工作原理（以及脚本、操作码和交易类型等相关概念）。此外，还介绍了作为比特币网络基础的区块链。还介绍了与此相关的概念，如挖矿、工作证明、挖矿系统和钱包。最后，还提供了有关设置比特币客户端、使用
+    bitcoin-cli 以及介绍不同比特币网络的一些实用信息。在下一章中，将介绍替代货币及相关概念。
