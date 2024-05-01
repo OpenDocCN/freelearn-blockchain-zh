@@ -1,0 +1,749 @@
+- en: Hyperledger and Enterprise Blockchains
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Unlike most of the other blockchain systems discussed in this book, Hyperledger
+    never had an **Initial** **Coin Offer** (**ICO**) and has no tokens that are publicly
+    traded. This is because Hyperledger isn't a blockchain itself, but instead a collection
+    of technologies used for the creation of new blockchains. Moreover, these blockchain
+    technologies were explicitly designed and built for enterprise use cases and not
+    the public markets.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will cover the following items:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The history of Hyperledger
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Critical details about each of the six current Hyperledger projects
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: An overview of the Hyperledger tools used to support the ecosystem
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Suggestions on how to select Hyperledger technologies for a project
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The Hyperledger name doesn't apply to a single technology, but rather a collection
+    of blockchain technologies all donated to the Linux Foundation under the Hyperledger
+    name.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Members of the Hyperledger project include major blockchain companies such as
+    Consensys, R3, and Onchain, as well as a large number of enterprise-focused technology
+    companies such as Baidu, Cisco, Fujitsu, Hitachi, IBM, Intel NEC, Red Hat, and
+    VMware. In addition to these companies, a number of financial services firms have
+    come on board due to the clear application of blockchain in fintech. Financial
+    services members include ANZ Bank, BYN Mellon, JP Morgan, SWIFT, and Wells Fargo.
+    Seeing the opportunity to be on the next wave of business software consulting,
+    major integrators joined as well—Accenture, CA Technology, PWC, and Wipro, along
+    with many others.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Recently, Amazon, IBM, and Microsoft have all revealed blockchain-as-a-service
+    offerings featuring Hyperledger technology.
+  prefs: []
+  type: TYPE_NORMAL
+- en: History of Hyperledger
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The Hyperledger project was founded in 2015, when the Linux Foundation announced
+    the creation of the Hyperledger project. It was founded in conjunction with a
+    number of enterprise players, including IBM, Intel, Fujitsu, and JP Morgan. The
+    goal was to improve and create industry collaboration around blockchain technology
+    so that it would be usable for complex enterprise use cases in the key industries
+    most suitable to blockchain disruption: technology, finance, and supply chain.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The project gained substance in 2016, when the first technology donations were
+    made. IBM donated what was to become known as **Hyperledger Fabric**, and Intel
+    donated the code base that became Hyperledger Sawtooth.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Unlike most projects in the blockchain space, Hyperledger has never issued its
+    own cryptocurrency. In fact, the executive director of Hyperledger has publicly
+    stated that there never will be one.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger projects
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As mentioned, a hyperledger isn't a single blockchain technology, but rather
+    a collection of technologies donated by member companies. While there is a long-term
+    goal of greater integration between projects, currently most of the Hyperledger
+    projects function independently. Each project's core code base was donated by
+    one or more of the Hyperledger member organizations, based on problems they were
+    trying to solve internally before open sourcing the code and handing ownership
+    to the Linux Foundation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Burrow
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Burrow is a re-implementation of the **Ethereum Virtual Machine**
+    (**EVM**) and blockchain technology, but with a few key changes. First, instead
+    of using the proof-of-work consensus algorithm used by the public Ethereum chain,
+    Burrow is designed around the Tendermint consensus algorithm (See [Chapter 7](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml), *Achieving
+    Consensus*). This means there are no miners and no mining to be done on Burrow-based
+    projects.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Second, Hyperledger Burrow is permissioned—the computers allowed to participate
+    in a Hyperledger Burrow network are known and granted access, and the computers
+    signing blocks (called **validators**, as in Tendermint) are all known. This is
+    very different than Ethereum, where anyone can anonymously download the Ethereum
+    software and join the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contracts written for the EVM will still mostly work. Due to the change
+    in consensus, there are also changes in the way Gas is used. In the public Ethereum
+    blockchain, each transaction costs Gas, depending on the complexity of the transaction,
+    and each block has a Gas limit. Depending on the network load, participants have
+    to pay a variable cost in Ether for the Gas needed for their transactions. In
+    Burrow, these complexities are mostly dispensed with. Each transaction is gifted
+    a basic amount of Gas automatically. Because the Gas is still limited, Burrow
+    is able to guarantee that all transactions eventually complete—either by succeeding
+    or failing—because they run out of Gas.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For more on the EVM, solidity language, and other aspects of Ethereum shared
+    with Hyperledger Burrow, please see [Chapter 12](9a6789a7-5c2f-4735-868e-4a13275dd6ed.xhtml),
+    *Ethereum 101*, to [Chapter 15](588b84f6-baef-4ea3-895e-bd66f523452b.xhtml), *Ethereum
+    Development*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Sawtooth
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Sawtooth, like the rest of the Hyperledger family, is built for
+    permissioned (private) networks rather than public networks, such as Ethereum,
+    Bitcoin, and so on. As an enterprise-oriented blockchain system, it is designed
+    around allowing different companies to coordinate using a blockchain and smart
+    contracts. Originally developed by Intel, Sawtooth uses a unique consensus algorithm
+    called **Proof of Elapsed Time**, or **PoET**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: PoET uses a lottery-based system for leader election. Using special Intel technology
+    called the **Trusted Execution Environment** (**TEE**), along with **Software
+    Guard Extensions** (**SGX**), available on some Intel chipsets, the leader is
+    elected by each node generating a random wait time, with the shortest wait time
+    going first. Because the code to generate the wait time is in the TEE, it can
+    be verified that each node is running appropriate code and not skipping in line
+    to become leader by not waiting the amount of time generated by the random time
+    generator. Therefore, the election of the leader (and block issuer) is very fast,
+    which in turn allows the blockchain to operate quickly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sawtooth architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Sawtooth** has a pluggable architecture, comprised of the Sawtooth core,
+    the application-level and transaction families, and the consensus mechanism (typically
+    PoET, but hypothetically pluggable with others). We will study them in detail
+    in the following sections.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction families
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Because Sawtooth is meant to be a pluggable, enterprise-oriented architecture,
+    the application layer is highly configurable. Each Sawtooth-based blockchain allows
+    transactions to be made based on what are called **transaction families**. Transaction
+    families determine what sorts of operations are permissible on the Sawtooth blockchain.
+    For instance, it is possible to allow smart contracts, such as with Ethereum,
+    using the **Seth** transaction family. Under Seth, all possible Ethereum-based
+    contracts and Ethereum contract-based transactions would be permissible, along
+    with all the possible mistakes and issues such freedom creates.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A Sawtooth-based blockchain can have multiple transaction families operating
+    at once. In fact, this is common, as one of the transaction families that ships
+    with Sawtooth is the settings family, which stores system-wide configuration settings
+    directly on to the blockchain. In most cases, this transaction family and a few
+    others, comprised of business use cases, will be operating in parallel. Furthermore,
+    because multiple transaction families can be running at the same time, this means
+    that business logic can be isolated and reused as an independent transaction family
+    across multiple blockchain implementations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Because many businesses have only a few valid business rules and business outcomes,
+    it is possible to customize the available operations on the blockchain through
+    the creation of a custom transaction family. For instance, a shipping company
+    may use Sawtooth to track the location of packages, and the only valid transactions
+    might be new package, package accepted, package released, package in transit,
+    update package location, and package delivered. By restricting the available transactions,
+    the number of errors and mistakes can be reduced. Using the shipping company example,
+    network participants could be trucking companies, warehouses, and so on. For a
+    package to move between a truck and a warehouse, the two network participants
+    would issue package released and package accepted transactions, respectively,
+    in a batch on to the blockchain. This brings us to the next concept in Sawtooth:
+    **Transaction Batches**.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transactions and batches
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In Sawtooth, transactions are always part of batches. A *batch* is a set of
+    transactions that come together and either all succeed or all fail. If a transaction
+    needs to process by itself, then it would be in a single batch containing only
+    that one transaction. Using the shipping company example, the transactions package
+    released and package accepted may be programmed so that they only succeed if their
+    counter-transaction is part of the same batch, forcing a successful handoff or
+    throwing an error. The following diagram shows the data structure of a transaction
+    batch:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b311ee2e-5621-4686-b80b-4612cee15e85.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Transactions and batches in Sawtooth are abstracted at a high level so that
+    they can be created by custom transaction families and by arbitrary programming
+    languages. Because of this, it is possible to program smart contracts and transaction
+    families in Java, Python, Go, C++, and JavaScript. To code in any language, there
+    is another restriction on transactions: serialization, or the transition from
+    an in-memory structure on a computer to a fixed binary that can be sent across
+    the network. No matter what the language is, the approach to serialization must
+    have the same output. In Sawtooth, all transactions and batches are encoded in
+    a format called **protocol buffers**, a format created by Google internally, and
+    released in 2008\. Protocol buffers are a solution to having a fixed and high-performance
+    method of data-exchange between computers that is programming language and computer
+    architecture independent.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The key pieces
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Transaction families and transactions in Sawtooth require a few things to be
+    created by developers. Consider the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, you need the protocol buffer definitions for each transaction the data
+    model of what will be stored
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Secondly, you need a transaction handler that will handle incoming transactions
+    that are part of the transaction family
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Lastly, it is necessary to register the handler using the core SDK with the
+    transaction processor
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Sawtooth includes Python-based sources to serve as examples in both the settings
+    and identity-based transaction families on GitHub. Next, we'll cover Hyperledger
+    Fabric, another enterprise-oriented blockchain technology.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric, like Sawtooth, is designed to be an enterprise-oriented
+    blockchain solution that is highly modular and customizable. Hyperledger Fabric
+    is both private and permissioned. This means that, like Sawtooth, by default Hyperledger
+    blockchains are not observable to the public at large and are not and will not
+    have tokens that are tradeable on exchanges. Users of the blockchain must have
+    validated identities and join the blockchain by using a **Membership Service Provider**
+    (**MSP**). These MSPs are configured on the system, and there can be more than
+    one, but all members must successfully be granted access by one or more MSPs.
+    Fabric also has a number of special tools that make it particularly full-featured,
+    which we will cover later.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Architecture choices and features
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric was designed around a few key features and use cases that
+    were seen as critical for enterprise users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: At the core is the ledger itself. The ledger is a set of blocks, and each block
+    holds a set of transactions. A transaction is anything that updates the state
+    of the blockchain. Transactions, in turn, are performed by smart contract code
+    installed on to the blockchain (called **Chaincode**). Let's look at how blocks
+    and transactions are formed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Each block is ordered in sequence, and inside each block is a set of transactions.
+    Those transactions are also stored as happening in a specific sequence. Unlike
+    other blockchains, the creation of the transaction and the sequence it is eventually
+    given are not necessarily performed at the same time or on the same computer.
+    This is because the ordering of transactions and the execution of transactions
+    are separated. In Hyperledger Fabric, computers being used to operate the blockchain
+    can run in three different modes (node types); these are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Client**: A client acts on behalf of users of the blockchain and submits
+    actions and events to the network as part of an application.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Peer**: Peers process the incoming transactions for validating and handle
+    updating state changes as a result of transactions and chain-code execution. Once
+    they have executed a transaction, they broadcast the result to the network so
+    that the transaction can be handled by an orderer (see the next role).'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Orderer**: While peer nodes execute the transactions, orderer nodes take
+    a look at all the executed transactions and decide on the final order in which
+    they are considered to have occurred in the blockchain. The ordering service nodes
+    decide the final order of events, and thus decide the final set of events that
+    will be written on to the next block of the blockchain.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'It is important to note that a single computer can act as up to all three of
+    these node types on a Fabric blockchain, but this is not necessary. While it is
+    possible for the same computer on a Hyperledger network to both execute transactions
+    and order their sequence, Hyperledger is able to scale more by providing these
+    as distinct services. To illustrate, look at the following diagram (from the Hyperledger
+    documentation):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e5575d17-5957-4f77-aedd-f0b469be8777.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: As you can see, incoming transaction first go to peers, who execute transactions
+    using chaincode/smart contracts and then broadcast successful transactions to
+    the ordering service. Once accepted, the ordering service decides on a final order
+    of transactions, and the resulting transactions sets are re-transmitted to peer
+    nodes, which write the final block on to the chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Organizational focus
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'As an enterprise-oriented system, Fabric distinguishes between peers and orderers
+    (nodes on a blockchain network) and the organization that owns them. Fabric is
+    meant to create networks between organizations, and the nodes running the blockchain
+    do so as agents of that organization. In this way, each node and its permissions
+    are related to the organization it helps represent. Here is another diagram from
+    Hyperledger:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a47f3b3a-fff2-49c8-ba59-6427ffd878e0.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'As you can see, each network node operates the blockchain network on behalf
+    of the contributing organization. This is different than networks such as Ethereum
+    and Bitcoin, where the network is created by a set of computers that contribute
+    resources to the network independently, or at least are perceived by the network
+    as doing so independently, no matter who owns them. In Hyperledger Fabric, it
+    is the organizations that create the shared ledger that contribute to the network
+    by contributing resources in the form of peers and ordering nodes. The distinction
+    is subtle but crucial. In most public networks, the idea is to allow computers
+    to coordinate, but in Fabric the idea is to allow companies to coordinate. Owning
+    organizations provides each of their peers a signed digital certificate proving
+    their membership of a certain organization. This certificate then allows each
+    node to connect to the network through an MSP, granting access to network resources.
+    The organizations versus private computers focus brings us to another enterprise-oriented
+    feature of Hyperledger Fabric, one that is necessary for a number of corporate
+    requirements: **Private Channels**.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private channels
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hyperledger Fabric has a critical and unique functionality called *private channels*.
+    A private channel allows a subset of members on a Fabric-based blockchain to create
+    a new blockchain that is observable and intractable only for them. This means
+    that, while Fabric is already private and permissioned, members of that private
+    blockchain can create a smaller, yet more exclusive, chain to trade information
+    that cannot be traded across the full membership network. As a result, Fabric
+    is able to support critical use cases (such as legal communications) that would
+    be impossible or inappropriate to broadcast, even on a relatively exclusive network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For instance, if Hyperledger Fabric were used to set up a logistics network,
+    the primary blockchain could be used for the tracking of packages, but pricing
+    bids could be done on private channels. The participants of the network would
+    be a number of shipping providers, materials providers, and a set of buyers. A
+    buyer could issue to the blockchain a notice that they were accepting bids for
+    a transfer of some supplies, and they could then create private channels between
+    themselves and all transporters and suppliers. The suppliers and shipping companies
+    could give the buyer time and cost prices, without making that information public
+    to their competitors. While private, all of these exchanges would be encoded on
+    to the blockchain for record keeping, legal compliance, and so on. Moreover, if
+    corporate policy were something like taking the second-lowest bid, the entire
+    process could be automateable through smart contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Assets
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In Hyperledger Fabric, assets are defined as anything that can be given a value.
+    While this could be used to exchange different fiat currencies, an asset could
+    be designed to denote something abstract, such as intellectual property, or something
+    more tangible, such as a shipment of fresh fish.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In Fabric, assets are processed internally as simple key-value pairs, with their
+    state stored on the ledger and modifiable via the chaincode. Assets in Hyperledger
+    can fulfill all the duties performed in Ethereum by ERC-20 and ERC-721 tokens,
+    and beyond. Anything that can be described in a token format can be stored as
+    an asset in Hyperledger Fabric.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In Hyperledger Fabric, **Smart Contracts** are called **chaincode**. Unlike
+    Ethereum, chaincode is not embedded directly inside the ledger itself. Instead,
+    chaincode is installed on each peer node and interacts with the ledger to read
+    and update state information about the assets the chaincode controls. Because
+    the chaincode is signed and approved by all peers, and because each peer that
+    uses a piece of chaincode must validate any state changes on the ledger, this
+    system still allows distributed and trusted consensus, using smart contracts.
+    To provide consistency, chaincode itself runs in an isolated Docker container.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Because of the modular nature of both the distributed ledger and the chaincode,
+    multiple programming languages can be used to develop smart contracts; however,
+    currently, the supported options are limited. There are full-featured SDK packages
+    only for Go and Node.js, with eventual plans to add Java.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Advantages of Fabric
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Fabric is one of the most popular of the Hyperledger projects for good reason.
+    It's highly modular, designed for coordination across companies, and the private
+    channel feature enables secure functionality that's impossible on public chains,
+    and even most private ones. Moreover, Hyperledger Fabric has **Composer**—a visual
+    tool for architecting blockchain applications. We'll discuss Composer later in
+    the section on Hyperledger tools.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Next, we'll cover **Iroha**, a Hyperledger project aimed at bringing blockchain
+    to mobile devices.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Iroha
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Hyperledger Iroha** is a project written in C++ and contributed to by Sorimitsu.
+    The goals of the project were to provide a portable C++ based blockchain implementation
+    that could be used in mobile devices. Both iOS and Android operating systems,
+    along with small computers such as Raspberry Pi, are all capable of efficiently
+    running tightly written C++ code efficiently. To make things even easier, Iroha
+    provides iOS, Android, and JavaScript libraries for developers.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: One major difference from Ethereum, in particular, is that Hyperledger Iroha
+    allows users to perform common functions, such as creating and transferring digital
+    assets, by using prebuilt commands that are in the system. This negates the need
+    to write cumbersome and hard-to-test smart contracts for the most common functionalities,
+    enabling developers to complete simple tasks faster and with less risk. For instance,
+    to create a new token type on Iroha, it takes just a single command—`crt_ast`.
+    To make things even easier, Iroha has a command-line interface that will guide
+    a new user through creating the asset, without writing code at all.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If the goals of Sawtooth and Fabric are completeness, Iroha is oriented more
+    towards ease of use and device compatibility.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Indy
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: One of the more common use cases for blockchain technology is identity verification
+    and authorization. You have probably experienced the issues around the web, where
+    you either need to remember many usernames and passwords to confirm your identity
+    to another provider, such as Google or Facebook. The problem here is that you
+    must trust Google, Facebook, or other providers to manage your identity and keep
+    it safe. This creates a single point of failure and allows a centralized authority
+    to control whose identities are valid and what rights they have. This ecosystem
+    is an obvious target for disruption and decentralization.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Hyperledger Indy** is a blockchain project built around decentralized, self-declared
+    identity. The goal of Indy is to provide tools and libraries for creating digital
+    identities that can be managed on a blockchain and made interoperable with other
+    applications and use cases that require identity verification.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: While Fabric, Sawtooth, and Iroha all have some level of identity mechanism
+    built in, Indy is specifically oriented around identity management and for use
+    by applications that may not run on a blockchain. Thus, Indy could be used to
+    provide identity services to web applications, company resources, and so on. Existing
+    companies include Sovrin (who donated the original Indy codebase) and Every.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tools in Hyperledger
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: An often overlooked aspect of any application is the need for helpful tools
+    to manage the life cycle of that application. Tools, such as software to ease
+    deployment, debugging, and design, can make a tremendous difference in the ease
+    of use of a system, for developers and users alike. Most public blockchains are
+    severely hampered by the lack of high-quality tools and support. The Hyperledger
+    ecosystem, however, continues to invest in building excellent support tools.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Caliper
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: One of the common needs for any system is benchmarking. **Hyperledger Caliper**
+    is a blockchain-oriented benchmarking tool, designed to help blockchain architects
+    ensure that the system can perform fast enough to meet the needs of the hosting
+    organizations. Using a set of pre-defined, common use cases, Hyperledger Caliper
+    will report an assortment of critical performance measurements, such as resource
+    usage, **Transactions Per Second** (**TPS**), transaction latency, and so on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using Caliper, a team working on blockchain applications can take continuous
+    measurements as they build out smart contracts and transaction logic and use those
+    measurements to monitor performance changes. Caliper is compatible with Sawtooth,
+    Indy, and Fabric blockchain systems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Composer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Hyperledger Composer** is a design tool for building smart contracts and
+    business applications on the blockchain. It is designed for rapid prototyping
+    of chaincode and asset data models for use with Hyperledger Fabric. As a Fabric-specific
+    tool (so far), it is primarily designed around helping with Hyperledger Fabric
+    specific concepts, such as assets, identity management, transactions, and the
+    resultant chaincode used to power the business rules between all these items.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: It is not designed as a "fire-and-forget" tool, where someone can build an entire
+    ecosystem from scratch to production, rather it is designed for rapid visual prototyping
+    to get testable applications up and running quickly, with finer details iterated
+    directly in the codebase. IBM hosts a demo online at [https://composer-playground.mybluemix.net/editor](https://composer-playground.mybluemix.net/editor).
+  prefs: []
+  type: TYPE_NORMAL
+- en: The primary users of Composer will be blockchain developers (especially new
+    developers) and some technical business users. It sits well as part of an agile
+    process to developing blockchain applications, allowing developers, network administrators,
+    and technical business users to visualize the network and the code operating on
+    it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Cello
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: If Composer is used to assist with building aspects of a Fabric-based blockchain,
+    then **Cello** is a tool to assist with the deployment of that blockchain to various
+    servers and cloud services. Cello can be used to manage the blockchain infrastructure
+    or launch new blockchains in a blockchain-as-a-service approach. Common life cycle
+    and deployment tasks include starting, stopping, and deleting a blockchain, deploying
+    new nodes to an existing blockchain, and abstracting the blockchain operation
+    so that it can run on local machines, in the cloud, in a virtual machine, and
+    so on. Cello also allows monitoring and analytics.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cello is primarily a tool for what is called **DevOps**, or the connection between
+    development teams and production operations. It is primarily aimed at the Hyperledger
+    Fabric project, but support for Sawtooth and Iroha is intended for future development.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Explorer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Hyperledger Explorer** is a blockchain module and one of the Hyperledger
+    projects hosted by the Linux Foundation. Designed to create a user-friendly web
+    application, Hyperledger Explorer can view, invoke, deploy, or query blocks, transactions,
+    and associated data, network information (name, status, list of nodes), chain
+    codes and transaction families, as well as any other relevant information stored
+    in the ledger. Hyperledger Explorer was initially contributed by IBM, Intel and
+    DTCC.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hyperledger Quilt
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are times when it makes sense for multiple blockchains to be able to communicate.
+    This is where **Hyperledger Quilt** comes in. Quilt is a tool that facilitates
+    cross-Blockchain communication by implementing an **Interledger protocol** (**ILP**).
+    The ILP is a generic specification available to all blockchains to allow cross-ledger
+    communication, originally created by ripple labs. With ILP, two ledgers (they
+    do not have to be blockchains) can coordinate, to exchange values from one ledger
+    to the other.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'ILP is a protocol that can be implemented using any programming language or
+    technology, as long as it conforms to the standard. Because of this, it can be
+    used to join multiple completely independent ledgers, even ones with radically
+    different architecture. These ledgers do not need to be blockchains, but can be
+    any system of accounting. In ILP, cross-ledger communication occurs primarily
+    through actors called *connectors*. See the following diagram from [interledger.org](https://interledger.org/):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/eaaf60ac-1946-47b8-8669-df3ffae6af33.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The ILP bridges ledgers with a set of connectors. A connector is a system that
+    provides the service of forwarding interledger communications towards their destination,
+    similar to how packets are forwarded across the internet—peer to peer. ILP communication
+    packets are sent from senders to a series of connectors that finally land at receivers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The connectors are trusted participants in this sequence, and the sender and
+    all intermediate connectors must explicitly trust one another. Unlike other blockchain-oriented
+    technology, ILP does not involve trustless exchange. However, the sender and each
+    connector need trust only their nearest links in the chain for it to work.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Quilt is the implementation of the ILP that has been donated to the Hyperledger
+    project, on behalf of ripple labs, Everis, and NTT DATA. These organizations have
+    also sponsored ongoing dedicated personnel to help improve the Quilt codebase,
+    which is primarily in Java.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Relationships between the tools
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The distinctions between Fabric, Cello, Composer, Explorer, and Caliper can
+    be described as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fabric is the application itself, and where the business logic will finally
+    reside
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Composer is a tool to help build this logic and the final chaincode
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Both Fabric and Composer are going to be principally involved in the development
+    phase of a blockchain project, followed shortly after by Caliper for performance
+    testing:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cello and Explorer are tools dealing more with the operations side of a project.
+    Cello is used by DevOps teams to deploy and extend blockchain applications across
+    servers and virtual machines
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Explorer is a monitoring tool to inspect what is going on across different ledgers
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Finally, Hyperledger Quilt can be used to connect different ledgers and blockchains
+    together. For instance, Quilt could be used to communicate from a Fabric-based
+    system to the public Ethereum network, or to the ACH banking system, or all of
+    the above.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Thus, the Hyperledger project has tools for end-to-end creation, operation,
+    and interoperability of blockchain-based application ecosystems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Which Hyperledger project should you use?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Given the numerous sub-projects inside Hyperledger that are all focused on business
+    use cases, it would not be surprising if there was some confusion about which
+    to use. This is understandable, but the good news is that for most cases the proper
+    project to build on is clear.
+  prefs: []
+  type: TYPE_NORMAL
+- en: By far the most popular and well-documented framework is Hyperledger Fabric.
+    Fabric also has blockchain-as-a-service support from Amazon and Microsoft. In
+    addition, Composer, Cello, and Caliper tools all work with the latest versions
+    of Fabric. For the vast majority of projects, Hyperledger Fabric will be the project
+    of most interest.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The second most-obvious choice is Sawtooth. For supply chain solutions, Sawtooth
+    already has a reference implementation. In addition to this, Sawtooth has better
+    support for writing smart contracts in multiple languages, whereas Hyperledger
+    has support only for Go and JavaScript. In addition to this, Sawtooth core is
+    written in Python. Python is a very popular language in data science, a field
+    that is regularly paired with blockchain technology.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The final choices are Burrow, which would make a good match for technologies
+    migrating from Ethereum, or needing to interface with the public Ethereum network,
+    and Iroha, which would be a better match for projects that need to run a blockchain
+    across mobile devices or other small machines.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using Hyperledger
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Like much blockchain technology, the Hyperledger ecosystem is relatively new,
+    and many projects have not even hit a full 1.0 release yet. While there is a large
+    amount of development activity and multiple working systems already in production
+    use, the system as a whole is fractured. For instance, Sawtooth is written in
+    Python, Fabric in Go, Quilt in Java, and so on. Even staying inside the Hyperledger
+    family, it would be difficult to use a homogeneous set of technologies for end-to-end
+    implementations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Moreover, Hyperledger's focus on private networks is a problem for the projects
+    that may wish to have a public component. One of the appeals of blockchain technology
+    is transparency. A project that seeks maximum transparency through public usage
+    of their technology may need to look elsewhere or find a way to bridge between
+    Hyperledger and public networks—possibly by using Quilt and ILP.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Similarly, projects looking to raise funds through an ICO should probably look
+    elsewhere. Few projects have tried to use Hyperledger as part of an ICO, and,
+    as far as we know, none of those have actually succeeded in fundraising. Hyperledger
+    remains oriented strongly toward private networks—where it has succeeded tremendously.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now you have a good idea of the different subprojects that make up Hyperledger
+    and an awareness of the tooling you can use to build Hyperledger-based projects.
+    Hyperledger is a set of technologies for building private blockchain networks
+    for enterprises, versus the public and tradeable networks, such as Ethereum and
+    Bitcoin. The Hyperledger family is made of six projects and a set of support tools,
+    all with subtly different focuses and advantages to suit different projects.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Over time, the different projects are expected to become more consistent and
+    interoperable. For instance, Hyperledger Burrow and Hyperledger Sawtooth have
+    already cross-pollinated with the Seth transaction family, which allows Sawtooth
+    to run Ethereum smart contracts. It is expected that tools such as Cello and Composer
+    will be extended to support additional Hyperledger projects in time, leading to
+    an increasingly robust ecosystem.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Next, we will discuss Ethereum in depth. Ethereum is a public blockchain network
+    and the first and most popular of the public networks to support fully-programmable
+    smart contracts.
+  prefs: []
+  type: TYPE_NORMAL

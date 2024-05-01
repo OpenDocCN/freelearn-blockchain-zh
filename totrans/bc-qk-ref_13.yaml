@@ -1,0 +1,658 @@
+- en: Solidity 101
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the previous chapters, we learned about Ethereum in detail. We read about
+    the Ethereum network, clients, gas, Ethereum virtual machine, and other elements
+    of the Ethereum blockchain. One of the interesting facts about Ethereum is that
+    anyone can create their own blockchain using Ethereum.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethereum runs smart contracts on its platform; these are applications that use
+    blockchain technology to perform the required action, enabling users to create
+    their own blockchain and also issue their own alternative cryptocurrency. This
+    is made possible by coding in **Solidity**, which is a contract-oriented programming
+    language used for writing smart contracts that are to be executed on the Ethereum
+    blockchain and perform the programmed tasks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Solidity is a statically typed programming language that runs on the Ethereum
+    virtual machine. It is influenced by C++, Python, and JavaScript, was proposed
+    in August 2014 and developed by the Ethereum project's solidity team. The complete
+    application is deployed on the blockchain, including smart contract, frontend
+    interface, and other modules; this is known as a **DApp** or a **Decentralized
+    Application.**
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We will be covering following topics in this chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Basics of solidity
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Layout of a Solidity file
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Structure of a smart contract
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Variables and functions
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Value types
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Reference types
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Key to value mapping
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Basics of Solidity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Solidity is not the only language to work on Ethereum smart contracts; prior
+    to solidity, there were other languages that were not as successful. Here is a
+    brief list of languages currently (as of August 2018) compatible with Ethereum:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Mutan**: Inspired from Golang and deprecated in March 2015.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**LLL**: Short for lisp-like language. While it is still supported, it is rarely
+    used.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Serpent**: While this language is similar to Python, it is no longer recommended
+    for use.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Solidity**: The fourth language introduced by the Ethereum foundation, and
+    so far the most successful language for developing smart contracts. It is the
+    most documented, stable, and has a large community support.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Vyper**: Newly introduced, much simpler and easier than Solidity, although
+    it does not have much community support yet. It is influenced by Python.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Solidity is also known as a contract-oriented language, since contracts are
+    similar to classes in object-oriented languages. The Solidity language is loosely
+    based on ECMAScript (JavaScript); hence, a prior knowledge of the same would be
+    helpful in understanding Solidity. Here are some tools required to develop, test,
+    and deploy smart contracts programmed in Solidity:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**TestNet**: The choice of TestNet to work on, the specified network ID to
+    be used.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Compiler**: Choosing the required compiler, for example `solc`, is a solidity
+    compiler; it is included in most of the nodes and also available as a standalone
+    package.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Web3.js**: The library that helps in the connection between the Ethereum
+    network and our DApp via HTTP or the IPC network connection.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Framework**: It is important to choose a framework from those available for
+    contract compilation and the deployment and other tasks. Some of the frameworks
+    used are Truffle, Embark, Dapple, and others.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Apart from the crucial tools we''ve already mentioned, there are also various
+    other tools that help in the development of a smart contract to be run on an Ethereum
+    blockchain for tasks such as understanding the contract flow, finding security
+    vulnerabilities, running the test application, writing documentation, and so on.
+    Take a look at the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0dce9deb-3c70-47f4-95b8-e87bf4ba03fd.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The basics of working on Solidity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: If you program regularly, you are already aware of code editors or **Integrated
+    Development Environments** (**IDEs**). There is a list of integrations available
+    for various IDEs already present; apart from this, Ethereum foundation has also
+    released a browser-based IDE with integrated compiler and a Solidity runtime environment,
+    without the server components for writing and testing smart contracts. It can
+    be found at [remix.ethereum.org](http://remix.ethereum.org).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using the compiler
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'For small and learning-based DApps projects, it is suggested to work on the
+    browser-based compiler by the Ethereum foundation: **Remix**. Another way is to
+    install the Solidity compiler on to your machine. `solc` can be installed from
+    `npm` using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: Solidity can also be built from the source by cloning the Git repository present
+    on the GitHub link: [https://github.com/ethereum/solidity.git](https://github.com/ethereum/solidity.git).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Programming in Solidity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we will be discussing the structure and elements of a Solidity
+    source file; we will discuss the layout, structure, data types, its types, units,
+    controls, expressions, and other aspects of Solidity. The format extension of
+    a solidity file is `.sol`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Laying out a Solidity file
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Solidity is going through active development and has lot of regular changes
+    and suggestions from a huge community; hence, it is important to specify the version
+    of a solidity file at the start of the source file, to avoid any conflict. This
+    is achieved by the Pragma version. This is defined at the start of the solidity
+    file so that any person looking to run the file knows about the previous version.
+    Take a look at this code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: By specifying a version number, that specific source file will compile with
+    a version earlier or later than the specified version number.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Importing files
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Similar to ECMAScript, a Solidity file is declared using the `import` statement
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding statement will import all the symbols from the `filename.sol`
+    file into the current file as as global statements.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Paths are also supported while importing a file, so you can use `/` or `.` or
+    `..` similar to JavaScript.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Commenting
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Single line (`//`) comments and multi-line(`/* ... */`) comments are used, although
+    apart from this there is another type of comment style called **Natspec Comment**,
+    which is also possible; in this type of comment, we either use `///` or `/** ...
+    */`, and they are to be used only earlier function declaration or statements.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Natspec is short for natural specification; these comments as per the latest
+    solidity version (0.4.24) do not apply to variables, even if the variables are
+    public. Here is a small code snippet with an example of such these types of comments:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: Tags
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'They are used in the Natspec comments; each of the tags has its own context
+    based on its usage, as shown in the following table:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Tag** | **Used for** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `@title` | Title for the Smart Contract |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `@author` | Author of the Smart Contract |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `@notice` | Explanation of the function |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `@dev` | Explanation to developer |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `@param` | Explanation of a parameter |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `@return` | Explanation of the return type |'
+  prefs: []
+  type: TYPE_TB
+- en: Structure of a contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Every contract in Solidity is similar to the concept of classes. Contracts
+    can inherit from other contracts, in a fashion similar to classes. A contract
+    can contain a declaration of the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: State variables
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Functions
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Function modifiers
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Events
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Struct types
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Enum types
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: State variables
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'These are the values that are permanently stored in the contract storage, for
+    example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: Functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Functions can be called internally or externally, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: Function modifiers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Function modifiers can be used to amend the semantics of functions in a declaration.
+    That is, they are used to change the behavior of a function. For example, they
+    are used to automatically check a condition before executing the function, or
+    they can unlock a function at a given timeframe as required. They can be overwritten
+    by derived contracts, as shown here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: Events
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Events allow convenient usage of the EVM, via the frontend of the DApp. Events
+    can be heard and maintained. Take a look at this code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: Types
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In Solidity, the type of each variable needs to be specified at compile time.
+    Complex types can also be created in Solidity by combining the complex types.
+    There are two categories of data types in Solidity: **value types** and** reference
+    types**.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Value types
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Value types are called **value types** because the variables of these types
+    hold data within its own allocated memory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Boolean
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This type of data has two values, either true or false, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding statement assigns `false` to boolean data type `b`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Operators in Solidity are similar to JavaScript operators, like arithmetic operators,
+    assignment operators, string operators, comparison operators, logical operators,
+    types operators and bitwise operators. These operators can be used with various
+    value types, depending on allowed usage.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Integers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This value type allocates integers. There are two sub-types of integers, that
+    is `int` and `uint`, which are signed integer and unsigned integer types respectively.
+    Memory size is allocated at compile time; it is to be specified using `int8` or
+    `int256`, where the number represents the size allocated in the memory. Allocating
+    memory by just using `int` or `unit`, by default assigns the largest memory size.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Address
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This value type holds a 20-byte value, which is the size of an Ethereum address
+    (40 hex characters or 160 bits). Take a look at this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This type has several members that can be used to interact with the contract.
+    These members are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`balance`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`transfer`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`send`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`call`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`callcode`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`delegatecall`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`balance` returns the balance of the address in units of wei, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`transfer` is used to transfer from one address to another address, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: Almost the same amount of gas is spent when we use `transfer`, or `send` members. `transfer`
+    was introduced from Solidity 0.4.13, as send does not send any gas and also does
+    not propagate exceptions. `Transfer` is considered a safe way to send ether from
+    one address to another address, as it throws an error and allows someone to propagate
+    the error.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `call`, `callcode`, and `delegatecall` are used to interact with functions
+    that do not have **Application Binary Interface **(**ABI**). `call` returns a
+    Boolean to indicate whether the function ran successfully or got terminated in
+    the EVM.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When `a` does call on `b`, the code runs in the context of `b`, and the storage
+    of `b` is used. On the other hand, when `a` does `callcode` on `b`, the code runs
+    in the context of `a`, and the storage of `a` is used, but the code of and storage
+    of `a` is used.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `delegatecall` function is used to delegate one contract to use another
+    contract's storage as required.
+  prefs: []
+  type: TYPE_NORMAL
+- en: All these members: `call`, `delegatecall`, and `callcode` are not advised to
+    be used unless really necessary, as they tend to break the type-safety of Solidity.
+    It is possible that `callcode` will be deprecated in the near future.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Array value type
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Solidity has a fixed and dynamic array value type. Keywords range from `bytes1`
+    to `bytes32` in a fixed-sized byte array. On the other hand, in a dynamic-sized
+    byte array, keywords can contain bytes or strings. `bytes` are used for raw byte
+    data and `strings` is used for strings that are encoded in `UTF-8`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`length` is a member that returns the length of the byte array for a fixed-size
+    byte array or for a dynamic-size byte array.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A fixed-size array is initialized as `test[10]`, and a dynamic-size array is
+    initialized as `test2[`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Literal
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Literals are used to represent a fixed value; there are multiple types of literals
+    that are used; they are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Integer literals
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: String literals
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hexadecimal literals
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Address literals
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Integer literals are formed with a sequence of numbers from 0 to 9\. Octal
+    literals and ones starting with `0` are invalid, since the addresses in Ethereum
+    start with `0`. Take a look at this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'String literals are declared with a pair of double(`"..."`) or single(`''...''`)
+    quotes, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: Hexadecimal literals are prefixed with the keyword `hex` and are enclosed with
+    double (`hex"69ed75"`) or single (`hex'69ed75'`) quotes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Hexadecimal literals that pass the address checksum test are of `address` type
+    literal, for example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: Enums
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Enums allow the creation of user-defined type in Solidity. Enums are convertible
+    to and from all integer types. Here is an example of an enum in Solidity:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: Function
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'There are two types of functions: internal and external functions. Internal
+    functions can be called from inside the current contract only. External functions
+    can be called via external function calls.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Function Modifiers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'There are various modifiers available, which you are not required to use, for
+    a Solidity-based function. Take a look at these:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`pure`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`constant`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`view`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`payable`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The `pure` functions can't read or write from the storage; they just return
+    a value based on its content. The `constant` modifier function cannot write in
+    the storage in any way. Although, the post-Solidity Version 0.4.17 `constant`
+    is deprecated to make way for `pure` and `view` functions. `view` acts just like
+    `constant` in that its function cannot change storage in any way. `payable` allows
+    a function to receive ether while being called.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Multiple modifiers can be used in a function by specifying each by white-space
+    separation; they are evaluated in the order they are written.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Reference types
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: These are passed on by reference; these are very memory heavy, due to the allocation
+    of memory they constitute.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Structs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A struct is a composite data type that is declared under a logical group. Structs
+    are used to define new types. It is not possible for a struct to contain a member
+    of its own type, although a struct can be the value type of a mapping member.
+    Here is an example of a struct:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: Data location
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This specifies where a particular data type will be stored. It works with arrays
+    and structs. The data location is specified using the `storage` or `memory` keyword.
+    There is also a third data location, `calldata`, which is non-modifiable and non-persistent.
+    Parameters of external functions use `calldata` memory. By default, parameters
+    of functions are stored in `memory`; other local variables make use of `storage`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mapping
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Mapping is used for key-to-value mapping. Mappings can be seen as hash tables
+    that are virtually initialized such that every possible key exists and is mapped
+    to a default value. The default value is all zeros. The key is never stored in
+    a mapping, only the `keccak256` hash is used for value lookup. Mapping is defined
+    just like any other variable type. Take a look at this code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding code example shows that `Catwoman` is being initialized as a `mapping`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Units and global variables
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Global variables can be called by any Solidity smart contract. They are mainly
+    used to return information about the Ethereum blockchain. Some of these variables
+    can also perform various functions. Units of time and ether are also globally
+    available. Ether currency numbers without a suffix are assumed to be wei. Time-related
+    units can also be used and, just like currency, conversion among them is allowed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we discussed Solidity in detail, we read about the compiler,
+    and we did a detailed study programming in solidity that included studying about
+    the layout of a solidity file, the structure of a contract, and the types of values
+    and reference. We also learned about mapping.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we will apply our new knowledge from this chapter to develop
+    an actual contract and deploy the same on a test network.
+  prefs: []
+  type: TYPE_NORMAL

@@ -1,0 +1,544 @@
+- en: Components and Structure of Blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Blockchain is not a single technology, but more of a technique. A blockchain
+    is an architectural concept, and there are many ways that blockchains can be be
+    built, and each of the variations will have different effects on how the system
+    operates. In this chapter, we are going to cover the aspects of blockchain technology
+    that are used in all or most of the current implementations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: By the end of this chapter, you should be able to describe the pieces of a blockchain
+    and evaluate the capacities of one blockchain technology against another at the
+    architectural level.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here are the concepts we will be covering:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blocks
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The chain between blocks
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hashing and signatures
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Block structure
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Block miners
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Block validators
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Smart contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Blockchain speed
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Blocks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Blockchain is a specific technology, but there are many forms and varieties.
+    For instance, Bitcoin and Ethereum are proof-of-work blockchains. Ethereum has
+    smart contracts, and many blockchains allow custom tokens. Blockchains can be
+    differentiated by their consensus algorithm (PoS, PoW, and others)—covered in
+    [Chapter 7](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)*,* *Achieving Consensus*,
+    and their feature set, such as the ability to run smart contracts and how those
+    smart contracts operate in practice. All of these variations have a common concept:
+    the block. The most basic unit of a blockchain is the block. The simplest way
+    of thinking of a block is to imagine a basic spreadsheet. In it, you might see
+    entries such as this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Account** | **Change** | **New Balance** | **Old Balance** | **Operation**
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Acct-9234222 | −$2,000 | $5,000 | $7,000 | Send funds to account-12345678
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Acct-12345678 | $2,000 | $2,000 | 0 | Receive funds from account-9234222
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Acct-3456789 | -$200 | $50 | $250 | Send funds to account-68890234 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Acct-68890234 | $200 | $800 | $600 | Receive funds from account-3456789 |'
+  prefs: []
+  type: TYPE_TB
+- en: 'A block is a set of transaction entries across the network, stored on computers
+    that act as participants in the blockchain network. Each blockchain network has
+    a block time, or the approximate amount of time that each block represents for
+    transactions, and a block size: the total amount of transactions that a block
+    can handle no matter what. If a network had a block time of two minutes and there
+    were only four transactions during those two minutes, then the block would contain
+    just those four transactions. If a network had 10,000,000 transactions, then there
+    may be too many to fit inside the block size. In this case, transactions would
+    have to wait for their turn for an open block with remaining space. Some blockchains
+    handle this problem with the concept of network fees. A network fee is the amount
+    (denominated in the blockchain''s native token) that a sender is willing to pay
+    to have a transaction included in a block. The higher the fee, the greater the
+    priority to be included on the chain immediately.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The chain between blocks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In addition to the transaction ledger, each block typically contains some additional
+    metadata. The metadata includes the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A reference to the prior block
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Metadata about the network
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The Merkle root of the transactions, which acts as a check of the validity of
+    the block
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'These basics tend to be common for all blockchains. Ethereum, Bitcoin, Litecoin,
+    and others use this common pattern, and this pattern is what makes it a chain.
+    Each chain also tends to include other metadata that is specific to that ecosystem,
+    and those differences will be discussed in future chapters. Here is an example
+    from the Bitcoin blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: <q>![](img/199339c2-4243-40d6-84fa-fffb944fe776.png)</q>
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'By Satoshi Nakamoto: http://Bitcoin.org/Bitcoin.pdf, MIT, https://commons.wikimedia.org/w/index.php?curid=24542868'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If you are asking, What is a Merkle root?, that brings us to our next set of
+    key concepts: hashing and signature.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hashing and signatures
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s say you have two text files that are 50 pages long. You want to know
+    whether they are the same or different. One way you could do this would be to
+    hash them. Hashing (or a hashing function) is a mathematical procedure by which
+    any input is turned into a fixed-length output. There are many of these functions,
+    the most common being SHA-1, SHA-2, and MD5\. For instance, here is the output
+    of a hashing function called **MD5** with an input of two pages of text:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'What''s powerful about hashing functions is what happens when I add a single
+    character to the end and run the same function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'As you can see, the output is completely different. If you want to quickly
+    prove that some data has not been changed in any way, a hash function will do
+    it. For our discussion, here are the important parts of hashing functions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: They are very fast for computers to run.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The function is one way. You can get the hash easily, but you cannot realistically
+    use the hash to restore the original.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: They can be used recursively. For instance, I can take the hash of the hash;
+    for example, MD5(`8469c950d50b3394a30df3e0d2d14d74`) becomes `705b003fc9b09ecbeac0b852dfc65377`.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'This recursive property to hashing is what brings us to the concept of a **Merkle
+    tree**, named after the man who patented it. A Merkle tree is a data structure
+    that, if your were to draw it on a whiteboard, tends to resemble a tree. At each
+    step of the tree, the root node contains a hash of the data of its children. The
+    following is a diagram of a Merkle tree:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/df4e2d61-c322-4b57-8201-82c3bcd31d8f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Original illustration by David Göthberg, Sweden, released to the public domain
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In a blockchain, this means that there is a recursive hashing process happening.
+    A recursive hash is when we take a hash of hashes. For instance, imagine we have
+    the following words and their hashes. Here, we will use the MD5 algorithm, because
+    it is easy to find MD5 hashing code on the web, so you can try for yourself:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To take the recursive or the root hash, we would add these hashes together,
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then we would take the hash of that value, which would result in the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: This process can happen over and over again. The final hash can then be used
+    to check whether any of the values in the tree have been changed. This root hash
+    is a data efficient and a powerful way to ensure that data is consistent.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Each block contains the root hash of all the transactions. Because of the one-way
+    nature of hashing, anyone can look at this root hash and compare it to the data
+    in the block and know whether all the data is valid and unchanged. This allows
+    anyone to quickly verify that every transaction is correct. Each blockchain has
+    small variations on this pattern (using different functions or storing the data
+    slightly differently), but the basic concept is the same.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Digital signatures
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now that we''ve covered hashing, it''s time to go over a related concept: **digital
+    signatures**. Digital signatures use the properties of hashing to not only prove
+    that data hasn''t changed but to provide assurances of who created it. Digital
+    signatures work off the concept of hashing but add a new concept as well: **digital
+    keys**.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: What are digital keys?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'All common approaches to digital signatures use what is called **Public Key
+    Cryptography**. In Public Key Cryptography, there are two keys: one public and
+    one private. To create a signature, the first hash is produced of the original
+    data, and then the private key is used to encrypt that hash. That encrypted hash,
+    along with other information, such as the encryption method used to become part
+    of the signature, are attached to the original data.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This is where the public key comes into play. The mathematical link between
+    the public key and the private key allows the public key to decrypt the hash,
+    and then the hash can be used to check the data. Thus, two things can now be checked:
+    who signed the data and that the data that was signed has not been altered. The
+    following is a diagrammatic representation of the same:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/1791aa48-bbb4-402b-8f43-f67a04840dcd.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: By Engelbert Niehaus with SVG color scheme by user Bananenfalter —Used SVG color
+    of illustration by Bananenfalter and edit with Inkscape, CC BY-SA 3.0, https://en.wikiversity.org/w/index.php?curid=226250
+  prefs: []
+  type: TYPE_NORMAL
+- en: This form of cryptography is critical to blockchain technology. Through hashing
+    and digital signatures, a blockchain is able to record information both on actions
+    (movement of tokens) as well as prove who initiated those actions (via digital
+    signatures).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s create an example of how this would look. Jeremy and Nadia wish to send
+    messages to each other securely. Each publishes a public key. Jeremy''s will look
+    something as follows (using an RSA algorithm with 1,024 bits):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'With that key, he will keep private another key, which looks as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In the meantime, Nadia will do the same, resulting in the following two keys:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This is her private key:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'With these keys, Jeremy decides to send a message to Nadia. He uses her key
+    and encrypts the following message: I love Bitcoin, which results in the following
+    data:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Nobody can read this, except Nadia. Using the same algorithm, she inputs this
+    data and her private key, and gets the following message:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: We'll discuss more about this topic in [Chapter 4,](1e946ba6-1799-42e0-89c1-0514d1c3f79f.xhtml) *Cryptography
+    and the Mechanics Behind Blockchain.*
+  prefs: []
+  type: TYPE_NORMAL
+- en: Example block data
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, we are going to examine the data structures that are used in
+    blockchains. We will be looking primarily at Ethereum, Bitcoin, and Bitshares
+    blockchains to see key commonalities and differences.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Example Ethereum block
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Here is the data from an example Ethereum block, from block 5223669:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3342bee8-b861-4fa4-9cbf-dbf3770391a4.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'If you remember, at the beginning of the chapter, we said there were three
+    things common to blockchains: the reference to the prior block, the Hash of the
+    transactions in the block, and network-specific metadata. In this block from the
+    Ethereum network, all three are present. The reference to the prior block is contained
+    by the block height and parent hash values. The Hash of the transactions is the hash entry,
+    and the metadata is everything else, which will be network specific.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin block
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Here is a snapshot of a Bitcoin block:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2a8fa709-5352-4f7f-8eef-c56778354fa6.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Both Bitcoin and Ethereum are PoW chains; let''s look now at a **Proof of Stake**
+    (**POS**) ecosystem: Bitshares.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is some data from a Bitshares block:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/187c4dd7-4ba9-4838-9af7-52fd3fc03399.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Despite a radically different architecture, the fundamentals remain: references
+    to a previous block, Merkle root, and network metadata. In Bitshares, you can
+    also see that there is a Witness Signature. As a PoS blockchain, Bitshares has
+    validators (they are called witnesses). Here, we see the witness and signature
+    of the computer responsible for calculating this block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Global state
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: One of the key properties of blockchain technology is that it can act as a trusted
+    global state. There are many applications where a trusted global state is important
+    but difficult, such as financial technology and logistics.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For instance, a few years ago, I ordered some camera equipment online. A few
+    days later, I came home and was surprised to find that my equipment had arrived.
+    I was so thankful that the expensive equipment sitting outside had not been stolen.
+    It was only the next day that I received an email from the seller alerting me
+    that the package had been shipped.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Here is a clear breakdown of the global state. The truth was that the camera
+    was already on a truck, but neither I nor the shipper had that information stored
+    properly. If the camera equipment had been stolen from my porch, it would have
+    been very hard to discover what had happened.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If the seller, the logistics company, and I were all writing and reading data
+    from a blockchain, this would have been impossible. When the logistics company
+    registered the shipment, the state of the object would have changed, and both
+    the seller and I would have known as soon as the next block was finalized.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block time and block size
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As discussed before, each blockchain has a **block time** and a **bloc****k
+    size** . Each network can have very different values and ways of handling block
+    time. In Bitcoin, for instance, the block time is 10 minutes, while with Ethereum
+    the block time is 20 seconds. In Stellar, the block time is about 4 seconds. These
+    block times are determined by the code that runs the network. For networks such
+    as Bitcoin, Litecoin, and Ethereum, the block time is actually an average. Because
+    these are PoW networks, the block is finished once a miner solves the mining puzzle,
+    which allows them to certify the block. In these networks, the difficulty of the
+    puzzle is automatically adjusted so that on average the desired block time is
+    reached.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The block size is the maximum amount of information that can be stored in each
+    block. For Bitcoin, this is 1 MB of data's worth of transactions. For Ethereum,
+    the limit is actually measured in GAS, a special unit of measuring both processing
+    power (since Ethereum has smart contracts) as well as storage. Unlike Bitcoin,
+    the GAS/storage limit for each block is not fixed but is instead adjusted by the
+    miners dynamically.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It's important to note that blocks contain only possible information until they
+    are finalized by the network. For instance, 1,000 transactions might happen, but
+    if only 500 make it on to the next block, then only those 500 are real. The remaining
+    transactions will continue to wait to be included into a future block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain miners
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Blockchain miners and blockchain validators (see the upcoming sections) both
+    have to do with consensus, which will be explored in depth in [Chap](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)[ter](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)
+    [7](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)*,* *Achieving Consensus*. Generally,
+    blockchain miners are associated with blockchains. A PoW chain functions by having
+    the computers that are miners compete to do the work needed to certify a block
+    in the chain. Currently, the only major PoW blockchains are Bitcoin, Litecoin,
+    and Ethereum. Most other systems use a variation of PoSconsensus, which we will
+    discuss in the next *Blockchain validators* section. We'll cover how mining works
+    in detail in [Chapt](a8437577-99dc-4620-99d5-7fbd19b12659.xhtml)[er](a8437577-99dc-4620-99d5-7fbd19b12659.xhtml)
+    [18](a8437577-99dc-4620-99d5-7fbd19b12659.xhtml)*, Mining.*
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain validators
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Blockchain validators** are used by PoS systems. A PoS system works by requiring
+    computers that wish to participate in the network to have **stake**—a large number
+    of tokens—to assist in the blockchain. Unlike PoW algorithms, computers cannot
+    join the network and expect to have any say in consensus. Rather, they must *buy
+    in* through token ownership. Depending on the network, the naming convention for
+    validators might be different. Tendermint has validators, Steemit and Bitshares
+    have witnesses, Cardano has stakeholders, and so on. A validator is a computer
+    with a positive stake (number of tokens) that is allowed to participate in the
+    network and does so. Each chain has its own rules for how this works, and these
+    will be covered more in-depth in [Chap](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)[ter](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml) [7](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)*,* *Achieving
+    Consensus*.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Some blockchains are said to have smart contracts when they are able to perform
+    actions and behavior in response to changes to the chain. These will be covered
+    in depth in [Chapter 14](ef3765c0-cdba-4e62-b747-b981cc53473a.xhtml), *Smart Contracts* and
+    [Chapter 17](c775c9f3-753d-4d9f-a894-f8ad18fd5950.xhtml), *Decentralized Applications*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchain speed
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: One ongoing concern for blockchain systems is performance. Public blockchains
+    are global systems, with their system resources shared by all the users in the
+    world simultaneously. With such a large user base, resource constraints are a
+    real concern and have already caused real problems. For instance, a popular game
+    called **CryptoKitties** was launched on Ethereum and caused the network to become
+    congested. Other applications became nearly unusable, as the load from CryptoKitties
+    overwhelmed the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: How to calculate blockchain throughput
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The quick and dirty way of calculating the throughput of a blockchain is as
+    follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d5892ee8-b811-4417-a09c-99b1c95d2fe7.png)![](img/802d8f75-b8d2-48ca-a2bf-f288b223f05e.png)![](img/4b210f00-be00-4e25-a3d2-a4670259a99c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: For Bitcoin, the transaction throughput is about *7tx/second*. This is because
+    of the relatively small block and the very long block time. Ethereum has short
+    block times but very tiny blocks and ends up at about *14tx/second*. Blockchains
+    such as Stellar, Bitshares, and Waves can reach speeds of over, *1000tx/second*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Comparisons with traditional networks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: VISA is the premier payment-processing network worldwide. In one of the company's
+    blogs, it was revealed that VISA can process over 40,000 transactions a second.
+    This is peak capacity, and it usually processes nowhere near that, except around
+    times such as Christmas. Nevertheless, it should be clear that blockchains have
+    a way to go before they can compete for processing global payments on the same
+    scale as VISA. Newer networks, such as EOS and COSMOS, are trying, however, with
+    innovative multi-threaded designs and segmented blockchain zones.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now you should understand the basic components of a blockchain. Blocks are groups
+    of transactions grouped together and act as the fundamental unit of a blockchain.
+    Miners are computers that create new blocks on PoW blockchains. Validators, also
+    called witnesses and other names, are computers that create blocks on PoS blockchains.
+    Digital signatures are composed of public and private keys and use mathematics
+    to prove the author of the data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The key ideas of hashing is to use a mathematical function that maps arbitrary
+    data to a single, simple to deal with value. Any change to the data will make
+    the end value very different
+  prefs: []
+  type: TYPE_NORMAL
+- en: It's essentially impossible to construct the original data from the hash, but
+    it's easy to create the hash from the original data
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You can use these properties to prove that data has not been changed
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In the next chapter, we will learn what these systems are and how blockchain
+    counts as both. We will learn how to differentiate between the two systems and
+    why these concepts are so important to blockchain.
+  prefs: []
+  type: TYPE_NORMAL

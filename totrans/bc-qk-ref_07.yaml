@@ -1,0 +1,661 @@
+- en: Achieving Consensus
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The concept of consensus is straightforward: consensus is when the network
+    agrees on what information stored in the network is true and should be kept, and
+    what is not true and should not be kept. For Bitcoin, achieving consensus is a
+    simple matter of coming to agreement on the set to send and receive of Bitcoin
+    across the network. For other networks, achieving consensus would also involve
+    coming to an agreement on the final state of smart contracts, medical records,
+    or any other network information stored on the blockchain.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Consensus algorithms have been the subject of research for decades. The consensus
+    algorithms for distributed systems have to be resilient to multiple types of failures
+    and issues, such as corrupt messages, parts of a network connecting and disconnecting,
+    delays, and so on. In financial systems, and especially in blockchains, there
+    is a risk of selfish and malicious actors in the system seeking profit. For each
+    algorithm in a blockchain network, achieving consensus ensures that all nodes
+    in the network agree upon a consistent global state of the blockchain. Any distributed
+    consensus protocol has three critical properties:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Safety**: The ability of all the nodes on a distributed network to guarantee
+    that they have the same state or consistency'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Liveness/Availability**: The protocol is guaranteed to succeed and have the
+    different nodes produce a final result'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Fault tolerance**: The ability of the protocol to deal with nodes producing
+    faulty or hostile results'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: As it happens, a famous paper by Fischer, Lynch, and Paterson stated that it's
+    impossible for all three to be true in the same asynchronous distributed system.
+    Hence, any and all blockchain designs must make trade-offs between these properties.
+    These trade-offs are typically between safety and liveness, as fault tolerance
+    is generally seen as a must-have for a globally distributed network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In blockchain systems, there are currently four primary methods of achieving
+    consensus. They are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Practical Byzantine fault tolerance algorithm
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: PoW algorithms
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: PoS algorithms
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Delegated PoS algorithms (DPoS)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: These approaches will each be covered in turn in this chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Practical Byzantine fault tolerance algorithm
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Practical Byzantine fault tolerance** (**PBFT**) algorithm. Many algorithms
+    are called **Byzantine fault tolerant**. The name comes from the allegory that
+    presented the original problem.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Imagine an ancient Byzantine army moving to capture a city. The idea is to attack
+    from all sides. Once the generals of the army reach the city, they must agree
+    on when and how to attack. The difficulty is in how to agree. The generals can
+    communicate only by messenger, but the messengers could be captured by the enemy,
+    and there is the additional fear that one or more of the generals or their commanders
+    are traitors.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The generals need a method to ensure that all the loyal generals agree on the
+    same plan, and that a small number of possible traitors cannot cause the mission
+    to fail.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The loyal generals will all do what the method says they will do, but the traitors
+    might do anything. How can the generals create a method that ensures that, as
+    long as most of them are loyal, their plans will succeed?
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This allegory is also sometimes called the **Chinese general''s** problem,
+    as well as a few other names, but the issue remains the same: how can different
+    parties securely communicate and reach an agreement about something when communication
+    channels may not be secure, and when there may even be traitors in their midst.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the case of blockchain, the generals in the story are the computers that
+    are participating in the distributed network running the blockchain. The messengers
+    represent the digital network that these machines are running on and the message
+    protocols used by those machines. The goal is for the good computers or generals
+    to decide which information on the network is valid while rooting out bad actors
+    and preventing false information from being recorded on the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The loyal generals in the story represent the operators of honest nodes that
+    are interested in ensuring the integrity of the blockchain and the applications
+    based on it, and that are therefore invested in making sure that only correct
+    data is recorded. The traitors represent the many bad actors of the world who
+    would love to falsify data (especially financial data) for personal gain or on
+    behalf of some other antagonistic party. The motivations of the bad actors could
+    be varied, from spending Bitcoin they do not truly possess or getting out of contractual
+    obligations, or even trying to destroy the network as a form of currency control
+    by a hostile government.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Byzantine faults
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To understand PBFT and all the other consensus algorithms that come afterward,
+    it''s important to first define what a Byzantine fault is. A Byzantine fault is
+    any event or result that would disrupt the consistency of a distributed system,
+    such as the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Failure to return any result
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Return of an incorrect or inconsistent result
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Return of a deliberately misleading result
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Any behavior that isn't defined beforehand
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If any of these events happen, a Byzantine fault is said to have occurred. A
+    Byzantine fault tolerant system is therefore able to handle some level of inconsistent
+    input, but still provide a correct result at the end. The key here is that such
+    systems are fault tolerant, not fault immune. All fault tolerant systems can only
+    tolerate so much before their tolerance is exhausted and the system fails in some
+    way.
+  prefs: []
+  type: TYPE_NORMAL
+- en: How PBFT works
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Hyperledger is the primary blockchain that uses PBFT. Here is how PBFT works
+    in Hyperledger. Each validating node (a computer running the blockchain software
+    and working to maintain consistency) keeps a copy of the internal state of the
+    blockchain. When a node receives a message, it uses the message in conjunction
+    with their internal state to run a computation on what the new state should be.
+    Then the node decides what it should do with the message in question: treat it
+    as valid, ignore it, or take another course of action. Once a node has reached
+    its decision about the new message, that node shares that decision with all the
+    other nodes in the system. A consensus decision is determined based on the total
+    decisions submitted by all nodes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Submission**: One or more of the nodes on the network submit a transaction
+    that is sent to the other nodes. For instance, if there are ten nodes participating
+    and three of them send messages, it looks as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: All ten computers see three transactions
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: These transactions are distributed so that each node has a full copy of all
+    the transactions
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: These transactions may arrive at nodes at different times, so the order may
+    not be consistent
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Ordering**: One of the validating nodes is elected as the leader by a vote
+    of the other nodes. This validating leader chooses the order of transactions and
+    sends this to the other participating nodes. Each of the other validating nodes
+    then rearranges the transactions they already had into the order set by the validating
+    leader.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Execution**: The validating nodes then execute the newly ordered transactions.
+    Each node independently executes all changes and adds these changes to the global
+    state from previous blocks. If consensus cannot be reached, the transactions are
+    rolled back and rejected.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: This process is repeated for each block. The advantage of PBFT is that it is
+    very fast and scales relatively well. The downside is that the participants must
+    be known—not just anyone can join the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proof of Work
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The first consensus algorithm used in blockchains was Bitcoin''s **proof-of-work**
+    (**PoW**). Proof-of-work fundamentally functions by exploiting a feature of certain
+    cryptographic functions: there are mathematical problems that are very hard to
+    solve, but once they are solved, they are very easy to check. As discussed before,
+    one of these problems is hashing: it''s very easy to take data and compute a hash
+    from it, but extremely difficult to take a hash and discover the input data. PoW
+    is most notably used by Bitcoin, Litecoin, and Ethereum.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'PoW has the following characteristics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Relatively predictable time to solution**: Bitcoin''s network protocol expects
+    each block to take about ten minutes to solve. If the network starts to solve
+    the proof-of-work problem too quickly, the network will automatically increase
+    the difficulty.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Resistant to large increases or decreases in computing power**: Moore''s
+    law suggests that the amount of work computers can do is expected to double every
+    two years. In addition, because the network is open, anyone can add vast computing
+    resources to the network at any time. For the network to remain stable, the algorithm
+    must automatically adjust itself. Similarly, if the network ceases to be profitable,
+    then the amount of computing power being used will drop as those resources are
+    redirected. This is achieved through the automatically adjusting difficulty in
+    the algorithm. It must be easy for any network participant to quickly check that
+    they have the right chain and that the chain is valid. This is achieved through
+    the use of hashing functions.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The proof-of-work algorithm maintains network integrity as long as no group
+    of actors controls more than 50% of the overall network computing power. The possibility
+    of bad actors being able to control the chain is called the **51% attack**. If
+    a single group ever controls more than half the network power, they can control
+    the network and network transactions by halting payments or even doubling spending.
+    The attacking group would be able to prevent new transactions from being confirmed
+    (halting payments for users as they see fit) and even reverse transactions that
+    happened after they had started controlling the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: How the PoW problem works in Bitcoin
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The PoW algorithm starts by taking the longest chain. In Bitcoin, there are
+    multiple ways blocks can be finalized (depending on the included transactions).
+    Thus, there may be multiple available "solved" chains that could be selected as
+    a base by the Bitcoin nodes. As part of the algorithm, Bitcoin takes the chain
+    that is the longest and thus has had the most computing power applied to it. The
+    following diagram illustrates a PoW chain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/5b958b57-3e0b-4758-a03c-f7d230e30de8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The difficult puzzle in Bitcoin is to find an input that, when added to the
+    prior block hash and the list of transactions, produces a hash that starts with
+    a certain number of zeros.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Typically, the input to the function is the Merkle root of all transactions
+    and the prior block hash. To simplify this for illustrative purposes, imagine
+    that we have a simple input, such as *I love Blockchains*. Let''s also assume
+    that the system has the easiest possible difficulty: a single zero at the start
+    of the hash. The SHA-256 hash of *I love Blockchains* is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'As you can see, it does not begin with `0`. To solve the block for this input,
+    we need to find a string (called a **nonce**) that we can add to this string so
+    that hashing the combination (*nonce + I love Blockchains*) results in a string
+    starting with `0`. As it turns out, we can only do this through testing. For instance,
+    if we add `1` to the beginning, we get *1I love Blockchains*, and the hash is
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'No luck. What about 2 and 3? These will also fail to solve the puzzle. As it
+    happens, *4I love Blockchains* has a hash that starts with `0`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: It only took four tries, but this is a very low difficulty. Each additional
+    zero doubles the challenge of finding a proper input that will compute a proper
+    hash. As of writing, a valid Bitcoin block requires 18 zeros to be valid.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This process of trying to find the nonce that results in a proper hash is called
+    mining. Every computer mining a PoW chain is competing to see who can find a proper
+    nonce first. The winner gets to create the next block in the chain and is rewarded
+    in tokens. For more details, see [Chapter 18](a8437577-99dc-4620-99d5-7fbd19b12659.xhtml),
+    *Mining*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The advantage of PoW is that anyone can join a PoW network, and it is well
+    established as a functional consensus mechanism. The primary downsides of PoW
+    networks are slow speeds and financial costs: running all the computers to do
+    these computations is very expensive, and the output is not put to any real productive
+    use. This is considered bad for the environment, and can result in increased energy
+    prices wherever large amounts of blockchain mining are done. In some areas, blockchain
+    mining has been banned for this reason.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: As a result of these downsides, **proof-of-stake** (**PoS**) was invented.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proof of Stake
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: PoS has the same objectives as PoW to secure the network against attack and
+    to allow consensus to occur in an open network. The first digital currency to
+    use this method was Peercoin, and was followed by many others, such as NXT, Dash,
+    PIVX, and so on. In PoW networks, solving the puzzle is what determines which
+    node gets to create the next block in the chain. In PoS networks, blocks are said
+    to be forged instead of mined, as they are in proof-of-work blockchains. In PoS
+    chains, the validators get rewarded by getting paid the transaction fees for each
+    block, and sometimes in additional coins created automatically each time a block
+    is created. In PoS chains, the chance to be the creator of the next block is determined
+    by the amount of investment a node has in the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Have a look at the following example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There are five nodes in a PoS network. They have the following balances:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 10,000 coins
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 200 coins
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 300 coins
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 4,000 coins
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 20,500 coins
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The total number of tokens is 35,000 coins. Assuming that each node is staking
+    100% of their coins, every block and the nodes they contain will have the following
+    likelihoods of being the next block signer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 28.57%
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 0.57%
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 0.86%
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 11.4%
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 58.6%
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'It should be pretty obvious that, if a single node ever controls the majority
+    of tokens (or even a large fraction), then they will have substantial control
+    over the network. In this case, node #5 would end up creating more than half the
+    blocks. Moreover, because node #5 would be regularly signing blocks, it would
+    also get the majority of the transaction fees and new coins that are created.
+    In a way, PoS rewards validators with interest on their investment in the form
+    of additional tokens. One criticism of PoS networks is that the *rich get richer*,
+    which can lead to increasing network centralization and control.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The nothing-at-stake attack
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: One of the issues in PoS systems is the threat of nothing-at-stake attacks.
+    In a nothing-at-stake attack, a validator actually creates multiple blocks in
+    order to spend tokens multiple times. Because of the low cost of creating blocks
+    in PoS systems, there is no financial incentive to the network not to approve
+    all the transactions, causing consensus to break down.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For instance, imagine a bad actor, Cain, who only has 100 tokens. He decides
+    to try and to cheat, and sends two messages to the network: one in which he sends
+    his 100 tokens to Sanjay, and another where he sends his 100 tokens to Eliza.
+    The network should accept either transaction, but not accept both. Typically,
+    the nodes would have to come to consensus about which transaction is valid or
+    reject both of them. However, if a validator is cooperating with Cain (or is run
+    by Cain himself), then it turns out it is to their financial advantage to approve
+    both blocks.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the following diagram, **expected value** stands for the **EV**. It shows
+    that if a validator accepts both blocks, it can effectively double spend without
+    penalty:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/07643e79-ac5e-4d8b-bda4-e80701ab4f8d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: To avoid this problem, PoS systems have introduced various countermeasures,
+    such as staking deposits. In the case of a blockchain fork or a double-spend attack,
+    the validators that participate risk losing their tokens. Through financial penalties
+    and loss of staked tokens, the incentive to double spend and validate all blocks
+    is thought to be reduced or eliminated.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Variations
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are numerous variations on the basic PoS approach. Each variation will
+    have different requirements, such as the minimum balance needed to have a stake,
+    the potential penalties for bad behavior, the rights and abilities of the stakeholders
+    of the network, and modifiers, such as how long an account needs to have had a
+    staked balance in order to be counted.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Delegated Proof of Stake
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: DPoS is related to PoS consensus, but with some critical differences. This new
+    system is the creation of Dan Larimer of Bitshares, Steemit, and currently EOS.
+    Both these networks and Lisk (another commonly used blockchain) are currently
+    the only major blockchains that use this approach. In DPoS, the holders of tokens
+    are not the ones doing block validation. Instead, they can use their tokens to
+    elect a node to validate on their behalf—their delegate (also called a **validator**).
+    It is this delegate/validator that helps operate the network. The number of available
+    validator slots tends to be locked to a specific number, typically 21\. In order
+    to become a delegate, the owner of the node must convince the other users of the
+    network to trust them to secure the network by delegating their share of the overall
+    tokens on the network to them. Essentially, each token on the network acts as
+    a vote, and the top vote holders are allowed to operate the network. Currently,
+    only Bitshares, Steemit, EOS, and Lisk are the major blockchains that use this
+    approach.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In DPoS, each delegate has a limited, designated time in which to publish a
+    new block. If a delegate continually misses their block creation times or publishes
+    invalid transactions, the token holders using their stake can vote them out and
+    replace them with a better delegate. The following diagram shows what this structure
+    looks as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/628dfec8-f071-49f2-b218-27e81770a21b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The primary criticism of DPoS is that it is partially centralized and has no
+    real immediate financial penalty for betraying the network. The consequence of
+    violating network rules is to be voted out by the token holders. It is thought
+    that the cost to reputation and the loss from campaigning for delegated shares
+    will outweigh the financial benefit of trying to negatively influence the network.
+    By only having a small number of delegate slots, it is easier for the token holders
+    to pay attention to the behavior of individual validator nodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tendermint consensus
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Tendermint uses a custom consensus engine, designed as part of a doctoral thesis
+    by Jae Kwon. It is similar to DPoS in that participants in the network can delegate
+    their voting power to a validating account. However, to do so, they must bond
+    or lock their tokens. To do this, they must issue a special bonding transaction
+    in which their coins are locked to a validating node. In the event that their
+    delegate misbehaves, both the delegate and the accounts lending their coins forfeit
+    some portion of their bonded tokens. To release their tokens, another special
+    unbonding transaction must be posted to the network, and such withdrawals are
+    subject to a long delay.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s look at how these transactions happen. The following diagram is from
+    the Tendermint documentation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3b7ca00f-adc8-4a08-97df-0d171efa1978.png).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s look at the preceding figure in more detail. Delegates signal the next
+    block by signing votes. There are three types of votes: prevotes, precommits,
+    and commits. Each block has a special validator called a **proposer**. The proposer
+    goes first, suggesting a valid block state based on a prior locked block. This
+    proposal is shared peer-to-peer among the other validators, and if 2/3 or more
+    vote in agreement with the locked block (in the prevote stage) then they move
+    to the next stage: precommit. In the precommit stage, again, if 2/3 agree with
+    the prevote condition, they will signal that they are ready to commit. Finally,
+    the actual commitment of the block takes place: the node must have received the
+    block, and it must have received 2/3 valid votes to precommit.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: If this sequence of 2/3 votes seems unusual, it is because of the nature of
+    asynchronous networks, where the validators may receive blocks and votes at different
+    times. This sequence, and the edge cases that are handled when the 2/3 majority
+    is not reached, allow for effective and fast consensus on unreliable networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proof of Authority
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Proof-of-authority** (**PoA**) networks are used only when all blockchain
+    participants are known. In proof-of-authority, each participant is known and registered
+    with the blockchain. Such a blockchain is called a **permissioned chain**, as
+    only computers that are part of this approved list of authorities are able to
+    forge blocks. It is critical, therefore, that none of the authority computers
+    is compromised, and each operator must take pains to ensure the integrity of their
+    validator. This approach was originally shared by Gavin Wood of Parity Technologies
+    as a different way of running an Ethereum-based blockchain.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Establishing authority
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The three main conditions that must be fulfilled for a validator to be established
+    are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Identity needs to be formally verified and on chain.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Eligibility should be difficult to obtain. Examples are things such as becoming
+    a notary public, submitting to background checks, and posting a bond.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The set of things that must be required of each authority should be well documented,
+    uniform, and worthy of the network's trust.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Once an authority has been established, the right to forge new blocks might
+    be granted by adding the authority to the list of valid validators for the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: While PoA is mostly used in private chains, it can be used in public chains
+    as well. Two public Ethereum test networks, Rinkleby and Kovan, are public blockchain
+    networks that use PoA as their consensus mechanism.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The obvious downside of PoA is that the identity of each validator operator
+    must be known and trusted, and the penalties for abusing that trust must be real.
+    For global blockchains, this may not be preferred, as one of the appeals of blockchain
+    technology is the ability to anonymously exchange value.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proof of Elapsed time
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Hyperledger Sawtooth project introduced a new consensus mechanism called
+    **proof-of-elapsed-time** or **PoET**. Hyperledger deals mostly with permissioned
+    blockchains, chains in which only a specified number of participants are allowed
+    on the network, similar to PoA chains.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The basic approach is simple:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Each node must wait a random amount of time
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The first node to stop waiting gets to create a block
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: There are two things that we must be able to do for this to work. First, we
+    must be able to verify that the waiting time for all participants was actually
+    random, or else a simple attack would be to pretend to wait a random time and
+    then just immediately create a new block. Second, it must be verifiable that not
+    only was the length of time chosen random, but that the node actually waited the
+    full period of time before acting.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The solution to these issues comes from Intel (who created the PoET algorithm),
+    and relies on special CPU instructions to ensure that only trusted code is run.
+    By forcing trusted code to be in charge of handling block timing, the system ensures
+    that the lottery is fair.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: At this point, you should have a solid foundation in the different mechanisms
+    that blockchains use to reach consensus. Each consensus algorithm makes certain
+    trade-offs between speed, availability, consistency, and fault tolerance. The
+    most common consensus mechanisms are still PoW and PoS, but blockchain development
+    continues at a very rapid pace, and new and improved approaches are likely to
+    be developed. Improvements to consensus algorithms will improve blockchain scalability
+    and reliability, and the scope of the potential applications for the technology.
+  prefs: []
+  type: TYPE_NORMAL
+- en: References
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '[https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf](https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf)'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[https://www.microsoft.com/en-us/research/publication/byzantine-generals-problem/?from=http%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fum%2Fpeople%2Flamport%2Fpubs%2Fbyz.pdf](https://www.microsoft.com/en-us/research/publication/byzantine-generals-problem/?from=http%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fum%2Fpeople%2Flamport%2Fpubs%2Fbyz.pdf)'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[https://github.com/tendermint/tendermint.com/blob/5c111743a03d2c6ed2e0b14bd3091cac8974c8da/docs/tendermint_v02.pdf](https://github.com/tendermint/tendermint.com/blob/5c111743a03d2c6ed2e0b14bd3091cac8974c8da/docs/tendermint_v02.pdf)'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[https://peercoin.net/assets/paper/peercoin-paper.pdf](https://peercoin.net/assets/paper/peercoin-paper.pdf)'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[https://github.com/ethereum/guide/blob/master/poa.md](https://github.com/ethereum/guide/blob/master/poa.md)'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[https://medium.com/poa-network/proof-of-authority-consensus-model-with-identity-at-stake-d5bd15463256](https://medium.com/poa-network/proof-of-authority-consensus-model-with-identity-at-stake-d5bd15463256)'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL

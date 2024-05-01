@@ -1,0 +1,371 @@
+- en: Ethereum Development
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: For the past few chapters, we have been learning about Ethereum blockchain,
+    its uses, and how it has shaped the decentralized technology, not for just currency
+    based uses but also for other industry verticals. Further, we learned about development
+    on top of the Ethereum blockchain, using smart contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the previous chapter, we discussed Solidity—the programming language introduced
+    by the Ethereum foundation. Solidity is the language that makes it possible to
+    create decentralized applications on top of Ethereum blockchain, either to be
+    used for creating another cryptocurrency token or for any other use case in which
+    blockchain can have an essential role.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this chapter, we will be specifically working on Ethereum development, which
+    constitutes creating a token that represents a smart contract. We will be creating
+    a coin or a token that will run on the Ethereum blockchain platform. We will be
+    learning about the development, testing, and deployment of the token using Solidity
+    and, along with this, we will be discussing important aspects of the smart contract
+    development phase, which will help in using smart contracts for other applications
+    and industries.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In brief, we will be covering the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Preparing for smart contract development
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Working on smart contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Introduction
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will go ahead and create a token on top of Ethereum blockchain.
+    We will also briefly look into the development of DApp, which will use the smart
+    contract to its full potential. Here is a list of tools required for the development
+    process:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Code Editor or IDE**: Just as in the previous chapter, pick a code editor
+    you are comfortable using; in this chapter, we are choosing Sublime text. Although,
+    the official online IDE remix can also be used.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Ethereum Wallet**: This is required for the deploying and testing of a smart
+    contract on the TestnNet.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Solc compiler**: This is for the compiling of a smart contract that is converting
+    Solidity language code into bytecode for EVM to read.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Truffle framework**: This makes it easier to test and deploy the smart contracts.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Web3**: This is a JavaScript library and is used to communicate with the
+    Ethereum node; for example, we have a frontend interface in our application for
+    users to interact with the blockchain, then `Web3` allows the user interface to
+    interact with the contracts deployed over the blockchain.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Preparing for smart contract development
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before we dive into development of smart contracts and further testing and deployment
+    procedures, it is important to be ready with the tools and other modules, along
+    with the preparation of the development process that will help create the desired
+    results.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Remix
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Remix** is currently the official IDE available online; if you are more comfortable
+    in another IDE, you can check whether Solidity is a supported language and start
+    working on the same. The following is a screenshot of what Remix looks like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f7bc3adc-a0e3-445e-bd33-b8436c6c8fca.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Remix is a fully functional online IDE, with the required features such as the
+    compiling of code, running, connecting with localhost, publishing code on GitHub,
+    and so on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When Remix is opened for the first time, the `Ballot` contract is loaded.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Geth and Mist
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We can run test nodes using Geth, although the task of connecting and mining
+    of Ether in `TestNet` or `private net` can also be done using the official Ethereum
+    client, which is a Mist browser working on top of a Geth node.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The Mist client has various features such as being able to create Ethereum
+    accounts and connecting with `MainNet` or `TestNet`. We can deploy or watch an
+    already-deployed contract on blockchain using Mist. The following screenshot illustrates
+    what Mist looks like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ae9e1efc-a6eb-467e-8761-3599cc9d21af.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: MetaMask
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**MetaMask** is an Ethereum Wallet and an Ethereum browser. MetaMask enables
+    us to interact with DApps and smart contracts via our web browser without downloading
+    the complete Ethereum blockchain. It is available as a browser extension for Chrome,
+    Firefox, and other browsers.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It lets websites fetch data from blockchain and also allows users to send transactions
+    from the extension itself. With MetaMask, it becomes easier to interact with Ethereum
+    DApp within the browser. The following screenshot is an example of an Ethereum
+    Wallet:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/61185807-ca4b-4600-aaf1-a3a680e20149.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Token standard
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: With Ethereum, decentralized applications can be created, and we can also issue
+    tokens on the Ethereum blockchain. Just such as **Bitcoin Improvement Proposals **(**BIPs**),
+    there is an online list of **Ethereum Improvement Proposals **(**EIPs**) hosted
+    on GitHub, and this can be found here: [https://github.com/ethereum/EIPs](https://github.com/ethereum/EIPs)
+    . In EIP-20, a new token standard was introduced around the end of 2015\. This
+    token standard is known as **ERC20**. *ERC* stands for **Ethereum Request for
+    Comments.** ERC is authored by a community developer; post the community and core
+    team approval, the proposal becomes a standard. There are various other standards
+    such as ERC223 and ERC721 that are also being used in addition to ERC20.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are methods defined in the EIP that must be followed so that the token
+    can be a part of the ERC20 token contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Methods in ERC20
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Here are the methods specified in the ERC20 contract type; it is important
+    to follow the given methods/events so that the contract can be in the family of
+    ERC20\. Although some of these specifications are options and not required to
+    be there. Take a look at this list:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`name`: It should return the name of the contract, for example: `BaToken`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`symbol`: Returns the symbol of the token, for example: `BATN`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`decimals`: Returns the number of decimals that the token uses, for example:
+    18.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`totalSupply`: Returns the total supply of the tokens. It is a compulsory method.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`balanceOf(address _owner)`: Returns the account balance of another balance
+    with an address `_owner`. It is a compulsory method.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`transfer(address _to, unit256 _value)`: It sends the token of `_value` amount
+    to address `_to` . It is a compulsory method.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`transferFrom(address _from, address _to, uint256 _value)`: This method transfers
+    the `_value` amount of tokens from address `_from` to address `_to`. It is compulsory
+    to have this method in the smart contract for it to be a valid ERC20 contract.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`approve(address _spender, uint256 _value)`: This method allows the address
+    `_spender` to withdraw from the given account multiple times; the maximum amount
+    it can withdraw is `_value`. It is also a compulsory method; allowance is suggested
+    to first be set to 0 so that any vulnerability is not there.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`allowance(address _owner, address _spender)`: It returns the amount that `_spender`
+    is still allowed to withdraw from `_owner`. It is compulsory to have this method
+    in the smart contract.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`event Transfer(address indexed _from, address indexed _to, uint256 _value)`:
+    This event must be triggered when tokens are transferred, even if the value of
+    tokens being transferred is zero.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`event Approval(address indexed _owner, address indexed _spender, uint256 _value)`:
+    This event is also compulsory and is called whenever the `approve` method is called.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Web3
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '`Web3.js` is a JavaScript Library; it can communicate with the Ethereum node
+    through JSON RPC calls, by connecting to the HTTP or IPC connection. `Web3.js`
+    works by exposing methods that have been enabled over the RPC.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`Web3` can be installed via `npm` using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: Truffle framework
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Truffle** is a development framework that makes it simple to test and deploy
+    Ethereum smart contracts. Truffle can be installed via `npm` using the following
+    command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: Truffle helps in contract compilation and linking along with automated testing
+    framework using Mocha and Chai. With Truffle, we can easily deploy contracts to
+    any `estNet`, MainNet, or private Network ID. Truffle does everything in a DApp,
+    such as the compiling of contracts, injecting them into the user interface and
+    testing to check for vulnerabilities.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ganache
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Ganache** is a tool introduced by the Truffle Foundation to run tests on
+    the Ethereum blockchain created. It has a command-line interface, but a graphical
+    interface is also available when required. The following screenshot depicts the
+    **Ganache** tool:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b92978da-d252-4359-9460-505d135dee45.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Working on a smart contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s dive into the task of creating a smart contract, along with the process
+    of testing the smart contract on `TestNet`. The easiest way to run the code discussed
+    in the following is on Remix. Just follow these steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When you open Remix in the browser, by default, it opens the `ballot.sol` file;
+    you can create a new file and start editing your first smart contract. Take a
+    look at this:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In the previous code snippet, we have created a contract with Solidity Version
+    0.4.24 and with the name of `Gotham`. Now let''s create a constructor that will
+    initialize the variables we have defined. This is how our `contract` code should
+    look now:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, let''s add the standard ERC20 methods to a separate contract; these are
+    required to be present in an Ethereum smart contract. Take a look at this code:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Furthermore, to avoid any overflow or similar issues, it is important to implement
+    some basic mathematics functions that have checks in place to avoid any function
+    overflow. Here is the contract that can be created:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Our contract has to have address of the owner; this will help with transferring
+    the coins when the contract is deployed. For this, we create a contract in the
+    Solidity file by the name `Im_owner`. Take a look at the following:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now it is time to work on the `contract Gotham` to add various functions that
+    will return total supply, get the balance of the tokens available in the account,
+    transfer tokens, and other important functions required. Also, since this `contract
+    Gotham` is the main contract, the other contracts in our solidity file should
+    be inherited in this contract. The `contract Gotham` will now look as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The previous code has the minimum required functions for a Solidity file to
+    be a valid ERC20 standard token. Once the code is complete, you can run it by
+    pressing the Start to compile button on the right-hand-side panel in Remix. There
+    is another tab next to the compile tab by the name Run, which helps in deploying
+    the smart contract on the `TestNet` as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/83e868f8-558d-4cd6-8463-2cbe9095e6c0.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: BrowserHello_World.sol file running on your browser using Remix
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned about the tools required in smart contract development,
+    testing, and deployment. We learned about Remix, the online official IDE by the
+    Ethereum Foundation; Mist, the official Ethereum Wallet and browser; and MetaMask,
+    the tool to help in Ethereum smart contract development. We learned about the
+    ERC20 token standard, `Web3`, and the Truffle framework. Furthermore, we worked
+    on smart contract creation, along with various details of deployment of a smart
+    contract on Ropsten.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the coming chapters, we will learn more about decentralized applications
+    and Ethereum Accounts. We will also study in depth about mining, ICO, creating
+    our own currency by forking the Bitcoin repository, and we will discuss the challenges
+    facing blockchain technology.
+  prefs: []
+  type: TYPE_NORMAL

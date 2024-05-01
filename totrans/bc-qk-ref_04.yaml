@@ -1,0 +1,368 @@
+- en: Cryptography and Mechanics Behind Blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The use of blockchain hinges on cryptography. Numeric cryptography can be regarded
+    as a recent invention, with the ciphers of the past relying on exchanging words
+    for words and letters for letters. As we'll see, modern cryptography is a very
+    powerful tool for securing communications, and, importantly for our topic, determining
+    the provenance of digital signatures and the authenticity of digital assets.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, the following topics will be covered:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Principles of security
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Historical perspective – classical cryptography
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Cryptographic signatures
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hashing
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Principles of security
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Cryptography safeguards the three principles of information security, which
+    can be remembered by the mnemonic device **Central Intelligence Agency** (**CIA**):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Confidentiality**: Ensures that information is shared with the appropriate
+    parties and that sensitive information (for example, medical information, some
+    financial data) is shared exclusively with the consent of appropriate parties.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Integ****rity**: Ensures that only authorized parties can change data and
+    (depending on the application) that the changes made do not threaten the accuracy
+    or authenticity of the data. This principle is arguably the most relevant to blockchains
+    in general, and especially the public blockchains.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Availability**: Ensures authorized users (for example, holders of tokens)
+    have the use of data or resources when they need or want them. The distributed
+    and decentralized nature of blockchain helps with this greatly.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The relevance to blockchain and cryptocurrency is immediately evident: if,
+    for instance, a blockchain did not provide integrity, there would be no certainty
+    as to whether a user had the funds or tokens they were attempting to spend. For
+    the typical application of blockchain, in which the chain may hold the chain of
+    title to real estate or securities, data integrity is very important indeed. In
+    this chapter, we will discuss the relevance of these principles to blockchain
+    and how things such as integrity are assured by cryptography.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Historical perspective – classical cryptography
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '*Cryptography* is the term for any method or technique used to secure information
+    or communication, and specifically for the study of methods and protocols for
+    secure communication. In the past, cryptography was used in reference to encryption,
+    a term that refers to techniques used to encode information.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: At its most basic, encryption might take the form of a substitution cipher,
+    in which the letters or words in a message are substituted for others, based on
+    a code shared in advance between the parties. The classic example is that of the
+    Caesar Cipher, in which individual letters are indexed to their place in the alphabet
+    and shifted forward a given number of characters. For example, the letter *A*
+    might become the letter *N, *with a key of 13.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This specific form of the Caesar Cipher is known as **ROT****13**, and it’s
+    likely the only substitution cipher that continues to see any regular use—it provides
+    a user with a trivially reversible way of hiding expletives or the solutions to
+    puzzles on static websites (the same, of course, could be implemented very simply
+    in JavaScript).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This very simple example introduces two important concepts. The first is an
+    algorithm, which is a formal description of a specific computation with predictable,
+    deterministic results. Take each character in the message and shift it forward
+    by *n* positions in the alphabet. The second is a key: the *n* in that algorithm
+    is 13\. The key in this instance is a pre-shared secret, a code that the two (or
+    more) parties have agreed to, but, as we’ll see, that is not the only kind of
+    key.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Types of cryptography
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Cryptography is principally divided into symmetric and asymmetric encryption.
+    Symmetric encryption refers to encryption in which the key is either pre-shared
+    or negotiated. AES, DES, and Blowfish are examples of algorithms used in symmetric
+    encryption.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Symmetric cryptography
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Most savvy computer users are familiar with WEP, WPA, or WPA2, which are security
+    protocols employed in Wi-Fi connections. These protocols exist to prevent the
+    interception and manipulation of data transmitted over wireless connections (or,
+    phrased differently, to provide confidentiality and integrity to wireless users).
+    Routers now often come with the wireless password printed on them, and this is
+    a very literal example of a pre-shared key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The algorithms used in symmetric encryption are often very fast, and the amount
+    of computational power needed to generate a new key (or encrypt/decrypt data with
+    it) is relatively limited in comparison to asymmetric encryption.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Asymmetric (public-key) cryptography
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Asymmetric cryptography (also called public-key cryptography) employs two keys:
+    a public key, which can be shared widely, and a private key, which remains secret.
+    The public key is used to encrypt data for transmission to the holder of the private
+    key. The private key is then used for decryption.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The development of public-key cryptography enabled things such as e-commerce
+    internet banking to grow and supplement very large segments of the economy. It
+    allowed email to have some level of confidentiality, and it made financial statements
+    available via web portals. It also made electronic transmissions of tax returns
+    possible, and it made it possible for us to share our most intimate secrets in
+    confidence with, maybe, perfect strangers—you might say that it brought the whole
+    world closer together.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As the public key does not need to be held in confidence, it allows for things
+    such as certificate authorities and PGP key servers—publishes the key used for
+    encryption, and only the holder of the private key will be able to decrypt data
+    encrypted with that published key. A user could even publish the encrypted text,
+    and that approach would enjoy some anonymity—putting the encrypted text in a newsgroup,
+    an email mailing list, or a group on social media would cause it to be received
+    by numerous people, with any eavesdropper unable to determine the intended recipient.
+    This approach would also be interesting in the blockchain world—thousands or millions
+    of nodes mirroring a cipher text without a known recipient, perhaps forever, irrevocably,
+    and with absolute deniability on the part of the recipient.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Public-key cryptography is more computationally expensive than symmetric cryptography,
+    partly due to the enormous key sizes in use. The NSA currently requires a key
+    size of 3,072 bits or greater in commercial applications for key establishment,
+    which is the principal use of public-key cryptography. By comparison, 128-bit
+    encryption is typically regarded as adequate for most applications of cryptography,
+    with 256-bit being the NSA standard for confidentiality.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For the most part, although it is possible to use the public-key algorithm alone,
+    the most common use of public-key cryptography is to negotiate a symmetric key
+    for the remainder of the session. The symmetric key in most implementations is
+    not transmitted, and, as a consequence, if an attacker were to seize one or both
+    of the private keys, they would be unable to access the actual communications.
+    This property is known as forward secrecy.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Some protocols, such as SSH, which is used to remotely access computers, are
+    very aggressive. Over the course of a session, SSH will change the key at regular
+    intervals. SSH also illustrates the essential property of public-key cryptography—it’s
+    possible to put your public key on the remote server for authentication, without
+    any inherent confidentiality issue.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Most cryptography in use today is not unbreakable, given extremely large (or
+    infinite) computing resources. However, an algorithm suited to the task of protecting
+    data where confidentiality is required is said to be computationally improbable—that
+    is, computing resources to crack the encryption do not exist, and are not expected
+    to exist in the near future.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Signatures
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: It is notable that, although when encrypting data to send it to a given recipient,
+    the private key is used for decryption, it is generally possible to do the reverse.
+    For cryptographic signing, private keys are used to generate a signature that
+    can be decrypted (verified) with the public key published for a given user. This
+    inverted use of public-key cryptography allows for users to publish a message
+    in the clear with a high degree of certainty that the signer is the one who wrote
+    it. This again invokes the concept of integrity—if signed by the user’s private
+    key, a message (or transaction) can be assumed to be authentic. Typically, where
+    Blockchains are concerned, when a user wishes to transfer tokens, they sign the
+    transaction with the private key of the wallet. The user then broadcasts that
+    transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It is now also fairly common to have multisignature wallets, and, in that instance,
+    a transaction is most often signed by multiple users and then broadcast, either
+    in the web interface of a hosted wallet service, or in a local client. This is
+    a fairly common use case with software projects with distributed teams.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hashing
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Distinct from the concept of encryption (and present in many mechanisms used
+    in cryptography, such as cryptographic signatures and authentication) is hashing,
+    which refers to a deterministic algorithm used to map data to a fixed-size string.
+    Aside from determinism, cryptographic hashing algorithms must exhibit several
+    other characteristics, which will be covered in this section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As we'll see in the following section, a hash function must be difficult to
+    reverse. Most readers who got through high school algebra will remember being
+    tormented with factoring. Multiplication is an operation that is easy to complete,
+    but difficult to reverse—it takes substantially more effort to find the common
+    factors of a large number as opposed to creating that number as a product of multiplication.
+    This simple example actually enjoys practical application. Suitably large numbers
+    that are the product of the multiplication of two prime numbers—called **semiprimes**
+    or (less often) **biprimes**—are employed in RSA, a widely used public-key cryptography
+    algorithm.
+  prefs: []
+  type: TYPE_NORMAL
+- en: RSA is the gold standard in public key cryptography, enabling things such as
+    SSH, SSL, and systems for encrypting email such as PGP. Building on operations
+    such as this — easy to do one way and very hard to do in the other—is what makes
+    cryptography so robust.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The avalanche effect
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A desirable feature of robust hashing algorithms is known as **the avalanche
+    effect**. A small change in the input should result in a dramatic change in the
+    output. Take for instance the following three examples using output redirection
+    and the GNU `md5sum` utility present in most distributions of Linux:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Changing a word to an entirely different word has the same result as changing
+    a single letter: each hash is entirely different. This is a very desirable property
+    in the case of, say, password hashing. A malicious hacker cannot get it close
+    enough and then try permutations of that similar password. We will see in the
+    following sections, however, that hashes are not perfect.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Collisions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: An ideal hash function is free of **collisions**. Collisions are instances in
+    which two inputs result in the same output. Collisions weaken a hashing algorithm,
+    as it is possible to get the expected result with the wrong input. As hashing
+    algorithms are used in the digital signatures of root certificates, password storage,
+    and blockchain signing, a hash function having many collisions could allow a malicious
+    hacker to retrieve passwords from password hashes that could be used to access
+    other accounts. A weak hashing algorithm, rife with collisions, could aid in a
+    man-in-the-middle attack, allowing an attacker to spoof a **Secure Sockets Layer**
+    (**SSL**) certificate perfectly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: MD5, the algorithm used in the above example, is regarded as inadequate for
+    cryptographic hashing. Blockchains thankfully largely use more secure hash functions,
+    such as SHA-256 and RIPEMD-160.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hashing a block
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the PoW systems, new entries to a blockchain require hashes to be computed.
+    In Bitcoin, miners must compute two SHA-256 hashes on the current transactions
+    in the block—and included therein is the hash of the previous block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This is pretty straightforward for a hashing algorithm. Let’s briefly reiterate:
+    an ideal hash function takes the expected input and then outputs a unique hash.
+    It is deterministic. There is only one possible output and it is impossible (or
+    computationally improbable) to achieve that output with a different input. These
+    properties ensure that miners can process a block and that each miner can return
+    the same result. It is through hashing that Blockchains attain two properties
+    that are crucial to their adoption and current popularity: decentralization and
+    immutability.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Linking the current block to the previous block and the subsequent block is
+    in part what makes the blockchain an ever-growing linked list of transactions
+    (providing it with the property of immutability), and the deterministic nature
+    of the hash algorithm makes it possible for each node to get the same result without
+    issue (providing it with decentralization).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hashing outside PoW
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Aside from proof of work, PoS and DPoS also make use of hashes, and largely
+    for the same purpose. Plenty of discussion has been dedicated to whether PoS will
+    replace PoW and prevent us from running thousands of computers doing megawatts'
+    worth of tedious hashing with enormous carbon footprints.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'PoW systems seem to persist in spite of the power consumption and environmental
+    impact of reasonably difficult hashing operations. Arguably, the reason for this
+    is the very simple economics: miners have an incentive to validate transactions
+    by computing hashes because they receive a share of new tokens minted into the
+    system. More complex tokenomics schemes for proof of stake or distributed proof
+    of stake often fail the smell test.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Take, for example, the idea of a stock photo blockchain project—we’ll call it
+    Cannistercoin. Users contribute photos to a stock photo website, and in return
+    they receive tokens. The token is also used to buy stock photos from the website,
+    and this token is traded on exchanges.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This would seem to work, and it’s a complete market—Cannistercoin has identified
+    buyers and sellers and has a mechanism to match them—but it is perhaps not a functional
+    market. The barriers to entry here are significant: a buyer could use any ordinary
+    stock photo site and use their credit card or bank account. In this model, the
+    buyer needs to sign up for an exchange and send cryptocurrency in exchange for
+    the token.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: To be truly decentralized, a big piece is missing from this economic model—that
+    is, this system of incentives. What provides an incentive for witnesses or validators
+    to run their machines and validate transactions?
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can give them some share of the tokens, but why wouldn’t many of them sell
+    their tokens immediately in order to recoup the costs of running their machines?
+    It can be reasonably expected that that constant selling pressure holds down the
+    price of tokens in many of these appcoin cryptocurrencies, and this is a shame.
+    Proof of stake systems are often more elegant with regard to processing power
+    (at the expense of less elegant economic models).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proof of stake (or another mechanism) may well still take over the world, but,
+    one way or the other, you can safely expect the crypto world to do plenty of hashing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The world of blockchain and cryptocurrency exists thanks largely to the innovations
+    of the last century in cryptography. We've covered how cryptography works conceptually
+    and how cryptographic operations, specifically hashing, form a large part of what
+    happens behind the scenes in a blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we'll build on this foundation and introduce Bitcoin, the
+    first (and most notable) blockchain application.
+  prefs: []
+  type: TYPE_NORMAL

@@ -1,0 +1,470 @@
+- en: Ethereum Accounts and Ether Tokens
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the previous chapters, we discussed Ethereum, smart contracts, and how the
+    development of a smart contract takes place, including the development of the
+    ERC20 token, based on Ethereum blockchain. We also discussed how the development
+    of Ethereum takes place along with the deployment of a smart contract and token
+    on the Ethereum blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this chapter, we will discuss the Ethereum account in detail and also study
+    an ether token; this discussion will help us to better understand decentralized
+    applications. We will also briefly discuss some popular Ethereum tokens and smart
+    contracts. We will also discuss some important topics such as the **transaction
+    sub state**, the validation of an Ethereum Block, and the various steps involved
+    in the process of block finalization. Following this, we will briefly discuss
+    some disadvantages of an Ethereum-based smart contract and currencies, toward
+    the end of this chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'These are the topics which are covered in this chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Ethereum state transition function
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The genesis block
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transaction receipts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The transaction sub state
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Validating a block
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The disadvantages of Ethereum-based tokens
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Introducing Ethereum accounts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The state in Ethereum is made up of objects, each known as an account. Each
+    account in Ethereum contains a 20-byte address. Each state transition is a direct
+    transaction of value and information between various accounts. Each operation
+    performed between or on the accounts is known as a *state* *transition*. The state
+    transition in Ethereum is done using the Ethereum state transition function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The state change in Ethereum blockchain starts from the genesis block of the
+    blockchain, as shown in this diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/bc0b8d66-6b68-4f8f-a002-bcede91e26ee.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Each block contains a series of transactions, and each block is chained to its
+    previous block. To transition from one state to the next, the transaction has
+    to be valid. The transaction is further validated using consensus techniques,
+    which we have already discussed in previous chapters.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To avoid stale blocks in Ethereum, **GHOST** (**Greedy Heaviest Observed Subtree**)
+    protocol was introduced. This was introduced to avoid random forking by any nodes
+    and inapt verification by other nodes. Stale blocks are created when two nodes
+    find a block at the same time. Each node sends the block in the blockchain to
+    be verified. This isn't the case with Bitcoin, since, in Bitcoin, block time is
+    10 minutes and the propagation of a block to approximately 50% of the network
+    takes roughly 12 seconds. The GHOST protocol includes stale blocks also known
+    as uncles, and these are included in the calculation of the chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As discussed in the previous chapters, there are two types of accounts in Ethereum
+    blockchain. Namely, **Contract Accounts** (**CA**) and **Externally Owned Accounts**
+    (**EOA**s). The contract accounts are the ones that have code associated with
+    them along with a private key. EOA has an ether balance; it is able to send transactions
+    and has no associated code, whereas CA has an ether balance and associated code.
+    The contract account and the externally owned accounts have features of their
+    own, and a new token can only be initiated by the contract account.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethereum state transition function
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In the state transition function, the following is the process that every transaction
+    in Ethereum adheres to:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Confirming of the transaction's validity and structure, by making sure that
+    a signature is valid and nonce matching the nonce in the sender's account and
+    syntax. If there are any issues, then an error is returned.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The transaction fee calculation is done using the price of gas, and the sender
+    address is determined using the signature. Then, the sender's account balance
+    is checked and reduced accordingly, along with the increment of the nonce. In
+    the case of an insufficient balance, an error occurs.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Certain gas is taken to cover the cost of the transaction. It is charged per
+    byte incrementally, according to the size of the transaction.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In this step, the actual transfer of value occurs. The flow happens from the
+    sender's account to the receiver's account. If the receiving account does not
+    exist, then it is created. Also, if the receiving account is a contract account,
+    then the code of the contract is executed. If there is enough gas available, then
+    the contract code runs fully or to the point the gas runs out.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If the transaction failed due to insufficient balance or gas, all the state
+    changes are reverted, apart from the payment of fees, which is transferred to
+    the miners.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If there is reminder fee available, then it is sent back to the sender, as change
+    after paying the miners as required. Function returns the resulting state at this
+    point.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The following diagram depicts the state transition flow:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/8d2d233a-4148-4f8c-b563-b0daaa8fba45.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The function is implemented independently in each of the Ethereum clients.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Genesis block
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This is the first block of the Ethereum blockchain, just like the genesis block
+    of the Bitcoin blockchain. The height of the genesis block is 0.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The Genesis block was mined on Jul 30, 2015 and marks the first block of the
+    Ethereum blockchain. The difficulty of the genesis block was at 17,179,869,184,
+    as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d6569708-53d2-4c3f-a993-9d390494c79c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Transaction receipts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Receipts are used to store the state, after a transaction has been executed.
+    These structures are used to record the outcome of the transaction execution.
+    Receipts are produced after the execution of each transaction. All receipts are
+    stored in an index-eyed trie. This has its root placed in the block header as
+    the receipts root.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Elements
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Elements is composed of four primary elements; let's discuss each element of
+    Ethereum's transaction receipts, before we look at the structure of a receipt.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Post-transaction state
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Post-transaction state** is a trie structure that holds the state, after
+    the transaction has been executed. It is encoded as a byte array.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Gas used
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Gas used** represents the total amount of gas used in the block that contains
+    the transaction receipt. It can be zero, but it is not a negative integer.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Set of logs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The **set of logs** shows the set of log entries created as a result of transaction
+    execution. Logs contain the logger's address, log topics, and other log data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The bloom filter
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The **bloom filter** is created form the information contained in the logs discussed.
+    Log entries are reduced to a hash of 256 bytes, which is then embedded into the
+    header of the block as a logs bloom. Log entries are composed of the logger's
+    address, log topics, and log data. Log topics are encoded as a series of 32-byte
+    data structures, and log data is composed of a few bytes of data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Structure
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This is what the structure of a transaction receipt looks like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: Also, it is to be noted that the receipt is not available for pending transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction sub state
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A **transaction sub state** is created during the execution of the transaction.
+    This transaction is processed immediately after the execution is completed. The
+    transaction sub state is composed of the following three sub items.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Suicide set
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A **suicide set** contains the list of accounts that are disposed after a transaction
+    execution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Log series
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A **log series** is an indexed series of checkpoints that allow the monitoring
+    and notification of contract calls to the entities external to the Ethereum environment.
+    Logs are created in response to events in the smart contract. It can also be used
+    as a cheaper form of storage.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Refund balance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A **r****efund balance** is the total price of gas in the transaction that initiated
+    the execution of the transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Messages
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Messages** are transactions where data is passed between two accounts. It
+    is a data packet passed between two accounts. A message can be sent via the **Contract
+    Account** (**CA**). They can also be an **Externally Owned Account** (**EOA**)
+    in the form of a transaction that has been digitally signed by the sender.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Messages are never stored and are similar to transactions. The key components
+    of a message in Ethereum are:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sender of the message call
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transaction originator
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transaction recipient
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Contract account, whose code is the be executed during the message call, if
+    there is an account for this purpose
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Maximum available gas
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Gas price
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Messages are generated using `CALL` or `DELEGATECALL` methods.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Calls
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A **CALL** does not broadcast anything in the blockchain; instead, it is a local
+    call to any contract function specified. It runs locally in the node, like a local
+    function call. It does not consume any gas and is a read-only operation. Calls
+    are only executed locally on a node and do not result in any state change. If
+    the destination account has an associated EVM code, then the virtual machine will
+    start upon the receipt of the message to perform the required operations; if the
+    message sender is an independent object, then the call passes any data returned
+    from the EVM.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethereum block validation
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'After being mined by the miners, an Ethereum block goes through several checks
+    before it is considered valid; the following are the checks it goes through:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: All the ommers/uncles have to verify its identity, considering the PoW for the
+    uncles is valid.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The existence of the previous block and its validity
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The validity of the timestamp of the block, that is, the current block's timestamp
+    must be higher than the parent block's timestamp. Also, the current block and
+    the parent block should be less than 15 minutes apart from each other. All the
+    block times are calculated in Unix time.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If any of the preceding checks fails, the block gets rejected.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Uncles validation
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this process, the uncles or ommers are validated. Firstly, a block can contain
+    a maximum of two uncles, and, secondly, whether the header is valid and the relationship
+    of the uncle with the current block satisfies the maximum depth of six blocks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block difficulty
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Block difficulty in Ethereum runs parallel to the calculation of block difficulty
+    in the Bitcoin blockchain. The difficulty of the block increases if the time between
+    two blocks decreases. This is required to maintain consistent block generation
+    time. The difficulty adjustment algorithm in the Ethereum Homestead release is
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: In this algorithm, the difficulty of the block is adjusted based on the block
+    generation time. According to this algorithm, if the time difference between the
+    generation of the parent block and the current block is less than 10 seconds,
+    the difficulty increases. If the time difference is between 10 and 19 seconds,
+    then the difficulty remains same. The difficulty decreases when the time difference
+    between two block's generation is more than 20 seconds. The decrease in difficulty
+    is directly proportional to the time difference.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Apart from the timestamp-based difficulty increment, as per the algorithm, the
+    difficulty increases exponentially after every 100,000 blocks. This is known as
+    the *difficulty time bomb*, introduced in the Ethereum network, since this will
+    make it very hard to mine on the Ethereum blockchain network. This is the reason
+    why PoS is the proposed consensus mechanism for Ethereum in the near future.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block finalization
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The finalization of a block in Ethereum involves the following four stages:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The validation of ommers
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The validation of transactions
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The application of rewards
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The verification of the state and the block nonce
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Disadvantages of Ethereum-based tokens
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We have discussed the advantages and uses of Ethereum and Ethereum blockchain-based
+    currencies throughout the previous chapters; let''s now discuss some disadvantages
+    of Ethereum-based tokens:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Unstable**: The Ethereum blockchain is still undergoing lot of changes; this
+    also includes moving the consensus method from the PoW to the PoS system.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Dependability**: The ERC20 tokens or any other tokens are based and built
+    on top of Ethereum. This poses a threat, since Ethereum is itself undergoing frequent
+    changes at most times.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Hard forks**: Being dependent on another blockchain means, due to hard forks,
+    unforeseen issues can occur.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Sovereignty**: Since the tokens are based on Ethereum blockchain, there is
+    no say in future development of these tokens. The decision of whether to choose
+    ERC20 should be based on the application and use case.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Support**: Any improvements or requirements for support after the smart contract
+    is published on the blockchain can only be done on the Ethereum blockchain and
+    any changes/improvements suggested in the blockchain have to be approved by the
+    whole Ethereum community.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Ether as the main currency**: Although with one can create their own currency,
+    symbol and supply limit, ether is still the main currency used in the Ethereum
+    blockchain, hence at all times Ether gets enriched for the efforts added by your
+    token.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we discussed the Ethereum state transition function, the genesis
+    block, and transaction receipts. We also discussed the transaction sub state.
+    In addition to these topics, we discussed Ethereum block validation and the steps
+    involved in the same as discussed in the Ethereum Yellow paper. Finally, we briefly
+    discussed a few of the disadvantages of using an Ethereum-based token.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we will discuss **Decentralized Applications**, and we
+    will learn how to create a **DApp**, and how to publish one. We will also discuss
+    the future of DApp and its effects on its users.
+  prefs: []
+  type: TYPE_NORMAL
