@@ -249,11 +249,13 @@
   id: totrans-34
   prefs: []
   type: TYPE_NORMAL
+  zh: 一些云解决方案提供了 IaaS 和 PaaS 的功能。例如，AWS 最初是一个 IaaS，现在它还提供了各种按需服务（如区块链和弹性搜索）。
 - en: What are containers?
   id: totrans-35
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 什么是容器？
 - en: If you are using a PaaS or SaaS to create your application, then you will not
     come across containers because they take care of containerizing your application.
     PaaS simply lets you push the source code of your app to the cloud and it builds
@@ -261,47 +263,56 @@
   id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你正在使用 PaaS 或 SaaS 来创建你的应用程序，那么你不会遇到容器，因为它们会负责容器化你的应用程序。PaaS 只是让你将应用程序的源代码推送到云端，并为你构建和运行应用程序。
 - en: If you are using IaaS to build your application, then without containerizing
     your application, it will become next to impossible to scale and manage your application.
     Let's take a scenario and try to understand why we need containers.
   id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你正在使用 IaaS 来构建你的应用程序，那么如果不将你的应用程序容器化，要扩展和管理你的应用程序将变得几乎不可能。让我们来看一个场景，并试着理解为什么我们需要容器。
 - en: 'In IaaS, to deploy your app you would need to perform the following steps:'
   id: totrans-38
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 IaaS 中，要部署你的应用程序，你需要执行以下步骤：
 - en: Provision a **Virtual Machines** (**VMs**)
   id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 配置虚拟机（**Virtual Machines**，**VMs**）
 - en: Install all the dependencies and runtime environments of the app
   id: totrans-40
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 安装应用程序的所有依赖项和运行时环境
 - en: Run the app
   id: totrans-41
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 运行应用程序
 - en: If the app starts receiving more traffic than the VM can handle, you will start
     creating new VMs and distribute the traffic using a load-balancer
   id: totrans-42
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 如果应用程序开始接收的流量超过 VM 能够处理的范围，你将会开始创建新的 VM，并使用负载均衡器分发流量
 - en: For every new VM, you need to follow the same procedure for installing the dependencies
     and runtime environments before running new instances of the app in the new VMs
   id: totrans-43
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 对于每个新的 VM，你需要在运行新的应用程序实例之前按照相同的流程安装依赖项和运行时环境
 - en: This process of rolling up new VMs and running an instance of the app in them
     is error-prone and time-consuming. This is where containers come in.
   id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: 这种滚动创建新的 VM 并在其中运行应用程序实例的过程容易出错且耗时。这就是容器发挥作用的地方。
 - en: In a nutshell, containers are a way of packing an application. What makes containers
     special is that there are no unexpected errors when you move them to a new machine,
     or between environments. All of your application's code, libraries, and dependencies
@@ -313,6 +324,8 @@
   id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 简而言之，容器是一种打包应用程序的方式。容器的特殊之处在于当你将它们移动到新的机器或环境中时不会出现意外错误。你的应用程序的所有代码、库和依赖项都被打包在容器中作为一个不可变的工件。你可以将运行容器看作运行
+    VM，但不会带来启动整个操作系统的开销。因此，将应用程序打包在容器而不是 VM 中，将显著提高启动时间。容器比 VM 轻量级得多，使用的资源也少得多。
 - en: So, for the preceding example, you would need to create a container for your
     application and run the container in each of the VMs. Obviously, based on your
     application architecture, one Docker container can run multiple processes and
@@ -320,6 +333,8 @@
   id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，对于上述示例，你需要为你的应用程序创建一个容器，并在每个 VM 中运行容器。显然，根据你的应用程序架构，一个 Docker 容器可以运行多个进程，一个
+    VM 可以运行多个容器。
 - en: 'Internally, PaaS and SaaS use containers to package and deploy your applications.
     There are many other use cases for containers. For example: a coding test app
     actually containerizes your code before executing it so that the code executes
@@ -327,17 +342,21 @@
   id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 在内部，PaaS 和 SaaS 使用容器来打包和部署你的应用程序。容器还有许多其他用途。例如：一个编码测试应用实际上在执行之前会将你的代码容器化，以便在隔离的环境中执行代码。
 - en: By containerizing the application and its dependencies, differences in OS distributions
     and underlying infrastructure are abstracted away. Containers work on bare-metal
     systems, cloud instances, and VMs across Linux, Windows, and macOS.
   id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 通过容器化应用程序及其依赖项，OS 分发和底层基础设施的差异被抽象化了。容器可以在裸机系统、云实例和 Linux、Windows 和 macOS 上的
+    VM 上运行。
 - en: Introduction to Docker
   id: totrans-49
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Docker 简介
 - en: Docker helps you create and deploy software within containers. It's an open
     source collection of tools that help you build, ship, and run any app, anywhere. With
     Docker, you create a special file called a Dockerfile in your app source code
@@ -349,6 +368,10 @@
   id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: Docker 帮助您在容器内创建和部署软件。它是一套开源工具集，可帮助您构建、发布和运行任何应用程序。使用 Docker，您可以在应用程序源代码目录中创建一个特殊的文件，称为
+    Dockerfile。 Dockerfile 定义了一个构建过程，当输入到`docker build` 命令时，将生成一个不可变的 Docker 镜像。您可以将
+    Docker 镜像视为 VM 镜像。当您想要启动它时，只需使用 `docker run` 命令在 Docker 守护程序受支持并运行的任何地方运行它。Docker
+    容器是 Docker 镜像的运行实例。
 - en: In the Dockerfile, you need to mention a command that should be run, then the
     container starts. This is how the actual application is executed inside the container.
     If the command exists, the container also shuts down. When a container shuts down,
@@ -356,17 +379,21 @@
   id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Dockerfile 中，您需要提及一个应该运行的命令，然后容器启动。这就是容器内部执行实际应用程序的方式。如果命令存在，则容器也会关闭。当容器关闭时，所有写入容器卷中的数据都会丢失。
 - en: Docker also provides a cloud-based repository called **Docker Hub**. You can
     think of it like a GitHub for Docker images. You can use Docker Hub to create,
     store, and distribute the container images you build.
   id: totrans-52
   prefs: []
   type: TYPE_NORMAL
+  zh: Docker 还提供了一个名为 **Docker Hub** 的基于云的仓库。您可以将其视为 Docker 镜像的 GitHub。您可以使用 Docker
+    Hub 创建、存储和分发您构建的容器镜像。
 - en: Building a Hello World Docker container
   id: totrans-53
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 构建一个 Hello World Docker 容器
 - en: Let's create a Docker image that packages a simple Node.js app that exposes
     an endpoint to print Hello World. Before continuing, make sure you have installed
     Docker CE (community edition) on your local machine. You can find instructions
@@ -374,11 +401,15 @@
   id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们创建一个 Docker 镜像，该镜像打包了一个简单的 Node.js 应用程序，该应用程序公开了一个端点以打印 Hello World。在继续之前，请确保您已在本地计算机上安装了
+    Docker CE（社区版）。您可以在[https://docs.docker.com/install/](https://docs.docker.com/install/)找到根据不同操作系统安装和启动
+    Docker 的说明。
 - en: 'Now create a directory named `hello-world` and create a file named `app.js`
     in it. Place the following in that file:'
   id: totrans-55
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在创建一个名为`hello-world` 的目录，并在其中创建一个名为 `app.js` 的文件。在该文件中放置以下内容：
 - en: '[PRE0]'
   id: totrans-56
   prefs: []
@@ -389,6 +420,7 @@
   id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在在相同的目录中创建一个名为 `Dockerfile` 的文件，并将以下内容放入其中：
 - en: '[PRE1]'
   id: totrans-58
   prefs: []
@@ -399,10 +431,12 @@
   id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将构建 Docker 镜像的指令放在 Docker 文件中。您可以在[https://docs.docker.com/engine/reference/builder/](https://docs.docker.com/engine/reference/builder/)找到指令列表。
 - en: 'Here is how the preceding Dockerfile works:'
   id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是之前的 Dockerfile 如何工作的：
 - en: First, you need to define from what image we want to build. Here, we will use
     the latest **long-term support **(**LTS**) version carbon of node available from
     the Docker Hub. This image comes with `Node.js` and `npm` already installed.
@@ -410,12 +444,15 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 首先，您需要定义从哪个镜像构建。在这里，我们将使用 Docker Hub 提供的最新的 **长期支持（LTS）** 版本的 Node 的碳镜像。该镜像已经安装了`Node.js`
+    和 `npm`。
 - en: Next, we create a directory to hold the application code inside the image; this
     will be the working directory for your application.
   id: totrans-62
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 接下来，我们创建一个目录来存放图像内部的应用程序代码； 这将是您应用程序的工作目录。
 - en: To bundle your app's source code inside the Docker image, we use the `COPY`
     instruction. Here it means we are copying from the current host operating system's
     working directory to Docker's working directory.
@@ -423,32 +460,38 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 要将您的应用程序源代码捆绑到 Docker 镜像中，我们使用`COPY` 指令。这里表示我们正在从当前主机操作系统的工作目录复制到 Docker 的工作目录。
 - en: Your app binds to port `8888` so you'll use the `EXPOSE` instruction to have
     it mapped by the Docker daemon.
   id: totrans-64
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 您的应用程序绑定到端口`8888`，因此您将使用 `EXPOSE` 指令让 Docker 守护程序进行映射。
 - en: Last but not least, define the command to run your app using `CMD`, which defines
     your runtime.
   id: totrans-65
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 最后但同样重要的是，使用 `CMD` 定义运行应用程序的命令，该命令定义了您的运行时。
 - en: 'Here is how to build the Docker image:'
   id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是如何构建 Docker 镜像的：
 - en: Use the `docker build -t nodejs-hello-world .` command to build the Docker image.
   id: totrans-67
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 使用`docker build -t nodejs-hello-world .` 命令构建 Docker 镜像。
 - en: To run the container, run the `docker run -p 8090:8888 -d nodejs-hello-world` command.
   id: totrans-68
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 要运行容器，请运行`docker run -p 8090:8888 -d nodejs-hello-world` 命令。
 - en: The `-p` option binds port `8888` of the container to TCP port `8090` on `127.0.0.1`
     of the host machine. You can also specify the udp and sctp ports. Visit `http://localhost:8090/`
     on your web browser and you will see the Hello World message.
@@ -671,17 +714,20 @@
   id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以使用K8s API通过K8s API端点读取、写入和更新K8s资源对象。K8s资源对象是用于表示集群状态的实体。我们需要使用清单来定义资源对象。在API调用中，我们传递清单文件的内容。
 - en: 'This is a high-level overview of the basic categories of resources provided
     by the K8s API. Their primary functions are as follows:'
   id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是K8s API提供的资源的基本类别的高级概述。它们的主要功能如下：
 - en: '**Workload**: These resources are used to manage and run your containers on
     the cluster. For example: deployments, pods, job, and replicaset.'
   id: totrans-99
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**工作负载**：这些资源用于在集群上管理和运行您的容器。例如：部署、Pod、作业和副本集。'
 - en: '**Discovery and load-balancing**: These resources are used to combine your
     workloads together into an externally accessible, load-balanced service. For example:
     service and ingress.'
@@ -689,6 +735,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**发现和负载平衡**：这些资源用于将您的工作负载组合成一个外部可访问的、负载平衡的服务。例如：服务和入口。'
 - en: '**Config and storage**: These resources are used to inject initialization data
     into your applications, and to persist data that is external to your container.
     For example: config map, secret, and volume.'
@@ -696,18 +743,21 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**配置和存储**：这些资源用于向您的应用程序注入初始化数据，并持久保存容器外的数据。例如：配置映射、秘密和卷。'
 - en: '**Cluster**: These objects define how the cluster itself is configured; these
     are typically used only by cluster operators.'
   id: totrans-102
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**集群**：这些对象定义了集群本身的配置方式；这些通常只被集群操作员使用。'
 - en: '**Metadata**: These resources are used to configure the behavior of other resources
     within the cluster. For example: network policy and namespaces.'
   id: totrans-103
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**元数据**：这些资源用于配置集群中其他资源的行为。例如：网络策略和命名空间。'
 - en: Dockerfiles let you specify a lot of information regarding how to run the container,
     such as ports to expose, environmental variables, and which command to run when
     the container starts. But K8s recommends you move these to the K8s manifest files
@@ -716,11 +766,13 @@
   id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: Dockerfile允许您指定关于如何运行容器的大量信息，比如要公开的端口、环境变量以及容器启动时要运行的命令。但是K8s建议您将这些信息移到K8s清单文件中，而不是Dockerfile中。现在，Dockerfile只指定了如何构建和打包应用程序。此外，K8s清单会覆盖Dockerfile中的指令。
 - en: Deployments and pods
   id: totrans-105
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 部署和Pod
 - en: 'K8s encourages you to think of deployment as a representation of a microservice.
     For example: if you have five microservices, you need to create five deployments,
     whereas a pod is an instance of a microservice. Suppose you want to run three
@@ -730,6 +782,7 @@
   id: totrans-106
   prefs: []
   type: TYPE_NORMAL
+  zh: K8s鼓励您将部署视为微服务的表示。例如：如果您有五个微服务，您需要创建五个部署，而一个Pod是一个微服务的实例。假设您想运行三个微服务实例并在它们之间分配流量，那么在部署中您将定义您需要三个副本，这将创建三个Pod。一个Pod运行一个或多个代表微服务的容器。
 - en: When creating a deployment, you can specify the amount of computing resources
     the microservice needs, such as memory and CPU, instead of letting it consume
     everything that's available. You can also specify a node name to run the pod in
@@ -737,17 +790,20 @@
   id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 在创建部署时，您可以指定微服务需要的计算资源量，比如内存和CPU，而不是让它消耗所有可用资源。您还可以指定一个节点名称来运行Pod，而不是由K8s决定。
 - en: When creating a deployment, you can specify which ports of a Docker container
     to expose, environment variables, and various other things that are also specified
     in the Dockerfile.
   id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: 在创建部署时，您可以指定要公开的Docker容器的哪些端口、环境变量和其他各种在Dockerfile中也指定的内容。
 - en: Services
   id: totrans-109
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 服务
 - en: 'By default, there is no way deployments can communicate with each other. Services
     are created to enable communication between microservices and optionally allow
     microservices to be reached from outside the cluster. We need to create a service
@@ -757,6 +813,7 @@
   id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: 默认情况下，部署之间无法相互通信。服务被创建用于启用微服务之间的通信，并可选地允许从集群外部访问微服务。我们需要为每个部署创建一个服务。服务具有内置的负载均衡功能：如果一个微服务有三个pod，那么K8s服务会自动在它们之间分配流量。以下是各种类型的服务：
 - en: '`ClusterIP`: This is the default service type. Exposes the service on an internal
     IP in the cluster. This type makes the service only reachable from within the
     cluster.'
@@ -764,6 +821,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`ClusterIP`：这是默认的服务类型。在集群中的内部IP上暴露服务。此类型使得服务仅可从集群内部访问。'
 - en: '`NodePort`: Makes a service accessible from outside the cluster. It''s superset
     of `ClusterIP`. When we create a service with the `NodePort` type, K8s opens up
     one or more ports (depending on the number of ports the Docker container exposes)
@@ -778,6 +836,7 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`NodePort`：使服务可以从集群外访问。它是`ClusterIP`的超集。当我们创建一个类型为`NodePort`的服务时，K8s会在`30000-32767`范围内打开一个或多个端口（取决于Docker容器暴露的端口数量），并将它们映射到所有工作节点的容器端口。因此，如果一个微服务的实例没有在运行，比如说在第三台机器上，仍然可以在第三台机器上暴露端口。K8s处理内部路由。因此，您可以使用任何工作节点的公共IP与分配的端口来访问微服务。如果您不希望K8s在外部暴露时在`30000-32767`之间选择随机端口，则可以指定同一范围内的一个端口。'
 - en: '`LoadBalancer`: It''s also used to expose a service outside of a cluster. It
     will spin up a load-balancer in front of the service. This works only on supported
     cloud platforms, such as AWS, GCP, and Azure.'
@@ -785,11 +844,13 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`LoadBalancer`：也用于在集群外部暴露服务。它将在服务前面启动一个负载均衡器。这仅在支持的云平台上有效，例如AWS、GCP和Azure。'
 - en: Ingress controllers and resources
   id: totrans-114
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Ingress控制器和资源
 - en: Ingress is a K8s feature used to load-balance and expose microservices outside
     of the cluster. Compared to NodePort and LoadBalances, it's the feature-rich and
     recommended way of load-balancing and exposing microservices. Ingress gives you
@@ -801,6 +862,7 @@
   id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: Ingress是一个用于在集群外部负载均衡和暴露微服务的K8s功能。与NodePort和LoadBalances相比，它是功能丰富且推荐的负载均衡和暴露微服务的方式。Ingress为您提供了一种根据请求主机或路径路由请求到服务的方式，从而将许多服务集中到单个入口点中，这样更容易管理大型应用程序。Ingress还支持SSL卸载、URL重写和许多其他功能，因此您不必在创建每个微服务时集成所有这些功能。
 - en: 'Ingress is split into two main pieces: ingress controller and resource. Ingress
     controller is the actual reverse proxy that is exposed outside of the cluster
     and ingress resources are configurations for the controller. Ingress controller
@@ -810,6 +872,7 @@
   id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: Ingress分为两个主要部分：Ingress控制器和资源。Ingress控制器是暴露在集群外部的实际反向代理，Ingress资源是控制器的配置。Ingress控制器本身是一个微服务，也就是说，它是一个部署，并为其创建了一个类型为`NodePort`或`LoadBalancer`的服务。Ingress控制器具有读取Ingress资源并重新配置自身的能力。
 - en: There are various different implementations of ingress controllers available
     and you should choose the one that best fits your purpose. They vary based on
     features and the load-balancer and reverse proxy software that they use. K8s official
@@ -1258,15 +1321,19 @@
   id: totrans-184
   prefs: []
   type: TYPE_NORMAL
+  zh: 可见性指示存储库是私有还是公共的。私有存储库不对所有人可见。如果您有权限访问它，则需要登录到 Docker Hub 才能拉取它。您只能在 Docker
+    Hub 上创建一个免费私有存储库。创建存储库后，您将看到一个类似于此的屏幕：
 - en: '![](img/7c483d2c-5de5-409c-977c-07f258c1d7eb.png)'
   id: totrans-185
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/7c483d2c-5de5-409c-977c-07f258c1d7eb.png)'
 - en: 'To push the image that you have on your local machine, you need to first log
     in to Docker Hub from the command line. To do that, run the following command:'
   id: totrans-186
   prefs: []
   type: TYPE_NORMAL
+  zh: 要推送您在本地计算机上的映像，您需要首先从命令行登录到 Docker Hub。要执行此操作，请运行以下命令：
 - en: '[PRE15]'
   id: totrans-187
   prefs: []
@@ -1278,6 +1345,7 @@
   id: totrans-188
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后在提示时键入您的 Docker Hub 帐户的用户名和密码。您应该看到登录成功的消息。现在使用以下命令为您的映像打标签：
 - en: '[PRE16]'
   id: totrans-189
   prefs: []
@@ -1287,6 +1355,7 @@
   id: totrans-190
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在运行以下命令来推送映像：
 - en: '[PRE17]'
   id: totrans-191
   prefs: []
@@ -1298,15 +1367,18 @@
   id: totrans-192
   prefs: []
   type: TYPE_NORMAL
+  zh: 根据您的互联网带宽不同，推送可能需要几分钟时间。推送完成后，点击存储库上的 Tags 选项卡，您将看到一个类似于此的屏幕：
 - en: '![](img/52668f07-4e19-4885-9f04-1328163d9923.png)'
   id: totrans-193
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/52668f07-4e19-4885-9f04-1328163d9923.png)'
 - en: Creating deployments and services
   id: totrans-194
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建部署和服务
 - en: Now, let's create the mainfest file that contains information about the deployment
     and service. We can create two different or a single deployment file for our deployment
     and service. Mainfest files can be written in the YAML or JSON format. YAML is
@@ -1314,10 +1386,13 @@
   id: totrans-195
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，让我们创建包含有关部署和服务信息的主要清单文件。我们可以为我们的部署和服务创建两个不同的或单个部署文件。主要清单文件可以用 YAML 或 JSON
+    格式编写。首选 YAML，因此我们也将以 YAML 格式编写。
 - en: 'Create a file named `helloWorld.yaml` and place the following content in it:'
   id: totrans-196
   prefs: []
   type: TYPE_NORMAL
+  zh: 创建一个名为 `helloWorld.yaml` 的文件，并将以下内容放入其中：
 - en: '[PRE18]'
   id: totrans-197
   prefs: []
@@ -1331,6 +1406,8 @@
   id: totrans-198
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面的主要清单文件中，大多数内容都是不言自明的。在这里，您会注意到我们有一个名为 `imagePullPolicy` 的字段。默认的映像拉取策略是 `IfNotPresent`，这会导致
+    K8s 如果映像已存在则跳过拉取。如果您想始终强制拉取，可以使用 `Always` 策略、`:latest` 标签或不带标签。
 - en: '`command` in K8s is the same as Dockerfile''s `ENTRYPOINT`. `arguments` in
     K8s is the same as `CMD` in Dockerfile. If you do not supply a command or `args`
     for a Container, the defaults defined in the Docker image are used. If you supply
@@ -1343,10 +1420,16 @@
   id: totrans-199
   prefs: []
   type: TYPE_NORMAL
+  zh: '`command` 在 K8s 中与 Dockerfile 的 `ENTRYPOINT` 相同。K8s 中的 `arguments` 与 Dockerfile
+    中的 `CMD` 相同。如果未为容器提供命令或 `args`，则使用 Docker 映像中定义的默认值。如果为 `Container` 提供了命令但没有 `args`，则仅使用提供的命令。忽略
+    Docker 映像中定义的默认 `ENTRYPOINT` 和默认 `CMD`。如果仅为 `Container` 提供了 args，则使用 Docker 映像中定义的默认
+    `ENTRYPOINT` 运行您提供的 `args`。如果提供了命令和 args，则忽略 Docker 映像中定义的默认 `ENTRYPOINT` 和默认
+    `CMD`。将使用您的 args 运行您的命令。'
 - en: 'Now feed the mainfest to K8s with the following command:'
   id: totrans-200
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在使用以下命令将主要清单提供给 K8s：
 - en: '[PRE19]'
   id: totrans-201
   prefs: []
@@ -1359,6 +1442,7 @@
   id: totrans-202
   prefs: []
   type: TYPE_NORMAL
+  zh: '`apply` 子命令用于将主要清单文件提供给 K8s。如果要更新部署或服务配置，请更改文件并重新运行命令。在成功执行上述命令后，打开 K8s 仪表板，您将看到部署和服务已成功创建。'
 - en: 'Now, to make an HTTP request to the container, we need the worker node IP and
     port number exposed by the service. Use the `minikube ip` command to find the
     IP and open the service in the K8s dashboard to find the exposed port number,
@@ -1479,26 +1563,31 @@
   id: totrans-218
   prefs: []
   type: TYPE_NORMAL
+  zh: 网络的第一个节点应该是协调节点；其他动态添加的节点是非协调节点。其他动态添加的节点连接到协调节点以获取与网络相关的信息和配置。
 - en: The only thing you need to care about is that when starting the first node,
     you make sure it's a coordinating node. When starting other dynamic nodes, make
     sure you provide the coordinating node IP address.
   id: totrans-219
   prefs: []
   type: TYPE_NORMAL
+  zh: 唯一需要注意的是，在启动第一个节点时，确保它是一个协调节点。在启动其他动态节点时，请确保提供协调节点的 IP 地址。
 - en: The rest of the process is taken care of by the QNM automatically.
   id: totrans-220
   prefs: []
   type: TYPE_NORMAL
+  zh: 剩下的流程由 QNM 自动处理。
 - en: Containerizing QNM
   id: totrans-221
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 将 QNM 容器化
 - en: 'Dockerfile to Dockerize QNM will involve installing QNM. Here is the content
     of the Dockerfile:'
   id: totrans-222
   prefs: []
   type: TYPE_NORMAL
+  zh: Dockerfile 用于将 QNM Docker化，将涉及安装 QNM。以下是 Dockerfile 的内容：
 - en: '[PRE20]'
   id: totrans-223
   prefs: []
@@ -1508,27 +1597,32 @@
   id: totrans-224
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是前述 Dockerfile 的工作方式：
 - en: We are using the Ubuntu `16.04` base image.
   id: totrans-225
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 我们使用了 Ubuntu `16.04` 基础镜像。
 - en: We installed several basic utilities.
   id: totrans-226
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 我们安装了几个基本工具。
 - en: We installed QNM using the command given at [https://github.com/ConsenSys/QuorumNetworkManager/releases/tag/v0.7.5-beta](https://github.com/ConsenSys/QuorumNetworkManager/releases/tag/v0.7.5-beta).
   id: totrans-227
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 我们使用给定的命令安装了 QNM，命令位于 [https://github.com/ConsenSys/QuorumNetworkManager/releases/tag/v0.7.5-beta](https://github.com/ConsenSys/QuorumNetworkManager/releases/tag/v0.7.5-beta)。
 - en: We set the working directory to `workspace/QuorumNetworkManager`, inside which
     we have the QNM files to start the node.
   id: totrans-228
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 我们将工作目录设置为 `workspace/QuorumNetworkManager`，在其中有启动节点的 QNM 文件。
 - en: We changed the entry point to use the `bash` shell instead of the `sh` shell
     because QNM doesn't work on the `sh` shell. QNM sets paths to various binaries
     in the `~/.bashrc` file, which is loaded by the bash shell when executed in interactive
@@ -1537,26 +1631,32 @@
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 我们更改了入口点以使用 `bash` shell 而不是 `sh` shell，因为 QNM 在 `sh` shell 上不起作用。QNM 在交互模式下执行时将路径设置为
+    `~/.bashrc` 文件中的各种二进制文件，该文件由 bash shell 加载。
 - en: Go ahead and push the image to Docker Hub. I have pushed the image to `narayanprusty/qnm`.
   id: totrans-230
   prefs: []
   type: TYPE_NORMAL
+  zh: 继续将镜像推送到 Docker Hub。我已经将镜像推送到 `narayanprusty/qnm`。
 - en: Creating QNM deployment and service mainfest files
   id: totrans-231
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 创建 QNM 部署和服务主清单文件
 - en: Let's write the mainfest file for creating deployments and services for QNM.
     We will create deployments for creating the Raft network only, but you can extend
     it to support IBFT without much hassle.
   id: totrans-232
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们编写为创建 QNM 的部署和服务的主清单文件。我们将仅创建用于创建 Raft 网络的部署，但是你可以轻松扩展以支持 IBFT。
 - en: 'Here is the mainfest file to create a deployment and service for a Raft-based
     coordinating node:'
   id: totrans-233
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面是为基于 Raft 的协调节点创建部署和服务的主清单文件：
 - en: '[PRE21]'
   id: totrans-234
   prefs: []
@@ -1568,10 +1668,12 @@
   id: totrans-235
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，环境变量 IP 用于指示节点应该侦听的 IP。`0.0.0.0` 表示任何 IP。然后，我们暴露了由 QNM 打开的端口。前面的主清单文件中的所有内容都是不言自明的。
 - en: 'Now let''s create the mainfest file for a dynamic peer:'
   id: totrans-236
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在让我们为一个动态节点创建主清单文件：
 - en: '[PRE22]'
   id: totrans-237
   prefs: []
@@ -1585,11 +1687,14 @@
   id: totrans-238
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个主清单文件看起来与之前的主清单文件非常相似，只是环境变量不同。在这里，我们提供了协调节点的 IP 地址。IP 地址是由协调节点服务暴露的集群 IP。对于你来说应该是不同的。然后，我们有
+    `ROLE` 环境变量，以指示 QNM 是动态节点而不是协调节点。
 - en: Creating nodes using the K8s APIs
   id: totrans-239
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 K8s API 创建节点
 - en: The K8s master exposes APIs that you can use to read and write K8s resource
     objects. You can find the API reference at [https://kubernetes.io/docs/reference/](https://kubernetes.io/docs/reference/). For
     QaaS, you would need to create a frontend that internally calls these APIs to
@@ -1597,6 +1702,8 @@
   id: totrans-240
   prefs: []
   type: TYPE_NORMAL
+  zh: K8s 主服务器公开了可用于读取和写入 K8s 资源对象的 API。你可以在 [https://kubernetes.io/docs/reference/](https://kubernetes.io/docs/reference/)
+    找到 API 参考文档。对于 QaaS，你需要创建一个前端，内部调用这些 API 来创建部署和服务。
 - en: 'The easiest way access the K8s APIs is through the HTTP proxy. Kubectl lets
     you create a proxy server between localhost and the K8s API Server. All incoming
     data enters through one port and gets forwarded to the remote K8s API Server port,

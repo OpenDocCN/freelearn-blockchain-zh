@@ -1,7 +1,9 @@
 - en: Building a Payment Solution for Banks
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 为银行建立支付解决方案
 - en: Today, there are lots of apps and services developed by banks and other FinTech
     companies that let us send and accept payments. But we don't have an app out there
     that makes sending and receiving money as easy as sending and receiving text messages.
@@ -11,53 +13,75 @@
     makes it very easy to send and receive **InterBank** payments and also makes clearance
     and settlement between banks near real-time and simple. While building the solution,
     we will also learn of various banking and finance concepts.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 如今，有许多由银行和其他金融科技公司开发的应用程序和服务，让我们可以发送和接受付款。但是我们还没有一个应用程序能够使发送和接收资金像发送和接收短信一样简单。虽然比特币和其他加密货币使得全球范围内的付款变得非常简单，但由于波动性和监管问题，它们目前无法成为主流。在本章中，我们将建立一个P2P支付系统，使发送和接收银行间支付变得非常容易，并且在银行之间的结算和清算几乎实时和简单。在构建解决方案的同时，我们还将学习各种银行和金融概念。
 - en: 'In this chapter, we''ll learn the following:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将学习以下内容：
 - en: How clearance and settlement between banks is done for domestic and international
     InterBank electronic transfers
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 银行间国内和国际电子转账的清算和结算方式
 - en: How the **Society for Worldwide Interbank Financial Telecommunications** (**SWIFT**)
     system and international money transfers between banks work
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**全球银行间金融电信协会**（**SWIFT**）系统及银行间国际汇款的工作原理'
 - en: How to digitalize fiat currency on blockchains and the problems it solves
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 如何在区块链上数字化法定货币以及它解决的问题
 - en: How to implement network permissioning in Quorum
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 如何在Quorum中实现网络权限管理
 - en: How to build a solution to transfer money using a cell phone number
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 如何构建使用手机号码转账的解决方案
 - en: Overview of the payment system
+  id: totrans-8
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 支付系统概述
 - en: In this chapter, we will build a payment solution to be integrated in mobile
     banking apps. This solution will let customers send payment using a cell phone
     number. Sending payments to anyone in the world using just a cell phone number
     would be the most friendly way to send payments.
+  id: totrans-9
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将建立一个可集成在手机银行应用程序中的支付解决方案。这个解决方案将允许客户使用手机号码发送付款。只需使用手机号码就可以向世界上任何人发送付款将是发送付款的最友好方式。
 - en: Our solution will use digitalized fiat currency for the settlement and clearance
     of InterBank transfers. To understand why we choose to use digitalized fiat currency
     as the medium of settlement, let's understand how the settlement and clearance
     is done for InterBank transfers and its issues.
+  id: totrans-10
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的解决方案将使用数字化法定货币来进行银行间转账的结算和清算。为了理解为什么我们选择使用数字化法定货币作为结算媒介，让我们先了解一下银行间转账的结算和清算方式及其问题。
 - en: Settlement and clearance of InterBank transfers
+  id: totrans-11
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 银行间转账的结算与清算
 - en: Let's first understand how domestic InterBank transfers work. Every county's
     central bank has one more different types of centralized electronic fund transfer
     systems. For example, the **Immediate Payment Service** (**IMPS**) in India, **Automated
@@ -68,8 +92,10 @@
     accounts. Every bank holds a settlement account with the central bank, and money
     is either credited or debited in these accounts whenever there is a transfer message.
     To understand this more clearly, let's look at an example.
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们首先了解国内银行间转账的工作原理。每个国家的中央银行都有一种或多种不同类型的集中式电子资金转移系统。例如，印度的**即时付款服务**（**IMPS**），美国的**自动清算机构**（**ACH**），加拿大的**电子资金转账**（**EFT**）。这些系统被各国银行用来向彼此发送消息，以促进向其客户的资金转移。只有消息被转移，而不是真正的资金。最终的结算通过结算账户进行。每家银行在中央银行都持有一个结算账户，当有转账消息时，资金要么在这些账户中存入，要么支出。为了更清楚地理解这一点，让我们看一个例子。
 - en: Suppose Bank *A* has a settlement account with the central bank with $50,000
     credited to it. Similarly, suppose Bank *B* has a settlement account with the
     central bank containing $100,000\. Now, say that *X* is a customer of Bank *A*
@@ -80,11 +106,13 @@
     with $100\. To settle this payment, the central bank debits $100 from Bank *A's*
     settlement account, therefore the new balance $49,900 and credits the settlement
     account of Bank *B* with $100 therefore making the new balance $100,100.
+  id: totrans-13
   prefs: []
   type: TYPE_NORMAL
 - en: The central banks usually do the final settlements once a day at a specific
     time. The message transfers are near real-time. This process works fine as both
     banks involved trust the central bank.
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
 - en: Let's see how international InterBank transfers work. In this scenario, there
@@ -95,9 +123,11 @@
     a standardized system of codes. SWIFT assigns each financial organization a unique
     code that has either 8 or 11 characters. The code is interchangeably called the
     **Bank Identifier Code** (**BIC**), SWIFT code, SWIFT ID, or ISO 9362 code.
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
 - en: To learn more about SWIFT, visit [https://www.investopedia.com/articles/personal-finance/050515/how-swift-system-works.asp](https://www.investopedia.com/articles/personal-finance/050515/how-swift-system-works.asp).
+  id: totrans-16
   prefs: []
   type: TYPE_NORMAL
 - en: In this case, instead of having settlement accounts with a particular central
@@ -111,19 +141,23 @@
     (1 USD = 69.10 INR at the time of writing this book) from Bank *A's* settlement
     account that it handles. *X's* account will be debited for $100 and *Y's* account
     will be credited with ₹6909.50.
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
 - en: 'It usually takes five to seven days to reflect the credit in Y''s account.
     It takes this is due to lot of necessary processes, checks, and issues, such as
     the following:'
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
 - en: As foreign remittance contributes to the money-laundering industry, banks have
     to do some sort of background check to establish that the funds you are using
     are not obtained from an illegal source.
+  id: totrans-19
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 由于外汇汇款促成了洗钱行业，银行必须进行某种背景检查，以确保您使用的资金不是来自非法来源。
 - en: The sender's bank searches its system to check whether it has a direct partnership
     (holds settlement accounts) with the bank where the receiver's account is. Often
     it is unlikely. So, the sender's bank connects with a bank that they have a partnership
@@ -131,30 +165,40 @@
     it becomes a chain. Sometimes, this chain can grow to three-four banks in the
     middle, depending on your country's banking infrastructure and the openness of
     its economy.
+  id: totrans-20
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 汇款人的银行在其系统中搜索，查看是否与接收人账户所在的银行直接合作（持有结算账户）。通常情况下，这种情况不太可能发生。因此，汇款人的银行与他们有合作关系的银行联系，同时也知道接收方银行也是他们的合作伙伴。因此，这基本上形成了一个链条。有时，这个链条可能会在中间延伸到三四家银行，这取决于您所在国家的银行基础设施和经济开放程度。
 - en: Most of the time, these SWIFT messages are only sent by a single branch of the
     sender's bank that is designated to do foreign remittances. Also sender's branch
     will take some more time to send the message to that main branch and from there
     they will go ahead.
+  id: totrans-21
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 大多数情况下，这些SWIFT消息只由汇款人银行的一个专门从事外汇汇款的分支机构发送。此外，汇款人分支机构会花费更多时间将消息发送到主分支机构，然后再由那里继续进行。
 - en: In many countries, checks related to regulations and compliance are done manually,
     thus adding more time for the transfer to complete.
+  id: totrans-22
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在许多国家，与法规和合规相关的支票仍需手动处理，从而增加了转账完成时间。
 - en: A **Nostro** account is the term used by Bank *A* to refer to our account held
     by Bank *B*. *A* **vostro** account is the term used by Bank B, where Bank A's
     money is being deposited.
+  id: totrans-23
   prefs: []
   type: TYPE_NORMAL
+  zh: '**存放款项账户（Nostro）**是银行**A**用来指代由银行**B**持有的我们的账户的术语。**您账户（Vostro）**是银行B使用的术语，其中存放着银行A的资金。'
 - en: Digitalizing fiat currency
+  id: totrans-24
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 数字化法定货币
 - en: We saw how InterBank transfers work. In the case of domestic transfers, the
     central bank has to take care of managing and updating the settlement accounts,
     whereas in the case of international transfers, the respective banks have to make
@@ -162,129 +206,180 @@
     there are other issues too, such as the requirement of more reconciliation effort,
     as there is no trusted third party, and the routing of payments through multiple
     intermediary banks.
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们看到了银行间转账是如何运作的。对于国内转账，中央银行必须负责管理和更新结算账户，而对于国际转账，各银行必须努力更新结算账户。在国际转账的情况下，还存在其他问题，例如需要更多的对账工作，因为没有可信第三方，还有通过多个中介银行进行支付的路由。
 - en: Blockchains enable banks to transfer money to any other bank in the world directly
     by providing us the ability to digitalize fiat currency; it reduces the reconciliation
     effort by a huge extent by providing a single source of truth.
+  id: totrans-26
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链使银行能够通过提供数字化法定货币的能力直接将资金转移到世界上的任何其他银行；通过提供单一真相源，它减少了大量对账工作。
 - en: 'Let''s look at the process and flow of digitalizing fiat currency on blockchain:'
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们来看看数字化法定货币在区块链上的过程和流程：
 - en: Only central banks have the authority to issue their respective digitalized
     fiat currency on the blockchain.
+  id: totrans-28
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 只有中央银行有权在区块链上发行各自的数字化法定货币。
 - en: We can have a separate network for every fiat currency instead of using a single
     network to distribute traffic and increase scalability.
+  id: totrans-29
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 我们可以为每种法定货币建立一个单独的网络，而不是使用单一网络分配流量并增加可扩展性。
 - en: For a bank to convert fiat currency to the digitalized form, it has to deposit
     fiat currency on the central bank's cash custody account. The equal amount of
     digitalized fiat currency will be issued to the respective bank by the central
     bank on blockchain.
+  id: totrans-30
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 要将法定货币转换为数字化形式，银行必须将法定货币存入中央银行的现金保管账户。中央银行将在区块链上向各银行发行同等金额的数字化法定货币。
 - en: The bank can convert back digitalized fiat currency to paper currency at any
     time by destroying the fiat currency on blockchain.
+  id: totrans-31
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 银行可以随时通过在区块链上销毁数字化法定货币来将数字化法定货币转换回纸币。
 - en: To achieve anonymity, banks can use multiple addresses. Therefore, it will be
     difficult for other banks to predict who owns how much digitalized fiat currency.
+  id: totrans-32
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 为了实现匿名性，银行可以使用多个地址。因此，其他银行将难以预测谁拥有多少数字化法定货币。
 - en: Using a cell phone number as identity
+  id: totrans-33
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用手机号作为身份证明
 - en: 'Our payment app will be based upon using a cell phone number as the identity
     of the receiver. Let''s look at the whole process of using a cell phone number
     as the identifier of payment using a blockchain:'
+  id: totrans-34
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的支付应用将基于使用手机号码作为接收方的身份。让我们看看使用区块链将手机号码作为支付标识符的整个过程：
 - en: The blockchain will act as a share-and-secured storage for cell phone numbers
     linked with the bank's code.
+  id: totrans-35
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 区块链将充当与银行代码相关联的手机号码的共享和受保护的存储。
 - en: Every ISD code will have its own network. This is done for scalability reasons.
+  id: totrans-36
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 每个ISD代码将有自己的网络。这是出于可扩展性的考量。
 - en: Every cell phone number can be linked to one or more banks. If there is more
     than one bank, the sender can select the bank account to which to send the payment.
+  id: totrans-37
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 每个手机号码可以与一个或多个银行相关联。如果有多个银行，则发送方可以选择要发送支付的银行账户。
 - en: For a receiver to receive payments using a cell phone number, the cell phone
     number should be registered on the blockchain using the receiver's mobile banking
     app of the respective bank.
+  id: totrans-38
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 接收方要使用手机号码接收支付，必须通过接收银行的手机银行应用在区块链上注册手机号码。
 - en: If the receiver's bank account is suspended, the status should be updated on
     the  blockchain to notify others not to accept payment for this cell phone number.
+  id: totrans-39
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 如果接收方的银行账户被暂停，应更新区块链上的状态，以通知其他人不要接受该手机号的支付。
 - en: Building the network
+  id: totrans-40
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 构建网络
 - en: Before we proceed to writing smart contracts, let's create Quorum networks for
     USD currency for the +1 ISD code. We will make sure that these networks are permissioned
     and protected using node IDs.
+  id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们继续编写智能合约之前，让我们为+1 ISD代码的美元货币创建Quorum网络。我们将确保这些网络是经过许可的，并使用节点ID进行保护。
 - en: So far with, all the networks we have created in this book, we have assumed
     that they are protected using whitelisted IPs. But Quorum provides a way to whitelist
     node IDs. You can apply the same practice to other networks built in this book.
     A cell phone number shouldn't be leaked outside of the network, and therefore
     it's important to protect the network at all costs.
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 到目前为止，对于我们在本书中创建的所有网络，我们已经假设它们是使用白名单IP进行保护的。但是夸罗姆提供了一种方式来对节点ID进行白名单设置。你可以将相同的实践应用于本书中构建的其他网络。手机号码不应泄露到网络之外，因此重要性在于不惜一切代价保护网络。
 - en: Network permissioning in Quorum
+  id: totrans-43
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Quorum中的网络许可
 - en: Network permissioning is enabled at the individual node level by adding the
     `--permissioned` flag as the command-line parameter during node startup. When
     the flag is added, the node looks for a file named `permissioned-nodes.json` in
     the node's data directory folder.
+  id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: 网络许可是通过在节点启动期间将`--permissioned`标志作为命令行参数添加到各个节点级别启用的。当添加该标志时，节点将在节点的数据目录文件夹中寻找名为`permissioned-nodes.json`的文件。
 - en: The `permissioned-nodes.json` file contains a list of node identifiers (`enode://nodeID@ip:port`)
     that this specific node will accept incoming connections from and make outgoing
     connections to.
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: '`permissioned-nodes.json`文件包含了该特定节点将接受来自和向外部连接的节点标识符（`enode://nodeID@ip:port`）的列表。'
 - en: If the `--permissioned` flag is set, but the `permissioned-nodes.json` file
     is empty, or is simply not present in the node's data directory folder, the node
     will start, but it will neither connect to any other nodes nor accept any incoming
     connection requests from other nodes.
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果设置了`--permissioned`标志，但`permissioned-nodes.json`文件为空或根本不存在于节点的数据目录文件夹中，则节点将启动，但它既不会连接到任何其他节点，也不会接受来自其他节点的任何传入连接请求。
 - en: For example, in our case, we need the minimum of a three-node network, that
     is, Bank *A*, Bank B, and the central bank. Suppose Bank *A's* node ID is `480cd6ab5c7910af0e413e17135d494d9a6b74c9d67692b0611e4eefea1cd082adbdaa4c22467c583fb881e30fda415f0f84cfea7ddd7df45e1e7499ad3c680c`,
     Bank *B's* node ID is `60998b26d4a1ecbb29eff66c428c73f02e2b8a2936c4bbb46581ef59b2678b7023d300a31b899a7d82cae3cbb6f394de80d07820e0689b505c99920803d5029a`
     and the central bank's node ID is `e03f30b25c1739d203dd85e2dcc0ad79d53fa776034074134ec2bf128e609a0521f35ed341edd12e43e436f08620ea68d39c05f63281772b4cce15b21d27941e`.
+  id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 例如，在我们的案例中，我们需要至少三个节点网络，即A银行，B银行和中央银行。假设A银行的节点ID是`480cd6ab5c7910af0e413e17135d494d9a6b74c9d67692b0611e4eefea1cd082adbdaa4c22467c583fb881e30fda415f0f84cfea7ddd7df45e1e7499ad3c680c`，B银行的节点ID是`60998b26d4a1ecbb29eff66c428c73f02e2b8a2936c4bbb46581ef59b2678b7023d300a31b899a7d82cae3cbb6f394de80d07820e0689b505c99920803d5029a`以及中央银行的节点ID是`e03f30b25c1739d203dd85e2dcc0ad79d53fa776034074134ec2bf128e609a0521f35ed341edd12e43e436f08620ea68d39c05f63281772b4cce15b21d27941e`。
 - en: 'So the `permissioned-nodes.json` file on Bank A''s node will have the following
     content:'
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，Bank A节点上的`permissioned-nodes.json`文件将包含以下内容：
 - en: '[PRE0]'
+  id: totrans-49
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: Similarly, Bank *B* will whitelist Bank *A* and the central bank, whereas the
     central bank will whitelist Bank *A* and Bank *B*.
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
 - en: Any additions to the `permissioned-nodes.json` file will be dynamically picked
@@ -294,49 +389,63 @@
     drop those existing connected nodes. However, if the connection is dropped for
     any reason, and a subsequent connect request is made from the dropped node IDs,
     it will be rejected as part of that new request.
+  id: totrans-51
   prefs: []
   type: TYPE_NORMAL
 - en: Building the DApp
+  id: totrans-52
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'Let''s write the smart contracts for digitalizing fiat currency and storing
     cell phone numbers linked to bank accounts. Here is the smart contract for digitalizing
     fiat currency:'
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE1]'
+  id: totrans-54
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: 'This is how the preceding code works:'
+  id: totrans-55
   prefs: []
   type: TYPE_NORMAL
 - en: We are assuming that the central bank deploys the smart contract.
+  id: totrans-56
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: We have methods to issue, transfer, and destroy `USD`. These methods are self-explanatory.
     The transfer method also has a description that can contain information such as
     the purpose of the transaction or the receiving customer details.
+  id: totrans-57
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: We have methods to retrieve the balance of an account, and the total `USD` ever
     issued and destroyed.
+  id: totrans-58
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 'Here is the smart contract for holding the cell phone numbers and their respective
     banks:'
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE2]'
+  id: totrans-60
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: 'Here is how the preceding code works:'
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
 - en: We assumed that the central bank deploys the contract.
+  id: totrans-62
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
@@ -346,31 +455,37 @@
     with a cell phone number, they will still add it and not get caught. A predefined
     account will enable audibility so that banks will not accept payments of a cell
     phone number whose account they don't hold.
+  id: totrans-63
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Then we have a method to add the cell phone number. Every cell phone number
     is associated with a lot of banks that the person has accounts with. At the time
     of sending payment, the sender can select one of these accounts.
+  id: totrans-64
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Then we have a method using which a bank can remove itself from a cell phone
     number. This is useful when the bank account is suspended or closed.
+  id: totrans-65
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Finally, we have a function to get list of bank accounts associated with a cell
     phone number.
+  id: totrans-66
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 'Now let''s see the whole flow of how a user payment and settlement would look:'
+  id: totrans-67
   prefs: []
   type: TYPE_NORMAL
 - en: Assume *X* has an account with Bank *A* and *Y* has an account with Bank *B*.
     Both banks are registered on both networks, and both banks have sufficient amounts
     of `USD` on the `USD` network.
+  id: totrans-68
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
@@ -378,6 +493,7 @@
     its number on the `MobileNumbers` network using Bank *B's* cell phone number.
     Bank *B* will call the `addMobileNumber` method to register *Y's* bank account
     on the network.
+  id: totrans-69
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
@@ -385,29 +501,42 @@
     Bank *A's* mobile banking app. After that, Bank *A* will call the `getMobileNumberBanks`
     method to get a list of banks that *Y* has accounts with. Bank *B* will surely
     be listed, so *X* can select it and click the `Send Payment` button.
+  id: totrans-70
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 要让 *X* 向 *Y* 发送付款，*X* 必须在银行 *A* 的手机银行应用程序中输入 *Y* 的手机号码。之后，银行 *A* 将调用 `getMobileNumberBanks`
+    方法以获取 *Y* 拥有账户的银行列表。银行 *B* 必然会被列出，所以 *X* 可以选择它并点击“发送付款”按钮。
 - en: As soon as the `Send Payment` button is clicked, Bank *A* will call the `transferUSD`
     method and provide *Y's* cell phone number in the description, indicating the
     bank account to credit the funds to. The `to` address in `transferUSD` will be
     the address returned by the `getMobileNumberBanks` method.
+  id: totrans-71
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 一旦点击“发送付款”按钮，银行 *A* 将调用 `transferUSD` 方法，并在说明中提供 *Y* 的手机号码，表示要将资金存入的银行账户。`transferUSD`
+    中的 `to` 地址将是由 `getMobileNumberBanks` 方法返回的地址。
 - en: Summary
+  id: totrans-72
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 摘要
 - en: In this chapter, we learned some of the basic concepts of banking and how InterBank
     transfers are settled and cleared. We also learned about SWIFT and how it works.
     Then we jumped into advanced network permissioning in Quorum and learned about
     the `--permissioned` flag.
+  id: totrans-73
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们学习了一些银行业的基本概念，以及银行间转账是如何结算和清算的。我们还了解了 SWIFT 以及它的工作原理。然后我们深入了解了 Quorum
+    中的高级网络许可，并学习了 `--permissioned` 标志。
 - en: Finally, we built a new type of fund-transfer system, which settles payment
     using digitalized fiat currency and a cell phone number for customer identification.
     We built the whole solution on a blockchain, which minimizes the reconciliation
     effort and solves lots of issues that it was not possible to solve previously.
+  id: totrans-74
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，我们建立了一种新型的资金转移系统，使用数字化的法定货币和客户识别的手机号进行支付结算。我们将整个解决方案构建在区块链上，这样可以最大程度地减少调节工作量，并解决了以前无法解决的许多问题。
