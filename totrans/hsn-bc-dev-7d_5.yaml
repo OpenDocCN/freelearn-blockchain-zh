@@ -1,69 +1,99 @@
 - en: Day Five - Building a User Interface
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 第五天 - 构建用户界面
 - en: In this chapter, we will focus on building a **user interface** (**UI**). It's
     the part of our application that our end users will see and use. If you've built
     websites in the past, you'll see some familiar stuff going on here, and you'll
     learn some of the complexities of interacting with blockchain applications. If
     you've never built a website before, that's okay too, because you will get to
     know what we'll be doing and why we need to do it.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这一章中，我们将专注于构建**用户界面**（**UI**）。这是我们的应用程序的一部分，我们的最终用户将会看到和使用它。如果你过去构建过网站，你会看到一些熟悉的东西在这里发生，你将学习与区块链应用程序交互的复杂性。如果你以前从未建过网站，那也没关系，因为你将了解我们将要做什么，以及我们为什么需要这样做。
 - en: 'We will cover the following topics in this chapter:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: Understanding the role of JavaScript and React in a DApp
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 理解JavaScript和React在DApp中的作用
 - en: Creating a React app from a template
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 从模板创建一个React应用程序
 - en: Displaying game state to players
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将游戏状态展示给玩家
 - en: Getting player input from the UI
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 从UI获取玩家输入
 - en: Providing feedback to the player
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 为玩家提供反馈
 - en: Implementing JavaScript promises in a networked application
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在网络应用程序中实现JavaScript的promise
 - en: Using Web3.js to communicate with the Ethereum network
+  id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用Web3.js与以太坊网络通信
 - en: Implementing JavaScript functions in a UI
+  id: totrans-10
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在UI中实现JavaScript函数
 - en: Understanding the role of JavaScript and React in a DApp
+  id: totrans-11
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 理解JavaScript和React在DApp中的作用
 - en: 'The following screenshot shows the UI that we will be building today. We will
     build it in React, a popular JavaScript framework:'
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下屏幕截图显示了我们今天将要构建的UI。我们将使用React，一个流行的JavaScript框架来构建它：
 - en: '![](img/383a67fc-9a19-4aba-9271-d91520bd552e.png)'
+  id: totrans-13
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/383a67fc-9a19-4aba-9271-d91520bd552e.png)'
 - en: We will build the components that you see in the UI, and then write the code
     that allows the player to submit their bet and their guess to Ganache. Ganache
     will then execute our smart contract functions, and determine if the player won
     or lost, and depending on that it will either keep the money the player sent,
     or pay out the winnings for the round. In either case, we're going to provide
     feedback to the user, letting them know if they've won or lost.
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将构建UI中看到的组件，然后编写代码，允许玩家将他们的赌注和猜测提交给Ganache。然后，Ganache将执行我们的智能合约函数，并确定玩家是赢了还是输了，根据结果，它要么保留玩家发送的资金，要么支付该轮比赛的赢利。在任何情况下，我们都将向用户提供反馈，让他们知道他们是赢了还是输了。
 - en: Inside our web app, we will be using React, but we'll also bee using Redux.
     **React** is a JavaScript library for building UIs, and it does a great job of
     letting us design the components that make up our application and the state that
@@ -72,8 +102,10 @@
     from every round of gameplay. When some of that information changes, we need to
     update the UI to let our player know about it. Redux provides a pattern to do
     that, and you'll learn how to use it today.
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们的Web应用程序中，我们将使用React，但我们还将使用Redux。**React**是一个用于构建UI的JavaScript库，它很好地允许我们设计构成我们的应用程序的组件和应该影响它们的状态。**Redux**是一个可预测的状态容器，这意味着我们将从以太坊网络获取大量数据，例如，每轮比赛的结果。当其中一些信息发生变化时，我们需要更新UI以让玩家知道这一点。Redux提供了一个模式来做到这一点，今天你将学习如何使用它。
 - en: When you think of components, think of discrete things that make up the UI.
     So our application is one big component, but it's made up of other components,
     such as the component that shows the player's number, the component that shows
@@ -83,13 +115,16 @@
     history item. All of these have states. The history component state stores the
     player history, the betting window state stores the wager amount for our player
     and their guess, and React handles all of that.
+  id: totrans-16
   prefs: []
   type: TYPE_NORMAL
+  zh: 当你考虑组件时，想象一下构成UI的离散元素。所以我们的应用程序是一个大组件，但它由其他组件组成，比如显示玩家数字的组件，显示下注控件的组件，以及显示玩家游戏历史的组件。玩家的游戏历史组件还由更小的组件组成。有容器瓷砖组件和每个游戏历史项目的列表重复组件。所有这些都有状态。历史组件状态存储玩家历史，下注窗口状态存储我们的玩家和他们的猜测的赌注金额，React处理所有这些。
 - en: Now, things are going to happen outside of our application, whereby we need
     to update the state and let the app know that it has happened and respond accordingly
     to React. The latter gets sorted easily, because we chose React as our tool. React
     does a great job of tracking states, and when the state changes, it updates the
     things on the screen that were affected by it.
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
 - en: For updating the state, we're using Redux. In our React component, we'll do
@@ -99,17 +134,21 @@
     contract function executes the function, it's going to return some data, which
     would be either a successful response or an error message. We'll take that response
     and dispatch it to a reducer that will update the Redux store with the new information.
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
 - en: 'The updated information gets sent back to our application as `props`, or properties,
     where React can evaluate what needs to be updated in the UI. This whole process
     can be summarized in the following diagram:'
+  id: totrans-19
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/0fb65ccc-d493-488f-9309-2b3e752bf495.png)'
+  id: totrans-20
   prefs: []
   type: TYPE_IMG
 - en: So, we have a very clear separation of the different pieces that make up a DApp.
+  id: totrans-21
   prefs: []
   type: TYPE_NORMAL
 - en: We have the Ethereum network with our contract running on an **Ethereum Virtual
@@ -117,6 +156,7 @@
     This part of our application can be anything; I chose a React application, but
     it can just as easily be an Android or iOS app, a Python application, even an
     old COBOL mainframe app.
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
 - en: 'The connection between the React application and the Ethereum network is done
@@ -124,27 +164,33 @@
     library provides utilities that allow us to communicate with Ethereum nodes such
     as Ganache, as well as nodes on the Ethereum main and test networks. There are
     four main modules of `web3.js`, which are as follows:'
+  id: totrans-23
   prefs: []
   type: TYPE_NORMAL
 - en: '`web3-eth`: Ethereum blockchain and contracts'
+  id: totrans-24
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`web3-shh`: Whisper protocol for P2P and broadcast'
+  id: totrans-25
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`web3-bzz`: Swarm protocol for decentralized file storage'
+  id: totrans-26
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`web3-utils`: Helper functions'
+  id: totrans-27
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: The modules that we're going to be working with in this book are `web3-eth` for
     communicating with the blockchain and our contract, and `web3-utils` for some
     utility functions, such as converting different denominations of ether.
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
 - en: Web3 allows you to use callbacks and promises, and provides event emitters to
@@ -154,75 +200,101 @@
     delivers values to your customer, company, or clients. Fortunately, there are
     some shortcuts to minimize that time, and I'm going to show you what they are
     in the next section.
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
 - en: Creating React apps from templates
+  id: totrans-30
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: In this section, we will look at some shortcuts for starting a new React app.
     This a good thing as starting a new app is a lot of work and takes a lot of time,
     which could be spent writing code to complete your app.
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这一部分，我们将看一些快捷方式来启动一个新的React应用。这是一件好事，因为启动一个新应用是一项繁重的工作，需要很多时间，本该用来编写代码来完成你的应用。
 - en: One way to do it is use a tool created by Facebook called `create-react-app`.
     It just spins up a boilerplate or a blank React project with some preconfigured
     options. You can also just copy another project. If you have a similar project
     with everything set up the way you need it, you can just clone, copy, or fork
     that application, remove the parts you don't need and then get started from there.
+  id: totrans-32
   prefs: []
   type: TYPE_NORMAL
+  zh: 一种方法是使用Facebook创建的一个名为`create-react-app`的工具。它只是使用一些预先配置的选项快速创建一个React项目的板块或空白项目。你也可以只是复制另一个项目。如果你有一个类似的项目，里面的一切都按照你需要的方式设置好了，你可以克隆、复制或fork该应用程序，删除你不需要的部分，然后从那里开始。
 - en: There's also a third way, and that's to build everything from scratch starting
     with nothing. It's a great exercise to do if you really want to understand React
     under the hood, but if you're working toward deadlines, it's not something I would
     recommend.
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 还有第三种方法，那就是从零开始构建所有东西。如果你真的想要了解React的内部工作，这是一个很好的练习，但如果你在工作期限前工作，我不建议这样做。
 - en: Pros and cons
+  id: totrans-34
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 优缺点
 - en: Each way has its pros and cons. The `create-react-app` tool creates a new project
     with React JSX and ESX.
+  id: totrans-35
   prefs: []
   type: TYPE_NORMAL
+  zh: 每种方法都有其优缺点。`create-react-app`工具使用React JSX和ESX创建一个新的项目。
 - en: 'Getting a new project started with this tool is as simple as typing the following
     command:'
+  id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用这个工具启动一个新项目就像输入以下命令一样简单：
 - en: '[PRE0]'
+  id: totrans-37
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: Wherein `my-app` should be replaced by the name of your application.
+  id: totrans-38
   prefs: []
   type: TYPE_NORMAL
+  zh: 其中`my-app`应该被你的应用程序的名称替换。
 - en: This creates the application, and has `babel` and `webpack` preconfigured, so
     that you don't have to do that, and updates are usually straightforward and well
     documented, making it easy for you to keep your application up to date with the
     latest features and security patches.
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 这创建了应用程序，并预先配置了`babel`和`webpack`，这样你就不必自己配置，更新通常很简单并有很好的文档说明，这样你就可以轻松地使你的应用程序保持最新功能和安全补丁。
 - en: It's pretty opinionated, though, and in order to pull off a project like this
     it has to be. Any additional dependencies you add must conform to the format of
     the project, or you'll run into challenges. You can customize any of the preconfigured
     tools, but doing so may leave it in a state where you're responsible for maintaining
     it, as it will no longer receive updates as part of the official package.
+  id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: 不过，它的观点很明确，为了实现这样一个项目，必须如此。你添加的任何额外依赖项必须符合项目的格式，否则你会遇到挑战。你可以定制任何预先配置的工具，但这样做可能会使其处于你要负责维护的状态，因为它将不再接收官方包的更新。
 - en: Copying or forking another project can sometimes be a good way to start, especially
     if the new project shares a lot of the same dependencies. It may already be configured
     for your use case, and you may have access to support resources, like other developers
     on your team, if you're using the same code base.
+  id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: 复制或fork另一个项目有时可能是开始的好方法，特别是如果新项目与许多相同的依赖关系，它可能已经为你的使用案例配置好了，还可以访问支持资源，比如团队中的其他开发人员，如果你在使用相同的代码库。
 - en: It does mean that you're inheriting all the problems of that project too, such
     as out-of-date dependencies. You'll probably have to pull out any unneeded code
     that isn't used by your application, and that can sometimes lead to things breaking.
     Find yourself forking a project often? You'll end up with the same code duplicated
     in multiple projects, and that can lead to a lot of extra work, when it comes
     time to update dependencies or patch security vulnerabilities.
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 这确实意味着你也会继承该项目的所有问题，比如过时的依赖项。你可能会不得不删除任何不被你的应用程序使用的不需要的代码，有时会导致一些问题。经常发现自己fork了一个项目吗？那么你最终会在多个项目中复制相同的代码，这可能会导致在更新依赖项或修补安全漏洞时需要进行大量额外的工作。
 - en: For me, when I'm learning something new, it's really tempting to see a project
     that appears to be solving the same problem and use that as a starting point.
     I think that works really well for playing around with different things on the
@@ -231,105 +303,149 @@
     with live customers, I almost always start with the Facebook tool. The only exception
     is when there's a specific use case for a heavily customized component that will
     benefit from having a shared code base with its parent project.
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: 对我来说，当我学习新东西时，很容易看到一个似乎在解决同样问题的项目，并将其作为起点。我觉得这对于在一边尝试不同的事情来说是很好的。然而，随着时间的推移，这些项目几乎总是最难维护的。所以，如今，如果我正在构建一个将与实际用户发布的项目，几乎总是从Facebook工具开始。唯一的例外是当有一个具体的用例需要一个与其父项目共享代码库的高度定制组件时。
 - en: Now that you have a little background information on how to create your own
     React app for a DApp, let's get back to working on ours. It's time to start building
     the UI, so we can start to see the visual interface that interacts with our Solidity
     contract.
+  id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在你对如何为 DApp 创建自己的 React 应用有了一些背景信息，让我们继续在我们的应用程序上工作。是时候开始构建用户界面了，这样我们就可以开始看到与我们的
+    Solidity 合同进行交互的视觉界面了。
 - en: Displaying game state to players
+  id: totrans-45
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 向玩家显示游戏状态
 - en: So far, we've been talking about how React works. Well let's put that knowledge
     into action now, and start building our UI, and at the same time learn how React
     uses states to update components on the page.
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 到目前为止，我们一直在讨论 React 的工作原理。现在让我们把这些知识付诸实践，开始构建我们的用户界面，同时学习 React 如何使用状态来更新页面上的组件。
 - en: 'In our app, we''ve got a file called `index.html`; you may know that this is
     the default document that a web server serves up when a user hits a website. Inside
     of our index page, we have an `index.js` JavaScript file that gets called, which
     in turn adds a component named `app`, which is our React application. The following
     diagram shows what the app looks like:'
+  id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们的应用中，有一个名为 `index.html` 的文件；你可能知道这是当用户访问网站时，网页服务器默认提供的文档。在我们的索引页内部，有一个名为
+    `index.js` 的 JavaScript 文件被调用，它又添加了一个名为 `app` 的组件，这就是我们的 React 应用程序。下面的图表显示了应用的样子：
 - en: '![](img/83128889-c886-4963-8113-4040411b4613.png)'
+  id: totrans-48
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/83128889-c886-4963-8113-4040411b4613.png)'
 - en: 'One of the primary goals of React is to build individual components. Inside
     of `app`, it grabs the components that make up our game. These components include
     the header and the game component. Each of these components is a separate file
     on the file system, so let''s jump over into the code editor to get a feel for
     how this looks from there. Let''s take a look at the following screenshot for
     that:'
+  id: totrans-49
   prefs: []
   type: TYPE_NORMAL
+  zh: React 的一个主要目标是构建独立的组件。在 `app` 内部，它获取组成我们游戏的组件。这些组件包括头部和游戏组件。这些组件在文件系统上是单独的文件，让我们进入代码编辑器来感受一下它们的样子。让我们看看下面的截屏：
 - en: '![](img/776260a4-5a32-4de1-bcf0-50ed4229f0a1.png)'
+  id: totrans-50
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/776260a4-5a32-4de1-bcf0-50ed4229f0a1.png)'
 - en: 'Inside our application, we have the `src` source folder, the `index.html` file,
     and the `index.js` file. When you look at the `index.js` file, you can see that
     we create the Redux store by importing `configureStore`, and then we import our
     `App` component from the `containers/App` folder, and we create an instance of
     that app on the page, as seen in the following code snippet:'
+  id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们的应用中，有一个 `src` 源文件夹、一个 `index.html` 文件和一个 `index.js` 文件。当你查看 `index.js` 文件时，你可以看到我们通过导入 `configureStore` 来创建
+    Redux store，然后我们从 `containers/App` 文件夹中导入我们的 `App` 组件，并在页面上创建该 app 的实例，如下代码片段所示：
 - en: '[PRE1]'
+  id: totrans-52
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: The `App` component is stored in our `containers` folder; when you go there,
     there's a folder called `App` and a file called `index.js`, which is where its
     code lives. It imports the header and the game, and the game itself is another
     folder under `containers` with its own `index.js` file, and inside this file we're
     going to define all the components for our game.
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: '`App` 组件存储在我们的 `containers` 文件夹中；当你转到那里时，会看到一个名为 `App` 的文件夹和一个名为 `index.js`
+    的文件，其中存放着它的代码。它导入了头部和游戏，游戏本身是 `containers` 下的另一个文件夹，它有自己的 `index.js` 文件，在这个文件中，我们将定义游戏的所有组件。'
 - en: 'Here''s how we''re going to define those components for your UI. The whole
     section of the screen that will be displayed is our game container, which is the
     component referenced in the `app.js` file that gets pulled in. It''s made up of
     three smaller components—the component that displays the player''s number, the
     component that displays the betting controls, and the component that has the player''s
     game history as seen in the following diagram:'
+  id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是我们如何为您的UI定义这些组件的方法。将显示的整个屏幕部分是我们的游戏容器，它是`app.js`文件中引用的组件。它由三个较小的组件组成——显示玩家数字的组件，显示投注控件的组件，以及包含玩家游戏历史记录的组件，如以下示意图所示：
 - en: '![](img/a82e6f88-2eb0-4899-afe5-3afc0b7cb82f.png)'
+  id: totrans-55
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a82e6f88-2eb0-4899-afe5-3afc0b7cb82f.png)'
 - en: To create all those containers and controls, I'm using the Material-UI library.
     This library makes it incredibly easy to create high-quality professional-looking
     UI components.
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了创建所有这些容器和控件，我使用了Material-UI库。这个库使创建高质量、专业外观的UI组件变得非常容易。
 - en: 'Our game component starts by importing a few libraries:'
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的游戏组件首先从几个库开始导入：
 - en: '[PRE2]'
+  id: totrans-58
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: As seen here, we need `React` itself as well as the component library to create
     the component classes, `PropTypes`, `connect`, and `bindActionCreators` for Redux,
     and we'll go over their roles in the coming section.
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 如这里所示，我们需要`React`本身以及组件库来创建组件类，还需要`PropTypes`、`connect`和`bindActionCreators`用于Redux，我们将在接下来的章节中详细讨论它们的角色。
 - en: 'Then we create a class named `Game`, and inside it we have a `constructor`
     function. This works in a similar way to the constructor function we created in
     our Solidity contract, and it runs once at the beginning when the class is initialized
     to set the initial state. The following code snippet shows what the class contains:'
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后我们创建一个名为`Game`的类，在其中我们有一个`constructor`函数。这与我们在Solidity合约中创建的构造函数的工作方式类似，它在类初始化时运行一次，以设置初始状态。以下代码片段显示了该类包含的内容：
 - en: '[PRE3]'
+  id: totrans-61
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: As seen in the preceding code block, we'll set the initial state for some variables
     that we're going to need, such as the number displayed to our player for this
     round, their guesses of higher or lower, how much they're betting on this round,
     and an array where we'll store the results of the previous rounds. React components
     have one required function, `render()`. This function gets called when the component
     is rendered.
+  id: totrans-62
   prefs: []
   type: TYPE_NORMAL
+  zh: 如前面的代码块所示，我们将为一些我们需要的变量设置初始状态，例如本轮显示给玩家的数字，他们对更高或更低的猜测，他们在本轮下注的金额，以及我们将存储之前几轮结果的数组。React组件有一个必需的函数，`render()`。该函数在组件渲染时被调用。
 - en: 'We''re now ready to start laying out the UI elements for this component. We''ll
     start by building our first component on the `index.html` page, the display window
     that shows the player the number for this round. We''ll define a card from the
@@ -337,32 +453,44 @@
     to provide the player with some information on what they''re looking at, and finally
     we have a heading element that displays the number itself. This can be summarized
     using the following code snippet:'
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们准备开始布置这个组件的UI元素了。我们将从`index.html`页面上构建我们的第一个组件开始，即显示给玩家本轮数字的显示窗口。我们将从Material-UI库中定义一个卡片，然后定义一个带有标题和副标题的卡片头部，为玩家提供有关他们正在查看的内容的一些信息，最后我们有一个标题元素来显示数字本身。可以用以下代码片段来概括：
 - en: '[PRE4]'
+  id: totrans-64
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: 'This should generate a window that looks similar to the following screenshot:'
+  id: totrans-65
   prefs: []
   type: TYPE_NORMAL
+  zh: 这应该生成一个看起来与以下截图类似的窗口：
 - en: '![](img/0b3f7adc-0483-4d33-8ed5-329e86f5d928.png)'
+  id: totrans-66
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/0b3f7adc-0483-4d33-8ed5-329e86f5d928.png)'
 - en: The number displayed in the card is the state variable that we defined in our
     constructor. Since we added the card in the card header to our component from
     the Material-UI library, we have to import that as well, so that React knows where
     to get those from. We do that by adding the card and card header as imports, along
     with the other imports we declared at the top of our file.
+  id: totrans-67
   prefs: []
   type: TYPE_NORMAL
+  zh: 卡片中显示的数字是我们在构造函数中定义的状态变量。由于我们在组件中添加了来自Material-UI库的卡片和卡片头部，我们必须将其一起导入，以便React知道从哪里获取这些组件。我们通过将卡片和卡片头部作为导入内容添加到我们在文件顶部声明的其他导入中来实现这一点。
 - en: Let's come back to the command used in `h1`. How does that get from being a
     string of text to the number you saw displayed on the screen? In React, when you
     enclose a string with the curly braces, it takes on a special meaning, but it's
     actually just JavaScript at that point, so we can do anything that we can do in
     JavaScript. This means that `this` gets created as a variable, and the result
     of that variable is what gets displayed on the screen.
+  id: totrans-68
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们回到在`h1`中使用的命令。它是如何从一串文本变成你在屏幕上看到的数字的？在React中，当你用花括号括起一个字符串时，它就具有了特殊的含义，但在那一点上，它实际上只是JavaScript，所以我们可以做任何我们可以在JavaScript中做的事情。这意味着`this`被创建为一个变量，该变量的结果就是显示在屏幕上的内容。
 - en: 'There''s a special React life cycle function called `componentDidMount()` that
     gets called by React after our component mounts. By mounts, it means that it has
     been rendered in the DOM, and is available to call programmatically. Putting our
@@ -372,46 +500,66 @@
     `generatePlayerNumber()` function looks like this and just returns a random number
     between 0 and 9\. The end result is that our component on the page renders the
     random number for the player to see. This is shown in the following code snippet:'
+  id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: 有一个特殊的React生命周期函数叫做`componentDidMount()`，在我们的组件挂载后由React调用。挂载意味着它已经在DOM中呈现，并且可以通过编程方式调用。将我们的代码放在这里，确保我们在实际存在于DOM中之前不会尝试访问组件。我们将调用`this.setState()`并分配`playerNumber`状态变量。该函数的结果生成当前玩家号码。`generatePlayerNumber()`函数如下所示，只返回0到9之间的一个随机数。最终结果是，我们页面上的组件呈现了玩家看到的随机数字。以下是代码片段：
 - en: '[PRE5]'
+  id: totrans-70
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'Next, we''ve got our betting window, which is another card with a card header
     just like our player display component. It''s got a radio button group with two
     radio buttons for the player''s choice as Higher or Lower:'
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来，我们有我们的下注窗口，它是另一个带有卡头的卡片，就像我们的玩家显示组件一样。它有一个单选按钮组，其中包含两个单选按钮，供玩家选择更高还是更低：
 - en: '[PRE6]'
+  id: totrans-72
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: Notice how the selected value reads the value of the state of the `highLow`
     variable, and on change it calls the `handleChange()` function.
+  id: totrans-73
   prefs: []
   type: TYPE_NORMAL
+  zh: 注意所选值如何读取`highLow`变量的状态值，并且在更改时调用`handleChange()`函数。
 - en: We also have a text field for a player to indicate how much they want to wager,
     and a button to execute when they're ready to initiate the round of gameplay.
     We already imported the card and card header, so now we'll have to import the
     radio button group, the radio button, the text field, and the raised button in
     the same way.
+  id: totrans-74
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们还有一个文本字段，供玩家指示他们想要下注多少，以及一个按钮，当他们准备好开始游戏时执行。我们已经导入了卡片和卡头，所以现在我们将以相同的方式导入单选按钮组、单选按钮、文本字段和凸起按钮。
 - en: 'You can always refer to the source code you got with the book, in case you
     get confused somewhere down the line. For both the radio button group and the
     text field, we call the `handleChange()` function, which looks similar to this:'
+  id: totrans-75
   prefs: []
   type: TYPE_NORMAL
+  zh: 无论你在哪一步感到困惑，你都可以随时参考你在书中得到的源代码。对于单选按钮组和文本字段，我们调用`handleChange()`函数，其代码类似于以下内容：
 - en: '[PRE7]'
+  id: totrans-76
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: 'This function receives the name of the state variable to update as a parameter,
     and then updates the state with the value from the control that called the function.
     All this culminates into something similar to this:'
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个函数接收要更新的状态变量的名称作为参数，然后用调用该函数的控件的值更新状态。所有这些都归结为类似于这样的东西：
 - en: '![](img/9120eeef-5449-42c8-aeb8-c46a430343e5.png)'
+  id: totrans-78
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/9120eeef-5449-42c8-aeb8-c46a430343e5.png)'
 - en: 'Our final component is the history window, and, just like the other components,
     it''s a card with a card header, and that really highlights one of the benefits
     of using libraries. We''ve reused this library multiple times in this component,
@@ -420,22 +568,32 @@
     an array, and each item in the array is the result of one of the previous rounds
     of gameplay. So, we map over that and create a list item for each element in the
     array. This is summarized in the following code snippet:'
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的最终组件是历史窗口，就像其他组件一样，它是一个带有卡头的卡片，这真正突显了使用库的好处之一。我们在这个组件中多次重复使用了这个库，因为它很容易定义，而且我们不需要编写任何代码来完成它。接下来，我们有一个列表，我们从状态中获取历史记录，这是一个数组，数组中的每个项目都是以前游戏中的结果。因此，我们对其进行映射，并为数组中的每个元素创建一个列表项。这在下面的代码片段中进行了总结：
 - en: '[PRE8]'
+  id: totrans-80
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: 'This results in the following output:'
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
+  zh: 这导致以下输出：
 - en: '![](img/a66ce344-33cc-47f8-9283-86ae8cfcc7a5.png)'
+  id: totrans-82
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a66ce344-33cc-47f8-9283-86ae8cfcc7a5.png)'
 - en: Now, let's jump over to our code editor again, and take a look at how all of
     these pieces come together into a single React class. So, in our `src/containers/Game` folder,
     we've got our `index.js` file, which we'll have a look at now.
+  id: totrans-83
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，让我们再次跳转到我们的代码编辑器，并看看所有这些部分如何组合成一个单一的 React 类。所以，在我们的`src/containers/Game`文件夹中，我们有我们的`index.js`文件，现在让我们来看一下。
 - en: At the top, we import everything that we need to build the components on this
     page from React, Redux, and the Material-UI library. We've got a little bit of
     CSS here to make the formatting of the page look nice, and then we have our game
@@ -443,37 +601,52 @@
     where we set our initial state variables, and then the React life cycle components.
     Then, there's our render method where we return all of the elements that get rendered
     on the page.
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: 在顶部，我们从 React、Redux 和 Material-UI 库导入构建此页面所需的所有内容。我们在这里有一点 CSS，使页面的格式看起来漂亮，然后我们有一个扩展了
+    React 组件的游戏类。在其中，您将找到设置初始状态变量的`constructor`，然后是 React 生命周期组件。然后，有我们的渲染方法，其中返回在页面上呈现的所有元素。
 - en: We've got the card in the card header for the player number; we've got our second
     card that represents the betting window, and then we have our third card that
     represents the player's game history. Following that, we have our user-defined
     functions for handling change events, initiating game play, and generating the
     random number.
+  id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们在玩家编号的卡片标题中有一个卡片；我们有第二个卡片代表投注窗口，然后我们有第三个卡片代表玩家的游戏历史记录。在此之后，我们有处理更改事件、启动游戏并生成随机数的用户定义函数。
 - en: So, it's all starting to come together and look like a real application. Let's
     push the envelope a little bit further and jump into the next section, where we're
     going to dissect the Let's Play! button to see how we get the input from the UI
     and turn that into a game for our user.
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 所以，一切开始变得像一个真正的应用程序了。让我们再推进一点，跳到下一节，在那里我们将剖析“开始游戏！”按钮，看看我们如何从 UI 获取输入，并将其转换为用户的游戏。
 - en: Getting player input from the UI
+  id: totrans-87
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 从 UI 获取玩家输入
 - en: 'Here, we''ll continue with the code that gets executed, when our player clicks
     the Let''s Play! button. The following code snippet shows how it works:'
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们将继续执行代码，当我们的玩家点击“开始游戏！”按钮时。下面的代码片段展示了它的工作原理：
 - en: '[PRE9]'
+  id: totrans-89
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: Here, we're defining an action that we get from `this.props`, and then we call
     a function that exists within that action, and finally we update the `playerNumber`
     state variable with a new random number.
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们正在定义一个从`this.props`获取的动作，然后我们调用该动作中存在的一个函数，最后，我们使用一个新的随机数更新`playerNumber`状态变量。
 - en: Next, we have the function that we called from our game component, which is
     `playRound()`. This function accepts the wager, the player's number and guess
     as parameters, then it returns with a `dispatch` parameter. The `dispatch()` function
@@ -482,21 +655,31 @@
     our initial state, which represents the state variables that get set when the
     application starts, and this keeps you from getting a variable undefined error
     when your application starts.
+  id: totrans-91
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来，我们有从游戏组件中调用的函数，即`playRound()`。这个函数接受赌注、玩家编号和猜测作为参数，然后返回一个`dispatch`参数。`dispatch()`函数返回一个
+    JSON 对象，其中 type 是我们常量之一，并且参数是我们传递给函数的参数。我们的类型在`types.js`中定义。在其中，我们定义了我们的初始状态，它表示应用程序启动时设置的状态变量，这样当应用程序启动时就不会出现变量未定义错误。
 - en: Then, we export our game reducer function, which contains a switch statement
     based on the action type that we will provide in our action. When the matching
     type is found in our reducer, it returns the object defined to the Redux store.
+  id: totrans-92
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，我们导出我们的游戏 reducer 函数，其中包含基于我们在动作中提供的动作类型的 switch 语句。当在我们的 reducer 中找到匹配类型时，它将返回定义给
+    Redux 存储的对象。
 - en: 'And there''s one final piece to this puzzle, which is `rootReducer`. This takes
     all the reducers that we''ll have for our application and combines them. The following
     code snippet shows what this contains:'
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个谜题的最后一部分是`rootReducer`。这个函数将我们应用程序中的所有 reducer 组合起来。下面的代码片段展示了它的内容：
 - en: '[PRE10]'
+  id: totrans-94
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: 'So, let''s bring this full circle one more time, this time referencing what
     we have just learned. From our game component, we call the `playRound()` function,
     and that''s made available by `props`. The `playRound()` function takes the parameters
@@ -506,92 +689,133 @@
     Redux store. The Redux store then sends the new data to our application as `props`,
     and when `props` changes, React notices it and updates our history component with
     the new data. This can be summarized as shown in the following diagram:'
+  id: totrans-95
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，让我们再次将这个问题概括一下，这次引用我们刚刚学到的内容。从我们的游戏组件中，我们调用`playRound()`函数，这是由`props`提供的。`playRound()`函数接受来自玩家的参数并将它们分派到`core/reducers/reduce-game.js`中的
+    reducer。reducer使用`core/types.js`中提供的常量将接收到的分派与要执行的工作进行匹配，并将结果发送到 Redux 存储。然后，Redux
+    存储将新数据作为`props`发送到我们的应用程序，当`props`发生变化时，React 注意到并使用新数据更新我们的历史组件。可以用下面的图表来概括这个过程：
 - en: '![](img/7a2ca057-c01d-40b1-bfbe-20474b191744.png)'
+  id: totrans-96
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/7a2ca057-c01d-40b1-bfbe-20474b191744.png)'
 - en: The thing that makes React so powerful is that the only thing that changes on
     the screen when that happens is the history component updates, and nothing else
     does. In the next section, we're going to step through all of this real in time,
     so if it's not making sense just yet, I think it will in the next section, as
     you get to test it out yourself.
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 让 React 如此强大的是，当发生这种情况时，屏幕上唯一发生变化的是历史组件更新，而其他任何东西都没有发生变化。在下一节中，我们将实时地逐步进行所有这些，因此如果现在还不清楚，我认为在下一节中，当您自己测试它时，您会理解的。
 - en: Providing feedback to the player
+  id: totrans-98
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 向玩家提供反馈
 - en: We've now laid out the code to connect our React components to Redux for managing
     the state of our application. That can be a tough concept to wrap your head around,
     so in this section we're going to use the Visual Code debugger to play our game,
     and step through the code in real time. Doing so is going to allow you to see
     exactly how your application behaves when it executes.
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们现在已经布置好了代码，将我们的 React 组件连接到 Redux，以管理我们应用程序的状态。这可能是一个难以理解的概念，因此在本节中，我们将使用
+    Visual Code 调试器来玩我们的游戏，并实时地逐步执行代码。这样做将使您能够在执行时准确地看到应用程序的行为。
 - en: 'Knowing how to debug can be one of the most useful techniques you can learn,
     because it gives you access to new information when you need it most. Getting
     it set up is incredibly easy using Visual Code. You just have to install the *Debugger
     for Chrome* tool from Microsoft, using the extensions panel in Visual Code:'
+  id: totrans-100
   prefs: []
   type: TYPE_NORMAL
+  zh: 知道如何调试可能是您可以学习的最有用的技术之一，因为它可以在您最需要时为您提供新的信息。使用 Visual Code 设置它非常容易。您只需在 Visual
+    Code 的扩展面板中安装微软的*Debugger for Chrome*工具：
 - en: '![](img/acac0b9c-4369-4802-aa52-22017ee5023d.png)'
+  id: totrans-101
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/acac0b9c-4369-4802-aa52-22017ee5023d.png)'
 - en: 'Then, you''ll create a launch configuration in the Debug menu with the following
     code:'
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，您将在调试菜单中创建一个启动配置，其中包含以下代码：
 - en: '[PRE11]'
+  id: totrans-103
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: Now, we'll navigate to the first line inside of our `playGame()` function in
     the `index.js` file. Since `playGame()` is a function, it gets executed when the
     player clicks on the Let's Play! button within the game. We'll now set a debug
     point here.
+  id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们将导航到`index.js`文件中`playGame()`函数内的第一行。由于`playGame()`是一个函数，当玩家点击游戏中的“Let's
+    Play!”按钮时，它将被执行。我们现在在这里设置一个调试点。
 - en: 'Now we''ll switch over to the debug menu in Visual Code and hit the green play
     button there. When the browser launches, we should have something similar to this:'
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们将切换到 Visual Code 中的调试菜单，并点击那里的绿色播放按钮。当浏览器启动时，我们应该会看到类似这样的东西：
 - en: '![](img/de3ab638-ef03-4ca3-b331-36cbb4da2496.png)'
+  id: totrans-106
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/de3ab638-ef03-4ca3-b331-36cbb4da2496.png)'
 - en: We have our player number window with the number 3 and our betting window.
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们有一个玩家编号窗口，编号为 3，和我们的投注窗口。
 - en: We can enter in a wager, so let's go ahead and do that, and then click Let's
     Play! So, immediately, that toggles us back over to Visual Code and trips the
     debug point that we set. We can use our controls at the top to play through to
     the next debug point or step over each function.
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们可以输入赌注，所以让我们去做吧，然后点击“Let's Play!”。所以，立即，这会将我们切换回 Visual Code 并触发我们设置的调试点。我们可以使用顶部的控件播放到下一个调试点或逐个跳过每个函数。
 - en: As we step through each function, you will see that the parameters of those
     functions, in the debug window, start populating with their values in real time.
     You can also hover over them within the code window and get a little pop-up window
     that tells you all about it. So, you can inspect the variables in real time.
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 当我们逐步执行每个函数时，您会看到在调试窗口中，这些函数的参数实时填充其值。您还可以在代码窗口中将鼠标悬停在它们上面，会弹出一个小窗口，告诉您相关信息。因此，您可以实时检查变量。
 - en: When we get to our `playRound()` function from our `actions` object, instead
     of stepping over that, we want to step into it to follow the code execution through
     that function, and that takes us to our `actions-game.js` file, where we have
     our `playRound()` function that returns the `dispatch` parameter. We'll then step
     into that, and now it's ready to return our JSON object that it's going to dispatch
     over to the reducer.
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: 当我们从`actions`对象的`playRound()`函数到达时，我们不是要跳过它，而是要跟进它，以便通过该函数跟踪代码执行，这将带我们到我们的`actions-game.js`文件，我们在其中有我们的`playRound()`函数，返回`dispatch`参数。然后我们进入其中，现在它已经准备好返回我们将要分派到reducer的JSON对象。
 - en: 'We then end up in the function for our game reducer with our switch statement,
     and if we hover over our action type, we can see that the result of that variable
     is equal to `Round_Results`. And so we assign those key value pairs to the Redux
     store. Our Redux store then pushes those updated properties back to our game `index.js`
     file as `props`, and then we''ll return back to our browser with our updated history
     populating the history pane, as seen in the following screenshot:'
+  id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后我们进入我们游戏reducer的函数，有switch语句，如果我们悬停在操作类型上，我们可以看到该变量的结果等于`Round_Results`。所以我们将这些键值对分配给Redux存储。我们的Redux存储然后将这些更新后的属性推送回我们的游戏`index.js`文件作为`props`，然后我们将返回到我们的浏览器，看到我们更新的历史记录填充到历史窗格中，如下截图所示：
 - en: '![](img/09e99ca4-360f-417a-9072-270b48049c13.png)'
+  id: totrans-112
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/09e99ca4-360f-417a-9072-270b48049c13.png)'
 - en: So now the cycle has come full circle, and our app has just received new `props`
     from React. So how do we put those to use? We'll do it by putting another React
     life cycle method to use, `componentDidUpdate()`. It's a function that fires after
@@ -600,16 +824,21 @@
     and determine if you need to respond or not. This is incredibly important as your
     app will receive new props all the time, but not all of them need responding to,
     so we'll use conditions to identify the ones we care about.
+  id: totrans-113
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在循环已经全面完成，我们的应用刚刚从React收到了新的`props`。那么我们如何利用它们？我们将通过使用另一个React生命周期方法`componentDidUpdate()`来实现。它是在发送新props后触发的函数。它有一个叫做previous
+    props或`prevProps`的参数，这样您就可以引用刚刚收到的props之前的props，并确定是否需要做出响应。这是非常重要的，因为您的应用程序将一直收到新的props，但并非所有props都需要做出响应，所以我们将使用条件来识别我们关心的那些。
 - en: We're going to compare the timestamp of the previous game object to the timestamp
     of the current game object; if it's different, we know that we received a new
     history item for our array. In that case, we'll make a copy of the current history
     and state, and then push the data from the `props` game object onto it. Once that's
     done, we'll replace the history object with the new history array that we just
     created, and now we'll refer back to our card that displays our game history.
+  id: totrans-114
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将比较前一个游戏对象的时间戳和当前游戏对象的时间戳；如果它们不同，我们就知道我们收到了数组的新历史项。在这种情况下，我们将复制当前的历史和状态，然后将`props`游戏对象的数据推送到其中。完成此操作后，我们将用刚刚创建的新历史数组来替换历史对象，现在我们将回到显示游戏历史记录的卡片。
 - en: Remember that we mapped across all items in the state history array. React is
     going to notice that we have just updated that state variable and re-render this
     component causing it to update and show the results of our last round. Here, we
@@ -619,9 +848,11 @@
     To do that, we need our action to call the smart contract and then wait for those
     results. So, in the next section, we're going to explore promises, what they do,
     how they work, and how we'll use them to communicate with our Ethereum network.
+  id: totrans-115
   prefs: []
   type: TYPE_NORMAL
 - en: Implementing JavaScript promises in a networked application
+  id: totrans-116
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -630,15 +861,19 @@
     user interface. But as we learned on day one, when we submit a call to the Ethereum
     network we don't get an immediate response, and there's a delay. Unfortunately,
     we can't proceed until we have that response, so what do we do?
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
 - en: 'Before we answer that question, let me show you what the underlying problem
     is. It stems from the way JavaScript works. Let''s take a look at this code:'
+  id: totrans-118
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE12]'
+  id: totrans-119
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: In the preceding code, we have four lines, each printing out the numbers 1 to
     4\. Well, what happens when we run this? If you predicted that it prints out **1**,**3**,**4**,**2**,
     you'd be right, because what happens is JavaScript executes the first line, it
@@ -649,6 +884,7 @@
     final line where there's another timer. One second later, it prints out the number
     four, and two seconds after that it finally prints out the number 2, when the
     3,000 millisecond delay that was specified expires.
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
 - en: Now, imagine if instead of writing a number out to the console log, we were
@@ -656,30 +892,37 @@
     it in our application, wouldn't that cause problems, because we would be trying
     to use data before it actually existed? So, how do we use JavaScript promises
     to solve this problem?
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
 - en: How a promise works
+  id: totrans-122
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'A JavaScript promise is an object which essentially produces a value or output
     in the future, much like real life promises. A promise can have three states:'
+  id: totrans-123
   prefs: []
   type: TYPE_NORMAL
 - en: Fulfilled
+  id: totrans-124
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Rejected
+  id: totrans-125
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Pending
+  id: totrans-126
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: We will understand this further using the scenario in the preceding code block
     as an example.
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
 - en: 'We''re going to create a new function that returns a promise to handle our
@@ -687,22 +930,32 @@
     parameters, `resolve` and `reject`. Inside our promise, we''ve got our `setTimeout()`
     function. The following code snippet shows how we can use a promise to solve our
     preceding timer problem:'
+  id: totrans-128
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将创建一个返回 promise 的新函数，以处理我们延迟的事件。promise 接受一个参数，这是一个接受两个参数`resolve`和`reject`的函数。在我们的
+    promise 中，我们有我们的`setTimeout()`函数。下面的代码片段展示了我们如何使用 promise 来解决我们之前的定时器问题：
 - en: '[PRE13]'
+  id: totrans-129
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: This function ensures that the compiler waits until the timer is complete, prints
     out the number 2, and then moves on to printing number 3.
+  id: totrans-130
   prefs: []
   type: TYPE_NORMAL
+  zh: 此函数确保编译器等待计时器完成，打印出数字 2，然后继续打印数字 3。
 - en: Most of the time, it's going to be something that doesn't return immediately,
     such as executing a function on a Solidity contract. When our `setTimeout` function
     completes, we're going to call the `resolve()` function that was one of our promise
     parameters; this signals that the promise has completed successfully. Likewise,
     we can call the `reject` function if things don't go as planned.
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: 大多数情况下，它会是一些不会立即返回的东西，比如在 Solidity 合同上执行一个函数。当我们的`setTimeout`函数完成后，我们将调用我们 promise
+    的一个参数`resolve()`函数；这表示 promise 已成功完成。同样，如果出现问题，我们可以调用`reject`函数。
 - en: 'Now, we can rewrite our original code. Our first line remains the same, but
     for our second line we are going to use the `waitForMe()` function and pass two
     parameters into it, which are input (`2`) and delay (`3000`). This ensures that
@@ -710,51 +963,76 @@
     out the number 2, and finally, proceeds to the next step. We''ll print out 3 directly
     from the console as before, and then we will use the same `waitForMe()` function
     again for number 4\. The following code snippet shows the revised code:'
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们可以重写我们的原始代码。我们的第一行保持不变，但对于我们的第二行，我们将使用`waitForMe()`函数，并将两个参数传递给它，即输入 (`2`)
+    和延迟 (`3000`)。这确保当函数被调用时，编译器会等待三秒钟，然后打印出数字 2，最后继续下一步。就像之前一样，我们会直接从控制台打印出 3，然后我们将再次使用相同的`waitForMe()`函数来获取数字
+    4。下面的代码片段展示了修改后的代码：
 - en: '[PRE14]'
+  id: totrans-133
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: Let's quickly recap promises. Promises provide assurance that something will
     be done, but not when it will be done. Unlike real promises, JavaScript promises
     tell you which one they did by either resolving the promise to fulfill it or rejecting
     it to break it. That allows you to decide what to do in either case. And now,
     we're ready to tackle the problem of communicating with our contract on the Ethereum
     network.
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们快速回顾一下 promise。promise 提供了某事将会被做的保证，但并不确定何时会被完成。不像真实的承诺，JavaScript promise
+    通过解决 promise 来实现它，或者通过拒绝来结束它。这样可以让你决定在任何情况下该做什么。现在，我们已经准备好解决与以太坊网络上的合同通信的问题了。
 - en: Using Web3.js to communicate with the Ethereum network
+  id: totrans-135
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 Web3.js 与以太坊网络通信
 - en: Earlier, we saw how to take input from the player of our game and send that
     through Redux to update the application state, then refresh the user interface.
     In the previous section, we learned about JavaScript promises. Now, we're going
     to learn how those two work together to call the functions we created in our contract.
+  id: totrans-136
   prefs: []
   type: TYPE_NORMAL
+  zh: 在之前，我们看到了如何从我们游戏的玩家那里获取输入，并通过 Redux 来更新应用程序状态，然后刷新用户界面。在前一节中，我们了解了 JavaScript
+    promise。现在，我们将学习如何让这两者共同工作，来调用我们在合同中创建的函数。
 - en: We're going to rework the `playRound()` function in the `actions-game.js` file
     of our application.
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将重新设计我们应用程序的`actions-game.js`文件中的`playRound()`函数。
 - en: We'll take the dispatch function present in it, and move it out to its own function.
     Then, we'll get an instance of our contract from the Ethereum network and create
     a promise that calls the function in our contract and waits for a response. When
     it gets that response, it will then call our new dispatch function.
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将使用`dispatch`函数，并将其移出到自己的函数中。然后，我们将从以太坊网络中获取我们合同的一个实例，并创建一个调用我们合同中函数并等待响应的
+    promise。当它获得响应后，它将调用我们的新`dispatch`函数。
 - en: 'To get started, we need to import a few new dependencies into our application,
     such as the `contract` library from Truffle contracts, our `Gaming` file from
     `contract/Gaming.json`, and finally the `web3` library, as seen in the following
     code snippet:'
+  id: totrans-139
   prefs: []
   type: TYPE_NORMAL
+  zh: 要开始，我们需要将一些新的依赖项引入到我们的应用程序中，比如从 Truffle 合同中获取的`contract`库，我们从`contract/Gaming.json`中的`Gaming`文件，以及`web3`库，如下面的代码片段中所示：
 - en: '[PRE15]'
+  id: totrans-140
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: We are now going to modify our `playRound()` function.
+  id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们现在将修改我们的`playRound()`函数。
 - en: 'We''ll move the `dispatch` function into two new functions, `dispatchRoundComplete()` and
     `dispatchRoundFailed()`. We replace it with a constant called `web3Provider`,
     which comes from our state in the Redux store. Then, we declare our gaming contract
@@ -764,11 +1042,15 @@
     and our app automatically detects whether MetaMask gets injected and sets the
     provider. The following screenshot shows how our `playRound()` function looks
     now:'
+  id: totrans-142
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将`dispatch`函数移入两个新函数，`dispatchRoundComplete()`和`dispatchRoundFailed()`。我们用一个常数`web3Provider`替换它，该常数来自Redux存储中的状态。然后，通过调用我们的`contract`库并传递给它我们的合约的JSON表示来声明我们的游戏合约。我们在这里做了一些设置；我们将合约的提供者设置为`web3Provider`中指定的提供者。这是MetaMask被注入的地方，我们的应用程序会自动检测MetaMask是否被注入并设置提供者。下面的截图展示了我们的`playRound()`函数现在的样子：
 - en: '![](img/bee90cc6-29a1-4fe6-9bae-1e1dbcdf1e56.png)'
+  id: totrans-143
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/bee90cc6-29a1-4fe6-9bae-1e1dbcdf1e56.png)'
 - en: You're going to learn more about MetaMask tomorrow. MetaMask allows you to select
     from different accounts just like we did when writing our unit tests. Using the
     `web3Provider.eth.defaultAccount` object ensures that we send our transactions
@@ -779,23 +1061,31 @@
     That way when this promise comes back, we'll know if it was successful or not.
     Inside that promise, we call the `winOrLose()` function, which is a new function,
     but you may recognize the name.
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: 明天您将学习更多关于MetaMask的知识。MetaMask允许您选择不同的账户，就像我们在编写单元测试时所做的一样。使用`web3Provider.eth.defaultAccount`对象可以确保我们从当前选择的账户发送交易。我们创建一个新的promise并定义两个参数`resolve`和`reject`。当我们在以太坊合约中完成我们的函数调用时，我们将检查其状态。如果成功，我们将调用resolved函数，如果失败，我们将调用reject函数。这样，当这个promise返回时，我们就知道它是否成功。在promise内部，我们调用`winOrLose()`函数，这是一个新函数，但您可能会认识到这个名称。
 - en: 'Let''s take a look at it, and then we''ll come back to see what happens in
     the rest of the preceding function:'
+  id: totrans-145
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们来看看它，然后我们将回来看看前面函数中的其余部分发生了什么：
 - en: '![](img/9e3be7ca-293c-4bfb-b322-08d1f466c7f1.png)'
+  id: totrans-146
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/9e3be7ca-293c-4bfb-b322-08d1f466c7f1.png)'
 - en: 'If you think the function name `winOrLose` sounds familiar, you''re right:
     it''s the name of the function we created in our Solidity contract. One of the
     things I do in my React applications is give the function that calls a smart contract
     the same name as the function it''s calling in the smart contract. So, now looking
     at our UI code, we know that this is going to call the `winOrLose()` function,
     which is present in our contract. This just helps us keep track of things.'
+  id: totrans-147
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你觉得函数名称`winOrLose`听起来很熟悉，那么你是对的：这是我们在Solidity合约中创建的函数名称。在我的React应用中，我给调用智能合约的函数取和智能合约中的函数相同的名称。因此，现在看着我们的UI代码，我们知道这将调用`winOrLose()`函数，而这个函数在我们的合约中已经存在了。这只是帮助我们追踪事物。
 - en: One of the parameters we pass to this function is `GamingContract`, which was
     the instance of our online contract that we created just a minute ago. It has
     a `deployed` method that returns a promise. What it does is it gets the deployed
@@ -804,26 +1094,35 @@
     deployed address is, and how to talk to it. Since it's a promise, we can wait
     for that to complete by using `then`; it means that we should execute this code,
     and whenever it completes, proceed with the execution.
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们传递给这个函数的一个参数是`GamingContract`，这是我们刚刚创建的在线合约的实例。它有一个`deployed`方法，返回一个promise。它的作用是获取我们合约的部署版本，这意味着它获取与以太坊网络通信所需的信息。它找出它所在的网络、它的部署地址是什么，以及如何与它通信。由于它是一个promise，我们可以通过使用`then`等待其完成；这意味着我们应该执行这段代码，而每当它完成时，继续执行。
 - en: The `gameContract.winOrLose()` function is the actual function that communicates
     with our Solidity contract. Remember that in Solidity, we always work with currency
     in the **Wei** denomination. Most users of Ethereum are familiar with the **ether** denomination,
     so in our UI we allow them to place their bets in ether, and then we use the `web3`
     utility to convert from ether to Wei when we attach it to our transaction. This
     entire deployed function is another promise.
+  id: totrans-149
   prefs: []
   type: TYPE_NORMAL
+  zh: '`gameContract.winOrLose()`函数是与我们的 Solidity 合同进行通信的实际函数。请记住，在 Solidity 中，我们始终以**Wei**为单位处理货币。以太坊的大多数用户都熟悉**ether**单位，因此在我们的界面中，我们允许他们用以太币下注，然后我们使用`web3`工具将其从以太币转换为
+    Wei，然后将其附加到我们的交易中。这整个部署的函数也是一个承诺。'
 - en: 'When this completes, we go to the `then` function, passing along the results
     of the transaction as a variable named `results`. When it resolves, we''ll call
     the `resolve` function that we passed in as a parameter when we called the function.
     In that function, we''re returning `result.logs[0]`, which looks pretty specific.
     Let''s take a look and see what''s going on:'
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
+  zh: 当这个完成时，我们会进入`then`函数，将交易的结果作为名为`results`的变量传递。当它解析时，我们将调用我们在调用函数时传递的`resolve`函数。在那个函数中，我们将返回`result.logs[0]`，看起来非常具体。让我们仔细看看发生了什么：
 - en: '![](img/d3553a91-b904-4e29-9035-1ef1f9d226b3.png)'
+  id: totrans-151
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/d3553a91-b904-4e29-9035-1ef1f9d226b3.png)'
 - en: 'This is a core part of our Solidity contract. I have highlighted two specific
     lines in the preceding image, which are what we are going to be looking at now.
     When our player wins or loses, we emit the `RoundComplete()` event and provide
@@ -832,51 +1131,68 @@
     player''s guesses of higher or lower, and whether they won or lost the round.
     Remember that events get emitted when the transaction is written to the blockchain.
     The following screenshot shows the actual result we get back from the transaction:'
+  id: totrans-152
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是我们 Solidity 合同的核心部分。我在上图中突出了两行具体的内容，这就是我们现在要看的内容。当我们的玩家赢了或输了，我们就会发出`RoundComplete()`事件，并提供交易的详细信息，赢了或输了多少钱，向玩家显示的数字，我们合同生成的神秘数字，玩家猜测的高或低，以及他们赢了还是输了这一轮。请记住当交易被写入区块链时，事件会被发出。下图显示了我们从交易中得到的实际结果：
 - en: '![](img/3d47e096-f3cb-429f-be2b-29957597ce12.png)'
+  id: totrans-153
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3d47e096-f3cb-429f-be2b-29957597ce12.png)'
 - en: There's a lot here, so let's take a look at the logs array. Item 0 in that array
     has an `args` key, and if you look closely at it, you see that it's the event
     that we're emitting, containing all of the details we need to refresh our UI for
     the player. So, when we resolve this function, we strip away everything and just
     return that key to our `resolve` function.
+  id: totrans-154
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里涉及了很多内容，让我们来看一下日志数组。数组中的第 0 项具有一个`args`键，如果你仔细看，就会发现这是我们正在发出的事件，包含了我们刷新玩家界面所需的所有细节。所以，当我们解析这个函数时，我们会剥离一切，然后将这个键返回给我们的`resolve`函数。
 - en: The final piece in the `winOrLose()` function is a `catch` statement, which
     will get executed if anything in the promise fails. When that happens, we catch
     the error and send it back to our original promise using the `reject` function,
     which brings us back to our `playRound()` function. Depending on whether we call
     the `resolve` or `reject` function, we're going to execute the `then` function
     or the `catch` function.
+  id: totrans-155
   prefs: []
   type: TYPE_NORMAL
+  zh: '`winOrLose()`函数中的最后一部分是一个`catch`语句，如果承诺中的任何内容失败，它就会被执行。当发生这种情况时，我们捕捉错误并使用`reject`函数将其发送回原始承诺，从而回到我们的`playRound()`函数。根据我们调用`resolve`还是`reject`函数，我们将执行`then`函数或`catch`函数。'
 - en: 'When it resolves successfully, we return that object from the logs that contain
     our event, and we''ll pass it to another new function, `dispatchRoundComplete()`,
     and call our parameter event. This function may look familiar to you: it''s the
     dispatch that we created in the last section, but we''ve modified it just a bit
     as seen in the following screenshot:'
+  id: totrans-156
   prefs: []
   type: TYPE_NORMAL
+  zh: 当它成功解析时，我们就会从包含我们事件的日志中返回该对象，并将其传递给另一个新函数`dispatchRoundComplete()`，并调用我们的参数事件。这个函数也许会让你感到熟悉：它就是我们在上一节创建的派发函数，但我们稍微修改了一下，如下图所示：
 - en: '![](img/3e7421a4-262c-4736-a0c1-ddbadff151f3.png)'
+  id: totrans-157
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3e7421a4-262c-4736-a0c1-ddbadff151f3.png)'
 - en: We still have the same type, but we swapped out the timestamp key and replaced
     it with  `transactionHash.` The reason this field exists at all is because we
     map over the array in the UI to populate the game history table. React requires
     a unique key for every element in that array, so when it updates, it knows exactly
     which one to update.
+  id: totrans-158
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们仍然有相同的类型，但我们将时间戳键替换为 `transactionHash`。这个字段存在的原因是因为我们在 UI 中映射数组以填充游戏历史记录表。React
+    要求数组中的每个元素都有一个唯一的键，以便在更新时知道要更新哪一个。
 - en: Previously, we didn't have a unique key, so I just threw a timestamp on there
     as a unique value, but now we've got the transaction hash for our transaction,
     which is absolutely guaranteed to be unique, so we don't need that timestamp any
     longer. We've got our wager and our player number, and we've added the mystery
     number that the player was betting against. Then we have what their guess was
     and the result of the round.
+  id: totrans-159
   prefs: []
   type: TYPE_NORMAL
+  zh: 以前，我们没有一个唯一的键，所以我只是把一个时间戳作为唯一值放在那里，但现在我们有了我们交易的交易哈希，这绝对保证是唯一的，所以我们不再需要那个时间戳。我们有了我们的赌注和玩家号码，并且我们添加了玩家下注的神秘数字。然后我们有他们的猜测以及该轮的结果。
 - en: We also have a boolean `success` key here that we can use to toggle whether
     or not this transaction was successful. When the promise completes successfully,
     we set `success` to `true`, and if the promise was rejected, then the dispatch
@@ -884,47 +1200,72 @@
     like before and notifies the reducer that takes the dispatch action and sends
     it to the Redux store, and the Redux store is now going to notify our UI via a
     new `props` file, which we'll use to update the user interface in the next section.
+  id: totrans-160
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们这里还有一个布尔值 `success` 键，我们可以用它来切换此次交易是否成功。当 promise 成功完成时，我们将 `success` 设置为
+    `true`，如果 promise 被拒绝，那么调度往返失败函数将会将 `success` 设置为 `false`。我们的 dispatch 的行为和以前一样，并通知接收
+    dispatch 动作并将其发送到 Redux 存储的 reducer，而 Redux 存储现在将通过一个新的 `props` 文件通知我们的 UI，我们将在下一节中使用它来更新用户界面。
 - en: Implementing JavaScript functions in a UI
+  id: totrans-161
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在 UI 中实现 JavaScript 函数
 - en: At this point, you've seen how to get input from the user controls on your UI,
     work them through the Redux life cycle, and have the end product show back up
     in the UI as new props. In this section, we're going to dig into the functions
     in our UI that tie into the user controls.
+  id: totrans-162
   prefs: []
   type: TYPE_NORMAL
+  zh: 到目前为止，您已经了解了如何从 UI 上的用户控件获取输入，将它们通过 Redux 生命周期进行处理，并将最终产品显示回 UI 中作为新的 props。在本节中，我们将深入研究与用户控件相关的
+    UI 中的函数。
 - en: 'When our reducer receives the action from the `dispatch` function, it creates
     and sends this object to the Redux store, and it does so along with all the other
     reducers our application may have, so we have a `rootReducer` constant that combines
     all of these reducers. The following screenshot shows what this looks like:'
+  id: totrans-163
   prefs: []
   type: TYPE_NORMAL
+  zh: 当我们的 reducer 接收到 `dispatch` 函数的动作时，它会创建并发送此对象到 Redux 存储，并且还会发送所有其他可能存在的 reducer，因此我们有一个
+    `rootReducer` 常量，它组合了所有这些 reducer。以下截图显示了这是什么样子：
 - en: '![](img/fff860da-06dd-453c-aa76-6f7d79a490ec.png)'
+  id: totrans-164
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/fff860da-06dd-453c-aa76-6f7d79a490ec.png)'
 - en: Here you can see that we've defined a new key named `game` in `rootReducer`,
     and it's going to get populated with the data from `gameReducer.` This is what
     gets sent to the Redux store, and we know that the Redux store is going to send
     this into our component as `props`. So, in our JavaScript file for our game UI,
     we have this function `mapStateToProps()`, as you can guess from the name, this
     is what maps the Redux state to the props in the component.
+  id: totrans-165
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，您可以看到我们在 `rootReducer` 中定义了一个名为 `game` 的新键，并且它将用来填充来自 `gameReducer` 的数据。这就是发送到
+    Redux 存储的内容，我们知道 Redux 存储将把这个内容作为 `props` 发送到我们的组件中。因此，在我们的游戏 UI 的 JavaScript
+    文件中，我们有这个函数 `mapStateToProps()`，正如你从名称中猜到的那样，这是将 Redux 状态映射到组件中的 props 的函数。
 - en: 'So, all the values that we sent to the Redux store can be accessed and read
     in our component as follows:'
+  id: totrans-166
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，我们发送到 Redux 存储的所有值都可以在我们的组件中按如下方式访问和读取：
 - en: '[PRE16]'
+  id: totrans-167
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: All props are read-only and you can't change them. We'll look at how to change
     them in just a minute, but what about when they change on the backend? How does
     our UI update if the value of one of these keys changes in the Redux store?
+  id: totrans-168
   prefs: []
   type: TYPE_NORMAL
+  zh: 所有的 props 都是只读的，您不能更改它们。我们将在一分钟内看看如何更改它们，但是当它们在后端更改时呢？如果这些键中的一个值在 Redux 存储中更改了，我们的
+    UI 如何更新？
 - en: Well, depending on whether you're using React 15 or React 16, there are two
     methods you can use, both behave similarly, but as you can tell from the name,
     they fire at different times. In React 16, we use `componentDidUpdate()` , and
@@ -935,19 +1276,27 @@
     parameter called `nextProps`, which contains what the new incoming values for
     the props are. You can use `componentWillReceiveProps()` in React 16, so if you're
     upgrading an existing React 15 app to React 16, this will still work.
+  id: totrans-169
   prefs: []
   type: TYPE_NORMAL
+  zh: 嗯，这取决于你是使用React 15还是React 16，有两种方法可以使用，行为都相似，但是从名称可以看出，它们在不同的时间触发。在React 16中，我们使用`componentDidUpdate()`，它接收一个名为`prevProps`的参数，允许我们将props的值与它们的先前值进行比较，然后相应地采取行动。在React
+    15中，我们将使用`componentWillReceiveProps()`，它在组件接收新属性之前触发。参数名称也反映了这一点。它是一个名为`nextProps`的参数，其中包含props的新传入值。您可以在React
+    16中使用`componentWillReceiveProps()`，因此，如果您将现有的React 15应用程序升级到React 16，这仍将起作用。
 - en: 'In the next version of React, `componentWillReceiveProps()` is going to be
     marked as deprecated and then be removed in the version after that. When we add
     these functions to our component, we need to evaluate why it was called. It''s
     going to get called a lot and by things that you don''t care about, so you need
     to evaluate the conditions to see if you care about it or not. Let''s look at
     the following example:'
+  id: totrans-170
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一个版本的React中，`componentWillReceiveProps()`将被标记为已弃用，然后在其后的版本中将被删除。当我们向我们的组件添加这些函数时，我们需要评估为什么调用它。它会被很多东西调用，而且是你不关心的东西，所以你需要评估条件来看你是否关心它。让我们看看以下例子：
 - en: '![](img/e95c58c4-3f9d-4c86-a6d6-efa032060448.png)'
+  id: totrans-171
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/e95c58c4-3f9d-4c86-a6d6-efa032060448.png)'
 - en: We'll start with an `if` statement that checks to see whether `game.transactionHash`
     from the `nextProps` parameter is different than the one in `this.props`. If it
     is that tells us we have a new transaction hash, and since a transaction hash
@@ -958,24 +1307,32 @@
     to relay an error message if we need to. If our promise resolved successfully
     then we'll have some new transaction details to add to our game history window.
     I'm storing that game history as an array in the component state.
+  id: totrans-172
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将以一个`if`语句开始，检查`nextProps`参数中的`game.transactionHash`是否与`this.props`中的不同。如果是，那么告诉我们我们有一个新的交易哈希，而由于交易哈希特定于一个交易，我们知道玩家已经完成了一轮游戏。接下来，我们设置我们的`success`键；记住，这是我们设置为`true`的键，如果包裹我们的合同交易的promise成功完成，我们设置为`false`，如果promise被拒绝。这给了我们一个机会来传递错误消息，如果我们需要的话。如果我们的promise成功解决，那么我们将有一些新的交易细节添加到我们的游戏历史窗口中。我将该游戏历史存储为组件状态中的一个数组。
 - en: So, let's create a new variable for our history, and then we'll push all of
     the details of our latest transaction onto that array. We can't update the component
     state directly, so we call `this.setState` and set the `history` value to the
     new history array we just created. And finally we've got a `snackbar` control,
     which is a little toaster-style pop-up control, and the values for it are stored
     in the component state as well, so we can update them and assign values to them.
+  id: totrans-173
   prefs: []
   type: TYPE_NORMAL
+  zh: 所以，让我们为我们的历史创建一个新变量，然后将我们最新交易的所有细节推送到该数组中。我们不能直接更新组件状态，所以我们调用`this.setState`并将`history`值设置为我们刚刚创建的新历史数组。最后，我们有一个`snackbar`控件，这是一个小型的弹出式控件，其值也存储在组件状态中，因此我们可以更新它们并为它们分配值。
 - en: 'When this renders, it''s going to translate into a sentence that reads something
     like **lost ten ether**, or whatever the correct values are, and add the results
     from that round to the history window as seen in the following screenshot:'
+  id: totrans-174
   prefs: []
   type: TYPE_NORMAL
+  zh: 当这个渲染时，它会转化为一个句子，类似于**失去十个以太币**，或者正确的值是什么，然后将该轮结果添加到历史窗口中，如下面的截图所示：
 - en: '![](img/a985264c-e1dd-4496-8dbb-2884ff931847.png)'
+  id: totrans-175
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a985264c-e1dd-4496-8dbb-2884ff931847.png)'
 - en: Other than updating the state variable, we didn't have to do anything to get
     our UI components to handle the update on the page, because we bound the control
     to the state variables. React knows to re-render them when they change. Because
@@ -983,57 +1340,82 @@
     key when we map our history array. The key allows React to identify each item
     in the array uniquely, and only render the ones that have changed. And now, it's
     time for our last section today, the assignment.
+  id: totrans-176
   prefs: []
   type: TYPE_NORMAL
+  zh: 除了更新状态变量之外，我们不需要做任何操作就可以使我们的 UI 组件处理页面上的更新，因为我们将控件绑定到了状态变量上。当它们发生变化时，React 知道重新渲染它们。因为
+    React 只想渲染发生变化的变量，所以在映射我们的历史数组时有这个键是很重要的。这个键允许 React 唯一地识别数组中的每个项目，并且只渲染那些已经改变的项目。现在，是我们今天的最后一个部分了，作业。
 - en: Assignment
+  id: totrans-177
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 作业
 - en: 'All right! It''s time to take what we have learned today and put it into action.
     This assignment is going to reinforce the concepts we learned using React and
     Redux for state management, along with promises for handling latent network requests.
     You''re going to add a scoreboard to our game UI that will reflect the player''s
     current record, as shown in the following screenshot:'
+  id: totrans-178
   prefs: []
   type: TYPE_NORMAL
+  zh: 好了！是时候将今天学到的知识付诸实践了。这个作业将强化我们使用 React 和 Redux 进行状态管理以及使用 promises 处理潜在网络请求的概念。你将在我们的游戏
+    UI 中添加一个记分牌，显示玩家当前的记录，如下面的截图所示：
 - en: '![](img/af0340dd-4b30-4dcf-ab3a-01dc7522aa2d.png)'
+  id: totrans-179
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/af0340dd-4b30-4dcf-ab3a-01dc7522aa2d.png)'
 - en: You can create a new component on the page to display it, or you can add it
     inline to an existing component similar to the preceding component. Now, think
     all the way back to day two, where we created a struct for our player that holds
     this information, and we created a mapping that maps player addresses to the structs.
     Remember that public variables and Solidity come with a free getter function,
     and if that variable is a mapping, the mapping key is a required parameter.
+  id: totrans-180
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可以在页面上创建一个新组件来显示它，也可以将其内联添加到类似于前面组件的现有组件中。现在，回想一下第二天，我们为我们的玩家创建了一个包含此信息的结构体，并创建了一个将玩家地址映射到结构体的映射。请记住，公共变量和
+    Solidity 自带一个免费的 getter 函数，如果该变量是一个映射，则映射键是一个必需的参数。
 - en: 'In our case, that''s our player''s address. There are multiple ways to solve
     this problem, and so as long as your solution meets the criteria of updating the
     players score every time it changes, it''s a fine solution. If it were me, I would
     look for some place in our code where we are already doing something because the
     score has changed. You might find some inspiration in the following code snippet:'
+  id: totrans-181
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们的情况下，这是我们玩家的地址。解决这个问题有多种方法，只要你的解决方案满足每次变化时更新玩家分数的条件，那就是一个很好的解决方案。如果是我，我会在我们的代码中找到一些已经在做某些事情的地方，因为分数已经改变了。你可能会在下面的代码片段中找到一些灵感：
 - en: '[PRE17]'
+  id: totrans-182
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE17]'
 - en: You can use the preceding code block and follow the patterns and examples using
     code that already exists in the application. You call an action from the UI, and
     that action will return a promise that calls a Solidity function containing our
     stats; that promise will resolve, then we can dispatch our contract function results,
     sending them to a reducer that will update the Redux store, which will update
     the props presented to the UI, and the UI will update to reflect the new props.
+  id: totrans-183
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可以使用上面的代码块，并按照应用程序中已经存在的代码的模式和示例来使用。你从 UI 调用一个动作，该动作将返回一个 promise，调用一个包含我们统计数据的
+    Solidity 函数；该 promise 将解析，然后我们可以调度我们的合同函数结果，将它们发送到一个 reducer，该 reducer 将更新 Redux
+    存储，这将更新呈现给 UI 的 props，UI 将更新以反映新的 props。
 - en: You won't be able to finish this homework assignment until tomorrow because
     we're missing a piece to test it out, but do write the code today, and we'll check
     out the rest of it tomorrow, because you'll need a wallet to test this out.
+  id: totrans-184
   prefs: []
   type: TYPE_NORMAL
+  zh: 在明天之前你将无法完成这个作业，因为我们缺少一个测试它的部分，但是今天要写好代码，明天我们会检查剩下的部分，因为你需要一个钱包来测试这个。
 - en: Summary
+  id: totrans-185
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 总结
 - en: In this chapter, we learned all about implementing the UI for our application.
     We learned how to use React to create our UI, and how JavaScript plays a vital
     role in a DApp. We learned how to create React apps from templates and apply them,
@@ -1041,10 +1423,15 @@
     it's supposed to. We learned how to take user input and provide feedback to them,
     and how to use Web3.js to communicate those actions to the Ethereum network. Finally,
     we learned how to deploy all the functions into the React UI.
+  id: totrans-186
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们学习了为我们的应用程序实现UI的所有内容。我们学习了如何使用React来创建我们的UI，以及JavaScript如何在DApp中发挥重要作用。我们学习了如何从模板创建React应用程序并应用它们，以及如何修改应用程序中的各种状态，使一切都按照预期运行。我们学会了如何接受用户输入并向他们提供反馈，以及如何使用Web3.js将这些操作传达到以太坊网络。最后，我们学会了如何将所有功能部署到React
+    UI中。
 - en: In the next chapter, we're going to learn about the different types of wallets
     available, and we're going to learn how to configure MetaMasks to work with our
     application.
+  id: totrans-187
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一章中，我们将学习不同类型的钱包，并且学习如何配置MetaMask来与我们的应用程序一起使用。
