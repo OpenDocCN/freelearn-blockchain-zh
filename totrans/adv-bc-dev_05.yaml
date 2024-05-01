@@ -1,91 +1,130 @@
 - en: Symmetric Cryptography
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 对称加密
 - en: In this chapter, you will be introduced to the concepts, theory, and practical
     aspects of *symmetric cryptography*. We will focus more on the elements that are
     specifically relevant in the context of blockchain technology. We will provide
     you with concepts that are required to understand the material covered in later
     chapters.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，您将介绍*对称加密*的概念、理论和实践方面。我们将更多关注与区块链技术相关的元素。我们将为您提供理解后续章节涵盖内容所需的概念。
 - en: You will also be introduced to applications of cryptographic algorithms so that
     you can gain hands-on experience in the practical implementation of cryptographic
     functions. For this, we'll use the OpenSSL command-line tool. Before starting
     with the theoretical foundations, we'll look at the installation of OpenSSL in
     the following section, so that you can do some practical work as you read through
     the conceptual material.
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 你还将学习加密算法的应用，以便获得加密功能实际实施的实践经验。为此，我们将使用 OpenSSL 命令行工具。在开始理论基础之前，我们将在下一节中介绍 OpenSSL
+    的安装，以便您在阅读概念材料时进行一些实际工作。
 - en: Working with the OpenSSL command line
+  id: totrans-3
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 OpenSSL 命令行
 - en: 'On the Ubuntu Linux distribution, OpenSSL is usually already available. However,
     it can be installed using the following command:'
+  id: totrans-4
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Ubuntu Linux 发行版上，OpenSSL 通常已经可用。但是，可以使用以下命令进行安装：
 - en: '[PRE0]'
+  id: totrans-5
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: Examples in this chapter have been developed using OpenSSL version 1.0.2g.
+  id: totrans-6
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章中的示例是使用 OpenSSL 版本 1.0.2g 开发的。
 - en: It is available at [https://packages.ubuntu.com/xenial/openssl](https://packages.ubuntu.com/xenial/openssl).
+  id: totrans-7
   prefs: []
   type: TYPE_NORMAL
+  zh: 它可以在[https://packages.ubuntu.com/xenial/openssl](https://packages.ubuntu.com/xenial/openssl)找到。
 - en: 'You are encouraged to use this specific version, as all examples in the chapter
     have been developed and tested with it. The OpenSSL version can be checked using
     the following command:'
+  id: totrans-8
   prefs: []
   type: TYPE_NORMAL
+  zh: 鼓励您使用此特定版本，因为本章中的所有示例都是使用它开发和测试的。可以使用以下命令检查 OpenSSL 版本：
 - en: '[PRE1]'
+  id: totrans-9
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: 'You will see the following output:'
+  id: totrans-10
   prefs: []
   type: TYPE_NORMAL
+  zh: 您将看到以下输出：
 - en: '[PRE2]'
+  id: totrans-11
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: Now, you are all set to run the examples provided in this chapter. If you are
     running a version other than 1.0.2g, the examples may still work but that is not
     guaranteed, as older versions lack the features used in the examples and newer
     versions may not be backward compatible with version 1.0.2g.
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，您已经准备好运行本章提供的示例了。如果您使用的版本不是 1.0.2g，则示例可能仍然有效，但不能保证，因为旧版本缺少示例中使用的功能，而新版本可能与版本
+    1.0.2g 不兼容。
 - en: In the sections that follow, the theoretical foundations of cryptography are
     first discussed and then a series of relevant practical experiments will be presented.
+  id: totrans-13
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来的章节首先讨论密码学的理论基础，然后提供一系列相关的实验。
 - en: Introduction
+  id: totrans-14
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 简介
 - en: '**Cryptography** is the science of making information secure in the presence
     of adversaries. It does so under the assumption that limitless resources are available
     to adversaries. **Ciphers** are algorithms used to encrypt or decrypt data, so
     that if intercepted by an adversary, the data is meaningless to them without **decryption**,
     which requires a secret key.'
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: '**密码学**是在敌方存在的情况下使信息安全的科学。它在假设敌方拥有无限资源的情况下进行。**密码**是用于加密或解密数据的算法，因此，如果被敌方截获，数据对他们来说没有意义，除非进行**解密**，这需要一个秘密密钥。'
 - en: Cryptography is primarily used to provide a confidentiality service. On its
     own, it cannot be considered a complete solution, rather it serves as a crucial
     building block within a more extensive security system to address a security problem.
     For example, securing a blockchain ecosystem requires many different cryptographic
     primitives, such as hash functions, symmetric key cryptography, digital signatures,
     and public key cryptography.
+  id: totrans-16
   prefs: []
   type: TYPE_NORMAL
+  zh: 密码学主要用于提供保密服务。单独而言，它不能被视为完整的解决方案，而是作为更广泛的安全系统中的重要组成部分，用于解决安全问题。例如，保护区块链生态系统需要许多不同的加密原语，如哈希函数、对称密钥加密、数字签名和公钥加密。
 - en: In addition to a confidentiality service, cryptography also provides other security
     services such as integrity, authentication (entity authentication and data origin
     authentication), and non-repudiation. Additionally, accountability is also provided,
     which is a requirement in many security systems.
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 除了保密服务外，密码学还提供其他安全服务，例如完整性、身份验证（实体身份验证和数据源身份验证）和不可否认性。此外，还提供了责任追究，这是许多安全系统的要求。
 - en: Before discussing cryptography further, some mathematical terms and concepts
     need to be explained in order to build a foundation for fully understanding the
     material provided later in this chapter.
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
 - en: The next section serves as a basic introduction to these concepts. An explanation
@@ -94,26 +133,32 @@
     these topics can be found in any standard number theory, algebra, or cryptography-specific
     book. For example, *A Course in Number Theory and Cryptography* by *Neal Koblitz*
     provides an excellent presentation of all relevant mathematical concepts.
+  id: totrans-19
   prefs: []
   type: TYPE_NORMAL
 - en: Mathematics
+  id: totrans-20
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: As the subject of cryptography is based on mathematics, this section will introduce
     some basic concepts that will help you understand the concepts presented later
     in the chapter.
+  id: totrans-21
   prefs: []
   type: TYPE_NORMAL
 - en: Set
+  id: totrans-22
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: A **set** is a collection of distinct objects, for example, *X = {1, 2, 3, 4,
     5}*.
+  id: totrans-23
   prefs: []
   type: TYPE_NORMAL
 - en: Group
+  id: totrans-24
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -123,9 +168,11 @@
     means that if, for example, elements *A* and *B* are in the set, then the resultant
     element after performing an operation on the elements is also in the set. **Associative**
     means that the grouping of elements does not affect the result of the operation.
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
 - en: Field
+  id: totrans-26
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -134,9 +181,11 @@
     It satisfies specific axioms for addition and multiplication. For all group operations,
     the **distributive law** is also applied. The law dictates that the same sum or
     product will be produced even if any of the terms or factors are reordered.
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
 - en: A finite field
+  id: totrans-28
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -145,26 +194,32 @@
     can be used to produce accurate and error-free results of arithmetic operations.
     For example, prime finite fields are used in **Elliptic Curve Cryptography** (**ECC**)
     to construct discrete logarithm problems.
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
 - en: Order
+  id: totrans-30
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: The **order** is the number of elements in a field. It is also known as the
     *cardinality* of the field.
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
 - en: An abelian group
+  id: totrans-32
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: An **abelian group** is formed when the operation on the elements of a set is
     commutative. The commutative law means that changing the order of the elements
     does not affect the result of the operation, for example, *A X B = B X A*.
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
 - en: Prime fields
+  id: totrans-34
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -172,29 +227,39 @@
     rules for addition and multiplication, and each nonzero element in the field has
     an inverse. Addition and multiplication operations are performed modulo *p*, that
     is, prime.
+  id: totrans-35
   prefs: []
   type: TYPE_NORMAL
 - en: Ring
+  id: totrans-36
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: If more than one operation can be defined over an abelian group, that group
     becomes a **ring**. There are also specific properties that need to be satisfied.
     A ring must have closure and associative and distributive properties.
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果阿贝尔群上可以定义多个操作，则该群成为**环**。还需要满足特定的性质。环必须具有闭包、结合和分配性质。
 - en: A cyclic group
+  id: totrans-38
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 循环群
 - en: A **cyclic group** is a type of group that can be generated by a single element
     called the *group generator*.
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: '**循环群**是一种可以由称为*群生成元*的单个元素生成的群类型。'
 - en: Modular arithmetic
+  id: totrans-40
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 模算术
 - en: Also known as clock arithmetic, numbers in modular arithmetic wrap around when
     they reach a certain fixed number. This fixed number is a positive number called
     **modulus**, and all operations are performed concerning this fixed number. Analogous
@@ -202,92 +267,137 @@
     starts again. In other words, this type of arithmetic deals with the remainders
     after the division operation. For example, 50 mod 11 is 6 because 50 / 11 leaves
     a remainder of 6.
+  id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: 在模算术中，数在达到固定数字时会循环。这个固定数字是一个称为**模数**的正数，所有操作都是关于这个固定数字进行的。类似于时钟，有从1到12的数字。当它达到12时，数字1会重新开始。换句话说，这种算术处理除法运算后的余数。例如，50
+    mod 11为6，因为50 / 11留下余数6。
 - en: This completes a basic introduction to some mathematical concepts involved in
     cryptography. In the next section, you will be introduced to cryptography concepts.
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 这完成了对密码学中涉及的一些数学概念的基本介绍。在下一节中，您将介绍密码学概念。
 - en: Cryptography
+  id: totrans-43
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 密码学
 - en: 'A generic cryptography model is shown in the following diagram:'
+  id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: 通用密码学模型显示如下图所示：
 - en: '![](img/dbcedd07-c692-4ff9-8c42-4bf6227835e1.png)'
+  id: totrans-45
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/dbcedd07-c692-4ff9-8c42-4bf6227835e1.png)'
 - en: A model of the generic encryption and decryption model
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 通用加密和解密模型
 - en: 'In the preceding diagram, **P**, **E**, **C**, and **D** represent plaintext,
     encryption, ciphertext, and decryption, respectively. Also based on this model,
     explanations of concepts such as entity, sender, receiver, adversary, key, and
     channel follow:'
+  id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前面的图表中，**P**，**E**，**C**和**D**分别表示明文，加密，密文和解密。同样基于这一模型，实体、发送方、接收方、对手、密钥和通道概念的解释如下：
 - en: '**Entity**: Either a person or system that sends, receives, or performs operations
     on data'
+  id: totrans-48
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**实体**：发送、接收或对数据执行操作的人或系统'
 - en: '**Sender**: This is an entity that transmits the data'
+  id: totrans-49
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**发送方**：传输数据的实体'
 - en: '**Receiver**: This is an entity that takes delivery of the data'
+  id: totrans-50
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**接收者**：接收数据的实体'
 - en: '**Adversary**: This is an entity that tries to circumvent the security service'
+  id: totrans-51
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**对手**：试图规避安全服务的实体'
 - en: '**Key**: A key is data that is used to encrypt or decrypt other data'
+  id: totrans-52
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**密钥**：用于加密或解密其他数据的数据'
 - en: '**Channel**: Channel provides a medium of communication between entities'
+  id: totrans-53
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**通道**：通道为实体之间提供通信媒介'
 - en: Next, we will describe the cryptography services mentioned earlier in the chapter
     in greater detail.
+  id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 接下来，我们将更详细地描述本章前面提到的密码学服务。
 - en: Confidentiality
+  id: totrans-55
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 机密性
 - en: '**Confidentiality** is the assurance that information is only available to
     authorized entities.'
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: '**机密性**是信息仅对授权实体可用的保证。'
 - en: Integrity
+  id: totrans-57
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 完整性
 - en: '**Integrity** is the assurance that information is modifiable only by authorized
     entities.'
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: '**完整性**是信息仅可由授权实体修改的保证。'
 - en: Authentication
+  id: totrans-59
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 认证
 - en: '**Authentication** provides assurance about the identity of an entity or the
     validity of a message.'
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: '**认证**提供有关实体身份或消息有效性的保证。'
 - en: There are two types of authentication mechanisms, namely entity authentication
     and data origin authentication, which are discussed in the following section.
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 有两种认证机制，即实体认证和数据源认证，将在下一节讨论。
 - en: Entity authentication
+  id: totrans-62
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 实体认证
 - en: '**Entity authentication** is the assurance that an entity is currently involved
     and active in a communication session. Traditionally, users are issued a username
     and password that is used to gain access to the various platforms with which they
@@ -298,9 +408,11 @@
     commonly used to provide better security. The use of additional techniques for
     user identification is known as **multifactor authentication** (or two-factor
     authentication if only two methods are used).'
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
 - en: 'Various authentication factors are described here:'
+  id: totrans-64
   prefs: []
   type: TYPE_NORMAL
 - en: The first factor is *something you have*, such as a hardware token or a smart
@@ -312,6 +424,7 @@
     mechanism. In case if the hardware token is lost, on its own it won't be of any
     use unless, *something you know*, the login password is also used in conjunction
     with the hardware token.
+  id: totrans-65
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
@@ -322,10 +435,12 @@
     biometric features are unique to every individual. However, careful implementation
     is required to guarantee a high level of security, as some research has suggested
     that biometric systems can be circumvented under specific conditions.
+  id: totrans-66
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: Data origin authentication
+  id: totrans-67
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -335,9 +450,11 @@
     not have been altered. Various methods, such as **Message Authentication Codes**
     (**MACs**) and digital signatures are most commonly used. These terms will be
     explained in detail later in the chapter.
+  id: totrans-68
   prefs: []
   type: TYPE_NORMAL
 - en: Non-repudiation
+  id: totrans-69
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -348,25 +465,30 @@
     the actions performed, for example, placement of an order on an e-commerce system.
     This service produces cryptographic evidence in electronic transactions so that
     in case of disputes, it can be used as a confirmation of an action.'
+  id: totrans-70
   prefs: []
   type: TYPE_NORMAL
 - en: Non-repudiation has been an active research area for many years. Disputes in
     electronic transactions are a common issue, and there is a need to address them
     to increase the confidence level of consumers in such services.
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
 - en: 'The non-repudiation protocol usually runs in a communication network, and it
     is used to provide evidence that an action has been taken by an entity (originator
     or recipient) on the network. In this context, there are two communications models
     that can be used to transfer messages from originator *A* to recipient *B*:'
+  id: totrans-72
   prefs: []
   type: TYPE_NORMAL
 - en: A message is sent directly from originator *A* to recipient *B*.
+  id: totrans-73
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: A message is sent to a delivery agent from originator *A*, which then delivers
     the message to recipient *B*.
+  id: totrans-74
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
@@ -377,9 +499,11 @@
     that can be involved in a single transaction. In this case, two-party non-repudiation
     protocols are not appropriate. To address this problem, **Multi-Party Non-Repudiation**
     (**MPNR**) protocols have been developed.
+  id: totrans-75
   prefs: []
   type: TYPE_NORMAL
 - en: Accountability
+  id: totrans-76
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -391,13 +515,16 @@
     audit record with the date and timestamp and the entity''s identity is generated
     and saved in the log file. This log file can optionally be encrypted and be part
     of the database or a standalone ASCII text log file on a system.'
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
 - en: In order to provide all of the services discussed earlier, different cryptographic
     primitives are used that are presented in the next section.
+  id: totrans-78
   prefs: []
   type: TYPE_NORMAL
 - en: Cryptographic primitives
+  id: totrans-79
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -407,95 +534,135 @@
     is a set of steps taken to achieve the required security goals by utilizing appropriate
     security mechanisms. Various types of security protocols are in use, such as authentication
     protocols, non-repudiation protocols, and key management protocols.'
+  id: totrans-80
   prefs: []
   type: TYPE_NORMAL
+  zh: '**加密原语** 是安全协议或系统的基本构建模块。在接下来的章节中，您将了解到构建安全协议和系统所必需的加密算法。**安全协议** 是通过利用适当的安全机制来实现所需的安全目标的一系列步骤。目前使用各种类型的安全协议，如认证协议、不可否认协议和密钥管理协议。'
 - en: 'The taxonomy of cryptographic primitives can be visualized as shown here:'
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
+  zh: 加密原语的分类可以通过以下图示来进行可视化：
 - en: '![](img/f0f17718-c660-4182-8942-e4d21ffa7c37.jpg)'
+  id: totrans-82
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/f0f17718-c660-4182-8942-e4d21ffa7c37.jpg)'
 - en: Cryptographic primitives
+  id: totrans-83
   prefs: []
   type: TYPE_NORMAL
+  zh: 密码原语
 - en: 'As shown in the cryptographic primitives taxonomy diagram, cryptography is
     mainly divided into two categories: *symmetric cryptography* and *asymmetric cryptography*.'
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: 如加密原语分类图所示，密码学主要分为两类：*对称密码学* 和 *非对称密码学*。
 - en: These primitives are discussed further in the next section.
+  id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些原语在下一节中进一步讨论。
 - en: Symmetric cryptography
+  id: totrans-86
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 对称密码学
 - en: '**Symmetric cryptography** refers to a type of cryptography where the key that
     is used to encrypt the data is the same one that is used for decrypting the data.
     Thus, it is also known as **shared key cryptography**. The key must be established
     or agreed upon before the data exchange occurs between the communicating parties.
     This is the reason it is also called **secret key cryptography**.'
+  id: totrans-87
   prefs: []
   type: TYPE_NORMAL
+  zh: '**对称密码学** 指的是一种使用加密数据的密钥进行解密的类型的密码学，它也被称为 **共享密钥密码学**。密钥必须在通信各方之间进行数据交换之前建立或达成一致。这也是它被称为
+    **秘密密钥密码学** 的原因。'
 - en: 'There are two types of symmetric ciphers: *stream ciphers* and *block ciphers*.
     **Data Encryption Standard** (**DES**) and **Advanced Encryption Standard** (**AES**)
     are typical examples of block ciphers, whereas RC4 and A5 are commonly used stream
     ciphers.'
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 对称密码有两种类型：*流密码* 和 *块密码*。**数据加密标准** (**DES**) 和 **高级加密标准** (**AES**) 是块密码的典型示例，而RC4和A5通常用作流密码。
 - en: Stream ciphers
+  id: totrans-89
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 流密码
 - en: '**Stream ciphers** are encryption algorithms that apply encryption algorithms
     on a bit-by-bit basis (one bit at a time) to plaintext using a keystream. There
     are two types of stream ciphers: *synchronous stream ciphers* and *asynchronous
     stream ciphers*:'
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: '**流密码** 是加密算法，它将密钥流逐位应用于明文以使用密钥流进行加密（对每个位进行一次）。流密码有两种类型: *同步流密码* 和 *异步流密码*：'
 - en: '**Synchronous stream ciphers** are those where the keystream is dependent only
     on the key'
+  id: totrans-91
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**同步流密码** 是那些密钥流仅依赖于密钥的密码'
 - en: '**Asynchronous stream ciphers** have a keystream that is also dependent on
     the encrypted data'
+  id: totrans-92
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**异步流密码** 具有密钥流还依赖于加密数据'
 - en: 'In stream ciphers, encryption and decryption are the same function because
     they are simple modulo-2 additions or XOR operations. The fundamental requirement
     in stream ciphers is the security and randomness of keystreams. Various techniques
     ranging from pseudorandom number generators to true random number generators implemented
     in hardware have been developed to generate random numbers, and it is vital that
     all key generators be cryptographically secure:'
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
+  zh: 在流密码中，加密和解密是相同的功能，因为它们是简单的模2加法或异或操作。流密码的基本要求是密钥流的安全性和随机性。从伪随机数生成器到硬件实现的真随机数生成器等各种技术已经开发出来生成随机数，并且至关重要的是所有密钥生成器都是具有密码安全性的：
 - en: '![](img/d492d415-dce4-4b32-8648-2ca6f7e0c5e3.jpg)'
+  id: totrans-94
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/d492d415-dce4-4b32-8648-2ca6f7e0c5e3.jpg)'
 - en: Operation of a stream cipher
+  id: totrans-95
   prefs: []
   type: TYPE_NORMAL
+  zh: 流密码的操作
 - en: Block ciphers
+  id: totrans-96
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 块密码
 - en: '**Block ciphers** are encryption algorithms that break up the text to be encrypted
     (plaintext) into blocks of a fixed length and apply the encryption block-by-block.
     Block ciphers are generally built using a design strategy known as a **Feistel
     cipher**. Recent block ciphers, such as AES (Rijndael) have been built using a
     combination of substitution and permutation called a **Substitution-Permutation
     Network** (**SPN**).'
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: '**块密码** 是将要加密的文本（明文）分割成固定长度的数据块，然后逐块应用加密。块密码通常是使用一种被称为**费斯特尔密码**的设计策略构建的。最近的块密码，如AES
+    (Rijndael) 是使用被称为 **替代-置换网络** (**SPN**) 的替代和置换的组合来构建的。'
 - en: Feistel ciphers are based on the Feistel network, which is a structure developed
     by Horst Feistel. This structure is based on the idea of combining multiple rounds
     of repeated operations to achieve desirable cryptographic properties known as
     *confusion* and *diffusion*. Feistel networks operate by dividing data into two
     blocks (left and right) and processing these blocks via keyed *round functions*
     in iterations to provide sufficient pseudorandom permutation.
+  id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: 费斯特尔密码基于由霍斯特·费斯特尔开发的费斯特尔网络。这种结构基于将多轮重复操作组合起来以实现称为*混淆*和*扩散*的理想密码学属性的思想。费斯特尔网络通过将数据分成两个块（左侧和右侧），并通过迭代使用带键的*轮函数*来处理这些块，以提供足够的伪随机排列。
 - en: Confusion makes the relationship between the encrypted text and plaintext complex.
     This is achieved by substitution. In practice, *A* in plaintext is replaced by
     *X* in encrypted text. In modern cryptographic algorithms, substitution is performed
@@ -505,105 +672,144 @@
     of the bits in the ciphertext. Confusion is required to make finding the encryption
     key very difficult, even if many encrypted and decrypted data pairs are created
     using the same key. In practice, this is achieved by transposition or permutation.
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 混淆使得加密文本与明文之间的关系复杂化。这是通过替换实现的。在实践中，明文中的*A*被替换为加密文本中的*X*。在现代密码算法中，使用称为*S盒*的查找表进行替换。扩散属性将明文统计地传播到加密数据中。这确保即使在输入文本中更改了单个位，也会导致至少改变（平均而言）密文中一半以上的位。混淆是为了使找到加密密钥变得非常困难，即使使用相同的密钥创建了许多加密和解密数据对也是如此。在实践中，这是通过换位或置换来实现的。
 - en: 'A key advantage of using a Feistel cipher is that encryption and decryption
     operations are almost identical and only require a reversal of the encryption
     process to achieve decryption. DES is a prime example of Feistel-based ciphers:'
+  id: totrans-100
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用费斯特尔密码的一个主要优点是加密和解密操作几乎是相同的，只需要对加密过程进行反转即可实现解密。DES是费斯特尔密码的一个主要示例：
 - en: '![](img/90896149-efcb-4171-8961-45b0dcbede8d.png)'
+  id: totrans-101
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/90896149-efcb-4171-8961-45b0dcbede8d.png)'
 - en: Simpliﬁed operation of a block cipher
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
+  zh: 块密码的简化操作
 - en: Various modes of operation for block ciphers are **Electronic Code Book** (**ECB**),
     **Cipher Block Chaining** (**CBC**), **Output Feedback** (**OFB**) mode, and **Counter**
     (**CTR**) mode. These modes are used to specify the way in which an encryption
     function is applied to the plaintext. Some of these modes of block cipher encryption
     are introduced here.
+  id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 用于块密码的各种操作模式包括**电码本**（**ECB**）、**密码块链接**（**CBC**）、**输出反馈**（**OFB**）模式和**计数器**（**CTR**）模式。这些模式用于指定加密函数应用于明文的方式。这里介绍了一些块密码加密模式。
 - en: Block encryption mode
+  id: totrans-104
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 块加密模式
 - en: In **block encryption mode**, the plaintext is divided into blocks of fixed
     length depending on the type of cipher used. Then the encryption function is applied
     to each block.
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 在**块加密模式**中，明文根据使用的密码类型被分成固定长度的块，然后对每个块应用加密函数。
 - en: The most common block encryption modes are briefly discussed in the following
     subsections.
+  id: totrans-106
   prefs: []
   type: TYPE_NORMAL
+  zh: 最常见的块加密模式在以下小节中简要讨论。
 - en: Electronic Code Book
+  id: totrans-107
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 电码本
 - en: '**Electronic Code Book** (**ECB**) is a basic mode of operation in which the
     encrypted data is produced as a result of applying the encryption algorithm one-by-one
     to each block of plaintext. This is the most straightforward mode, but it should
     not be used in practice as it is insecure and can reveal information:'
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: '**电码本**（**ECB**）是一种基本的操作模式，其中加密数据是通过将加密算法逐个应用于每个明文块而产生的。这是最简单直接的模式，但不应在实践中使用，因为它是不安全的，并且可能会泄露信息：'
 - en: '![](img/4067bed1-3b81-4233-b4ce-ebf922f13d03.png)'
+  id: totrans-109
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/4067bed1-3b81-4233-b4ce-ebf922f13d03.png)'
 - en: Electronic Code Book mode for block ciphers
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: 用于块密码的电码本模式
 - en: The preceding diagram shows that we have plaintext **P** provided as an input
     to the block cipher encryption function, along with a key **KEY** and ciphertext
     **C** is produced as output.
+  id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: 前面的图表显示，我们将明文**P**提供为输入到块密码加密函数，连同密钥**KEY**，并且生成了密文**C**作为输出。
 - en: Cipher Block Chaining
+  id: totrans-112
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 密码块链接
 - en: 'In **Cipher Block Chaining** (**CBC**) mode, each block of plaintext is XOR''d
     with the previously-encrypted block. CBC mode uses the **Initialization Vector**
     (**IV**) to encrypt the first block. It is recommended that the IV be randomly
     chosen:'
+  id: totrans-113
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/478cd4c0-65e9-4748-aa0c-109a0c938f28.jpg)'
+  id: totrans-114
   prefs: []
   type: TYPE_IMG
 - en: Cipher block chaining mode
+  id: totrans-115
   prefs: []
   type: TYPE_NORMAL
 - en: Counter mode
+  id: totrans-116
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'The **Counter** (**CTR**) mode effectively uses a block cipher as a stream
     cipher. In this case, a unique nonce is supplied that is concatenated with the
     counter value to produce a **keystream**:'
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/59ec47c3-5fba-4325-a0ef-edc80c8676dc.png)'
+  id: totrans-118
   prefs: []
   type: TYPE_IMG
 - en: Counter mode
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
 - en: There are other modes, such as **Cipher Feedback** (**CFB**) mode, **Galois
     Counte**r (**GCM**) mode, and **Output Feedback** (**OFB**) mode, which are also
     used in various scenarios.
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
 - en: Keystream generation mode
+  id: totrans-121
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: In **keystream generation mode**, the encryption function generates a keystream
     that is then XOR'd with the plaintext stream to achieve encryption.
+  id: totrans-122
   prefs: []
   type: TYPE_NORMAL
 - en: Message authentication mode
+  id: totrans-123
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -619,27 +825,33 @@
     match, then the message has not modified by unauthorized user thus integrity service
     is provided. If they both don't match, then it means that message is modified
     by unauthorized entity during the transmission.
+  id: totrans-124
   prefs: []
   type: TYPE_NORMAL
 - en: Cryptographic hash mode
+  id: totrans-125
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Hash functions are primarily used to compress a message to a fixed-length digest.
     In **cryptographic hash mode**, block ciphers are used as a compression function
     to produce a hash of plaintext.
+  id: totrans-126
   prefs: []
   type: TYPE_NORMAL
 - en: With this, we have now concluded the introduction to block ciphers. In the following
     section, you will be introduced to the design and mechanism of a currently market-dominant
     block cipher known as AES.
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
 - en: Before discussing AES, however, some history is presented about the **Data Encryption
     Standard** (**DES**) that led to the development of the new AES standard.
+  id: totrans-128
   prefs: []
   type: TYPE_NORMAL
 - en: Data Encryption Standard
+  id: totrans-129
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -650,6 +862,7 @@
     in technology and cryptography research. In July 1998, for example, the **Electronic
     Frontier Foundation** (**EFF**) broke DES using a special-purpose machine called
     EFF DES cracker (or *Deep Crack*).
+  id: totrans-130
   prefs: []
   type: TYPE_NORMAL
 - en: DES uses a key of only 56 bits, which raised some concerns. This problem was
@@ -657,9 +870,11 @@
     use of a 168-bit key by means of three 56-bit keys and the same number of executions
     of the DES algorithm, thus making brute force attacks almost impossible. However,
     other limitations, such as slow performance and 64-bit block size, were not desirable.
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
 - en: Advanced Encryption Standard
+  id: totrans-132
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -670,9 +885,11 @@
     The original version of Rijndael permits different key and block sizes of 128-bit,
     192-bit, and 256-bits. In the AES standard, however, only a 128-bit block size
     is allowed. However, key sizes of 128-bit, 192-bit, and 256-bit are permissible.
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
 - en: How AES works
+  id: totrans-134
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -680,127 +897,166 @@
     is modified using multiple rounds. Full encryption requires 10 to 14 rounds, depending
     on the size of the key. The following table shows the key sizes and the required
     number of rounds:'
+  id: totrans-135
   prefs: []
   type: TYPE_NORMAL
 - en: '| **Key size** | **Number of rounds required** |'
+  id: totrans-136
   prefs: []
   type: TYPE_TB
 - en: '| 128-bit | 10 rounds |'
+  id: totrans-137
   prefs: []
   type: TYPE_TB
 - en: '| 192-bit | 12 rounds |'
+  id: totrans-138
   prefs: []
   type: TYPE_TB
 - en: '| 256-bit | 14 rounds |'
+  id: totrans-139
   prefs: []
   type: TYPE_TB
 - en: 'Once the state is initialized with the input to the cipher, four operations
     are performed in four stages to encrypt the input. These stages are: `AddRoundKey`,
     `SubBytes`, `ShiftRows`, and `MixColumns`:'
+  id: totrans-140
   prefs: []
   type: TYPE_NORMAL
 - en: In the `AddRoundKey` step, the state array is XOR'd with a subkey, which is
     derived from the master key
+  id: totrans-141
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '`SubBytes` is the substitution step where a lookup table (S-box) is used to
     replace all bytes of the state array'
+  id: totrans-142
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: The `ShiftRows` step is used to shift each row to the left, except for the first
     one, in the state array to the left in a cyclic and incremental manner
+  id: totrans-143
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Finally, all bytes are mixed in the `MixColumns` step in a linear fashion, column-wise
+  id: totrans-144
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: The preceding steps describe one round of AES.
+  id: totrans-145
   prefs: []
   type: TYPE_NORMAL
 - en: 'In the final round (either 10, 12, or 14, depending on the key size), stage
     4 is replaced with `AddRoundKey` to ensure that the first three steps cannot be
     simply reversed:'
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/618ac1c8-26d6-4920-a21c-aa8777daea29.jpg)'
+  id: totrans-147
   prefs: []
   type: TYPE_IMG
 - en: AES block diagram, showing the first round of AES encryption. In the last round,
     the mixing step is not performed
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
 - en: Various cryptocurrency wallets use AES encryption to encrypt locally-stored
     data. Especially in Bitcoin wallet, AES-256 in the CBC mode is used.
+  id: totrans-149
   prefs: []
   type: TYPE_NORMAL
 - en: 'Here''s an OpenSSL example of how to encrypt and decrypt using AES:'
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE3]'
+  id: totrans-151
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: 'The following are the contents of the `message.bin` file:'
+  id: totrans-152
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/ae4841d1-48e6-4998-ba1b-ee05acb12353.jpg)'
+  id: totrans-153
   prefs: []
   type: TYPE_IMG
 - en: 'Note that `message.bin` is a binary file. Sometimes, it is desirable to encode
     this binary file in a text format for compatibility/interoperability reasons.
     The following command can be used to do just that:'
+  id: totrans-154
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE4]'
+  id: totrans-155
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: 'In order to decrypt an AES-encrypted file, the following commands can be used.
     An example of `message.bin` from a previous example is used:'
+  id: totrans-156
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE5]'
+  id: totrans-157
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'Astute readers will have noticed that no IV has been provided, even though
     it''s required in all block encryption modes of operation except ECB. The reason
     for this is that OpenSSL automatically derives the IV from the given password.
     Users can specify the IV using the following switch:'
+  id: totrans-158
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE6]'
+  id: totrans-159
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: 'In order to decode from base64, the following commands are used. Follow the
     `message.b64` file from the previous example:'
+  id: totrans-160
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE7]'
+  id: totrans-161
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: 'The following are the contents of the `message.ptx` file:'
+  id: totrans-162
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/fb49b421-d11e-472b-950a-7e6526a3e291.jpg)'
+  id: totrans-163
   prefs: []
   type: TYPE_IMG
 - en: 'There are many types of ciphers that are supported in OpenSSL. You can explore
     these options based on the preceding examples. A list of supported cipher types
     is shown in the following screenshot:'
+  id: totrans-164
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/e1c6410b-dd51-48f2-8da5-429647c0c948.png)'
+  id: totrans-165
   prefs: []
   type: TYPE_IMG
 - en: Screenshot displaying rich library options available in OpenSSL
+  id: totrans-166
   prefs: []
   type: TYPE_NORMAL
 - en: OpenSSL tool can be used to experiment with all the ciphers shown in the screenshot.
+  id: totrans-167
   prefs: []
   type: TYPE_NORMAL
 - en: Summary
+  id: totrans-168
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -809,9 +1065,11 @@
     we introduced you to the concepts of stream and block ciphers along with working
     modes of block ciphers. Moreover, we introduced you to the practical exercises
     using OpenSSL to complement the theoretical concepts.
+  id: totrans-169
   prefs: []
   type: TYPE_NORMAL
 - en: In the next chapter, we will present public key cryptography, which is used
     extensively in blockchain technology and has very interesting properties.
+  id: totrans-170
   prefs: []
   type: TYPE_NORMAL
