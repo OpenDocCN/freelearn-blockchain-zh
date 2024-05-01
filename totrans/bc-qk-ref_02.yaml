@@ -1,58 +1,84 @@
 - en: Components and Structure of Blockchain
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链的组成部分和结构
 - en: Blockchain is not a single technology, but more of a technique. A blockchain
     is an architectural concept, and there are many ways that blockchains can be be
     built, and each of the variations will have different effects on how the system
     operates. In this chapter, we are going to cover the aspects of blockchain technology
     that are used in all or most of the current implementations.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链不是单一技术，而是更多的一种技术。区块链是一种架构概念，有许多构建区块链的方法，每种变体都会对系统运行产生不同的影响。在本章中，我们将讨论所有或大部分目前实施的区块链技术的方面。
 - en: By the end of this chapter, you should be able to describe the pieces of a blockchain
     and evaluate the capacities of one blockchain technology against another at the
     architectural level.
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章结束时，您应该能够描述区块链的各个部分，并在架构层面上评估一种区块链技术对另一种的能力。
 - en: 'Here are the concepts we will be covering:'
+  id: totrans-3
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是我们将要覆盖的概念：
 - en: Blocks
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 区块
 - en: The chain between blocks
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 区块之间的链
 - en: Hashing and signatures
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 哈希和签名
 - en: Block structure
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 区块结构
 - en: Block miners
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 区块矿工
 - en: Block validators
+  id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 区块验证者
 - en: Smart contracts
+  id: totrans-10
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 智能合约
 - en: Blockchain speed
+  id: totrans-11
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 区块链速度
 - en: Blocks
+  id: totrans-12
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块
 - en: 'Blockchain is a specific technology, but there are many forms and varieties.
     For instance, Bitcoin and Ethereum are proof-of-work blockchains. Ethereum has
     smart contracts, and many blockchains allow custom tokens. Blockchains can be
@@ -63,26 +89,38 @@
     the block. The most basic unit of a blockchain is the block. The simplest way
     of thinking of a block is to imagine a basic spreadsheet. In it, you might see
     entries such as this:'
+  id: totrans-13
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链是一种特定的技术，但有许多形式和变种。例如，比特币和以太坊是工作量证明的区块链。以太坊有智能合约，并且许多区块链允许自定义代币。区块链可以通过它们的共识算法（PoS、PoW和其他）来区分，*在[第7章](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)*——*达成共识*中有所涵盖*，*以及它们的功能集，比如能够运行智能合约以及这些智能合约在实践中的运作方式。所有这些变体都有一个共同的概念：区块。区块链技术的最基本单位是区块。想象一个基本的电子表格，可以简单地将区块视为其。在这个电子表格中，您可能会看到这样的条目：
 - en: '| **Account** | **Change** | **New Balance** | **Old Balance** | **Operation**
     |'
+  id: totrans-14
   prefs: []
   type: TYPE_TB
+  zh: '| **账户** | **交易额** | **新余额** | **旧余额** | **操作** |'
 - en: '| Acct-9234222 | −$2,000 | $5,000 | $7,000 | Send funds to account-12345678
     |'
+  id: totrans-15
   prefs: []
   type: TYPE_TB
+  zh: '| 账号-9234222 | −$2,000 | $5,000 | $7,000 | 向账号-12345678发送资金 |'
 - en: '| Acct-12345678 | $2,000 | $2,000 | 0 | Receive funds from account-9234222
     |'
+  id: totrans-16
   prefs: []
   type: TYPE_TB
+  zh: '| 账号-12345678 | $2,000 | $2,000 | 0 | 从账号-9234222接收资金 |'
 - en: '| Acct-3456789 | -$200 | $50 | $250 | Send funds to account-68890234 |'
+  id: totrans-17
   prefs: []
   type: TYPE_TB
+  zh: '| 账号-3456789 | -$200 | $50 | $250 | 向账号-68890234发送资金 |'
 - en: '| Acct-68890234 | $200 | $800 | $600 | Receive funds from account-3456789 |'
+  id: totrans-18
   prefs: []
   type: TYPE_TB
+  zh: '| 账号-68890234 | $200 | $800 | $600 | 从账号-3456789接收资金 |'
 - en: 'A block is a set of transaction entries across the network, stored on computers
     that act as participants in the blockchain network. Each blockchain network has
     a block time, or the approximate amount of time that each block represents for
@@ -96,309 +134,450 @@
     (denominated in the blockchain''s native token) that a sender is willing to pay
     to have a transaction included in a block. The higher the fee, the greater the
     priority to be included on the chain immediately.'
+  id: totrans-19
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个区块是区块链网络中的交易条目集，存储在充当参与者的计算机上。每个区块链网络都有一个区块时间，或者每个区块表示交易的大致时间，以及一个区块大小：无论如何，一个区块可以处理的总交易量。如果一个网络的区块时间为两分钟，那两分钟内只有四笔交易，那么该区块就只包含这四笔交易。如果一个网络有1,000,000笔交易，那么可能有太多交易无法适应区块大小。在这种情况下，交易必须等待它们的轮次，等待一个有剩余空间的空区块。一些区块链通过网络费的概念解决了这个问题。网络费是发送者愿意支付的金额（以区块链的原生代币计量），以便将交易纳入一个区块中。费用越高，优先级越高，可以立即被纳入链中。
 - en: The chain between blocks
+  id: totrans-20
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块之间的链
 - en: 'In addition to the transaction ledger, each block typically contains some additional
     metadata. The metadata includes the following:'
+  id: totrans-21
   prefs: []
   type: TYPE_NORMAL
+  zh: 除了交易分类帐，每个块通常还包含一些附加元数据。元数据包括以下内容：
 - en: A reference to the prior block
+  id: totrans-22
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 对先前区块的引用
 - en: Metadata about the network
+  id: totrans-23
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 网络的元数据
 - en: The Merkle root of the transactions, which acts as a check of the validity of
     the block
+  id: totrans-24
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 交易的默克尔根，作为块有效性的检查
 - en: 'These basics tend to be common for all blockchains. Ethereum, Bitcoin, Litecoin,
     and others use this common pattern, and this pattern is what makes it a chain.
     Each chain also tends to include other metadata that is specific to that ecosystem,
     and those differences will be discussed in future chapters. Here is an example
     from the Bitcoin blockchain:'
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些基础知识通常适用于所有的区块链。以太坊、比特币、莱特币等都使用这种常见模式，而这种模式也是链的本质。每个链还倾向于包含特定于该生态系统的其他元数据，这些差异将在以后的章节中讨论。以下是比特币区块链的一个示例：
 - en: <q>![](img/199339c2-4243-40d6-84fa-fffb944fe776.png)</q>
+  id: totrans-26
   prefs: []
   type: TYPE_NORMAL
+  zh: <q>![](img/199339c2-4243-40d6-84fa-fffb944fe776.png)</q>
 - en: 'By Satoshi Nakamoto: http://Bitcoin.org/Bitcoin.pdf, MIT, https://commons.wikimedia.org/w/index.php?curid=24542868'
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: 作者：中本聪，http://Bitcoin.org/Bitcoin.pdf，麻省理工学院，https://commons.wikimedia.org/w/index.php?curid=24542868
 - en: 'If you are asking, What is a Merkle root?, that brings us to our next set of
     key concepts: hashing and signature.'
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你问，Merkle根是什么？那就引出了我们下一组关键概念：哈希和签名。
 - en: Hashing and signatures
+  id: totrans-29
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 哈希和签名
 - en: 'Let''s say you have two text files that are 50 pages long. You want to know
     whether they are the same or different. One way you could do this would be to
     hash them. Hashing (or a hashing function) is a mathematical procedure by which
     any input is turned into a fixed-length output. There are many of these functions,
     the most common being SHA-1, SHA-2, and MD5\. For instance, here is the output
     of a hashing function called **MD5** with an input of two pages of text:'
+  id: totrans-30
   prefs: []
   type: TYPE_NORMAL
+  zh: 假设你有两个各50页长的文本文件。你想知道它们是否相同或不同。你可以使用哈希值来实现这一点。哈希（或哈希函数）是一种数学过程，它将任何输入转换为固定长度的输出。有许多这样的函数，最常见的是SHA-1、SHA-2和MD5。例如，以下是一个名为**MD5**的哈希函数的输出，输入是两页文本：
 - en: '[PRE0]'
+  id: totrans-31
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: 'What''s powerful about hashing functions is what happens when I add a single
     character to the end and run the same function:'
+  id: totrans-32
   prefs: []
   type: TYPE_NORMAL
+  zh: 哈希函数的强大之处在于当我在末尾添加一个字符并运行相同的函数时会发生什么：
 - en: '[PRE1]'
+  id: totrans-33
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: 'As you can see, the output is completely different. If you want to quickly
     prove that some data has not been changed in any way, a hash function will do
     it. For our discussion, here are the important parts of hashing functions:'
+  id: totrans-34
   prefs: []
   type: TYPE_NORMAL
+  zh: 如你所见，输出完全不同。如果你想快速证明某些数据在任何方面都没有被改变，哈希函数就能胜任。在我们的讨论中，哈希函数的重要部分如下：
 - en: They are very fast for computers to run.
+  id: totrans-35
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 计算机运行速度非常快。
 - en: The function is one way. You can get the hash easily, but you cannot realistically
     use the hash to restore the original.
+  id: totrans-36
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 这个函数是单向的。你可以轻松地获得哈希值，但实际上你不能使用哈希值来恢复原始数据。
 - en: They can be used recursively. For instance, I can take the hash of the hash;
     for example, MD5(`8469c950d50b3394a30df3e0d2d14d74`) becomes `705b003fc9b09ecbeac0b852dfc65377`.
+  id: totrans-37
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 它们可以被递归使用。例如，我可以取哈希的哈希；例如，MD5(`8469c950d50b3394a30df3e0d2d14d74`)变成了`705b003fc9b09ecbeac0b852dfc65377`。
 - en: 'This recursive property to hashing is what brings us to the concept of a **Merkle
     tree**, named after the man who patented it. A Merkle tree is a data structure
     that, if your were to draw it on a whiteboard, tends to resemble a tree. At each
     step of the tree, the root node contains a hash of the data of its children. The
     following is a diagram of a Merkle tree:'
+  id: totrans-38
   prefs: []
   type: TYPE_NORMAL
+  zh: 哈希的递归性质使我们引入了**默克尔树**的概念，这个概念是以专利命名的。默克尔树是一种数据结构，如果你在白板上画出它，它往往像一棵树。在树的每一步中，根节点包含其子节点数据的哈希值。以下是默克尔树的图示：
 - en: '![](img/df4e2d61-c322-4b57-8201-82c3bcd31d8f.png)'
+  id: totrans-39
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/df4e2d61-c322-4b57-8201-82c3bcd31d8f.png)'
 - en: Original illustration by David Göthberg, Sweden, released to the public domain
+  id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: 原始插图作者为David Göthberg，瑞典，已释放至公共领域
 - en: 'In a blockchain, this means that there is a recursive hashing process happening.
     A recursive hash is when we take a hash of hashes. For instance, imagine we have
     the following words and their hashes. Here, we will use the MD5 algorithm, because
     it is easy to find MD5 hashing code on the web, so you can try for yourself:'
+  id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: 在区块链中，这意味着存在着一个递归的哈希过程。递归哈希是指我们对哈希值进行哈希运算的过程。例如，想象一下我们有以下单词及其哈希值。这里，我们将使用MD5算法，因为在网络上很容易找到MD5哈希代码，所以你可以自己尝试一下：
 - en: '[PRE2]'
+  id: totrans-42
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: 'To take the recursive or the root hash, we would add these hashes together,
     as follows:'
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: 要计算递归哈希或根哈希，我们将把这些哈希值相加，如下所示：
 - en: '[PRE3]'
+  id: totrans-44
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: 'Then we would take the hash of that value, which would result in the following:'
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后我们将对该值进行哈希，结果如下：
 - en: '[PRE4]'
+  id: totrans-46
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: This process can happen over and over again. The final hash can then be used
     to check whether any of the values in the tree have been changed. This root hash
     is a data efficient and a powerful way to ensure that data is consistent.
+  id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 这个过程可以一次又一次地发生。最终的哈希可以用来检查树中的任何值是否已更改。这个根哈希是一种数据高效且有效的方式，可以确保数据的一致性。
 - en: Each block contains the root hash of all the transactions. Because of the one-way
     nature of hashing, anyone can look at this root hash and compare it to the data
     in the block and know whether all the data is valid and unchanged. This allows
     anyone to quickly verify that every transaction is correct. Each blockchain has
     small variations on this pattern (using different functions or storing the data
     slightly differently), but the basic concept is the same.
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 每个区块都包含了所有交易的根哈希。由于哈希的单向性，任何人都可以查看这个根哈希，并将其与区块中的数据进行比对，并知道所有数据是否有效和未更改。这使得任何人都可以快速验证每笔交易是否正确。每个区块链对这种模式都有小的变化（使用不同的函数或以稍微不同的方式存储数据），但基本概念是一样的。
 - en: Digital signatures
+  id: totrans-49
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 数字签名
 - en: 'Now that we''ve covered hashing, it''s time to go over a related concept: **digital
     signatures**. Digital signatures use the properties of hashing to not only prove
     that data hasn''t changed but to provide assurances of who created it. Digital
     signatures work off the concept of hashing but add a new concept as well: **digital
     keys**.'
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们已经介绍了哈希，是时候来介绍一个相关的概念：**数字签名**。数字签名利用哈希的性质，不仅证明数据没有改变，还提供了谁创建了数据的保证。数字签名利用哈希的概念，还添加了一个新的概念：**数字密钥**。
 - en: What are digital keys?
+  id: totrans-51
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 数字密钥是什么？
 - en: 'All common approaches to digital signatures use what is called **Public Key
     Cryptography**. In Public Key Cryptography, there are two keys: one public and
     one private. To create a signature, the first hash is produced of the original
     data, and then the private key is used to encrypt that hash. That encrypted hash,
     along with other information, such as the encryption method used to become part
     of the signature, are attached to the original data.'
+  id: totrans-52
   prefs: []
   type: TYPE_NORMAL
+  zh: 所有常见的数字签名方法都使用所谓的**公钥密码学**。在公钥密码学中，有两把密钥：一个公钥和一个私钥。为了创建签名，首先对原始数据进行哈希，然后使用私钥对该哈希进行加密。加密后的哈希，以及其他信息，如用于加密的方法，都被附加到原始数据中，形成签名。
 - en: 'This is where the public key comes into play. The mathematical link between
     the public key and the private key allows the public key to decrypt the hash,
     and then the hash can be used to check the data. Thus, two things can now be checked:
     who signed the data and that the data that was signed has not been altered. The
     following is a diagrammatic representation of the same:'
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: 这就是公钥发挥作用的地方。公钥和私钥之间的数学连接允许公钥解密哈希，然后可以用哈希来检查数据。因此，现在可以检查两件事情：谁签署了数据以及被签名的数据是否已被更改。以下是同样的图解表示：
 - en: '![](img/1791aa48-bbb4-402b-8f43-f67a04840dcd.png)'
+  id: totrans-54
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/1791aa48-bbb4-402b-8f43-f67a04840dcd.png)'
 - en: By Engelbert Niehaus with SVG color scheme by user Bananenfalter —Used SVG color
     of illustration by Bananenfalter and edit with Inkscape, CC BY-SA 3.0, https://en.wikiversity.org/w/index.php?curid=226250
+  id: totrans-55
   prefs: []
   type: TYPE_NORMAL
+  zh: 由Engelbert Niehaus制作，用户Bananenfalter制作的SVG色彩方案 - 使用Bananenfalter制作的插图的SVG颜色，并使用Inkscape进行编辑，CC
+    BY-SA 3.0，https://en.wikiversity.org/w/index.php?curid=226250
 - en: This form of cryptography is critical to blockchain technology. Through hashing
     and digital signatures, a blockchain is able to record information both on actions
     (movement of tokens) as well as prove who initiated those actions (via digital
     signatures).
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 这种密码学形式对区块链技术至关重要。通过哈希和数字签名，区块链能够记录行为（代币的移动）以及证明是谁发起了这些行为（通过数字签名）。
 - en: 'Let''s create an example of how this would look. Jeremy and Nadia wish to send
     messages to each other securely. Each publishes a public key. Jeremy''s will look
     something as follows (using an RSA algorithm with 1,024 bits):'
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们举个例子，Jeremy和Nadia希望互相安全地发送消息。每个人都公布了一个公钥。Jeremy的公钥将如下所示（使用1,024位的RSA算法）：
 - en: '[PRE5]'
+  id: totrans-58
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'With that key, he will keep private another key, which looks as follows:'
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 有了这把密钥，他将保持私有另一把密钥，其外观如下：
 - en: '[PRE6]'
+  id: totrans-60
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: 'In the meantime, Nadia will do the same, resulting in the following two keys:'
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 与此同时，娜迪亚将采取相同的步骤，得到以下两个密钥：
 - en: '[PRE7]'
+  id: totrans-62
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: 'This is her private key:'
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是她的私钥：
 - en: '[PRE8]'
+  id: totrans-64
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: 'With these keys, Jeremy decides to send a message to Nadia. He uses her key
     and encrypts the following message: I love Bitcoin, which results in the following
     data:'
+  id: totrans-65
   prefs: []
   type: TYPE_NORMAL
+  zh: 有了这些密钥，杰里米决定给娜迪亚发送一条消息。他使用她的密钥并加密以下消息：我爱比特币，结果如下所示的数据：
 - en: '[PRE9]'
+  id: totrans-66
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: 'Nobody can read this, except Nadia. Using the same algorithm, she inputs this
     data and her private key, and gets the following message:'
+  id: totrans-67
   prefs: []
   type: TYPE_NORMAL
+  zh: 除了娜迪亚以外，没有人能读到这个。她使用相同的算法，输入这些数据和她的私钥，得到以下消息：
 - en: '[PRE10]'
+  id: totrans-68
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: We'll discuss more about this topic in [Chapter 4,](1e946ba6-1799-42e0-89c1-0514d1c3f79f.xhtml) *Cryptography
     and the Mechanics Behind Blockchain.*
+  id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将在[第4章](1e946ba6-1799-42e0-89c1-0514d1c3f79f.xhtml)中讨论更多关于这个话题的内容，*密码学和区块链背后的机制*。
 - en: Example block data
+  id: totrans-70
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 示例区块数据
 - en: In this section, we are going to examine the data structures that are used in
     blockchains. We will be looking primarily at Ethereum, Bitcoin, and Bitshares
     blockchains to see key commonalities and differences.
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本节中，我们将研究区块链中使用的数据结构。我们主要将关注以太坊、比特币和比特股区块链，以查看关键的共同点和不同点。
 - en: Example Ethereum block
+  id: totrans-72
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 示例以太坊区块
 - en: 'Here is the data from an example Ethereum block, from block 5223669:'
+  id: totrans-73
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是来自示例以太坊区块的数据，来自区块5223669：
 - en: '![](img/3342bee8-b861-4fa4-9cbf-dbf3770391a4.png)'
+  id: totrans-74
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3342bee8-b861-4fa4-9cbf-dbf3770391a4.png)'
 - en: 'If you remember, at the beginning of the chapter, we said there were three
     things common to blockchains: the reference to the prior block, the Hash of the
     transactions in the block, and network-specific metadata. In this block from the
     Ethereum network, all three are present. The reference to the prior block is contained
     by the block height and parent hash values. The Hash of the transactions is the hash entry,
     and the metadata is everything else, which will be network specific.'
+  id: totrans-75
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你记得，在本章的开头，我们说有三件事是区块链的共同点：对先前区块的引用，区块中交易的哈希值，以及特定于网络的元数据。在这个来自以太坊网络的区块中，这三者都存在。对先前区块的引用包含在区块高度和父哈希值中。交易的哈希值是哈希条目，元数据是其他所有内容，这将是网络特定的。
 - en: Bitcoin block
+  id: totrans-76
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 比特币区块
 - en: 'Here is a snapshot of a Bitcoin block:'
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是比特币区块的快照：
 - en: '![](img/2a8fa709-5352-4f7f-8eef-c56778354fa6.png)'
+  id: totrans-78
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/2a8fa709-5352-4f7f-8eef-c56778354fa6.png)'
 - en: 'Both Bitcoin and Ethereum are PoW chains; let''s look now at a **Proof of Stake**
     (**POS**) ecosystem: Bitshares.'
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
+  zh: 比特币和以太坊都是PoW链；现在让我们来看一个**股权证明**（**POS**）生态系统：比特股。
 - en: 'Here is some data from a Bitshares block:'
+  id: totrans-80
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是来自比特股区块的一些数据：
 - en: '![](img/187c4dd7-4ba9-4838-9af7-52fd3fc03399.png)'
+  id: totrans-81
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/187c4dd7-4ba9-4838-9af7-52fd3fc03399.png)'
 - en: Despite a radically different architecture, the fundamentals remain: references
     to a previous block, Merkle root, and network metadata. In Bitshares, you can
     also see that there is a Witness Signature. As a PoS blockchain, Bitshares has
     validators (they are called witnesses). Here, we see the witness and signature
     of the computer responsible for calculating this block.
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: 尽管架构完全不同，但基本原理仍然存在：对先前区块的引用，默克尔根和网络元数据。在比特股中，您还可以看到有一个见证签名。作为PoS区块链，比特股有验证者（它们被称为见证人）。在这里，我们看到负责计算此区块的计算机的见证和签名。
 - en: Global state
+  id: totrans-83
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 全局状态
 - en: One of the key properties of blockchain technology is that it can act as a trusted
     global state. There are many applications where a trusted global state is important
     but difficult, such as financial technology and logistics.
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链技术的一个关键特性是它可以作为一个可信任的全局状态。有许多应用场景中，可信任的全局状态是重要但困难的，比如金融技术和物流。
 - en: For instance, a few years ago, I ordered some camera equipment online. A few
     days later, I came home and was surprised to find that my equipment had arrived.
     I was so thankful that the expensive equipment sitting outside had not been stolen.
     It was only the next day that I received an email from the seller alerting me
     that the package had been shipped.
+  id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: 例如，几年前，我在线订购了一些摄像机设备。几天后，我回家时惊讶地发现我的设备已经到货了。我非常感激，因为那些昂贵的设备没有被偷走。直到第二天我才收到卖家发来的一封邮件，提醒我包裹已经发出。
 - en: Here is a clear breakdown of the global state. The truth was that the camera
     was already on a truck, but neither I nor the shipper had that information stored
     properly. If the camera equipment had been stolen from my porch, it would have
     been very hard to discover what had happened.
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里清晰地列出了全局状态的细节。事实上，摄像机已经在一辆卡车上了，但我和货运商都没有妥善地存储这些信息。如果我的摄像机设备从我门口被盗走了，那将会很难发现发生了什么。
 - en: If the seller, the logistics company, and I were all writing and reading data
     from a blockchain, this would have been impossible. When the logistics company
     registered the shipment, the state of the object would have changed, and both
     the seller and I would have known as soon as the next block was finalized.
+  id: totrans-87
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果卖方、物流公司和我都从区块链中写入和读取数据，这将是不可能的。当物流公司登记货物时，物体的状态会发生变化，一旦下一个区块被确认，卖方和我都会立即知道。
 - en: Block time and block size
+  id: totrans-88
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块时间和区块大小
 - en: As discussed before, each blockchain has a **block time** and a **bloc****k
     size** . Each network can have very different values and ways of handling block
     time. In Bitcoin, for instance, the block time is 10 minutes, while with Ethereum
@@ -409,26 +588,38 @@
     which allows them to certify the block. In these networks, the difficulty of the
     puzzle is automatically adjusted so that on average the desired block time is
     reached.
+  id: totrans-89
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如之前讨论的，每个区块链都有一个**区块时间**和一个**区块大小**。每个网络可能具有非常不同的值和处理区块时间的方式。例如，在比特币中，区块时间是
+    10 分钟，而在以太坊中，区块时间是 20 秒。在恒星网络中，区块时间约为 4 秒。这些区块时间是由运行网络的代码确定的。对于比特币、莱特币和以太坊等网络，区块时间实际上是一个平均值。因为这些是
+    PoW 网络，一旦矿工解决了挖矿难题，他们就可以证明该区块已完成。在这些网络中，难题的难度会自动调整，以便平均达到所需的区块时间。
 - en: The block size is the maximum amount of information that can be stored in each
     block. For Bitcoin, this is 1 MB of data's worth of transactions. For Ethereum,
     the limit is actually measured in GAS, a special unit of measuring both processing
     power (since Ethereum has smart contracts) as well as storage. Unlike Bitcoin,
     the GAS/storage limit for each block is not fixed but is instead adjusted by the
     miners dynamically.
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块大小是每个区块中可以存储的最大信息量。对于比特币来说，这是价值1 MB的交易数据。对于以太坊来说，限制实际上是以 GAS 为单位衡量的，GAS 是一种特殊的计量单位，用于衡量处理能力（因为以太坊具有智能合约）以及存储。与比特币不同，每个区块的
+    GAS/存储限制不是固定的，而是由矿工动态调整的。
 - en: It's important to note that blocks contain only possible information until they
     are finalized by the network. For instance, 1,000 transactions might happen, but
     if only 500 make it on to the next block, then only those 500 are real. The remaining
     transactions will continue to wait to be included into a future block.
+  id: totrans-91
   prefs: []
   type: TYPE_NORMAL
+  zh: 需要注意的是，区块中只包含可能的信息，直到被网络确认为止。例如，可能会发生 1000 笔交易，但如果只有 500 笔被记录在下一个区块中，那么只有这 500
+    笔交易是真实的。剩余的交易将继续等待被包含到未来的区块中。
 - en: Blockchain miners
+  id: totrans-92
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链矿工
 - en: Blockchain miners and blockchain validators (see the upcoming sections) both
     have to do with consensus, which will be explored in depth in [Chap](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)[ter](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)
     [7](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)*,* *Achieving Consensus*. Generally,
@@ -439,12 +630,17 @@
     discuss in the next *Blockchain validators* section. We'll cover how mining works
     in detail in [Chapt](a8437577-99dc-4620-99d5-7fbd19b12659.xhtml)[er](a8437577-99dc-4620-99d5-7fbd19b12659.xhtml)
     [18](a8437577-99dc-4620-99d5-7fbd19b12659.xhtml)*, Mining.*
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链矿工和区块链验证者（见下面的部分）都与共识有关，这将在第 7 章 *实现共识* 中深入探讨。通常，区块链矿工与区块链相关联。PoW 链通过让矿工的计算机竞争执行证明链中的区块所需的工作来运作。目前，唯一主要的
+    PoW 区块链是比特币、莱特币和以太坊。大多数其他系统使用 PoS 共识的变体，我们将在下一节 *区块链验证者* 中讨论。我们将在第 18 章 *挖矿* 中详细介绍挖矿的工作原理。
 - en: Blockchain validators
+  id: totrans-94
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链验证者
 - en: '**Blockchain validators** are used by PoS systems. A PoS system works by requiring
     computers that wish to participate in the network to have **stake**—a large number
     of tokens—to assist in the blockchain. Unlike PoW algorithms, computers cannot
@@ -456,22 +652,32 @@
     network and does so. Each chain has its own rules for how this works, and these
     will be covered more in-depth in [Chap](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)[ter](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml) [7](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)*,* *Achieving
     Consensus*.'
+  id: totrans-95
   prefs: []
   type: TYPE_NORMAL
+  zh: '**区块链验证者**被PoS系统使用。 PoS系统通过要求希望参与网络的计算机拥有**股份**（大量代币）来帮助区块链运作。与PoW算法不同，计算机不能加入网络并期望在共识中发挥任何作用。相反，他们必须通过代币所有权来*购入*。根据网络的不同，验证者的命名约定可能不同。Tendermint有验证者，Steemit和Bitshares有见证人，Cardano有股东等。验证者是允许参与网络并这样做的具有正股份（代币数量）的计算机。每个链都有自己的规则来解决这个问题，这将在[第](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)[7](7f407309-5d34-464d-90fb-7d563834b8f8.xhtml)章*，*
+    *实现共识*中更加深入地讨论。'
 - en: Smart contracts
+  id: totrans-96
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 智能合约
 - en: Some blockchains are said to have smart contracts when they are able to perform
     actions and behavior in response to changes to the chain. These will be covered
     in depth in [Chapter 14](ef3765c0-cdba-4e62-b747-b981cc53473a.xhtml), *Smart Contracts* and
     [Chapter 17](c775c9f3-753d-4d9f-a894-f8ad18fd5950.xhtml), *Decentralized Applications*.
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 一些区块链被称为具有智能合约，当它们能够根据链的变化执行操作和行为时。这将在[第14章](ef3765c0-cdba-4e62-b747-b981cc53473a.xhtml)
+    *智能合约*和[第17章](c775c9f3-753d-4d9f-a894-f8ad18fd5950.xhtml) *去中心化应用程序*中深入讨论。
 - en: Blockchain speed
+  id: totrans-98
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链速度
 - en: One ongoing concern for blockchain systems is performance. Public blockchains
     are global systems, with their system resources shared by all the users in the
     world simultaneously. With such a large user base, resource constraints are a
@@ -479,29 +685,41 @@
     called **CryptoKitties** was launched on Ethereum and caused the network to become
     congested. Other applications became nearly unusable, as the load from CryptoKitties
     overwhelmed the network.
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链系统的一个持续关注点是性能。公共区块链是全球性系统，其系统资源同时由全球所有用户共享。由于用户基数庞大，资源约束是一个真正的问题，并且已经导致了真正的问题。例如，一个名为**CryptoKitties**的热门游戏在以太坊上推出，导致网络拥塞。其他应用程序几乎无法使用，因为来自CryptoKitties的负载使网络不堪重负。
 - en: How to calculate blockchain throughput
+  id: totrans-100
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 如何计算区块链吞吐量
 - en: 'The quick and dirty way of calculating the throughput of a blockchain is as
     follows:'
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 计算区块链吞吐量的快速粗略方法如下：
 - en: '![](img/d5892ee8-b811-4417-a09c-99b1c95d2fe7.png)![](img/802d8f75-b8d2-48ca-a2bf-f288b223f05e.png)![](img/4b210f00-be00-4e25-a3d2-a4670259a99c.png)'
+  id: totrans-102
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/d5892ee8-b811-4417-a09c-99b1c95d2fe7.png)![](img/802d8f75-b8d2-48ca-a2bf-f288b223f05e.png)![](img/4b210f00-be00-4e25-a3d2-a4670259a99c.png)'
 - en: For Bitcoin, the transaction throughput is about *7tx/second*. This is because
     of the relatively small block and the very long block time. Ethereum has short
     block times but very tiny blocks and ends up at about *14tx/second*. Blockchains
     such as Stellar, Bitshares, and Waves can reach speeds of over, *1000tx/second*.
+  id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于比特币，交易吞吐量约为*7tx/second*。这是因为区块相对较小，而且区块时间非常长。以太坊具有较短的区块时间，但区块非常小，因此最终达到约*14tx/second*。像Stellar、Bitshares和Waves这样的区块链可以达到每秒超过*1000tx/second*的速度。
 - en: Comparisons with traditional networks
+  id: totrans-104
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 与传统网络的比较
 - en: VISA is the premier payment-processing network worldwide. In one of the company's
     blogs, it was revealed that VISA can process over 40,000 transactions a second.
     This is peak capacity, and it usually processes nowhere near that, except around
@@ -509,36 +727,51 @@
     a way to go before they can compete for processing global payments on the same
     scale as VISA. Newer networks, such as EOS and COSMOS, are trying, however, with
     innovative multi-threaded designs and segmented blockchain zones.
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: VISA是全球首要的支付处理网络。在公司的一篇博客中，透露VISA每秒可以处理超过40,000笔交易。这是峰值容量，除了在诸如圣诞节之类的时候，它通常不会处理这么多交易。然而，应清楚地看到，区块链在能够与VISA相媲美的规模上处理全球支付之前还有很长的路要走。然而，像EOS和COSMOS这样的新网络正在尝试，通过创新的多线程设计和分段区块链区域。
 - en: Summary
+  id: totrans-106
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 摘要
 - en: Now you should understand the basic components of a blockchain. Blocks are groups
     of transactions grouped together and act as the fundamental unit of a blockchain.
     Miners are computers that create new blocks on PoW blockchains. Validators, also
     called witnesses and other names, are computers that create blocks on PoS blockchains.
     Digital signatures are composed of public and private keys and use mathematics
     to prove the author of the data.
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在你应该理解了区块链的基本组成部分。区块是一组被聚合在一起的交易，并充当区块链的基本单位。在 PoW 区块链上，矿工是创建新区块的计算机。在 PoS
+    区块链上，验证者，也称为见证人和其他名称，是创建区块的计算机。数字签名由公钥和私钥组成，并利用数学来证明数据的作者。
 - en: The key ideas of hashing is to use a mathematical function that maps arbitrary
     data to a single, simple to deal with value. Any change to the data will make
     the end value very different
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: 哈希的关键思想是使用数学函数将任意数据映射到一个单一、易处理的值。对数据的任何更改都将使最终值大不相同。
 - en: It's essentially impossible to construct the original data from the hash, but
     it's easy to create the hash from the original data
+  id: totrans-109
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 从哈希值构造原始数据基本上是不可能的，但从原始数据创建哈希值却很容易。
 - en: You can use these properties to prove that data has not been changed
+  id: totrans-110
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 你可以利用这些属性来证明数据未被更改。
 - en: In the next chapter, we will learn what these systems are and how blockchain
     counts as both. We will learn how to differentiate between the two systems and
     why these concepts are so important to blockchain.
+  id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一章中，我们将学习这些系统是什么，以及区块链如何同时具备这两种特性。我们将学习如何区分这两个系统，并且为什么这些概念对区块链如此重要。
