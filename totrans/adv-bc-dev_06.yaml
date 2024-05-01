@@ -1,0 +1,2050 @@
+- en: Public Key Cryptography
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, you will be introduced to the concepts and practical aspects
+    of public key cryptography, also called asymmetric cryptography or asymmetric
+    key cryptography. We will continue to use OpenSSL, as we did in the previous chapter,
+    to experiment with some applications of cryptographic algorithms so that you can
+    gain hands-on experience. We will start with the theoretical foundations of public
+    key cryptography and will gradually build on the concepts with relevant practical
+    exercises. In addition, we will also examine hash functions, which are another
+    cryptographic primitive used extensively in blockchains. After this, we will introduce
+    some new and advanced cryptography constructs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Asymmetric cryptography
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Asymmetric cryptography** refers to a type of cryptography where the key
+    that is used to encrypt the data is different from the key that is used to decrypt
+    the data. This is also known as **public key cryptography**. It uses both public
+    and private keys to encrypt and decrypt data, respectively. Various asymmetric
+    cryptography schemes are in use, including RSA, DSA, and ElGammal.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'An overview of public key cryptography is shown in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/b7af59a8-4995-4bc5-8961-ec9fd8ec62ac.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Encryption/decryption using public/private keys
+  prefs: []
+  type: TYPE_NORMAL
+- en: The preceding diagram illustrates how a sender encrypts data **P** using the
+    recipient's public key and encryption function **E** and producing an output encrypted
+    data **C** which is then transmitted over the network to the receiver. Once it
+    reaches the receiver, it can be decrypted using the receiver's private key by
+    feeding the **C** encrypted data into function **D**, which will output plaintext
+    **P**. This way, the private key remains on the receiver's side, and there is
+    no need to share keys in order to perform encryption and decryption, which is
+    the case with symmetric encryption.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The following diagram shows how the receiver uses public key cryptography to
+    verify the integrity of the received message. In this model, the sender signs
+    the data using their private key and transmits the message across to the receiver.
+    Once the message is received, it is verified for integrity by the sender's public
+    key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It''s worth noting that there is no encryption being performed in this model.
+    It is simply presented here to help you understand thoroughly the sections covering
+    message authentication and validation later in this chapter:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a47c83d3-ffb8-416d-b187-09451a09a1b8.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Model of a public-key cryptography signature scheme
+  prefs: []
+  type: TYPE_NORMAL
+- en: The preceding diagram shows that sender digitally signs the plaintext **P**
+    with his private key using signing function **S** and produces data **C** which
+    is sent to the receiver who verifies **C** using sender public key and function
+    **V** to ensure the message has indeed come from the sender.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Security mechanisms offered by public key cryptosystems include key establishment,
+    digital signatures, identification, encryption, and decryption.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Key establishment mechanisms** are concerned with the design of protocols
+    that allow the setting up of keys over an insecure channel. Non-repudiation services,
+    a very desirable property in many scenarios, can be provided using **digital signatures**.
+    Sometimes, it is important not only to authenticate a user but also to identify
+    the entity involved in a transaction. This can also be achieved by a combination
+    of digital signatures and **challenge-response protocols**. Finally, the encryption
+    mechanism to provide confidentiality can also be obtained using public key cryptosystems,
+    such as RSA, ECC, and ElGammal.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Public key algorithms are slower in terms of computation than symmetric key
+    algorithms. Therefore, they are not commonly used in the encryption of large files
+    or the actual data that requires encryption. They are usually used to exchange
+    keys for symmetric algorithm. Once the keys are established securely, symmetric
+    key algorithms can be used to encrypt the data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Public key cryptography algorithms are based on various underlying mathematical
+    functions. The three main categories of asymmetric algorithms are described here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Integer factorization
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Integer factorization schemes** are based on the fact that large integers
+    are very hard to factor. RSA is the prime example of this type of algorithm.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Discrete logarithm
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A **discrete logarithm scheme** is based on a problem in modular arithmetic.
+    It is easy to calculate the result of modulo function, but it is computationally
+    impractical to find the exponent of the generator. In other words, it is extremely
+    difficult to find the input from the result. This is a one-way function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For example, consider the following equation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*3² mod 10 = 9*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now, given *9*, the result of the preceding equation finding *2* which is the
+    exponent of the generator *3* in the preceding question, is extremely hard to
+    determine. This difficult problem is commonly used in the Diffie-Hellman key exchange
+    and digital signature algorithms.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Elliptic curves
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The **elliptic curves algorithm** is based on the discrete logarithm problem
+    discussed earlier but in the context of elliptic curves. An **elliptic curve**
+    is an algebraic cubic curve over a field, which can be defined by the following
+    equation. The curve is non-singular, which means that it has no cusps or self-intersections.
+    It has two variables *a* and *b*, as well as a point of infinity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/64ca3d25-c233-4be3-8f6a-fb9b31a04dac.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Here, *a* and *b* are integers whose values are elements of the field on which
+    the elliptic curve is defined. Elliptic curves can be defined over real numbers,
+    rational numbers, complex numbers, or finite fields. For cryptographic purposes,
+    an elliptic curve over prime finite fields is used instead of real numbers. Additionally,
+    the prime should be greater than 3\. Different curves can be generated by varying
+    the value of *a* and/or *b*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The most prominently used cryptosystems based on elliptic curves are the **Elliptic
+    Curve Digital Signature Algorithm** (**ECDSA**) and the **Elliptic Curve Diffie-Hellman**
+    (**ECDH**) key exchange.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To understand public key cryptography, the key concept that needs to be explored
+    is the concept of public and private keys.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Public and private keys
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A **private key**, as the name suggests, is a randomly generated number that
+    is kept secret and held privately by its users. Private keys need to be protected
+    and no unauthorized access should be granted to that key; otherwise, the whole
+    scheme of public key cryptography is jeopardized, as this is the key that is used
+    to decrypt messages. Private keys can be of various lengths depending on the type
+    and class of algorithms used. For example, in RSA, typically a key of 1024-bits
+    or 2048-bits is used. The 1024-bit key size is no longer considered secure, and
+    at least a 2048-bit key size is recommended.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A **public key** is freely available and published by the private key owner.
+    Anyone who would then like to send the publisher of the public key an encrypted
+    message can do so by encrypting the message using the published public key and
+    sending it to the holder of the private key. No one else is able to decrypt the
+    message because the corresponding private key is held securely by the intended
+    recipient. Once the public key encrypted message is received, the recipient can
+    decrypt the message using the private key. There are a few concerns, however,
+    regarding public keys. These include authenticity and identification of the publisher
+    of the public keys.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the following section, we will introduce two examples of asymmetric key
+    cryptography: RSA and ECC. RSA is the first implementation of public key cryptography
+    whereas ECC is used extensively in blockchain technology.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: RSA
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**RSA** was invented in 1977 by Ron Rivest, Adi Shamir, and Leonard Adelman,
+    hence the name **Rivest–Shamir–Adleman** (**RSA**). This type of public key cryptography
+    is based on the integer factorization problem, where the multiplication of two
+    large prime numbers is easy, but it is difficult to factor it (the result of multiplication,
+    product) back to the two original numbers.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The crux of the work involved with the RSA algorithm is during the key generation
+    process. An RSA key pair is generated by performing the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Modulus generation**:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Select *p* and *q*, which are very large prime numbers
+  prefs:
+  - PREF_UL
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Multiply *p* and *q*, *n=p.q* to generate modulus *n*
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Generate co-prime**:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Assume a number called *e*.
+  prefs:
+  - PREF_UL
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*e* should satisfy a certain condition; that is, it should be greater than
+    *1* and less than *(p-1) (q-1)*. In other words, *e *must be a number such that
+    no number other than *1* can divide *e* and *(p-1) (q-1)*. This is called **co-prime**,
+    that is, *e* is the co-prime of *(p-1) (q-1)*.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Generate the public key**:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The modulus generated in step 1 and co-prime *e* generated in step 2 is a pair
+    together that is a public key. This part is the public part that can be shared
+    with anyone; however, *p* and *q* need to be kept secret.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Generate the private key**:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The private key, called *d* here, is calculated from *p*, *q*, and *e*. The
+    private key is basically the inverse of *e modulo (p-1) (q-1)*. In the equation
+    form, it is this as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*ed = 1 mod (p-1) (q-1)*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Usually, the extended Euclidean algorithm is used to calculate *d*. This algorithm
+    takes *p*, *q*, and *e* and calculates *d*. The key idea in this scheme is that
+    anyone who knows *p* and *q* can easily calculate private key *d* by applying
+    the extended Euclidean algorithm. However, someone who does not know the value
+    of *p* and *q* cannot generate *d*. This also implies that *p* and *q* should
+    be large enough for the modulus *n* to become extremely difficult (computationally
+    impractical) to factor.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Encryption and decryption using RSA
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'RSA uses the following equation to produce ciphertext:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*C = P**^e* *mod n*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This means that plaintext *P* is raised to *e* number of times and then reduced
+    to modulo *n*. Decryption in RSA is provided in the following equation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*P = C*^(*d*) *mod n*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: This means that the receiver who has a public key pair (*n*, *e*) can decipher
+    the data by raising *C* to the value of the private key *d* and reducing to modulo
+    *n*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Elliptic Curve Cryptography
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Elliptic Curve Cryptography** (**ECC**) is based on the discrete logarithm
+    problem founded upon elliptic curves over finite fields (Galois fields). The main
+    benefit of ECC over other types of public key algorithms is that it requires a
+    smaller key size while providing the same level of security as, for example, RSA.
+    Two notable schemes that originate from ECC are ECDH for key exchange and ECDSA
+    for digital signatures.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: ECC can also be used for encryption, but it is not usually used for this purpose
+    in practice. Instead, it is used for key exchange and digital signatures commonly.
+    As ECC needs less space to operate, it is becoming very popular on embedded platforms
+    and in systems where storage resources are limited. By comparison, the same level
+    of security can be achieved with ECC only using 256-bit operands as compared to
+    3072-bits in RSA.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mathematics behind ECC
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To understand ECC, a basic introduction to the underlying mathematics is necessary.
+    An elliptic curve is basically a type of polynomial equation known as the **Weierstrass
+    equation**, which generates a curve over a finite field. The most commonly-used
+    field is where all the arithmetic operations are performed modulo *a* prime *p*.
+    Elliptic curve groups consist of points on the curve over a finite field.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'An elliptic curve is defined in the following equation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a52dd3ea-55f8-4baf-9183-5067219248fd.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Here, *A* and *B* belong to a finite field *Zp* or *Fp* (prime finite field)
+    along with a special value called the **point of infinity**. The point of infinity
+    (∞) is used to provide identity operations for points on the curve.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Furthermore, a condition also needs to be met that ensures that the equation
+    mentioned earlier has no repeated roots. This means that the curve is non-singular.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The condition is described in the following equation, which is a standard requirement
+    that needs to be met. More precisely, this ensures that the curve is non-singular:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a3b7475e-c472-414c-a7cc-4d16caa967ea.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: To construct the discrete logarithm problem based on elliptic curves, a large
+    enough cyclic group is required. First, the group elements are identified as a
+    set of points that satisfy the previous equation. After this, group operations
+    need to be defined on these points.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Group operations on elliptic curves are point addition and point doubling. **Point
+    addition** is a process where two different points are added, and **point doubling**
+    means that the same point is added to itself.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Point addition
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Point addition is shown in the following diagram. This is a geometric representation
+    of point addition on elliptic curves. In this method, a diagonal line is drawn
+    through the curve that intersects the curve at two points **P** and **Q**, as
+    shown in the diagram, which yields a third point between the curve and the line.
+    This point is mirrored as **P+Q**, which represents the result of the addition
+    as **R**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This is shown as **P+Q** in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c9a2b339-1742-4c5b-952b-1eb749dc40cf.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Point addition over R
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The group operation denoted by the *+* sign for addition yields the following
+    equation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*P + Q = R*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this case, two points are added to compute the coordinates of the third
+    point on the curve:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*P + Q = R*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'More precisely, this means that coordinates are added, as shown in the following
+    equation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*(x[1], y[1]) + (x[2], y[2]) = (x[3], y[3])*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The equation of point addition is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*X[3] = s²**- x[1] - x[2]* m*od p*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*y[3] = s (x[1] - x[3]) - y[1] mod p*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here, we see the result of the preceding equation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/8972cc8e-3050-4e16-9504-9ccfddad995d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: '*S* in the preceding equation depicts the line going through *P* and *Q*.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'An example of point addition is shown in the following diagram. It was produced
+    using Certicom''s online calculator. This example shows the addition and solutions
+    for the equation over finite field **F[23]**. This is in contrast to the example
+    shown earlier, which is over real numbers and only shows the curve but provides
+    no solutions to the equation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/9f6fceaa-0c99-4d4f-8f22-16dbbfe8634f.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Example of point addition
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the preceding example, the graph on the left side shows the points that
+    satisfy this equation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3ecadf22-9e90-4977-8043-f04c9d79808c.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: There are 27 solutions to the equation shown earlier over finite field *F[23]*.
+    *P* and *Q* are chosen to be added to produce point *R*. Calculations are shown
+    on the right side, which calculates the third point *R*. Note that here, *l* is
+    used to depict the line going through *P* and *Q*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As an example, to show how the equation is satisfied by the points shown in
+    the graph, a point (*x*, *y*) is picked up where *x = 3* and *y = 6*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Using these values shows that the equation is indeed satisfied:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*![](img/09541fff-46ad-41df-9dc5-858c75b94bc1.jpg)*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/6ee629ef-d851-49e4-8441-29013653a08f.jpg)![](img/ef8e215b-33f5-46e8-bbaa-79c3c75b24df.jpg)![](img/cf17b893-4c7b-46ff-98c6-4913e2ad6db5.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: The next subsection introduces the concept of point doubling, which is another
+    operation that can be performed on elliptic curves.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Point doubling
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The other group operation on elliptic curves is called **point doubling**. This
+    is a process where **P** is added to itself. In this method, a tangent line is
+    drawn through the curve, as shown in the following graph. The second point is
+    obtained, which is at the intersection of the tangent line drawn and the curve.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This point is then mirrored to yield the result, which is shown as *2P = P
+    + P*:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f655f36c-e056-40fa-ae7d-b4ee18d8b88d.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Graph representing point doubling over real numbers
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the case of point doubling, the equation becomes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/2f33933d-ffd3-47a9-9f8a-4afda9111a01.png)![](img/170ffee6-4b7b-402f-acc6-473c2f94f64d.jpg)![](img/25581de2-950d-49e5-8475-e43af6504f1d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Here, *S* is the slope of tangent (tangent line) going through *P*. It is the
+    line shown on top in the preceding diagram. In the preceding example, the curve
+    is plotted over real numbers as a simple example, and no solution to the equation
+    is shown.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following example shows the solutions and point doubling of elliptic curves
+    over finite field **F[23]**. The graph on the left side shows the points that
+    satisfy the equation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/efe6ba05-892a-4b69-8bdc-7365e484edb3.jpg)![](img/93e8293e-8049-4235-8489-abd4487968d4.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Example of point doubling
+  prefs: []
+  type: TYPE_NORMAL
+- en: As shown on the right side in the preceding graph, the calculation that finds
+    the *R* after *P* is added into itself (point doubling). There is no *Q* as shown
+    here, and the same point *P* is used for doubling. Note that in the calculation,
+    *l* is used to depict the tangent line going through *P*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next section, an introduction to the discrete logarithm problem will
+    be presented.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Discrete logarithm problem in ECC
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The discrete logarithm problem in ECC is based on the idea that, under certain
+    conditions, all points on an elliptic curve form a cyclic group.
+  prefs: []
+  type: TYPE_NORMAL
+- en: On an elliptic curve, the public key is a random multiple of the generator point,
+    whereas the private key is a randomly chosen integer used to generate the multiple.
+    In other words, a private key is a randomly selected integer, whereas the public
+    key is a point on the curve. The discrete logarithm problem is used to find the
+    private key (an integer) where that integer falls within all points on the elliptic
+    curve. The following equation shows this concept more precisely.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Consider an elliptic curve *E*, with two elements *P* and *T*. The discrete
+    logarithmic problem is to find the integer *d*, where *1 <= d <= #E*, such that:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/effb0730-ce10-4840-a3b3-b26f824c76a3.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Here, *T* is the public key (a point on the curve), and *d* is the private key.
+    In other words, the public key is a random multiple of the generator, whereas
+    the private key is the integer that is used to generate the multiple. *#E* represents
+    the order of the elliptic curve, which means the number of points that are present
+    in the cyclic group of the elliptic curve. A **cyclic group** is formed by a combination
+    of points on the elliptic curve and point of infinity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A key pair is linked with the specific domain parameters of an elliptic curve.
+    Domain parameters include field size, field representation, two elements from
+    the field *a* and *b*, two field elements *Xg* and *Yg*, order *n* of point *G*
+    that is calculated as *G = (Xg, Yg),* and the cofactor *h = #E(Fq)/n*. A practical
+    example using OpenSSL will be described later in this section.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Various parameters are recommended and standardized to use as curves with ECC.
+    An example of `secp256k1` specifications is shown here. This is the specification
+    that is used in Bitcoin:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/03dde81b-a50c-4e82-820c-58ecc49ae1ca.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Speciﬁcation of secp256k1 taken from http://www.secg.org/sec2-v2.pdf
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'An explanation of all of these values in the sextuple is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*P* is the prime *p* that specifies the size of the finite field.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*a* and *b* are the coefficients of the elliptic curve equation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*G* is the base point that generates the required subgroup, also known as the
+    *generator*. The base point can be represented in either compressed or uncompressed
+    form. There is no need to store all points on the curve in a practical implementation.
+    The compressed generator works because the points on the curve can be identified
+    using only the *x* coordinate and the least significant bit of the *y* coordinate.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*n* is the order of the subgroup.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '*h* is the cofactor of the subgroup.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In the following section, two examples of using OpenSSL are shown to help you
+    understand the practical aspects of RSA and ECC cryptography.
+  prefs: []
+  type: TYPE_NORMAL
+- en: RSA using OpenSSL
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The following example illustrates how RSA public and private key pairs can be
+    generated using the OpenSSL command line.
+  prefs: []
+  type: TYPE_NORMAL
+- en: RSA public and private key pair
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: First, how the RSA private key can be generated using OpenSSL is shown in the
+    following subsection.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private key
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Execute the following command to generate the private key:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: The backslash (`\`) used in the commands are for continuation
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'After executing the command, a file named `privatekey.pem` is produced, which
+    contains the generated private key as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: Public key
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'As the private key is mathematically linked to the public key, it is also possible
+    to generate or derive the public key from the private key. Using the example of
+    the preceding private key, the public key can be generated as shown here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The public key can be viewed using a file reader or any text viewer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In order to see more details of the various components, such as the modulus,
+    prime numbers that are used in the encryption process, or exponents and coefficients
+    of the generated private key, the following command can be used (only partial
+    output is shown here as the actual output is very long):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: Exploring the public key
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Similarly, the public key can be explored using the following commands. Public
+    and private keys are base64-encoded:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: Now the public key can be shared openly, and anyone who wants to send you a
+    message can use the public key to encrypt the message and send it to you. You
+    can then use the corresponding private key to decrypt the file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Encryption and decryption
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, an example will be presented that demonstrates how encryption
+    and decryption operations can be performed using RSA with OpenSSL.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Encryption
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Taking the private key generated in the previous example, the command to encrypt
+    a text file `message.txt` can be constructed as shown here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This will produce a file named `message.rsa`, which is in a binary format.
+    If you open `message.rsa` in the nano editor or any other text editor of your
+    choice, it will show some garbage as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/eda866a3-6754-4c86-851f-b3cc95453af7.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: message.rsa showing garbage (encrypted) data
+  prefs: []
+  type: TYPE_NORMAL
+- en: Decryption
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In order to decrypt the RSA-encrypted file, the following command can be used:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, if the file is read using `cat`, decrypted plaintext can be seen as shown
+    here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: ECC using OpenSSL
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: OpenSSL provides a very rich library of functions to perform ECC. The following
+    subsection shows how to use ECC functions in a practical manner in OpenSSL.
+  prefs: []
+  type: TYPE_NORMAL
+- en: ECC private and public key pair
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this subsection, first an example is presented that demonstrates the creation
+    of a private key using ECC functions available in the OpenSSL library.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private key
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'ECC is based on domain parameters defined by various standards. You can see
+    the list of all available standards defined and recommended curves available in
+    OpenSSL using the following command. (Once again, only partial output is shown
+    here, and it is truncated in the middle.):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: In the following example, `secp256k1` is employed to demonstrate ECC usage.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private key generation
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To generate the private key, execute the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The file named `ec-privatekey.pem` now contains the **Elliptic Curve** (**EC**)
+    private key that is generated based on the `secp256k1` curve. In order to generate
+    a public key from a private key, issue the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Reading the file produces the following output, displaying the generated public
+    key:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now the `ec-pubkey.pem` file contains the public key derived from `ec-privatekey.pem`.
+    The private key can be further explored using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Similarly, the public key can be further explored with the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'It is also possible to generate a file with the required parameters, in this
+    case, `secp256k1`, and then explore it further to understand the underlying parameters:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The file now contains all the `secp256k1` parameters, and it can be analyzed
+    using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This command will produce the output similar to the one shown here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding example shows the prime number used and values of `A` and `B`,
+    with the generator, order, and cofactor of the `secp256k1` curve domain parameters.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With the preceding example, our introduction to public key cryptography from
+    encryption and decryption perspective is complete. Other relevant constructs like
+    digital signatures will be discussed later in the chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next section, we will look at another category of cryptographic primitives,
+    hash functions. Hash functions are not used to encrypt data; instead, they produce
+    a fixed-length digest of the data that is provided as input to the hash function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hash functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Hash functions** are used to create fixed-length digests of arbitrarily-long
+    input strings. Hash functions are keyless, and they provide the data integrity
+    service. They are usually built using iterated and dedicated hash function construction
+    techniques.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Various families of hash functions are available, such as MD, SHA-1, SHA-2,
+    SHA-3, RIPEMD, and Whirlpool. Hash functions are commonly used for digital signatures
+    and **Message Authentication Codes** (**MACs**), such as HMACs. They have three
+    security properties, namely preimage resistance, second preimage resistance, and
+    collision resistance. These properties are explained later in this section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hash functions are also typically used to provide data integrity services. These
+    can be used both as one-way functions and to construct other cryptographic primitives,
+    such as MACs and digital signatures. Some applications use hash functions as a
+    means for generating **Pseudo-random Numbers Generator** (**PRNGs**). There are
+    two practical and three security properties of hash functions that must be met
+    depending on the level of integrity required. These properties are discussed in
+    the following subsections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Compression of arbitrary messages into fixed-length digest
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This property relates to the fact that a hash function must be able to take
+    an input text of any length and output a fixed-length compressed message. Hash
+    functions produce a compressed output in various bit sizes, usually between 128-bits
+    and 512-bits.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Easy to compute
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Hash functions are efficient and fast one-way functions. It is required that
+    hash functions be very quick to compute regardless of the message size. The efficiency
+    may decrease if the message is too big, but the function should still be fast
+    enough for practical use.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the following section, security properties of hash functions are discussed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Preimage resistance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This property can be explained by using the simple equation shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*h(x) = y*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Here, *h* is the hash function, *x* is the input, and *y* is the hash. The first
+    security property requires that *y* cannot be reverse-computed to *x*. *x* is
+    considered a preimage of *y*, hence the name **preimage resistance**. This is
+    also called a one-way property.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Second preimage resistance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The **second preimage resistance** property requires that given *x* and *h(x)*,
+    it is almost impossible to find any other message *m*, where *m != x* and *hash
+    of m = hash of x* or *h(m) = h(x)*. This property is also known as **weak collision
+    resistance**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Collision resistance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The **collision resistance** property requires that two different input messages
+    should not hash to the same output. In other words, *h(x) != h(z)*. This property
+    is also known as **strong collision resistance**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'All these properties are shown in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c9d1573f-712d-4a5c-a697-8c2b44dc4c8b.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Three security properties of hash functions
+  prefs: []
+  type: TYPE_NORMAL
+- en: Due to their very nature, hash functions will always have some collisions. This
+    is where two different messages hash to the same output. However, they should
+    be computationally impractical to find. A concept known as the **avalanche effect**
+    is desirable in all hash functions. The avalanche effect specifies that a small
+    change, even a single character change in the input text, will result in an entirely
+    different hash output.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hash functions are usually designed by following an iterated hash functions
+    approach. With this method, the input message is compressed in multiple rounds
+    on a block-by-block basis in order to produce the compressed output. A popular
+    type of iterated hash function is **Merkle-Damgard construction**. This construction
+    is based on the idea of dividing the input data into equal block sizes and then
+    feeding them through the compression functions in an iterative manner. The collision
+    resistance of the property of compression functions ensures that the hash output
+    is also collision-resistant. Compression functions can be built using block ciphers.
+    In addition to Merkle-Damgard, there are various other constructions of compression
+    functions proposed by researchers, for example, Miyaguchi-Preneel and Davies-Meyer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Multiple categories of hash function are introduced in the following subsections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Message Digest
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Message Digest** (**MD**) functions were prevalent in the early 1990s. MD4
+    and MD5 fall into this category. Both MD functions were found to be insecure and
+    are not recommended for use anymore. MD5 is a 128-bit hash function that was commonly
+    used for file integrity checks.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Secure Hash Algorithms
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following list describes the most common **Secure Hash Algorithms** (**SHAs**):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**SHA-0**: This is a 160-bit function introduced by NIST in 1993.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**SHA-1**: SHA-1 was introduced in 1995 by NIST as a replacement for SHA-0\.
+    This is also a 160-bit hash function. SHA-1 is used commonly in SSL and TLS implementations.
+    It should be noted that SHA-1 is now considered insecure, and it is being deprecated
+    by certificate authorities. Its usage is discouraged in any new implementations.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**SHA-2**: This category includes four functions defined by the number of bits
+    of the hash: SHA-224, SHA-256, SHA-384, and SHA-512.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**SHA-3**: This is the latest family of SHA functions. SHA-3-224, SHA-3-256,
+    SHA-3-384, and SHA-3-512 are members of this family. SHA-3 is a NIST-standardized
+    version of Keccak. Keccak uses a new approach called **sponge construction** instead
+    of the commonly used Merkle-Damgard transformation.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**RIPEMD**: RIPEMD is the acronym for **RACE Integrity Primitives Evaluation
+    Message Digest**. It is based on the design ideas used to build MD4\. There are
+    multiple versions of RIPEMD, including 128-bit, 160-bit, 256-bit, and 320-bit.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Whirlpool**: This is based on a modified version of the Rijndael cipher known
+    as *W*. It uses the Miyaguchi-Preneel compression function, which is a type of
+    one-way function used for the compression of two fixed-length inputs into a single
+    fixed-length output. It is a single block length compression function.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Hash functions have many practical applications ranging from simple file integrity
+    checks and password storage to use in cryptographic protocols and algorithms.
+    They are used in hash tables, distributed hash tables, bloom filters, virus fingerprinting,
+    peer-to-peer file sharing, and many other applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hash functions play a vital role in blockchain. Especially, The PoW function
+    in particular uses SHA-256 twice in order to verify the computational effort spent
+    by miners. RIPEMD 160 is used to produce Bitcoin addresses. This will be discussed
+    further in later chapters.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next section, the design of the SHA algorithm is introduced.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Design of Secure Hash Algorithms
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the following section, you will be introduced to the design of SHA-256 and
+    SHA-3\. Both of these are used in Bitcoin and Ethereum, respectively. Ethereum
+    does not use NIST Standard SHA-3, but Keccak, which is the original algorithm
+    presented to NIST. NIST, after some modifications, such as an increase in the
+    number of rounds and simpler message padding, standardized Keccak as SHA-3.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Design of SHA-256
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: SHA-256 has the input message size < 2^(64)-bits. Block size is 512-bits, and
+    it has a word size of 32-bits. The output is a 256-bit digest.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The compression function processes a 512-bit message block and a 256-bit intermediate
+    hash value. There are two main components of this function: the compression function
+    and a message schedule.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The algorithm works as follows, in eight steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Preprocessing**:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Padding of the message is used to adjust the length of a block to 512-bits if
+    it is smaller than the required block size of 512-bits.
+  prefs:
+  - PREF_OL
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Parsing the message into message blocks, which ensures that the message and
+    its padding is divided into equal blocks of 512-bits.
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Setting up the initial hash value, which consists of the eight 32-bit words
+    obtained by taking the first 32-bits of the fractional parts of the square roots
+    of the first eight prime numbers. These initial values are randomly chosen to
+    initialize the process, and they provide a level of confidence that no backdoor
+    exists in the algorithm.
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Hash computation**:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Each message block is then processed in a sequence, and it requires 64 rounds
+    to compute the full hash output. Each round uses slightly different constants
+    to ensure that no two rounds are the same.
+  prefs:
+  - PREF_OL
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The message schedule is prepared.
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Eight working variables are initialized.
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The intermediate hash value is calculated.
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Finally, the message is processed, and the output hash is produced:'
+  prefs:
+  - PREF_IND
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/8898ab05-ef16-472b-a4db-53c6dc83e2eb.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: One round of a SHA-256 compression function
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the preceding diagram, **a**, **b**, **c**, **d**, **e**, **f**, **g**, and
+    **h** are the registers. *Maj* and *Ch* are applied bitwise. **∑[0]** and **∑[1]**
+    performs bitwise rotation. Round constants are **W[j]** and **K[j]**, which are
+    added, *mod 2^(32)*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Design of SHA-3 (Keccak)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The structure of SHA-3 is very different from that of SHA-1 and SHA-2\. The
+    key idea behind SHA-3 is based on unkeyed permutations, as opposed to other typical
+    hash function constructions that used keyed permutations. Keccak also does not
+    make use of the Merkle-Damgard transformation that is commonly used to handle
+    arbitrary-length input messages in hash functions. A newer approach called **sponge
+    and squeeze construction** is used in Keccak. It is a random permutation model.
+    Different variants of SHA-3 have been standardized, such as SHA-3-224, SHA-3-256,
+    SHA-3-384, SHA-3-512, SHAKE-128, and SHAKE-256\. SHAKE-128 and SHAKE-256 are **Extendable
+    Output Functions** (**XOFs**), which are also standardized by NIST. XOFs allow
+    the output to be extended to any desired length.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows the sponge and squeeze model, which is the basis
+    of SHA-3 or Keccak. Analogous to a sponge, the data is first absorbed into the
+    sponge after applying padding. There it is then changed into a subset of permutation
+    state using XOR, and then the output is squeezed out of the sponge function that
+    represents the transformed state. The rate is the input block size of a sponge
+    function, while capacity determines the general security level:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/6041f3d7-28e7-4fc4-bd0c-7ee20f5f858f.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: SHA-3 absorbing and squeezing function
+  prefs: []
+  type: TYPE_NORMAL
+- en: OpenSSL example of hash functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following command will produce a hash of 256-bits of the `Hello` messages
+    using the SHA-256 algorithm:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Note that even a small change in the text, such as changing the case of the
+    letter `H`, results in a big change in the output hash. This is known as the avalanche
+    effect, as discussed earlier:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Note that both outputs are completely different:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: Usually, hash functions do not use a key. Nevertheless, if they *are* used with
+    a key, then they can be used to create another cryptographic construct called
+    MACs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Message Authentication Codes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: MACs are sometimes called **keyed hash functions**, and they can be used to
+    provide message integrity and authentication. More specifically, they are used
+    to provide data origin authentication. These are symmetric cryptographic primitives
+    that use a shared key between the sender and the receiver. MACs can be constructed
+    using block ciphers or hash functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: MACs using block ciphers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: With this approach, block ciphers are used in the **Cipher Block Chaining**
+    (**CBC**) mode in order to generate a MAC. Any block cipher, for example AES in
+    the CBC mode, can be used. The MAC of the message is, in fact, the output of the
+    last round of the CBC operation. The length of the MAC output is the same as the
+    block length of the block cipher used to generate the MAC.
+  prefs: []
+  type: TYPE_NORMAL
+- en: MACs are verified simply by computing the MAC of the message and comparing it
+    to the received MAC. If they are the same, then the message integrity is confirmed;
+    otherwise, the message is considered altered. It should also be noted that MACs
+    work like digital signatures, however they cannot provide non-repudiation service
+    due to their symmetric nature.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hash-based MACs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Similar to the hash function, **Hash-based MACs** (**HMACs**) produce a fixed-length
+    output and take an arbitrarily long message as the input. In this scheme, the
+    sender signs a message using the MAC and the receiver verifies it using the shared
+    key. The key is hashed with the message using either of the two methods known
+    as **secret prefix** or the **secret suffix**. With the secret prefix method,
+    the key is concatenated with the message; that is, the key comes first and the
+    message comes afterwards, whereas with the secret suffix method, the key comes
+    after the message, as shown in the following equations:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Secret prefix: M = MACk(x) = h(k||x)*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Secret suffix: M=MACk(x) = h(x||k)*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There are pros and cons to both methods. Some attacks on both schemes have
+    occurred. There are HMAC constructions schemes that use various techniques, such
+    as **ipad** and **opad** (inner padding and outer padding) that have been proposed
+    by cryptographic researchers. These are considered secure with some assumptions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/15ff69dd-c88d-44f7-85fa-94e19e01e3a7.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Operation of a MAC function
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are various powerful applications of hash functions used in peer-to-peer
+    networks and blockchain technology. Some noticeable examples, such as Merkle trees,
+    Patricia trees, and **Distributed Hash Table** (**DHT**), are discussed in the
+    following subsections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Merkle trees
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The concept of Merkle tree was introduced by Ralph Merkle. A diagram of Merkle
+    tree is shown here. **Merkle trees** enable secure and efficient verification
+    of large datasets.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/ac4efc16-8250-4415-a374-7de2d84f8c1e.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: A Merkle tree
+  prefs: []
+  type: TYPE_NORMAL
+- en: A Merkle tree is a binary tree in which the inputs are first placed at the leaves
+    (node with no children), and then the values of pairs of child nodes are hashed
+    together to produce a value for the parent node (internal node) until a single
+    hash value known as **Merkle root** is achieved.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Patricia trees
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To understand Patricia trees, you will first be introduced to the concept of
+    a **trie**. A trie, or a digital tree, is an ordered tree data structure used
+    to store a dataset.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Practical Algorithm to Retrieve Information Coded in Alphanumeric** (**Patricia**),
+    also known as *Radix tree*, is a compact representation of a trie in which a node
+    that is the only child of a parent is merged with its parent.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A **Merkle-Patricia tree**, based on the definitions of Patricia and Merkle,
+    is a tree that has a root node which contains the hash value of the entire data
+    structure.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Distributed Hash Tables
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A hash table is a data structure that is used to map keys to values. Internally,
+    a hash function is used to calculate an index into an array of buckets from which
+    the required value can be found. Buckets have records stored in them using a hash
+    key and are organized into a particular order.
+  prefs: []
+  type: TYPE_NORMAL
+- en: With the definition provided earlier in mind, one can think of a DHT as a data
+    structure where data is spread across various nodes, and nodes are equivalent
+    to buckets in a peer-to-peer network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows how a DHT works. Data is passed through a hash
+    function, which then generates a compact key. This key is then linked with the
+    data (values) on the peer-to-peer network. When users on the network request the
+    data (via the filename), the filename can be hashed again to produce the same
+    key, and any node on the network can then be requested to find the corresponding
+    data. DHT provides decentralization, fault tolerance, and scalability:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f1733460-028b-4fca-993a-4eb9b134e370.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Distributed hash tables
+  prefs: []
+  type: TYPE_NORMAL
+- en: Another application of hash functions is in digital signatures, where they can
+    be used in combination with asymmetric cryptography. This concept is discussed
+    in detail in the examples provided in the following subsections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Digital signatures
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Digital signatures** provide a means of associating a message with an entity
+    from which the message has originated. Digital signatures are used to provide
+    data origin authentication and non-repudiation.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Digital signatures are used in blockchain where the transactions are digitally
+    signed by senders using their private key before broadcasting the transaction
+    to the network. This digital signing, proves they are the rightful owner of the
+    asset, for example, bitcoins. These transactions are verified again by other nodes
+    on the network to ensure that the funds indeed belong to the node (user) who claims
+    to be the owner. We will discuss these concepts in more detail in chapters dedicated
+    to Bitcoin and Ethereum in this book.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Digital signatures are calculated in two steps. As an example, the high-level
+    steps of an RSA digital signature scheme follow.
+  prefs: []
+  type: TYPE_NORMAL
+- en: RSA digital signature algorithm
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The following is the RSA digital signature algorithm:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Calculate the hash value of the data packet**: This will provide the data
+    integrity guarantee as the hash can be computed at the receiver''s end again and
+    matched with the original hash to check whether the data has been modified in
+    transit. Technically, message signing can work without hashing the data first,
+    but is not considered secure.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Signs the hash value with the signer''s private key**: As only the signer
+    has the private key, the authenticity of the signature and the signed data is
+    ensured.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Digital signatures have some important properties, such as authenticity, unforgeability,
+    and nonreusability. **Authenticity** means that the digital signatures are verifiable
+    by a receiving party. The **unforgeability** property ensures that only the sender
+    of the message can use the signing functionality using the private key. In other
+    words, no one else can produce the signed message produced by a legitimate sender.
+    **Nonreusability** means that the digital signature cannot be separated from a
+    message and used again for another message.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The operation of a generic digital signature function is shown in the following
+    diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/768942b4-41c0-46ec-890f-71aded46f7d0.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Digital signing (left) and veriﬁcation process (right) (Example of RSA digital
+    signatures)
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If a sender wants to send an authenticated message to a receiver, there are
+    two methods that can be used: sign then encrypt and encrypt then sign. These two
+    approaches to using digital signatures with encryption are as follows.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sign then encrypt
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: With this approach, the sender digitally signs the data using the private key,
+    appends the signature to the data, and then encrypts the data and the digital
+    signature using the receiver's public key. This is considered a more secure scheme
+    as compared to the *encrypt then sign* scheme described next.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Encrypt then sign
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: With this method, the sender encrypts the data using the receiver's public key
+    and then digitally signs the encrypted data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In practice, a digital certificate that contains the digital signature is issued
+    by a **Certificate Authority** (**CA**) that associates a public key with an identity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Various schemes, such as RSA, **Digital Signature Algorithm** (**DSA**), and
+    ECDSA-based digital signature schemes are used in practice. RSA is the most commonly
+    used; however, with the traction of ECC, ECDSA-based schemes are also becoming
+    quite popular. This is beneficial in blockchains because ECC provides same level
+    of security that RSA does, but it uses less space. Also, generation of keys is
+    much faster in ECC as compared to RSA, therefore it helps with overall performance
+    of the system. The following table shows that ECC is able to provide the same
+    level of cryptographic strength as an RSA based system with smaller key sizes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **RSA key sizes (bits)** | **Elliptic curve key sizes (bits)** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 1024 | 160 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 2048 | 224 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 3072 | 256 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 7680 | 384 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 15360 | 521 |'
+  prefs: []
+  type: TYPE_TB
+- en: Comparison of RSA and Elliptic curve key sizes providing the same level of security
+  prefs: []
+  type: TYPE_NORMAL
+- en: The ECDSA scheme is described in detail in following subsection.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Elliptic Curve Digital Signature Algorithm
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In order to sign and verify using the ECDSA scheme, first key pair needs to
+    be generated:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'First, define an elliptic curve *E*:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: With modulus **P**
+  prefs:
+  - PREF_UL
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Coefficients *a* and **b**
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Generator point *A* that forms a cyclic group of prime order *q*
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: An integer *d* is chosen randomly so that *0 < d < q.*
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Calculate public key *B* so that *B = d A.*
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The public key is the sextuple in the form shown here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Kpb = (p,a,b,q,A,B)*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The private key, *d* is randomly chosen in step 2:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Kpr = d*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now the signature can be generated using the private and public key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, an ephemeral key *K[e]* is chosen, where *0 < K[e] < q*. It should be
+    ensured that *K[e]* is truly random and that no two signatures have the same key;
+    otherwise, the private key can be calculated.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Another value *R* is calculated using *R = K[e] A*; that is, by multiplying
+    *A* (the generator point) and the random ephemeral key.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Initialize a variable *r* with the *x* coordinate value of point *R* so that
+    *r = xR*.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The signature can be calculated as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '![](img/55683d0a-f05a-4933-97e6-b2a8cca24162.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Here, *m* is the message for which the signature is being computed, and *h(m)*
+    is the hash of the message *m*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Signature verification is carried out by following this process:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Auxiliary value *w* is calculated as *w = s-1 mod q*.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Auxiliary value *u1 = w. h(m) mod q*.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Auxiliary value *u2 = w. r mod q*.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Calculate point *P*, *P = u1A + u2B*.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'Verification is carried out as follows:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '*r*, *s* is accepted as a valid signature if the *x* coordinate of point *P*
+    calculated in step 4 has the same value as the signature parameter *r mod q*;
+    that is:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Xp = r mod q means valid signature*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Xp != r mod q means invalid signature*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Various practical examples are shown in the following subsections, which demonstrate
+    how the RSA digital signature can be generated, used, and verified using OpenSSL.
+  prefs: []
+  type: TYPE_NORMAL
+- en: How to generate a digital signature using OpenSSL
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The first step is to generate a hash of the message file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Both hash generation and signing can be done in a single step, as shown here.
+    Note that `privatekey.pem` is generated in the steps provided previously:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, let''s display the directory showing the relevant files:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Let''s look at the contents of `signature.bin` by executing the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Executing this command will give the following output:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0cd2032e-dda0-4d8d-a682-0f750464b8fc.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'In order to verify the signature, the following operation can be performed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Similarly, if some other signature file which is not valid is used, the verification
+    will fail, as shown here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: Next, an example is presented that shows how OpenSSL can be used to perform
+    ECDSA-related operations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: ECDSA using OpenSSL
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'First, the private key is generated using the following commands:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Next, the public key is generated from the private key:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, suppose a file named `testsign.txt` needs to be signed and verified. This
+    can be achieved as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create a test file:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Run the following command to generate a signature using a private key for the
+    `testsign.txt` file:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Finally, the command for verification can be run as shown here:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'A certificate can also be produced by using the private key generated earlier
+    by using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This command will produce the output similar to the one shown here. Enter the
+    appropriate parameters to generate the certificate:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The certificate can be explored using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following output shows the certificate:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/1fca7c9d-e81f-4e83-b4ff-bfc0506a80dd.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: X509 certiﬁcate that uses ECDSA algorithm with SHA-256
+  prefs: []
+  type: TYPE_NORMAL
+- en: There following topics in cryptography are presented because of their relevance
+    to blockchain, or their potential use in future blockchain ecosystems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Homomorphic encryption
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Usually, public key cryptosystems, such as RSA, are multiplicative homomorphic
+    or additive homomorphic, such as the Paillier cryptosystem, and are called **Partially
+    Homomorphic Encryption** (**PHE**) systems. Additive PHEs are suitable for e-voting
+    and banking applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Until recently, there has been no system that supported both operations, but
+    in 2009, a **Fully Homomorphic Encryption** (**FHE**) system was discovered by
+    Craig Gentry. As these schemes enable the processing of encrypted data without
+    the need for decryption, they have many different potential applications, especially
+    in scenarios where maintaining privacy is required, but data is also mandated
+    to be processed by potentially untrusted parties, for example, cloud computing
+    and online search engines. Recent development in homomorphic encryption have been
+    very promising, and researchers are actively working to make it efficient and
+    more practical. This is of particular interest in blockchain technology, as described
+    later in this book, as it can solve the problem of confidentiality and privacy
+    in the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Signcryption
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Signcryption** is a public key cryptography primitive that provides all of
+    the functions of a digital signature and encryption. Yuliang Zheng invented signcryption,
+    and it is now an ISO standard, ISO/IEC 29150:2011\. Traditionally, sign then encrypt
+    or encrypt then sign schemes are used to provide unforgeability, authentication,
+    and non-repudiation, but with signcryption, all services of digital signatures
+    and encryption are provided at a cost that is less than that of the sign then
+    encrypt scheme.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Signcryption enables *Cost (signature & encryption) << Cost (signature) + Cost
+    (Encryption)* in a single logical step.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Zero-Knowledge Proofs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Zero-Knowledge Proofs** (**ZKPs**) were introduced by Goldwasser, Micali,
+    and Rackoff in 1985\. These proofs are used to prove the validity of an assertion
+    without revealing any information whatsoever about the assertion. There are three
+    properties of ZKPs that are required: completeness, soundness, and zero-knowledge
+    property.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Completeness** ensures that if a certain assertion is true, then the verifier
+    will be convinced of this claim by the prover. The **soundness** property makes
+    sure that if an assertion is false, then no dishonest prover can convince the
+    verifier otherwise. The **zero-knowledge property**, as the name implies, is the
+    key property of ZKPs whereby it is ensured that absolutely nothing is revealed
+    about the assertion except whether it is true or false.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: ZKPs have sparked a special interest among researchers in the blockchain space
+    due to their privacy properties, which are very much desirable in financial and
+    many other fields, including law and medicine. A recent example of the successful
+    implementation of a ZKP mechanism is the Zcash cryptocurrency. In Zcash, a specific
+    type of ZKP, known as **Zero-Knowledge Succinct Non-Interactive Argument of Knowledge**
+    (**ZK-SNARK**), is implemented. This will be discussed in detail in [Chapter 10](1e7e53b5-c84c-4dd2-8c0b-3ee9cd6acf24.xhtml),
+    *Alternative Coins*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blind signatures
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Blind signatures** were introduced by David Chaum in 1982\. They are based
+    on public key digital signature schemes, such as RSA. The key idea behind blind
+    signatures is to get the message signed by the signer without actually revealing
+    the message. This is achieved by disguising or blinding the message before signing
+    it, hence the name *blind signatures*. This blind signature can then be verified
+    against the original message just like a normal digital signature. Blind signatures
+    were introduced as a mechanism to allow the development of digital cash schemes.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Encoding schemes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Other than cryptographic primitives, binary-to-text **encoding schemes** are
+    also used in various scenarios. The most common use is to convert binary data
+    into text so that it can either be processed, saved, or transmitted via a protocol
+    that does not support the processing of binary data. For example, sometimes, images
+    are stored in the database as base64 encoding, which allows a text field to be
+    able to store a picture. A commonly-used encoding scheme is base64\. Another encoding
+    named base58 was popularized by its use in Bitcoin.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cryptography is a vast field, and this section has merely introduced the basic
+    concepts that are essential to understanding cryptography in general and specifically
+    from the blockchain and cryptocurrency point of view. In the next section, basic
+    financial market concepts will be presented.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The section describes general terminology related to trading, exchanges, and
+    the trade life cycle. More detailed information will be provided in later chapters,
+    where specific use cases are discussed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Financial markets and trading
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Financial markets enable trading of financial securities such as bonds, equities,
+    derivatives and currencies. There are broadly three types of markets: money markets,
+    credit markets, and capital markets:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Money markets**: These are short-term markets where money is lent to companies
+    or banks to do interbank lending. Foreign exchange or FX is another category of
+    money markets where currencies are traded.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Credit markets**: These consist mostly of retail banks where they borrow
+    money from central banks and loan it to companies or households in the form of
+    mortgages or loans.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Capital markets**: These facilitate the buying and selling of financial instruments,
+    mainly stocks and bonds. Capital markets can be divided into two types: primary
+    and secondary markets. Stocks are issued directly by the companies to investors
+    in primary markets, whereas in secondary markets, investors resell their securities
+    to other investors via stock exchanges. Various electronic trading systems are
+    used by exchanges today to facilitate the trading of financial instruments.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Trading
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A market is a place where parties engage in exchange. It can be either a physical
+    location or an electronic or virtual location. Various financial instruments,
+    including equities, stocks, foreign exchange, commodities, and various types of
+    derivatives are traded at these marketplaces. Recently, many financial institutions
+    have introduced software platforms to trade various types of instruments from
+    different asset classes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Trading** can be defined as an activity in which traders buy or sell various
+    financial instruments to generate profit and hedge risk. Investors, borrowers,
+    hedgers, asset exchangers, and gamblers are a few types of traders. Traders have
+    a short position when they owe something, in other words, if they have sold a
+    contract they have a short position and have a long position when they buy a contract.
+    There are various ways to transact trades, such as through brokers or directly
+    on an exchange or **Over-The-Counter** (**OTC**) where buyers and sellers trade
+    directly with each other instead of using an exchange. **Brokers** are agents
+    who arrange trades for their customers. Brokers act on a client''s behalf to deal
+    at a given price or the best possible price.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Exchanges
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Exchanges** are usually considered to be a very safe, regulated, and reliable
+    place for trading. During the last decade, electronic trading has gained more
+    popularity as compared to traditional floor-based trading. Now traders send orders
+    to a central electronic order book from which the orders, prices, and related
+    attributes are published to all associated systems using communications networks,
+    thus in essence creating a virtual marketplace. Exchange trades can be performed
+    only by members of the exchange. To trade without these limitations, the counterparties
+    can participate in OTC trading directly.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Orders and order properties
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Orders** are instructions to trade, and they are the main building blocks
+    of a trading system. They have the following general attributes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The instrument name
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Quantity to be traded
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Direction (buy or sell)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The type of the order that represents various conditions, for example, limit
+    orders and stop orders are orders to buy or sell once the price hits the price
+    specified in the order, for example, Google shares for 200 GBP. Limit order allows
+    selling or buying of stock at a specific price or better than the specified price
+    in the order. For example, sell Microsoft shares if price is 100 USD or better.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Orders are traded by bid prices and offer prices. Traders show their intention
+    to buy or sell by attaching bid and offer prices to their orders. The price at
+    which a trader will buy is known as the **bid price**. The price at which a trader
+    is willing to sell is known as the **offer price**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Order management and routing systems
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Order routing systems** routes and delivers orders to various destinations
+    depending on the business logic. Customers use them to send orders to their brokers,
+    who then send these orders to dealers, clearing houses, and exchanges.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are different types of orders. The two most common ones are markets orders
+    and limit order.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A **market order** is an instruction to trade at the best price currently available
+    in the market. These orders get filled immediately at spot prices. On the other
+    hand, a **limit order** is an instruction to trade at the best price available,
+    but only if it is not lower than the limit price set by the trader. This can also
+    be higher depending on the direction of the order: either to sell or buy. All
+    of these orders are managed in an **order book**, which is a list of orders maintained
+    by exchange, and it records the intention of buying or selling by the traders.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A **position** is a commitment to sell or buy a number of financial instruments,
+    including securities, currencies, or commodities for a given price. The contracts,
+    securities, commodities, and currencies that traders buy or sell are commonly
+    known as **trading instruments**, and they come under the broad umbrella of **asset
+    classes**. The most common classes are real assets, financial assets, derivative
+    contracts, and insurance contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Components of a trade
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A **trade ticket** is the combination of all of the details related to a trade.
+    However, there is some variation depending on the type of the instrument and the
+    asset class. These elements are described in the following subsections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The underlying instrument
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The **underlying instrument** is the basis of the trade. It can be a currency,
+    a bond, interest rate, commodity, or equities.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The attributes of financial instruments are discussed in the following subsection.
+  prefs: []
+  type: TYPE_NORMAL
+- en: General attributes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This includes the general identification information and essential features
+    associated with every trade. Typical attributes include a unique ID, instrument
+    name, type, status, trade date, and time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Economics
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Economics** are features related to the value of the trade, for example,
+    buy or sell value, ticker, exchange, price, and quantity.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sales
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Sales** refer to the sales-characteristic related details, such as the name
+    of the salesperson. It is just an informational field, usually without any impact
+    on the trade life cycle.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Counterparty
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The **counterparty** is an essential component of a trade as it shows the other
+    side (the other party involved in the trade) of the trade, and it is required
+    to settle the trade successfully. The normal attributes include counterparty name,
+    address, payment type, any reference IDs, settlement date, and delivery type.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Trade life cycle
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A general **trade life cycle** includes the various stages from order placement
+    to execution and settlement. This life cycle is described step-by-step as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Pre-execution**: An order is placed at this stage.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Execution and booking**: When the order is matched and executed, it converts
+    it into a trade. At this stage, the contract between counterparties is matured.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Confirmation**: This is where both counterparties agree to the particulars
+    of the trade.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Post booking**: This stage is concerned with various scrutiny and verification
+    processes required to ascertain the correctness of the trade.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Settlement**: This is the most vital part of trade life cycle. At this stage,
+    the trade is final.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Overnight (end-of-day processing)**: End-of-day processes include report
+    generation, profit and loss calculations, and various risk calculations.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'This life cycle is also shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d6e1a330-91a8-4bb6-8d17-d734d5d54968.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Trade life cycle
+  prefs: []
+  type: TYPE_NORMAL
+- en: In all the aforementioned processes, many people and business functions are
+    involved. Most commonly, these functions are divided into functions such as front
+    office, middle office, and back office.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the following section, you are introduced to some concepts that are essential
+    to understanding the strict and necessary rules and regulations that govern the
+    financial industry. Some concepts are described here and then again in later chapters
+    when specific use cases are discussed. These ideas will help you understand the
+    scenarios described.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Order anticipators
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Order anticipators** try to make a profit before other traders can carry
+    out trading. This is based on the anticipation of a trader who knows how trading
+    activities of other trades will affect prices. Frontrunners, sentiment-oriented
+    technical traders, and squeezers are some examples of order anticipators.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Market manipulation
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Market manipulation** is strictly illegal in many countries. Fraudulent traders
+    can spread false information in the market, which can then result in price movements
+    thus enabling illegal profiteering. Usually, manipulative market conduct is trade-based,
+    and it includes generalized and time-specific manipulations. Actions that can
+    create an artificial shortage of stock, an impression of false activity, and price
+    manipulation to gain criminal benefits are included in this category.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Both of the terms discussed here are relevant to the financial crime. However,
+    there is a possibility of developing blockchain-based systems that can thwart
+    market abuse due to its transparency and security properties.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We started this chapter with the introduction of asymmetric key cryptography.
+    We discussed various constructs such as RSA and ECC. We also performed some experiments
+    using OpenSSL to see that how theoretical concepts can be implemented practically.
+    After this, we discussed hash functions in detail along with its properties and
+    usage. Next, we covered concepts such as Merkle trees, which are used extensively
+    in blockchain and, in fact, are at its core. We also presented other concepts
+    such as Patricia trees and hash tables.
+  prefs: []
+  type: TYPE_NORMAL

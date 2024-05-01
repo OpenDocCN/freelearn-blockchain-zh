@@ -1,0 +1,957 @@
+- en: Building a Betting App
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Sometimes, it is necessary for smart contracts to access data from other dapps
+    or from the World Wide Web. But it's really complicated to let smart contracts
+    access outside data due to technical and consensus challenges. Therefore, currently,
+    Ethereum smart contracts don't have native support to access outside data. But
+    there are third-party solutions for Ethereum smart contracts to access data from
+    some popular dapps and from the World Wide Web. In this chapter, we will learn
+    how to use Oraclize to make HTTP requests from Ethereum smart contracts to access
+    data from the World Wide Web. We will also learn how to access files stored in
+    IPFS, use the strings library to work with strings, and so on. We will learn all
+    this by building a football-betting smart contract and a client for it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we''ll cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: How does Oraclize work?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: What are Oraclize's various data sources and how do each of them work?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How does consensus work in Oraclize?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Integrating Oraclize in Ethereum smart contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using strings the `Solidity` library to make it easy to work with strings
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building a football betting app
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Introduction to Oraclize
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Oraclize is a service that aims to enable smart contracts to access data from
+    other blockchains and the World Wide Web. This service is currently live on bitcoin
+    and Ethereum's testnet and mainnet. What makes Oraclize so special is that you
+    don't need to trust it because it provides proof of authenticity of all data it
+    provides to smart contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this chapter, our aim is to learn how Ethereum smart contracts can use the
+    Oraclize service to fetch data from the World Wide Web.
+  prefs: []
+  type: TYPE_NORMAL
+- en: How does it work?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's look at the process by which an Ethereum smart contract can fetch data
+    from other blockchains and the World Wide Web using Oraclize.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To fetch data that exists outside of the Ethereum blockchain, an Ethereum smart
+    contract needs to send a query to Oraclize, mentioning the data source (representing
+    where to fetch the data from) and the input for the data source (representing
+    what to fetch).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sending a query to Oraclize Oraclize means sending a contract call (that is,
+    an internal transaction) to the Oraclize contract present in the Ethereum blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Oraclize server keeps looking for new incoming queries to its smart contract.
+    Whenever it sees a new query, it fetches the result and sends it back to your
+    contract by calling the `_callback` method of your contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Data sources
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Here is a list of sources from which Oraclize lets smart contracts fetch data:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'URL: The URL data source provides you with the ability to make an HTTP GET
+    or POST request, that is, fetch data from the WWW.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`WolframAlpha`: The `WolframAlpha` data source provides you with the ability
+    to submit a query to the `WolframAlpha` knowledge engine and get the answer.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`Blockchain`: The `blockchain` data source provides you with ability to access
+    data from other `blockchains`. Possible queries that can be submitted to the `blockchain`
+    data source are `bitcoin blockchain height`, `litecoin hashrate`, `bitcoin difficulty`,
+    `1NPFRDJuEdyqEn2nmLNaWMfojNksFjbL4S balance`, and so on.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`IPFS`: The `IPFS` data source provides you with the ability to fetch the content
+    of a file stored in `IPFS`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`Nested`: The `nested` data source is a metadata source; it does not provide
+    access to additional services. It was designed to provide a simple aggregation
+    logic, enabling a single query to leverage sub-queries based on any available
+    data source and producing a single string as a result; for example:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`[WolframAlpha] temperature in ${[IPFS] QmP2ZkdsJG7LTw7jBbizTTgY1ZBeen64PqMgCAWz2koJBL}`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`Computation`: The `computation` data source enables the auditable execution
+    of a given application into a secure off-chain context; that is, it lets us fetch
+    the result of an off-chain execution of an application. This application has to
+    print the query result on the last line (on the standard output) before its quits.
+    The execution context has to be described by a Dockerfile, where building and
+    running it should start your main application straight away. The Dockerfile initialization
+    plus your application execution should terminate as soon as possible: the maximum
+    execution timeout is 5 minutes on an `AWS t2.micro` instance. Here, we are considering
+    an `AWS t2.micro` instance because that''s what Oraclize will use to execute the
+    application. As the input for the data source is the IPFS multihash of a ZIP archive
+    containing such files (Dockerfile plus any external file dependencies, and the
+    Dockerfile has to be placed in the archive root), you should take care of preparing
+    this archive and pushing it to IPFS beforehand.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: These data sources are available at the time of writing this book. But many
+    more data sources are likely to be available in the future.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proof of authenticity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Although Oraclize is a trusted service, you may still want to check whether
+    the data returned by Oraclize is authentic or not, that is, whether it was manipulated
+    by Oraclize or someone else in transit.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Optionally, Oraclize provides the TLSNotary proof of result that's returned
+    from the URL, blockchain, and nested and computation data sources. This proof
+    is not available for `WolframAlpha` and `IPFS` data sources. Currently, Oraclize
+    only supports the TLSNotary proof, but in the future, they may support some other
+    ways to authenticate. Currently, the TLSNotary proof needs to be validated manually,
+    but Oraclize is already working on on-chain proof verification; that is, your
+    smart contract code can verify the TLSNotary proof on its own while receiving
+    the data from Oraclize so that this data is discarded if the proof turns out to
+    be invalid.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This tool ([https://github.com/Oraclize/proof-verification-tool](https://github.com/oraclize/proof-verification-tool))
+    is an open source tool provided by Oraclize to validate the TLSNotary proof in
+    case you want to.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding how TLSNotary works is not required to use Oraclize or to verify
+    the proof. The tool to validate the TLSNotary proof is open source; therefore,
+    if it contains any malicious code, then it can easily be caught, so this tool
+    can be trusted.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's look at a high-level overview of how TLSNotary works. To understand how
+    TLSNotary works, you need to first understand how TLS works. The TLS protocol
+    provides a way for the client and server to create an encrypted session so that
+    no one else can read or manipulate what is transferred between the client and
+    server. The server first sends its certificate (issued to the domain owner by
+    a trusted CA) to the client. The certificate will contain the public key of the
+    server. The client uses the CA's public key to decrypt the certificate so that
+    it can verify that the certificate is actually issued by the CA and get the server's
+    public key. Then, the client generates a symmetric encryption key and a MAC key
+    and encrypts them using the server's public key and sends it to the server. The
+    server can only decrypt this message as it has the private key to decrypt it.
+    Now the client and server share the same symmetric and MAC keys and no one else
+    knows about these keys and they can start sending and receiving data from each
+    other. The symmetric key is used to encrypt and decrypt the data where the MAC
+    key and the symmetric key together are used to generate a signature for the encrypted
+    message so that in case the message is modified by an attacker, the other party
+    can know about it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: TLSNotary is a modification of TLS, which is used by Oraclize to provide cryptography
+    proof showing that the data they provided to your smart contract was really the
+    one the data source gave to Oraclize at a specific time. Actually the TLSNotary
+    protocol is an open source technology, developed and used by the PageSigner project.
+  prefs: []
+  type: TYPE_NORMAL
+- en: TLSNotary works by splitting the symmetric key and the MAC key among three parties,
+    that is, the server, an auditee, and an auditor. The basic idea of TLSNotary is
+    that the auditee can prove to the auditor that a particular result was returned
+    by the server at a given time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So here is an overview of how exactly TLSNotary lets us achieve this. The auditor
+    calculates the symmetric key and MAC key and gives only the symmetric key to the
+    auditee. The MAC key is not needed by the auditee as the MAC signature check ensures
+    that the TLS data from the server was not modified in transit. With the symmetric
+    encryption key, the auditee can now decrypt data from the server. Because all
+    messages are "signed" by the bank using the MAC key and only the server and the
+    auditor know the MAC key, a correct MAC signature can serve as proof that certain
+    messages came from the bank and were not spoofed by the auditee.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the case of the Oraclize service, Oraclize is the auditee, while a locked-down
+    AWS instance of a specially designed, open source Amazon machine image acts as
+    the auditor.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The proof data they provide are the signed attestations of this AWS instance
+    that a proper TLSnotary proof did occur. They also provide some additional proof
+    regarding the software running in the AWS instance, that is, whether it has been
+    modified since being initialized.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Pricing
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The first Oraclize query call coming from any Ethereum address is completely
+    free of charge. Oraclize calls are free when used on testnets! This works for
+    moderate usage in test environments only.
+  prefs: []
+  type: TYPE_NORMAL
+- en: From the second call onward, you have to pay in ether for queries. While sending
+    a query to Oraclize (that is, while making an internal transaction call), a fee
+    is deducted by transferring ether from the calling contract to the Oraclize contract.
+    The amount of ether to deduct depends on the data source and proof type.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is a table that shows the number of ether that is deducted while sending
+    a query:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Data source** | **Without proof** | **With TLSNotary proof** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| URL | $0.01 | $0.05 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Blockchain | $0.01 | $0.05 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| WolframAlpha | $0.03 | $0.03 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| IPFS | $0.01 | $0.01 |'
+  prefs: []
+  type: TYPE_TB
+- en: So if you are making a HTTP request and you want the TLSNotary proof too, then
+    the calling contract must have an ether worth of $0.05; otherwise, an exception
+    is thrown.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Getting started with the Oraclize API
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: For a contract to use the Oraclize service, it needs to inherit the `usingOraclize`
+    contract. You can find this contract at [https://github.com/Oraclize/Ethereum-api](https://github.com/oraclize/ethereum-api).
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `usingOraclize` contract acts as the proxy for the `OraclizeI` and `OraclizeAddrResolverI`
+    contracts. Actually, `usingOraclize` makes it easy to make calls to the `OraclizeI`
+    and `OraclizeAddrResolverI` contracts, that is, it provides simpler APIs. You
+    can also directly make calls to the `OraclizeI` and `OraclizeAddrResolverI` contracts
+    if you feel comfortable. You can go through the source code of these contracts
+    to find all the available APIs. We will only learn the most necessary ones.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's look at how to set proof type, set proof storage location, make queries,
+    find the cost of a query, and so on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting the proof type and storage location
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Whether you need the TLSNotary proof from Oraclize or not, you have to specify
+    the proof type and proof storage location before making queries.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If you don''t want proof, then put this code in your contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'And if you want proof, then put this code in your contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: Currently, `proofStorage_IPFS` is the only proof storage location available;
+    that is, TLSNotary proof is only stored in `IPFS`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You may execute any of these methods just once, for instance, in the constructor
+    or at any other time if, for instance, you need the proof for certain queries
+    only.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sending queries
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To send a query to Oraclize, you will need to call the `oraclize_query` function.
+    This function expects at least two arguments, that is, the data source and the
+    input for the given data source. The data source argument is not case-sensitive.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here are some basic examples of the `oraclize_query` function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: If the first argument is a string, it is assumed to be the data source and the
+    second argument is assumed to be the input for the data source. In the first call,
+    the data source is `WolframAlpha` and the search query we sent to it was `random
+    number between 0 and 100`.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In the second call, we make an `HTTP GET` request to the `URL` present in the
+    second argument.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In the third call, we fetch the content of the `QmdEJwJG1T9rzHvBD8i69HHuJaRgXRKEQCP7Bh1BVttZbU` file
+    from `IPFS`.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If two consecutive arguments after the data source are strings, then it's assumed
+    to be a POST request. In the last call, we make an `HTTP POST` request to `https://xyz.io/makePayment`
+    and the `POST` request body content is the string in the third argument. Oraclize
+    is intelligent enough to detect the content-type header based on the string format.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Scheduling queries
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: If you want Oraclize to execute your query at a scheduled future time, just
+    specify the delay (in seconds) from the current time as the first argument.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding query will be executed by Oraclize `60` seconds after it's been
+    seen. So if the first argument is a number, then it's assumed that we are scheduling
+    a query.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Custom gas
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The transaction originating from Oraclize to your `__callback` function costs
+    gas, just like any other transaction. You need to pay Oraclize the gas cost. The
+    ether oraclize_query charges to make a query are also used to provide gas while
+    calling the `__callback` function. By default, Oraclize provides 200,000 gas while
+    calling the `__callback` function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This return gas cost is actually in your control since you write the code in
+    the `__callback` method and as such, can estimate it. So, when placing a query
+    with Oraclize, you can also specify how much the `gasLimit` should be on the `__callback`
+    transaction. Note, however, that since Oraclize sends the transaction, any unspent
+    gas is returned to Oraclize, not you.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If the default, and minimum, value of 200,000 gas is not enough, you can increase
+    it by specifying a different `gasLimit` in this way:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, you can see that if the last argument is a number, then it's assumed to
+    be the custom gas. In the preceding code, Oraclize will use a 500k `gasLimit`
+    for the callback transaction instead of 200k. Because we are asking Oraclize to
+    provide more gas, Oraclize will deduct more ether (depending on how much gas is
+    required) while calling `oraclize_query`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Note that if you offer too low a `gasLimit`, and your `__callback` method is
+    long, you may never see a callback. Also note that the custom gas has to be more
+    than 200k.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Callback functions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Once your result is ready, Oraclize will send a transaction back to your contract
+    address and invoke one of these three methods:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: either `__callback(bytes32 myid, string result)`. `Myid` is a unique ID for
+    every query. This ID is returned by the `oraclize_query` method. If you have multiple
+    `oraclize_query` calls in your contract, then this is used to match the query
+    this result is for.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'If you requested for the TLS Notary proof, this is the result: `__callback(bytes32
+    myid, string result, bytes proof)`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: As a last resort, if the other methods are absent, the fallback function is
+    `function()`
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Here is an example of the `__callback` function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: Parsing helpers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The result returned from an HTTP request can be HTML, JSON, XML, binary, and
+    so on. In Solidity, it is difficult and expensive to parse the result. Due to
+    this, Oraclize provides parsing helpers to let it handle the parsing on its servers,
+    and you get only the part of the result that you need.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To ask Oraclize to parse the result, you need to wrap the URL with one of these
+    parsing helpers:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`xml(..)` and `json(..)` helpers let you ask Oraclize to only return part of
+    the JSON or XML-parsed response; for example, take a look at the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In order to get the whole response back, you use the `URL` data source with
+    the `api.kraken.com/0/public/Ticker?pair=ETHUSD` URL argument
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If all you want is the last-price field, you need to use the JSON parsing call
+    as `json(api.kraken.com/0/public/Ticker?pair=ETHUSD).result.XETHZUSD.c.0`
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The `html(..).xpath(..)` helper is useful for HTML scraping. Just specify the
+    XPATH you want as the `xpath(..)` argument; for example, take a look at the following:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To fetch the text of a specific tweet, use `html(https://twitter.com/oraclizeit/status/671316655893561344).xpath(//*[contains(@class,
+    'tweet-text')]/text())`.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The `binary(..)` helper is useful in getting binary files such as certificate
+    files:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To fetch only a portion of the binary file, you can use `slice(offset,length)`;
+    the first parameter is the offset, while the second one is the length of the slice
+    you want back (both in bytes).
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Example: Fetch only the first 300 bytes from a binary CRL, `binary(https://www.sk.ee/crls/esteid/esteid2015.crl).slice(0,300)`.
+    The binary helper must be used with the slice option, and only binary files (not
+    encoded) are accepted.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If and when the server is not responding or is unreachable, we will send you
+    an empty response. You can test queries using [http://app.Oraclize.it/home/test_query](http://app.oraclize.it/home/test_query).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Getting the query price
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: If you would like to know how much a query would cost before making the actual
+    query, then you can use the `Oraclize.getPrice()` function to get the amount of
+    wei required. The first argument it takes is the data source, and the second argument
+    is optional, which is the custom gas.
+  prefs: []
+  type: TYPE_NORMAL
+- en: One popular use case of this is to notify the client to add ether to the contract
+    if there isn't enough to make the query.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Encrypting queries
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Sometimes, you may not want to reveal the data source and/or the input for
+    the data source. For example: you may not want to reveal the API key in the URL
+    if there is any. Therefore, Oraclize provides a way to store queries encrypted
+    in the smart contract and only Oraclize''s server has the key to decrypt it.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Oraclize provides a Python tool ([https://github.com/Oraclize/encrypted-queries](https://github.com/oraclize/encrypted-queries)),
+    which can be used to encrypt the data source and/or the data input. It generates
+    a non-deterministic encrypted string.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The CLI command to encrypt an arbitrary string of text is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: The long hexadecimal string you see is the public key of Oraclize's server.
+    Now you can use the output of the preceding command in place of the data source
+    and/or the input for the data source.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In order to prevent the misuse of encrypted queries (that is, replay attacks)
+    the first contract querying Oraclize with a specific encrypted query becomes its
+    rightful owner. Any other contract reusing the exact same string will not be allowed
+    to use it and will receive an empty result. As a consequence, remember to always
+    generate a newly encrypted string when redeploying contracts using encrypted queries.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Decrypting the data source
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There is another data source called decrypt. It is used to decrypt an encrypted
+    string. But this data source doesn't return any result; otherwise, anyone would
+    have the ability to decrypt the data source and input for the data source.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It was specifically designed to be used within the nested data source to enable
+    partial query encryption. It is its only use case.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Oraclize web IDE
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Oraclize provides a web IDE, using which you can write, compile, and test Oraclize-based
+    applications. You can find it at [http://dapps.Oraclize.it/browser-Solidity/](http://dapps.oraclize.it/browser-solidity/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you visit the link, then you will notice that it looks exactly the same as
+    browser Solidity. And it's actually browser Solidity with one extra feature. To
+    understand what that feature is, we need to understand browser Solidity more in
+    depth.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Browser Solidity not only lets us write, compile, and generate web3.js code
+    for our contracts, but it also lets us test those contracts there itself. Until
+    now, in order to test our contract, we were setting up an Ethereum node and sending
+    transactions to it. But browser Solidity can execute contracts without connecting
+    to any node and everything happens in memory. It achieves this using ethereumjs-vm,
+    which is a JavaScript implementation of EVM. Using ethereumjs-vm, you can create
+    our own EVM and run byte code. If we want, we can configure browser Solidity to
+    use the Ethereum node by providing the URL to connect to. The UI is very informative;
+    therefore, you can try all these by yourself.
+  prefs: []
+  type: TYPE_NORMAL
+- en: What's special about the Oraclize web IDE is that it deploys the Oraclize contract
+    in the in-memory execution environment so that you don't have to connect to the
+    testnet or mainnet node, but if you use browser Solidity, then you have to connect
+    to the testnet or mainnet node to test Oraclize APIs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can find more resources related to integrating Oraclize at [https://dev.Oraclize.it/](https://dev.oraclize.it/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Working with strings
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Working with strings in Solidity is not as easy as working with strings in other
+    high-level programming languages, such as JavaScript, Python, and so on. Therefore,
+    many Solidity programmers have come up with various libraries and contracts to
+    make it easy to work with strings.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `strings` library is the most popular strings utility library. It lets us
+    join, concatenate, split, compare, and so on by converting a string to something
+    called a slice. A slice is a struct that holds the length of the string and the
+    address of the string. Since a slice only has to specify an offset and a length,
+    copying and manipulating slices is a lot less expensive than copying and manipulating
+    the strings they reference.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To further reduce gas costs, most functions on slice that need to return a slice
+    modify the original one instead of allocating a new one; for instance, `s.split(".")`
+    will return the text up to the first `"."`, modifying s to only contain the remainder
+    of the string after the `"."`. In situations where you do not want to modify the
+    original slice, you can make a copy with `.copy()`, for example, `s.copy().split(".")`.
+    Try and avoid using this idiom in loops; since Solidity has no memory management,
+    it will result in allocating many short-lived slices that are later discarded.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Functions that have to copy string data will return strings rather than slices;
+    these can be cast back to slices for further processing if required.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s look at a few examples of working with strings using the `strings` library:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding code is self-explanatory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Functions that return two slices come in two versions: a nonallocating version
+    that takes the second slice as an argument, modifying it in place, and an allocating
+    version that allocates and returns the second slice; for example, let''s take
+    a look at the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: You can learn more about the strings library at [https://github.com/Arachnid/Solidity-stringutils](https://github.com/Arachnid/solidity-stringutils).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building the betting contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In our betting application, two people can choose to bet on a football match
+    with one person supporting the home team and the other person supporting the away
+    team. They both should bet the same amount of money, and the winner takes all
+    the money. If the match is a draw, then they both will take back their money.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will use the FastestLiveScores API to find out the result of matches. It
+    provides a free API, which lets us make 100 requests per hour for free. First,
+    go ahead and create an account and then generate an API key. To create an account,
+    visit [https://customer.fastestlivescores.com/register](https://customer.fastestlivescores.com/register),
+    and once the account is created, you will have the API key visible at [https://customer.fastestlivescores.com/](https://customer.fastestlivescores.com/).
+    You can find the API documentation at [https://docs.crowdscores.com/](https://docs.crowdscores.com/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: For every bet between two people in our application, a betting contract will
+    be deployed. The contract will contain the match ID retrieved from the `FastestLiveScores`
+    API, the amount of wei each of the parties need to invest, and the addresses of
+    the parties. Once both parties have invested in the contract, they will find out
+    the result of the match. If the match is not yet finished, then they will try
+    to check the result after every 24 hours.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the code for the contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: The contract code is self-explanatory. Now compile the preceding code using
+    `solc.js` or browser Solidity depending on whatever you are comfortable with.
+    You will not need to link the `strings` library because all the functions in it
+    are set to the `internal` visibility.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In browser Solidity, when specifying to import a library or contract from the
+    HTTP URL, make sure that it's hosted on GitHub; otherwise, it won't fetch it.
+    In that GitHub file URL, make sure that you remove the protocol as well as `blob/{branch-name}`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building a client for the betting contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: To make it easy to find match's IDs, deploy, and invest in contracts, we need
+    to build a UI client. So let's get started with building a client, which will
+    have two paths, that is, the home path to deploy contracts and bet on matches
+    and the other path to find the list of matches. We will let users deploy and bet
+    using their own offline accounts so that the entire process of betting happens
+    in a decentralized manner and nobody can cheat.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Before we start building our client, make sure that you have testnet synced
+    because Oraclize works only on Ethereum''s testnet/mainnet and not on private
+    networks. You can switch to testnet and start downloading the testnet blockchain
+    by replacing the `--dev` option with the `--testnet` option. For example, take
+    a look at the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: Projecting the structure
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the exercise files of this chapter, you will find two directories, that is,
+    Final and Initial. Final contains the final source code of the project, whereas
+    Initial contains the empty source code files and libraries to get started with
+    building the application quickly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To test the `Final` directory, you will need to run `npm install` inside it
+    and then run the app using the `node app.js` command inside the Final directory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the `Initial` directory, you will find a `public` directory and two files
+    named `app.js` and `package.json`. The `package.json` file contains the backend
+    dependencies of our app, and `app.js` is where you will place the backend source
+    code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `public` directory contains files related to the frontend. Inside `public/css`,
+    you will find `bootstrap.min.css`, which is the bootstrap library. Inside `public/html`,
+    you will find the `index.html` and `matches.ejs` files, where you will place the
+    HTML code of our app, and in the `public/js` directory, you will find js files
+    for web3.js, and ethereumjs-tx. Inside `public/js`, you will also find a `main.js`
+    file, where you will place the frontend JS code of our app. You will also find
+    the Oraclize Python tool to encrypt queries.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building the backend
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's first build the backend of the app. First of all, run `npm install` inside
+    the Initial directory to install the required dependencies for our backend.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the backend code to run an express service and serve the `index.html`
+    file and static files and set the view engine:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The preceding code is self-explanatory. Now let''s proceed further. Our app
+    will have another page, which will display a list of recent matches with matches''
+    IDs and result if a match has finished. Here is the code for the endpoint:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we are making the API request to fetch the list of recent matches and
+    then we are passing the result to the `matches.ejs` file so that it can render
+    the result in a user-friendly UI. The API results give us the match start time
+    as a timestamp; therefore, we are using moment to convert it to a human readable
+    format. We make this request from the backend and not from the frontend so that
+    we don't expose the API key to the users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Our backend will provide an API to the frontend, using which the frontend can
+    encrypt the query before deploying the contract. Our application will not prompt
+    users to create an API key, as it would be a bad UX practice. The application's
+    developer controlling the API key will cause no harm as the developer cannot modify
+    the result from the API servers; therefore, users will still trust the app even
+    after the application's developer knows the API key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is code for the encryption endpoint:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: We have already seen how to use this tool. To run this endpoint successfully,
+    make sure that Python is installed on your system. Even if Python is installed,
+    this endpoint may show errors, indicating that Python's cryptography and base58
+    modules aren't installed. So make sure you install these modules if the tool prompts
+    you to.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building the frontend
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now let's build the frontend of our application. Our frontend will let users
+    see the list of recent matches, deploy the betting contract, bet on a game, and
+    let them see information about a betting contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s first implement the `matches.ejs` file, which will display the list
+    of recent matches. Here is the code for this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding code is self-explanatory. Now let's write the HTML code for our
+    home page. Our home page will display three forms. The first form is to deploy
+    a betting contract, the second form is to invest in a betting contract, and the
+    third form is to display information on a deployed betting contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the HTML code for the home page. Place this code in the `index.html`
+    page:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The preceding code is self-explanatory. Now let''s write JavaScript code to
+    actually deploy the contract, invest in contracts, and display information on
+    contracts. Here is the code for all this. Place this code in the `main.js` file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: At first, we store the contract byte code and ABI in the `bettingContractByteCode`
+    and `bettingContractABI` variables, respectively.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we are create a `Web3` instance, which is connected to our testnet node.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we have the `getAJAXObject` function (a cross-browser compatible function),
+    which returns an AJAX object.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we attach a `submit` event listener to the first form, which is used to
+    deploy the contract. In the event listener's callback, we make a request to the
+    `getURL` endpoint by passing `matchId` to get the encrypted query string. And
+    then, we generate the data to deploy the contract. Then, we find out the `gasRequired`.
+    We use the function object's estimateGas method to calculate the gas required,
+    but you can use the web3.eth.estimateGas method too. They both differ in terms
+    of arguments; that is, in the preceding case, you don't need to pass the transaction
+    data. Remember that `estimateGas` will return the block gas limit if the function
+    call throws an exception. Then, we calculate the nonce. Here, we just use the
+    `getTransactionCount` method instead of the actual procedure we learned earlier.
+    We do this just for simplification of the code. Then, we create the raw transaction,
+    signing it and broadcasting it. Once the transaction is mined, we display the
+    contract address.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we attach a `submit` event listener for the second form, which is used
+    to invest in a contract. Here, we generate the `data` part of the transaction,
+    calculating the gas required, creating the raw transaction, signing it, and broadcasting
+    it. While calculating the gas required for the transaction, we pass the contract
+    address from the account address and value object properties as it's a function
+    call, and the gas differs depending on the value, the from address, and contract
+    address. Remember that while finding the gas required to call a contract's function,
+    you can pass the `to`, `from`,and `value` properties because gas depends on these
+    values.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Finally, we have a `submit` event listener for the third form, that is, to display
+    information on a deployed betting contract.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Testing the client
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that we have finished building our betting platform, it's time to test it.
+    Before testing, make sure the testnet blockchain is completely downloaded and
+    is looking for new incoming blocks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now using our wallet service we built earlier, generate three account. Add one
+    ether to each of the accounts using [http://faucet.ropsten.be:3001/](http://faucet.ropsten.be:3001/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Then, run `node app.js` inside the `Initial` directory and then visit `http://localhost:8080/matches`,
+    and you will see what is shown in this screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/69b8a32a-af87-4a38-9dda-fe39a585b820.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Here, you can copy any match ID. Let''s assume you want to test with the first
+    match, that is, 123945\. Now visit [`http://localhost:8080`](http://localhost:8080)
+    and you will see what is shown in this screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e7bf2ba5-2e5f-4242-bac9-7f1a78a614b0.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Now deploy the contract by filling the input fields in the first form and clicking
+    on the Deploy button, as shown here. Use your first account to deploy the contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/a641776a-71df-4ae2-9458-01f4b6921fb9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now bet on the contract''s home team from the second account and the `away
+    team` from the third account , as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7c16a73e-2a84-47eb-8505-12162dbc6e69.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now put the contract address on the third form and click on the Find button
+    to see the details about the contract. You will see something similar to what
+    is shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/0afac48e-edf4-4d7a-84a0-fb07d0348dc8.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Once both the transactions are mined, check the details of the contract again,
+    and you will see something similar to what is shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/e14aef7b-3a2e-42ab-a2d0-7a0ad97e29c5.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Here, you can see that the contract doesn't have any ether and all the ether
+    was transferred to the account that put the bet on the home team.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned about Oraclize and the `strings` library in depth.
+    We used them together to build a decentralized betting platform. Now you can go
+    ahead and customize the contract and the client based on your requirements. To
+    enhance the app, you can add events to the contract and display notifications
+    on the client. The objective was to understand the basic architecture of a decentralized
+    betting app.
+  prefs: []
+  type: TYPE_NORMAL

@@ -1,0 +1,1281 @@
+- en: Alternative Blockchains
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter is intended to provide an introduction to alternative blockchain
+    solutions. With the success of Bitcoin and subsequent realization of the potential
+    of blockchain technology, a Cambrian explosion started that resulted in the development
+    of various blockchain protocols, applications, and platforms. Some projects did
+    not gain much traction, for example as an estimate 46% of ICOs have failed this
+    year, but many have succeeded in creating a solid place in this space.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this chapter, readers will be introduced to alternative blockchains and platforms
+    such as Kadena, Ripple, and Stellar. We will explore the projects that either
+    are new blockchains on their own or provide support to other existing blockchains
+    by providing SDKs, frameworks, and tools to make development and deployment of
+    blockchain solutions easier. The success of Ethereum and Bitcoin has resulted
+    in various projects that spawned into existence by leveraging the underlying technologies
+    and concepts introduced by them. These new projects add value by addressing the
+    limitations in the current blockchains such as scalability and or enhancing the
+    existing solutions by providing an additional layer of user-friendly tools on
+    top of them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchains
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this section, an introduction to new blockchain solutions will be given,
+    and later sections will cover various platforms and development kits that complement
+    existing blockchains. For example, Kadena is a new private blockchain with novel
+    ideas such as Scalable BFT. Various concepts such as sidechains, drivechains,
+    and pegging have also been introduced with this growth of blockchain technologies.
+    This chapter will cover all these technologies and related concepts in detail.
+    Of course, it's not possible to cover all **alternative chains** (**altchains**)
+    and platforms, but all those platforms have been included in this chapter that
+    is related to blockchains, covered in the previous chapters, or are expected to
+    gain traction soon.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will explore Kadena, Ripple, Stellar, Quorum and various other blockchains
+    in the section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Kadena
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Kadena is a private blockchain that has successfully addressed scalability and
+    privacy issues in blockchain systems. A new Turing incomplete language, called
+    Pact, has also been introduced with Kadena that allows the development of smart
+    contracts. A key innovation in Kadena is its Scalable BFT consensus algorithm,
+    which has the potential to scale to thousands of nodes without performance degradation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Scalable BFT is based on the original Raft algorithm and is a successor of Tangaroa
+    and Juno. Tangaroa, which is a name given to an implementation of Raft with fault
+    tolerance (a BFT Raft), was developed to address the availability and safety issues
+    that arose from the behavior of Byzantine nodes in the Raft algorithm, and Juno
+    was a fork of Tangaroa that was developed by JPMorgan. Consensus algorithms are
+    discussed in [Chapter 1](76e4e401-30ba-44f9-832f-333ba6c12cbc.xhtml), *Blockchain
+    101* in more detail.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Both of these proposals have a fundamental limitation—they cannot scale while
+    maintaining a high level of high performance. As such, Juno could not gain much
+    traction. Private blockchains have the more desirable property of maintaining
+    high performance as the number of nodes increase, but the aforementioned proposals
+    lack this feature. Kadena solves this issue with its proprietary Scalable BFT
+    algorithm, which is expected to scale up to thousands of nodes without any performance
+    degradation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Moreover, confidentiality is another significant aspect of Kadena that enables
+    privacy of transactions on the blockchain. This security service is achieved by
+    using a combination of key rotation, symmetric on-chain encryption, incremental
+    hashing, and Double Ratchet protocol.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Key rotation is used as a standard mechanism to ensure the security of the private
+    blockchain. It is used as a best practice to thwart any attacks if the keys have
+    been compromised, by periodically changing the encryption keys. There is native
+    support for key rotation in Pact smart contract language.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Symmetric on-chain encryption allows encryption of transaction data on the blockchain.
+    These transactions can be automatically decrypted by the participants of a particular
+    private transaction. Double Ratchet protocol is used to provide key management
+    and encryption functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Scalable BFT consensus protocol ensures that adequate replication and consensus
+    has been achieved before smart contract execution. The consensus is achieved by
+    following the process described here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This is how a transaction originates and flows in the network:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, a new transaction is signed by the user and broadcasted over the blockchain
+    network, which is picked up by a leader node that adds it to its immutable log.
+    At this point, an incremental hash is also calculated for the log. Incremental
+    hash is a type of hash function that allows computation of hash messages in the
+    scenario where, if a previous original message which is already hashed is slightly
+    changed, then the new hash message is computed from the already existing hash.
+    This scheme is quicker and less resource intensive compared to a conventional
+    hash function where an altogether new hash message is required to be generated
+    even if the original message has only changed very slightly.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Once the transaction is written to the log by the leader node, it signs the
+    replication and incremental hash and broadcasts it to other nodes.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Other nodes after receiving the transaction, verify the signature of the leader
+    node, add the transaction into their own logs, and broadcast their own calculated
+    incremental hashes (quorum proofs) to other nodes. Finally, the transaction is
+    committed to the ledger permanently after an adequate number of proofs are received
+    from other nodes.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'A simplified version of this process is shown in the following diagram, where
+    the leader node is recording the new transactions and then replicating them to
+    the follower nodes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/696b0e26-3b57-4f65-8a91-cf02e92b9197.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Consensus mechanism in Kadena
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Once the consensus is achieved, a smart contract execution can start and takes
+    a number of steps, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, the signature of the message is verified.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Pact smart contract layer takes over.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Pact code is compiled.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The transaction is initiated and executes any business logic embedded within
+    the smart contract. In case of any failures, an immediate rollback is initiated
+    that reverts that state back to what it was before the execution started.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Finally, the transaction completes and relevant logs are updated.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Pact has been open sourced by Kadena and is available for download at [http://kadena.io/pact/downloads.html](http://kadena.io/pact/downloads.html).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This can be downloaded as a standalone binary that provides a REPL for Pact
+    language. An example is shown here where Pact is run by issuing the `./pact` command
+    in Linux console:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/1022abfa-5814-479a-93fc-86c6b43fb29c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Pact REPL, showing sample commands and error output
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A smart contract in Pact language is usually composed of three sections: keysets,
+    modules, and tables. These sections are described here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Keysets**: This section defines relevant authorization schemes for tables
+    and modules.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Modules**: This section defines the smart contract code encompassing the
+    business logic in the form of functions and pacts. Pacts within modules are composed
+    of multiple steps and are executed sequentially.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Tables:** This section is an access-controlled construct defined within modules.
+    Only administrators defined in the admin keyset have direct access to this table.
+    Code within the module is granted full access, by default to the tables.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Pact also allows several execution modes. These modes include contract definition,
+    transaction execution, and querying. These execution modes are described here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Contract definition:** This mode allows a contract to be created on the blockchain
+    via a single transaction message.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Transaction execution:** This mode entails the execution of modules of smart
+    contract code that represent business logic.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Querying**: This mode is concerned with simply probing the contract for data
+    and is executed locally on the nodes for performance reason. Pact uses LISP-like
+    syntax and represents in the code exactly what will be executed on the blockchain,
+    as it is stored on the blockchain in human-readable format. This is in contrast
+    to Ethereum''s EVM, which compiles into bytecode for execution, which makes it
+    difficult to verify what code is in execution on the blockchain. Moreover, it
+    is Turing incomplete, supports immutable variables, and does not allow null values,
+    which improves the overall safety of the transaction code execution.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It is not possible to cover the complete syntax and functions of Pact in this
+    limited length chapter; however, a small example is shown here, that shows the
+    general structure of a smart contract written in Pact. This example shows a simple
+    addition module that defines a function named `addition` that takes three parameters.
+    When the code is executed it adds all three values and displays the result.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The following example has been developed using the online Pact compiler available
+    at [http://kadena.io/try-pact/](http://kadena.io/try-pact/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/db8f3d02-8361-4fa0-a744-238322a38ac9.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Sample Pact code
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When the code is run, it produces the output shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/3d6d61cf-fc7a-4877-b373-196721d1388d.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: The output of the code
+  prefs: []
+  type: TYPE_NORMAL
+- en: As shown in the preceding example, the execution output matches exactly with
+    the code layout and structure, which allows for greater transparency and limits
+    the possibility of malicious code execution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Kadena is a new class of blockchains introducing the novel concept of **pervasive
+    determinism** where, in addition to standard public/private key-based data origin
+    security, an additional layer of fully deterministic consensus is also provided.
+    It provides cryptographic security at all layers of the blockchain including transactions
+    and consensus layer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Relevant documentation and source code for Pact can be found here [https://github.com/kadena-io/pact](https://github.com/kadena-io/pact).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Kadena has also introduced a public blockchain in January, 2018 which is another
+    leap forward in building blockchains with massive throughput. The novel idea in
+    this proposal is to build a PoW parallel chain architecture. This scheme works
+    by combining individually mined chains on peers into a single network. The result
+    is massive throughput capable of processing more than 10,000 transactions per
+    second.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The original research paper is available at [http://kadena.io/docs/chainweb-v15.pdf](http://kadena.io/docs/chainweb-v15.pdf).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ripple
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Introduced in 2012, Ripple is a currency exchange and real-time gross settlement
+    system. In Ripple, the payments are settled without any waiting as opposed to
+    traditional settlement networks, where it can take days for settlement.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It has a native currency called **Ripples** (**XRP**). It also supports non-XRP
+    payments. This system is considered similar to an old traditional money transfer
+    mechanism known as *Hawala*. This system works by making use of agents who take
+    the money and a password from the sender, then contact the payee's agent and instruct
+    them to release funds to the person who can provide the password. The payee then
+    contacts the local agent, tells them the password and collects the funds. An analogy
+    to the agent is gateway in Ripple. This is just a very simple analogy; the actual
+    protocol is rather complex but principally it is the same.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The Ripple network is composed of various nodes that can perform different
+    functions based on their type:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**User nodes**: These nodes use in payment transactions and can pay or receive
+    payments.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Validator nodes**: These nodes participate in the consensus mechanism. Each
+    server maintains a set of unique nodes, which it needs to query while achieving
+    consensus. Nodes in the **Unique Node List** (**UNL**) are trusted by the server
+    involved in the consensus mechanism and will accept votes only from this list
+    of unique nodes.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Ripple is sometimes not considered a truly decentralized network as there are
+    network operators and regulators involved. However, it can be considered decentralized
+    due to the fact that anyone can become part of the network by running a validator
+    node. Moreover, the consensus process is also decentralized because any changes
+    proposed to make on the ledger have to be decided by following a scheme of super
+    majority voting. However, this is a hot topic among researchers and enthusiasts
+    and there are arguments against and in favor of each school of thought. There
+    are some discussions online that readers can refer to for further exploration
+    of these ideas.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can find these online discussions at the following links:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[https://www.quora.com/Why-is-Ripple-centralized](https://www.quora.com/Why-is-Ripple-centralized)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[https://thenextweb.com/hardfork/2018/02/06/ripple-report-bitmex-centralized/](https://thenextweb.com/hardfork/2018/02/06/ripple-report-bitmex-centralized/)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[https://www.reddit.com/r/Ripple/comments/6c8j7b/is_ripple_centralized_and_other_related_questions/?st=jewkor7b&amp;sh=e39bc635](https://www.reddit.com/r/Ripple/comments/6c8j7b/is_ripple_centralized_and_other_related_questions/?st=jewkor7b&sh=e39bc635)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Ripple maintains a globally distributed ledger of all transactions that are
+    governed by a novel low-latency consensus algorithm called **Ripple Protocol Consensus
+    Algorithm** (**RPCA**). The consensus process works by achieving an agreement
+    on the state of an open ledger containing transactions by seeking verification
+    and acceptance from validating servers in an iterative manner until an adequate
+    number of votes are achieved. Once enough votes are received (a super majority,
+    initially 50% and gradually increasing with each iteration up to at least 80%)
+    the changes are validated and the ledger is closed. At this point, an alert is
+    sent to the whole network indicating that the ledger is closed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Original research paper for RPCA is available at [https://ripple.com/files/ripple_consensus_whitepaper.pdf](https://ripple.com/files/ripple_consensus_whitepaper.pdf).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In summary, the consensus protocol is a three-phase process:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Collection phase**: In this phase validating nodes gather all transactions
+    broadcasted on the network by account owners and validate them. Transactions,
+    once accepted, are called candidate transactions and can be accepted or rejected
+    based on the validation criteria.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Consensus phase**: After the collection phase the consensus process starts,
+    and after achieving it the ledger is **closed**.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Ledger closing phase**: This process runs asynchronously every few seconds
+    in rounds and, as result, the ledger is opened and closed (updated) accordingly:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '![](img/a34f40d1-80d3-48fe-b720-cdc59e9dc6cd.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Ripple consensus protocol phases
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In a Ripple network, there are a number of components that work together in
+    order to achieve consensus and form a payment network. These components are discussed
+    individually here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Server**: This component serves as a participant in the consensus protocol.
+    Ripple server software is required in order to be able to participate in consensus
+    protocol.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Ledger**: This is the main record of balances of all accounts on the network.
+    A ledger contains various elements such as ledger number, account settings, transactions,
+    timestamp, and a flag that indicates the validity of the ledger.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Last closed ledger**: A ledger is closed once consensus is achieved by validating
+    nodes.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Open ledger**: This is a ledger that has not been validated yet and no consensus
+    has been reached about its state. Each node has its own open ledger, which contains
+    proposed transactions.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Unique Node List:** This is a list of unique trusted nodes that a validating
+    server uses in order to seek votes and subsequent consensus.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Proposer**: As the name suggests, this component proposes new transactions
+    to be included in the consensus process. It is usually a subset of nodes (UNL
+    defined in the previous point) that can propose transactions to the validating
+    server.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transactions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Transactions are created by the network users in order to update the ledger.
+    A transaction is expected to be digitally signed and valid in order for it to
+    be considered as a candidate in the consensus process. Each transaction costs
+    a small amount of XRP, which serves as a protection mechanism against denial of
+    service attacks caused by spamming.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There are different types of transaction in the Ripple network. A single field
+    within the Ripple transaction data structure called `TransactionType` is used
+    to represent the type of the transaction. Transactions are executed by using a
+    four-step process:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, transactions are prepared whereby an unsigned transaction is created
+    by following the standards
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The second step is signing, where the transaction is digitally signed to authorize
+    it
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: After this, the actual submission to the network occurs via the connected server
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Finally, the verification is performed to ensure that the transaction is validated
+    successfully
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Roughly, the transactions can be categorized into three types, namely payments
+    related, order related, and account and security related. All these types are
+    described in the following section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Payments related
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'There are several fields in this category that result in certain actions. All
+    these fields are described as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`Payment`: This transaction is most commonly used and allows one user to send
+    funds to another.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`PaymentChannelClaim`: This is used to claim Ripples (XRP) from a payment channel.
+    A payment channel is a mechanism that allows recurring and unidirectional payments
+    between parties. This can also be used to set the expiration time of the payment
+    channel.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`PaymentChannelCreate`: This transaction creates a new payment channel and
+    adds XRP to it in *drops*. A single drop is equivalent to 0.000001 of an XRP.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`PaymentChannelFund`: This transaction is used to add more funds to an existing
+    channel. Similar to the `PaymentChannelClaim` transaction, this can also be used
+    to modify the expiration time of the payment channel.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Order related
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This type of transaction includes following two fields:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`OfferCreate`: This transaction represents a limit order, which represents
+    an intent for the exchange of currency. It results in creating an offer node in
+    the consensus ledger if it cannot be completely fulfilled.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`OfferCancel`: This is used to remove a previously created offer node from
+    the consensus ledger, indicating withdrawal of the order.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Account and security-related
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This type of transaction includes the fields listed as follows. Each field
+    is responsible for performing a certain function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`AccountSet`: This transaction is used to modify the attributes of an account
+    in the Ripple consensus ledger.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`SetRegularKey`: This is used to change or set the transaction signing key
+    for an account. An account is identified using a base-58 Ripple address derived
+    from the account''s master public key.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`SignerListSet`: This can be used to create a set of signers for use in multisignature
+    transactions.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`TrustSet`: This is used to create or modify a trust line between accounts.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'A transaction in Ripple is composed of various fields that are common to all
+    transaction types. These fields are listed as follows with a description:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`Account`: This is the address of the initiator of the transaction.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`AccountTxnID`: This is an optional field which contains the hash of another
+    transaction. It is used to chain the transaction together.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`Fee`: This is the amount of XRP.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`Flags`: This is an optional field specifying the flags for the transaction.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`LastLedgerSequence`: This is the highest sequence number of the ledger in
+    which the transaction can appear.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`Memos`: This represents optional arbitrary information.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`SigningPubKey`: This represents the public key.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`Signers`: This represent signers in a multisig transaction.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`SourceTag`: This represents either sender or reason of the transaction.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`SourceTag`: This represents either sender or reason of the transaction.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`TxnSignature`: This is the verification digital signature for the transaction.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Interledger
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Interledger is a simple protocol that is composed of four layers: Application,
+    Transport, Interledger, and Ledger. Each layer is responsible for performing various
+    functions under certain protocols. These functions and protocols are described
+    in the following section.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The specifications of this protocol are available at: [https://interledger.org/rfcs/0003-interledger-protocol/draft-9.html](https://interledger.org/rfcs/0003-interledger-protocol/draft-9.html)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Application layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Protocols running on this layer govern the key attributes of a payment transaction.
+    Examples of application layer protocols include **Simple Payment Setup Protocol**
+    (**SPSP**) and **Open Web Payment Scheme** (**OWPS**). SPSP is an Interledger
+    protocol that allows secure payment across different ledgers by creating connectors
+    between them. OWPS is another scheme that allows consumer payments across different
+    networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once the protocols on this layer have run successfully, protocols from the transport
+    layer will be invoked in order to start the payment process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transport layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This layer is responsible for managing payment transactions. Protocols such
+    as **Optimistic Transport Protocol** (**OTP**), **Universal Transport Protocol**
+    (**UTP**) and **Atomic Transport Protocol** (**ATP**) are available currently
+    for this layer. OTP is the simplest protocol, which manages payment transfers
+    without any escrow protection, whereas UTP provides escrow protection. ATP is
+    the most advanced protocol, which not only provides an escrowed transfer mechanism
+    but in addition, makes use of trusted notaries to further secure the payment transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Interledger layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This layer provides interoperability and routing services. This layer contains
+    protocols such as **Interledger Protocol** (**ILP**), **Interledger Quoting Protocol**
+    (**ILQP**), and **Interledger Control Protocol** (**ILCP**). ILP packet provides
+    the final target (destination) of the transaction in a transfer. ILQP is used
+    in making quote requests by the senders before the actual transfer. ILCP is used
+    to exchange data related to routing information and payment errors between connectors
+    on the payment network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ledger layer
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This layer contains protocols that enable communication and execution of payment
+    transactions between connectors. **Connectors** are basically objects that implement
+    the protocol for forwarding payments between different ledgers. It can support
+    various protocols such as simple ledger protocol, various blockchain protocols,
+    legacy protocols, and different proprietary protocols.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ripple connect consists of various Plug and Play modules that allow connectivity
+    between ledgers by using the ILP. It enables the exchange of required data between
+    parties before the transaction, visibility, fee management, delivery confirmation,
+    and secure communication using transport layer security. A third-party application
+    can connect to the Ripple network via various connectors that forward payments
+    between different ledgers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: All layers described in the preceding sections make up the architecture of Interledger
+    Protocol. Overall, Ripple is a solution that is targeted for the financial industry
+    and makes real-time payments possible without any settlement risk. As this is
+    a very feature-rich platform, covering all aspects of it are not possible in this
+    chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ripple documentation for the platform are available at [https://ripple.com/](https://ripple.com/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Stellar
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Stellar is a payment network based on blockchain technology and a novel consensus
+    model called **Federated Byzantine Agreement** (**FBA**). FBA works by creating
+    quorums of trusted parties. **Stellar Consensus Protocol** (**SCP**) is an implementation
+    of FBA.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Key issues identified in the Stellar whitepaper are the cost and complexity
+    of current financial infrastructure. This limitation warrants the need for a global
+    financial network that addresses these issues without compromising the integrity
+    and security of the financial transaction. This requirement has resulted in the
+    invention of SCP which is a provably safe consensus mechanism.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Original research paper for SCP is available at [https://www.stellar.org/papers/stellar-consensus-protocol.pdf](https://www.stellar.org/papers/stellar-consensus-protocol.pdf).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It has four main properties, which are described here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Decentralized control**: This allows participation by anyone without any
+    central party'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Low latency**: This addresses the much-desired requirement of fast transaction
+    processing'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Flexible trust**: This allows users to choose which parties they trust for
+    a specific purpose'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Asymptotic security**: This makes use of digital signatures and hash functions
+    for providing the required level of security on the network'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The Stellar network allows transfer and representation of the value of an asset
+    by its native digital currency, called **Lumens,** abbreviated as **XLM**. Lumens
+    are consumed when a transaction is broadcasted on the network, which also serves
+    as a deterrent against denial of service attacks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: At its core, the Stellar network maintains a distributed ledger that records
+    every transaction and is replicated on each Stellar server (node). The consensus
+    is achieved by verifying transactions between servers and updating the ledger
+    with updates. The Stellar ledger can also act as a distributed exchange order
+    book by allowing users to store their offers to buy or sell currencies.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are various tools, SDKs, and software that make up the Stellar network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The core software is available at [https://github.com/stellar/stellar-core](https://github.com/stellar/stellar-core).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Rootstock
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before discussing **Rootstock** (**RSK**) in detail, it's important to define
+    and introduce some concepts that are fundamental to the design of Rootstock. These
+    concepts include sidechains, drivechains, and two-way pegging. The concept of
+    the sidechain was originally developed by Blockstream.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockstream's online presence is at [https://blockstream.com](https://blockstream.com).
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Two-way pegging** is a mechanism by which value (coins) can transfer between
+    one blockchain to another and vice versa. There is no real transfer of coin between
+    chains. The idea revolves around the concept of locking the same amount and value
+    of coins in a bitcoin blockchain (main chain) and unlocking the equivalent number
+    of tokens in the secondary chain.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bearing this definition in mind, sidechains can be defined as described in the
+    following section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sidechain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This is a blockchain that runs in parallel with a main blockchain and allows
+    transfer of value between them. This means that tokens from one blockchain can
+    be used in the sidechain and vice versa. This is also called a pegged sidechain
+    because it supports two-way pegged assets.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Drivechain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This is a relatively new concept, where control on unlocking the locked bitcoins
+    (in main chain) is given to the miners who can vote when to unlock them. This
+    is in contrast to sidechains, where consensus is validated though simple payment
+    verification mechanism in order to transfer the coins back to the main chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Rootstock is a smart contract platform which has a two-way peg into bitcoin
+    blockchain. The core idea is to increase the scalability and performance of the
+    bitcoin system and enable it to work with smart contracts. Rootstock runs a Turing
+    complete deterministic virtual machine called **Rootstock Virtual Machine** (**RVM**).
+    It is also compatible with the EVM and allows solidity-compiled contracts to run
+    on Rootstock. Smart contracts can also run under the time-tested security of bitcoin
+    blockchain. The Rootstock blockchain works by merge mining with bitcoins. This
+    allows Rootstock blockchain to achieve the same security level as Bitcoin. This
+    is especially true for preventing double spends and achieving settlement finality.
+    It allows scalability, up to 400 transactions per second due to faster block times
+    and other design considerations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The research paper is available at, should you want to explore it further [https://uploads.strikinglycdn.com/files/ec5278f8-218c-407a-af3c-ab71a910246d/RSK%20White%20Paper%20-%20Overview.pdf](https://uploads.strikinglycdn.com/files/ec5278f8-218c-407a-af3c-ab71a910246d/RSK%20White%20Paper%20-%20Overview.pdf).
+  prefs: []
+  type: TYPE_NORMAL
+- en: RSK has released the main network called Bamboo, RSK MainNet which is a beta
+    currently.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It is available at [http://www.rsk.co/](http://www.rsk.co/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Quorum
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This is a blockchain solution built by enhancing the existing Ethereum blockchain.
+    There are several enhancements such as transaction privacy and a new consensus
+    mechanism that has been introduced in Quorum. Quorum has introduced a new consensus
+    model known as QuorumChain, which is based on a majority voting and time-based
+    mechanism. Another feature called Constellation is also introduced which is a
+    general-purpose mechanism for submitting information and allows encrypted communication
+    between peers. Furthermore, permissions at node level is governed by smart contracts.
+    It also provides a higher level of performance compared to public Ethereum blockchains.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Several components make up the Quorum blockchain ecosystem. These are listed
+    in the following subsections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction manager
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This component enables access to encrypted transaction data. It also manages
+    local storage on nodes and communication with other transaction managers on the
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Crypto Enclave
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As the name suggests, this component is responsible for providing cryptographic
+    services to ensure transaction privacy. It is also responsible for performing
+    key management functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: QuorumChain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This is the key innovation in Quorum. It is a BFT consensus mechanism which
+    allows verification and circulation of votes via transactions on the blockchain
+    network. In this scheme, a smart contract is used to manage the consensus process
+    and nodes can be given voting rights to vote on which new block should be accepted.
+    Once an appropriate number of votes is received by the voters, the block is considered
+    valid. Nodes can have two roles, namely Voter or Maker. The **Voter** node is
+    allowed to vote, whereas the **Maker** node is the one that creates a new block.
+    By design, a node can have either right, none, or only one.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network manager
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This component provides an access control layer for the permissioned network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A node in the quorum network can take several roles, for example, a Maker node
+    that is allowed to create new blocks. Transaction privacy is provided using cryptography
+    and the concept that certain transactions are meant to be viewable only by their
+    relevant participants. This idea is similar to Corda's idea of private transactions
+    that was discussed in [Chapter 13](b4884f75-b110-4bb3-b30e-950551706409.xhtml),
+    *Hyperledger*. As it allows both public and private transactions on the blockchain,
+    the state database has been divided into two databases representing private and
+    public transactions. As such, there are two separate Patricia-Merkle trees that
+    represent the private and public state of the network. A private contract state
+    hash is used to provide consensus evidence in private transactions between transacting
+    parties.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction in a Quorum network consists of various elements such as the recipient,
+    the digital signature of the sender, which is used to identify the transaction
+    originator, optional Ether amount, the optional list of participants that are
+    allowed to see the transaction, and a field that contains a hash in case of private
+    transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A transaction goes through several steps before it can reach its destination.
+    These steps are described as follows in detail:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: User applications (DApps) send the transaction to the Quorum node via an API
+    exposed by the blockchain network. This also contains the recipient address and
+    transaction data.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The API then encrypts the payload and applies any other necessary cryptographic
+    algorithm in order to ensure the privacy of the transaction and is sent to the
+    transaction manager. The hash of the encrypted payload is also calculated at this
+    step.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: After receiving the transaction, the transaction manager validates the signature
+    of the transaction sender and stores the message.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The hash of the previously encrypted payload is sent to the Quorum node.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Once the Quorum node starts to validate a block that contains the private transaction,
+    it requests more relevant data from the transaction manager.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Once this request is received by the transaction manager, it sends the encrypted
+    payload and relevant symmetric keys to the requestor Quorum node.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Once the Quorum node has all the data, it decrypts the payload and sends it
+    to the EVM for execution. This is how Quorum achieves privacy with symmetric encryption
+    on the blockchain, while it is able to use native Ethereum protocol and EVM for
+    message transfer and execution respectively.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A similar concept, but quite different in a few aspects, has been proposed before
+    in the form of **HydraChain**, which is based on Ethereum blockchain and allows
+    the creation of permissioned distributed ledgers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Quorum is available for download at [https://github.com/jpmorganchase/quorum](https://github.com/jpmorganchase/quorum).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tezos
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Tezos is a generic self-amending cryptographic ledger, which means that it not
+    only allows decentralized consensus on the state of the blockchain but also allows
+    consensus on how the protocol and nodes are evolved over time. Tezos has been
+    developed to address limitations in the Bitcoin protocol such as issues arising
+    from hard forks, cost, and mining power centralization due to PoW, limited scripting
+    ability, and security issues. It has been developed in a purely functional language
+    called OCaml.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The original research paper is available at [https://www.tezos.com/static/papers/white_paper.pdf](https://www.tezos.com/static/papers/white_paper.pdf).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The architecture of Tezos distributed ledger is divided into three layers:
+    the network layer, consensus layer, and transaction layer. This decomposition
+    allows the protocol to be evolved in a decentralized fashion. For this purpose,
+    a generic network shell is implemented in Tezos that is responsible for maintaining
+    the blockchain, which is represented by a combination of consensus and transaction
+    layer. This shell provides an interface layer between the network and the protocol.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A concept of seed protocol has also been introduced, which is used as a mechanism
+    to allow stakeholders on the network to approve any changes to the protocol.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tezos blockchain starts from a seed protocol compared to a traditional blockchain
+    that starts from a genesis block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This seed protocol is responsible for defining procedures for amendments in
+    the blockchain and even the amendment protocol itself. The reward mechanism in
+    Tezos is based on a PoS algorithm, therefore there is no mining requirement.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Contract script language has been developed in Tezos for writing smart contracts,
+    which is a stack-based Turing complete language. Smart contracts in Tezos are
+    formally verifiable, which allows the code to be mathematically proven for its
+    correctness.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tezos has recently completed crowdfunding via ICO of 232 million USD. Their
+    public network is due to be released in Q1 2018.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tezos code is available at [https://github.com/tezos/tezos](https://github.com/tezos/tezos).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Storj
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Existing models for cloud-based storage are all centralized solutions, which
+    may or may not be as secure as users expect them to be. There is a need to have
+    a cloud storage system that is secure, highly available, and above all decentralized.
+    Storj aims to provide blockchain based, decentralized, and distributed storage.
+    It is a cloud shared by the community instead of a central organization. It allows
+    execution of storage contracts between nodes that act as autonomous agents. These
+    agents (nodes) execute various functions such as data transfer, validation, and
+    perform data integrity checks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The core concept is based on **Distributed Hash Tables** (**DHTs**) called **Kademlia**,
+    however this protocol has been enhanced by adding new message types and functionalities
+    in Storj. It also implements a peer to peer **publish/subscribe** (**pub/sub**)
+    mechanism known as **Quasar**, which ensures that messages successfully reach
+    the nodes that are interested in storage contracts. This is achieved via a bloom
+    filter-based storage contract parameters selection mechanism called **topics**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Storj stores files in an encrypted format spread across the network. Before
+    the file is stored on the network, it is encrypted using AES-256-CTR symmetric
+    encryption and is then stored piece by piece in a distributed manner on the network.
+    This process of dissecting the file into pieces is called **sharding** and results
+    in increased availability, security, performance, and privacy of the network.
+    Also, if a node fails the shard is still available because by default a single
+    shard is stored at three different locations on the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It maintains a blockchain, which serves as a shared ledger and implements standard
+    security features such as public/private key cryptography and hash functions similar
+    to any other blockchain. As the system is based on hard drive sharing between
+    peers, anyone can contribute by sharing their extra space on the drive and get
+    paid with Storj's own cryptocurrency called **Storjcoin X** (**SJCX**). SJCX was
+    developed as a *Counterparty* asset and makes use of Counterparty (Bitcoin blockchain
+    based) for transactions. This has been migrated to Ethereum now.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A detailed discussion is available at [https://blog.storj.io/post/158740607128/migration-from-counterparty-to-ethereum](https://blog.storj.io/post/158740607128/migration-from-counterparty-to-ethereum).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Storj code is available at [https://github.com/Storj/](https://github.com/Storj/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: MaidSafe
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This is another distributed storage system similar to Storj. Users are paid
+    in Safecoin for their storage space contribution to the network. This mechanism
+    of payment is governed by *proof of resource*, which ensures that the disk space
+    committed by a user to the network is available, if not then the payment of Safecoin
+    will drop accordingly. The files are encrypted and divided into small portions
+    before being transmitted on to the network for storage.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Another concept of **opportunistic caching** has been introduced with MaidSafe,
+    which is a mechanism to create copies of frequently accessed data physically closer
+    to where the access requests are coming from, which results in high performance
+    of the network. Another novel feature of the SAFE network is that it automatically
+    removes any duplicate data on the network, thus resulting in reduced storage requirements.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Moreover, the concept of **churning** has also been introduced, which basically
+    means that data is constantly moved across the network so that the data cannot
+    be targeted by malicious adversaries. It also keeps multiple copies of data across
+    the network to provide redundancy in case a node goes offline or fails.
+  prefs: []
+  type: TYPE_NORMAL
+- en: BigchainDB
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This is a scalable blockchain database. It is not strictly a blockchain itself
+    but complements blockchain technology by providing a decentralized database. At
+    its core it's a distributed database but with the added attributes of a blockchain
+    such as decentralization, immutability, and handling of digital assets. It also
+    allows usage of NoSQL for querying the database.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It is intended to provide a database in a decentralized ecosystem where not
+    only processing is decentralized (blockchain) or the filesystem is decentralized
+    (for example, IPFS) but the database is also decentralized. This makes the whole
+    application ecosystem decentralized.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This is available at [https://www.bigchaindb.com/](https://www.bigchaindb.com/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: MultiChain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: MultiChain has been developed as a platform for the development and deployment
+    of private blockchains. It is based on bitcoin code and addresses security, scalability,
+    and privacy issues. It is a highly configurable blockchain platform that allows
+    users to set different blockchain parameters. It supports control and privacy
+    via a granular permissioning layer. Installation of MultiChain is very quick.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Link to installation files are available at [http://www.multichain.com/download-install/](http://www.multichain.com/download-install/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tendermint
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Tendermint is a software that provides a BFT consensus mechanism and state machine
+    replication functionality to an application. Its main motivation is to develop
+    a general purpose, secure, and high-performance replicated state machine.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are two components in Tendermint, which are described in the following
+    section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tendermint Core
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This is a consensus engine that enables secure replication of transactions on
+    each node in the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tendermint Socket Protocol (TMSP)
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This is an application interface protocol that allows interfacing with any programming
+    language to process transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tendermint allows decoupling of the application process and consensus process,
+    which allows any application to benefit from the consensus mechanism.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Tendermint consensus algorithm is a round-based mechanism where validator
+    nodes propose new blocks in each round. A locking mechanism is used to ensure
+    protection against a scenario where two different blocks are selected for committing
+    at the same height of the blockchain. Each validator node maintains a full local
+    replicated ledger of blocks that contain transactions. Each block contains a header,
+    which consists of the previous block hash, timestamp of the proposal of block,
+    the current block height, and the Merkle root hash of all transactions present
+    in the block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tendermint has recently been used in **Cosmos** ([https://cosmos.network](https://cosmos.network))
+    which is a network of blockchains that allows interoperability between different
+    chains running on BFT consensus algorithm. Blockchains on this network are called
+    zones. The first zone in Cosmos is called Cosmos hub, which is, in fact, a public
+    blockchain and is responsible for providing connectivity service to other blockchains.
+    For this purpose, the hub makes use of **Inter Blockchain Communication** (**IBC**)
+    protocol. IBC protocol supports two types of transactions called `IBCBlockCimmitTx`
+    and `IBCPacketTx`. The first type is used to provide proof of the most recent
+    block hash in a blockchain to any party, whereas the latter type is used to provide
+    data origin authentication. A packet from one blockchain to another is published
+    by first posting a proof to the target chain. The receiving (target) chain checks
+    this proof in order to verify that the sending chain has indeed published the
+    packet. In addition, it has its own native currency called Atom. This scheme addresses
+    scalability and interoperability issues by allowing multiple blockchains to connect
+    to the hub.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Tendermint is available at [https://tendermint.com/](https://tendermint.com/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Platforms and frameworks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This section covers various platforms that have been developed to enhance the
+    experience of existing blockchain solutions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Eris
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Eris is not a single blockchain, it is an open modular platform developed by
+    Monax for development of blockchain-based ecosystem applications. It offers various
+    frameworks, SDKs, and tools that allow accelerated development and deployment
+    of blockchain applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The core idea behind the Eris application platform is to enable development
+    and management of ecosystem applications with a blockchain backend. It allows
+    integration with multiple blockchains and enables various third-party systems
+    to interact with various other systems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This platform makes use of smart contracts written in Solidity language. It
+    can interact with blockchains such as Ethereum or Bitcoin. The interaction can
+    include connectivity commands, start, stop, disconnection, and creation of new
+    blockchains. Complexity related to setup and interaction with blockchains have
+    been abstracted away in Eris. All commands are standardized for different blockchains,
+    and the same commands can be used across the platform regardless of the blockchain
+    type being targeted.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'An ecosystem application can consist the Eris platform, enabling the API gateway
+    to allow legacy applications to connect to key management systems, consensus engines,
+    and application engines. The Eris platform provides various toolkits that are
+    used to provide various services to the developers. These modules are described
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Chains**: This allows the creation of and interaction with blockchains.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Packages**: This allows the development of smart contracts.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Keys**: This is used for key management and signing operations.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Files**: This allows working with distributed data management systems. It
+    can be used to interact with filesystems such as IPFS and data lakes.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Services**: This exposes a set of services that allows the management and
+    integration of ecosystem applications.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Several SDKs has also been developed by Eris that allow the development and
+    management of ecosystem applications. These SDKs contain smart contracts that
+    have been fully tested and address specific needs and requirements of business.
+    For example, a finance SDK, insurance SDK, and logistics SDK. There is also a
+    base SDK that serves as a basic development kit to manage the life cycle of an
+    ecosystem application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Monax has developed its own permissioned blockchain client called `eris:db`.
+    It is a PoS-based blockchain system that allows integration with a number of different
+    blockchain networks. The `eris:db` client consists of four components:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Consensus**: This is based on the Tendermint consensus mechanism, discussed
+    before'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Virtual machine**: Eris uses EVM, as such it supports Solidity compiled contracts'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Permissions layer**: Being a permissioned ledger, Eris provides an access
+    control mechanism that can be used to assign specific roles to different entities
+    on the network'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Interface**: This provides various command-line tools and RPC interfaces
+    to enable interaction with the backend blockchain network'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The key difference between Ethereum blockchain and `eris:db` is that `eris:db`
+    makes use of a **Practical Byzantine Fault-Tolerance** (**PBFT**) algorithm, which
+    is implemented as a deposit-based Proof of Stake (DPOS system) whereas Ethereum
+    uses PoW. Moreover, `eris:db` uses the ECDSA `ed22519` curve scheme whereas Ethereum
+    uses the `secp256k1` algorithm. Finally, it is permissioned with an access control
+    layer on top whereas Ethereum is a public blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Eris is a feature-rich application platform that offers a large selection of
+    toolkits and services to develop blockchain-based applications.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It is available at [https://monax.io/](https://monax.io/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter started with the introduction of alternative blockchains and is
+    divided into two main sections discussing blockchains and platforms. Blockchain
+    technology is a very thriving area, as such changes are quite rapid in existing
+    solutions and new relevant technologies or tools are being introduced almost every
+    day. In this chapter, a careful selection of platforms and blockchains was introduced.
+    Several solutions were considered that complement material covered in previous
+    chapters, for example, Eris, which supports blockchain development. New blockchains
+    such as Kadena, various new protocols such as Ripple, and concepts such as sidechains
+    and drivechains were also discussed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The material covered in this chapter is intended to provide a strong foundation
+    for more in-depth research into areas that readers are interested in. As said
+    before, blockchain is a very fast-moving field, and there are many other blockchain
+    proposals projects such as Tau-Chain, HydraChain, Elements, CREDITS, and many
+    more that have not been discussed in this chapter. Readers are encouraged to keep
+    an eye on the developments in this field to keep themselves up to date with advancement
+    in this rapidly growing area.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we will explore that how blockchain can be used out of
+    its original usage, that is, cryptocurrencies. We will cover various use cases
+    and especially usage of blockchain in IoT.
+  prefs: []
+  type: TYPE_NORMAL
