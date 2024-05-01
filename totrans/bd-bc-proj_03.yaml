@@ -1,7 +1,9 @@
 - en: Writing Smart Contracts
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 撰写智能合约
 - en: In the previous chapter, we learned how the Ethereum blockchain works and how
     the PoW consensus protocol keeps it safe. Now it's time to start writing smart
     contracts as we have have a good grasp of how Ethereum works. There are various
@@ -10,180 +12,261 @@
     finally build a DApp for proof of existence, integrity, and ownership at given
     a time, that is, a DApp that can prove that a file was with a particular owner
     at a specific time.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 在前一章中，我们学习了以太坊区块链的工作原理以及 PoW 共识协议如何保证其安全性。现在是时候开始撰写智能合约了，因为我们已经对以太坊的工作原理有了很好的把握。有各种各样的语言可以编写以太坊智能合约，但
+    Solidity 是最流行的。在本章中，我们将学习 Solidity 编程语言。最终，我们将构建一个用于在特定时间证明存在性、完整性和所有权的 DApp，即一个可以证明某个文件在特定时间与特定所有者在一起的
+    DApp。
 - en: 'In this chapter, we''ll cover the following topics:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: The layout of Solidity source files
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Solidity 源文件的布局
 - en: Understanding Solidity data types
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 了解 Solidity 数据类型
 - en: Special variables and functions of contracts
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 合约的特殊变量和函数
 - en: Control structures
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 控制结构
 - en: Structure and features of contracts
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 合约的结构和特征
 - en: Compiling and deploying contracts
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 编译和部署合约
 - en: Solidity source files
+  id: totrans-9
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Solidity 源文件
 - en: A Solidity source file is indicated using the `.sol` extension. Just like any
     other programming language, there are various versions of Solidity. The latest
     version at the time of writing this book is 0.4.2.
+  id: totrans-10
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用`.sol`扩展名指示 Solidity 源文件。与任何其他编程语言一样，Solidity 有各种版本。在撰写本书时，最新版本是 0.4.2。
 - en: In the source file, you can mention the compiler version for which the code
     is written for using the `pragma Solidity` directive.
+  id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 在源文件中，你可以使用`pragma Solidity`指令提及编写代码所需的编译器版本。
 - en: 'For example, take a look at the following:'
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 例如，看一下以下示例：
 - en: '[PRE0]'
+  id: totrans-13
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: Now the source file will not compile with a compiler earlier than version 0.4.2,
     and it will also not work on a compiler starting from version 0.5.0 (this second
     condition is added using `^`). Compiler versions between 0.4.2 to 0.5.0 are most
     likely to include bug fixes instead of breaking anything.
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，源文件将无法在早于版本 0.4.2 的编译器上编译，并且也无法在从版本 0.5.0 开始的编译器上工作（使用 `^` 添加了第二个条件）。版本在
+    0.4.2 到 0.5.0 之间的编译器最可能包含 bug 修复而不是任何破坏性更改。
 - en: It is possible to specify much more complex rules for the compiler version;
     the expression follows those used by npm.
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 可以为编译器版本指定更复杂的规则；该表达式遵循 npm 使用的规则。
 - en: The structure of a smart contract
+  id: totrans-16
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 智能合约的结构
 - en: A contract is like a class. A contract contains state variables, functions,
     function modifiers, events, structures, and enums. Contracts also support inheritance.
     Inheritance is implemented by copying code at the time of compiling. Smart contracts
     also support polymorphism.
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 合约类似于类。合约包含状态变量、函数、函数修饰符、事件、结构和枚举。合约还支持继承。继承是通过在编译时复制代码来实现的。智能合约还支持多态。
 - en: 'Let''s look at an example of a smart contract to get an idea about what it
     looks like:'
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看一个智能合约的示例，以了解其外观：
 - en: '[PRE1]'
+  id: totrans-19
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: 'Here is how the preceding code works:'
+  id: totrans-20
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是前述代码的工作原理：
 - en: At first, we declared a contract using the `contract` keyword.
+  id: totrans-21
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 首先，我们使用`contract`关键字声明了一个合约。
 - en: Then, we declared two state variables; `data` holds some data and owner holds
     the Ethereum wallet address of the owner, that is, the address in which the contract
     was deployed.
+  id: totrans-22
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 然后，我们声明了两个状态变量；`data`保存了一些数据，而`owner`保存了合约部署者的以太坊钱包地址，也就是合约部署的地址。
 - en: Then, we defined an event. Events are used to notify the client about something.
     We will trigger this event whenever `data` changes. All events are kept in the
     blockchain.
+  id: totrans-23
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 然后，我们定义了一个事件。事件用于通知客户端有关某事的信息。每当`data`发生更改时，我们将触发此事件。所有事件都保存在区块链中。
 - en: Then, we defined a function modifier. Modifiers are used to automatically check
     a condition prior to executing a function. Here, the modifier checks whether the
     owner of the contract is invoking the function or not. If not, then it throws
     an exception.
+  id: totrans-24
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 然后，我们定义了一个函数修饰符。修饰符用于在执行函数之前自动检查条件。在这里，修饰符检查合约的所有者是否调用了函数。如果没有，则会引发异常。
 - en: Then, we have the contract constructor. While deploying the contract, the constructor
     is invoked. The constructor is used to initialize the state variables.
+  id: totrans-25
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 然后，我们有了合约构造函数。在部署合约时，会调用构造函数。构造函数用于初始化状态变量。
 - en: Then, we defined two methods. The first method was to get the value of the `data`
     state variable and the second was a method to change the `data` value.
+  id: totrans-26
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 然后，我们定义了两种方法。第一种方法是获取`data`状态变量的值，第二种方法是改变`data`的值。
 - en: Before getting any further deeper into the features of smart contracts, let's
     learn some other important things related to Solidity. And then we will come back
     to contracts.
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
+  zh: 在深入了解智能合约的特性之前，让我们先学习一些与Solidity相关的其他重要内容。 然后我们将回到合约。
 - en: Data location
+  id: totrans-28
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 数据位置
 - en: All programming languages you would have learned so far store their variables
     in memory. But in Solidity, variables are stored in the memory and the filesystem
     depending on the context.
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 所有你之前学过的编程语言都是将它们的变量存储在内存中。而在Solidity中，变量根据上下文的不同，会被存储在内存和文件系统中。
 - en: Depending on the context, there is always a default location. But for complex
     data types, such as strings, arrays, and structs, it can be overridden by appending
     either `storage` or `memory` to the type. The default for function parameters
     (including return parameters) is memory, the default for local variables is storage.
     and the location is forced to storage, for state variables (obviously).
+  id: totrans-30
   prefs: []
   type: TYPE_NORMAL
+  zh: 根据上下文的不同，总是存在一个默认的位置。但是对于字符串、数组和结构等复杂数据类型，可以通过在类型后添加`storage`或`memory`来覆盖默认位置。函数参数（包括返回参数）的默认位置是内存，局部变量的默认位置是存储，当然状态变量的位置强制为存储。
 - en: 'Data locations are important because they change how assignments behave:'
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: 数据位置很重要，因为它们会改变赋值的行为：
 - en: Assignments between storage variables and memory variables always create an
     independent copy. But assignments from one memory-stored complex type to another
     memory-stored complex type do not create a copy.
+  id: totrans-32
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 存储变量与内存变量之间的赋值总是创建独立的副本。但是，从一个存储在内存中的复杂类型赋值给另一个存储在内存中的复杂类型并不会创建副本。
 - en: Assignment to a state variable (even from other state variables) always creates
     an independent copy.
+  id: totrans-33
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 对状态变量的赋值（即使来自其他状态变量）总是创建独立的副本。
 - en: You cannot assign complex types stored in memory to local storage variables.
+  id: totrans-34
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 你不能将存储在内存中的复杂类型赋值给本地存储变量。
 - en: In case of assigning state variables to local storage variables, the local storage
     variables point to the state variables; that is, local storage variables become
     pointers.
+  id: totrans-35
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在将状态变量赋值给本地存储变量时，本地存储变量指向状态变量；也就是说，本地存储变量成为了指针。
 - en: What are the different data types?
+  id: totrans-36
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 有哪些不同的数据类型？
 - en: Solidity is a statically typed language; the type of data a variable holds needs
     to be predefined. By default, all bits of the variables are assigned to 0\. In
     Solidity, variables are function scoped; that is, a variable declared anywhere
     within a function will be in scope for the entire function regardless of where
     it is declared.
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity是一种静态类型语言；变量所持有的数据类型需要预先定义。默认情况下，所有变量的位都被赋值为0。在Solidity中，变量是函数作用域的；也就是说，在函数内部声明的任何变量都将对整个函数的作用域有效，无论它在何处声明。
 - en: 'Now let''s look at the various data types provided by Solidity:'
+  id: totrans-38
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在让我们来看看Solidity提供的各种数据类型：
 - en: The most simple data type is `bool`. It can hold either `true` or `false`.
+  id: totrans-39
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 最简单的数据类型是 `bool`。它可以存储 `true` 或 `false`。
 - en: '`uint8`, `uint16`, `uint24` ... `uint256` are used to hold unsigned integers
     of 8 bits, 16 bits, 24 bits ... 256 bits, respectively. Similarly, `int8`, `int16`
     ... `int256` are used to hold signed integers of 8 bits, 16 bits ... 256 bits,
@@ -194,9 +277,15 @@
     ... `fixed0x256` are used to hold signed fractional numbers of 8 bits, 16 bits
     ... 256 bits, respectively. If it''s a number requiring more than 256 bits, then
     256 bits data type is used, in which case the approximation of the number is stored.'
+  id: totrans-40
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`uint8`、`uint16`、`uint24` ... `uint256` 用于分别存储8位、16位、24位 ... 256位的无符号整数。同样，`int8`、`int16`
+    ... `int256` 分别用于存储8位、16位 ... 256位的有符号整数。`uint` 和 `int` 是 `uint256` 和 `int256`
+    的别名。类似于 `uint` 和 `int`，`ufixed` 和 `fixed` 用于表示小数。`ufixed0x8`、`ufixed0x16` ...
+    `ufixed0x256` 用于分别存储8位、16位 ... 256位的无符号小数。同样，`fixed0x8`、`fixed0x16` ... `fixed0x256`
+    用于分别存储8位、16位 ... 256位有符号小数。如果一个数字需要多于256位的存储空间，那么就使用256位的数据类型，于此情况下将存储该数字的近似值。'
 - en: '`address` is used to store up to a 20 byte value by assigning a hexadecimal
     literal. It is used to store Ethereum addresses. The `address` type exposes two
     properties: `balance` and `send`. `balance` is used to check the balance of the
@@ -205,135 +294,208 @@
     on whether the transfer was successful or not. The wei is deducted from the contract
     that invokes the `send` method. You can use the `0x` prefix in Solidity to assign
     a hexadecimal-encoded representation of values to variables.'
+  id: totrans-41
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`address` 用于通过分配十六进制文字来存储最多 20 个字节的值。它用于存储以太坊地址。`address` 类型公开两个属性：`balance`
+    和 `send`。`balance` 用于检查地址的余额，`send` 用于向地址转移以太币。send 方法接受需要转移的 wei 数量，并根据转移是否成功返回
+    true 或 false。wei 从调用 `send` 方法的合同中扣除。你可以在 Solidity 中使用 `0x` 前缀为变量分配十六进制编码的值。'
 - en: Arrays
+  id: totrans-42
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 数组
 - en: Solidity supports both generic and byte arrays. It supports both fixed size
     and dynamic arrays. It also supports multidimensional arrays.
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 支持通用数组和字节数组。它支持固定大小和动态数组。它还支持多维数组。
 - en: '`bytes1`, `bytes2`, `bytes3`, ..., `bytes32` are types for byte arrays. `byte`
     is an alias for `bytes1`.'
+  id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: '`bytes1`、`bytes2`、`bytes3`、...、`bytes32` 是字节数组的类型。`byte` 是 `bytes1` 的别名。'
 - en: 'Here is an example that shows generic array syntaxes:'
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里是展示通用数组语法的示例：
 - en: '[PRE2]'
+  id: totrans-46
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: 'Here are some important things you need to know about arrays:'
+  id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是关于数组的一些重要事项：
 - en: Arrays also have a `length` property that is used to find the length of an array.
     You can also assign a value to the length property to change the size of the array.
     However, you cannot resize an array in memory or resize a nondynamic array.
+  id: totrans-48
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 数组还有一个 `length` 属性，用于查找数组的长度。你也可以为 length 属性分配一个值来改变数组的大小。但是，在内存中无法调整数组的大小，也不能调整非动态数组的大小。
 - en: If you try to access an unset index of a dynamic array, an exception is thrown.
+  id: totrans-49
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 如果尝试访问动态数组的未设置索引，则会抛出异常。
 - en: Remember that arrays, structs, and maps cannot be parameters of functions and
     also cannot be returned by functions.
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: 请记住，数组、结构体和映射都不能作为函数的参数，也不能作为函数的返回值。
 - en: Strings
+  id: totrans-51
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 字符串
 - en: 'In Solidity, there are two ways to create strings: using `bytes` and `string`.
     `bytes` is used to create a raw string, whereas `string` is used to create a UTF-8
     string. The length of string is always dynamic.'
+  id: totrans-52
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Solidity 中，有两种创建字符串的方法：使用 `bytes` 和 `string`。`bytes` 用于创建原始字符串，而 `string`
+    用于创建 UTF-8 字符串。字符串的长度始终是动态的。
 - en: 'Here is an example that shows string syntaxes:'
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里是展示字符串语法的示例：
 - en: '[PRE3]'
+  id: totrans-54
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: Structs
+  id: totrans-55
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 结构体
 - en: 'Solidity also supports structs. Here is an example that shows struct syntaxes:'
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 也支持结构体。以下是展示结构体语法的示例：
 - en: '[PRE4]'
+  id: totrans-57
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: Note that a function parameter cannot be a struct and a function cannot return
     a struct.
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，函数参数不能是结构体，函数也不能返回结构体。
 - en: Enums
+  id: totrans-59
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 枚举
 - en: 'Solidity also supports enums. Here is an example that shows enum syntaxes:'
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 也支持枚举。以下是展示枚举语法的示例：
 - en: '[PRE5]'
+  id: totrans-61
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: Mappings
+  id: totrans-62
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 映射
 - en: A mapping data type is a hash table. Mappings can only live in storage, not
     in memory. Therefore, they are declared only as state variables. A mapping can
     be thought of as consisting of key/value pairs. The key is not actually stored;
     instead, the keccak256 hash of the key is used to look up for the value. Mappings
     don't have a length. Mappings cannot be assigned to another mapping.
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: 映射数据类型是哈希表。映射只能存在于存储中，不能存在于内存中。因此，它们仅被声明为状态变量。映射可以被看作由键/值对组成。键实际上不存储；相反，使用键的
+    keccak256 哈希来查找值。映射没有长度。映射不能赋值给另一个映射。
 - en: 'Here is an example of how to create and use a mapping:'
+  id: totrans-64
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里是创建和使用映射的示例：
 - en: '[PRE6]'
+  id: totrans-65
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: Remember that if you try to access an unset key, it gives us all 0 bits.
+  id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 请记住，如果尝试访问未设置的键，则会返回所有 0 位。
 - en: The delete operator
+  id: totrans-67
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: delete 操作符
 - en: The `delete` operator can be applied to any variable to reset it to its default
     value. The default value is all bits assigned to 0.
+  id: totrans-68
   prefs: []
   type: TYPE_NORMAL
+  zh: '`delete` 操作符可以应用于任何变量，将其重置为默认值。默认值是所有位分配为 0。'
 - en: It we apply `delete` to a dynamic array, then it deletes all of its elements
     and the length becomes 0\. And if we apply it to a static array, then all of its
     indices are reset. You can also apply `delete` to specific indices, in which case
     the indices are reset.
+  id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果我们对动态数组应用 `delete`，那么它将删除所有元素，长度变为 0。如果对静态数组应用 `delete`，则所有索引将被重置。你也可以对特定索引应用
+    `delete`，在这种情况下，索引将被重置。
 - en: Nothing happens if you apply `delete` to a map type. But if you apply `delete`
     to a key of a map, then the value associated with the key is deleted.
+  id: totrans-70
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果将`delete`应用于映射类型，则不会发生任何事情。但是如果将`delete`应用于映射的键，则与键关联的值将被删除。
 - en: 'Here is an example to demonstrate the `delete` operator:'
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面是一个演示`delete`运算符的示例：
 - en: '[PRE7]'
+  id: totrans-72
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: Conversion between elementary types
+  id: totrans-73
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 基本类型之间的转换
 - en: Other than arrays, strings, structs, enums, and maps, everything else is called
     elementary types.
+  id: totrans-74
   prefs: []
   type: TYPE_NORMAL
+  zh: 除了数组、字符串、结构、枚举和映射之外，其他一切皆为基本类型。
 - en: 'If an operator is applied to different types, the compiler tries to implicitly
     convert one of the operands into the type of the other. In general, an implicit
     conversion between value-types is possible if it makes sense semantically and
@@ -342,293 +504,432 @@
     example, -1). Furthermore, unsigned integers can be converted into bytes of the
     same or larger size, but not vice versa. Any type that can be converted into `uint160`
     can also be converted into `address`.'
+  id: totrans-75
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果将运算符应用于不同类型，编译器会尝试将其中一个操作数隐式转换为另一个的类型。总的来说，如果语义上有意义且没有丢失信息，那么值类型之间的隐式转换是可能的：`uint8`可以转换为`uint16`，`int128`可以转换为`int256`，但`int8`无法转换为`uint256`（因为`uint256`不能容纳，例如，-1）。此外，无符号整数可以转换为相同或更大尺寸的字节，但反之则不行。任何可转换为`uint160`的类型也可以转换为`address`。
 - en: Solidity also supports explicit conversion. So if the compiler doesn't allow
     implicit conversion between two data types, then you can go for explicit conversion.
     It is always recommended that you avoid explicit conversion because it may give
     you unexpected results.
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity还支持明确的转换。因此，如果编译器不允许两种数据类型之间的隐式转换，那么您可以进行显式转换。建议尽量避免显式转换，因为它可能会给您带来意外的结果。
 - en: 'Let''s look at an example of explicit conversion:'
+  id: totrans-77
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们来看一个明确转换的例子：
 - en: '[PRE8]'
+  id: totrans-78
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: Here we are converting `uint32` type to `uint16` explicitly, that is, converting
     a large type to a smaller type; therefore, higher-order bits are cut-off.
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里我们明确地将`uint32`类型转换为`uint16`，也就是将一个大类型转换为一个小类型；因此，高阶位被截断。
 - en: Using var
+  id: totrans-80
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用var
 - en: Solidity provides the `var` keyword to declare variables. The type of the variable
     in this case is decided dynamically depending on the first value assigned to it.
     Once a value is assigned, the type is fixed, so if you assign another type to
     it, it will cause type conversion.
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity提供`var`关键字来声明变量。在这种情况下，变量的类型是动态确定的，取决于分配给它的第一个值。一旦分配了一个值，类型就是固定的，因此如果您将另一个类型分配给它，就会引起类型转换。
 - en: 'Here is an example to demonstrate `var`:'
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面是一个示例来演示`var`：
 - en: '[PRE9]'
+  id: totrans-83
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: Remember that `var` cannot be used when defining arrays and maps. And it cannot
     be used to define function parameters and state variables.
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: 请记住，在定义数组和映射时，不能使用`var`。也不能用它定义函数参数和状态变量。
 - en: Control structures
+  id: totrans-85
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 控制结构
 - en: Solidity supports `if`, `else`, `while`, `for`, `break`, `continue`, `return`,
     `? :` control structures.
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity支持`if`、`else`、`while`、`for`、`break`、`continue`、`return`、`? :`控制结构。
 - en: 'Here is an example to demonstrate the control structures:'
+  id: totrans-87
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面是一个演示控制结构的例子：
 - en: '[PRE10]'
+  id: totrans-88
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: Creating contracts using the new operator
+  id: totrans-89
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用`new`运算符创建合同
 - en: A contract can create a new contract using the `new` keyword. The complete code
     of the contract being created has to be known.
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 合同可以使用`new`关键字创建一个新的合同。必须知道正在创建的合同的完整代码。
 - en: 'Here is an example to demonstrate this:'
+  id: totrans-91
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面是一个演示的例子：
 - en: '[PRE11]'
+  id: totrans-92
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: Exceptions
+  id: totrans-93
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 异常
 - en: 'There are some cases where exceptions are thrown automatically. You can use
     `throw` to throw an exception manually. The effect of an exception is that the
     currently executing call is stopped and reverted (that is, all changes to the
     state and balances are undone). Catching exceptions is not possible:'
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 在一些情况下，异常会自动抛出。您可以使用`throw`手动抛出异常。异常的效果是当前执行的调用被停止和回滚（也就是说，对状态和余额的所有更改都被撤销）。无法捕捉异常：
 - en: '[PRE12]'
+  id: totrans-95
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: External function calls
+  id: totrans-96
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 外部函数调用
 - en: 'There are two kinds of function calls in Solidity: internal and external function
     calls. An internal function call is when a function calls another function in
     the same contract.'
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 在Solidity中有两种函数调用：内部和外部函数调用。内部函数调用是指一个函数调用同一合同中的另一个函数。
 - en: 'An external function call is when a function calls a function of another contract.
     Let''s look at an example:'
+  id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: 外部函数调用是指一个函数调用另一个合同中的函数。让我们看一个例子：
 - en: '[PRE13]'
+  id: totrans-99
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: Calls made using the `this` keyword are called as external calls. The `this`
     keyword inside functions represents the current contract instance.
+  id: totrans-100
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用关键字`this`进行的调用称为外部调用。函数内部的`this`关键字代表当前合约实例。
 - en: Features of contracts
+  id: totrans-101
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 合约的特性
 - en: Now it's time to get deeper into contracts. We will look at some new features
     and also get deeper into the features we have already seen.
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在是时候深入了解合约了。我们将看一些新功能，并且深入了解我们已经看过的功能。
 - en: Visibility
+  id: totrans-103
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 可见性
 - en: 'The visibility of a state variable or a function defines who can see it. There
     are four kinds of visibilities for function and state variables: `external`, `public`,
     `internal`, and `private`.'
+  id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: 状态变量或函数的可见性定义了谁可以看到它。函数和状态变量有四种可见性：`external`、`public`、`internal`和`private`。
 - en: 'By default, the visibility of functions is `public` and the visibility of state
     variables is `internal`. Let''s look at what each of these visibility functions
     mean:'
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 默认情况下，函数的可见性是`public`，状态变量的可见性是`internal`。让我们看看每个可见性函数的含义：
 - en: '`external`: External functions can be called only from other contracts or via
     transactions. An external function `f` cannot be called internally; that is, `f()`
     will not work, but `this.f()` works. You cannot apply the `external` visibility
     to state variables.'
+  id: totrans-106
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`external`：外部函数只能从其他合约或通过交易调用。外部函数`f`不能在内部调用；也就是说，`f()`不起作用，但是`this.f()`可以。你不能将`external`可见性应用于状态变量。'
 - en: '`public`: Public functions and state variables can be accessed in all ways
     possible. The compiler generated accessor functions are all public state variables.
     You cannot create your own accessors. Actually, it generates only getters, not
     setters.'
+  id: totrans-107
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`public`：公共函数和状态变量可以以所有可能的方式访问。编译器生成的访问器函数都是公共状态变量。你不能创建自己的访问器。实际上，它只生成getter，不生成setter。'
 - en: '`internal`: Internal functions and state variables can only be accessed internally,
     that is, from within the current contract and the contracts inheriting it. You
     cannot use `this` to access it.'
+  id: totrans-108
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`internal`：内部函数和状态变量只能从内部访问，也就是说，只能从当前合约和继承它的合约中访问。你不能使用`this`来访问它。'
 - en: '`private`: Private functions and state variables are like internal ones, but
     they cannot be accessed by the inheriting contracts.'
+  id: totrans-109
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`private`：私有函数和状态变量与内部函数类似，但不能被继承的合约访问。'
 - en: 'Here is a code example to demonstrate visibility and accessors:'
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里有一个代码示例来演示可见性和访问器：
 - en: '[PRE14]'
+  id: totrans-111
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: Function modifiers
+  id: totrans-112
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 函数修饰符
 - en: We saw earlier what a function modifier is, and we wrote a basic function modifier.
     Now let's look at modifiers in depth.
+  id: totrans-113
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们之前看到了什么是函数修饰符，并且写了一个基本的函数修饰符。现在让我们深入了解修饰符。
 - en: Modifiers are inherited by child contracts, and child contracts can override
     them. Multiple modifiers can be applied to a function by specifying them in a
     whitespace-separated list and will be evaluated in order. You can also pass arguments
     to modifiers.
+  id: totrans-114
   prefs: []
   type: TYPE_NORMAL
+  zh: 修饰符会被子合约继承，并且子合约可以覆盖它们。可以通过在空格分隔的列表中指定它们来将多个修饰符应用于函数，并按顺序评估它们。你也可以给修饰符传递参数。
 - en: Inside the modifier, the next modifier body or function body, whichever comes
     next, is inserted where `_;` appears.
+  id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 在修饰符内部，下一个修饰符体或函数体，无论哪个先出现，都会插入到`_;`出现的地方。
 - en: 'Let''s take a look at a complex code example of function modifiers:'
+  id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看一个复杂的函数修饰符的代码示例：
 - en: '[PRE15]'
+  id: totrans-117
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: 'This is how `myFunction()` is executed:'
+  id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是如何执行`myFunction()`的：
 - en: '[PRE16]'
+  id: totrans-119
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: Here, when you call the `myFunction` method, it will return `0`. But after that,
     when you try to access the state variable `a`, you will get `8`.
+  id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，当你调用`myFunction`方法时，它将返回`0`。但在此之后，当你尝试访问状态变量`a`时，你将得到`8`。
 - en: '`return` in a modifier or function body immediately leaves the whole function
     and the return value is assigned to whatever variable it needs to be.'
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 在修饰符或函数体中的`return`会立即退出整个函数，并且返回值被分配给它需要的任何变量。
 - en: In the case of functions, the code after `return` is executed after the caller's
     code execution is finished. And in the case of modifiers, the code after `_;`
     in the previous modifier is executed after the caller's code execution is finished.
     In the earlier example, line numbers 5, 6, and 7 are never executed. After line
     number 4, the execution starts from line numbers 8 to 10.
+  id: totrans-122
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于函数而言，在`return`之后的代码在调用者代码执行完成后执行。对于修饰符而言，在上一个修饰符的`_;`后的代码在调用者代码执行完成后执行。在前面的示例中，第5、6和7行永远不会被执行。在第4行之后，执行从第8行到第10行开始。
 - en: '`return` inside modifiers cannot have a value associated with it. It always
     returns 0 bits.'
+  id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: 修饰符内部的`return`不能与值关联。它总是返回0位。
 - en: The fallback function
+  id: totrans-124
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 回退函数
 - en: A contract can have exactly one unnamed function called the `fallback` function.
     This function cannot have arguments and cannot return anything. It is executed
     on a call to the contract if none of the other functions match the given function
     identifier.
+  id: totrans-125
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个合约可以有一个未命名的函数，称为`fallback`函数。这个函数不能有参数，也不能返回任何东西。如果没有其他函数匹配给定的函数标识符，它会在调用合约时执行。
 - en: This function is also executed whenever the contract receives Ether without
     any function call; that is, the transaction sends Ether to the contracts and doesn't
     invoke any method. In such a context, there is usually very little gas available
     to the function call (to be precise, 2,300 gas), so it is important to make fallback
     functions as cheap as possible.
+  id: totrans-126
   prefs: []
   type: TYPE_NORMAL
+  zh: 当合约在没有任何函数调用的情况下接收以太时，也会执行这个函数；也就是说，交易向合约发送以太，并且不调用任何方法。在这样的情况下，通常很少有gas可用于函数调用（确切地说，只有2,300
+    gas），因此很重要要尽量让fallback函数尽可能便宜。
 - en: Contracts that receive Ether but do not define a fallback function throw an
     exception, sending back the Ether. So if you want your contract to receive Ether,
     you have to implement a fallback function.
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 接收以太但没有定义fallback函数的合约会抛出异常，将以太发送回去。因此，如果你希望你的合约接收以太，你必须实现一个fallback函数。
 - en: 'Here is an example of a fallback function:'
+  id: totrans-128
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里是一个fallback函数的例子：
 - en: '[PRE17]'
+  id: totrans-129
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE17]'
 - en: Inheritance
+  id: totrans-130
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 继承
 - en: Solidity supports multiple inheritance by copying code including polymorphism.
     Even if a contract inherits from multiple other contracts, only a single contract
     is created on the blockchain; the code from the parent contracts is always copied
     into the final contract.
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity支持通过复制代码实现多重继承，包括多态性。即使一个合约从多个其他合约继承，区块链上只会创建一个合约；父合约的代码总是复制到最终合约中。
 - en: 'Here is an example to demonstrate inheritance:'
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面是一个用来示范继承的例子：
 - en: '[PRE18]'
+  id: totrans-133
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE18]'
 - en: The super keyword
+  id: totrans-134
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: super关键字
 - en: 'The `super` keyword is used to refer to the next contract in the final inheritance
     chain. Let''s take a look at an example to understand this:'
+  id: totrans-135
   prefs: []
   type: TYPE_NORMAL
+  zh: '`super`关键字用于引用继承链中的下一个合约。让我们通过一个例子来理解这一点：'
 - en: '[PRE19]'
+  id: totrans-136
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE19]'
 - en: The final inheritance chain with respect to the `sample6` contract is `sample6`,
     `sample5`, `sample4`, `sample2`, `sample3`, `sample1`. The inheritance chain starts
     with the most derived contracts and ends with the least derived contract.
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
+  zh: 关于`sample6`合约的最终继承链是`sample6`、`sample5`、`sample4`、`sample2`、`sample3`、`sample1`。继承链从最派生的合约开始，以最少派生的合约结束。
 - en: Abstract contracts
+  id: totrans-138
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 抽象合约
 - en: Contracts that only contain the prototype of functions instead of implementation
     are called abstract contracts. Such contracts cannot be compiled (even if they
     contain implemented functions alongside nonimplemented functions). If a contract
     inherits from an abstract contract and does not implement all nonimplemented functions
     by overriding, it will itself be abstract.
+  id: totrans-139
   prefs: []
   type: TYPE_NORMAL
+  zh: 只包含函数原型而非实现的合约称为抽象合约。这样的合约不能被编译（即使它们包含了实现的函数和未实现的函数）。如果一个合约继承自一个抽象合约并且没有通过覆盖实现所有未实现的函数，那它本身就是抽象的。
 - en: These abstract contracts are only provided to make the interface known to the
     compiler. This is useful when you are referring to a deployed contract and calling
     its functions.
+  id: totrans-140
   prefs: []
   type: TYPE_NORMAL
+  zh: 这些抽象合约只是用来让编译器知道接口。当你引用已部署合约并调用它的函数时，这是有用的。
 - en: 'Here is an example to demonstrate this:'
+  id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: 下面是一个用来示范这一点的例子：
 - en: '[PRE20]'
+  id: totrans-142
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE20]'
 - en: Libraries
+  id: totrans-143
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 库
 - en: Libraries are similar to contracts, but their purpose is that they are deployed
     only once at a specific address and their code is reused by various contracts.
     This means that if library functions are called, their code is executed in the
@@ -637,33 +938,47 @@
     is an isolated piece of source code, it can only access state variables of the
     calling contract if they are explicitly supplied (it would have no way to name
     them otherwise).
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
+  zh: 库与合约类似，但它们的目的是在特定地址只部署一次，并且它们的代码被各种合约重复使用。这意味着如果库函数被调用，它们的代码将在调用合约的上下文中执行；也就是说，`this`指向调用合约，特别是可以访问来自调用合约的存储。由于库是一个隔离的源代码片段，它只能访问调用合约的状态变量，如果它们被显式提供的话（否则就没有办法命名它们）。
 - en: Libraries cannot have state variables; they don't support inheritance and they
     cannot receive Ether. Libraries can contain structs and enums.
+  id: totrans-145
   prefs: []
   type: TYPE_NORMAL
+  zh: 库不能有状态变量；它们不支持继承，也不能接收以太。库可以包含结构和枚举。
 - en: Once a Solidity library is deployed to the blockchain, it can be used by anyone,
     assuming you know its address and have the source code (with only prototypes or
     complete implementation). The source code is required by the Solidity compiler
     so that it can make sure that the methods you are trying to access actually exist
     in the library.
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦 Solidity 库部署到区块链上，任何人都可以使用它，假设您知道它的地址并且拥有源代码（仅具有原型或完整实现）。 Solidity 编译器需要源代码，以便它可以确保您正在尝试访问的方法确实存在于库中。
 - en: 'Let''s take a look at an example:'
+  id: totrans-147
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们来看一个例子：
 - en: '[PRE21]'
+  id: totrans-148
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE21]'
 - en: We cannot add the address of the library in the contract source code; instead,
     we need to provide the library address during compilation to the compiler.
+  id: totrans-149
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们不能在合同源代码中添加库的地址；相反，在编译时需要将库地址提供给编译器。
 - en: 'Libraries have many use cases. The two major use cases of libraries are as
     follows:'
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
+  zh: 库有许多用例。库的两个主要用例如下：
 - en: If you have many contracts that have some common code, then you can deploy that
     common code as a library. This will save gas as gas depends on the size of the
     contract too. Therefore, we can think of a library as a base contract of the contract
@@ -675,87 +990,130 @@
     that uses the library, as an external call would be required and functions with
     the internal visibility cannot be invoked using the external call. Also, structs
     and enums in a library are copied to the contract that uses the library.
+  id: totrans-151
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 如果你有许多具有一些共同代码的合同，那么你可以将该共同代码部署为一个库。这样做可以节省 gas，因为 gas 取决于合同的大小。因此，我们可以将库视为使用它的合同的基本合同。使用基本合同而不是库来分割公共代码不会节省
+    gas，因为在 Solidity 中，继承是通过复制代码实现的。由于库被认为是基本合同的原因，库中具有内部可见性的函数会被复制到使用它的合同中；否则，具有库内部可见性的函数无法被使用库的合同调用，因为需要进行外部调用，并且具有内部可见性的函数无法使用外部调用调用。此外，库中的结构体和枚举将被复制到使用库的合同中。
 - en: Libraries can be used to add member functions to data types.
+  id: totrans-152
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 库可用于向数据类型添加成员函数。
 - en: If a library contains only internal functions and/or structs/enums, then the
     library doesn't need to be deployed, as everything that's there in the library
     is copied to the contract that uses it.
+  id: totrans-153
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果库只包含内部函数和/或结构/枚举，则库不需要部署，因为库中的所有内容都会被复制到使用它的合同中。
 - en: Using for
+  id: totrans-154
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 `for`
 - en: The `using A for B;` directive can be used to attach library functions (from
     the library `A` to any type `B`). These functions will receive the object they
     are called on as their first parameter.
+  id: totrans-155
   prefs: []
   type: TYPE_NORMAL
+  zh: '`using A for B;` 指令可以用于将库函数（从库 `A` 到任何类型 `B`）附加到类型 `B`。这些函数将以调用它们的对象作为第一个参数。'
 - en: The effect of `using A for *;` is that the functions from the library `A` are
     attached to all types.
+  id: totrans-156
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用 `A for *;` 的效果是将库 `A` 中的函数附加到所有类型上。
 - en: 'Here is an example to demonstrate `for`:'
+  id: totrans-157
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是一个演示 `for` 的示例：
 - en: '[PRE22]'
+  id: totrans-158
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE22]'
 - en: Returning multiple values
+  id: totrans-159
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 返回多个值
 - en: 'Solidity allows functions to return multiple values. Here is an example to
     demonstrate this:'
+  id: totrans-160
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 允许函数返回多个值。以下是一个演示这一点的示例：
 - en: '[PRE23]'
+  id: totrans-161
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE23]'
 - en: Importing other Solidity source files
+  id: totrans-162
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 导入其他 Solidity 源文件
 - en: 'Solidity allows a source file to import other source files. Here is an example
     to demonstrate this:'
+  id: totrans-163
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 允许源文件导入其他源文件。以下是一个示例以演示这一点：
 - en: '[PRE24]'
+  id: totrans-164
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE24]'
 - en: Globally available variables
+  id: totrans-165
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 全局可用变量
 - en: There are special variables and functions that always exist globally. They are
     discussed in the upcoming sections.
+  id: totrans-166
   prefs: []
   type: TYPE_NORMAL
+  zh: 有一些特殊的全局存在的变量和函数。它们将在接下来的章节中讨论。
 - en: Block and transaction properties
+  id: totrans-167
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块和交易属性
 - en: 'The block and transaction properties are as follows:'
+  id: totrans-168
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块和交易属性如下：
 - en: '`block.blockhash(uint blockNumber) returns (bytes32)`: The hash of the given
     block only works for the 256 most recent blocks.'
+  id: totrans-169
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`block.blockhash(uint blockNumber) returns (bytes32)`: 给定区块的哈希仅适用于最近的 256 个区块。'
 - en: '`block.coinbase (address)`: The current block miner''s address.'
+  id: totrans-170
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`block.coinbase (address)`: 当前区块的矿工地址。'
 - en: '`block.difficulty (uint)`: The current block difficulty.'
+  id: totrans-171
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`block.difficulty (uint)`: 当前区块的难度。'
 - en: '`block.gaslimit (uint)`: The current block gas limit. It defines the maximum
     amount of gas that all transactions in the whole block combined are allowed to
     consume. Its purpose is to keep the block propagation and processing time low,
@@ -763,119 +1121,176 @@
     set the gas limit for the current block to be within ~0.0975% (1/1,024) of the
     gas limit of the last block, so the resulting gas limit should be the median of
     miners'' preferences.'
+  id: totrans-172
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`block.gaslimit (uint)`: 当前的区块燃气限制。它定义了整个区块中所有事务允许消耗的最大燃气量。其目的是保持区块传播和处理时间低，从而实现足够分散的网络。矿工有权将当前区块的燃气限制设定为上一个区块燃气限制的0.0975%（1/1,024），因此得到的燃气限制应该是矿工偏好的中位数。'
 - en: '`block.number (uint)`: The current block number.'
+  id: totrans-173
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`block.number (uint)`: 当前的区块编号。'
 - en: '`block.timestamp (uint)`: The current block timestamp.'
+  id: totrans-174
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`block.timestamp (uint)`: 当前区块的时间戳。'
 - en: '`msg.data (bytes)`: The complete call data holds the function and its arguments
     that the transaction invokes.'
+  id: totrans-175
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`msg.data (bytes)`: 完整的调用数据包括了事务调用的函数和其参数。'
 - en: '`msg.gas (uint)`: The remaining gas.'
+  id: totrans-176
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`msg.gas (uint)`: 剩余燃气。'
 - en: '`msg.sender (address)`: The sender of the message (the current call).'
+  id: totrans-177
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`msg.sender (address)`: 消息的发送者（当前调用）。'
 - en: '`msg.sig (bytes4)`: The first four bytes of the call data (the function identifier).'
+  id: totrans-178
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`msg.sig (bytes4)`: 调用数据的前四个字节（函数标识符）。'
 - en: '`msg.value (uint)`: The number of wei sent with the message.'
+  id: totrans-179
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`msg.value (uint)`: 与消息一起发送的 wei 数量。'
 - en: '`now (uint)`: The current block timestamp (alias for `block.timestamp`).'
+  id: totrans-180
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`now (uint)`: 当前区块的时间戳（`block.timestamp` 的别名）。'
 - en: '`tx.gasprice (uint)`: The gas price of the transaction.'
+  id: totrans-181
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`tx.gasprice (uint)`: 事务的燃气价格。'
 - en: '`tx.origin (address)`: The sender of the transaction (full call chain).'
+  id: totrans-182
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`tx.origin (address)`: 事务的发送者（完整的调用链）。'
 - en: Address type related
+  id: totrans-183
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 与地址类型相关
 - en: 'The address type related variables are as follows:'
+  id: totrans-184
   prefs: []
   type: TYPE_NORMAL
+  zh: '与地址类型相关的变量如下:'
 - en: '`<address>.balance (uint256)`: The balance of the address in wei'
+  id: totrans-185
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`<address>.balance (uint256)`: 以 wei 为单位的地址余额'
 - en: '`<address>.send(uint256 amount) returns (bool)`: Sends the given amount of
     wei to `address`; returns `false` on failure'
+  id: totrans-186
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`<address>.send(uint256 amount) returns (bool)`: 向 `address` 发送指定数量的 wei; 失败时返回
+    `false`。'
 - en: Contract related
+  id: totrans-187
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 与合约相关
 - en: 'The contract related variables are as follows:'
+  id: totrans-188
   prefs: []
   type: TYPE_NORMAL
+  zh: '合约相关的变量如下:'
 - en: '`this`: The current contract, explicitly convertible to the `address` type.'
+  id: totrans-189
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`this`: 当前合约，可显式转换为 `address` 类型。'
 - en: '`selfdestruct(address recipient)`: Destroys the current contract, sending its
     funds to the given address.'
+  id: totrans-190
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`selfdestruct(address recipient)`: 销毁当前合同，将其资金发送到给定地址。'
 - en: Ether units
+  id: totrans-191
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 以太单位
 - en: A literal number can take a suffix of `wei`, `finney`, `szabo`, or `Ether` to
     convert between the subdenominations of Ether, where Ether currency numbers without
     a postfix are assumed to be wei; for example, `2 Ether == 2000 finney` evaluates
     to `true`.
+  id: totrans-192
   prefs: []
   type: TYPE_NORMAL
+  zh: 字面上的数字可以以 `wei`、`finney`、`szabo` 或 `以太` 为后缀，以在以太的子单位间转换，没有后缀的以太货币数被假定是 wei;
+    例如，`2 Ether == 2000 finney` 评估为 `true`。
 - en: Proof of existence, integrity, and ownership contract
+  id: totrans-193
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 存在性、完整性和拥有权合约
 - en: Let's write a Solidity contract that can prove file ownership without revealing
     the actual file. It can prove that the file existed at a particular time and finally
     check for document integrity.
+  id: totrans-194
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们编写一份 Solidity 合约，它可以证明拥有文件的所有权，而不会显示实际文件。它可以证明文件在特定时间存在，并最终检查文件的完整性。
 - en: We will achieve proof of ownership by storing the hash of the file and the owner's
     name as pairs. We will achieve proof of existence by storing the hash of the file
     and the block timestamp as pairs. Finally, storing the hash itself proves the
     file integrity; that is, if the file was modified, then its hash will change and
     the contract won't be able to find any such file, therefore proving that the file
     was modified.
+  id: totrans-195
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将通过将文件的哈希值和所有者的名字作为对存储来实现拥有权的证明。我们将通过将文件的哈希值和区块时间戳作为对存储来实现文件的存在性证明。最后，存储哈希本身证明了文件的完整性;
+    也就是说，如果文件被修改，那么它的哈希值将发生变化，合同将无法找到这样的文件，从而证明文件已经被修改。
 - en: 'Here is the code for the smart contract to achieve all this:'
+  id: totrans-196
   prefs: []
   type: TYPE_NORMAL
+  zh: '下面是实现所有这些的智能合约的代码:'
 - en: '[PRE25]'
+  id: totrans-197
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE25]'
 - en: Compiling and deploying contracts
+  id: totrans-198
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 编译和部署合约
 - en: Ethereum provides the solc compiler, which provides a command-line interface
     to compile `.sol` files. Visit [http://solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages](http://solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages)  to
     find instructions to install it and visit [https://Solidity.readthedocs.io/en/develop/using-the-compiler.html](https://Solidity.readthedocs.io/en/develop/using-the-compiler.html) 
@@ -883,58 +1298,87 @@
     instead, we will be using solcjs and Solidity browser. Solcjs allows us to compile
     Solidity programmatically in Node.js, whereas browser Solidity is an IDE, which
     is suitable for small contracts.
+  id: totrans-199
   prefs: []
   type: TYPE_NORMAL
+  zh: 以太坊提供了 solc 编译器，它提供了一个命令行界面来编译 `.sol` 文件。访问[http://solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages](http://solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages)以找到安装说明，并访问[https://Solidity.readthedocs.io/en/develop/using-the-compiler.html](https://Solidity.readthedocs.io/en/develop/using-the-compiler.html)以找到如何使用的说明。我们不会直接使用
+    solc 编译器；相反，我们将使用 solcjs 和 Solidity 浏览器。Solcjs 允许我们在 Node.js 中以程序方式编译 Solidity，而浏览器
+    Solidity 是一个适用于小型合约的 IDE，它提供了编辑器并生成部署合约的代码。
 - en: For now, let's just compile the preceding contract using a browser Solidity
     provided by Ethereum. Learn more about it at [https://Ethereum.github.io/browser-Solidity/](https://ethereum.github.io/browser-solidity/).
     You can also download this browser Solidity source code and use it offline. Visit
     [https://github.com/Ethereum/browser-Solidity/tree/gh-pages](https://github.com/Ethereum/browser-Solidity/tree/gh-pages) 
     to download it.
+  id: totrans-200
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，让我们使用以太坊提供的浏览器 Solidity 编译前述合约。在[https://Ethereum.github.io/browser-Solidity/](https://ethereum.github.io/browser-solidity/)了解更多信息。您还可以下载此浏览器
+    Solidity 源代码并离线使用。访问[https://github.com/Ethereum/browser-Solidity/tree/gh-pages](https://github.com/Ethereum/browser-Solidity/tree/gh-pages)下载。
 - en: A major advantage of using this browser Solidity is that it provides an editor
     and also generates code to deploy the contract.
+  id: totrans-201
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用此浏览器 Solidity 的主要优势是它提供了编辑器，并且还生成部署合约的代码。
 - en: In the editor, copy and paste the preceding contract code. You will see that
     it compiles and gives you the web3.js code to deploy it using the geth interactive
     console.
+  id: totrans-202
   prefs: []
   type: TYPE_NORMAL
+  zh: 在编辑器中，复制并粘贴前述合约代码。您将看到它编译并给出了使用 geth 交互式控制台部署它的 web3.js 代码。
 - en: 'You will get this output:'
+  id: totrans-203
   prefs: []
   type: TYPE_NORMAL
+  zh: 您将获得以下输出：
 - en: '[PRE26]'
+  id: totrans-204
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE26]'
 - en: '`data` represents the compiled version of the contract (bytecode) that the
     EVM understands. The source code is first converted into opcode, and then opcode
     are converted into bytecode. Each opcode has gas associated with it.'
+  id: totrans-205
   prefs: []
   type: TYPE_NORMAL
+  zh: '`data` 表示 EVM 可理解的合约（字节码）的编译版本。源代码首先转换为操作码，然后操作码转换为字节码。每个操作码都有与之相关的 gas。'
 - en: The first argument to the `web3.eth.contract` is the ABI definition. The ABI
     definition is used when creating transactions, as it contains the prototype of
     all the methods.
+  id: totrans-206
   prefs: []
   type: TYPE_NORMAL
+  zh: '`web3.eth.contract` 的第一个参数是 ABI 定义。ABI 定义用于创建交易，因为它包含了所有方法的原型。'
 - en: 'Now run geth in the developer mode with the mining enabled. To do this, run
     the following command:'
+  id: totrans-207
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在以开发者模式运行 geth，并启用挖矿。为此，请运行以下命令：
 - en: '[PRE27]'
+  id: totrans-208
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE27]'
 - en: 'Now open another command-line window and in that, enter this command to open
     geth''s interactive JavaScript console:'
+  id: totrans-209
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在打开另一个命令行窗口，在其中输入以下命令以打开 geth 的交互式 JavaScript 控制台：
 - en: '[PRE28]'
+  id: totrans-210
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE28]'
 - en: This should connect the JS console to the geth instance running in the other
     window.
+  id: totrans-211
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将把 JS 控制台连接到另一个窗口中运行的 geth 实例。
 - en: On the right-hand side panel of the browser Solidity, copy everything that's
     there in the web3 deploy textarea and paste it in the interactive console. Now
     press *Enter*. You will first get the transaction hash, and after waiting for
@@ -942,61 +1386,93 @@
     transaction hash is the hash of the transaction, which is unique for every transaction.
     Every deployed contract has a unique contract address to identity the contract
     in the blockchain.
+  id: totrans-212
   prefs: []
   type: TYPE_NORMAL
+  zh: 在浏览器 Solidity 的右侧面板中，复制 web3 部署文本区域中的所有内容，并将其粘贴到交互式控制台中。现在按 *Enter*。您将首先获得交易哈希，等待一段时间后，您将在交易被挖掘后获得合约地址。交易哈希是交易的哈希，对于每个交易都是唯一的。每个部署的合约都有一个唯一的合约地址，用于在区块链中标识合约。
 - en: The contract address is deterministically computed from the address of its creator
     (the from address) and the number of transactions the creator has sent (the transaction
     nonce). These two are RLP-encoded and then hashed using the keccak-256 hashing
     algorithm. We will learn more about the transaction nonce later. You can learn
     more about RLP at [https://github.com/Ethereum/wiki/wiki/RLP](https://github.com/Ethereum/wiki/wiki/RLP).
+  id: totrans-213
   prefs: []
   type: TYPE_NORMAL
+  zh: 合约地址是从其创建者的地址（from 地址）和创建者发送的交易数量（交易 nonce）确定性地计算出来的。这两个参数经过 RLP 编码，然后使用 keccak-256
+    散列算法进行哈希处理。我们将在后面更多地了解交易 nonce。您可以在 [https://github.com/Ethereum/wiki/wiki/RLP](https://github.com/Ethereum/wiki/wiki/RLP)
+    了解更多关于 RLP 的信息。
 - en: Now let's store the file details and retrieve them.
+  id: totrans-214
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在让我们存储文件的详细信息并检索它们。
 - en: 'Place this code to broadcast a transaction to store a file''s details:'
+  id: totrans-215
   prefs: []
   type: TYPE_NORMAL
+  zh: 放置此代码以广播交易以存储文件的详细信息：
 - en: '[PRE29]'
+  id: totrans-216
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE29]'
 - en: Here, replace the contract address with the contract address you got. The first
     argument of the `proofContract.at` method is the contract address. Here, we didn't
     provide the gas, in which case, it's automatically calculated.
+  id: totrans-217
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，将合约地址替换为您获得的合约地址。`proofContract.at` 方法的第一个参数是合约地址。在这里，我们没有提供 gas，这种情况下，它会自动计算。
 - en: 'Now let''s find the file''s details. Run this code in order to find the file''s
     details:'
+  id: totrans-218
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在让我们找到文件的详细信息。按顺序运行此代码以查找文件的详细信息：
 - en: '[PRE30]'
+  id: totrans-219
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE30]'
 - en: 'You will get this output:'
+  id: totrans-220
   prefs: []
   type: TYPE_NORMAL
+  zh: 您将得到以下输出：
 - en: '[PRE31]'
+  id: totrans-221
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE31]'
 - en: The call method is used to call a contract's method on EVM with the current
     state. It doesn't broadcast a transaction. To read data, we don't need to broadcast
     because we will have our own copy of the blockchain.
+  id: totrans-222
   prefs: []
   type: TYPE_NORMAL
+  zh: 调用方法用于在当前状态下使用 EVM 调用合约的方法。它不广播交易。要读取数据，我们不需要广播，因为我们将拥有自己的区块链副本。
 - en: We will learn more about web3.js in the coming chapters.
+  id: totrans-223
   prefs: []
   type: TYPE_NORMAL
+  zh: 在接下来的章节中，我们将更多地了解 web3.js。
 - en: Summary
+  id: totrans-224
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 概要
 - en: In this chapter, we learned the Solidity programming language. We learned about
     data location, data types, and advanced features of contracts. We also learned
     the quickest and easiest way to compile and deploy a smart contract. Now you should be
     comfortable with writing smart contracts.
+  id: totrans-225
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们学习了 Solidity 编程语言。我们了解了数据位置、数据类型和合约的高级特性。我们还学习了编译和部署智能合约的最快最简单的方法。现在，您应该能够轻松地编写智能合约了。
 - en: In the next chapter, we will build a frontend for the smart contract, which
     will make it easy to deploy the smart contract and run transactions.
+  id: totrans-226
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一章中，我们将为智能合约构建一个前端，这将使部署智能合约和运行交易变得更容易。

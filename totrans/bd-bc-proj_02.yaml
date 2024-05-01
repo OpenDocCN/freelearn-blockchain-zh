@@ -1031,10 +1031,12 @@
   id: totrans-125
   prefs: []
   type: TYPE_NORMAL
+  zh: 运行此命令时，将要求您输入密码来加密您的账户。如果忘记密码，将无法访问您的账户。
 - en: 'To get a list of all accounts in your local Wallet, use the following command:'
   id: totrans-126
   prefs: []
   type: TYPE_NORMAL
+  zh: 要获取本地钱包中所有账户的列表，请使用以下命令：
 - en: '[PRE6]'
   id: totrans-127
   prefs: []
@@ -1046,17 +1048,20 @@
   id: totrans-128
   prefs: []
   type: TYPE_NORMAL
+  zh: 上述命令将打印所有账户的地址列表。密钥默认存储在`--datadir`路径中，但您可以使用`--keystore`选项指定其他目录。
 - en: Mining
   id: totrans-129
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 挖矿
 - en: 'By default, geth doesn''t start mining. To instruct geth to start mining, you
     just need to provide the `--mine` option. There are a few other options related
     to mining:'
   id: totrans-130
   prefs: []
   type: TYPE_NORMAL
+  zh: 默认情况下，geth 不会开始挖矿。要指示 geth 开始挖矿，只需提供 `--mine` 选项。还有一些与挖矿相关的其他选项：
 - en: '[PRE7]'
   id: totrans-131
   prefs: []
@@ -1075,17 +1080,23 @@
   id: totrans-132
   prefs: []
   type: TYPE_NORMAL
+  zh: 在此，除了`--mine`选项外，我们还提供了各种其他选项。`--minerthreads`选项指定哈希时要使用的总线程数。默认情况下，使用八个线程。Etherbase
+    是挖矿获得的奖励存入的地址。默认情况下，账户是加密的。因此，为了访问账户中的以太币，我们需要解锁它，即解密账户。解密用于解密与账户关联的私钥。要开始挖矿，我们不需要解锁它，因为只需要地址来存入挖矿奖励。可以使用
+    `-unlock` 选项解锁一个或多个账户。通过逗号分隔地址可以提供多个地址。
 - en: '`--minergpus` is used to specify the GPUs to use for mining. To get the list
     of GPUs, use the `geth gpuinfo` command. For each GPU, you need to have 1-2 GB
     of RAM. By default, it doesn''t use GPUs, instead only CPU.'
   id: totrans-133
   prefs: []
   type: TYPE_NORMAL
+  zh: '`--minergpus` 用于指定用于挖矿的 GPU。要获取 GPU 列表，请使用 `geth gpuinfo` 命令。每个 GPU 需要 1-2
+    GB 的 RAM。默认情况下，它不使用 GPU，而只使用 CPU。'
 - en: Fast synchronization
   id: totrans-134
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 快速同步
 - en: At the time of writing this book, the blockchain size is around 30 GB. Downloading
     it may take several hours or days if you have a slow Internet connection. Ethereum
     implements a fast synchronization algorithm, which can download the blockchain
@@ -1093,6 +1104,7 @@
   id: totrans-135
   prefs: []
   type: TYPE_NORMAL
+  zh: 撰写本书时，区块链的大小约为30GB。如果您的互联网连接速度慢，下载可能需要几个小时或几天。以太坊实现了一个快速同步算法，可以更快地下载区块链。
 - en: Fast synchronization doesn't download the entire blocks; instead, it only downloads
     the block headers, transactions receipts, and the recent state database. So, we
     don't have to download and replay all transactions. To check blockchain integrity,
@@ -1101,11 +1113,13 @@
   id: totrans-136
   prefs: []
   type: TYPE_NORMAL
+  zh: 快速同步不会下载整个区块；相反，它只下载区块头、交易收据和最近的状态数据库。因此，我们不必下载和重放所有交易。为了检查区块链的完整性，该算法在每个定义的区块数量之后下载一个完整的区块。要了解有关快速同步算法的更多信息，请访问[https://github.com/ethereum/go-ethereum/pull/1889](https://github.com/ethereum/go-ethereum/pull/1889)。
 - en: To use fast sync while downloading the blockchain, you need to use the `--fast`
     flag while running geth.
   id: totrans-137
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下载区块链时使用快速同步，您需要在运行 geth 时使用`--fast`标志。
 - en: Due to security reasons, fast sync will only run during an initial sync (that
     is, when the node's own blockchain is empty). After a node manages to successfully
     sync with the network, fast sync is forever disabled. As an additional safety
@@ -1115,11 +1129,13 @@
   id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于安全原因，快速同步只会在初始同步期间运行（即当节点自己的区块链为空时）。当节点成功与网络同步后，快速同步将永久禁用。作为额外的安全功能，如果快速同步在随机轴点附近或之后失败，它会被禁用作为安全预防措施，节点将恢复到完全基于区块处理的同步。
 - en: Ethereum Wallet
   id: totrans-139
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 以太坊钱包
 - en: Ethereum Wallet is an Ethereum UI client that lets you create account, send
     ether, deploy contracts, invoke methods of contracts, and much more.
   id: totrans-140
@@ -1254,17 +1270,20 @@
   id: totrans-158
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果攻击者控制了超过一半的网络算力，那么攻击者可以比网络中其他部分更快地生成区块。攻击者可以简单地保留他的私有分支，直到它比诚实网络建立的分支更长，然后进行广播。
 - en: With more than 50% of hash power, the miner can reverse transactions, prevent
     all/some transactions from getting mined, and prevent other miners' mined blocks
     from getting inserted to the blockchain.
   id: totrans-159
   prefs: []
   type: TYPE_NORMAL
+  zh: 拥有超过50%的算力，矿工可以撤销交易，阻止所有/一些交易被挖矿，阻止其他矿工的挖矿区块被插入到区块链中。
 - en: Serenity
   id: totrans-160
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 安定性
 - en: Serenity is the name of the next major update for Ethereum. At the time of writing
     this book, serenity is still under development. This update will require a hard
     fork. Serenity will change the consensus protocol to casper, and will integrate
@@ -1273,11 +1292,13 @@
   id: totrans-161
   prefs: []
   type: TYPE_NORMAL
+  zh: 安定性是以太坊的下一个重大更新的名称。在撰写本书时，安定性仍在开发中。此更新将需要硬分叉。安定性将把共识协议改为Casper，并将集成状态通道和分片。目前这些工作的完整细节还不清楚。让我们看一下这些是什么的高层概述。
 - en: Payment and state channels
   id: totrans-162
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 支付通道和状态通道
 - en: 'Before getting into state channels, we need to know what payment channels are.
     A payment channel is a feature that allows us to combine more than two transactions
     of sending ether to another account into two transactions. Here is how it works.
@@ -1300,21 +1321,25 @@
   id: totrans-163
   prefs: []
   type: TYPE_NORMAL
+  zh: 在介绍状态通道之前，我们需要了解什么是支付通道。支付通道是一种功能，允许我们将发送以太币到另一个账户的超过两笔交易合并为两笔交易。它是如何工作的呢？假设X是一个视频流网站的所有者，Y是一个用户。X每分钟收取一以太币。现在X希望Y在观看视频的每分钟之后支付。当然，Y可以每分钟广播一笔交易，但这里存在一些问题，比如X必须等待确认，所以视频将暂停一段时间，等等。这就是支付通道解决的问题。使用支付通道，Y可以通过广播锁定交易将一些以太币（也许100以太币）锁定给X一段时间（也许24小时）。现在在观看1分钟视频后，Y将发送一个签名记录，表明锁定可以解锁，并且一以太币将转到X的账户，其余将转到Y的账户。再过一分钟，Y将发送一个签名记录，表明锁定可以解锁，并且两以太币将转到X的账户，其余将转到Y的账户。当Y在X的网站上观看视频时，这个过程将继续进行。现在一旦Y观看了100小时的视频或者24小时的时间即将到达，X将向网络广播最终的签名记录以将资金提取到他的账户。如果X未能在24小时内提取，那么完全退款将转给Y。因此，在区块链上，我们将只看到两笔交易：锁定和解锁。
 - en: Payment channel is for transactions related to sending ether. Similarly, a state
     channel allows us to combine transactions related to smart contracts.
   id: totrans-164
   prefs: []
   type: TYPE_NORMAL
+  zh: 支付通道用于与发送以太币相关的交易。类似地，状态通道允许我们合并与智能合约相关的交易。
 - en: Proof-of-stake and casper
   id: totrans-165
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 股权证明和Casper
 - en: Before we get into what the casper consensus protocol is, we need to understand
     how the proof-of-stake consensus protocol works.
   id: totrans-166
   prefs: []
   type: TYPE_NORMAL
+  zh: 在介绍Casper共识协议之前，我们需要了解股权证明共识协议是如何工作的。
 - en: Proof-of-stake is the most common alternative to proof-of-work. Proof-of-work
     wastes too many computational resources. The difference between POW and POS is
     that in POS, a miner doesn't need to solve the puzzle; instead the miner needs

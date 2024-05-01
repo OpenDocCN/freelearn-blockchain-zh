@@ -1,95 +1,138 @@
 - en: Getting Started with web3.js
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用web3.js入门
 - en: In the previous chapter, we learned how to write smart contracts and used geth's
     interactive console to deploy and broadcast transactions using web3.js. In this
     chapter, we will learn web3.js and how to import, connect to geth, and use it
     in Node.js or client-side JavaScript. We will also learn how to build a web client
     using web3.js for the smart contract that we created in the previous chapter.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 在上一章中，我们学习了如何编写智能合同，并使用geth的交互式控制台来部署和广播使用web3.js的交易。在本章中，我们将学习web3.js以及如何在Node.js或客户端JavaScript中导入、连接到geth并使用它。我们还将学习如何使用web3.js为前一章中创建的智能合同构建一个web客户端。
 - en: 'In this chapter, we''ll cover the following topics:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: Importing web3.js in Node.js and client-side JavaScript
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在Node.js和客户端JavaScript中导入web3.js
 - en: Connecting to geth
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 连接到geth
 - en: Exploring the various things that can be done using web3.js
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 探索使用web3.js可以完成的各种事情
 - en: Discovering various most used APIs of web3.js
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 探索web3.js的各种最常用的API
 - en: Building a Node.js application for an ownership contract
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 构建一个用于所有权合同的Node.js应用程序
 - en: Introduction to web3.js
+  id: totrans-8
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: '[web3.js简介](https://wiki.example.org/web3.js_introduction)'
 - en: web3.js provides us with JavaScript APIs to communicate with geth. It uses JSON-RPC
     internally to communicate with geth. web3.js can also communicate with any other
     kind of Ethereum node that supports JSON-RPC. It exposes all JSON-RPC APIs as
     JavaScript APIs; that is, it doesn't just support all the Ethereum-related APIs;
     it also supports APIs related to Whisper and Swarm.
+  id: totrans-9
   prefs: []
   type: TYPE_NORMAL
+  zh: web3.js为我们提供了JavaScript API与geth进行通信。它内部使用JSON-RPC与geth通信。web3.js也可以与支持JSON-RPC的任何其他类型的以太坊节点通信。它将所有JSON-RPC
+    API公开为JavaScript API；也就是说，它不仅支持所有与以太坊相关的API；它还支持与Whisper和Swarm相关的API。
 - en: You will learn more and more about web3.js as we build various projects, but
     for now, let's go through some of the most used APIs of web3.js and then we will
     build a frontend for our ownership smart contract using web3.js.
+  id: totrans-10
   prefs: []
   type: TYPE_NORMAL
+  zh: 随着我们构建各种项目，你将越来越多地了解web3.js，但现在，让我们先了解一些web3.js最常用的API，然后我们将使用web3.js为我们的所有权智能合同构建一个前端。
 - en: At the time of writing this, the latest version of web3.js is 0.16.0\. We will
     learn everything with respect to this version.
+  id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 撰写此文时，web3.js的最新版本为0.16.0。我们将学习与该版本相关的所有内容。
 - en: web3.js is hosted at [https://github.com/ethereum/web3.js](https://github.com/ethereum/web3.js) 
     and the complete documentation is hosted at [https://github.com/ethereum/wiki/wiki/JavaScript-API](https://github.com/ethereum/wiki/wiki/JavaScript-API).
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: web3.js托管在[https://github.com/ethereum/web3.js](https://github.com/ethereum/web3.js)，完整的文档托管在[https://github.com/ethereum/wiki/wiki/JavaScript-API](https://github.com/ethereum/wiki/wiki/JavaScript-API)。
 - en: Importing web3.js
+  id: totrans-13
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 导入web3.js
 - en: To use web3.js in Node.js, you can simply run `npm install web3` inside your
     project directory, and in the source code, you can import it using `require("web3");`.
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: 要在Node.js中使用web3.js，你只需在项目目录中运行`npm install web3`，在源代码中，你可以使用`require("web3");`进行导入。
 - en: To use web3.js in client-side JavaScript, you can enqueue the `web3.js` file,
     which can be found inside the `dist` directory of the project source code. Now
     you will have the `Web3` object available globally.
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 要在客户端JavaScript中使用web3.js，你可以将位于项目源代码的`dist`目录中的`web3.js`文件加入队列。现在你将在全局范围内可以使用`Web3`对象。
 - en: Connecting to nodes
+  id: totrans-16
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 连接到节点
 - en: web3.js can communicate with nodes using HTTP or IPC. We will use HTTP to set
     up communication with nodes. web3.js allows us to establish connections with multiple
     nodes. An instance of `web3` represents a connection with a node. The instance
     exposes the APIs.
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: web3.js可以使用HTTP或IPC与节点进行通信。我们将使用HTTP来建立与节点的通信。web3.js允许我们与多个节点建立连接。`web3`的实例表示与一个节点的连接。该实例公开API。
 - en: When an app is running inside Mist, it automatically makes an instance of `web3`
     available that's connected to the mist node. The variable name of the instance
     is `web3`.
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: 当应用程序在Mist中运行时，它会自动创建一个与mist节点连接的`web3`实例。实例的变量名是`web3`。
 - en: 'Here is the basic code to connect to a node:'
+  id: totrans-19
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里是连接到节点的基本代码：
 - en: '[PRE0]'
+  id: totrans-20
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: At first, we check here whether the code is running inside mist by checking
     whether `web3` is `undefined` or not. If `web3` is defined, then we use the already
     available instance; otherwise, we create an instance by connecting to our custom
@@ -97,292 +140,402 @@
     is running inside mist or not, then remove the `if` condition form the preceding
     code. Here, we are assuming that our custom node is running locally on port number
     `8545`.
+  id: totrans-21
   prefs: []
   type: TYPE_NORMAL
 - en: The `Web3.providers` object exposes constructors (called providers in this context)
     to establish connection and transfer messages using various protocols. `Web3.providers.HttpProvider`
     lets us establish an HTTP connection, whereas `Web3.providers.IpcProvider` lets
     us establish an IPC connection.
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
 - en: The `web3.currentProvider` property is automatically assigned to the current
     provider instance. After creating a web3 instance, you can change its provider
     using the `web3.setProvider()` method. It takes one argument, that is, the instance
     of the new provider.
+  id: totrans-23
   prefs: []
   type: TYPE_NORMAL
 - en: Remember that geth has HTTP-RPC disabled by default. So enable it by passing
     the `--rpc` option while running geth. By default, HTTP-RPC runs on port 8545.
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
 - en: '`web3` exposes a `isConnected()` method, which can be used to check whether
     it''s connected to the node or not. It returns `true` or `false` depending on
     the connection status.'
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
 - en: The API structure
+  id: totrans-26
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: '`web3` contains an `eth` object (`web3.eth`) specifically for Ethereum blockchain
     interactions and an `shh` object (`web3.shh`) for whisper interaction. Most APIs
     of web3.js are inside these two objects.'
+  id: totrans-27
   prefs: []
   type: TYPE_NORMAL
 - en: All the APIs are synchronous by default. If you want to make an asynchronous
     request, you can pass an optional callback as the last parameter to most functions.
     All callbacks use an error-first callback style.
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
 - en: Some APIs have an alias for asynchronous requests. For example, `web3.eth.coinbase()`
     is synchronous, whereas `web3.eth.getCoinbase()` is asynchronous.
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
 - en: 'Here is an example:'
+  id: totrans-30
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE1]'
+  id: totrans-31
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: '`getBlock` is used to get information on a block using its number or hash.
     Or, it can take a string such as `"earliest"` (the genesis block), `"latest"`
     (the top block of the blockchain), or `"pending"` (the block that''s being mined).
     If you don''t pass an argument, then the default is `web3.eth.defaultBlock`, which
     is assigned to `"latest"` by default.'
+  id: totrans-32
   prefs: []
   type: TYPE_NORMAL
 - en: All the APIs that need a block identification as input can take a number, hash,
     or one of the readable strings. These APIs use `web3.eth.defaultBlock` by default
     if the value is not passed.
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
 - en: BigNumber.js
+  id: totrans-34
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: JavaScript is natively poor at handling big numbers correctly. Therefore, applications
     that require you to deal with big numbers and need perfect calculations use the
     `BigNumber.js` library to work with big numbers.
+  id: totrans-35
   prefs: []
   type: TYPE_NORMAL
 - en: web3.js also depends on BigNumber.js. It adds it automatically. web3.js always
     returns the `BigNumber` object for number values. It can take JavaScript numbers,
     number strings, and `BigNumber` instances as input.
+  id: totrans-36
   prefs: []
   type: TYPE_NORMAL
 - en: 'Here is an example to demonstrate this:'
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里有一个示例来演示这一点：
 - en: '[PRE2]'
+  id: totrans-38
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: Here, we use the `web3.eth.getBalance()` method to get the balance of an address.
     This method returns a `BigNumber` object. We need to call `toString()` on a `BigNumber`
     object to convert it into a number string.
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们使用`web3.eth.getBalance()`方法来获取地址的余额。该方法返回一个`BigNumber`对象。我们需要在`BigNumber`对象上调用`toString()`将其转换为字符串。
 - en: '`BigNumber.js` fails to correctly handle numbers with more than 20 floating
     point digits; therefore, it is recommended that you store the balance in a wei
     unit and while displaying, convert it to other units. web3.js itself always returns
     and takes the balance in wei. For example, the `getBalance()` method returns the
     balance of the address in the wei unit.'
+  id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: '`BigNumber.js`无法正确处理具有20位以上小数的数字；因此，建议您将余额存储在wei单位中，并在显示时将其转换为其他单位。web3.js
+    本身始终以wei单位返回和接受余额。例如，`getBalance()`方法以wei单位返回地址的余额。'
 - en: Unit conversion
+  id: totrans-41
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 单位转换
 - en: web3.js provides APIs to convert the wei balance into any other unit and any
     other unit balance into wei.
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: web3.js提供了API来将wei余额转换为任何其他单位，并将任何其他单位的余额转换为wei。
 - en: 'The `web3.fromWei()` method is used to convert a wei number into any other
     unit, whereas the `web3.toWei()` method is used to convert a number in any other
     unit into wei. Here is example to demonstrate this:'
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: '`web3.fromWei()`方法用于将wei数转换为任何其他单位，而`web3.toWei()`方法用于将其他单位中的数转换为wei。这里有一个示例来演示这一点：'
 - en: '[PRE3]'
+  id: totrans-44
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: 'In the first line, we convert wei into ether, and in the second line, we convert
     ether into wei. The second argument in both methods can be one of these strings:'
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 在第一行，我们将wei转换为以太，而在第二行，我们将以太转换为wei。两种方法的第二个参数可以是以下字符串之一：
 - en: '`kwei/ada`'
+  id: totrans-46
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`千wei/雅达`'
 - en: '`mwei/babbage`'
+  id: totrans-47
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`兆wei/巴贝吉`'
 - en: '`gwei/shannon`'
+  id: totrans-48
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`gwei/夏侬`'
 - en: '`szabo`'
+  id: totrans-49
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`萨博`'
 - en: '`finney`'
+  id: totrans-50
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`芬尼`'
 - en: '`ether`'
+  id: totrans-51
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`以太币`'
 - en: '`kether/grand/einstein`'
+  id: totrans-52
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`兆以太/拜尔/爱因斯坦`'
 - en: '`mether`'
+  id: totrans-53
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`以太`'
 - en: '`gether`'
+  id: totrans-54
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`获得`'
 - en: '`tether`'
+  id: totrans-55
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`泰尔`'
 - en: Retrieving gas price, balance, and transaction details
+  id: totrans-56
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 检索气价、余额和交易详情
 - en: 'Let''s take a look at the APIs to retrieve the gas price, the balance of an
     address, and information on a mined transaction:'
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们来看一下用于检索气价、地址余额以及已挖出交易信息的API：
 - en: '[PRE4]'
+  id: totrans-58
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: 'The output will be of this form:'
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 输出形式如下：
 - en: '[PRE5]'
+  id: totrans-60
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'Here is how the preceding method works:'
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里是前述方法的工作原理：
 - en: '`web3.eth.gasPrice()`: Determines the gas price by the x latest blocks'' median
     gas price.'
+  id: totrans-62
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`web3.eth.gasPrice()`: 通过x个最新区块的中位数气价确定气价。'
 - en: '`web3.ethgetBalance()`: Returns the balance of any given address. All the hashes
     should be provided as hexadecimal strings to the web3.js APIs, not as hexadecimal
     literals. The input for the solidity `address` type should also be hexadecimal
     strings.'
+  id: totrans-63
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`web3.ethgetBalance()`: 返回任何给定地址的余额。所有哈希应作为十六进制字符串提供给web3.js的API，而不是作为十六进制文本。对于solidity的`address`类型的输入，也应作为十六进制字符串提供。 '
 - en: '`web3.eth.getTransactionReceipt()`: This is used to get details about a transaction
     using its hash. It returns a transaction receipt object if the transaction was
     found in the blockchain; otherwise, it returns null. The transaction receipt object
     contains the following properties:'
+  id: totrans-64
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`web3.eth.getTransactionReceipt()`: 用于利用其哈希获取有关交易的详细信息。如果在区块链中找到交易，则返回交易收据对象；否则，返回null。交易收据对象包含以下属性：'
 - en: '`blockHash`: The hash of the block where this transaction was'
+  id: totrans-65
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`blockHash`: 交易所在块的哈希'
 - en: '`blockNumber`: The block number where this transaction was'
+  id: totrans-66
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`blockNumber`: 此交易所在块的块号'
 - en: '`transactionHash`: The hash of the transaction'
+  id: totrans-67
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`transactionHash`: 交易的哈希'
 - en: '`transactionIndex`: The integer of the transactions'' index position in the
     block'
+  id: totrans-68
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`transactionIndex`: 指交易在块中的位置的整数'
 - en: '`from`: The address of the sender'
+  id: totrans-69
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`from`: 发送者的地址'
 - en: '`to`: The address of the receiver; `null` when it''s a contract creation transaction'
+  id: totrans-70
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`to`: 接收者的地址；如果是一个合约创建交易，则为`null`'
 - en: '`cumulativeGasUsed`: The total amount of gas used when this transaction was
     executed in the block'
+  id: totrans-71
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`cumulativeGasUsed`: 此交易执行时在块中使用的总的燃气量'
 - en: '`gasUsed`: The amount of gas used by this specific transaction alone'
+  id: totrans-72
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`gasUsed`: 该特定交易独自使用的燃气量'
 - en: '`contractAddress`: The contract address created if the transaction was a contract
     creation; otherwise, null'
+  id: totrans-73
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`contractAddress`: 如果交易是一个合约创建的话，返回创建的合约地址；否则，返回null'
 - en: '`logs`: The array of log objects that this transaction generated'
+  id: totrans-74
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`日志`: 此交易生成的日志对象数组'
 - en: Sending ether
+  id: totrans-75
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 发送以太币
 - en: 'Let''s look at how to send ether to any address. To send ether, you need to
     use the `web3.eth.sendTransaction()` method. This method can be used to send any
     kind of transaction but is mostly used to send ether because deploying a contract
     or calling a method of contract using this method is cumbersome as it requires
     you to generate the data of the transaction rather than automatically generating
     it. It takes a transaction object that has the following properties:'
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看看如何向任何地址发送以太币。要发送以太币，您需要使用`web3.eth.sendTransaction()`方法。该方法可用于发送任何类型的交易，但主要用于发送以太币，因为使用此方法部署合约或调用合约方法很麻烦，需要您生成交易数据而不是自动生成。它接受一个具有以下属性的交易对象：
 - en: '`from`: The address for the sending account. Uses the `web3.eth.defaultAccount`
     property if not specified.'
+  id: totrans-77
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`from`：发送账户的地址。如果未指定，则使用`web3.eth.defaultAccount`属性。'
 - en: '`to`: This is optional. It''s the destination address of the message and is
     left undefined for a contract-creation transaction.'
+  id: totrans-78
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`to`：这是可选的。这是消息的目标地址，在合约创建交易中保持未定义。'
 - en: '`value`: This is optional. The value is transferred for the transaction in
     wei as well as the endowment if it''s a contract-creation transaction.'
+  id: totrans-79
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`value`：这是可选的。这是以wei为单位的交易价值以及（如果是合约创建交易）赋予的资金。'
 - en: '`gas`: This is optional. It''s the amount of gas to use for the transaction
     (unused gas is refunded). If not provided, then it''s automatically determined.'
+  id: totrans-80
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`gas`：这是可选的。这是用于交易的气量（未使用的气会退还）。如果未提供，则会自动确定。'
 - en: '`gasPrice`: This is optional. It''s the price of gas for this transaction in
     wei, and it defaults to the mean network gas price.'
+  id: totrans-81
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`gasPrice`：这是可选的。这是交易的气价，以wei为单位，默认为平均网络气价。'
 - en: '`data`: This is optional. It''s either a byte string containing the associated
     data of the message, or in the case of a contract-creation transaction, the initialization
     code.'
+  id: totrans-82
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`data`：这是可选的。它是一个包含消息关联数据的字节字符串，或者在合约创建交易的情况下是初始化代码。'
 - en: '`nonce`: This is optional. It''s an integer. Every transaction has a nonce
     associated with it. A nonce is a counter that indicates the number of transactions
     sent by the sender of the transaction. If not provided, then it is automatically
@@ -393,66 +546,98 @@
     to 10, then geth will wait for the middle six transactions before broadcasting
     this transaction. The transaction with nonce 10 is called a queued transaction,
     and it''s not a pending transaction.'
+  id: totrans-83
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`nonce`：这是可选的。这是一个整数。每个交易都有一个与之关联的 nonce。nonce 是一个计数器，指示发送方发送的交易数量。如果未提供，则会自动确定。它有助于防止重放攻击。这个
+    nonce 不是与区块相关联的 nonce。如果我们使用的 nonce 大于交易应该具有的 nonce，则该交易将被放入队列，直到其他交易到达。例如，如果下一个交易的
+    nonce 应该是 4，而我们设置了 nonce 为 10，则 geth 将等待中间的六个交易，然后再广播此交易。具有 nonce 10 的交易称为排队的交易，它不是待处理的交易。'
 - en: 'Let''s look at an example of how to send ether to an address:'
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看一个向地址发送以太币的示例：
 - en: '[PRE6]'
+  id: totrans-85
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: Here, we send one ether from account number 0 to account number 1\. Make sure
     that both the accounts are unlocked using the `unlock` option while running geth.
     In the geth interactive console, it prompts for passwords, but the web3.js API
     outside of the interactive console will throw an error if the account is locked.
     This method returns the transaction hash of the transaction. You can then check
     whether the transaction is mined or not using the `getTransactionReceipt()` method.
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们从账户号为0的账户向账户号为1的账户发送1个以太币。在运行geth时确保两个账户都使用`unlock`选项解锁。在geth交互式控制台中，它会提示输入密码，但在交互式控制台之外使用的web3.js
+    API如果账户被锁定会抛出错误。此方法返回交易的交易哈希。您随后可以使用`getTransactionReceipt()`方法检查交易是否已被挖掘。
 - en: You can also use the `web3.personal.listAccounts()`, `web3.personal.unlockAccount(addr,
     pwd)`, and `web3.personal.newAccount(pwd)` APIs to manage accounts at runtime.
+  id: totrans-87
   prefs: []
   type: TYPE_NORMAL
+  zh: 您还可以在运行时使用`web3.personal.listAccounts()`、`web3.personal.unlockAccount(addr,
+    pwd)`和`web3.personal.newAccount(pwd)` API 来管理账户。
 - en: Working with contracts
+  id: totrans-88
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 与合约交互
 - en: Let's learn how to deploy a new contract, get a reference to a deployed contract
     using it's address, send ether to a contract, send a transaction to invoke a contract
     method, and estimate the gas of a method call.
+  id: totrans-89
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们学习如何部署新合约，通过地址获取已部署合约的引用，向合约发送以太币，发送调用合约方法的交易，并估算方法调用的 gas。
 - en: To deploy a new contract or to get a reference to an already deployed contract,
     you need to first create a contract object using the `web3.eth.contract()` method.
     It takes the contract ABI as an argument and returns the contract object.
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 要部署新合约或获取已部署合约的引用，你需要首先使用`web3.eth.contract()`方法创建一个合约对象。它以合约ABI作为参数并返回合约对象。
 - en: 'Here is the code to create a contract object:'
+  id: totrans-91
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是创建合约对象的代码：
 - en: '[PRE7]'
+  id: totrans-92
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: Once you have the contract, you can deploy it using the `new` method of the
     contract object or get a reference to an already deployed contract that matches
     the ABI using the `at` method.
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦获取到合约，你可以使用合约对象的`new`方法部署它，或者使用`at`方法获取与ABI匹配的已部署合约的引用。
 - en: 'Let''s take a look at an example of how to deploy a new contract:'
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们看一个部署新合约的示例：
 - en: '[PRE8]'
+  id: totrans-95
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: Here, the `new` method is called asynchronously, so the callback is fired twice
     if the transaction was created and broadcasted successfully. The first time, it's
     called after the transaction is broadcasted, and the second time, it's called
     after the transaction is mined. If you don't provide a callback, then the `proof`
     variable will have the `address` property set to `undefined`. Once the contract
     is mined, the `address` property will be set.
+  id: totrans-96
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里，`new`方法是异步调用的，所以如果交易已成功创建和广播，回调会被触发两次。第一次是在交易广播后调用，第二次是在交易被确认后调用。如果不提供回调函数，那么`proof`变量的`address`属性将被设置为`undefined`。一旦合约被确认，`address`属性就会被设置。
 - en: In the `proof` contract, there is no constructor, but if there is a constructor,
     then the arguments for the constructor should be placed at the beginning of the
     `new` method. The object we passed contains the from address, the byte code of
@@ -460,57 +645,82 @@
     otherwise, the transaction won't be created. This object can have the properties
     that are present in the object passed to the `sendTransaction()` method, but here,
     `data` is the contract byte code and the `to` property is ignored.
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 在`proof`合约中，没有构造函数，但如果有构造函数，则构造函数的参数应放在`new`方法的开头。我们传递的对象包含了来源地址、合约的字节码和使用的最大
+    gas。这三个属性必须存在；否则交易将不会被创建。这个对象可以有与传递给`sendTransaction()`方法中存在的属性相同的属性，但在这里，`data`是合约的字节码，`to`属性会被忽略。
 - en: 'You can use the `at` method to get a reference to an already deployed contract.
     Here is the code to demonstrate this:'
+  id: totrans-98
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可以使用`at`方法来获取一个已部署合约的引用。以下是演示的代码：
 - en: '[PRE9]'
+  id: totrans-99
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: 'Now let''s look at how to send a transaction to invoke a method of a contract.
     Here is an example to demonstrate this:'
+  id: totrans-100
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在让我们看看如何发送调用合约方法的交易。以下示例演示了这一点：
 - en: '[PRE10]'
+  id: totrans-101
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: Here, we call the `sendTransaction` method of the object of the method namesake.
     The object passed to this `sendTransaction` method has the same properties as
     `web3.eth.sendTransaction()`, except that the `data` and `to` properties are ignored.
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们调用方法同名对象的`sendTransaction`方法。传递给`sendTransaction`方法的对象具有与`web3.eth.sendTransaction()`相同的属性，只是`data`和`to`属性会被忽略。
 - en: 'If you want to invoke a method on the node itself instead of creating a transaction
     and broadcasting it, then you can use `call` instead of `sendTransaction`. Here
     is an example to demonstrate this:'
+  id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你想在节点本身上调用方法而不是创建并广播交易，那么可以使用`call`而不是`sendTransaction`。以下示例演示了这一点：
 - en: '[PRE11]'
+  id: totrans-104
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: 'Sometimes, it is necessary to find out the gas that would be required to invoke
     a method so that you can decide whether to invoke it or not. `web3.eth.estimateGas`
     can be used for this purpose. However, using `web3.eth.estimateGas()` directly
     requires you to generate the data of the transaction; therefore, we can use the
     `estimateGas()` method of the object of the method namesake. Here is an example
     to demonstrate this:'
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 有时候，我们需要找出调用一个方法所需要的 gas，以便决定是否进行调用。可以使用`web3.eth.estimateGas`来实现此目的。然而，直接使用`web3.eth.estimateGas()`需要你生成交易数据；因此，我们可以使用方法同名对象的`estimateGas()`方法。以下示例演示了这一点：
 - en: '[PRE12]'
+  id: totrans-106
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: If you want to just send some ether to a contract without invoking any method,
     then you can simply use the `web3.eth.sendTransaction` method.
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你只想向合约发送一些以太币而不调用任何方法，则可以简单地使用`web3.eth.sendTransaction`方法。
 - en: Retrieving and listening to contract events
+  id: totrans-108
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: Now let's look at how to watch for events from a contract. Watching for events
     is very important because the result of method invocations by transactions are
     usually returned by triggering events.
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
 - en: 'Before we get into how to retrieve and watch for events, we need to learn indexed
@@ -520,23 +730,31 @@
     indexed attribute, then it will have to retrieve all the events from the node
     and filter the ones needed. For example, you can write the `logFileAddedStatus`
     event this way:'
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE13]'
+  id: totrans-111
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: 'Here is an example to demonstrate how to listen to contract events:'
+  id: totrans-112
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE14]'
+  id: totrans-113
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: 'This is how the preceding code works:'
+  id: totrans-114
   prefs: []
   type: TYPE_NORMAL
 - en: 'At first, we get the event object by calling the method of the event namesake
     on a contract instance. This method takes two objects as arguments, which are
     used to filter events:'
+  id: totrans-115
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
@@ -544,6 +762,7 @@
     `{''valueA'': 1, ''valueB'': [myFirstAddress, mySecondAddress]}`. By default,
     all filter values are set to `null`. This means that they will match any event
     of a given type sent from this contract.'
+  id: totrans-116
   prefs:
   - PREF_IND
   - PREF_UL
@@ -552,6 +771,7 @@
     by default, it is `"latest"`), `toBlock` (the latest block; by default, it is
     `"latest"`), and `address` (a list of addresses to only get logs from; by default,
     the contract address).'
+  id: totrans-117
   prefs:
   - PREF_IND
   - PREF_UL
@@ -560,57 +780,68 @@
     `get` is used to get all the events in the block range. `watch` is like `get`
     but it watches for changes after getting the events. And `stopWatching` can be
     used to stop watching for changes.'
+  id: totrans-118
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Then, we have the `allEvents` method of the contract instance. It is used to
     retrieve all the events of a contract.
+  id: totrans-119
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: 'Every event is represented by an object that contains the following properties:'
+  id: totrans-120
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: '`args`: An object with the arguments from the event'
+  id: totrans-121
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`event`: A string representing the event name'
+  id: totrans-122
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`logIndex`: An integer representing the log index position in the block'
+  id: totrans-123
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`transactionIndex`: An integer representing the transactions the index position
     log was created from'
+  id: totrans-124
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`transactionHash`: A string representing the hash of the transactions this
     log was created from'
+  id: totrans-125
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`address`: A string representing the address from which this log originated'
+  id: totrans-126
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`blockHash`: A string representing the hash of the block where this log was
     in; `null` when its pending'
+  id: totrans-127
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
 - en: '`blockNumber`: The block number where this log was in; `null` when its pending'
+  id: totrans-128
   prefs:
   - PREF_IND
   - PREF_UL
@@ -618,9 +849,11 @@
 - en: web3.js provides a `web3.eth.filter` API to retrieve and watch for events. You
     can use this API, but the earlier method's way of handling events is much easier.
     You can learn more about it at [https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter](https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter).
+  id: totrans-129
   prefs: []
   type: TYPE_NORMAL
 - en: Building a client for an ownership contract
+  id: totrans-130
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -628,6 +861,7 @@
     and in both the previous chapter and this chapter, we learned web3.js and how
     to invoke the methods of the contract using web3.js. Now, it's time to build a
     client for our smart contract so that users can use it easily.
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
 - en: We will build a client where a user selects a file and enters owner details
@@ -636,6 +870,7 @@
     is successfully broadcasted, we will display the transaction hash. The user will
     also be able to select a file and get the owner's details from the smart contract.
     The client will also display the recent `set` transactions mined in real time.
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
 - en: We will use sha1.js to get the hash of the file on the frontend, jQuery for
@@ -643,15 +878,18 @@
     and web3.js on the backend. We will use socket.io so that the backend pushes recently
     mined transactions to the frontend without the frontend requesting for data after
     every equal interval of time.
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
 - en: web3.js can be used in the frontend. But for this application, it will be a
     security risk; that is, we are using accounts stored in geth and exposing the
     geth node URL to the frontend, which will put the ether stored in those accounts
     at risk.
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
 - en: The project structure
+  id: totrans-135
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -659,17 +897,20 @@
     and `Initial. Final` contains the final source code of the project, whereas `Initial`
     contains the empty source code files and libraries to get started with building
     the application quickly.'
+  id: totrans-136
   prefs: []
   type: TYPE_NORMAL
 - en: To test the `Final` directory, you will need to run `npm install` inside it
     and replace the hardcoded contract address in `app.js` with the contract address
     you got after deploying the contract. Then, run the app using the `node app.js`
     command inside the `Final` directory.
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
 - en: In the `Initial` directory, you will find a `public` directory and two files
     named `app.js` and `package.json`. `package.json` contains the backend dependencies
     of our app, and `app.js` is where you will place the backend source code.
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
 - en: The `public` directory contains files related to the frontend. Inside `public/css`,
@@ -678,9 +919,11 @@
     in the `public/js` directory, you will find JS files for jQuery, sha1, and socket.io.
     Inside `public/js`, you will also find a `main.js` file, where you will place
     the frontend JS code of our app.
+  id: totrans-139
   prefs: []
   type: TYPE_NORMAL
 - en: Building the backend
+  id: totrans-140
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -690,94 +933,125 @@
     If you are running geth on a private network, then make sure mining is also enabled.
     Finally, make sure that account 0 exists and is unlocked. You can run geth on
     a private network with rpc and mining enabled and also unlocking account 0:'
+  id: totrans-141
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE15]'
+  id: totrans-142
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: One final thing you need to do before getting started with coding is deploy
     the ownership contract using the code we saw in the previous chapter and copy
     the contract address.
+  id: totrans-143
   prefs: []
   type: TYPE_NORMAL
 - en: 'Now let''s create a single server, which will serve the HTML to the browser
     and also accept `socket.io` connections:'
+  id: totrans-144
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE16]'
+  id: totrans-145
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: Here, we are integrating both the `express` and `socket.io` servers into one
     server running on port `8080`.
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
 - en: 'Now let''s create the routes to serve the static files and also the home page
     of the app. Here is the code to do this:'
+  id: totrans-147
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE17]'
+  id: totrans-148
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE17]'
 - en: Here, we are using the `express.static` middleware to serve static files. We
     are asking it to find static files in the `public` directory.
+  id: totrans-149
   prefs: []
   type: TYPE_NORMAL
 - en: 'Now let''s connect to the `geth` node and also get a reference to the deployed
     contract so that we can send transactions and watch for events. Here is the code
     to do this:'
+  id: totrans-150
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE18]'
+  id: totrans-151
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE18]'
 - en: The code is self-explanatory. Just replace the contract address with the one
     you got.
+  id: totrans-152
   prefs: []
   type: TYPE_NORMAL
 - en: 'Now let''s create routes to broadcast transactions and get information about
     a file. Here is the code to do this:'
+  id: totrans-153
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE19]'
+  id: totrans-154
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE19]'
 - en: Here, the `/submit` route is used to create and broadcast transactions. Once
     we get the transaction hash, we send it to the client. We are not doing anything
     to wait for the transaction to mine. The `/getInfo` route calls the get method
     of the contract on the node itself instead of creating a transaction. It simply
     sends back whatever response it got.
+  id: totrans-155
   prefs: []
   type: TYPE_NORMAL
 - en: 'Now let''s watch for the events from the contract and broadcast it to all the
     clients. Here is the code to do this:'
+  id: totrans-156
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE20]'
+  id: totrans-157
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE20]'
 - en: Here, we check whether the status is true, and if it's true, only then do we
     broadcast the event to all the connected `socket.io` clients.
+  id: totrans-158
   prefs: []
   type: TYPE_NORMAL
 - en: Building the frontend
+  id: totrans-159
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'Let''s begin with the HTML of the app. Put this code in the `index.html` file:'
+  id: totrans-160
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE21]'
+  id: totrans-161
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE21]'
 - en: 'Here is how the code works:'
+  id: totrans-162
   prefs: []
   type: TYPE_NORMAL
 - en: At first, we display Bootstrap's file input field so that the user can select
     a file.
+  id: totrans-163
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Then, we display a text field where the user can enter the owner's details.
+  id: totrans-164
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
@@ -785,27 +1059,34 @@
     details in the contract, and the second button is to get information on the file
     from the contract. Clicking on the Submit button triggers the `submit()` method,
     whereas clicking on the Get Info button triggers the `getInfo()` method.
+  id: totrans-165
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Then, we have an alert box to display messages.
+  id: totrans-166
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Finally, we display an ordered list to display the transactions of the contract
     that gets mined while the user is on the page.
+  id: totrans-167
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: 'Now let''s write the implementation for the `getInfo()` and `submit()` methods,
     establish a `socket.io` connect with the server, and listen for `socket.io` messages
     from the server. Here is the code to this. Place this code in the `main.js` file:'
+  id: totrans-168
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE22]'
+  id: totrans-169
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE22]'
 - en: 'This is how the preceding code works:'
+  id: totrans-170
   prefs: []
   type: TYPE_NORMAL
 - en: At first, we defined the `submit()` method. In the `submit` method, we make
@@ -814,12 +1095,14 @@
     method exposed by sha1.js to get the hash of content inside the array buffer.
     Once we have the hash, we use jQuery to make an AJAX request to the `/submit` route
     and then we display the transaction hash in the alert box.
+  id: totrans-171
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: We define the `getInfo()` method next. It first makes sure that a file is selected.
     Then, it generates the hash like the one it generated earlier and makes a request
     to the `/getInfo` endpoint to get information about that file.
+  id: totrans-172
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
@@ -828,6 +1111,7 @@
     which indicates that a connection has been established. After the connection is
     established, we listen for messages from the server and display the details about
     the transactions to the user.
+  id: totrans-173
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
@@ -837,46 +1121,58 @@
     therefore, if the users want to keep the file content secret, then they won't
     be able to. Our application's purpose is just to prove ownership of a file, not
     to store and serve the file like a cloud service.
+  id: totrans-174
   prefs: []
   type: TYPE_NORMAL
 - en: Testing the client
+  id: totrans-175
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'Now run the `app.js` node to run the application server. Open you favorite
     browser and visit `http://localhost:8080/`. You will see this output in the browser:'
+  id: totrans-176
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/image_04_001.png)'
+  id: totrans-177
   prefs: []
   type: TYPE_IMG
 - en: 'Now select a file and enter the owner''s name and click on Submit. The screen
     will change to this:'
+  id: totrans-178
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/image_04_002.png)'
+  id: totrans-179
   prefs: []
   type: TYPE_IMG
 - en: 'Here, you can see that the transaction hash is displayed. Now wait until the
     transaction is mined. Once the transaction is mined, you will be able to see the
     transaction in the live transactions list. Here is how the screen would look:'
+  id: totrans-180
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/image_04_003.png)'
+  id: totrans-181
   prefs: []
   type: TYPE_IMG
 - en: 'Now select the same file again and click on the Get Info button. You will see
     this output:'
+  id: totrans-182
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/image_04_004.png)'
+  id: totrans-183
   prefs: []
   type: TYPE_IMG
 - en: Here, you can see the timestamp and the owner's details. Now we have finished
     building the client for our first DApp.
+  id: totrans-184
   prefs: []
   type: TYPE_NORMAL
 - en: Summary
+  id: totrans-185
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
@@ -885,10 +1181,13 @@
     and watching for events. Finally, we built a proper production use client for
     our ownership contract. Now you will be comfortable with writing smart contracts
     and building UI clients for them in order to ease their use.
+  id: totrans-186
   prefs: []
   type: TYPE_NORMAL
 - en: In the next chapter, we will build a wallet service, where users can create
     and manage Ethereum Wallets easily, and that too is offline. We will specifically
     use the LightWallet library to achieve this.
+  id: totrans-187
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一章中，我们将构建一个钱包服务，用户可以轻松创建和管理以太坊钱包，而且还可以离线进行。我们将专门使用 LightWallet 库来实现这一目标。
