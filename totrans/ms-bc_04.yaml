@@ -1,0 +1,2088 @@
+- en: Chapter 4. Bitcoin
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Bitcoin is the first application of the blockchain technology. In this chapter,
+    readers will be introduced to bitcoin technology in detail.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin has started a revolution with the introduction of the very first fully
+    decentralized digital currency, and one that has proven to be extremely secure
+    and stable. This has also sparked a great interest in academic and industrial
+    research and introduced many new research areas. Since its introduction in 2008,
+    bitcoin has gained much popularity and is currently the most successful digital
+    currency in the world with billions of dollars invested in it. It is built on
+    decades of research in the field of cryptography, digital cash, and distributed
+    computing. In the following section, a brief history is presented in order to
+    provide the background required to understand the foundations behind the invention
+    of bitcoin.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Digital currencies have always been an active area of research for many decades.
+    Early proposals to create digital cash go as far back as the early 1980s. In 1982,
+    *David Chaum* proposed a scheme that used blind signatures to build untraceable
+    digital currency. In this scheme, a bank would issue digital money by signing
+    a blind and random serial number presented to it by the user. The user could then
+    use the digital token signed by the bank as currency. The limitation in this scheme
+    was that the bank had to keep track of all used serial numbers. This was a central
+    system by design and required to be trusted by the users. Later on in 1990, *David
+    Chaum* proposed a refined version named e-cash that not only used blinded signature,
+    but also some private identification data to craft a message that was then sent
+    to the bank. This scheme allowed the detection of double spending but did not
+    prevent it. If the same token was used at two different locations, then the identity
+    of the double spender would be revealed. e-cash could only represent a fixed amount
+    of money. *Adam Back's* hashcash, introduced in 1997, was originally proposed
+    to thwart e-mail spam. The idea behind hashcash was to solve a computational puzzle
+    that was easy to verify but comparatively difficult to compute.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The idea was that for a single user and a single e-mail, extra computational
+    effort was not noticeable, but someone sending a large number of spam e-mails
+    would be discouraged as the time and resources required to run the spam campaign
+    would increase substantially.
+  prefs: []
+  type: TYPE_NORMAL
+- en: B-money was proposed by *Wei Dai* in 1998, which introduced the idea of using
+    Proof of Work to create money. A major weakness in the system was that an adversary
+    with higher computational power could generate unsolicited money without allowing
+    the network to adjust to an appropriate difficulty level. The system lacked details
+    on the consensus mechanism between nodes and some security issues such as Sybil
+    attacks were also not addressed. At the same time, *Nick Szabo* introduced the
+    concept of BitGold, which was also based on the Proof of Work mechanism but had
+    the same problems as b-money with the exception that the network difficulty level
+    was adjustable. *Tomas Sander* and *Ammon TaShama* introduced an e-cash scheme
+    in 1999 that, for the first time, used Merkle trees to represent coins and zero
+    knowledge proofs to prove the possession of coins. In the scheme, a central bank
+    was required that kept a record of all used serial numbers. This scheme allowed
+    users to be fully anonymous albeit at a computational cost. **RPOW** (**Reusable
+    Proof of Work**) was introduced by *Hal Finney* in 2004 and used the hashcash
+    scheme by *Adam Back* as a proof of computational resources spent to create the
+    money. This was also a central system that kept a central database to keep track
+    of all used POW tokens. This was an online system that used remote attestation
+    made possible by a **trusted computing platform** (**TPM hardware**).
+  prefs: []
+  type: TYPE_NORMAL
+- en: All the previously mentioned schemes are intelligently designed but were weak
+    from one aspect or another. Especially, all these schemes rely on a central server
+    that is required to be trusted by the users.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In 2008, a paper on bitcoin, *Bitcoin: A Peer-to-Peer Electronic Cash System*
+    was written by *Satoshi Nakamoto*. The first key idea introduced in the paper
+    was that purely peer-to-peer electronic cash that does need an intermediary bank
+    to transfer payments between peers.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin is built on decades of cryptographic research such as the research in
+    Merkle trees, hash functions, public key cryptography, and digital signatures.
+    Moreover, ideas such as BitGold, b-money, hashcash, and cryptographic time stamping
+    provided the foundations for bitcoin invention. All these technologies are cleverly
+    combined in bitcoin to create the world's first decentralized currency. The key
+    issue that has been addressed in bitcoin is an elegant solution to the Byzantine
+    Generals problem along with a practical solution of the double-spend problem.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The value of bitcoin has increased significantly since 2011, as shown in the
+    following graph:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Bitcoin](img/image_04_001.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Bitcoin price and volume since 2012 (on logarithmic scale)
+  prefs: []
+  type: TYPE_NORMAL
+- en: The regulation of bitcoin is a controversial subject and as much as it is a
+    libertarian's dream, law enforcement agencies and governments are proposing various
+    regulations to control it, such as BitLicense issued by New York's state department
+    of financial services. This is a license issued to businesses that perform activities
+    related to virtual currencies.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The growth of Bitcoin is also due to so-called *Network Effect*. Also called
+    demand-side economies of scale, it is a concept that basically means more users
+    who use the network, the more valuable it becomes. Over time, an exponential increase
+    has been seen in the Bitcoin network growth. Even though the price of bitcoin
+    is quite volatile, it has increased significantly over the last few years. Currently
+    (at the time of writing this), bitcoin price is 815 GBP.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin definition
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: Bitcoin can be defined in various ways; it's a protocol, a digital currency,
+    and a platform. It is a combination of peer-to-peer network, protocols, and software
+    that facilitate the creation and usage of the digital currency named bitcoin.
+    Note that Bitcoin with a capital *B* is used to refer to the Bitcoin protocol,
+    whereas bitcoin with a lowercase *b* is used to refer to bitcoin, the currency.
+    Nodes in this peer-to-peer network talk to each other using the Bitcoin protocol.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Decentralization of currency was made possible for the first time with the invention
+    of bitcoin. Moreover, the double spending problem was solved in an elegant and
+    ingenious way in bitcoin. Double spending problem arises when, for example, a
+    user sends coins to two different users at the same time and they are verified
+    independently as valid transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Keys and addresses
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: 'Elliptic curve cryptography is used to generate public and private key pairs
+    in the Bitcoin network. The bitcoin address is created by taking the corresponding
+    public key of a private key and hashing it twice, first with the SHA256 algorithm
+    and then with RIPEMD160\. The resultant 160-bit hash is then prefixed with a version
+    number and finally encoded with a Base58Check encoding scheme. The bitcoin addresses
+    are 26-35 characters long and begin with digit 1 or 3\. A typical bitcoin address
+    looks like a string shown here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**1ANAguGG8bikEv2fYsTBnRUmx7QUcK58wt**'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This is also commonly encoded in a QR code for easy sharing. The QR code of
+    the preceding address is shown in the following image:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Keys and addresses](img/image_04_002.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: QR code of a bitcoin address 1ANAguGG8bikEv2fYsTBnRUmx7QUcK58wt
+  prefs: []
+  type: TYPE_NORMAL
+- en: Currently, there are two types of addresses, the commonly used P2PKH and another
+    P2SH type, starting with 1 and 3, respectively. In the early days, bitcoin used
+    direct Pay-to-Pubkey, which is now superseded by P2PKH. However, direct Pay-to-Pubkey
+    is still used in bitcoin for coinbase addresses. Addresses should not be used
+    more than once; otherwise, privacy and security issues can arise. Avoiding address
+    reuse circumvents anonymity issues to an extent, bitcoin has some other security
+    issues as well, such as transaction malleability, which requires different approaches
+    to resolve.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Keys and addresses](img/image_04_003.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: From bitaddress.org private key and bitcoin address in a paper wallet
+  prefs: []
+  type: TYPE_NORMAL
+- en: Public keys in bitcoin
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: In public key cryptography, public keys are generated from private keys. Bitcoin
+    uses ECC based on the SECP256K1 standard. A private key is randomly selected and
+    is 256-bit in length. Public keys can be presented in an uncompressed or compressed
+    format. Public keys are basically *x* and *y* coordinates on an elliptic curve
+    and in an uncompressed format and are presented with a prefix of 04 in a hexadecimal
+    format. *X* and *Y* coordinates are both 32-bit in length. In total, the compressed
+    public key is 33 bytes long as compared to 65 bytes in the uncompressed format.
+    The compressed version of public keys basically includes only the *X* part, since
+    the *Y* part can be derived from it. The reason why the compressed version of
+    public keys works is that the bitcoin client initially used uncompressed keys,
+    but starting from bitcoin core client 0.6, compressed keys are used as the standard.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Keys are identified by various prefixes, described as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Uncompressed public keys used 0x04 as the prefix
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Compressed public key starts with 0x03 if the y 32-bit part of the public key
+    is odd
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Compressed public key starts with 0x02 if the y 32-bit part of the public key
+    is even
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The more detailed mathematical description and the reason why it works is described
+    here. If the ECC graph is visualized, it reveals that the *y* coordinate can be
+    either below the *x* axis or above the *x* axis and as the curve is symmetric,
+    only the location in the prime field is required to be stored.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private keys in bitcoin
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Private keys are basically 256-bit numbers chosen in the range specified by
+    the SECP256K1 ECDSA recommendation. Any randomly chosen 256-bit number from 0x1
+    to 0xFFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFE BAAE DCE6 AF48 A03B BFD2 5E8C D036
+    4140 is a valid private key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private keys are usually encoded using **Wallet Import Format** (**WIF**) in
+    order to make them easier to copy and use. WIF can be converted into private key
+    and vice versa. The steps are described here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Also, **Mini Private Key Format** is sometimes used to encode the key in under
+    30 characters in order to allow storage where physical space is limited, for example,
+    etching on physical coins or damage-resistant QR codes. The bitcoin core client
+    also allows the encryption of the wallet that contains the private keys.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin currency units
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Bitcoin currency units are described as follows. The smallest bitcoin denomination
+    is the Satoshi.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Bitcoin currency units](img/image_04_004.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Base58Check encoding
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: This encoding is used to limit the confusion between various characters, such
+    as 0OIl as they can look the same in different fonts. The encoding basically takes
+    the binary byte arrays and converts them into human-readable strings. This string
+    is composed by utlilizing a set of 58 alphanumeric symbols. More explanation and
+    logic can be found in the `base58.h` source file in the bitcoin source code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Base58Check encoding](img/image_04_005.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Explanation from the bitcoin source code
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin addresses are encoded using the Base58check encoding.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Vanity addresses
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: 'As bitcoin addresses are based on base 58 encoding, it is possible to generate
+    addresses that contain human-readable messages. An example is shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Vanity addresses](img/image_04_006.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Public address encoded in QR
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Vanity addresses are generated using a purely brute-force method. An example
+    is shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Vanity addresses](img/image_04_007.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Vanity address generated from https://bitcoinvanitygen.com/
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transactions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Transactions are at the core of the bitcoin ecosystem. Transactions can be as
+    simple as just sending some bitcoins to a bitcoin address, or it can be quite
+    complex depending on the requirements. Each transaction is composed of at least
+    one input and output. Inputs can be thought of as coins being spent that have
+    been created in a previous transaction and outputs as coins being created. If
+    a transaction is minting new coins, then there is no input and therefore no signature
+    is needed. If a transaction is to sends coins to some other user (a bitcoin address),
+    then it needs to be signed by the sender with their private key and a reference
+    is also required to the previous transaction in order to show the origin of the
+    coins. Coins are, in fact, unspent transaction outputs represented in Satoshis.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transactions are not encrypted and are publicly visible in the blockchain. Blocks
+    are made up of transactions and these can be viewed using any online blockchain
+    explorer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The transaction life cycle
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: A user/sender sends a transaction using wallet software or some other interface.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The wallet software signs the transaction using the sender's private key.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The transaction is broadcasted to the Bitcoin network using a flooding algorithm.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Mining nodes include this transaction in the next block to be mined.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Mining starts once a miner who solves the Proof of Work problem broadcasts the
+    newly mined block to the network. Proof of Work is explained in detail later in
+    this chapter.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The nodes verify the block and propagate the block further, and confirmation
+    starts to generate.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Finally, the confirmations start to appear in the receiver's wallet and after
+    approximately six confirmations, the transaction is considered finalized and confirmed.
+    However, six is just a recommended number; the transaction can be considered final
+    even after the first confirmation. The key idea behind waiting for six confirmations
+    is that the probability of double spending is virtually eliminated after six confirmations.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The transaction structure
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'A transaction at a high level contains metadata, inputs, and outputs. Transactions
+    are combined to create a block. The transaction structure is shown in the following
+    table:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Field** | **Size** | **Description** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Version Number | 4 bytes | Used to specify rules to be used by the miners
+    and nodes for transaction processing. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Input counter | 1 bytes - 9 bytes | The number of inputs included in the
+    transaction. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| list of inputs | variable | Each input is composed of several fields, including
+    Previous transaction hash, Previous Txout-index, Txin-script length, Txin-script,
+    and optional sequence number. The first transaction in a block is also called
+    a coinbase transaction. It specifies one or more transaction inputs. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Out-counter | 1 bytes - 9 bytes | A positive integer representing the number
+    of outputs. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| list of outputs | variable | Outputs included in the transaction. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| lock_time | 4 bytes | This defines the earliest time when a transaction becomes
+    valid. It is either a Unix timestamp or a block number. |'
+  prefs: []
+  type: TYPE_TB
+- en: '**MetaData**: This part of the transaction contains some values such as the
+    size of the transaction, the number of inputs and outputs, the hash of the transaction,
+    and a `lock_time` field. Every transaction has a prefix specifying the version
+    number.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Inputs**: Generally, each input spends a previous output. Each output is
+    considered an **Unspent Transaction Output** (**UTXO**) until an input consumes
+    it.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Outputs**: Outputs have only two fields, and they contain instructions for
+    the sending of bitcoins. The first field contains the amount of Satoshis, whereas
+    the second field is a locking script that contains the conditions that need to
+    be met in order for the output to be spent. More information on transaction spending
+    using locking and unlocking scripts and producing outputs is discussed later in
+    this section.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Verification:** Verification is performed using bitcoin''s scripting language.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'A sample transaction is shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The transaction structure](img/image_04_008.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: A sample decoded transaction, showing various fields described earlier
+  prefs: []
+  type: TYPE_NORMAL
+- en: The script language
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Bitcoin uses a simple stack-based language called *script* to describe how bitcoins
+    can be spent and transferred. It is not Turing complete and has no loops to avoid
+    any undesirable effects of long running/hung scripts on the bitcoin network. This
+    scripting language is based on a Forth-like syntax and uses a reverse polish notation
+    in which every operand is followed by its operators. It is evaluated from the
+    left to the right using a **Last in First Out **(**LIFO**) stack.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Scripts use various Opcodes or instructions to define their operation. Opcodes
+    are also known as words, commands, or functions. Earlier versions of the bitcoin
+    node had a few Opcodes that are no longer used due to bugs discovered in their
+    design.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The various categories of the scripting Opcodes are constants, flow control,
+    stack, bitwise logic, splice, and arithmetic, cryptography, and lock time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A transaction script is evaluated by combining `ScriptSig` and `ScriptPubKey`.
+    `ScriptSig` is the unlocking script, whereas `ScriptPubKey` is the locking script.
+    This is how a transaction is evaluated to be spent; first, it is unlocked and
+    then it is spent. `ScriptSig` is provided by the user who wishes to unlock the
+    transaction. `ScriptPubkey` is part of the transaction output and specifies the
+    conditions that need to be fulfilled in order to spend the output. In other words,
+    outputs are locked by the `ScriptPubKey` (Locking script) that contains the conditions,
+    when met will unlock the output, and coins can then be redeemed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Commonly used Opcodes
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: 'All Opcodes are declared in the script.h file in the bitcoin reference client
+    source code. This can be accessed from the link at [https://github.com/bitcoin/bitcoin/blob/master/src/script/script.h](https://github.com/bitcoin/bitcoin/blob/master/src/script/script.h)
+    under the following comment:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**/** Script opcodes */**'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A description of the most commonly used Opcodes is listed here. This table
+    is taken from the bitcoin developer''s guide:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Opcode** | **Description** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `OP_CHECKSIG` | This takes a public key and signature and validates the signature
+    of the hash of the transaction. If it matches, then TRUE is pushed onto the stack;
+    otherwise, FALSE is pushed. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `OP_EQUAL` | This returns 1 if the inputs are exactly equal; otherwise, 0
+    is returned. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `OP_DUP` | This duplicates the top item in the stack. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `OP_HASH160` | The input is hashed twice, first with SHA-256 and then with
+    RIPEMD-160. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `OP_VERIFY` | This marks the transaction as invalid if the top stack value
+    is not true. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `OP_EQUALVERIFY` | This is the same as `OP_EQUAL`, but it runs `OP_VERIFY`
+    afterwards. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| `OP_CHECKMULTISIG` | This takes the first signature and compares it against
+    each public key until a match is found and repeats this process until all signatures
+    are checked. If all signatures turn out to be valid, then a value of 1 is returned
+    as a result; otherwise, 0 is returned. |'
+  prefs: []
+  type: TYPE_TB
+- en: Types of transaction
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: There are various scripts available in bitcoin to handle the value transfer
+    from the source to the destination. These scripts range from very simple to quite
+    complex depending upon the requirements of the transaction. Standard transaction
+    types are discussed here. Standard transactions are evaluated using `IsStandard()`
+    and `IsStandardTx()` tests and only standard transactions that pass the test are
+    generally allowed to be mined or broadcasted on the bitcoin network. However,
+    nonstandard transactions are valid and allowed on the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Pay to Public Key Hash** (**P2PKH**): P2PKH is the most commonly used transaction
+    type and is used to send transactions to the bitcoin addresses. The format of
+    the transaction is shown as folows:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`ScriptPubKey`: `OP_DUP OP_HASH160` <pubKeyHash> `OP_EQUALVERIFY OP_CHECKSIG`'
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '`ScriptSig`: <sig> <pubKey>'
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: The `ScriptPubKey` and `ScriptSig` parameters are concatenated together and
+    executed. An example will follow shortly in this section, where this is explained
+    in more detail.
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '**Pay to Script Hash** (**P2SH**): P2SH is used in order to send transactions
+    to a script hash (that is, the addresses starting with 3) and was standardized
+    in BIP16\. In addition to passing the script, the redeem script is also evaluated
+    and must be valid. The template is shown as follows:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`ScriptPubKey`: `OP_HASH160` <redeemScriptHash> `OP_EQUAL`'
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '`ScriptSig`: [<sig>...<sign>] <redeemScript>'
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '**MultiSig (Pay to MultiSig)**:M of n multisignature transaction script is
+    a complex type of script where it is possible to construct a script that required
+    multiple signatures to be valid in order to redeem a transaction. Various complex
+    transactions such as escrow and deposits can be built using this script. The template
+    is shown here:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`ScriptPubKey`: <m> <pubKey> [<pubKey> . . . ] <n> `OP_CHECKMULTISIG`'
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '`ScriptSig`: 0 [<sig > . . . <sign>]'
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: Raw multisig is obsolete, and multisig is usually part of the P2SH redeem script,
+    mentioned in the previous bullet point.
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '**Pay to Pubkey**:This script is a very simple script that is commonly used
+    in coinbase transactions. It is now obsolete and was used in an old version of
+    bitcoin. The public key is stored within the script in this case, and the unlocking
+    script is required to sign the transaction with the private key.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The template is shown as follows:'
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: <PubKey> `OP_CHECKSIG`
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '**Null data/OP_RETURN**:This script is used to store arbitrary data on the
+    blockchain for a fee. The limit of the message is 40 bytes. The output of this
+    script is unredeemable because `OP_RETURN` will fail the validation in any case.
+    `ScriptSig` is not required in this case.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The template is very simple and is shown as follows:'
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: '`OP_RETURN` <data>'
+  prefs:
+  - PREF_IND
+  type: TYPE_NORMAL
+- en: 'A P2PKH script execution is shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Types of transaction](img/B05975_04_08.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: P2PKH script execution
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'All transactions are eventually encoded into the hex before transmitting over
+    the bitcoin network. A sample transaction is shown in hex that is retrieved using
+    bitcoin-cli on the bitcoin testnet by using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: Coinbase transactions
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: 'A coinbase transaction or generation transaction is always created by a miner
+    and is the first transaction in a block. It is used to create new coins. It includes
+    a special field, also called *coinbase*, which acts as an input to the coinbase
+    transaction. This transaction also allows up to 100 bytes of arbitrary data that
+    can be used to store arbitrary data. In the genesis block, this included the most
+    famous comment taken from The Times newspaper:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*"The Times 03/Jan/2009 Chancellor on brink of second bailout for banks"*'
+  prefs:
+  - PREF_BQ
+  type: TYPE_NORMAL
+- en: This message is proof that the genesis block was not mined earlier than January
+    3, 2009.
+  prefs: []
+  type: TYPE_NORMAL
+- en: What is UTXO?
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: '**Unspent Transaction Output** (**UTXO**) is an unspent transaction output
+    that can be spent as an input to a new transaction. Other concepts related to
+    transactions in bitcoin are described below.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction fee
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: Transaction fees are charged by the miners. The fee charged is dependent upon
+    the size of the transaction. Transaction fees are calculated by subtracting the
+    sum of the inputs and the sum of the outputs. The fees are used as an incentive
+    for miners to encourage them to include a user transaction in the block the miners
+    are creating. All transactions end up in the memory pool, from where miners pick
+    up transactions based on their priority to include them in the proposed block.
+    The calculation of priority is introduced later in this chapter; however, from
+    a transaction fee point of view, a transaction with a higher fee will be picked
+    up sooner by the miners. There are different rules based on which fee is calculated
+    for various types of actions, such as sending transactions, inclusion in blocks,
+    and relaying by nodes. Fees are not fixed by the Bitcoin protocol and are not
+    mandatory; even a transaction with no fee will be processed in due course but
+    may take a very long time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Contracts
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: As defined in the bitcoin core developer guide, contracts are basically transactions
+    that use the bitcoin system to enforce a financial agreement. This is a simple
+    definition but has far-reaching consequences as it allows users to design complex
+    contracts that can be used in many real-world scenarios. Contracts allow the development
+    of a completely decentralized, independent, and reduced risk platform. Various
+    contracts, such as escrow, arbitration, and micropayment channels, can be built
+    using the bitcoin scripting language. The current implementation of a script is
+    very limited, but various types of contracts are still possible to develop. For
+    example, the release of funds only if multiple parties sign the transaction or
+    perhaps the release of funds only after a certain time has elapsed. Both of these
+    scenarios can be realized using `multiSig` and transaction lock time options.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction malleability
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: Transaction malleability in bitcoin was introduced due to a bug in the bitcoin
+    implementation. Due to this bug, it becomes possible for an adversary to change
+    the Transaction ID of a transaction, thus resulting in a scenario where it would
+    appear that a certain transaction has not been executed. This can allow scenarios
+    where double deposits or withdrawals can occur. In other words, this bug allows
+    the changing of the unique ID of a bitcoin transaction before it is confirmed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If the ID is changed before confirmation, it would seem that the transaction
+    did not happen at all, which can then allow double deposits or withdrawal attacks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction pools
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: Also known as *memory pools*, these pools are basically created in local memory
+    by nodes in order to maintain a temporary list of transactions that are not yet
+    confirmed in a block. Transactions are included in a block after passing verification
+    and based on their priority.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction verification
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: 'This verification process is performed by bitcoin nodes. The following is described
+    in the bitcoin developer guide:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Check the syntax and ensure that the syntax of the transaction is correct.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Verify that inputs and outputs are not empty.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Check whether the size in bytes is less than the maximum block size, which is
+    1 MB currently.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The output value must be in the allowed money range (0 to 21 million BTC).
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: All inputs must have a specified previous output, except for coinbase transactions,
+    which should not be relayed.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Verify that `nLockTime` must not exceed 31-bits. For a transaction to be valid,
+    it should not be less than 100 bytes. Also, the number of signature operands in
+    a standard signature should be less than or not more than 2.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Reject *nonstandard* transactions; for example, `ScriptSig` is allowed to only
+    push numbers on the stack. `ScriptPubkey` not passing the `isStandard()` checks.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: A transaction is rejected if there is already a matching transaction in the
+    pool or in a block in the main branch.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The transaction will be rejected if the referenced output for each input exists
+    in any other transaction in the pool.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: For each input, there must exist a referenced output transaction. This is searched
+    in the main branch and the transaction pool to find whether the output transaction
+    is missing for any input, and this will be considered an orphan transaction. It
+    will be added to the orphan transactions pool if a matching transaction is not
+    in the pool already.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: For each input, if the referenced output transaction is the coinbase, it must
+    have at least 100 confirmations; otherwise, the transaction will be rejected.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: For each input, if the referenced output does not exist or has been spent already,
+    the transaction will be rejected.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Using the referenced output transactions to get input values, verify that each
+    input value, as well as the sum, is in the allowed range of 0-21 million BTC.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Reject the transaction if the sum of input values is less than the sum of output
+    values.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Reject the transaction if the transaction fee would be too low to get into an
+    empty block.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Blockchain is a public ledger of a timestamped, ordered, and immutable list
+    of all transactions on the bitcoin network. Each block is identified by a hash
+    in the chain and is linked to its previous block by referencing the previous block's
+    hash.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the following structure of a block, a block header is described, followed
+    by a detailed diagram that provides an insight into the blockchain structure.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The structure of a block
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: '| **Bytes** | **Name** | **Description** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 80 | Block header | This includes fields from the block header described
+    in the next section. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| *variable* | Transaction counter | The field contains the total number of
+    transactions in the block, including the coinbase transaction. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| *variable* | Transactions | All transactions in the block. |'
+  prefs: []
+  type: TYPE_TB
+- en: The structure of a block header
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: '| **Bytes** | **Name** | **Description** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 4 | Version | The block version number that dictates the block validation
+    rules to follow. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 32 | previous block header hash | This is a double SHA256 hash of the previous
+    block''s header. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 32 | merkle root hash | This is a double SHA256 hash of the merkle tree of
+    all transactions included in the block. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 4 | Timestamp | This field contains the approximate creation time of the
+    block in the Unix epoch time format. More precisely, this is the time when the
+    miner has started hashing the header (the time from the miner''s point of view).
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 4 | Difficulty target | This is the difficulty target of the block. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| 4 | Nonce | This is an arbitrary number that miners change repeatedly in
+    order to produce a hash that fulfills the difficulty target threshold. |'
+  prefs: []
+  type: TYPE_TB
+- en: '![The structure of a block header](img/B05975_04_09-1.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: A visualization of blockchain, block, block header, transaction and script
+  prefs: []
+  type: TYPE_NORMAL
+- en: As shown in the preceding diagram, blockchain is a chain of blocks where each
+    block is linked to its previous block by referencing the previous block header's
+    hash. This linking makes sure that no transaction can be modified unless the block
+    that records it and all blocks that follow it are also modified. The first block
+    is not linked to any previous block and is known as the genesis block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The genesis block
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: This is the first block in the bitcoin blockchain. The genesis block was hardcoded
+    in the bitcoin core software. It is in the `chainparams.cpp` file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[https://github.com/bitcoin/bitcoin/blob/master/src/chainparams.cpp](https://github.com/bitcoin/bitcoin/blob/master/src/chainparams.cpp)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The genesis block](img/image_04_011.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Bitcoin provides protection against double spending by enforcing strict rules
+    on transaction verification and via mining. Blocks are added in the blockchain
+    only after strict rule checking and successful Proof of Work solution. Block height
+    is the number of blocks before a particular block in the blockchain. The current
+    height (at the time of writing this) of the blockchain is 434755 blocks. Proof
+    of Work is used to secure the blockchain. Each block contains one or more transactions,
+    out of which the first transaction is a coinbase transaction. There is a special
+    condition for coinbase transactions that prevent them to be spent until at least
+    100 blocks in order to avoid a situation where the block may be declared stale
+    later on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Stale blocks are created when a block is solved and every other miner who is
+    still working to find a solution to the hash puzzle is working on that block.
+    Mining and hash puzzles will be discussed later in the chapter in detail. As the
+    block is no longer required to be worked on, this is considered a stale block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Orphan blocks are also called detached blocks and were accepted at one point
+    in time by the network as valid blocks but were rejected when a proven longer
+    chain was created that did not include this initially accepted block. They are
+    not part of the main chain and can occur at times when two miners manage to produce
+    the blocks at the same time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The latest block version is version 4, which was proposed with BIP65 and has
+    been used since bitcoin core client 0.11.2 since the implementation of BIP9 bits
+    in `nVersion` field are being used to indicate softfork changes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Because of the distributed nature of bitcoin, network forks can occurs naturally.
+    In cases where two nodes simultaneously announce a valid b lock can result in
+    a situation where there are two blockchains with different transactions. This
+    is an undesirable situation but can be addressed by the bitcoin network only by
+    accepting the longest chain. In this case, the smaller chain will be considered
+    orphaned. If an adversary manages to gain 51% control of the network hashrate
+    (computational power), then they can impose their own version of transaction history.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Forks in blockchain can occur with the introduction of changes in the Bitcoin
+    protocol. In case of *soft fork*, only previous valid blocks are no longer acceptable,
+    thus making soft fork backward compatible. In case of soft fork, only miners are
+    required to upgrade to the new client software in order to make use of the new
+    protocol rules. Planned upgrades do not necessarily create forks because all users
+    should have updated already. A hard fork, on the other hand, invalidates previously
+    valid blocks and requires all users to upgrade. New transaction types are sometimes
+    added as a soft fork, and any changes such as block structure change or major
+    protocol changes results in hard fork.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The current size of the bitcoin blockchain as on February 4, 2017, stands at
+    approximately 101 GB. The following figure shows the size increase of blockchain
+    as a function of time:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The genesis block](img/image_04_012.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Current size of blockchain as of 06/02/2017
+  prefs: []
+  type: TYPE_NORMAL
+- en: New blocks are added to the blockchain approximately every 10 minutes and network
+    difficulty is adjusted dynamically every 2016 blocks in order to maintain a steady
+    addition of new blocks to the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Network difficulty is calculated using the following equation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Target = Previous target * Time/2016 * 10 minutes*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Difficulty and target are interchangeable and represent the same thing. Previous
+    target represents the old target value, and time is the time spent to generate
+    previous 2016 blocks. Network difficulty basically means how hard it is for miners
+    to find a new block, that is, how difficult the hashing puzzle is now.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the section, mining is discussed, which will explain how a hashing puzzle
+    is solved.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mining
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Mining is a resource-intensive process by which new blocks are added to the
+    blockchain. Blocks contain transactions that are validated via the mining process
+    by mining nodes and are added to the blockchain. This process is resource-intensive
+    in order to ensure that the required resources have been spent by miners in order
+    for a block to be accepted. New coins are minted by the miners by spending the
+    required computing resources. This also secures the system against frauds and
+    double spending attacks while adding more virtual currency to the bitcoin ecosystem.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Roughly one new block is created (mined) every 10 minute. Miners are rewarded
+    with new coins if and when they create new blocks and are paid transaction fees
+    in return of including transactions in their blocks. New blocks are created at
+    an approximate fixed rate. Also, the rate of creation of new bitcoins decreases
+    by 50%, every 210,000 blocks, roughly every 4 years. When bitcoin was initially
+    introduced, the block reward was 50 bitcoins; then in 2012, this was reduced to
+    25 bitcoins. In July 2016, this was further reduced to 12.5 coins (12 coins) and
+    the next reduction is estimated to be on July 4, 2020\. This will reduce the coin
+    reward further down to approximately six coins.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Approximately 144 blocks, that is, 1,728 bitcoins are generated per day. The
+    number of actual coins can vary per day; however, the number of blocks remains
+    at 144 per day. Bitcoin supply is also limited and in 2140, almost 21 million
+    bitcoins will be finally created and no new bitcoins can be created after that.
+    Bitcoin miners, however, will still be able to profit from the ecosystem by charging
+    transaction fees.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Task of miners
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Once a node connects with the bitcoin network, there are several tasks that
+    a bitcoin miner performs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Synching up with the network
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Once a new node joins the bitcoin network, it downloads the blockchain by requesting
+    historical blocks from other nodes. This is mentioned here in the context of the
+    bitcoin miner; however, this not necessarily a task only for a miner.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Transaction validation**: Transactions broadcasted on the network are validated
+    by full nodes by verifying and validating signatures and outputs.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Block validation**: Miners and full nodes can start validating blocks received
+    by them by evaluating them against certain rules. This includes the verification
+    of each transaction in the block along with verification of the nonce value.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Create a new block**: Miners propose a new block by combining transactions
+    broadcasted on the network after validating them.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Perform Proof of Work**: This task is the core of the mining process and
+    this is where miners find a valid block by solving a computational puzzle. The
+    block header contains a 32-bit nonce field and miners are required to repeatedly
+    vary the nonce until the resultant hash is less than a predetermined target.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Fetch reward**: Once a node solves the hash puzzle, it immediately broadcasts
+    the results, and other nodes verify it and accept the block. There is a slight
+    chance that the newly minted block will not be accepted by other miners due to
+    a clash with another block found at roughly the same time, but once accepted,
+    the miner is rewarded with 12.5 bitcoins (as of 2016) and any associated transaction
+    fees.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Proof of Work
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: 'This is a proof that enough computational resources have been spent in order
+    to build a valid block. **Proof of Work** (**PoW**) is based on the idea that
+    a random node is selected every time to create a new block. In this model, nodes
+    compete with each other in order to be selected in proportion to their computing
+    capacity. The following equation sums up the Proof of Work requirement in bitcoin:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*H ( N || P_hash || Tx || Tx || . . . Tx) < Target*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Where N is a nonce, *P_hash* is a hash of the previous block, *Tx* represents
+    transactions in the block, and *Target* is the target network difficulty value.
+    This means that the hash of the previously mentioned concatenated fields should
+    be less than the target hash value. The only way to find this nonce is the brute
+    force method. Once a certain pattern of a certain number of zeroes is met by a
+    miner, the block is immediately broadcasted and accepted by other miners.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The mining algorithm
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The mining algorithm consists of the following steps.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The previous hash block is retrieved from the bitcoin network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Assemble a set of potential transactions broadcasted on the network into a block.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Compute the double hash of the block header with a nonce and the previous hash
+    using the SHA256 algorithm.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If the resultant hash is lower than the current difficulty level (target), then
+    stop the process.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If the resultant hash is greater than the current difficulty level (target),
+    then repeat the process by incrementing the nonce. As the hash rate of the bitcoin
+    network increased, the total amount of 32-bit nonces was exhausted too quickly.
+    In order to address this issue, the *extra nonce* solution was implemented, whereby
+    the coinbase transaction is used as a source of extra nonce to provide a larger
+    range of nonces to be searched by the miners.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Mining difficulty increased over time and bitcoins that could be mined by single
+    CPU laptop computers now require dedicated mining centers to solve the hash puzzle.
+    The current difficulty level can be queried using the bitcoin command line interface
+    using the following command:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: '![The mining algorithm](img/image_04_013.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Mining difficulty over time
+  prefs: []
+  type: TYPE_NORMAL
+- en: The value returned by the `getdifficulty` command.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The hashing rate
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The hashing rate basically represents the rate of calculating hashes per second.
+    In early days of bitcoin, it used to be quite small as CPUs were used, but with
+    dedicated mining pools and ASICs now, this has gone up exponentially in the last
+    few years. This has resulted in increased difficulty. The following hash rate
+    graph shows the hash rate increase over time and is currently measured in Exa
+    hashes. This means that in 1 second, bitcoin network miners are computing more
+    than 1 000 000 000 000 000 000 hashes per second.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The hashing rate](img/image_04_014.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Hashing rate as of 06/02/2017, shown over a period of two years
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mining systems
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Over time, bitcoin miners have used various methods to mine bitcoins. As the
+    core principle behind mining is based on the double SHA256 algorithm, overtime
+    miners have developed sophisticated systems to calculate the hash faster and faster.
+    The following is a review of the different types of mining methods used in bitcoin
+    and how they evolved with time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: CPU
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: CPU mining was the first type of mining available in the original bitcoin client.
+    Users could even use laptop or desktop computers to mine bitcoins. CPU mining
+    is no longer profitable and now more advanced mining methods such as ASIC-based
+    mining are used.
+  prefs: []
+  type: TYPE_NORMAL
+- en: GPU
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Due to the increased difficulty of the bitcoin network and general tendency
+    of finding faster methods to mine, miners started to use GPUs or graphics cards
+    available in PCs to perform mining. GPUs support faster and parallelized calculations
+    that are usually programmed using the OpenCL language. This turned out to be a
+    faster option as compared to CPUs. Users also used techniques such as overclocking
+    to gain maximum benefit of the GPU power. Also, the possibility of using multiple
+    graphics cards increased the popularity of graphics cards' usage for bitcoin mining.
+    GPU mining, however, has some limitations, such as overheating and the requirement
+    for specialized motherboards and extra hardware to house multiple graphics cards.
+  prefs: []
+  type: TYPE_NORMAL
+- en: FPGA
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Even GPU mining did not last long, and soon miners found another way to perform
+    mining using FPGAs. **Field Programmable Gate Array** (**FPGA**) is basically
+    an integrated circuit that can be programmed to perform specific operations. FPGAs
+    are usually programmed in **hardware description languages** (**HDLs**), such
+    as Verilog and VHDL. Double SHA256 quickly became an attractive programming task
+    for FPGA programmers and several open source projects started too. FPGA offered
+    much better performance as compared to GPUs; however, issues such as accessibility,
+    programming difficulty, and the requirement for specialized knowledge to program
+    and configure FPGAs resulted in a short life of the FPGA era for bitcoin mining.
+    Also, the arrival of ASICs resulted in quickly phased out FPGA-based systems for
+    mining. Mining hardware such as X6500 miner, Ztex, and Icarus were developed during
+    the time when FPGA mining was profitable. Various FPGA manufacturers, such as
+    Xilinx and Altera, produce FPGA hardware and development boards that can be used
+    to program mining algorithms.
+  prefs: []
+  type: TYPE_NORMAL
+- en: ASICs
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: '**Application Specific Integrated Circuit** (**ASIC**) was designed to perform
+    the SHA-256 operation. These special chips were sold by various manufacturers
+    and offered a very high hashing rate. This worked for some time, but due to the
+    quickly increasing mining difficulty level, single-unit ASICs are no longer profitable.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Currently, mining is out of the reach of individuals and now professional mining
+    centers using thousands of ASIC units in parallel are offering mining contracts
+    to users to perform mining on their behalf. There is no technical limitation,
+    that's why a single user cannot run thousands of ASICs in parallel, but it will
+    require dedicated data centers and hardware and cost for a single individual can
+    become prohibitive.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![ASICs](img/image_04_015-1.jpg)![ASICs](img/image_04_017-1.jpg)![ASICs](img/image_04_016-1.jpg)![ASICs](img/image_04_018-1.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Four types of mining (CPU, GPU, FPGA, and ASIC)
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mining pools
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: A mining pool forms when group miners work together to mine a block. The *Pool
+    manager* receives the coinbase transaction if the block is successfully mined,
+    which is then responsible for distributing the reward to the group of miners who
+    invested resources to mine the block. This is profitable as compared to solo mining,
+    where only one sole miner is trying to solve the partial hash inversion function
+    (hash puzzle) because in mining pools, the reward is paid to each member of the
+    pool regardless of whether they (more specifically, their individual node) solved
+    the puzzle or not.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are various models that a mining pool manager can use to pay to the miners,
+    such as the pay-per-share model and the proportional model. In the pay per share
+    model, the mining pool manager pays a flat fee to all miners who participated
+    in the mining exercise, whereas in the proportional model, the share is calculated
+    based on the amount of computing resources spent to solve the hash puzzle.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Many commercial pools now exist and provide mining service contracts via the
+    cloud and easy-to-use web interfaces. The most commonly used ones are **AntPool**,
+    **F2Pool**, and **BW.COM**. A comparison of hashing power for all major mining
+    pools is shown in the following image:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Mining pools](img/image_04_019.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Mining pools and their hashing power (hash rate) as of 06/02/2017, taken from
+    https://blockchain.info/pools
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mining centralization is a major concern that can occur if a pool manages to
+    control more than 51% of the network by generating more than 51% hash rate of
+    the bitcoin network. As discussed earlier in the introduction section, 51% attack
+    can result in double spending attacks, and it can impact consensus and in fact
+    impose another version of transaction history on the bitcoin network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This has happened once in the bitcoin history, when GHash.IO, a large mining
+    pool, managed to acquire more than 51% of the network capacity. Theoretical solutions
+    , such as two-phase Proof of Work, have been proposed in academia to disincentivize
+    large mining pools. This scheme introduces a second cryptographic puzzle that
+    results in mining pools to reveal their private keys or providing a considerable
+    portion of the hashrate of their mining pool, thus reducing the overall hashrate
+    of the pool.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Various types of hardware are commercially available for mining purposes. Currently,
+    the most profitable one is ASIC mining, and specialized hardware is available
+    from a number of vendors. Solo mining is not much profitable now unless a vast
+    amount of money and energy is spent to build your own mining rig or even center.
+    With the current difficulty factor (Oct 2016), if a user manages to produce a
+    hash rate of 12 TH/s, they can hope to make 0.01366887 BTC (around $8) per day,
+    which is very low as compared to the investment required to source the equipment
+    that can produce 12 TH. Including running costs such as electricity, this turns
+    out to be not very profitable.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The bitcoin network
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: The bitcoin network is a P2P network where nodes exchange transactions and blocks.
+    There are different types of nodes on the network. There are two main types of
+    nodes, full nodes and SPV nodes. Full nodes, as the name implies, are implementations
+    of bitcoin core clients performing the wallet, miner, full blockchain storage,
+    and network routing functions. However, it is not necessary to perform all these
+    functions. SPV nodes or lightweight clients perform only wallet and network routing
+    functionality. The latest version of Bitcoin protocol is 70014 and was introduced
+    with bitcoin core client 0.13.0.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Some nodes prefer to be full blockchain nodes only and contain complete blockchain
+    and perform network routing functions but do not perform mining or store private
+    keys (the wallet function). Another type is solo miner nodes that can perform
+    mining, store full blockchain, and act as a bitcoin network routing node.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are a few nonstandard but heavily used nodes that are called pool protocol
+    servers. These nodes make use of alternative protocols, such as the stratum protocol.
+    Some nodes perform only mining functions and are called mining nodes. Nodes that
+    only compute hashes use the stratum protocol to submit their solutions to the
+    mining pool. It is possible to run an SPV client runs a wallet and network routing
+    function without a blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Most protocols on the Internet are line-based, which means that each line is
+    delimited by a carriage return and newline *\r \n* character. Stratum is also
+    a line-based protocol that makes use of plain TCP sockets and human-readable JSON-RPC
+    to operate and communicate between nodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Bitcoin network is identified by its different magic values. A list is shown
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The bitcoin network](img/Capture-2.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Bitcoin network magic values
+  prefs: []
+  type: TYPE_NORMAL
+- en: Magic values are used to indicate the message origin network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A full node performs four functions: wallet, miner, blockchain, and the network
+    routing node.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: When a bitcoin core node starts up, first, it initiates the discovery of all
+    peers. This is achieved by querying DNS seeds that are hardcoded into the bitcoin
+    core client and are maintained by bitcoin community members. This lookup returns
+    a number of DNS A records. The bitcoin protocol works on TCP port 8333 by default
+    for the main network and TCP 18333 for testnet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The bitcoin network](img/image_04_020.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: DNSSeeds in chainparams.cpp
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, the client sends a protocol message *Version* that contains various fields,
+    such as version, services, timestamp, network address, nonce, and some other fields.
+    The remote node responds with its own version message followed by verack message
+    exchange between both nodes, indicating that the connection has been established.
+  prefs: []
+  type: TYPE_NORMAL
+- en: After this, **G** ***etaddr*** and ***addr*** messages are exchanged to find
+    the peers that the client do not know. Meanwhile, either of the nodes can send
+    a ping message to see whether the connection is still live.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now the block download can begin. If the node already has all blocks fully synchronized,
+    then it listens for new blocks using the *Inv* protocol message; otherwise, it
+    first checks whether it has a response to *inv* messages and have inventories
+    already. If yes, then it requests the blocks using the ***Getdata*** protocol
+    message; if not, then it requests inventories using the *GetBlocks* message. This
+    method was used until version 0.9.3.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The bitcoin network](img/B05975_04_19.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Protocol visualization node discovery
+  prefs: []
+  type: TYPE_NORMAL
+- en: Initial block download can use blocks first or the headers-first method to synchronize
+    blocks depending on the version of the bitcoin core client. The blocks-first method
+    is very slow and was discontinued since version 0.10.0.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Since version 0.10.0, the initial block download method named headers-first
+    was introduced. This resulted in major performance improvement and the blockchain
+    synchronization that used to take days to complete started taking only a few hours.
+    The core idea is that the new node-first asks peers for block headers and validates
+    them. Once this is completed, blocks are requested in parallel from all available
+    peers as the blueprint of the complete chain is already downloaded in the form
+    of the block header chain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this method, when the client starts up, it checks whether the block chain
+    is fully synchronized already if the header chain is already synchronized; if
+    not, which is the case the first time the client starts up, it requests headers
+    from other peers using the ***getHeaders*** message. If the block chain is fully
+    synchronized, it listens for new blocks via *Inv* messages, and if it already
+    has a fully synchronized header chain, then it requests blocks using *Getdata*
+    protocol messages. The node also checks whether the header chain has more headers
+    than blocks and then it requests blocks by issuing the *Getdata* protocol message.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The bitcoin network](img/B05975_04_20.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Bitcoin Core Client >= 0.10.0 header and block synchronization, IBD = Initial
+    block download and sync node means the node from where the blocks are being requested
+    from
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`Getblockchaininfo` and `getpeerinfo` RPCs were updated with a new functionality
+    to cater for this change. An RPC, *getchaintips*, is used to list all known branches
+    of the blockchain. This also includes headers only blocks. `Getblockchaininfo`
+    is used to provide the information about the current state of the blockchain.
+    `Getpeerinfo` is used to list both the number of blocks and the headers that are
+    in common between peers.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Wireshark can also be used to visualize message exchange between peers and can
+    serve as an invaluable tool to learn about the Bitcoin protocol. A sample is shown
+    here. This is a basic example showing the version, verack, getaddr, ping, addr,
+    and inv messages.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the details, valuable information such as the packet type, command name,
+    and results of the protocol messages can be seen.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The bitcoin network](img/image_04_023.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: A sample block message in wireshark
+  prefs: []
+  type: TYPE_NORMAL
+- en: A protocol graph showing the flow of data between the two peers is shown here.
+    This can help you understand when a node starts up and what type of messages are
+    used.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the following example, the bitcoin dissector is used to analyze the traffic
+    and identify the Bitcoin protocol commands.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Exchange of messages such as the **version**, **getaddr**, and **getdata** can
+    be seen in the following example along with the appropriate comment describing
+    the message name. This exercise can be very useful in order to learn bitcoin and
+    it is recommended that the experiments be carried out on the bitcoin testnet,
+    where various messages and transactions can be sent over the network and then
+    be analyzed by Wireshark.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The bitcoin network](img/image_04_024.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'There are 27 types of protocol messages in total, but they''re likely to increase
+    over time as the protocol grows. The most commonly used protocol messages and
+    their explanation are listed as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Version**: This is the first message that a node sends out to the network,
+    advertising its version and block count. The remote node then replies with the
+    same information and the connection is then established.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Verack :** This is the response of the version message accepting the connection
+    request.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Inv:** This is used by nodes to advertise their knowledge of blocks and transactions.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Getdata :** This is a response to inv, requesting a single block or transaction
+    identified by its hash.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Getblocks:** This returns an *inv* packet containing the list of all blocks
+    starting after the last known hash or 500 blocks.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Getheaders :** This is used to request block headers in a specified range.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Tx :** This is used to send a transaction as a response to the getdata protocol
+    message.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Block:** This sends a block in response to the *getdata* protocol message.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Headers:** This packet returns up to 2,000 block headers as a reply to the
+    getheaders request.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Getaddr:** This is sent as a request to get information about known peers.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Addr:** This provides information about nodes on the network. It contains
+    the number of addresses and address list in the form of IP address and port number.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Full client and SPV client**:Full clients are thick clients or full nodes
+    that download the entire blockchain; this is the most secure method of validating
+    the blockchain as a client. Bitcoin network nodes can operate in two fundamental
+    modes: full client or lightweight SPV client. SPV clients are used to verify payments
+    without requiring the download of a full blockchain. SPV nodes only keep a copy
+    of block headers of the current valid longest blockchain. Verification is performed
+    by looking at the merkle branch that links the transactions to the original block
+    the transaction was accepted in. This is not very practical and requires a more
+    practical approach, which was implemented with BIP37, where bloom filters were
+    used to filter out relevant transactions only.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Bloom filters**:Bloom filter is basically a data structure (a bit vector
+    with indexes) that is used to test the membership of an element in a probabilistic
+    manner. It basically provides probabilistic lookup with false positives but no
+    false negatives. Elements are added to the bloom filter after hashing them several
+    times and then set the corresponding bits in the bit vector to 1 via the corresponding
+    index. In order to check the presence of the element in the bloom filter, the
+    same hash functions are applied and compared with the bits in the bit vector to
+    see whether the same bits are set to 1\. Not every hash function (such as SHA1)
+    is suitable for bloom filters as they need to be fast, independent, and uniformly
+    distributed. The most commonly used hash functions for bloom filters are fnv,
+    mumur, and Jenkins.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: These filters are mainly used by simple payment verification SPV clients to
+    request transactions and the merkle blocks they are interested in. A merkle block
+    is a lightweight version of the block, which includes a block header, some hashes,
+    a list of 1-bit flags, and a transaction count. This information can then be used
+    to build a merkle tree. This is achieved by creating a filter that matches only
+    those transaction and blocks that have been requested by the SPV client. Once
+    version messages have been exchanged and connection has been established between
+    peers, the nodes can set filters according to their requirements. These probabilistic
+    filters offer a varying degree of privacy or precision depending upon how accurately
+    or loosely they have been set. A strict bloom filter will only filter transactions
+    that have been requested by the node but at the expense of the possibility of
+    revealing the user addresses to adversaries who can correlate transactions with
+    their IP addresses, thus compromising privacy. On the other hand, a loosely set
+    filter can result in retrieving more unrelated transactions but will offer more
+    privacy. Also, for SPV clients, bloom filters allow them to use low bandwidth
+    as opposed to downloading all transactions for verification.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**BIP 37** proposed the bitcoin implementation of bloom filters and introduced
+    three new messages to the Bitcoin protocol.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Filterload:** This is used to set the bloom filter on the connection.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Filteradd:** This adds a new data element to the current filter.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**FilterClear**: This deletes the currently loaded filter.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: More details can be found in the BIP37 specification.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Wallets
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'The wallet software is used to store private or public keys and bitcoin address.
+    It performs various functions, such as receiving and sending bitcoins. Nowadays,
+    software usually offers both functionalities: bitcoin client and wallet. On the
+    disk, the bitcoin core client wallets are stored as the Berkeley DB file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`wallet.dat`: Berkeley DB (Btree, version 9, native byte-order)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private keys can be generated in different ways and are used by different types
+    of wallets. Wallets do not store any coins, and there is no concept of wallets
+    storing balance or coins for a user. In fact, in the bitcoin network, *coins* do
+    not exist; instead, only transaction information is stored on the blockchain (more
+    precisely, UTXO, unspent outputs), which are then used to calculate the amount
+    of bitcoins.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Wallet types
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: In bitcoin, there are different types of wallets that can be used to store private
+    keys. As a software program, they also provide some functions to the users to
+    manage and carry out transactions on the bitcoin network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Non-deterministic wallets
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: These wallets contain randomly generated private keys and are also called *Just
+    a Bunch of Key wallets*. The bitcoin core client generates some keys when first
+    started and generates keys as and when required. Managing a large number of keys
+    is very difficult and an error-prone process can lead to theft and loss of coins.
+    Moreover, there is a need to create regular backups of the keys and protect them
+    appropriately in order to prevent theft or loss.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Deterministic wallets
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: In this type of wallet, keys are derived out of a seed value via hash functions.
+    This seed number is generated randomly and is commonly represented by human-readable
+    *mnemonic code* words. Mnemonic code words are defined in BIP39\. This phrase
+    can be used to recover all keys and makes private key management comparatively
+    easier.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hierarchical deterministic wallets
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: Defined in BIP32 and BIP44, HD wallets store keys in a tree structure derived
+    from a seed. The seed generates the parent key (master key), which is used to
+    generate child keys and, subsequently, grandchild keys. Key generation in HD wallets
+    does not generate keys directly; instead, it produces some information (private
+    key generation information) that can be used to generate a sequence of private
+    keys. The complete hierarchy of private keys in an HD wallet is easily recoverable
+    if the master private key is known. It is because of this property that HD wallets
+    are very easy to maintain and are highly portable.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Brain wallets
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: The master private key can also be derived from the hash of passwords that are
+    memorized. The key idea is that this passphrase is used to derive the private
+    key and if used in HD wallets, this can result in a full HD wallet that is derived
+    from a single memorized password. This is known as brain wallet. This method is
+    prone to password guessing and brute force attacks but techniques such as *key
+    stretching* can be used to slow down the progress made by the attacker.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Paper wallets
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: As the name implies, this is a paper-based wallet with the required key material
+    printed on it. It requires physical security to be stored. Paper wallets can be
+    generated online from various service providers, such as [https://bitcoinpaperwallet.com/](https://bitcoinpaperwallet.com/)
+    or [https://www.bitaddress.org/](https://www.bitaddress.org/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hardware wallets
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: Another method is to use a tamper-resistant device to store keys. This tamper-resistant
+    device can be custom-built or with the advent of NFC-enabled phones, this can
+    also be a **secure element** (**SE**) in NFC phones. Trezor and Ledger wallets
+    (various types) are the most commonly used bitcoin hardware wallets.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Hardware wallets](img/B05975_04_23.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Trezor Wallet
+  prefs: []
+  type: TYPE_NORMAL
+- en: Online wallets
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: Online wallets, as the name implies, are stored entirely online and are provided
+    as a service usually via cloud. They provide a web interface to the users to manage
+    their wallets and perform various functions such as making and receiving payments.
+    They are easy to use but imply that the user trust the online wallet service provider.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mobile wallets
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: Mobile wallets, as the name suggests, are installed on mobile devices. They
+    can provide various methods to make payments, most notably the ability to use
+    smart phone cameras to scan QR codes quickly and make payments. Mobile wallets
+    are available for the Android platform and iOS, for example, breadwallet, copay,
+    and Jaxx.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Mobile wallets](img/image_04_026.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Jaxx Mobile wallet
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin payments
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Bitcoins can be accepted as payments using various techniques. Bitcoin is not
+    recognized as a legal currency in many jurisdictions, but it is increasingly being
+    accepted as a payment method by many online merchants and e-commerce websites.
+    There are a numbers of ways in which buyers can pay the business that accepts
+    bitcoins. For example, in an online shop, bitcoin merchant solutions can be used,
+    whereas in traditional physical shops, point of sale terminals and other specialized
+    hardware can be used. Customers can simply scan the QR barcode with the seller's
+    payment URI in it and pay using their mobile devices. Bitcoin URIs allow users
+    to make payments by simply clicking on links or scanning QR codes. **URI** (**Uniform
+    Resource Idenfier**) is basically a string that represents the transaction information.
+    It is defined in BIP21\. The QR code can be displayed near the point of the sale
+    terminal. Nearly all bitcoin wallets support this feature.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Business can use the following screenshot to advertise that they can accept
+    bitcoins as payment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Bitcoin payments](img/image_04_027.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: bitcoin accepted here logo
+  prefs: []
+  type: TYPE_NORMAL
+- en: Various payment solutions, such as xbtterminal and 34 bytes bitcoin POS terminal
+    are available commercially.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Bitcoin payments](img/B05975_04_26.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: 34 bytes POS solution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin payment processor, offered by many online service providers, allows
+    integration with e-commerce websites. A simple Internet search can reveal many
+    options.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Various BIPs have been proposed and finalized in order to introduce and standardize
+    bitcoin payments. Most notably, BIP 70 (secure payment protocol) describes the
+    protocol for secure communication between a merchant and customers. This protocol
+    uses X.509 certificates for authentication and runs over HTTP and HTTPS. There
+    are three messages in this protocol: PaymentRequest, Payment, and PaymentACK.
+    The key features of this proposal is defence against man-in-the-middle attacks
+    and secure proof of payment. Man in-the-middle attacks can result in a scenario
+    where the attacker is sitting between the merchant and the buyer and it would
+    seem to the buyer that they are talking to the merchant, but in fact, the *man
+    in the middle* is interacting with the buyer instead of the merchant. This can
+    result in manipulation of the merchant''s bitcoin address to defraud the buyer.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Several others BIPs, such as BIP71 and BIP72, have also been proposed to standardize
+    payment message encapsulation and URI scheme to support BIP70.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin lightning network, a solution for scalable off-chain instant payments,
+    was introduced in early 2016, which allows off-blockchain payments. The network
+    makes use of payments channels that run off the blockchain. This allows greater
+    speed and scalability of bitcoin. This paper is available at [https://lightning.network/](https://lightning.network/)
+    and interested readers are encouraged to read the paper in order to understand
+    the theory and rationale behind this invention.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin investment and buying and selling bitcoins
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: There are many online exchanges where users can buy and sell bitcoins. This
+    is a big business on the Internet now and it offers bitcoin trading, CFDs, spread
+    betting, margin trading, and various other choices. Traders can buy bitcoins or
+    trade by opening long or short positions to make profit when bitcoin's price goes
+    up or down. Several other features, such as exchanging bitcoins for other virtual
+    currencies, are also possible, and many online bitcoin exchanges provide this
+    function. Advanced market data, trading strategies, charts, and relevant data
+    to support traders is also available. An example is shown from **CEX.IO** here.
+    Other exchanges offer similar types of services.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Bitcoin investment and buying and selling bitcoins](img/image_04_029.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Example of bitcoin exchange cex.io
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following screenshot shows the order book at the exchange where all buy
+    and sell orders are listed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Bitcoin investment and buying and selling bitcoins](img/image_04_030.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Example of bitcoin order book at exchange cex.io
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin installation
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'The bitcoin core client can be installed from [https://bitcoin.org/en/download](https://bitcoin.org/en/download).
+    This is available for different architectures and platforms ranging from x86 windows
+    to ARM Linux, as shown in the following image:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Bitcoin installation](img/image_04_031.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Setting up a bitcoin node
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: A sample run of the bitcoin core installation on Ubuntu is shown here; for other
+    platforms, you can get details from [www.bitcoin.org](http://www.bitcoin.org/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Setting up a bitcoin node](img/image_04_032.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Step 2:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Depending on the client required, users can use either of the following commands,
+    or they can issue both commands at once:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: Setting up the source code
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: 'The bitcoin source code can be downloaded and compiled if users wish to participate
+    in the bitcoin code or for learning purpose. Git can be used to download the bitcoin
+    source code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Change the directory to bitcoin:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'After the preceding steps are completed, the code can be compiled:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: Setting up bitcoin.conf
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: '`bitcoin.conf` file is a configuration file that is used by the bitcoin core
+    client to save configuration settings. All command line options for the bitcoind
+    client with the exception of `-conf` switch can be set up in the configuration
+    file, and when bitcoin-qt or bitcoind will start up, it will take the configuration
+    information from that file.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In Linux systems, this is usually found in `$HOME/.bitcoin/`, or it can also
+    specified in the command line using the `-conf=<file>` switch to bitcoind core
+    client software.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Starting up a node in testnet
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The bitcoin node can be started in the testnet mode if you want to test the
+    bitcoin network and run an experiment. This is a faster network as compared to
+    the live network and has relaxed rules for mining and transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Various faucet services are available for the bitcoin test network. One example
+    is Bitcoin TestNet sandbox, where users can request bitcoins to be paid to their
+    testnet bitcoin address. This can be accessed via [https://testnet.manu.backend.hamburg/](https://testnet.manu.backend.hamburg/).
+    This is very useful for experimentation with transactions on test net.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The command line to start up test net is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: Starting up a node in regtest
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The regtest mode (regression testing mode) can be used to create a local blockchain
+    for testing purposes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following commands can be used to start up a node in the reg test mode:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Blocks can be generated using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: Relevant log messages can be viewed in the `.bitcoin/regtest` directory on a
+    Linux system under `debug.log`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Starting up a node in regtest](img/image_04_033.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'After block generation, the balance can be viewed as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The node can be stopped using this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: Starting up a node in live mainnet
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: '*Bitcoind* is the core client software that can be run as a daemon, and it
+    provides the JSON RPC interface. *Bitcoin-cli* is the command line feature-rich
+    tool to interact with the daemon; the daemon then interacts with the blockchain
+    and performs various functions. Bitcoin-cli calls only JSON-RPC functions and
+    does not perform any actions on its own on the blockchain.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Bitcoin-qt* is the bitcoin core client GUI. When the wallet software starts
+    up first, it verifies the blocks on the disk and then starts up and shows the
+    following GUI:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Starting up a node in live mainnet](img/image_04_034.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Bitcoin Core QT client, just after installation, showing that blockchain is
+    not in sync
+  prefs: []
+  type: TYPE_NORMAL
+- en: The verification process is not specific to the Bitcoin-qt client; it is performed
+    by the *bitcoind* client as well.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Experimenting with bitcoin-cli
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Bitcoin-cli is the command-line interface available with the bitcoin core client
+    and can be used to perform various functions using the RPC interface provided
+    by the bitcoin core client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Experimenting with bitcoin-cli](img/image_04_035.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: A sample run of bitcoin-cli getinfo; the same format can be used to invoke other
+    commands
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A list of all commands can be shown via the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Experimenting with bitcoin-cli](img/image_04_036.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Testnet bitcoin-cli, this is just the first few lines of the output, actual
+    output has many commands
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**HTTP REST**:Starting from bitcoin core client 0.10.0, the HTTP REST interface
+    is also available. By default, this runs on the same TCP port 8332 as JSON-RPC.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Bitcoin programming and the command-line interface
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: Bitcoin programming is a very rich field now. The bitcoin core client exposes
+    various JSON RPC commands that can be used to construct raw transactions and perform
+    other functions via custom scripts or programs. Also, the command line tool Bitcoin-cli
+    is available, which makes use of the JSON-RPC interface and provides a rich toolset
+    to work with Bitcoin.
+  prefs: []
+  type: TYPE_NORMAL
+- en: These APIs are also available via many online service provider in the form of
+    bitcoin APIs, and they provide a simple HTTP REST interface. Bitcoin APIs, such
+    as `blockchain.info` and bitpay, block.io, and many others, offer a myriad of
+    options to develop bitcoin-based solutions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Various libraries are available for bitcoin programming. A list is shown as
+    follows, and those if you interested can further explore the libraries.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Libbitcoin**: Available at [https://libbitcoin.dyne.org/](https://libbitcoin.dyne.org/)
+    and provides powerful command line utilities and clients. **Pycoin**: Available
+    at [https://github.com/richardkiss/pycoin](https://github.com/richardkiss/pycoin),
+    is a library for Python.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Bitcoinj**: This library is available at [https://bitcoinj.github.io/](https://bitcoinj.github.io/)
+    and is implemented in Java.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There are many online bitcoin APIs available; the most commonly used APIs are
+    listed as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[https://bitcore.io/](https://bitcore.io/)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[https://bitcoinjs.org/](https://bitcoinjs.org/)'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[https://blockchain.info/api](https://blockchain.info/api) All APIs offer more
+    or less the same type of functionality, and it gets difficult to choose which
+    API is the best.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bitcoin improvement proposals (BIPs)
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'These documents are used to propose or inform the bitcoin community about the
+    improvements suggested, the design issues, or information about some aspects of
+    the bitcoin ecosystem. There are three types of bitcoin improvement proposals,
+    abbreviated as BIPs:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Standard BIP**: Used to describe the major changes that have a major impact
+    on the bitcoin system, for example, block size changes, network protocol changes,
+    or transaction verification changes.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Process BIP**: A major difference between standard and process BIPs is that
+    standard BIPs cover protocol changes, whereas process BIPs usually deal with proposing
+    a change in a process that is outside the core Bitcoin protocol. These are implemented
+    only after a consensus among bitcoin users.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Informational BIP**: These are usually used to just advise or record some
+    information about the bitcoin ecosystem, such as design issues.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter introduced bitcoin and related concepts. It started with some history
+    and basic definitions related to bitcoin. Concepts such as keys and addresses
+    along with public keys and private keys were introduced. How transactions work
+    in the bitcoin network (and related concepts such as scripts, Opcodes, and types
+    of transactions) were also discussed. Moreover, blockchain, which underpins the
+    bitcoin network, was also introduced. Along with that, related concepts such as
+    mining, proof of work, mining systems, and wallets were presented. Finally, some
+    practical information regarding setting up bitcoin clients, the usage of bitcoin-cli,
+    and an introduction to different bitcoin networks was also provided. In the next
+    chapter, alternative currencies, and related concepts will be introduced.
+  prefs: []
+  type: TYPE_NORMAL

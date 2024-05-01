@@ -1,0 +1,517 @@
+- en: Chapter 6. Smart Contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter provides an introduction to smart contracts. This is not a new
+    concept, but, with the advent of blockchain, interest in this concept has revived,
+    and this is now an active area of research in the blockchain space. Due to the
+    cost saving benefits that smart contracts can bring to the financial services
+    industry by reducing the cost of transactions and simplifying complex contracts,
+    rigorous research is being carried out by various financial and academic institutions
+    in order to formalize and make the implementation of smart contracts easy and
+    practical, as soon as possible.
+  prefs: []
+  type: TYPE_NORMAL
+- en: History
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Smart contracts were first theorized by *Nick Szabo* in the late 1990s, but
+    it was almost 20 years before the true potential and benefits of them were truly
+    appreciated. Smart contracts are described by *Szabo* as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*"A smart contract is a computerized transaction protocol that executes the
+    terms of a contract. The general objectives are to satisfy common contractual
+    conditions (such as payment terms, liens, confidentiality, and even enforcement),
+    minimize exceptions both malicious and accidental, and minimize the need for trusted
+    intermediaries. Related economic goals include lowering fraud loss, arbitrations
+    and enforcement costs, and other transaction costs."*'
+  prefs:
+  - PREF_BQ
+  type: TYPE_NORMAL
+- en: This idea of smart contracts was implemented in a limited fashion in bitcoin
+    in 2009, where bitcoin transactions can be used to transfer the value between
+    users, over a peer-to-peer network where users do not necessarily trust each other
+    and there is no need for a trusted intermediary.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Definition
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There is no consensus on a standard definition of smart contracts. It is essential
+    to define what a smart contract is, and the following is the author's attempt
+    to provide a generalized definition of a smart contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Note
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: A smart contract is a secure and unstoppable computer program representing an
+    agreement that is automatically executable and enforceable.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Dissecting this definition further reveals that a smart contract is in fact
+    a computer program that is written in a language that a computer or target machine
+    can understand. Also, it encompasses agreements between parties in the form of
+    business logic. Another key idea is that smart contracts are automatically executed
+    when certain conditions are met. They are enforceable, which means that all contractual
+    terms are executed as defined and expected, even in the presence of adversaries.
+    Enforcement is a broader term that encompasses traditional enforcement in the
+    form of law, along with implementation of certain measures and controls that make
+    it possible to execute contract terms without requiring any mediation. It should
+    be noted that true smart contracts should not rely on traditional methods of enforcement.
+    Instead, they should work on the principle that *code is law*, meaning that there
+    is no need for an arbitrator or a third party to control or influence the execution
+    of the smart contract. Smart contracts are self-enforcing as opposed to legally
+    enforceable. This might be regarded as a libertarian's dream, but it is entirely
+    possible, and is in line with the true spirit of smart contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Moreover, they are secure and unstoppable, which means that these computer programmes
+    are required to be designed in such a fashion that they are fault tolerant and
+    executable in reasonable amount of time. These programmes should be able to execute
+    and maintain a healthy internal state, even if external factors are unfavorable.
+    For example, imagine a normal computer programme which is encoded with some logic
+    and executes according to the instruction coded within it, but if the environment
+    it is running in or external factors it relies on deviate from the normal or expected
+    state, the programme may react arbitrarily or simply abort. It is important that
+    smart contracts are immune to this type of issue.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Secure and unstoppable may well be considered requirements or desirable features
+    but it will provide greater benefits in the long run if security and unstoppable
+    properties are included in the smart contract definition from the beginning. This
+    will allow researchers to focus on these aspects from the start and will help
+    to build strong foundations on which further research can then be based. There
+    is also a suggestion by some researchers that smart contracts need not be automatically
+    executable; instead they can be what's called *automatable*, due to manual human
+    input required in certain scenarios. Whilst it's true that in some cases human
+    input and control is desirable, it is not absolutely necessary; and, for a contract
+    to be truly *smart*, in the authors opinion, it has to be fully automated. Certain
+    inputs that need to be provided by people can and should also be automated via
+    the use of Oracles. Oracles will be discussed later in this chapter in greater
+    detail.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contracts usually operate by managing their internal state using a state
+    machine model. This allows development of an effective framework for programming
+    smart contracts, where the state of a contract is advanced further based on some
+    predefined criteria and conditions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'There is also on-going debate on the question of whether code is acceptable
+    as a contract in a court of law. This is totally different in presentation from
+    traditional legal prose, albeit they do represent and enforce all contractual
+    clauses but a court of law does not understand code. This raises several questions
+    around how a smart contract can be legally binding: can it be developed in such
+    a way that it is readily acceptable and understandable in a court of law? How
+    can dispute resolution be implemented within the code, and is it possible? Moreover,
+    regulatory and compliance requirements is another topic that needs to be addressed
+    before smart contracts can be used as effectively as traditional legal documents.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The preceding questions open up various possibilities, such as making smart
+    contract code readable not only by machines but also by people. If humans and
+    machines can both understand the code written in a smart contract it might be
+    more acceptable in legal situations, as opposed to just a piece of code that no-one
+    understands except for programmers. This desirable property is an area ripe for
+    research and much research effort has been expended in this area to answer questions
+    around semantics, meaning and interpretation of a contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contracts are inherently required to be deterministic in nature. This
+    property will allow a smart contract to be run by any node on a network and achieve
+    the same result. If the result differs even slightly between nodes, consensus
+    then cannot be achieved and a whole paradigm of distributed consensus on blockchain
+    can fail. Moreover, it is also desirable that the contract language itself is
+    deterministic thus ensuring the integrity and stability of the smart contracts.
+    By which I mean, deterministic in the sense that there are no non-deterministic
+    functions used in the language which can produce varied results on different nodes.
+    For example, various floating point operations calculated by various functions
+    in a variety of programming languages can produce different results in different
+    runtime environments. Another example is of some math functions in JavaScript
+    which can produce different results for the same input on different browsers,
+    and which can in turn lead to various bugs. This is highly undesirable in smart
+    contracts because, if results are inconsistent between nodes, then consensus will
+    never be achieved. A deterministic feature ensures that smart contracts always
+    produce the same output for a specific input. In other words, programs once compiled
+    produce a solid and accurate business logic that is completely in line with the
+    requirements programmed in the high level code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In summary, a smart contract has the following four properties:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Automatically executable
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Enforceable
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Semantically sound
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Secure and unstoppable.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The first two properties are required as a minimum, whereas the latter two may
+    not be required or implementable in certain scenarios and can be relaxed. For
+    example, a derivatives contract does not perhaps need to be semantically sound
+    and unstoppable but should at least be automatically executable and enforceable
+    at a basic level. On the other hand, a title deed needs to be semantically sound
+    and complete therefore, in order for it to be implemented as a smart contract,
+    the language must be understood by both computers and people. This issue of interpretation
+    was addressed by *Ian Grigg* with his invention of **Ricardian contracts**, which
+    we will look at in more detail in the next section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ricardian contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Ricardian contracts were originally proposed in the *Financial Cryptography
+    in 7 Layers* paper by *Ian Grigg* in late 1990s. These contracts were used initially
+    in a bond trading and payment system called **Ricardo**. The key idea is to write
+    a document which is understandable and acceptable by both a court of law and computer
+    software. Ricardian contracts address the challenge of issuance of value over
+    the Internet. It identifies the issuer and captures all the terms and clauses
+    of the contract in a document in order to make it acceptable as a legally binding
+    contract. Based on the original definition by *Ian Grigg* at [http://iang.org/papers/ricardian_contract.html](http://iang.org/papers/ricardian_contract.html),
+    a Ricardian contract is a document that has several of the following properties:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A contract offered by an issuer to holders
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A valuable right held by holders, and managed by the issuer
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Easily readable by people (like a contract on paper)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Readable by programs (parseable, like a database)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Digitally signed
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Carries the keys and server information
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Allied with a unique and secure identifier
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In practice, the contracts are implemented by producing a single document that
+    contains the terms of the contract in legal prose and the required machine-readable
+    tags. This document is digitally signed by the issuer using their private key.
+    This document is then hashed using a message digest function to produce a hash
+    by which the document can be identified. This hash is then further used and signed
+    by parties during the performance of the contract in order to link each transaction,
+    with the identifier hash thus serving as evidence of intent. This is depicted
+    in the diagram below, usually called a *bowtie* model.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The diagram below shows the **World of Law** on the left hand side from where
+    the document originates. It is then hashed and the resultant message digest is
+    used as an indentifier throughout the **World of Accountancy**. The **World of
+    Accountancy** can basically represent any or multiple accounting, trading and
+    information systems that are being used in a business to perform various business
+    operations. The idea behind this flow is that the message digest generated by
+    hashing the document is first used in a so called *genesis transaction*, or first
+    transaction, and then used in every transaction as an indentifier throughout the
+    operational execution of the contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This way, a secure link is created between the original written contract and
+    every transaction in the *World of Accounting*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Ricardian contracts](img/image_06_001.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Ricardian contracts, bowtie diagram
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A Ricardian contract is different from a smart contract in the sense that a
+    smart contract does not include any contractual document and is focused purely
+    on the execution of the contract. A Ricardian contract, on the other hand, is
+    more concerned with the semantic richness and production of a document that contains
+    contractual legal prose. The semantics of a contract can be divided into two types:
+    operational semantics and denotational semantics. The first type defines the actual
+    execution, correctness and safety of the contract, and the latter is concerned
+    with the real-world meaning of the full contract. Some researchers have differentiated
+    between smart contract code and smart legal contracts where a smart contract is
+    only concerned with the execution of the contract and the second type encompasses
+    both the denotational and operational semantics of a legal agreement. It makes
+    sense to perhaps categorize smart contracts based on the difference between semantics,
+    but it is better to consider smart contracts as a standalone entity that is capable
+    of encoding legal prose and code (business logic) in it.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: At bitcoin, a very simple implementation of a smart contract can be observed
+    which is fully oriented towards the execution of the contract, whereas a Ricardian
+    contract is more geared towards producing a document that is understandable by
+    humans, with some parts that a computer program can understand. This can be viewed
+    as legal semantics vs operational performance (semantics vs performance) as shown
+    in the following diagram. This was originally proposed by *Ian Grigg* in his paper
+    *On the intersection of Ricardian and smart contracts*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Ricardian contracts](img/image_06_002.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Diagram explaining performance v. semantics are orthogonal issues as described
+    by Ian Grigg; slightly modified to show examples of different types of contracts
+    on both axis
+  prefs: []
+  type: TYPE_NORMAL
+- en: A smart contract is made up to have both of these elements (performance and
+    semantics) embedded together, which completes an ideal model of a smart contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A Ricardian contract can be represented as a tuple of three objects, namely
+    *Prose*, *parameters* and *code*. Prose represents the legal contract in regular
+    language; code represents the program that is a computer-understandable representation
+    of legal prose; and parameters join the appropriate parts of the legal contract
+    to the equivalent code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ricardian contracts have been implemented in many systems, such as CommonAccord,
+    OpenBazaar, OpenAssets, and Askemos.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contract templates
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'Smart contracts can be implemented for any industry where required but most
+    current use cases are related to the financial industry. Recent work in smart
+    contract space specific to the financial industry has proposed the idea of smart
+    contract templates. The idea is to build standard templates that provide a framework
+    to support legal agreements for financial instruments. This was proposed by *Clack
+    et al* in their paper named *Smart Contract Templates: Foundations, design landscape
+    and research directions*. The paper also proposed that domain-specific languages
+    should be built in order to support design and implementation of smart contract
+    templates. A language named *CLACK*, a common language for augmented contract
+    knowledge has been proposed and research has begun to develop the language. This
+    language is intended to be very rich and provide a large variety of functions
+    ranging from supporting legal prose to the ability to be executed on multiple
+    platforms and cryptographic functions.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Contracts in the finance industry is not a new concept and various domain-specific
+    language DSLs are already in use in the financial industry to provide specific
+    language for a specific domain. For example, there are DSLs available that support
+    development of insurance products, represent energy derivatives, or are being
+    used to build trading strategies. The list goes on and a comprehensive list of
+    financial domain-specific languages can be found at [http://www.dslfin.org/resources.html](http://www.dslfin.org/resources.html).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It''s important to understand the concept of domain-specific languages. These
+    languages are developed with limited expressiveness for a particular application
+    or area of interest. **Domain-specific languages** (**DSLs**) are different from
+    **general-purpose programming languages** (**GPLs**): DSLs have a small set of
+    features that are sufficient and optimized for the domain they are intended to
+    be used in and, unlike GPLs, are usually not used to build general purpose large
+    application programmes. Based on the design philosophy of DSLs it can be envisaged
+    that such languages can be developed specifically to write smart contracts. Some
+    work has already been done and Solidity is one such language that has been introduced
+    with Ethereum blockchain to write smart contracts. Serpent is another language
+    that has been introduced with Ethereum even though it''s not used as much as Solidity.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: This idea of domain-specific languages for smart contract programming can be
+    further extended to a graphical domain-specific language, a smart contract modelling
+    platform where a domain expert (not a programmer) can use a graphical user interface
+    and a canvas to define and draw the semantics and performance of a financial contract.
+    Once the flow has been drawn and completed, it can be emulated first to test and
+    then to deploy from the same system to the target platform, which can be a blockchain.
+    This is also not a new concept and a similar approach is used in the Tibco streambase
+    product, which is a Java based system used for building event-driven high frequency
+    trading systems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It is proposed that research should also be conducted in the area of developing
+    high level DSLs that can be used to programme a smart contract in a user friendly
+    graphical user interface thus allowing a non-programmer to design a smart contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Oracles
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: Oracles are an important component of the smart contract ecosystem. The limitation
+    with smart contracts is that they cannot access external data which might be required
+    to control the execution of the business logic; for example, the stock price of
+    a security that is required by the contract to release the dividend payments.
+    Oracles can be used to provide external data to smart contracts. An Oracle is
+    an interface that delivers data from an external source to smart contracts. Depending
+    on the industry and requirements, Oracles can deliver different types of data
+    ranging from weather reports, real-world news, and corporate actions to data coming
+    from **Internet of Things** (**IoT**) devices. Oracles are trusted entities that
+    use a secure channel to transfer data to a smart contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Oracles are also capable of digitally signing the data proving that the source
+    of the data is authentic. Smart contracts can then subscribe to the Oracles, and
+    the smart contracts can either pull the data, or Oracles can push the data to
+    the smart contracts. It is also necessary that Oracles should not be able to manipulate
+    the data they provide and must be able to provide authentic data. Even though
+    Oracles are trusted, it may still be possible in some cases that the data is incorrect
+    due to manipulation. Therefore, it is necessary that Oracles are unable to change
+    the data. This validation can be provided by using various notary schemes, discussed
+    later in the chapter. In this approach an issue can already be seen which perhaps
+    is not desirable in some cases, and that is the issue of trust. How do you trust
+    a third party about the quality and authenticity of data they provide? This is
+    especially true in the financial world, where market data must be accurate and
+    reliable. It might be acceptable for a smart contract designer to accept data
+    for an oracle that is provided by a large reputable trusted third party, but the
+    issue of centralization still remains. These types of Oracles can be called standard
+    or simple Oracles.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Another type of Oracle, which essentially emerged due to the decentralization
+    requirements, can be called *decentralized* Oracles. These types of Oracles can
+    be built based on some distributed mechanism. It can also be envisaged that the
+    Oracles can themselves source data from another blockchain which is driven by
+    distributed consensus, thus ensuring the authenticity of data. For example, one
+    institution running their own private blockchain can publish their data feed via
+    an Oracle that can then be consumed by other blockchains.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Another concept of hardware Oracles is also introduced by researchers where
+    real-world data from physical devices is required. For example, this can be used
+    in telemetry and IoT. However, this approach however requires a mechanism in which
+    hardware devices cannot be tampered with. This can be achieved by using tamper-proof
+    devices.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are platforms available now to enable a smart contract to get external
+    data using an Oracle. There are different methods used by an Oracle to write data
+    into the blockchain depending on the type of blockchain used. For example in bitcoin
+    blockchain, an oracle can write data to a specific transaction via an `OP_RETURN`
+    Opcode, and a smart contract can monitor that transaction and read the data. Various
+    online services such as [http://www.oraclize.it/](http://www.oraclize.it/) and
+    [https://www.realitykeys.com/](https://www.realitykeys.com/) are available that
+    provide oracle services. Also, another service at [https://smartcontract.com/](https://smartcontract.com/)
+    is available which provides external data and the ability to make payments using
+    smart contracts. The aim of all these services is to enable the smart contract
+    to get the data it needs to execute and make decisions. In order to prove the
+    authenticity of the data retrieved by the Oracles from external sources, mechanisms
+    like TLSnotary can be used which produce proof of communication between the data
+    source and the oracle. This ensures that the data fed back to the smart contract
+    is definitely retrieved from the source. More details about TLSnotary can be found
+    here [https://tlsnotary.org/](https://tlsnotary.org/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows a generic model of an oracle and smart contract
+    ecosystem:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Oracles](img/B05975_06_03.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: A simplified model of an oracle interacting with smart contract on blockchain
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart Oracles
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: An idea of Smart Oracle has also been proposed and implemented in *Codius*.
+    Smart Oracles are basically entities just like Oracles, but with the added capability
+    of contract code execution. Smart Oracles proposed by Codius run using Google
+    Native Client. which is a sandboxed environment for running untrusted x86 native
+    code. Codius is available at [https://www.codius.org/](https://www.codius.org/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Deploying smart contracts on a blockchain
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: Smart contracts may or may not be deployed on a blockchain but it makes sense
+    to deploy them on a blockchain due to the distributed consensus mechanism provided
+    by blockchain. Ethereum is an example of a blockchain that natively supports the
+    development and deployment of smart contracts. Smart contracts on Ethereum blockchain
+    are usually part of a larger application such as **Decentralized Autonomous organization**
+    (**DAOs**).
+  prefs: []
+  type: TYPE_NORMAL
+- en: As a comparison, in bitcoin blockchain the `lock_time` field in the bitcoin
+    transaction can be seen as an enabler of a basic version of a smart contract.
+    The `lock_time` field enables a transaction to be locked until a specified time
+    or after a number of blocks, thus enforcing a basic contract that a certain transaction
+    can only be unlocked if certain conditions (elapsed time or number of blocks)
+    is met. However, this is very limited in nature and should be only viewed as an
+    example of a basic smart contract. In addition to the above mentioned example,
+    bitcoin scripting language, though limited, can be used to construct basic smart
+    contracts. One possibility is to fund a bitcoin address that can be spent by anyone
+    who demonstrates a hash collision attack. This idea was presented on the Bitcointalk
+    forum and more information can be found at [https://bitcointalk.org/index.php?topic=293382.0](https://bitcointalk.org/index.php?topic=293382.0).
+    This can also be considered a basic form of smart contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The DAO
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: The DAO is one of the highest crowdfunded projects, and started in April 2016\.
+    This was basically a set of smart contracts written in order to provide a platform
+    for investment. Due to a bug in the code this was hacked in June 2016 and an equivalent
+    of 50 million dollars was siphoned out of the DAO into another account. This resulted
+    in a hard fork on Ethereum in order to recover from the attack. It should be noted
+    that the notion of *code is law*, or unstoppable smart contracts, should be viewed
+    with some scepticism as the implementation of these concepts is not mature enough
+    to warrant full and unquestionable trust. This is evident from the recent events
+    where the Ethereum foundation was able to stop and change the execution of *The
+    DAO* by introducing a hard fork. Though this hard fork was introduced for genuine
+    reasons, it goes against the true spirit of decentralization and the notion of
+    *code is law*. On the other hand, resistance against this hard fork and some miners
+    who decided to keep mining on the original chain resulted in the creation of Ethereum
+    Classic. This is the original, non-forked Ethereum blockchain where *code is still
+    law*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This attack highlights the dangers of smart contracts and the absolute need
+    to develop a formal language for smart contracts. The attack also highlighted
+    the importance of thorough testing. There have been various vulnerabilities discovered
+    in Ethereum recently around the smart contract development language. Therefore
+    it is of utmost importance that a standard framework is developed to address all
+    these issues. Some work has already begun as discussed previously, but this area
+    is ripe for more research in order to address limitations in smart contract languages.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter started by introducing a history of smart contracts, and was followed
+    by a detailed discussion on the definition of a smart contract. As there is no
+    agreement on the standard definition of a smart contract, we attempted to introduce
+    a definition that encompasses the crux of smart contracts. An introduction to
+    Ricardian contracts was also provided, and the difference between Ricardian contracts
+    and smart contracts was explained, highlighting the fact that Ricardian contracts
+    are concerned with the definition of the contract whereas smart contracts are
+    geared towards the actual execution of the contract. The concept of smart contract
+    templates was discussed, on the subject of which high quality active research
+    is currently being conducted in academia and industry. Some ideas about the possibility
+    of creating high level domain-specific languages were also discussed to create
+    smart contracts or smart contract templates. In later sections of the chapter,
+    the concepts of Oracles was introduced followed by a brief discussion on the DAO,
+    and security issues in DAO and smart contracts.
+  prefs: []
+  type: TYPE_NORMAL

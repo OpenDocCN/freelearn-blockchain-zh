@@ -1,0 +1,2898 @@
+- en: Chapter 7. Ethereum 101
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter is intended to be an introduction to the Ethereum blockchain. You
+    will be introduced to the fundamentals and advanced theoretical concepts behind
+    Ethereum. A discussion on various components, protocols, and algorithms relevant
+    to the Ethereum blockchain will be given in detail so that you can understand
+    the theory behind this blockchain paradigm. Also, a practical and in-depth introduction
+    to wallet software, mining, and setting up Ethereum nodes will be covered in this
+    chapter. Some material on various challenges, such as security and scalability
+    faced by Ethereum, will also be   introduced. Additionally, trading and market
+    dynamics will be discussed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Introduction
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Ethereum was conceptualized by *Vitalik Buterin* in November 2013\. The key
+    idea proposed was the development of a Turing-complete language that allows the
+    development of arbitrary programs (smart contracts) for blockchain and decentralized
+    applications. This is in contrast to bitcoin, where the scripting language is
+    very limited and allows basic and necessary operations only.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethereum clients and releases
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: Various Ethereum clients have been developed using different languages and currently
+    most popular are go-Ethereum and parity. go-Ethereum was developed using Golang,
+    whereas parity was built using Rust. There are other clients available too, but
+    usually, the go-Ethereum client known as *geth* is sufficient for all purposes.
+    Mist is a user-friendly **Graphical User Interface** (**GUI**) wallet that runs
+    geth in the background to sync with the network. More details on this will be
+    provided later in the chapter, in the installation and mining section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The first release of Ethereum was known as *Frontier*, and the current release
+    of Ethereum is called *homestead release*. The next version is named metropolis
+    and it focuses on protocol simplification and performance improvement. The final
+    release is named *serenity*, which is envisaged to have a Proof of Stake algorithm
+    (Casper) implemented with it. Other areas of research targeted with serenity include
+    scalability, privacy, and **Ethereum virtual machine** (**EVM**) upgrade. As this
+    is a continuous development effort and the Ethereum ecosystem will undergo constant
+    improvement and development, serenity should not really be considered a *final* version
+    but a major milestone in a long journey of continuous improvement. Further releases
+    are envisaged but have not been named yet. The vision of *web 3.0* has already
+    been proposed and is being discussed in the community. Web 3.0 is a concept that
+    basically proposes a semantic and intelligent web as an evolution of the existing
+    web 2.0 technology. This is the vision of an ecosystem where people, applications,
+    data, and web are all connected together and are able to interact with each other
+    in an intelligent fashion. With the advent of the blockchain technology, an idea
+    of decentralized web has also emerged, which in fact was the original vision of
+    the Internet. The core idea is that all major services, such as DNS, search engines,
+    and identity on the Internet will be decentralized in web 3.0\. This is where
+    Ethereum is being envisaged as a platform that can help realize this vision.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Ethereum stack
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: The Ethereum stack consists of various components. At the core, there is the
+    Ethereum blockchain running on the P2P Ethereum network. Secondly, there's an
+    Ethereum client (usually geth) that runs on the nodes and connects to the peer-to-peer
+    Ethereum network from where blockchain is downloaded and stored locally. It provides
+    various functions, such as mining and account management. The local copy of the
+    blockchain is synchronized regularly with the network. Another component is the
+    `web3.js` library that allows interaction with geth via the **Remote Procedure
+    Call** (**RPC**) interface.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This can be visualized in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The Ethereum stack](img/B05975_07_01-1.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: The Ethereum stack showing various components
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethereum blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Ethereum, just like any other blockchain, can be visualized as a transaction-based
+    state machine. This is mentioned in the Ethereum yellow paper written by *Dr.
+    Gavin Wood*. The idea is that a genesis state is transformed into a final state
+    by executing transactions incrementally. The final transformation is then accepted
+    as the absolute undisputed version of the state. In the following diagram, the
+    Ethereum state transition function is shown, where a transaction execution has
+    resulted in a state transition.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Ethereum blockchain](img/B05975_07_02.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Ethereum State transition function
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the preceding example, a transfer of 2 Ether from **Address 4718bf7a** to
+    **Address 741f7a2** is initiated. The initial state represents the state before
+    the transaction execution and the final state is what the morphed state looks
+    like. This will be discussed in more detail later in the chapter, but the aim
+    of this example is to introduce the core idea of state transition in Ethereum.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Currency (ETH and ETC)
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'As an incentive to the miners, Ethereum also rewards its native currency called
+    Ether, abbreviated as ETH. After the DAO hack (described later), a hard fork was
+    proposed in order to mitigate the issue; therefore, there are now two Ethereum
+    blockchains: one is called Ethereum classic and its currency is represented by
+    ETC, whereas the hard-forked version is ETH, which continues to grow and on which
+    active development is being carried out. ETC, however, has its own following with
+    a dedicated community that is further developing ETC, which is the nonforked original
+    version of Ethereum. This chapter is focused mainly on ETH, which is the currently
+    the most active and official Ethereum blockchain.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Forks
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: With the latest release of homestead, due to major protocol upgrades, it resulted
+    in a hard fork. The protocol was upgraded at block number 1,150,000, resulting
+    in the migration from the first version of Ethereum known as Frontier to the second
+    version of Ethereum called homestead.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A recent unintentional fork that occurred on November 24, 2016, at 14:12:07
+    UTC was due to a bug in the geth client's journaling mechanism. Network fork occurred
+    at block number 2,686,351\. This bug resulted in geth failing to revert empty
+    account deletions in the case of the empty out-of-gas exception. This was not
+    an issue in parity (another popular Ethereum client). This means that from block
+    number 2686351, the Ethereum blockchain is split into two, one running with parity
+    clients and the other with geth. This issue was resolved with the release of geth
+    version 1.5.3.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Gas
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: Another key concept in Ethereum is that of gas. All transactions on the Ethereum
+    blockchain are required to cover the cost of computation they are performing.
+    The cost is covered by something called *gas* or *crypto fuel*, which is a new
+    concept introduced by Ethereum. This gas as *execution fee* is paid upfront by
+    the transaction originators. The *fuel* is consumed with each operation. Each
+    operation has a predefined amount of gas associated with it. Each transaction
+    specifies the amount of gas it is willing to consume for its execution. If it
+    runs *out of gas* before the execution is completed, any operation performed by
+    the transaction up to that point is rolled back. If the transaction is successfully
+    executed, then any remaining gas is refunded to the transaction originator.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This concept should not be confused with mining fee, which is a different concept
+    that is used to pay *gas* as a fee to the miners. More information on the concept
+    and calculations related to gas and operations will be provided later in the chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The consensus mechanism
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: The consensus mechanism in Ethereum is based on the GHOST protocol originally
+    proposed by *Zohar* and *Sompolinsky* in December 2013\. Those of you interested
+    in it can explore the detailed original paper at [http://eprint.iacr.org/2013/881.pdf](http://eprint.iacr.org/2013/881.pdf).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethereum uses a simpler version of this protocol, where the chain that has most
+    computational effort spent on it in order to build it is identified as the definite
+    version. Another way of looking at it is to find the longest chain, as the longest
+    chain must have been built by consuming adequate mining effort. **Greedy Heaviest
+    Observed Subtree** (**GHOST**) was first introduced as a mechanism to alleviate
+    the issues arising out of fast block generation times that led to stale or orphan
+    blocks. In GHOST, stale blocks are added in calculations to figure out the longest
+    and heaviest chain of blocks. Stale blocks are called Uncles or Ommers in Ethereum.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows a quick comparison between the longest and heaviest
+    chain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The consensus mechanism](img/image_07_003.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Longest versus heaviest chain
+  prefs: []
+  type: TYPE_NORMAL
+- en: The world state
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: The world state in Ethereum represents the global state of the Ethereum blockchain.
+    It is basically a mapping between Ethereum addresses and account states. The addresses
+    are 20 bytes long. This mapping is a data structure that is serialized using **Recursive
+    Length Prefix** (**RLP**). RLP is a specially developed encoding scheme that is
+    used in Ethereum to serialize binary data for storage or transmission over the
+    network and also to save the state in a Patricia tree. The RLP function takes
+    an item as an input, which can be a string or a list of items, and produces raw
+    bytes that are suitable for storage and transmission over the network. RLP does
+    not encode data; instead, its main purpose is to encode structures.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The account state
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: 'The account state consists of four fields: nonce, balance, storageroot and
+    codehash and is described in detail here.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Nonce
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: This is a value that is incremented every time a transaction is sent from the
+    address. In case of contract accounts, it represents the number of contracts created
+    by the account. Contract accounts are one of the two types of accounts that exist
+    in Ethereum; they will be explained later on in the chapter in more detail.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Balance
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: This value represents the number of Weis which is the smallest unit of the currency
+    (Ether) in Ethereum held by the address.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Storageroot
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: This field represents the root node of a Merkle Patricia tree that encodes the
+    storage contents of the account.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Codehash
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: This is an immutable field that contains the hash of the smart contract code
+    that is associated with the account. In the case of normal accounts, this field
+    contains the Keccak 256-bit hash of an empty string. This code is invoked via
+    a message call.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The world state and its relationship with accounts trie, accounts, and block
+    header can be visualized in the following diagram. It shows the account data structure
+    in the middle of the diagram, which contains a storage root hash derived from
+    the root node of the account storage trie shown on the left. The account data
+    structure is then used in the world state trie, which is a mapping between addresses
+    and account states. Finally, the root node of the world state trie is hashed using
+    the Keccak 256-bit algorithm and made part of the block header data structure,
+    which is shown on the right-hand side of the diagram as state root hash.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Codehash](img/B05975_07_03.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Accounts trie (storage contents of account), account tuple, world state trie,
+    and state root hash and their relationship
+  prefs: []
+  type: TYPE_NORMAL
+- en: Accounts trie is basically a Merkle Patricia tree used to encode the storage
+    contents of an account. The contents are stored as a mapping between keccak 256-bit
+    hashes of 256-bit integer keys to the RLP-encoded 256-bit integer values.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transactions
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'A transaction in Ethereum is a digitally signed data packet using a private
+    key that contains the instructions that, when completed, either result in a message
+    call or contract creation. Transactions can be divided into two types based on
+    the output they produce:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Message call transactions**: This transaction simply produces a message call
+    that is used to pass messages from one account to another.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Contract creation transactions**: As the name suggests, these transactions
+    result in the creation of a new contract. This means that when this transaction
+    is executed successfully, it creates an account with the associated code.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Both of these transactions are composed of a number of common fields, which
+    are described here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Nonce
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Nonce is a number that is incremented by one every time a transaction is sent
+    by the sender. It must be equal to the number of transactions sent and is used
+    as a unique identifier for the transaction. A nonce value can only be used once.
+  prefs: []
+  type: TYPE_NORMAL
+- en: gasPrice
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The `gasPrice` field represents the amount of Wei required in order to execute
+    the transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: gasLimit
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The `gasLimit` field contains the value that represents the maximum amount of
+    gas that can be consumed in order to execute the transaction. The concept of gas
+    and gas limit will be covered later in the chapter in more detail. For now, it
+    is sufficient to say that this is the amount of fee in Ether that a user (for
+    example, the sender of the transaction) is willing to pay for computation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: As the name suggests, the `to` field is a value that represents the address
+    of the recipient of the transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Value
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: '`Value` represents the total number of Wei to be transferred to the recipient;
+    in the case of a contract account, this represents the balance that the contract
+    will hold.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Signature
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Signature is composed of three fields, namely *v*, *r*, and *s*. These values
+    represent the digital signature (*R*, *S*) and some information that can be used
+    to recover the public key (*V*). Also of the transaction from which the sender
+    of the transaction can also be determined. The signature is based on ECDSA scheme
+    and makes use of the SECP256k1 curve. The theory of elliptic curve cryptography
+    was discussed in [Chapter 3](ch03.html "Chapter 3. Cryptography and Technical
+    Foundations"), *Cryptography and technical foundations*. In this section, ECDSA
+    will be presented in the context of its usage in Ethereum.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*V* is a single byte value that depicts the size and sign of the elliptic curve
+    point and can be either 27 or 28\. *V* is used in the ECDSA recovery contract
+    as a recovery ID. This value is used to recover (derive) the public key from the
+    private key. In secp256k1, the recovery ID is expected to be either 0 or 1\. In
+    Ethereum, this is offset by 27\. More details on the ECDSARECOVER function will
+    be provided later in this chapter.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*R* is derived from a calculated point on the curve. First, a random number
+    is picked up, which is multiplied with the generator of the curve to calculate
+    a point on the curve. The *x* coordinate part of this point is *R*. *R* is encoded
+    as a 32 byte sequence. *R* must be greater than 0 and less than the secp256k1n
+    limit (115792089237316195423570985008687907852837564279074904382605163141518161494337).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*S* is calculated by multiplying *R* with the private key and adding it into
+    the hash of the message to be signed and by finally dividing it with the random
+    number chosen to calculate *R*. *S* is also a 32 byte sequence. *R* and *S* together
+    represent the signature.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In order to sign a transaction, the `ECDSASIGN` function is used, which takes
+    the message to be signed and the private key as an input and produces *V*, a single
+    byte value; *R*, a 32 byte value, and *S*, another 32 byte value. The equation
+    is as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*ECDSASIGN (Message, Private Key) = (V, R, S)*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Init
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The `Init` field is used only in transactions that are intended to create contracts.
+    This represents a byte array of unlimited length that specifies the EVM code to
+    be used in the account initialization process. The code contained in this field
+    is executed only once, when the account is created for the first time, and gets
+    destroyed immediately after that.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`Init` also returns another code section called *body*, which persists and
+    runs in response to message calls that the contract account may receive. These
+    message calls may be sent via a transaction or an internal code execution.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Data
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: If the transaction is a message call, then the `data` field is used instead
+    of `init`, which represents the input data of the message call. It is also unlimited
+    in size and is organized as a byte array.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This can be visualized in the following diagram, where a transaction is a tuple
+    of the fields mentioned earlier, which is then included in a transaction trie
+    (a modified Merkle-Patricia tree) composed of the transactions to be included.
+    Finally, the root node of transaction trie is hashed using a Keccak 256-bit algorithm
+    and is included in the block header along with a list of transactions in the block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transactions can be found in either transaction pools or blocks. When a mining
+    node starts its operation of verifying blocks, it starts with the highest paying
+    transactions in the transaction pool and executes them one by one. When the gas
+    limit is reached or no more transactions are left to be processed in the transaction
+    pool, the mining starts. In this process, the block is repeatedly hashed until
+    a valid nonce is found that, once hashed with the block, results in a value less
+    than the difficulty target. Once the block is successfully mined, it will be broadcasted
+    immediately to the network, claiming success, and will be verified and accepted
+    by the network. This process is similar to Bitcoin's mining process discussed
+    in the previous chapter. The only difference is that Ethereum's Proof of Work
+    algorithm is ASIC-resistant, known as *Ethash*, where finding a nonce requires
+    large memory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Data](img/B05975_07_04-1.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Relationship between transaction, transaction trie and block header
+  prefs: []
+  type: TYPE_NORMAL
+- en: Contract creation transaction
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'There are a few essential parameters that are required when creating an account.
+    These parameters are listed as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sender
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Original transactor
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Available gas
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Gas price
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Endowment, which is the amount of ether allocated initially
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A byte array of arbitrary length
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Initialization EVM code
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Current depth of the message call/contract-creation stack (current depth means
+    the number of items that are already there in the stack)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Addresses generated as a result of contract creation transaction are 160-bit
+    in length. Precisely, as defined in the yellow paper, they are the rightmost 160-bits
+    of the Keccak hash of the RLP encoding of the structure containing only the sender
+    and the nonce. Initially, the nonce in the account is set to zero. The balance
+    of the account is set to the value passed to the contract. Storage is also set
+    to empty. Code hash is Keccak 256-bit hash of the empty string.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The account is initialized when the EVM code (Initialization EVM code) is executed.
+    In the case of any exception during code execution, such as not having enough
+    gas, the state does not change. If the execution is successful, then the account
+    is created after the payment of appropriate gas costs. The current version of
+    Ethereum (homestead) specifies that the result of contract transaction is either
+    a new contract with its balance, or no new contract is created with no transfer
+    of value. This is in contrast to previous versions, where the contract could be
+    created regardless of the contract code deployment being successful or not due
+    to an out-of-gas exception.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Message call transaction
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'A message call requires several parameters for execution, which are listed
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sender
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The transaction originator
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Recipient
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The account whose code is to be executed
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Available gas
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Value
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Gas price
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Arbitrary length byte array
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Input data of the call
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Current depth of the message call/contract creation stack
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Message calls result in state transition. Message calls also produce output
+    data, which is not used if transactions are executed. In cases where message calls
+    are triggered by VM code, the output produced by the transaction execution is
+    used.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the following diagram, the segregation between two types of transaction
+    is shown:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Message call transaction](img/B05975_07_05.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Types of transactions, required parameters for execution
+  prefs: []
+  type: TYPE_NORMAL
+- en: Elements of the Ethereum blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the following section, you will be introduced to various components of the
+    Ethereum network and the blockchain. First, the basic concept of the EVM is given
+    in the next section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethereum virtual machine (EVM)
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: EVM is a simple stack-based execution machine that runs bytecode instructions
+    in order to transform the system state from one state to another. The word size
+    of the virtual machine is set to 256-bit. The stack size is limited to 1024 elements
+    and is based on the **LIFO** (**Last in First Out**) queue. EVM is a Turing-complete
+    machine but is limited by the amount of gas that is required to run any instruction.
+    This means that infinite loops that can result in denial of service attacks are
+    not possible due to gas requirements. EVM also supports exception handling in
+    case exceptions occur, such as not having enough gas or invalid instructions,
+    in which case the machine would immediately halt and return the error to the executing
+    agent.
+  prefs: []
+  type: TYPE_NORMAL
+- en: EVM is a fully isolated and sandboxed runtime environment. The code that runs
+    on the EVM does not have access to any external resources, such as a network or
+    filesystem.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As discussed earlier, EVM is a stack-based architecture. EVM is big-endian by
+    design and it uses 256-bit wide words. This word size allows for Keccak 256-bit
+    hash and elliptic curve cryptography computations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are two types of storage available to contracts and EVM. The first one
+    is called memory, which is a byte array. When a contract finishes the code execution,
+    the memory is cleared. It is akin to the concept of RAM. The other type, called
+    storage, is permanently stored on the blockchain. It is a key value store.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Memory is unlimited but constrained by gas fee requirements. The storage associated
+    with the virtual machine is a word addressable *word array* that is nonvolatile
+    and is maintained as part of the system state. Keys and value are 32 bytes in
+    size and storage. The program code is stored in a **virtual read-only memory**
+    (**virtual ROM**) that is accessible using the CODECOPY instruction. The CODECOPY
+    instruction is used to copy the program code into the main memory. Initially,
+    all storage and memory is set to zero in the EVM.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The following diagram shows the design of the EVM where the virtual ROM stores
+    the program code that is copied into main memory using **CODECOPY**. The main
+    memory is then read by the EVM by referring to the program counter and executes
+    instructions step by step. The program counter and EVM stack are updated accordingly
+    with each instruction execution.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Ethereum virtual machine (EVM)](img/B05975_07_06.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: EVM operation
+  prefs: []
+  type: TYPE_NORMAL
+- en: EVM optimization is an active area of research and recent research has suggested
+    that EVM can be optimized and tuned to a very fine degree in order to achieve
+    high performance. Research into the possibility of using **Web assembly** (**WASM**)
+    is underway already. WASM is developed by Google, Mozilla, and Microsoft and is
+    now being designed as an open standard by the W3C community group. The aim of
+    WASM is to be able to run machine code in the browser that will result in execution
+    at native speed. Similarly, the aim of EVM 2.0 is to be able to run the EVM instruction
+    set (Opcodes) natively in CPUs, thus making it faster and efficient.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Execution environment
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: 'There are some key elements that are required by the execution environment
+    in order to execute the code. The key parameters are provided by the execution
+    agent, for example, a transaction. These are listed as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The address of the account that owns the executing code.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The address of the sender of the transaction and the originating address of
+    this execution.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The gas price in the transaction that initiated the execution.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Input data or transaction data depending on the type of executing agent. This
+    is a byte array; in the case of a message call, if the execution agent is a transaction,
+    then the transaction data is included as input data.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The address of the account that initiated the code execution or transaction
+    sender. This is the address of the sender in case the code execution is initiated
+    by a transaction; otherwise, it's the address of the account.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The value or transaction value. This is the amount in Wei. If the execution
+    agent is a transaction, then it is the transaction value.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The code to be executed presented as a byte array that the iterator function
+    picks up in each execution cycle.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The block header of the current block
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The number of message calls or contract creation transactions currently in execution.
+    In other words, this is the number of CALLs or CREATEs currently in execution.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: 'The execution environment can be visualized as a tuple of nine elements, as
+    follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Execution environment](img/B05975_07_07.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Execution environment Tuple
+  prefs: []
+  type: TYPE_NORMAL
+- en: In addition to the previously mentioned nine fields, system state and the remaining
+    gas are also provided to the execution environment. The execution results in producing
+    the resulting state, gas remaining after the execution, self-destruct or suicide
+    set (described later), log series (described later), and any gas refunds.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Machine state
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: 'Machine state is also maintained internally by the EVM. Machine state is updated
+    after each execution cycle of EVM. An iterator function (detailed in the next
+    section) runs in the virtual machine, which outputs the results of a single cycle
+    of the state machine. Machine state is a tuple that consist of the following elements:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Available gas
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The program counter, which is a positive integer up to 256
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Memory contents
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Active number of words in memory
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Contents of the stack
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The EVM is designed to handle exceptions and will halt (stop execution) in
+    case any of the following exceptions occur:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Not having enough gas required for execution
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Invalid instructions
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Insufficient stack items
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Invalid destination of jump op codes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Invalid stack size (greater than 1024)
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The iterator function
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: 'The iterator function mentioned earlier performs various important functions
+    that are used to set the next state of the machine and eventually the world state.
+    These functions include the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: It fetches the next instruction from a byte array where the machine code is
+    stored in the execution environment.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It adds/removes (PUSH/POP) items from the stack accordingly.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Gas is reduced according to the gas cost of the instructions/Opcodes.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It increments the **program counter** (**PC**).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Machine state can be viewed as a tuple shown in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The iterator function](img/B05975_07_08.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Machine state tuple
+  prefs: []
+  type: TYPE_NORMAL
+- en: The virtual machine is also able to halt in normal conditions if STOP or SUICIDE
+    or RETURN Opcodes are encountered during the execution cycle.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Code written in a high-level language such as serpent, LLL, or Solidity is converted
+    into the byte code that EVM understands in order for it to be executed by the
+    EVM. Solidity is the high-level language that has been developed for Ethereum
+    with JavaScript such as syntax to write code for smart contracts. Once the code
+    is written, it is compiled into byte code that's understandable by the EVM using
+    the Solidity compiler called solc.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**LLL** (**Lisp-like Low-level language**) is another language that is used
+    to write smart contract code. Serpent is a Python-like high-level language that
+    can be used to write smart contracts for Ethereum.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For example, a simple program in solidity is shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: This program is converted into bytecode, as shown here. Details on how to compile
+    solidity code with examples will be given in the next chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Runtime byte code
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: Opcodes and their meaning
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: There are different opcodes that have been introduced in the EVM. Opcodes are
+    divided into multiple categories based on the operation they perform. The list
+    of opcodes with their meaning and usage is presented here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Arithmetic operations
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: All arithmetic in EVM is modulo 2^256\. This group of opcodes is used to perform
+    basic arithmetic operations. The value of these operations starts from 0x00 up
+    to 0x0b.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Mnemonic** | **Value** | **POP** | **PUSH** | **Gas** | **Description**
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| STOP | 0x00 | 0 | 0 | 0 | Halts execution |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ADD | 0x01 | 2 | 1 | 3 | Adds two values |'
+  prefs: []
+  type: TYPE_TB
+- en: '| MUL | 0x02 | 2 | 1 | 5 | Multiplies two values |'
+  prefs: []
+  type: TYPE_TB
+- en: '| SUB | 0x03 | 2 | 1 | 3 | Subtraction operation |'
+  prefs: []
+  type: TYPE_TB
+- en: '| DIV | 0x04 | 2 | 1 | 5 | Integer division operation |'
+  prefs: []
+  type: TYPE_TB
+- en: '| SDIV | 0x05 | 2 | 1 | 5 | Signed integer division operation |'
+  prefs: []
+  type: TYPE_TB
+- en: '| MOD | 0x06 | 2 | 1 | 5 | Modulo remainder operation |'
+  prefs: []
+  type: TYPE_TB
+- en: '| SMOD | 0x07 | 2 | 1 | 5 | Signed modulo remainder operation |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ADDMOD | 0x08 | 3 | 1 | 8 | Modulo addition operation |'
+  prefs: []
+  type: TYPE_TB
+- en: '| MULMOD | 0x09 | 3 | 1 | 8 | Module multiplication operation |'
+  prefs: []
+  type: TYPE_TB
+- en: '| EXP | 0x0a | 2 | 1 | 10 | Exponential operation (repeated multiplication
+    of the base) |'
+  prefs: []
+  type: TYPE_TB
+- en: '| SIGNEXTEND | 0x0b | 2 | 1 | 5 | Extends the length of 2s complement signed
+    integer |'
+  prefs: []
+  type: TYPE_TB
+- en: Note that STOP is not an arithmetic operation but is categorized in this list
+    of arithmetic operations due to the range of values (0s) it falls in.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Logical operations
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: Logical operations include operations that are used to perform comparisons and
+    Boolean logic operations. The value of these operations is in the range of 0x10
+    to 0x1a.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Logical operations](img/B05975_07_30.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Cryptographic operations
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: There is only one operation in this category named SHA3\. It is worth noting
+    that this is not the standard SHA3 standardized by NIST but the original Keccak
+    implementation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Cryptographic operations](img/B05975_07_31.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Environmental information
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: There are a total of 13 instructions in this category. These opcodes are used
+    to provide information related to addresses, runtime environments, and data copy
+    operations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Mnemonic** | **Value** | **POP** | **PUSH** | **Gas** | **Description**
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ADDRESS | 0x30 | 0 | 1 | 2 | Used to get the address of the currently executing
+    account |'
+  prefs: []
+  type: TYPE_TB
+- en: '| BALANCE | 0x31 | 1 | 1 | 20 | Used to get the balance of the given account
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ORIGIN | 0x32 | 0 | 1 | 2 | Used to get the address of the sender of the
+    original transaction |'
+  prefs: []
+  type: TYPE_TB
+- en: '| CALLER | 0x33 | 0 | 1 | 2 | Used to get the address of the account that initiated
+    the execution |'
+  prefs: []
+  type: TYPE_TB
+- en: '| CALLVALUE | 0x34 | 0 | 1 | 2 | Retrieves the value deposited by the instruction
+    or transaction |'
+  prefs: []
+  type: TYPE_TB
+- en: '| CALLDATALOAD | 0x35 | 1 | 1 | 3 | Retrieves the input data that was passed
+    a parameter with the message call |'
+  prefs: []
+  type: TYPE_TB
+- en: '| CALLDATASIZE | 0x36 | 0 | 1 | 2 | Used to retrieve the size of the input
+    data passed with the message call |'
+  prefs: []
+  type: TYPE_TB
+- en: '| CALLDATACOPY | 0x37 | 3 | 0 | 3 | Used to copy input data passed with the
+    message call from the current environment to the memory. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| CODESIZE | 0x38 | 0 | 1 | 2 | Retrieves the size of running the code in the
+    current environment |'
+  prefs: []
+  type: TYPE_TB
+- en: '| CODECOPY | 0x39 | 3 | 0 | 3 | Copies the running code from current environment
+    to the memory |'
+  prefs: []
+  type: TYPE_TB
+- en: '| GASPRICE | 0x3a | 0 | 1 | 2 | Retrieves the gas price specified by the initiating
+    transaction. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| EXTCODESIZE | 0x3b | 1 | 1 | 20 | Gets the size of the specified account
+    code |'
+  prefs: []
+  type: TYPE_TB
+- en: '| EXTCODECOPY | 0x3c | 4 | 0 | 20 | Used to copy the account code to the memory.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: Block Information
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: 'This set of instructions is related to retrieving various attributes associated
+    with a block:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Mnemonic** | **Value** | **POP** | **PUSH** | **Gas** | **Description**
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| BLOCKHASH | 0x40 | 1 | 1 | 20 | Gets the hash of one of the 256 most recently
+    completed blocks |'
+  prefs: []
+  type: TYPE_TB
+- en: '| COINBASE | 0x41 | 0 | 1 | 2 | Retrieves the address of the beneficiary set
+    in the block |'
+  prefs: []
+  type: TYPE_TB
+- en: '| TIMESTAMP | 0x42 | 0 | 1 | 2 | Retrieves the time stamp set in the blocks
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| NUMBER | 0x43 | 0 | 1 | 2 | Gets the block''s number |'
+  prefs: []
+  type: TYPE_TB
+- en: '| DIFFICULTY | 0x44 | 0 | 1 | 2 | Retrieves the block difficulty |'
+  prefs: []
+  type: TYPE_TB
+- en: '| GASLIMIT | 0x45 | 0 | 1 | 2 | Gets the gas limit value of the block |'
+  prefs: []
+  type: TYPE_TB
+- en: Stack, memory, storage and flow operations
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: '| **Mnemonic** | **Value** | **POP** | **PUSH** | **Gas** | **Description**
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| POP | 0x50 | 1 | 0 | 2 | Removes items from the stack |'
+  prefs: []
+  type: TYPE_TB
+- en: '| MLOAD | 0x51 | 1 | 1 | 3 | Used to load a word from the memory. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| MSTORE | 0x52 | 2 | 0 | 3 | Used to store a word to the memory. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| MSTORE8 | 0x53 | 2 | 0 | 3 | Used to save a byte to the memory |'
+  prefs: []
+  type: TYPE_TB
+- en: '| SLOAD | 0x54 | 1 | 1 | 50 | Used to load a word from the storage |'
+  prefs: []
+  type: TYPE_TB
+- en: '| SSTORE | 0x55 | 2 | 0 | 0 | Saves a word to the storage |'
+  prefs: []
+  type: TYPE_TB
+- en: '| JUMP | 0x56 | 1 | 0 | 8 | Alters the program counter |'
+  prefs: []
+  type: TYPE_TB
+- en: '| JUMPI | 0x57 | 2 | 0 | 10 | Alters the program counter based on a condition
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| PC | 0x58 | 0 | 1 | 2 | Used to retrieve the value in the program counter
+    before the increment. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| MSIZE | 0x59 | 0 | 1 | 2 | Retrieves the size of the active memory in bytes.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| GAS | 0x5a | 0 | 1 | 2 | Retrieves the available gas amount |'
+  prefs: []
+  type: TYPE_TB
+- en: '| JUMPDEST | 0x5b | 0 | 0 | 1 | Used to mark a valid destination for jumps
+    with no effect on the machine state during the execution. |'
+  prefs: []
+  type: TYPE_TB
+- en: Push operations
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: These operations include PUSH operations that are used to place items on the
+    stack. The range of these instructions is from 0x60 to 0x7f. There are 32 PUSH
+    operations available in total in the EVM. PUSH operation, which reads from the
+    byte array of the program code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Mnemonic** | **Value** | **POP** | **PUSH** | **Gas** | **Description**
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| PUSH1 . . . PUSH 32 | 0x60 ... 0x7f | 0 | 1 | 3 | Used to place *N* right-aligned
+    big-endian byte item(s) on the the stack. *N* is a value that ranges from 1 byte
+    to 32 bytes (full word) based on the mnemonic used. |'
+  prefs: []
+  type: TYPE_TB
+- en: Duplication operations
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: As the name suggests, duplication operations are used to duplicate stack items.
+    The range of values is from 0x80 to 0x8f. There are 16 DUP instructions available
+    in the EVM. Items placed on the stack or removed from the stack also change incrementally
+    with the mnemonic used; for example, DUP1 removes one item from the stack and
+    places two items on the stack, whereas DUP16 removes 16 items from the stack and
+    places 17 items.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Mnemonic** | **Value** | **POP** | **PUSH** | **Gas** | **Description**
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| DUP1 . . . DUP16 | 0x80 ... 0x8f | X | Y | 3 | Used to duplicate the nth
+    stack item, where *N* is the number corresponding to the DUP instruction used.
+    *X* and *Y* are the items removed and placed on the stack, respectively. |'
+  prefs: []
+  type: TYPE_TB
+- en: Exchange operations
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: SWAP operations provide the ability to exchange stack items. There are 16 SWAP
+    instructions available and with each instruction, the stack items are removed
+    and placed incrementally up to 17 items depending on the type of Opcode used.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Mnemonic** | **Value** | **POP** | **PUSH** | **Gas** | **Description**
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| SWAP1 . . . SWAP16 | 0x90 ... 0x9f | X | Y | 3 | Used to swap the nth stack
+    item, where *N* is the number corresponding to the SWAP instruction used. *X*
+    and *Y* are the items removed and placed on the stack, respectively. |'
+  prefs: []
+  type: TYPE_TB
+- en: Logging operations
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: Logging operations provide opcodes to append log entries on the sub-state tuple's
+    log series field. There are four log operations available in total and they range
+    from value 0x0a to 0xa4.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Mnemonic** | **Value** | **POP** | **PUSH** | **Gas** | **Description**
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| LOG0 . . . LOG4 | 0x0a ... 0xa4 | X | Y (0) | 375,750,1125,1500,1875 | Used
+    to append log record with *N* topics, where *N* is the number corresponding to
+    the LOG Opcode used. For example, LOG0 means a log record with no topics, and
+    LOG4 means a log record with four topics. *X* and *Y* represent the items removed
+    and placed on the stack, respectively. *X* and *Y* change incrementally, starting
+    from 2, 0 up to 6, 0 according to the LOG operation used. |'
+  prefs: []
+  type: TYPE_TB
+- en: System operations
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: System operations are used to perform various system-related operations, such
+    as account creation, message calling, and execution control. There are six Opcodes
+    available in total in this category.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Mnemonic** | **Value** | **POP** | **PUSH** | **Gas** | **Description**
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| CREATE | 0xf0 | 3 | 1 | 32000 | Used to create a new account with the associated
+    code. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| CALL | 0xf1 | 7 | 1 | 40 | Used to initiate a message call into an account.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| CALLCODE | 0xf2 | 7 | 1 | 40 | Used to initiate a message call into this
+    account with an alternative account''s code. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| RETURN | 0xf3 | 2 | 0 | 0 | Stops the execution and returns output data.
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| DELEGATECALL | 0xf4 | 6 | 1 | 40 | The same as CALLCODE but does not change
+    the current values of the sender and the value. |'
+  prefs: []
+  type: TYPE_TB
+- en: '| SUICIDE | 0xff | 1 | 0 | 0 | Stops (halts) the execution and the account
+    is registered for deletion later |'
+  prefs: []
+  type: TYPE_TB
+- en: In this section, all EVM opcodes have been discussed. There are 129 opcodes
+    available in the EVM of the homestead release of Ethereum in total.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Precompiled contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are four precompiled contracts in Ethereum. Here is the list of these
+    contracts and details.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The elliptic curve public key recovery function
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: '**ECDSARECOVER** (**Elliptic curve DSA recover function**) is available at
+    address 1\. It is denoted as ECREC and requires 3000 gas for execution. If the
+    signature is invalid, then no output is returned by this function. Public key
+    recovery is a standard mechanism by which the public key can be derived from the
+    private key in elliptic curve cryptography.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The ECDSA recovery function is shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*ECDSARECOVER(H, V, R, S) = Public Key*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It takes four inputs: H, which is a 32 byte hash of the message to be signed
+    and *V*, *R*, and *S*, which represent the ECDSA signature with the recovery ID
+    and produce a 64 byte public key. *V*, *R*, and *S* have been discussed in detail
+    previously in this chapter.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The SHA-256 bit hash function
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: The SHA-256 bit hash function is a precompiled contract that is available at
+    address 2 and produces a SHA256 hash of the input. It is almost like a pass-through
+    function. Gas requirement for SHA-256 (SHA256) depends on the input data size.
+    The output is a 32 byte value.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The RIPEMD-160 bit hash function
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: The RIPEMD-160 bit hash function is used to provide RIPEMD 160-bit hash and
+    is available at address 3\. The output of this function is a 20-byte value. Gas
+    requirement, similar to SHA-256, is dependent on the amount of input data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The identity function
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'The identity function is available at address 4 and is denoted by the ID. It
+    simply defines output as input; in other words, whatever input is given to the
+    ID function, it will output the same value. Gas requirement is calculated by a
+    simple formula: *15 + 3 [I[d]/32]* where *I[d ]*is the input data. This means
+    that at a high level, the gas requirement is dependent on the size of the input
+    data albeit with some calculation performed, as shown in the preceding equation.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: All the previously mentioned precompiled contracts can become native extensions
+    and can be included in the EVM opcodes in the future.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Accounts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Accounts are one of the main building blocks of the Ethereum blockchain. The
+    state is created or updated as a result of the interaction between accounts. Operations
+    performed between and on the accounts represent state transitions. State transition
+    is achieved using what''s called the Ethereum state transition function, which
+    works as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Confirm the transaction validity by checking the syntax, signature validity,
+    and nonce.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Transaction fee is calculated and the sending address is resolved using the
+    signature. Furthermore, sender's account balance is checked and subtracted accordingly
+    and nonce is incremented. An error is returned if the account balance is not enough.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Provide enough ether (gas price) to cover the cost of the transaction. This
+    is charged per byte incrementally according to the size of the transaction.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: In this step, the actual transfer of value occurs. The flow is from the sender's
+    account to receiver's account. The account is created automatically if the destination
+    account specified in the transaction does not exist yet. Moreover, if the destination
+    account is a contract, then the contract code is executed. This also depends on
+    the amount of gas available. If enough gas is available, then the contract code
+    will be executed fully; otherwise, it will run up to the point where it runs out
+    of gas.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: In cases of transaction failure due to insufficient account balance or gas,
+    all state changes are rolled back with the exception of fee payment, which is
+    paid to the miners.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Finally, the remainder (if any) of the fee is sent back to the sender as change
+    and fee is paid to the miners accordingly. At this point, the function returns
+    the resulting state.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Types of accounts
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'There are two types of accounts in Ethereum:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Externally owned accounts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Contract accounts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The first is **externally owned accounts** (**EOAs**) and the other is contract
+    accounts. EOAs are similar to accounts that are controlled by a private key in
+    bitcoin. Contract accounts are the accounts that have code associated with them
+    along with the private key. An EOA has ether balance, is able to send transactions,
+    and has no associated code, whereas a **Contract Account** (**CA**) has ether
+    balance, associated code, and the ability to get triggered and execute code in
+    response to a transaction or a message. It is worth noting that due to the Turing-completeness
+    property of the Ethereum blockchain, the code within contract accounts can be
+    of any level of complexity. The code is executed by EVM by each mining node on
+    the Ethereum network. In addition, contract accounts are able to maintain their
+    own permanent state and can call other contracts. It is envisaged that in the
+    serenity release, the distinction between externally owned accounts and contract
+    accounts may be eliminated.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'As discussed earlier, blocks are the main building blocks of a blockchain.
+    Ethereum blocks consist of various components, which are described as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The block header
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The transactions list
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The list of headers of Ommers or Uncles
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The transaction list is simply a list of all transactions included in the block.
+    In addition, the list of headers of Uncles is also included in the block. The
+    most important and complex part is the block header, which is discussed here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block header
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: Block headers are the most critical and detailed components of an Ethereum block.
+    The header contains valuable information, which is described in detail here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Parent hash
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: This is the Keccak 256-bit hash of the parent (previous) block's header.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ommers hash
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: This is the Keccak 256-bit hash of the list of Ommers (Uncles) blocks included
+    in the block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Beneficiary
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Beneficiary field contains the 160-bit address of the recipient that will receive
+    the mining reward once the block is successfully mined.
+  prefs: []
+  type: TYPE_NORMAL
+- en: State root
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The state root field contains the Keccak 256-bit hash of the root node of the
+    state trie. It is calculated after all transactions have been processed and finalized.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transactions root
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The transaction root is the Keccak 256-bit hash of the root node of the transaction
+    trie. Transaction trie represents the list of transactions included in the block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Receipts root
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The receipts root is the keccak 256 bit hash of the root node of the transaction
+    receipt trie. This trie is composed of receipts of all transactions included in
+    the block. Transaction receipts are generated after each transaction is processed
+    and contain useful post-transaction information. More details on transaction receipts
+    are provided in the next section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Logs bloom
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The logs bloom is a bloom filter that is composed of the logger address and
+    log topics from the log entry of each transaction receipt of the included transaction
+    list in the block. Logging is explained in detail in the next section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Difficulty
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The difficulty level of the current block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Number
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The total number of all previous blocks; the genesis block is block zero.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Gas limit
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The field contains the value that represents the limit set on the gas consumption
+    per block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Gas used
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The field contains the total gas consumed by the transactions included in the
+    block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Timestamp
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Timestamp is the epoch Unix time of the time of block initialization.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Extra data
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Extra data field can be used to store arbitrary data related to the block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mixhash
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Mixhash field contains a 256-bit hash that once combined with the nonce is used
+    to prove that adequate computational effort has been spent in order to create
+    this block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Nonce
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Nonce is a 64-bit hash (a number) that is used to prove, in combination with
+    the mixhash field, that adequate computational effort has been spent in order
+    to create this block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following figure shows the detailed structure of the block and block header:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Nonce](img/B05975_07_09-2.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Detailed diagram of block structure with block header
+  prefs: []
+  type: TYPE_NORMAL
+- en: The genesis block
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: The genesis block varies slightly with regard to the data it contains and the
+    way it has been created from a normal block. It contains 15 items that are described
+    here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'From Etherscan.io, the actual version is shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '| **Element** | **Description** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Timestamp | (Jul-30-2015 03:26:13 PM +UTC) |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Transactions | 8893 transactions and 0 contract internal transactions in
+    this block |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Hash | 0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Parent hash | 0x0000000000000000000000000000000000000000000000000000000000000000
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Sha3Uncles | 0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Mined by | 0x0000000000000000000000000000000000000000 IN 15 secs |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Difficulty | 17,179,869,184 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Total Difficulty | 17,179,869,184 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Size | 540 bytes |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Gas Limit | 5,000 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Gas Used | 0 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Nonce | 0x0000000000000042 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Block Reward | 5 Ether |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Uncles Reward | 0 |'
+  prefs: []
+  type: TYPE_TB
+- en: '| Extra Data | »èÛN4{NŒ"&#124;ƒpäµí3­³ÛiËÛz8áå ‚ú (Hex:0x11bbe8db4e347b4e8c937c1c8370e4b5ed33adb3db69cbdb7a38e1e50b1b82fa)
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: Transaction receipts
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: Transaction receipts are used as a mechanism to store the state after a transaction
+    has been executed. In other words, these structures are used to record the outcome
+    of the transaction execution. It is produced after the execution of each transaction.
+    All receipts are stored in an index-keyed trie. Hash (Keccak 256-bit) of the root
+    of this trie is placed in the block header as the receipts root. It is composed
+    of four elements that are described here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The post-transaction state
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: This item is a trie structure that holds the state after the transaction has
+    executed. It is encoded as a byte array.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Gas used
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: This item represents the total amount of gas used in the block that contains
+    the transaction receipt. The value is taken immediately after the transaction
+    execution is completed. The total gas used is expected to be a non-negative integer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Set of logs
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: This field shows the set of log entries created as a result of transaction execution.
+    Log entries contain the logger's address, a series of log topics, and the log
+    data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The bloom filter
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: A bloom filter is created from the information contained in the set of logs
+    discussed earlier. A log entry is reduced to a hash of 256 bytes, which is then
+    embedded in the header of the block as the logs bloom. Log entry is composed of
+    the logger's address and log topics and log data. Log topics are encoded as a
+    series of 32 byte data structures. Log data is made up of a few bytes of data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This process can be visualized in the following diagram:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The bloom filter](img/B05975_07_10.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Transaction receipts and logs bloom
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction validation and execution
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'Transactions are executed after verifying the transactions for validity. Initial
+    tests are listed as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: A transaction must be well-formed and RLP-encoded without any additional trailing
+    bytes
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The digital signature used to sign the transaction is valid
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Transaction nonce must be equal to the sender's account's current nonce
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Gas limit must not be less than the gas used by the transaction
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The sender's account contains enough balance to cover the execution cost
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The transaction sub state
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: A transaction sub-state is created during the execution of the transaction that
+    is processed immediately after the execution completes. This transaction sub-state
+    is a tuple that is composed of three items.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Suicide set
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: This element contains the list of accounts that are disposed of after the transaction
+    is executed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Log series
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: This is an indexed series of checkpoints that allow the monitoring and notification
+    of contract calls to the entities external to the Ethereum environment, such as
+    application frontends. It works like a trigger mechanism that is executed every
+    time a specific function is invoked or a specific event occurs. Logs are created
+    in response to events occurring in the smart contract. It can also be used as
+    a cheaper form of storage. Events will be covered with practical examples in [Chapter
+    8](ch08.html "Chapter 8. Ethereum Development"), *Ethereum development*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Refund balance
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: This is the total price of gas in the transaction that initiated the execution.
+    Refunds are not immediately executed; instead, they are used to partially offset
+    the total execution cost.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram describes the transaction sub-state tuple:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Refund balance](img/B05975_07_11.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Sub-state tuple
+  prefs: []
+  type: TYPE_NORMAL
+- en: The block validation mechanism
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'An Ethereum block is considered valid if it passes the following checks:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Consistent with Uncles and transactions. This means that all Ommers (Uncles)
+    satisfy the property that they are indeed Uncles and also if the Proof of Work
+    for Uncles is valid.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If the previous block (parent) exists and is valid.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If the timestamp of the block is valid. This basically means that the current
+    block's timestamp must be higher than the parent block's timestamp. Also, it should
+    be less than 15 minutes into the future. All block times are calculated in epoch
+    time (Unix time).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If any of these checks fails, the block will be rejected.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block finalization
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Block finalization is a process that is run by miners in order to validate the
+    contents of the block and apply rewards. It results in four steps being executed.
+    These steps are described here in detail.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ommers validation
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: Validate Ommers (stale blocks also called Uncles). In the case of mining, determine
+    Ommers. The validation process of the headers of stale blocks checks whether the
+    header is valid and the relationship of the Uncle with the current block satisfies
+    the maximum depth of six blocks. A block can contain a maximum of two Uncles.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Transaction validation
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: Validate transactions. In the case of mining, determine transactions. The process
+    involves checking whether the total gas used in the block is equal to the final
+    gas consumption after the final transaction.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Reward application
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: Apply rewards, which means updating the beneficiary's account with a reward
+    balance. In Ethereum, a reward is also given to miners for stale blocks, which
+    is 1/32 of the block reward. Uncles that are included in the blocks also receive
+    7/8 of the total block reward. The current block reward is 5 Ether. A block can
+    have a maximum of two Uncles.
+  prefs: []
+  type: TYPE_NORMAL
+- en: State and nonce validation
+  prefs:
+  - PREF_H4
+  type: TYPE_NORMAL
+- en: Verify the state and nonce. In the case of mining, compute a valid state and
+    nonce.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block difficulty
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: 'Block difficulty is increased if the time between two blocks decreases, whereas
+    it increases if the block time between two blocks decreases. This is required
+    to maintain a roughly consistent block generation time. The difficulty adjustment
+    algorithm in Ethereum''s homestead release is shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding algorithm means that, if the time difference between the generation
+    of the parent block and the current block is less than 10 seconds, the difficulty
+    goes up. If the time difference is between 10 to 19 seconds, the difficulty level
+    remains the same. Finally, if the time difference is 20 seconds or more, the difficultly
+    level decreases. This decrease is proportional to the time difference.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In addition to timestamp-difference-based difficulty adjustment, there is also
+    another part (shown in the last line of the preceding algorithm) that increases
+    the difficulty exponentially after every 100,000 blocks. This is the so called
+    *difficulty time bomb* or *Ice age* introduced in the Ethereum network, which
+    will make it very hard to mine on the Ethereum blockchain at some point in the
+    future. This will encourage users to switch to Proof of Stake as mining on the
+    POW chain will eventually become prohibitively difficult. According to the latest
+    update and estimates based on the algorithm, the block generation time will become
+    significantly high during the second half of the year 2017 and in 2021, it will
+    become so high that it will be virtually impossible to mine on the POW chain.
+    This way, miners will have no choice but to switch to the Proof of Stake scheme
+    proposed by Ethereum called Casper.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ether
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Ether is minted by miners as a currency reward for the computational effort
+    they spend in order to secure the network by verifying and with validation transactions
+    and blocks. Ether is used within the Ethereum blockchain to pay for the execution
+    of contracts on the EVM. Ether is used to purchase gas as crypto fuel, which is
+    required in order to perform computation on the Ethereum blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The denomination table is shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Ether](img/B05975_07_32.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Fees are charged for each computation performed by the EVM on the blockchain.
+    A detailed fee schedule is shown in the upcoming section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Gas
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: Gas is required to be paid for every operation performed on the ethereum blockchain.
+    This is a mechanism that ensures that infinite loops cannot cause the whole blockchain
+    to stall due to the Turing-complete nature of the EVM. A transaction fee is charged
+    as some amount of Ether and is taken from the account balance of the transaction
+    originator. A fee is paid for transactions to be included by miners for mining.
+    If this fee is too low, the transaction may never be picked up; the more the fee,
+    the higher are the chances that the transactions will be picked up by the miners
+    for inclusion in the block. Conversely, if the transaction that has an appropriate
+    fee paid is included in the block by miners but has too many complex operations
+    to perform, it can result in an out-of-gas exception if the gas cost is not enough.
+    In this case, the transaction will fail but will still be made part of the block
+    and the transaction originator will not get any refund.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Transaction cost can be estimated using the following formula:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '*Total cost = gasUsed * gasPrice*'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Here, *gasUsed* is the total gas that is supposed to be used by the transaction
+    during the execution and *gasPrice* is specified by the transaction originator
+    as an incentive to the miners to include the transaction in the next block. This
+    is specified in Ether. Each EVM opcode has a fee assigned to it. It is an estimate
+    because the gas used can be more or less than the value specified by the transaction
+    originator originally. For example, if computation takes too long or the behavior
+    of the smart contract changes in response to some other factors, then the transaction
+    execution may perform more or less operations than originally intended and can
+    result in consuming more or fewer gas. If the execution runs out of gas, everything
+    is immediately rolled back; otherwise, if the execution is successful and there
+    is some remaining gas, then it is returned to the transaction originator.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Each operation costs some gas; a high level fee schedule of a few operations
+    is shown as an example here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Gas](img/B05975_07_33.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Based on the preceding fee schedule and the formula discussed earlier, an example
+    calculation of the SHA3 operation can be calculated as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: SHA3 costs 30 gas
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Current gas price is 25 GWei, which is 0.000000025 Ether
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Multiplying both: *0.000000025 * 30 = 0.00000075* Ether'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In total, 0.00000075 Ether is the total gas that will be charged.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Fee schedule
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'Gas is charged in three scenarios as a prerequisite to the execution of an
+    operation:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The computation of an operation
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For contract creation or message call
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Increase in the usage of memory
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A list of instructions and various operations with the gas values has been provided
+    previously in the chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Messages
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Messages, as defined in the yellow paper, are the data and value that are passed
+    between two accounts. A message is a data packet passed between two accounts.
+    This data packet contains data and value (amount of ether). It can either be sent
+    via a smart contract (autonomous object) or from an external actor (externally
+    owned account) in the form of a transaction that has been digitally signed by
+    the sender.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Contracts can send messages to other contracts. Messages only exist in the execution
+    environment and are never stored. Messages are similar to transactions; however,
+    the main difference is that they are produced by the contracts, whereas transactions
+    are produced by entities external (externally owned accounts) to the Ethereum
+    environment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A message consists of the components mentioned here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Sender of the message
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Recipient of the message
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Amount of Wei to transfer and message to the contract address
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Optional data field (Input data for the contract)
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Maximum amount of gas that can be consumed
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Messages are generated when `CALL` or `DELEGATECALL` Opcodes are executed by
+    the contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Calls
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: A call does not broadcast anything to the blockchain; instead, it is a local
+    call to a contract function and runs locally on the node. It is almost like a
+    local function call. It does not consume any gas as it is a read-only operation.
+    It is akin to a dry run. Calls are executed locally on a node and generally do
+    not result in any state change. As defined in the yellow paper, this is the act
+    of passing a message from one account to another. If the destination account has
+    an associated EVM code, then the virtual machine will start upon the receipt of
+    the message to perform the required operations. If the message sender is an autonomous
+    object, then the call passes any data returned from the virtual machine operation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: State is altered by transactions. These are created by external factors and
+    are signed and then broadcasted to the Ethereum network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mining
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Mining is the process by which new currency is added to the blockchain. This
+    is an incentive for the miners to validate and verify blocks made up of transactions.
+    The mining process helps secure the network by verifying computations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'At a theoretical level, a miner performs the following functions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Listens for the transactions broadcasted on the Ethereum network and determines
+    the transactions to be processed.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Determines stale blocks called Uncles or Ommers and includes them in the block.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Updates the account balance with the reward earned from successfully mining
+    the block.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Finally, a valid state is computed and block is finalized, which defines the
+    result of all state transitions.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The current method of mining is based on Proof of Work, which is similar to
+    that of bitcoin. When a block is deemed valid, it has to satisfy not only the
+    general consistency requirements, but it must also contain the Proof of Work for
+    a given difficulty.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The Proof of Work algorithm is due to be replaced with the Proof of Stake algorithm
+    with the release of serenity. Considerable research work has been carried out
+    in order to build the Proof of Stake algorithm suitable for the Ethereum Network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: An Algorithm named Casper has been developed, which will replace the existing
+    Proof of Work algorithm in Ethereum. This is a security deposit based on the economic
+    protocol where nodes are required to place a security deposit before they can
+    produce blocks. Nodes have been named bonded validators in Casper, whereas the
+    act of placing the security deposit is named bonding.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethash
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: '**Ethash** is the name of the Proof of Work algorithm used in Ethereum. Originally,
+    this was proposed as the Dagger-Hashimoto algorithm, but much has changed since
+    the first implementation and the PoW algorithm has now evolved into what''s known
+    as Ethash now. Similar to bitcoin, the core idea behind mining is to find a nonce
+    that once hashed the result in a predetermined difficulty level. Initially, the
+    difficulty was low when Ethereum was new and even CPU and single GPU mining was
+    profitable to a certain extent, but that is no longer the case. Now either pooled
+    mining is profitable, or large GPU mining farms are used for mining purposes.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethash is a memory-hard algorithm, which makes it difficult to be implemented
+    on specialized hardware. As in bitcoin, ASICs have been developed, which have
+    resulted in mining centralization over the years, but memory-hard Proof of Work
+    algorithms are one way of thwarting this threat and Ethereum implements Ethash
+    to discourage ASIC development for mining. This algorithm requires choosing subsets
+    of a fixed resource called **DAG** (**Directed Acyclic Graph**) depending on the
+    nonce and block headers. DAG is around 2 GB in size and changes every 30000 blocks.
+    Mining can only start when DAG is completely generated the first time a mining
+    node starts. The time between every 30000 blocks is around 5.2 days and is called
+    epoch. This DAG is used as a seed by the Proof of Work algorithm called Ethash.
+    According to current specifications, the epoch time is defined as 30,000 blocks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The current reward scheme is 5 Ether for successfully finding a valid nonce.
+    In addition to receiving 5 Ethers, the successful miner also receives the cost
+    of the gas consumed within the block and an additional reward for including stale
+    blocks (Uncles) in the block. A maximum of two Uncles are allowed per block and
+    are rewarded 7/8 of the normal block reward. In order to achieve a 12 second block
+    time, block difficulty is adjusted at every block. The rewards are directly proportional
+    to the miner's hash rate, which basically means how fast a miner can hash.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mining can be performed by simply joining the Ethereum network and running an
+    appropriate client. The key requirement is that the node should be fully synced
+    with the main network before mining can start.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the upcoming section, various methods of mining are mentioned.
+  prefs: []
+  type: TYPE_NORMAL
+- en: CPU mining
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'Even though not profitable on the main net, CPU mining is still valuable on
+    the test network or even a private network to experiment with mining and contract
+    deployment. Private and test networks will be discussed with practical examples
+    in the next chapter. A geth example is shown on how to start CPU mining here.
+    Geth can be started with mine switch in order to start mining:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'CPU mining can also be started using the web 3 geth console. Geth console can
+    be started by issuing the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'After this, the miner can be started by issuing the following command, which
+    will return true if successful, or false otherwise. Take a look at the following
+    command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The preceding command will start the miner with four threads. Take a look at
+    the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding command will stop the miner. The command will return true if successful.
+  prefs: []
+  type: TYPE_NORMAL
+- en: GPU mining
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'At a basic level, GPU mining can be performed easily by running two commands:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Once geth is up and running and the blockchain is fully downloaded, Ethminer
+    can be run in order to start mining. Ethminer is a standalone miner that can also
+    be used in the farm mode to contribute to mining pools. It can be downloaded from
+    [https://github.com/Genoil/cpp-ethereum/tree/master/releases](https://github.com/Genoil/cpp-ethereum/tree/master/releases):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Running with `G` switch assumes that the appropriate graphics card is installed
+    and configured correctly. If no appropriate graphics cards are found, ethminer
+    will return an error, as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![GPU mining](img/image_07_013.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Error in case no appropriate GPUs can be found
+  prefs: []
+  type: TYPE_NORMAL
+- en: GPU mining requires an AMD or Nvidia graphics card and an applicable OpenCL
+    SDK. For NVidia chipset, it can downloaded from [https://developer.nvidia.com/cuda-downloads](https://developer.nvidia.com/cuda-downloads).
+    For AMD chipsets, it is available at [http://developer.amd.com/tools-and-sdks/opencl-zone/amd-accelerated-parallel-processing-app-sdk](http://developer.amd.com/tools-and-sdks/opencl-zone/amd-accelerated-parallel-processing-app-sdk).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once the graphics cards are installed and configured correctly, the process
+    can be started by issuing the `ethminer -G` command.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ethminer can also be used to run benchmarking, as shown in the following screenshot.
+    There are two modes that can be invoked for benchmarking. It can either be CPU
+    or GPU. The commands are shown here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: CPU benchmarking
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: GPU benchmarking
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following screenshot example is shown for CPU mining benchmarking:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![GPU benchmarking](img/image_07_014.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: CPU benchmarking
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The GPU device to be used can also be specified in the command line:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: As GPU mining is implemented using OpenCL AMD, chipset-based GPUs tend to work
+    faster as compared to NVidia GPUs. Due to the high memory requirements (DAG creation),
+    FPGAs and ASICs will not provide any major advantage over GPUs. This is done on
+    purpose in order to discourage the development of specialized hardware for mining.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mining rigs
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: As difficulty increased over time for mining Ether, mining rigs with multiple
+    GPUs were starting to be built by the miners. A mining rig usually contains around
+    five GPU cards, and all of them work in parallel for mining, thus improving the
+    chances of finding valid nonces for mining.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mining rigs can be built with some effort and are also available commercially
+    from various vendors. A typical mining rig configuration includes the components
+    discussed in the upcoming sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Motherboard
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: A specialized motherboard with multiple PCI-E x1 or x16 slots, for example,
+    BIOSTAR Hi-Fi or ASRock H81, is required.
+  prefs: []
+  type: TYPE_NORMAL
+- en: SSD hard drive
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: An SSD hard drive is required. The SSD drive is recommended because of its much
+    faster performance over the analog equivalent. This will be mainly used to store
+    the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: GPU
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The GPU is the most important component of the rig as it is the main workhorse
+    that will be used for mining. For example, it can be a Sapphire AMD Radeon R9
+    380 with 4 GB RAM.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Linux Ubuntu's latest version is usually chosen as the operating system for
+    the rig. There is also another variant of Linux available, called EthOS (available
+    at [http://ethosdistro.com/](http://ethosdistro.com/)), that is especially built
+    for Ethereum mining and supports mining operations natively.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finally, mining software such as Ethminer and geth are installed. Additionally,
+    some remote monitoring and administration software is also installed so that rigs
+    can be monitored and managed remotely, if required. It is also important to put
+    appropriate air conditioning or cooling mechanisms in place as running multiple
+    GPUs can generate a lot of heat. This also necessitates the need for using an
+    appropriate monitoring software that can alert users if there are any problems
+    with the hardware, for example, if the GPUs are overheating.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![GPU](img/image_07_015-2.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: A mining rig for Ethereum for sale at eBay
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mining pools
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'There are many online mining pools that offer Ethereum mining. Ethminer can
+    be used to connect to a mining pool using the following command. Each pool publishes
+    its own instructions, but generally, the process of connecting to a pool is similar.
+    An example from [ethereumpool.co](http://ethereumpool.co) is shown here:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: '![Mining pools](img/image_07_016.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Screenshot of ethminer
+  prefs: []
+  type: TYPE_NORMAL
+- en: Clients and wallets
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As Ethereum is under heavy development and evolution, there are many components,
+    clients, and tools that have been developed and introduced over the last few years.
+    The following is a list of all main components, client software, and tools that
+    are available with Ethereum. This list is provided in order to reduce the ambiguity
+    around many tools and clients available for Ethereum. The list provided here also
+    explains the usage and significance of various components.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Geth
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: This is the Go implementation of the Ethereum client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Eth
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: This is the C++ implementation of the Ethereum client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Pyethapp
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: This is the Python implementation of the Ethereum client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Parity
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: This implementation is built using Rust and developed by EthCore. EthCore is
+    a company that works on the development of the parity client. Parity can be downloaded
+    from [https://ethcore.io/parity.html](https://ethcore.io/parity.html).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Light clients
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: SPV clients download only a small subset of the blockchain. This allows low
+    resource devices, such as mobile phones, embedded devices, or tablets, to be able
+    to verify the transactions. A complete ethereum blockchain and node are not required
+    in this case and SPV clients can still validate the execution of transactions.
+    SPV clients are also called light clients. This idea is similar to bitcoin SPV
+    clients. There is a wallet available from Jaxx ([https://jaxx.io/](https://jaxx.io/)
+    ), which can be installed on iOS and Android, which provides the **SPV** (**Simple
+    Payment Verification**) functionality.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installation
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: The following installation procedure describes the installation of various Ethereum
+    clients on Ubuntu systems. Instructions for other operating systems are available
+    on Ethereum Wikis. As Ubuntu systems will be used in examples later on, only installation
+    on Ubuntu has been described here.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Geth client** can be installed by using the following command on an Ubuntu
+    system:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'After installation is completed. Geth can be launched simply by issuing the
+    `geth` command at the command prompt, as it comes preconfigured with all the required
+    parameters to connect to the live Ethereum network (mainnet):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: Eth installation
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: 'Eth is the C++ implementation of the Ethereum client and can be installed using
+    the following command on Ubuntu:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: Mist browser
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Mist browser is a user-friendly interface for end users with a feature-rich
+    graphical user interface that is used to browse DAPPS and for account management
+    and contract management. Mist installation is covered in the next chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When Mist is launched for the first time, it will initialize geth in the background
+    and will sync with the network. It can take from a few hours to a few days depending
+    on the speed and type of the network to fully synchronize with the network. If
+    TestNet is used, then syncing completes relatively faster as the size of TestNet
+    (Ropsten) is not as big as MainNet. More information on how to connect to TestNet
+    will be provided in the next chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Mist browser](img/image_07_017.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Mist browser starting up and syncing with the main network
+  prefs: []
+  type: TYPE_NORMAL
+- en: Mist browser is not a wallet; in fact, it is a browser of DAPPS and provides
+    a user-friendly user interface for the creation and management of contracts, accounts,
+    and browsing decentralized applications. Ethereum wallet is a DAPP that is released
+    with Mist.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Wallet is a generic program that can store private keys and associated accounts
+    and, based on the addresses stored within it, it can compute the existing balance
+    of Ether associated with the addresses by querying the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Other wallets include but are not limited to MyEtherWallet, which is an open
+    source ether wallet developed in JavaScript. MyEtherWallet runs in the client
+    browser. This is available at [https://www.myetherwallet.com](https://www.myetherwallet.com).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Icebox is developed by Consensys. This is a cold storage browser that provides
+    secure storage of Ether. It depends on whether the computer on which Icebox is
+    run is connected to the Internet or not.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Various wallets are available for ethereum for desktop, mobile, and web platforms.
+    A popular Ethereum iOS Wallet named Jaxx is shown in the following image:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Mist browser](img/image_07_018.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Jaxx Ethereum wallet for iOS showing transactions and current balance
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Once the blockchain is synchronized, Mist will launch and show the following
+    interface. In this example, four accounts are displayed with no balance:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Mist browser](img/image_07_019.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Mist browser
+  prefs: []
+  type: TYPE_NORMAL
+- en: A new accounts can be created in a number of ways. In the Mist browser, it can
+    be created by clicking on the **Accounts** menu and selecting the **New account**
+    or by clicking on the **Add account** option in the Mist Accounts Overview screen.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Mist browser](img/image_07_020.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Add new account
+  prefs: []
+  type: TYPE_NORMAL
+- en: The account will need a password to be set, as shown in the preceding figure;
+    once the account is set up, it will be displayed in the accounts overview section
+    of the Mist browser.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Accounts can also be added via the command line using the geth or parity command-line
+    interface. This process is shown in the next section.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Geth
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The list of accounts can be shown using geth using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: The geth console
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: The geth JavaScript console can be used to perform various functions. For example,
+    an account can be created by attaching geth.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Geth can be attached with the running daemon, as shown in the following figure:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![The geth console](img/image_07_021.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Once geth is successfully attached with the running instance of the ethereum
+    client (in this case, parity), it will display command prompt '*>*', which provides
+    an interactive command line interface to interact with the ethereum client using
+    JavaScript notations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For example, a new account can be added using the following command in the
+    geth console:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The list of accounts can also be displayed similarly:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: Funding the account with bitcoin
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: This option is available with the Mist browser by clicking on the account and
+    then selecting the option to fund the account. The backend engine used for this
+    operation is shapeshift.io and can be used to fund the account from bitcoin or
+    other currencies, including the fiat currency option as well.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once the exchange is completed, the transferred Ether will be available in the
+    account.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Funding the account with bitcoin](img/image_07_022.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Parity installation
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: 'Parity is another implementation of the Ethereum client. It has been written
+    using the Rust programming language. The main aim behind the development of parity
+    is high performance, small footprint, and reliability. Parity can be installed
+    using the following commands on an Ubuntu or Mac system:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: This will initiate the download and installation of the parity client. After
+    the installation of parity is completed, the installer will also offer the installation
+    of the netstats client. The netstat client is a daemon that runs in the background
+    and collects important statistics and displays them on [stats.ethdev.com](http://stats.ethdev.com).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A sample installation of parity is shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Parity installation](img/image_07_023.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Once the installation is completed successfully, the following message is displayed.
+    Ethereum parity node can then be started using `parity -j`. If compatibility with
+    geth is required in order to use Ethereum wallet (Mist browser) with parity, then
+    the `parity -geth` command should be used to run parity. This will run parity
+    in compatibility mode with the geth client and will consequently allow Mist to
+    run on top of parity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Parity installation](img/image_07_024.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Parity installation
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The client can optionally be listed on [https://ethstats.net/](https://ethstats.net/).
+    An example is shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Parity installation](img/image_07_025.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: All connected clients are listed on the ethstats.net, as shown in the following
+    screenshot. These clients are listed with relevant attributes, such as the node
+    name, node type, latency, mining status, number of peers, number of pending transactions,
+    last block, difficultly, block transactions, and number of Uncles.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Parity installation](img/image_07_026.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Client listed on [https://ethstats.net/](https://ethstats.net/)
+  prefs: []
+  type: TYPE_NORMAL
+- en: Parity also offers a user-friendly web interface from where various tasks, such
+    as account management, address book management, DAPP management, contract management,
+    and status and signer operations, can be managed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This is accessible by issuing the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This will bring up the interface shown as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Parity installation](img/image_07_027.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Parity user interface.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If parity is running in the geth compatibility mode, the parity UI is disabled.
+    In order to enable the UI along with geth compatibility, the following command
+    can be used:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding command will start parity in the geth compatibility mode and also
+    enable the web user interface.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating accounts using the parity command line
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: 'The following command can be used to create a new account using parity:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: Trading and investment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Ether is available at various exchanges for buying and selling. The current
+    market cap of Ethereum is £680,277,967 at the time of writing this, and an Ether
+    is worth £7.89\. Recently, the price has been very volatile and has dropped down
+    significantly due to recent Ethereum attacks and subsequent forks on the Ethereum
+    network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following chart shows the historical market capitalization details:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Trading and investment](img/image_07_028.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Ether historical market capitalization (source Etherscan.io)
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ether can either be purchased on various exchanges, or it can be mined. There
+    are online services available, such as [shapeshift.io](http://shapeshift.io),
+    that allow conversion from one currency to another.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Various online exchanges, such as kraken, coinbase, and many more, offer ether
+    to be purchased for fiat currency using credit cards or another virtual currency,
+    such as bitcoin.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The yellow paper
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Ethereum yellow paper has been written by *Dr. Gavin Wood* and serves as
+    a formal definition of the Ethereum protocol. Anyone can implement an Ethereum
+    client by following the protocol specifications defined in the paper. This paper
+    can be somewhat difficult to read, especially for the readers who do not have
+    a background in algebra or mathematics and are not familiar with mathematical
+    notations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The list of all symbols with their meanings used in the paper is provided here
+    with the anticipation that it will make reading the paper easier. Once symbol
+    meanings are known, it becomes quite easy to understand and appreciate the concepts
+    and specifications described in the yellow paper.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Useful symbols
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: '| **Symbol** | **Meaning** | **Symbol** | **Meaning** |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ≡ | Is defined as | ≤ | Less than or equal to |'
+  prefs: []
+  type: TYPE_TB
+- en: '| = | Is equal to | ![Useful symbols](img/image_07_029.jpg) | Sigma, World
+    state |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ≠ | Is not equal to | ![Useful symbols](img/image_07_030.jpg) | Mu, Machine
+    state |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ║...║ | Length of | ![Useful symbols](img/image_07_031.jpg) | Upsilon, Ethereum
+    state transition function |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ![Useful symbols](img/image_07_032.jpg) | Is an element of | ![Useful symbols](img/image_07_033.jpg)
+    | Block level state transition function |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ![Useful symbols](img/image_07_034.jpg) | Is not an element of | . | Sequence
+    concatenation |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ![Useful symbols](img/image_07_035.jpg) | For all | ![Useful symbols](img/image_07_036.jpg)
+    | There exists |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ![Useful symbols](img/image_07_037.jpg) | Union | ᴧ | Contract creation function
+    |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ![Useful symbols](img/image_07_038.jpg) | Logical AND | ![Useful symbols](img/image_07_039.jpg)
+    | Increment |'
+  prefs: []
+  type: TYPE_TB
+- en: '| : | Such that |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| {} | Set |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| () | Function of tuple |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| [] | Array indexing |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ![Useful symbols](img/image_07_040.jpg) | Logical OR |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| > | Is greater than |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| + | Addition |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| - | Subtraction |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ∑ | Summation |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| { | Describing various cases of if , otherwise |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ![Useful symbols](img/image_07_041.jpg) | Floor, lowest element |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ![Useful symbols](img/image_07_042.jpg) | Ceiling, highest element |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ![Useful symbols](img/image_07_043.jpg) | No of bytes |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ![Useful symbols](img/image_07_044.jpg) | Exclusive OR |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| (a,b) | Real numbers >= a and < b |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: '| ![Useful symbols](img/image_07_045.jpg) | Empty set, null |  |  |'
+  prefs: []
+  type: TYPE_TB
+- en: The Ethereum network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The Ethereum network is a peer-to-peer network where nodes participate in order
+    to maintain the blockchain and contribute to the consensus mechanism. Networks
+    can be divided into three types, based on requirements and usage.
+  prefs: []
+  type: TYPE_NORMAL
+- en: MainNet
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: MainNet is the current live network of ethereum. The current version of MainNet
+    is homestead.
+  prefs: []
+  type: TYPE_NORMAL
+- en: TestNet
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: TestNet is also called Ropsten and is the test network for the Ethereum blockchain.
+    This blockchain is used to test smart contracts and DApps before being deployed
+    to the production live blockchain. Moreover, being a test network, it allows experimentation
+    and research.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private net(s)
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: As the name suggests, this is the private network that can be created by generating
+    a new genesis block. This is usually the case in distributed ledger networks,
+    where a private group of entities start their own blockchain and use it as a permissioned
+    blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: More discussion on how to connect to test net and how to set up private nets
+    will be discussed in the next chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Supporting protocols
+  prefs:
+  - PREF_H2
+  type: TYPE_NORMAL
+- en: There are various supporting protocols that are in development in order to support
+    the complete decentralized ecosystem. This includes whisper and Swarm protocols.
+    In addition to the contracts layer, which is the core blockchain layer, there
+    are additional layers that need to be decentralized in order to achieve a complete
+    decentralized ecosystem. This includes decentralized storage and decentralized
+    messaging. Whisper, being developed for ethereum, is a decentralized messaging
+    protocol, whereas Swarm is a decentralized storage protocol. Both of these technologies
+    are being developed currently and have been envisaged to provide the basis for
+    a fully decentralized web. In the following section, both technologies are discussed
+    in detail.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Whisper
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Whisper provides decentralized peer-to-peer messaging capabilities to the ethereum
+    network. In essence, whisper is a communication protocol that nodes use in order
+    to communicate with each other. The data and routing of messages are encrypted
+    within whisper communications. Moreover, it is designed to be used for smaller
+    data transfers and in scenarios where real-time communication is not required.
+    Whisper is also designed to provide a communication layer that cannot be traced
+    and provides "dark communication" between parties. Blockchain can be used for
+    communication, but that is expensive and consensus is not really required for
+    messages exchanged between nodes. Therefore, whisper can be used as a protocol
+    that allows
+  prefs: []
+  type: TYPE_NORMAL
+- en: Whisper is already available with geth and can be enabled using the `--shh`
+    option while running the geth ethereum client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Swarm
+  prefs:
+  - PREF_H3
+  type: TYPE_NORMAL
+- en: Swarm is being developed as a distributed file storage platform. It is a decentralized,
+    distributed, and peer-to-peer storage network. Files in this network are addressed
+    by the hash of their content. This is in contrast to the traditional centralized
+    services, where storage is available at a central location only. This is developed
+    as a native base layer service for the Ethereum web 3.0 stack. Swarm is integrated
+    with DevP2P, which is the multiprotocol network layer of Ethereum. Swarm is envisaged
+    to provide a **DDOS** (**Distributed Denial of service**)-resistant and fault-tolerant
+    distributed storage layer for Ethereum Web 3.0\. Both whisper and Swarm are under
+    development and, even though Proof of Concept and alpha code has been released
+    for Swarm, there is no stable production version available yet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following figure gives a high level overview of how Swarm and whisper fit
+    together and work with blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![Swarm](img/B05975_07_28.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: Diagrams shows blockchain, whisper and Swarm
+  prefs: []
+  type: TYPE_NORMAL
+- en: Applications developed on Ethereum
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are various implementations of DAOs and smart contracts in Ethereum, most
+    notably, *the DAO*, which was recently hacked and required a hard fork in order
+    for funds to be recovered. The DAO was created to serve as a decentralized platform
+    to collect and distribute investments.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Augur is another DAPP that has been implemented on Ethereum, which is a decentralized
+    prediction market. Various other decentralized applications are listed on [http://dapps.ethercasts.com/](http://dapps.ethercasts.com/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Scalability and security issues
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Scalability in any blockchain is a fundamental issue. Security is also of paramount
+    importance. Issues such as privacy and confidentiality have caused some adaptability
+    issues, especially in the financial sector. However, a great deal of research
+    is being conducted in these areas. A more detailed discussion regarding all blockchain-related
+    issues will be carried out in [Chapter 12](ch12.html "Chapter 12. Scalability
+    and Other Challenges"), *Scalability and other challenges*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: This chapter started with a discussion on the history of Ethereum, the motivation
+    behind Ethereum development, and Ethereum clients. Then, you were introduced to
+    the core concepts of the Ethereum blockchain, such as state machine model, world
+    and machine state, accounts, and types of accounts. Moreover, a detailed introduction
+    to the core components of the **Ethereum virtual machine** (**EVM**) was also
+    presented. Other concepts such as blocks, block structure, gas, and messages were
+    also introduced and discussed in detail. The later sections of the chapter introduced
+    the practical installation and management of ethereum clients. Two most popular
+    clients, geth and parity, were discussed. Further development-specific discussion
+    on these clients will be carried out in the next chapter, where development using
+    Ethereum is discussed. Finally, supporting protocols and topics related to challenges
+    faced by Ethereum were presented. Ethereum is under continuous development and
+    new improvements are being made by a dedicated community of developers regularly.
+    Ethereum improvement proposals, available at [https://github.com/ethereum/EIPs](https://github.com/ethereum/EIPs),
+    are also an indication of the magnitude of research and keen interest by the community
+    in this technology. Moreover, a recently launched initiative, **Enterprise Ethereum
+    Alliance** (**EAA**) is aiming to develop enterprise grade Ethereum platform which
+    will be capable of meeting enterprise level business requirements. With research
+    being carried out on topics such as scalability, optimization, throughput, capacity,
+    and security, it is envisaged that over time, Ethereum will evolve into a more
+    robust, user-friendly, and stable blockchain ecosystem.
+  prefs: []
+  type: TYPE_NORMAL
