@@ -11,7 +11,7 @@
 +   [第九章：构建钱包服务](adv-bc-dev_09.md)
 +   [第十章：另类货币](adv-bc-dev_10.md)
 +   [第十一章：开发工具和框架](adv-bc-dev_11.md)
-+   [第十二章：构建一个投注应用程序](adv-bc-dev_12.md)
++   [第十二章：构建一个投丨注应用程序](adv-bc-dev_12.md)
 +   [第十三章：Hyperledger](adv-bc-dev_13.md)
 +   [第十四章：替代区块链](adv-bc-dev_14.md)
 +   [第十五章：区块链 - 货币之外](adv-bc-dev_15.md)
