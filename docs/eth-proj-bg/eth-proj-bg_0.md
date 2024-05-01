@@ -63,21 +63,3 @@ C:\Windows\System32\my_project>truffle-cli compile
 警告或重要说明会以这种方式出现。
 
 小贴士和技巧会以这种方式出现。
-
-# 联系我们
-
-我们的读者的反馈总是受欢迎的。
-
-**一般反馈**：发邮件至`feedback@packtpub.com`，并在邮件主题中提及书名。如果您对本书的任何方面有疑问，请发邮件至 `questions@packtpub.com` 联系我们。
-
-**勘误**：尽管我们已经尽最大努力确保内容的准确性，但错误总是在所难免。如果您在本书中发现错误，我们将不胜感激地接受您的报告。请访问 [www.packtpub.com/submit-errata](http://www.packtpub.com/submit-errata)，选择您的书籍，点击勘误提交表格链接，并填写详细信息。
-
-**盗版**：如果您在互联网上发现我们作品的任何形式的非法复制，请提供给我们地址或网站名称。请发送邮件至 `copyright@packtpub.com` 并附上资料链接。
-
-**如果您对成为作者感兴趣**：如果您有专业知识的领域，并有意撰写或为一本书作出贡献，请访问 [authors.packtpub.com](http://authors.packtpub.com/)。
-
-# 评论
-
-请留下您的评论。阅读并使用本书后，为什么不在购买书籍的网站上留下评论呢？潜在读者可以查看并使用您不带偏见的意见做出购买决定，我们在 Packt 可以了解到您对我们产品的看法，而我们的作者们也可以看到您对他们的书籍的反馈。谢谢！
-
-欲了解更多有关 Packt 的信息，请访问 [packtpub.com](https://www.packtpub.com/)。

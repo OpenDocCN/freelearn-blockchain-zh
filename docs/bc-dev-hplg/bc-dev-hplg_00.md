@@ -122,21 +122,3 @@ mkdir ~/insurance-claim && cd ~/insurance-claim
 警告或重要注释看起来像这样。
 
 小贴士和技巧看起来像这样。
-
-# 联系我们
-
-我们非常欢迎读者的反馈意见。
-
-**常规反馈**：如果你对本书的任何方面有疑问，请在邮件主题中提及书名，并发送邮件至 `customercare@packtpub.com`。
-
-**勘误**：尽管我们已尽一切努力确保内容的准确性，但错误确实会发生。如果您在本书中发现错误，我们将不胜感激。请访问 [www.packt.com/submit-errata](http://www.packt.com/submit-errata)，选择您的书籍，点击“Errata Submission Form”链接，然后输入详细信息。
-
-**盗版**：如果你在互联网上发现我们的作品的任何形式的非法拷贝，我们将不胜感激，如果你能提供给我们位置地址或网站名称。请通过`copyright@packt.com`与我们联系，并附上材料的链接。
-
-**如果你有兴趣成为作者**：如果你在某个专业领域有专长，并且对写作或为书籍做出贡献感兴趣，请访问[authors.packtpub.com](http://authors.packtpub.com/)。
-
-# 评论
-
-请留下评论。在阅读和使用本书后，为什么不在你购买的网站上留下评论呢？潜在的读者可以看到并使用你的客观意见来做出购买决定，我们在 Packt 可以了解你对我们产品的看法，我们的作者也可以看到你对他们书籍的反馈。谢谢！
-
-欲了解更多有关 Packt 的信息，请访问 [packt.com](http://www.packt.com/)。
