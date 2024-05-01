@@ -1,52 +1,74 @@
 - en: Day Four - Creating Tests
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 第四天 - 创建测试
 - en: 'You''ve been relying on tests to ensure your code is working correctly, so
     you may have some appreciation for how important they are and how they can help
     you write better code with fewer bugs. In this chapter, we are going to look at
     how to create proper tests that can help our game run smoothly, without any issues.
     The following topics will be covered in this chapter:'
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 你一直依赖测试来确保你的代码正常运行，所以你可能很欣赏它们的重要性，以及它们如何帮助你写出更好、更少错误的代码。在本章中，我们将看看如何创建适当的测试，以帮助我们的游戏顺利运行，没有任何问题。本章将涵盖以下主题：
 - en: Understanding unit tests and integration tests
+  id: totrans-2
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 理解单元测试和集成测试
 - en: Testing strategies for various applications
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 不同应用程序的测试策略
 - en: Creating unit tests in Solidity
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在 Solidity 中创建单元测试
 - en: Multiple tests for the same function under test
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 同一个要测试的函数有多个测试
 - en: Creating integration tests in JavaScript
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在 JavaScript 中创建集成测试
 - en: Running test suites
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 运行测试套件
 - en: Understanding unit tests and integration tests
+  id: totrans-8
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 理解单元测试和集成测试
 - en: Today, we're going to be talking all about tests. After the last few days, you've
     actually experienced some of the benefits of tests. I wrote a test that checked
     for a specific behavior in our smart contract and it failed, and then you wrote
     a code and you knew that it delivered the expected results when the test passed.
+  id: totrans-9
   prefs: []
   type: TYPE_NORMAL
+  zh: 今天，我们将讨论有关测试的所有内容。在过去的几天里，你实际上体验到了测试的一些好处。我编写了一个测试，检查了我们智能合约中的特定行为，它失败了，然后你编写了一段代码，当测试通过时，你知道它提供了预期的结果。
 - en: Why write tests?
+  id: totrans-10
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 为什么要写测试？
 - en: 'Now, imagine that on a larger scale. You''re writing code as part of a huge
     blockchain development team delivering the latest decentralized apps to the world.
     As part of that team, how do you know that the code from other developers on your
@@ -56,46 +78,68 @@
     to do? Remember, when we''re dealing with blockchain apps, we''re dealing with
     people''s money, so all of these are important questions and the answer to all
     of those questions is the same: tests.'
+  id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，想象一下规模更大的情况。你正在作为一个庞大的区块链开发团队的一部分编写代码，向世界交付最新的去中心化应用程序。作为团队的一部分，你如何知道你团队中其他开发人员编写的代码是否按照预期执行？当出现错误时，你如何确保你的代码不是导致错误的代码？或者这样想：如果有人更新了你的代码，你如何确保它仍然执行其预期的功能？请记住，当我们处理区块链应用程序时，我们正在处理人们的金钱，所以所有这些都是重要的问题，而所有这些问题的答案都是一样的：测试。
 - en: Unit tests
+  id: totrans-12
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 单元测试
 - en: 'We''re going to talk about two different kinds of tests today, so I want to
     start off by introducing them to you so that you understand the role that each
     plays. Unit tests are written by a developer to test a relatively small piece
     of code to ensure that it''s doing what it''s supposed to be doing. Think of a
     function that adds two numbers together:'
+  id: totrans-13
   prefs: []
   type: TYPE_NORMAL
+  zh: 今天我们将讨论两种不同类型的测试，所以我想先向你介绍它们，以便你了解每种测试的作用。单元测试是由开发人员编写的，用于测试相对较小的代码片段，以确保其按预期执行。想象一个将两个数字相加的函数：
 - en: '[PRE0]'
+  id: totrans-14
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: 'A test might look something like this:'
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 一个测试可能看起来像这样：
 - en: '[PRE1]'
+  id: totrans-16
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: It gives the function two numbers and then tests for the proper result.
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 它给函数两个数字，然后测试正确的结果。
 - en: 'Here are some of the common characteristics of unit tests:'
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是单元测试的一些常见特征：
 - en: Narrow in scope
+  id: totrans-19
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 范围较窄
 - en: Easy to read and write
+  id: totrans-20
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 易于阅读和编写
 - en: No dependencies
+  id: totrans-21
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 无依赖关系
 - en: 'This means that the test itself is entirely self-contained, doesn''t require
     database, a network connection, manual intervention, or anything else aside from
     the test and the code that''s being tested. In Solidity, we don''t really have
@@ -104,11 +148,16 @@
     to ensure proper operation of our code. Let''s take a look at one of the unit
     tests I''ve already written to give you a better idea of what a real functioning
     test looks like:'
+  id: totrans-22
   prefs: []
   type: TYPE_NORMAL
+  zh: 这意味着测试本身完全自包含，不需要数据库、网络连接、手动干预或除了测试和被测试代码之外的任何其他东西。在 Solidity 中，我们实际上没有真正的单元测试，因为即使是基本的测试也需要
+    Ganache 或本地区块链网络才能正常运行。尽管如此，我们仍然以这种方式编写测试来确保我们的代码的正确运行。让我们来看看我已经编写的一个单元测试，以便更好地了解一个真正运行的测试是什么样子的：
 - en: '![](img/1403ebac-cc4a-47f6-a2bc-4a7db3ae8667.png)'
+  id: totrans-23
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/1403ebac-cc4a-47f6-a2bc-4a7db3ae8667.png)'
 - en: In the preceding screenshot, on the left we have our `determineWinner` function
     that you've been working with over the last couple days. On the right is the test
     for it. We use a `function` keyword, give our test a name starting with the lowercase
@@ -119,20 +168,28 @@
     that compares the expected result, or the expected answer, and the actual result
     to ensure that they're equal, and if not there's a message displayed so that person
     running the test has an indicator of what went wrong.
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: 在上述屏幕截图中，左侧是我们过去几天一直在使用的`determineWinner`函数。右侧是其测试。我们使用`function`关键字，为测试赋予以小写`test`单词开头的名称，然后在内部声明一个名为`expected`的变量，这是当函数正常工作时我们期望的结果，然后我们有另一个名为`result`的变量，这是函数的实际结果。然后最后一部分是我们使用一个断言或创建一个`assert`语句，比较预期结果或预期答案和实际结果，以确保它们相等，如果不相等，则显示消息，以便运行测试的人知道出了什么问题。
 - en: Integration tests
+  id: totrans-25
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 集成测试
 - en: 'Integration tests, on the other hand, are used to demonstrate that different
     pieces of the system work together. To better illustrate an integration test,
     let me show you the test code I wrote for assignment homework:'
+  id: totrans-26
   prefs: []
   type: TYPE_NORMAL
+  zh: 另一方面，集成测试用于证明系统的不同部分如何协同工作。为了更好地说明集成测试，让我向您展示我为作业编写的测试代码：
 - en: '[PRE2]'
+  id: totrans-27
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: This test is written in JavaScript. We first call the `winOrLose` function,
     simulating a call from our React app with the required parameters. We wait for
     that call to be written to the blockchain using the `await` keyword. This test
@@ -140,71 +197,99 @@
     code completes, the player should have one recorded loss. So, now we call the
     blockchain and execute the function to get the stats for the player, and we verify
     that the value recorded for losses is equal to one.
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: 此测试以 JavaScript 编写。我们首先调用`winOrLose`函数，模拟从我们的 React 应用程序中使用所需参数进行调用。我们使用`await`关键字等待该调用写入区块链。此测试正在检查是否正确记录了玩家的统计信息。当他的代码完成时，玩家应该有一次记录的失败。因此，现在我们调用区块链并执行函数以获取玩家的统计信息，并验证记录的损失值是否等于一。
 - en: So, in this test we made two trips to the blockchain and we were reliant on
     the blockchain network operating correctly for the test to pass. That's an integration
     test. Here are some of the common characteristics of integration tests.
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，在这个测试中，我们进行了两次区块链访问，并且我们依赖区块链网络正确运行以使测试通过。这是一个集成测试。以下是集成测试的一些常见特征。
 - en: They demonstrate that different pieces of the system work together. Typically,
     they cover whole applications, which you may also hear referred to as end-to-end
     testing. They require quite a bit more effort than unit tests to put together,
     and they also require external resources such as databases, hardware, or in our
     case the blockchain network, and they more closely resemble the actions expected
     to be taken by our users.
+  id: totrans-30
   prefs: []
   type: TYPE_NORMAL
+  zh: 它们表明了系统的不同部分是如何一起工作的。通常，它们涵盖整个应用程序，您可能还会听到它们被称为端到端测试。它们需要比单元测试更多的工作量来组合，而且它们还需要外部资源，例如数据库、硬件或在我们的情况下是区块链网络，并且它们更接近我们的用户预期执行的操作。
 - en: In the next section, you're going to learn the basics of how to create unit
     tests and integration tests using Solidity and JavaScript. With these skills,
     you'll be able to create tests to ensure your contract does exactly what it's
     supposed to be doing.
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一节中，您将学习使用 Solidity 和 JavaScript 创建单元测试和集成测试的基础知识。有了这些技能，您将能够创建测试来确保您的合约确实执行了它应该执行的操作。
 - en: Testing strategies for various applications
+  id: totrans-32
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 各种应用程序的测试策略
 - en: 'You know that you should write tests, but when you''re staring at that blank
     screen, it''s sometimes hard to know where to start. So, in this chapter, we are
     going to explore some strategies to help build a plan for what gets tested and
     how you test it. We''re going to talk about four different things:'
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 您知道应该编写测试，但当您面对空白屏幕时，有时很难知道从哪里开始。因此，在本章中，我们将探讨一些策略，帮助制定测试内容以及测试方法。我们将讨论四个不同的事项：
 - en: Testing for success
+  id: totrans-34
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 测试成功情况
 - en: Testing for failure
+  id: totrans-35
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 测试失败情况
 - en: Testing using Solidity
+  id: totrans-36
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用 Solidity 进行测试
 - en: Testing using JavaScript
+  id: totrans-37
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 使用 JavaScript 进行测试
 - en: When it comes to testing, there are a lot of different approaches, but rather
     than drowning in a sea of information, we're going to keep it simple. Any tests
     are better than no tests, so let's focus on getting some tests on our contract,
     and later we can always refine the approach and the tests as we learn more.
+  id: totrans-38
   prefs: []
   type: TYPE_NORMAL
+  zh: 在进行测试时，有很多不同的方法，但我们不要陷入信息的海洋中，让我们保持简单。任何测试总比没有测试好，所以让我们专注于为我们的合约编写一些测试，稍后我们可以随时在学到更多知识的情况下改进方法和测试。
 - en: Testing for success
+  id: totrans-39
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测试成功
 - en: 'The easiest place to get started is **testing for success**, and by this, I
     mean writing tests to ensure that your component does what it''s supposed to do,
     when provided with the correct inputs. Consider the following code snippet:'
+  id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: 最容易入手的地方是**测试成功**，我指的是编写测试来确保你的组件在提供正确输入时执行其预期功能。考虑以下代码片段：
 - en: '[PRE3]'
+  id: totrans-41
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: 'Here, we have a function that adds two numbers. How would you check whether
     the operation works exactly as it should? Let''s write a test to ensure that if
     it''s given two numbers, it produces the correct answer. For this, we''ll create
@@ -212,11 +297,15 @@
     resultant value from the contract and crosschecks them to ensure that the function
     produces the correct answer. The following code snippet further illustrates how
     this test works:'
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里，我们有一个函数，它将两个数字相加。你如何检查操作是否完全按预期工作？让我们编写一个测试来确保如果它被提供两个数字，它会产生正确的答案。为此，我们将创建一个名为`testAddCorrect()`的函数，考虑一个预期值和合约的结果值，并交叉检查它们以确保函数产生正确的答案。以下代码片段进一步说明了这个测试的工作原理：
 - en: '[PRE4]'
+  id: totrans-43
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: Writing these tests should become a natural part of your development workflow.
     As a matter of fact, there's a strategy called **test-driven** development, where
     you write the test first, see that it fails, and then write the code to make that
@@ -226,41 +315,59 @@
     on writing only the minimum amount of code necessary to make your application
     work. This is the strategy I most often use, and it works great, but there's also
     something to be said for testing for failure.
+  id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: 编写这些测试应该成为你开发工作流程的自然一部分。事实上，有一种称为**测试驱动**开发的策略，你首先编写测试，看到它失败，然后编写代码使该测试通过。一旦它通过了，你再编写另一个失败的测试，然后跟着编写使其通过的代码。通过编写每一个失败的测试，你确保代码做了它应该做的事情，然后通过使每一个测试通过，你专注于编写使你的应用程序工作所需的最少代码量。这是我最经常使用的策略，效果很好，但测试失败也是有意义的。
 - en: Testing for failure
+  id: totrans-45
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 测试失败
 - en: 'What if your function doesn''t do the right thing when provided with invalid
     inputs? Consider the following JavaScript snippet:'
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你的函数在提供无效输入时不执行正确操作呢？考虑以下 JavaScript 代码片段：
 - en: '[PRE5]'
+  id: totrans-47
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: Here, if you provide the function with two numbers, it will add them up, but,
     what if we gave it two strings instead?
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里，如果你给函数提供两个数字，它会把它们相加，但是，如果我们给它两个字符串呢？
 - en: We might require that it returns an error to the caller, stating that only numbers
     are valid inputs, but instead, it's going to return the two input strings concatenated.
     That's what I mean by testing for failure. You need some additional tests to cover
     what will happen when your component is given invalid input.
+  id: totrans-49
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们可能要求它向调用者返回一个错误，说明只有数字是有效输入，但实际上，它会返回两个输入字符串连接在一起的结果。这就是我所说的测试失败。你需要一些额外的测试来覆盖当你的组件被提供无效输入时会发生什么。
 - en: Most of the time, this is where bugs and security exploits come from, by using
     a component in a way that it was never intended to be used.
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: 大多数时候，错误和安全漏洞都来自于以一种未曾预期的方式使用组件。
 - en: Testing using Solidity
+  id: totrans-51
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 Solidity 进行测试
 - en: Our third topic is testing using Solidity. If this book is your first introduction
     to the world of programming, this is probably where you're going to be most comfortable.
+  id: totrans-52
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的第三个主题是使用 Solidity 进行测试。如果这本书是你对编程世界的第一次介绍，这可能是你最舒适的地方。
 - en: Writing a test in Solidity is almost identical to writing your contract, since
     it's the same programming language, and as a matter of fact, your tests are just
     another Solidity contract used by Truffle to execute your tests. Tests written
@@ -268,15 +375,20 @@
     in a clean room environment. This means that, before each test suite runs, the
     contract is redeployed to the test network, so that you know you're starting from
     a known state.
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Solidity 中编写测试几乎与编写合约相同，因为它是相同的编程语言，事实上，您的测试只是由 Truffle 使用的另一个 Solidity 合约，用于执行您的测试。使用
+    Solidity 编写的测试类似于单元测试。每个测试套件或测试合约都在干净的环境中运行。这意味着，在运行每个测试套件之前，合约将重新部署到测试网络，这样您就知道您是从已知状态开始的。
 - en: Since there's going to be a deploy each time you run your tests, it makes sense
     to test against a local network, which is one of the main reasons we're using
     Ganache. If we had to deploy to a live network, then wait for the miners to mine
     each transaction, then getting our test results would take plenty of time, and
     if we're honest with ourselves, we wouldn't run our tests as often as we should.
+  id: totrans-54
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于每次运行测试时都会进行部署，因此对本地网络进行测试是有意义的，这是我们使用 Ganache 的主要原因之一。如果我们必须部署到实时网络，然后等待矿工挖掘每个交易，那么获得我们的测试结果将需要大量时间，如果我们对自己诚实，我们不会像应该那样经常运行测试。
 - en: Solidity tests use the Chai Assertion Library, which is used to write the logic
     to pass or fail our tests. You'll see exactly how to do this in the upcoming section,
     *Creating unit tests in Solidity*. But Solidity is pretty limited in what it can
@@ -284,50 +396,72 @@
     ensuring that functions return the correct response, and testing for exceptions,
     but not so great for testing the overall behavior of your contract. For that,
     we're going to use JavaScript tests.
+  id: totrans-55
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 测试使用 Chai Assertion 库，用于编写逻辑以通过或失败我们的测试。您将在即将到来的部分*在 Solidity 中创建单元测试*中看到如何做到这一点。但从测试的角度来看，Solidity
+    的功能相当有限，它非常适用于测试单个函数，并确保函数返回正确的响应，并测试异常，但对于测试合约的整体行为来说效果不佳。为此，我们将使用 JavaScript
+    测试。
 - en: Testing using JavaScript
+  id: totrans-56
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 JavaScript 进行测试
 - en: 'JavaScript tests give us a way to fully test the behavior of a contract exactly
     as the client is going to see it. We have access to the test accounts, thanks
     to the `web3` provider injected into the test runner, and you''ll learn exactly
     what web3 is in [Chapter 6](adff179e-9ea9-4ca8-bbad-789ed7a75ec1.xhtml), *Day
     Six: Using Wallets*.'
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: JavaScript 测试为我们提供了一种完全测试合约行为的方法，正如客户端将看到的那样。我们可以访问测试帐户，这要归功于注入到测试运行器中的`web3`提供程序，您将在[第
+    6 章](adff179e-9ea9-4ca8-bbad-789ed7a75ec1.xhtml)中了解到`web3`是什么，*第六天：使用钱包*。
 - en: Truffle uses the Mocha testing framework and Chai assertions for the JavaScript
     tests. If you've written JavaScript before, you may be familiar with Mocha; the
     only difference here is that Truffle uses the `contract` function instead of Mocha's `described`
     function. This enables the clean room feature mentioned previously, to ensure
     that we're starting with a fresh contract for each test suite.
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: Truffle 使用 Mocha 测试框架和 Chai 断言来进行 JavaScript 测试。如果您之前已经写过 JavaScript，您可能对 Mocha
+    比较熟悉；这里唯一的区别是 Truffle 使用`contract`函数而不是 Mocha 的`described`函数。这使得前面提到的干净环境特性成为可能，以确保我们每个测试套件都从一个新的合约开始。
 - en: Using the Chai Assertion Library is a nice touch, because it's the same assertion
     library used in our Solidity test, which makes our life as a blockchain developer
     a little bit easier. Now, let's dive into deploying contracts into a test network.
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用 Chai Assertion 库是一个不错的选择，因为它是我们 Solidity 测试中使用的相同断言库，这使得我们作为区块链开发者的生活稍微容易一些。现在，让我们深入探讨将合约部署到测试网络中。
 - en: Creating unit tests in Solidity
+  id: totrans-60
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在 Solidity 中创建单元测试
 - en: Our first test is going to be written in Solidity. Starting with Solidity may
     provide a level of familiarity to this foreign concept by starting with a language
     you already know.
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的第一个测试将使用 Solidity 编写。从 Solidity 开始可能会通过使用您已经了解的语言提供对这个陌生概念的熟悉度。
 - en: Solidity test conventions
+  id: totrans-62
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Solidity 测试约定
 - en: 'Like many things in Solidity, there are some conventions with Solidity tests:
     things like files must have the  `.sol` extension, contract names must start with
     the word `Test` with a capital T, functions must start with test using a lowercase
     T, and `test` should go in the `test` folder of your application code.'
+  id: totrans-63
   prefs: []
   type: TYPE_NORMAL
+  zh: Solidity 中有一些关于 Solidity 测试的约定：比如文件必须具有`.sol`扩展名，合约名称必须以大写字母`T`开头的单词`Test`开头，函数必须以小写字母`t`开头，而`test`应该放在应用程序代码的`test`文件夹中。
 - en: 'To write a test, we must first do a little bit of housekeeping. We define our
     contract and then we import the `truffle/Assert.sol` library: we''re going to
     import the `truffle/DeployedAdresses.sol` library. Both of these may be a little
@@ -337,37 +471,52 @@
     We also need to import our contract that we''re going to be testing. For our application,
     this is our gaming contract. This is really where you want to stop importing things,
     as we want to keep our tests minimalistic:'
+  id: totrans-64
   prefs: []
   type: TYPE_NORMAL
+  zh: 要编写测试，我们必须首先进行一些清理工作。我们定义我们的合同然后导入`truffle/Assert.sol`库：我们将导入`truffle/DeployedAddresses.sol`库。如果你习惯编写node应用程序，这两者可能有点奇怪，因为通常这意味着库被导入并且是在`node
+    modules`文件夹中找到的文件，但是你不会在那里找到它，因为它是由Truffle直接导入的。我们还需要导入我们将要测试的合同。对于我们的应用程序，这是我们的游戏合同。这真的是您想要停止导入东西的地方，因为我们希望保持我们的测试简约：
 - en: '[PRE6]'
+  id: totrans-65
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: Importing additional libraries beyond this point just introduces complexity
     and the potential for bugs, so just like the contracts we've written before, we're
     going to define a new contract. Because it's a test contract, we're going to start
     it with the name test.
+  id: totrans-66
   prefs: []
   type: TYPE_NORMAL
+  zh: 在此之后导入其他库只会引入复杂性和错误的潜在可能性，因此就像我们之前编写的合同一样，我们将定义一个新的合同。因为这是一个测试合同，我们将以test开头的名字开始。
 - en: 'One of the cool things we can do now is create a variable called `initialBalance`
     and give it some ether. When our contract gets deployed, it will be funded with
     the amount specified here, making it available for use in our contract. It''s
     pretty cool, right? Then we create a variable named `gaming`, which is the instance
     of our contract `Gaming` with the capital G. Take a look at the following code:'
+  id: totrans-67
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们可以做的一个很酷的事情是创建一个名为`initialBalance`的变量并为其分配一些以太。当我们的合同部署时，它将被资助指定金额，使其可供在我们的合同中使用。这很酷，对吧？然后我们创建一个名为`gaming`的变量，这是我们的大写字母G的`Gaming`合同的实例。看一下下面的代码：
 - en: '[PRE7]'
+  id: totrans-68
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: 'We can define a function called `beforeAll()` and notice that it doesn''t start
     with the word `test` even though I just said functions must start with it. That''s
     because this is a special function: it''s going to be run before any of the tests
     in our test suite. Inside it, we''re going to get the instance of our deployed
     contract and we''ll use that in the rest of our tests:'
+  id: totrans-69
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们可以定义一个名为`beforeAll()`的函数，注意它并不以单词`test`开头，尽管我刚才说函数必须以它开头。这是因为这是一个特殊的函数：它将在我们的测试套件中的任何测试之前运行。在其中，我们将获取部署的合同实例，并在我们的其余测试中使用它：
 - en: '[PRE8]'
+  id: totrans-70
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: 'Some of the other special functions we can use are `beforeEach`, `afterAll`,
     and `afterEach`. And so, now, let''s start writing some tests. Our first test
     is going to test our `determineWinner` function. It gets called by the `winOrLose`
@@ -379,11 +528,15 @@
     as a result of our test. The result gets populated by calling the `determineWinner`
     function and we pass it some parameters that are required for the function to
     execute:'
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们可以使用的其他特殊函数包括`beforeEach`，`afterAll`和`afterEach`。那么，现在，让我们开始编写一些测试。我们的第一个测试将测试我们的`determineWinner`函数。它被`winOrLose`函数调用，但我们将单独测试它以确保它正好完成其预期的工作，这样我们就知道`winOrLose`函数可以依赖它返回正确的响应。我们首先定义我们的函数，并以以`test`开头的单词给出名称，然后在我们的函数内部，我们将声明一个名为`expected`的变量。这是我们期望作为我们测试的结果找到的结果。结果通过调用`determineWinner`函数进行填充，并传递一些参数给它以执行所需功能：
 - en: '[PRE9]'
+  id: totrans-72
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: 'And now, here''s where our Chai Assertion Library comes in. We call the `assert`
     library and we call the `equal` function, passing it our `expected` value, the
     result and the message that we''re going to display when the test fails. Now,
@@ -391,15 +544,21 @@
     any other developer gets when this test fails. Make sure that it''s clear and
     specific. This is also a great place for a code review, because getting someone
     else''s input on these messages can help make them clear and understandable:'
+  id: totrans-73
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们要介绍的是我们的 Chai 断言库。我们调用`assert`库，然后调用`equal`函数，传递我们的`expected`值，结果和当测试失败时要显示的消息。现在，这个消息非常重要：它将是您或任何其他开发人员在此测试失败时得到的唯一线索。确保它清晰而具体。这也是进行代码审查的好地方，因为让其他人对这些消息进行评审可以帮助使它们清晰易懂：
 - en: '[PRE10]'
+  id: totrans-74
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: Multiple tests for the same function under test
+  id: totrans-75
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 相同测试函数的多个测试
 - en: 'Taking a look at a few other examples, we have three examples in addition to
     the test that we just wrote. In each test, a different variant of parameters are
     present, which we can supply to the `determineWinner` function, this allows us
@@ -408,52 +567,77 @@
     they''re pretty easy to read, and they use the exact same programming language
     as our contracts. Unfortunately, if you try to do much more than this, the fun
     and excitement starts to fade quickly:'
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 再看几个例子，除了我们刚写的测试之外，我们还有另外三个例子。在每个测试中，存在不同变量参数的不同变体，我们可以将它们提供给`determineWinner`函数，这使我们能够检查我们的`determineWinner`函数可能遇到的每种情况。这就是为什么
+    Solidity 的测试器受欢迎的原因：它们很容易编写，很容易阅读，并且它们使用与我们的合同完全相同的编程语言。不幸的是，如果您尝试做的事情超出了这些，乐趣和兴奋很快就会消失：
 - en: '![](img/be38e9b2-f9f3-449d-9988-c53d16a5b0cf.png)'
+  id: totrans-77
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/be38e9b2-f9f3-449d-9988-c53d16a5b0cf.png)'
 - en: To get to the next level of testing, we're going to use JavaScript. It's got
     a lot of features not available to Solidity. Accessing these features will give
     us the power and flexibility to do end-to-end testing all using JavaScript, which
     is convenient because we're going to be writing our UI in JavaScript as well.
+  id: totrans-78
   prefs: []
   type: TYPE_NORMAL
+  zh: 要进入测试的下一个级别，我们将使用 JavaScript。它具有许多 Solidity 不可用的功能。访问这些功能将赋予我们使用 JavaScript
+    进行端到端测试的能力和灵活性，这很方便，因为我们也将使用 JavaScript 编写我们的 UI。
 - en: Creating integration tests in JavaScript
+  id: totrans-79
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在 JavaScript 中创建集成测试
 - en: When writing tests in JavaScript, we can simulate not only the contract calls,
     like we did in our Truffle tests, but also select different accounts, check balances,
     and more. Let's dig through some of the tests and you'll get a better idea for
     what I mean. We'll start by creating a new test file. For our Truffle tests, the
     filename started with the word `test` using a capital T and ended with the `.sol`
     extension.
+  id: totrans-80
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 JavaScript 中编写测试时，我们不仅可以模拟合同调用，就像我们在 Truffle 测试中所做的那样，还可以选择不同的帐户，检查余额等等。让我们深入了解一些测试，你会对我所说的有更好的理解。我们将从创建一个新的测试文件开始。对于我们的
+    Truffle 测试，文件名以大写的 T 字母开头，并以`.sol`扩展名结尾。
 - en: Our JavaScript tests start with the name of the contract being tested followed
     by the word test with a capital T, and end with the `.js` extension. It still
     goes in the same `test` folder as our Solidity test, which means there's only
     one place to look for tests regardless of which languages they are written in.
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的 JavaScript 测试以被测试的合同名称开头，后跟一个以大写 T 开头的单词“test”，并以`.js`扩展名结尾。它仍然放在与我们的 Solidity
+    测试相同的`test`文件夹中，这意味着无论这些测试使用哪种语言编写，都只需查看一个地方。
 - en: 'Inside of our file, we''ll create a constant that has the same name as the
     contract under test, and we use artifacts that require the contents of that contract.
     From here, our tests look much like a Mocha test if you''re familiar with that;
     instead of using the scribe, though, we''ll use the Truffle keyword contract:'
+  id: totrans-82
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们的文件中，我们将创建一个与要测试的合同同名的常量，并使用需要该合同内容的 artifacts。从这里开始，我们的测试看起来很像 Mocha 测试，如果您熟悉的话；不过，我们将使用
+    Truffle 关键字`contract`而不是使用笔：
 - en: '[PRE11]'
+  id: totrans-83
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: 'This enables the Truffle cleanroom feature, which means that every time this
     file is run as a test, the Truffle Framework deploys a fresh instance of the contract
     to the network, ensuring that we start from a known state:'
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: 这启用了 Truffle 的清洁房间功能，这意味着每次将此文件作为测试运行时，Truffle 框架都会将合同的新实例部署到网络上，确保我们从已知状态开始：
 - en: '[PRE12]'
+  id: totrans-85
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: 'Now I''m going to declare a couple of variables. The `gaming` variable is going
     to represent the version of our contract that''s been deployed to the network,
     then I''m going to create two constants, `owner` and `player 1`. Each of these
@@ -467,20 +651,33 @@
     check back with Ganache to ensure things happened as we were expecting. It allows
     us to test things like functions that should work for specific accounts but not
     others, like our is `owner` function:'
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我要声明一些变量。`gaming` 变量将代表部署到网络上的我们合约的版本，然后我将创建两个常量，`owner` 和 `player 1`。这两个常量都从一个叫做
+    `accounts` 的数组中获取。`accounts` 变量是通过 Truffle 框架免费提供的，数组中的项目代表了应用程序启动时 Ganache 为我们创建的
+    `accounts`，所以这个叫做 `owner` 的变量被设置为帐户数组中的第一项，也就是你在 Ganache 中查看时看到的第一个帐户，而 `player
+    1` 变量则是第二个列出的帐户。这相当强大，因为访问这些帐户允许我们以这些帐户的身份采取行动，然后与 Ganache 回顾以确保事情按照我们的期望发生。它允许我们测试一些只适用于特定帐户而不适用于其他帐户的功能，比如我们的
+    `is owner` 函数：
 - en: '[PRE13]'
+  id: totrans-87
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: 'Now we''re going to have a `before` function and, much like its counterpart
     in Truffle, this function will run before any of the tests written in this file.
     If you have additional test files, they''ll be considered separate runs, and the
     `before` function here won''t apply:'
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们将有一个 `before` 函数，和 Truffle 中的对应函数一样，这个函数将在这个文件中编写的任何测试之前运行。如果你有其他测试文件，它们将被视为单独的运行，这里的
+    `before` 函数不会应用：
 - en: '[PRE14]'
+  id: totrans-89
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: 'Then we''re going to use `async` and `await` to get the deployed version of
     our contract from the Ethereum network. So, let me break a `async` and `await`
     down for you in case you haven''t seen that before. Let''s say we had a line of
@@ -492,19 +689,29 @@
     variable is actually undefined until this call completes, which causes a lot of
     headaches as you try to figure out why this variable sometimes has a value, and
     sometimes doesn''t:'
+  id: totrans-90
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后我们将使用 `async` 和 `await` 来从以太坊网络中获取我们合约的部署版本。所以，让我给你解释一下 `async` 和 `await`，以防你之前没有见过。假设我们有一行
+    JavaScript 代码：它将使用我们导入的代表合约的 artifact 来获取部署在以太坊网络上的实际合约实例，但 JavaScript 的工作方式是一旦我们调用了这个函数，它就认为已经完成并且从这里继续了：它是异步的。所以，即使我们调用了部署函数并且它还没有返回值，JavaScript
+    也会继续向前移动。直到这个调用完成，`gaming` 变量实际上是未定义的，这会在你尝试弄清楚为什么这个变量有时有值，有时没有值时带来很多头疼：
 - en: '[PRE15]'
+  id: totrans-91
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: So, to avoid that pain we use `async` and `await`. The way it works is we declare
     this anonymous function here using the `async` keyword, then inside the function
     anytime we have a function or call that we need to wait on we use the `await`
     keyword. Now, there's a lot more going on under the hood than that, but that's
     the bare minimum you need to know to understand this. Instead of `async` and `await`,
     some other patterns you might see include callbacks and promises.
+  id: totrans-92
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了避免这种痛苦，我们使用 `async` 和 `await`。它的工作方式是我们在这里使用 `async` 关键字声明这个匿名函数，然后在函数内部，每当我们需要等待的函数或调用时，我们使用
+    `await` 关键字。现在，在幕后有比这更复杂的事情，但这是你需要了解的最基本的知识。除了 `async` 和 `await`，你可能会看到的其他模式包括回调和
+    promises。
 - en: 'And now we''ve got one more variable declared, which is a constant called `fundGame`.
     This function lets me send some initial Ethereum to the contract, so that as we
     start testing our contract has some funds to pay out any winners. Without this
@@ -513,11 +720,15 @@
     also using the `await` keyword, because once we call this function it doesn''t
     mean the execution is complete. We need to wait for that block to be mined before
     the operation is considered a success:'
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们又声明了一个变量，一个名为`fundGame`的常量。这个函数让我可以向合约发送一些初始的以太币，这样当我们开始测试我们的合约时，合约就有一些资金来支付任何赢家的奖金。如果没有这些以太币，任何导致获胜场景的测试都会失败，因为合约没有足够的资金来支付奖金。看看这个：它也使用了`await`关键字，因为一旦我们调用这个函数，执行并不意味着完成。我们需要等待该块被挖掘，然后操作才被视为成功：
 - en: '[PRE16]'
+  id: totrans-94
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: 'And, now, we''re finally ready to write some JavaScript tests. Our tests start
     with the word `it` and then has a sentence that describes what should happen.
     It''s common convention to actually use the word `should` here so that it reads
@@ -532,8 +743,12 @@
     need to ensure that when the `winOrLose` function returns, it was a losing round.
     I can do that by supplying 10 as the number displayed to the user, and true indicating
     that they guessed the mystery number was going to be higher.'
+  id: totrans-95
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们终于准备好编写一些 JavaScript 测试了。我们的测试以单词`it`开头，然后是一句描述应该发生什么的句子。这里通常惯例是实际使用单词`should`，这样它就像一句句子一样阅读；在这种情况下，它应该记录玩家的损失，所以让我们看看我们如何做到这一点。我们声明了一个名为`gameRound`的常量，然后我们再次使用`await`调用我们游戏合约中的`winOrLose`函数。请记住，这是我们的
+    UI 将要调用的同一个函数，因为我们的玩家在玩游戏，所以我们实际上在这里模拟真实的用户行为。我们的`winOrLose`函数接受两个参数：显示给玩家的屏幕上的数字以及他们对于神秘数字是更高还是更低的猜测。我希望这个测试确保当玩家输掉时记录的损失数量增加；这意味着我需要确保当`winOrLose`函数返回时，这是一个输掉的回合。我可以通过向用户显示数字为
+    10，并指示他们猜测神秘数字将更高来实现这一点。
 - en: Well, since our mystery number is a single digit from `0` to `9` there's no
     way it can be higher than ten, ensuring that our test player is always going to
     lose. The next important piece of this function call is an optional third parameter.
@@ -545,8 +760,13 @@
     denominated in Wei, which, if you remember from day one, means that ten to the
     eighteenth `Wei` equals one ether. But rather than doing that math ourselves,
     Truffle provides us with an instance of Web3 to use when testing.
+  id: totrans-96
   prefs: []
   type: TYPE_NORMAL
+  zh: 嗯，因为我们的神秘数字是一个从`0`到`9`的个位数，所以它不可能比十更高，确保我们的测试玩家总是会输。这个函数调用的下一个重要部分是一个可选的第三个参数。前两个参数在我们的函数调用中定义。这第三个参数来自
+    Solidity，并且采用 JavaScript 对象的形式。在其中，我们指定我们的`from`账户，表示我希望这个交易来自哪个账户，这就是我们的玩家 1。我还可以附加一个代表玩家赌注的值。现在所有发送到以太坊网络的资金都以
+    Wei 为单位，如果你还记得第一天，这意味着十的十八次方 Wei 等于一个以太币。但是与其自己计算这些数学，Truffle 在测试时为我们提供了一个 Web3
+    实例来使用。
 - en: 'Web3 is a JavaScript library of utilities for interacting with smart contracts
     on the Ethereum network, so we can use the `web3.utils.toWei` function to convert
     one ether to Wei and still have readable code. So, that initiates a round of the
@@ -554,11 +774,16 @@
     for that round to complete thanks to this `await` keyword, then once it does we
     can create a new constant called `player stats`. This is the struct that you created
     yesterday to increment the number of wins and losses:'
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: Web3是一个用于与以太坊网络上的智能合约交互的JavaScript实用程序库，所以我们可以使用`web3.utils.toWei`函数将一个以太币转换为Wei，并保持可读的代码。这启动了游戏的一轮与我们的玩家。由于这个`await`关键字，我们的代码的执行将在这里等待该轮完成，一旦完成，我们就可以创建一个新的常量叫做`player
+    stats`。这是您昨天创建的用于增加胜利和失败次数的结构：
 - en: '[PRE17]'
+  id: totrans-98
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE17]'
 - en: '`Players` is a mapping of addresses to a `player` struct, and that means it
     takes an Ethereum address as the parameter to get the stash for the correct player.
     We can use the `player1` variable name here and Truffle automatically converts
@@ -572,35 +797,49 @@
     in the order that the variables are listed in the struct declaration. So, we know
     that when this array comes back the first item in the array will be the wins and
     the second will be the losses:'
+  id: totrans-99
   prefs: []
   type: TYPE_NORMAL
+  zh: '`Players`是一个将地址映射到`player`结构的映射，这意味着它以以太坊地址作为参数获取正确玩家的筹码。我们可以在这里使用`player1`变量名，Truffle会自动将其转换为所需的地址参数。现在，我们可以最终使用`assert`来验证我们预期的数字是否等于1。我们还可以在这里包括一条消息，如果测试失败，它将被显示。在这里，你可能会对这个感到好奇。我们的players映射返回一个包含玩家胜利和失败的结构，但JavaScript对结构一无所知，并且它从结构转换为数组，根据在结构声明中列出的变量的顺序进行处理。因此，我们知道当这个数组返回时，数组的第一项将是胜利，第二项将是失败：'
 - en: '[PRE18]'
+  id: totrans-100
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE18]'
 - en: There're also some type differences between numbers and Solidity and JavaScript.
     When we get a number from Solidity, whether it's a signed or unsigned integer,
     it's a big number. That's actually a JavaScript type, not me saying it's a big
     number, so what we have to do is convert that to a JavaScript number, so that
     we can use it within our application, and we do that using the `toNumber` function.
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: 在Solidity和JavaScript中，数字也有一些类型差异。当我们从Solidity中获取一个数字时，无论它是有符号还是无符号整数，它都是一个大数。这实际上是JavaScript类型，不是我说它是一个大数，所以我们需要将其转换为JavaScript数字，这样我们就可以在我们的应用程序中使用它，我们使用`toNumber`函数进行转换。
 - en: 'So, let''s do one more thing. Since we''re here, let''s verify that when this
     player lost we took their money. That''s an important part of running a gambling
     operation and I''d like to have some tests to ensure that it works right. Before
     we play this round, let''s get the player''s account balance; we''ll use the `web3.eth.getBalance`
     function, and supply our player''s address:'
+  id: totrans-102
   prefs: []
   type: TYPE_NORMAL
+  zh: 所以，让我们再做一件事。既然我们在这里，让我们验证一下，当这个玩家输掉时，我们拿走了他们的钱。这是经营赌博业务的重要部分，我希望有一些测试来确保它工作正确。在我们玩这一轮之前，让我们获取玩家的账户余额；我们将使用`web3.eth.getBalance`函数，并提供我们玩家的地址：
 - en: '[PRE19]'
+  id: totrans-103
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE19]'
 - en: 'Now, after we play the round we know that the player has lost we can get that
     balance again with the following code:'
+  id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，在我们玩这一轮之后，我们知道玩家已经输了，我们可以使用以下代码再次获取余额：
 - en: '[PRE20]'
+  id: totrans-105
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE20]'
 - en: 'Now, we can assert using is `AtLeast` function. The reason I use `isAtLeast `is
     because in addition to the 10 ether that the player just lost, they also had to
     pay some gas for the transaction fees. So, the initial balance should be greater
@@ -608,23 +847,31 @@
     by just a little bit more than 10 because of the 10 that they wagered plus the
     gas. It''s not an exact number but it''s close enough for us to confirm that the
     player actually lost the amount of money we were expecting them to:'
+  id: totrans-106
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们可以使用`isAtLeast`函数进行断言。我使用`isAtLeast`是因为除了玩家刚刚输掉的10个以太币外，他们还必须支付一些gas作为交易费用。因此，初始余额应该大于最终余额加上下注金额。他们的余额应该减少了些许，因为他们下注了10个以太币加上了gas。这不是一个确切的数字，但足够接近，以确认玩家确实失去了我们期望他们失去的金额：
 - en: '[PRE21]'
+  id: totrans-107
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE21]'
 - en: And we can do that inside the same function we've been working on. It's perfectly
     acceptable to have multiple assertions within the same function, as long as they're
     testing the same component or function in your code. Now we can test our functions,
     evaluate and assert the results, as well as check balances for different accounts
     in our tests network. In the next section, let's see how we can make them all
     play together.
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们可以在我们一直在使用的同一个函数中执行这个操作。在同一个函数中有多个断言是完全可以接受的，只要它们在测试你代码中的同一组件或函数。现在我们可以测试我们的函数，评估和断言结果，并在我们的测试网络中检查不同账户的余额。在下一节中，让我们看看如何让它们都协同工作。
 - en: Running test suites
+  id: totrans-109
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 运行测试套件
 - en: 'So far today, we spent a lot of time writing tests and no time running tests.
     When I''m writing code, the approach I usually take is to write a single test,
     run the test suite to ensure it fails, and then write the code necessary to make
@@ -632,24 +879,34 @@
     quickly. You''ve already been running tests: you''ve used them each day to verify
     your homework. When you run Truffle tests, it runs the tests and now you know
     where those tests come from.'
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: 今天到目前为止，我们花了很多时间编写测试，但没有时间运行测试。当我编写代码时，我通常采取的方法是编写一个单独的测试，运行测试套件以确保它失败，然后编写必要的代码使其通过；这意味着我经常运行测试，而且很重要的是它们能够快速完成。你已经在运行测试了：你每天都使用它们来验证你的作业。当你运行
+    Truffle 测试时，它会运行测试，现在你知道这些测试是从哪里来的。
 - en: 'You''re also aware that you have to have Ganache running in order for those
     tests to pass, so there must be some kind of communication going on between Truffle
     test and Ganache:'
+  id: totrans-111
   prefs: []
   type: TYPE_NORMAL
+  zh: 你也意识到，为了使这些测试通过，你必须让 Ganache 运行，所以必须存在 Truffle 测试和 Ganache 之间的某种通信：
 - en: '![](img/971e5114-8240-4f5a-9e38-1cebb264be06.png)'
+  id: totrans-112
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/971e5114-8240-4f5a-9e38-1cebb264be06.png)'
 - en: 'Well, let''s take a peek behind the curtain. The reason Truffle knows how to
     talk to Ganache is thanks to this file right here—`truffle.js`—specifically the
     `Network` section. When you run Truffle tests, unless you tell it otherwise, it
     assumes a network of development in our development configuration: we specify
     an address of localhost and a port of 7545, which is the port that Ganache runs
     on.'
+  id: totrans-113
   prefs: []
   type: TYPE_NORMAL
+  zh: 好吧，让我们来看看幕后的情况。Truffle 能够与 Ganache 通信的原因在于这个文件——`truffle.js`——特别是`Network`部分。当你运行
+    Truffle 测试时，除非另有说明，它会假定我们的开发配置为开发网络：我们指定了 localhost 的地址和端口为 7545，这是 Ganache 运行的端口。
 - en: 'Finally, we tell it to use any network ID that Ganache is providing, which
     will differ for other configurations that you''ll learn about on [Chapter 7](a4cee862-9ee6-40e3-8a79-8092fbcae9ed.xhtml),
     *Day Seven* - *Deploying to the Network*. If you change any of the settings in
@@ -657,43 +914,64 @@
     to update those settings here to ensure Truffle knows how to talk to it. As far
     as running the test suites, that''s about all there is to it. Type the following
     Truffle test:'
+  id: totrans-114
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，我们告诉它使用 Ganache 提供的任何网络 ID，这将不同于你将在[第 7 章](a4cee862-9ee6-40e3-8a79-8092fbcae9ed.xhtml)中了解到的其他配置，*第七天*
+    - *部署到网络*。如果你更改了 Ganache 中的任何设置，或者决定使用其他本地以太坊客户端，你需要在这里更新这些设置，以确保 Truffle 知道如何与其通信。至于运行测试套件，就是这样了。键入以下
+    Truffle 测试：
 - en: '[PRE22]'
+  id: totrans-115
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE22]'
 - en: 'But since we''re here, let me ask you this: what do you do if the tests fail?
     While you think about how you''d handle that, let me show you one of my favorite
     features of using Truffle, the debugger.'
+  id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 但既然我们在这里，让我问你一下：如果测试失败了，你会怎么做？在你考虑如何处理时，让我向你展示使用 Truffle 时我最喜欢的功能之一，即调试器。
 - en: 'Let''s take a quick peek at our `winOrLose` function. I''m going to add a new
     `require` statement here, `require(1 != 1)`, and for normal purposes, yeah, that
     would be a dumb thing to do, but it''s going to ensure that our function call
     fails, allowing me to show you how to debug it:'
+  id: totrans-117
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们快速看一下我们的`winOrLose`函数。我要在这里添加一个新的`require`语句，`require(1 != 1)`，对于正常的情况来说，是一个愚蠢的事情，但这将确保我们的函数调用失败，让我可以向你展示如何调试它：
 - en: '[PRE23]'
+  id: totrans-118
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE23]'
 - en: 'I''m going to switch over to a Terminal session and launch a `truffle develop` console.
     When you do that, Truffle launches and it brings its own Ethereum network with
     it, which you can see that here whenever it starts. We get some account private
     keys and the mnemonic we can use if we want to connect a wallet to it:'
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 我将切换到一个终端会话并启动一个`truffle develop`控制台。当你这样做时，Truffle 将启动，并且会带着它自己的以太坊网络，你可以在这里看到它每次启动时的情况。我们会得到一些账户私钥和助记词，如果我们想要将钱包连接到它，我们可以使用这些信息：
 - en: '![](img/c585a238-53de-4673-985f-284baa227206.png)'
+  id: totrans-120
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/c585a238-53de-4673-985f-284baa227206.png)'
 - en: 'I''m also going to open a second console window and run the `truffle develop
     --log` command in it. Inside our developer console, we''re going to `compile`
     our contract and then we''ll type `migrate --reset`, which migrates it to this
     local Ethereum network:'
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 我也将打开第二个控制台窗口，并在其中运行`truffle develop --log`命令。在我们的开发控制台内，我们将`compile`我们的合约，然后我们将键入`migrate
+    --reset`，将其迁移到此本地以太坊网络：
 - en: '![](img/1574df9f-0cd1-4189-bb0f-ce33bc4d4f23.png)'
+  id: totrans-122
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/1574df9f-0cd1-4189-bb0f-ce33bc4d4f23.png)'
 - en: 'And now, I''m going to execute this command, which calls a function on our
     contract; but this looks like a mess whenever it''s all in one line like this,
     so let''s break it down piece by piece so we can understand what''s going on here.
@@ -707,18 +985,29 @@
     which executes the winOrLose function within our smart contract. When that completes,
     we''ll have another dot then or we call another function to write out the response
     from the Ethereum network to our console:'
+  id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我将执行这个命令，调用我们合约上的一个函数；但是当所有内容都在一行时，这看起来很混乱，所以让我们一块一块地拆开来，这样我们就能理解这里发生了什么。所以，这是同样的事情
+    - 它只是在控制台上写成一行，但在这里，我们将把它拆分成多行来演示每个部分是什么。我们有我们的游戏合约，这是我们的以太坊合约，我们正在调用`deployed`方法，就像我们在测试中做的那样。然后我们有一个
+    promise，所以当承诺实现时，我们调用doc，或者我们有一个函数，接收合约作为实例的变量名，并在该函数内部返回`instance.winOrLose`函数，该函数执行我们智能合约中的
+    winOrLose 函数。当完成时，我们将有另一个点，然后或者我们调用另一个函数来将来自以太坊网络的响应写入我们的控制台：
 - en: '[PRE24]'
+  id: totrans-124
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE24]'
 - en: 'So, now we can execute that. Whenever we execute it, we get the VM exception
     processing transaction revert, so it failed:'
+  id: totrans-125
   prefs: []
   type: TYPE_NORMAL
+  zh: 所以，现在我们可以执行它。每当我们执行它时，我们都会得到 VM 异常处理事务回滚，所以它失败了：
 - en: '![](img/f6c63e9c-4d34-425a-be68-bbe54565c87b.png)'
+  id: totrans-126
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/f6c63e9c-4d34-425a-be68-bbe54565c87b.png)'
 - en: 'The part that we want to see, though, which is why I have the develop console
     over here, is that we get our transaction ID. So, now I can take that transaction
     ID, type `debug`, and paste in that transaction ID, and it''s going to step me
@@ -727,11 +1016,16 @@
     can enter here, we''ll walk through it one line at a time, to step over, we can
     also set breakpoints and watch expressions. It''s actually a pretty full-featured
     debugger:'
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 但我们想要看到的部分是，这就是我在这里使用开发控制台的原因，我们得到了我们的交易 ID。所以，现在我可以拿到那个交易 ID，输入`debug`，然后粘贴那个交易
+    ID，它将引导我浏览该交易执行的一切。您在这里看到的是，它将逐行地浏览代码；我们有一些命令可以在这里输入，我们将一次逐行浏览它，要跳过，我们还可以设置断点和监视表达式。它实际上是一个功能齐全的调试器：
 - en: '![](img/8eaf91d1-e6ca-47a9-8026-b612ce9d7964.png)'
+  id: totrans-128
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/8eaf91d1-e6ca-47a9-8026-b612ce9d7964.png)'
 - en: 'It''s showing me here, underlined, the line of code that''s going to execute;
     so when we''re ready to execute it we can hit *Enter*, and it moves on to executing
     our `winOrLose` function. And now it''s going to evaluate each of the parameters
@@ -741,25 +1035,36 @@
     whole, and now it''s going to evaluate the `require` statement and we''re going
     to do the same thing to ensure that `msg.sender.balance` is greater than the message
     value. It''s pretty verbose here right:'
+  id: totrans-129
   prefs: []
   type: TYPE_NORMAL
+  zh: 它在这里显示给我，下划线表示将执行的代码行；所以当我们准备执行它时，我们可以按*Enter*，然后它会继续执行我们的`winOrLose`函数。现在它将评估该函数中的每个参数。我们已经进入了我们函数内的第一行代码，我们的
+    require 语句。它正在评估变量`online`，这是`true`，并将变量评估为`true`，现在它将评估语句作为一个整体，现在它将评估`require`语句，我们将做同样的事情来确保`msg.sender.balance`大于消息值。这里非常冗长对吧：
 - en: '![](img/90f4bb3f-4097-4f2c-85b2-6ce2e874f0c7.png)'
+  id: totrans-130
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/90f4bb3f-4097-4f2c-85b2-6ce2e874f0c7.png)'
 - en: Now we redirect to `1!=1`, and so it just kicked us out there, saying it halted
     with a runtime error. The really cool part about that is that we now know exactly
     which line of code within our contract caused the execution to fail.
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们重定向到`1!=1`，所以它刚刚将我们踢出来，并显示出一个运行时错误。非常酷的一点是，现在我们确切地知道了合约中的哪一行代码导致执行失败。
 - en: And now you know how to write your tests in Solidity and JavaScript. You know
     how to run them and you learned how to use the Truffle interactive debugger when
     things go wrong. Let's jump into today's homework.
+  id: totrans-132
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在你知道如何用 Solidity 和 JavaScript 编写你的测试了。你知道如何运行它们，也学会了在出现问题时如何使用 Truffle 交互式调试器。让我们开始今天的作业吧。
 - en: Assignment
+  id: totrans-133
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 作业
 - en: For the last few days, you've been writing code and relying on tests to let
     you know when the code is correct. Today, we're going to flip those tables. There's
     a function in the contract called `withdrawFunds`. It takes no parameters and
@@ -767,8 +1072,11 @@
     a test that gets the contract balance of the owner defined in our test, call the
     `withdrawFunds` function, and then verify that the owners balance has increased
     by 10 ether.
+  id: totrans-134
   prefs: []
   type: TYPE_NORMAL
+  zh: 在过去几天里，你一直在编写代码，并依靠测试来告诉你代码何时正确。今天，我们将改变这种情况。合约中有一个名为`withdrawFunds`的函数。它不带参数，将合约的余额转移到消息发送者。我希望你编写一个测试，获取我们测试中定义的所有者的合约余额，调用`withdrawFunds`函数，然后验证所有者的余额增加了
+    10 以太币。
 - en: 'As a bonus assignment, you can also write an additional assertion to ensure
     that the contract balance is zero after the withdraw. Now, you''ll want to do
     these tests in JavaScript because you can''t access an Ethereum account using
@@ -776,20 +1084,31 @@
     already written in our JavaScript test file. There''s actually nothing wrong with
     using those as inspiration: reading code written by others is a great way to increase
     your own understanding of a particular topic.'
+  id: totrans-135
   prefs: []
   type: TYPE_NORMAL
+  zh: 作为额外的作业，你还可以编写一个附加断言，以确保提款后合约余额为零。现在，你会想在 JavaScript 中进行这些测试，因为不能使用 Solidity
+    测试访问以太坊账户。如果遇到困难，可以看看我们 JavaScript 测试文件中已经编写的一些现有测试。实际上，使用这些测试作为灵感并没有错：阅读他人编写的代码是增加自己对特定主题理解的好方法。
 - en: Summary
+  id: totrans-136
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 总结
 - en: We have reached the end of the chapter! We saw a comparison between the unit
     tests versus integration. Then we looked the reason behind writing tests. After
     which, we tested strategies for various applications, for example, Solidity and
     JavaScript. Next, we created a unit test, and learned about Solidity test conventions.
     We learned how to create multiple tests for the same function and also created
     integration tests in JavaScript. And, finally, we ran test suites.
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们已经到达了本章的末尾！我们看到了单元测试与集成测试之间的比较。然后我们看了写测试背后的原因。之后，我们测试了各种应用的策略，例如，Solidity
+    和 JavaScript。接下来，我们创建了一个单元测试，并了解了 Solidity 测试约定。我们学会了如何为同一个函数创建多个测试，并在 JavaScript
+    中创建了集成测试。最后，我们运行了测试套件。
 - en: In the next chapter, we will build a user interface for our application.
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一章中，我们将为我们的应用构建用户界面。
