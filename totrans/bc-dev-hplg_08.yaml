@@ -1,7 +1,9 @@
 - en: Agility in a Blockchain Network
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 区块链网络的灵活性
 - en: At this point, if all went well, you should have a fully functional decentralized
     application, with the associated smart contracts running on Hyperledger Fabric.
     With this knowledge in hand, life is going to be good, right? Well, like anything,
@@ -9,50 +11,72 @@
     of a new member in the consortium, or a simple bug in your smart contract—whatever
     the cause, the solution will grow, and without solid development and operational
     practices, changes will be slow and your life will be painful.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: 此时，如果一切顺利，您应该拥有一个完全功能的去中心化应用程序，其中智能合约正在 Hyperledger Fabric 上运行。有了这些知识，生活会很美好，对吧？然而，就像任何事情一样，解决方案会随着时间的推移而发展。这可能是法规的变化，财团中新成员的引入，或者您的智能合约中的一个简单错误
+    —— 不管原因是什么，解决方案都会发展，如果没有扎实的开发和运营实践，变化将会缓慢，您的生活将会痛苦。
 - en: Considering that maintaining agility in the development processes of an IT organization
     is already very challenging, how can it be done in a consortium? How can companies
     of various cultures with different velocities come together to deliver and maintain
     the solution in a time frame that allows them to maintain the competitive edge
     that the network provides?
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 考虑到在 IT 组织的开发过程中保持敏捷性已经非常具有挑战性，那么在财团中如何做到呢？不同速度的各种文化公司如何汇聚在一起，以在允许他们保持网络提供的竞争优势的时间范围内交付和维护解决方案？
 - en: While a lot has already been written on the topic of IT agility and DevOps,
     this chapter will focus on applying some of these concepts to a blockchain network.
     We say *some* because our attention will be on those concepts that are specific/different
     to blockchains. Through automation and the deployment of a **continuous integration
     and delivery** (**CI and CD**) pipeline, we will discuss the impact that a blockchain
     network has on the people, the process, and the technology.
+  id: totrans-3
   prefs: []
   type: TYPE_NORMAL
+  zh: 尽管关于 IT 敏捷性和 DevOps 的主题已经有很多文章写得很详细，但本章将重点讨论将其中一些概念应用于区块链网络。我们说 *一些* 是因为我们的注意力将集中在那些与区块链特定/不同的概念上。通过自动化和**持续集成和交付**（**CI
+    和 CD**）流水线的部署，我们将讨论区块链网络对人员、流程和技术的影响。
 - en: 'In this chapter, we will cover the following topics:'
+  id: totrans-4
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: Defining the promotion process
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 定义推广流程
 - en: Configuring the continuous integration pipeline
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 配置持续集成流水线
 - en: Protecting the source control
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 保护源代码控制
 - en: Updating the network
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 更新网络
 - en: Implication of the consortium on team structures
+  id: totrans-9
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 财团对团队结构的影响
 - en: Defining the promotion process
+  id: totrans-10
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 定义推广流程
 - en: 'As you may already be aware, the promotion process defines the key set of activities
     and gates that any system modification will need to go through. It typically encompasses
     the development, packaging, testing (for example, unit-testing, functional verification,
@@ -61,74 +85,103 @@
     what is expected of the project and its support teams. In the case of a Hyperledger
     Fabric network, there will be at least two different promotion processes for the
     following:'
+  id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可能已经意识到，推广过程定义了任何系统修改需要经历的一系列关键活动和门槛。通常，它涵盖了开发、打包、测试（例如单元测试、功能验证和集成测试）、版本控制和部署。通常，组织会有一个标准化的方法，这个方法会被记录下来，以描述项目及其支持团队所期望的内容。在
+    Hyperledger Fabric 网络的情况下，至少会有两个不同的推广流程，分别为以下内容：
 - en: '**Smart contracts**: As these components are at the vital to business interaction
     between the participants of the systems, it is imperative that every participant
     agrees to the content of the contract'
+  id: totrans-12
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**智能合约**：由于这些组件是系统参与者之间业务互动的关键，因此每个参与者同意合约内容至关重要'
 - en: '**Integration layer**: As they sit on the boundary of the network, their promotion
     process will depend on who owns them (a consortium versus a specific organization)'
+  id: totrans-13
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**集成层**：由于它们位于网络的边界上，它们的推广流程将取决于它们的所有者是谁（由财团还是特定组织拥有）'
 - en: Optionally, there might also be a process to control changes to the policies
     of the network; however, it will be closely aligned with the smart contract promotion
     process.
+  id: totrans-14
   prefs: []
   type: TYPE_NORMAL
+  zh: 可选地，网络策略的更改过程也可能存在；但是，它将与智能合约推广流程密切相关。
 - en: However, before jumping straight into the configuration of the pipeline, let's
     spend a bit of time to understand the considerations of these two promotion processes.
+  id: totrans-15
   prefs: []
   type: TYPE_NORMAL
+  zh: 但是，在直接进入管道配置之前，让我们花点时间了解这两个推广流程的考虑因素。
 - en: Smart contract considerations
+  id: totrans-16
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 智能合约考虑
 - en: As we mentioned, smart contracts are vital to business interaction between the
     participants of any blockchain network. As they essentially contain the rules
     and conditions under which a transaction is deemed valid, we need to ensure that
     every participant and organization agrees to its validity—otherwise, trust will
     be compromised.
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们所提到的，智能合约对于任何区块链网络中的参与者之间的业务互动至关重要。由于它们基本上包含了交易被视为有效的规则和条件，我们需要确保每个参与者和组织都同意其有效性——否则，信任将受到损害。
 - en: 'Conditions for promoting a smart contract would include the following:'
+  id: totrans-18
   prefs: []
   type: TYPE_NORMAL
+  zh: 晋升智能合约的条件将包括以下内容：
 - en: '**Traceability to an issue**: Is this a bug-fix or a new feature? Along with
     this element, there might be a need for organizations to approve the issue before
     it moves to implementation.'
+  id: totrans-19
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**与问题的可追溯性**：这是一个修复bug还是一个新功能？除了这一点，组织可能需要在问题移至实施之前批准该问题。'
 - en: '**Successful execution of all tests**: This may be self-evident for some, but
     most tests should be automated and the results captured.'
+  id: totrans-20
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**所有测试成功执行**：对一些人来说可能是不言而喻的，但大多数测试应该是自动化的，并且结果应该被记录下来。'
 - en: '**Code review from key parties**: Would you sign a contract without reviewing
     its terms and condition? Well, the code review serves a similar purpose.'
+  id: totrans-21
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**来自关键方的代码审查**：你会在不审查合同条款和条件的情况下签订合同吗？嗯，代码审查起到了类似的作用。'
 - en: '**Impact assessment**: Is the new version of the smart contract backwards-compatible?
     Changes that are not backwards-compatible will require additional planning.'
+  id: totrans-22
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**影响评估**：新版本的智能合约是否向后兼容？不兼容的变化将需要额外的规划。'
 - en: '**Sign-off from key parties**: Preceding all the other points, do you have
     the blessing of all relevant parties? Where will you record this?'
+  id: totrans-23
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**来自关键方的签署**：在所有其他要点之前，您是否得到了所有相关方的祝福？你会在哪里记录？'
 - en: The definition of key parties will be something that will be left for the consortium
     to define. Key parties could be all organizations that currently use that smart
     contract, or perhaps the term could refer to a subset of technical leads or members
     of the founder organization.
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: 关键方的定义将由财团定义。关键方可能是当前使用该智能合约的所有组织，或者该术语可能指的是技术负责人或创始组织成员的子集。
 - en: Preceding the conditions for promoting a smart contract, promotion frequency
     could also be contentious. Some organizations are used to quarterly cycles while
     others are used to a weekly deployment. Friction is bound to occur if such a factor
@@ -138,111 +191,156 @@
     may be scoped to the entire network or the pair or set of participants. The scoping 
     of these smart contracts and various permutation and combinations represents interesting
     system modifications needed for promotion.
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 在晋升智能合约的条件之前，晋升频率也可能引起争议。一些组织习惯于季度周期，而其他一些组织习惯于每周部署。如果不提前讨论这一因素，摩擦不可避免，因为这将直接影响组织需要考虑的运营费用，以保持他们的参与达到财团期望的水平。还需注意的是，智能合约可能适用于整个网络或一对或一组参与者。这些智能合约的范围和各种排列组合代表了晋升所需的有趣的系统修改。
 - en: The point is that the conditions and process of modifying a smart contract should
     be defined upfront by the consortium to avoid any misunderstanding and frustration.
     In a sense, this is no different than a traditional contract being modified; the
     terms for the conditions of a contract modification need to be agreed upfront
     to avoid conflicts.
+  id: totrans-26
   prefs: []
   type: TYPE_NORMAL
+  zh: 关键是修改智能合约的条件和流程应该由财团提前定义，以避免任何误解和挫折。在某种意义上，这与修改传统合同没有区别；合同修改的条件需要提前达成一致，以避免冲突。
 - en: Integration layer considerations
+  id: totrans-27
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 集成层考虑
 - en: As we have seen in [*Chapter 5*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml),
     *Exposing the Network Assets and Transactions*, there are a few patterns that
     an organization and a consortium can use to invoke transactions on the network.
     The selected pattern will help drive the management of the promotion process.
+  id: totrans-28
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们在[*第5章*](fa222e28-8a53-4930-b16d-cfec535f9df7.xhtml)中所见，*暴露网络资产和交易*，组织和财团可以使用一些模式来在网络上调用交易。所选的模式将有助于推动晋升流程的管理。
 - en: If the service layer of an application directly invokes the fabric SDK, then
     the owner of the application will have to manage its promotion process. If, instead,
     the consortium imposes the use of a REST gateway, then you can expect that its
     deployment will follow a process like the one for a smart contract.
+  id: totrans-29
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果应用程序的服务层直接调用了面料 SDK，那么应用程序的所有者将不得不管理其晋升流程。如果相反，财团强制使用 REST 网关，那么你可以期望它的部署将遵循类似智能合约的流程。
 - en: No matter the owner, the abstraction provided by the integration layer should
     isolate the application from the smart contract and as such, it would be expected
     that they evolve independently. However, this does not remove the importance of
     the impact assessment.
+  id: totrans-30
   prefs: []
   type: TYPE_NORMAL
+  zh: 无论所有者如何，集成层提供的抽象应该将应用程序与智能合约隔离开来，因此可以期望它们独立发展。然而，这并不减弱对影响评估的重要性。
 - en: Promotion process overview
+  id: totrans-31
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 晋升流程概述
 - en: 'With these concepts defined, let''s turn our attention to the promotion process
     of our application. As we are using Git as our software configuration management
     tool, we will leverage its social coding features to support our promotion process:'
+  id: totrans-32
   prefs: []
   type: TYPE_NORMAL
+  zh: 有了这些概念定义，让我们转向我们应用程序的晋升流程。由于我们正在使用 Git 作为软件配置管理工具，我们将利用其社交编码功能来支持我们的晋升流程：
 - en: We can use Git issues to record new features or bug fixes
+  id: totrans-33
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 我们可以使用 Git issues 来记录新功能或 bug 修复
 - en: We can use Git branches to isolate proposed modifications
+  id: totrans-34
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 我们可以使用 Git 分支来隔离建议的修改
 - en: Git GPG is used to sign every commit and tag
+  id: totrans-35
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Git GPG 用于对每个提交和标签进行签名
 - en: Pull requests are used to enforce governance
+  id: totrans-36
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Pull request 用于执行治理
 - en: 'The following diagram summarizes the process we will use to configure our application:'
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下图表总结了我们将用于配置应用程序的流程：
 - en: '![](img/830c8212-62cb-4149-895c-2a5e99db09fb.png)'
+  id: totrans-38
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/830c8212-62cb-4149-895c-2a5e99db09fb.png)'
 - en: Wondering what a pull request is?
+  id: totrans-39
   prefs: []
   type: TYPE_NORMAL
+  zh: 想知道什么是 pull request 吗？
 - en: This chapter assumes that the reader is already familiar with many of the Git
     concepts. If this is not the case, it might be a good idea to pause and explore
     what Git has to offer.
+  id: totrans-40
   prefs: []
   type: TYPE_NORMAL
+  zh: 本章假定读者已经熟悉了许多 Git 概念。如果不是这种情况，最好暂停一下，探索一下 Git 提供了什么。
 - en: As a quick summary, a pull request is the process by which people can submit
     code changes between forks (that is, different repositories) or branches (within
     a repository). It provides a controlled way to review, comment on, and ultimately
     approve all code changes.
+  id: totrans-41
   prefs: []
   type: TYPE_NORMAL
+  zh: 简要来说，pull request 是人们可以在各自的 fork（即不同的存储库）或分支（在一个存储库内）之间提交代码更改的过程。它提供了一种受控的方式来审查、评论，并最终批准所有的代码更改。
 - en: We will now go through the process in detail and focus on the issue of trust
     and the provenance of the code. As we've been discussing, since smart contracts
     are at the heart of blockchain networks, we need to ensure that we closely track
     their evolution to avoid unfortunate events. From that perspective, we will want
     to have traceability from the requirements (Git issues) all the way to the deployment.
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们将详细介绍流程，并关注信任和代码来源的问题。正如我们一直在讨论的，由于智能合约是区块链网络的核心，我们需要确保密切跟踪其发展，以避免不幸事件。从这个角度来看，我们希望从需求（Git
+    issues）一直到部署都能追溯到。
 - en: As such, every code modification should start with the creation of a Git issue.
     It should properly identify what its scope is—feature request or bug fix—and then
     describe precisely what work is expected.
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，每一次代码修改都应该从创建一个 Git issue 开始。它应该准确地确定其范围——功能请求或 bug 修复，然后描述预期的工作。
 - en: We will cover the governance aspect in a few chapters, but for now we can assume
     that the issue will have been prioritized and work will be assigned according
     to the consortium's priority.
+  id: totrans-44
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将在接下来的几章中涵盖治理方面，但目前可以假设问题已经被优先考虑，并且工作将根据财团的优先级进行分配。
 - en: Once the developer is assigned to work on the issue, his first step will be
     to create a temporary Git branch to track all code changes related to this Git
     issue. Code modification should never be done on the master branch as it represents
     the stable version of the code, and new features and bug fixes should be reviewed
     before their integration into the stable stream.
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦开发人员被分配到处理问题，他的第一步将是创建一个临时的 Git 分支，跟踪与该 Git 问题相关的所有代码更改。代码修改绝不能在主分支上进行，因为它代表了代码的稳定版本，新功能和bug修复应该在其集成到稳定流之前进行审查。
 - en: It is expected that developers will run all the appropriate tests within their
     own local environments and only commit back to the branch when code is ready and
     all unit tests complete successfully.
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: 预期开发者将在自己的本地环境中运行所有适当的测试，并且只有当代码准备就绪且所有单元测试成功完成时才将其提交回分支。
 - en: When the time comes to commit the changes, Git provides a feature that allows
     you to sign all your work using **GPG**. What is GPG, you ask? It stands for **GNU
     Privacy Guard**, and it is an open implementation of the `openpgp` standard. It
@@ -250,173 +348,249 @@
     private key. Git has implemented GPG to allow developers to sign their work. Each
     commit or tag can be signed using the GPG key of the author, thereby providing
     nonrepudiation of commits.
+  id: totrans-47
   prefs: []
   type: TYPE_NORMAL
+  zh: 当提交更改的时候，Git 提供了一个功能，允许你使用**GPG**对所有工作进行签名。你问什么是 GPG？它代表**GNU隐私保护**，是`openpgp`标准的一个开放实现。它基本上提供了一个工具，帮助你使用自己的私钥签名和加密数据。Git
+    已经实现了 GPG 以允许开发人员对其工作进行签名。每个提交或标签都可以使用作者的 GPG 密钥进行签名，从而提供提交的不可否认性。
 - en: Why sign code modification using GPG? Some may say this is an overhead, but
     consider that the code being modified represents a legal contract and is at the
     root of the trust of the network. From this point of view, it might be desirable
     to ensure that the identity of authors is proven beyond a doubt.
+  id: totrans-48
   prefs: []
   type: TYPE_NORMAL
+  zh: 为什么使用 GPG 对代码修改进行签名？有些人可能会说这是一个额外的负担，但请考虑被修改的代码代表着一个法律合同，并且是网络信任的根源。从这个角度来看，确保作者的身份被证明是十分必要的。
 - en: Using single-factor authentication for normal commits may not be sufficient
     to prove their authorship; consider all the reports on the internet of people
     spoofing the identities of others.
+  id: totrans-49
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于普通提交来说，单因素身份验证可能不足以证明其作者身份；考虑一下互联网上关于有人伪造他人身份的报道。
 - en: Without signed commits, we can imagine a situation where a rogue developer modifies
     a smart contract for their own benefit and gets away by claiming they were not
     the real author of the code change. Such an event would jeopardize the viability
     of the network and far outweigh the inconvenience of signing commits.
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: 没有签名的提交，我们可以想象到这样一种情况：一个不法开发者修改智能合约以谋取个人利益，并通过声称自己不是代码更改的真正作者而逃脱惩罚。这样的事件会危及网络的可行性，远远超过签署提交所带来的不便。
 - en: 'Now that the developer has signed the commits, they are ready to submit a pull
     request. The pull request has been configured to check the following criteria:'
+  id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在开发者已经签署了提交，他们准备提交一个拉取请求。拉取请求已经配置为检查以下标准：
 - en: The temporary branch is up to date with the content from the master
+  id: totrans-52
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 临时分支已经与主分支的内容保持一致。
 - en: Every commit is signed
+  id: totrans-53
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 每个提交都已经签名。
 - en: The code owners have reviewed and accepted the code changes
+  id: totrans-54
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 代码所有者已经审查并接受了代码更改。
 - en: The continuous integration pipeline has successfully completed
+  id: totrans-55
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 持续集成流水线已经成功完成。
 - en: The pipeline will be automatically triggered when the pull request is created.
     Once all the conditions are met, then one of the code owners may merge the code
     with the master branch and commit those changes (while signing the commit, of
     course).
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 当创建拉取请求时，流水线将自动触发。一旦所有条件都满足，那么其中一个代码所有者可以将代码与主分支合并并提交这些更改（当然要签署提交）。
 - en: In a real-life scenario, the consortium would have additional environments (user
     acceptance environment, staging environment, and so on) where the complete solution
     stack would be tested.
+  id: totrans-57
   prefs: []
   type: TYPE_NORMAL
+  zh: 在实际场景中，财团可能会有额外的环境（用户验收环境、演示环境等），在这些环境中，将会对完整的解决方案堆栈进行测试。
 - en: The final step described in the diagram focuses on tagging the release. The
     idea here is that a single release may be built from a series of multiple pull
     requests. When the consortium is ready to release a new version, it should tag
     it to represent the official version being deployed.
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: 图中描述的最后一步侧重于为发布打标签。这里的想法是一个单一的发布可以由多个拉取请求系列构建而成。当财团准备发布一个新版本时，应该对其进行标记以代表正在部署的官方版本。
 - en: 'It is on this event that the pipeline will be triggered again, but with a different
     objective: build, test, sign, and publish the smart contract to an artifact repository.
     This artifact repository could be one of many popular solutions out there, but
     in our case, for simplicity''s sake, we will attach the smart contract to a Git
     release.'
+  id: totrans-59
   prefs: []
   type: TYPE_NORMAL
+  zh: 就是在这种情况下，流水线将再次被触发，但目标不同：构建、测试、签名并将智能合约发布到一个构件存储库。这个构件存储库可以是众多流行解决方案中的一个，但在我们的情况下，为了简单起见，我们将把智能合约附加到一个
+    Git 发布中。
 - en: Some of you may wonder why we are not deploying directly on the network. Again, the
     intent is to maintain a clear delineation between the centralized build process
     and the decentralized nature of the network. Each organization can be notified
     of the new smart contract to deploy, pull the archive, validate against the signature,
     and deploy it.
+  id: totrans-60
   prefs: []
   type: TYPE_NORMAL
+  zh: 有些人可能会想知为什么我们不直接在网络上部署。再次强调，目的是在中心化构建流程和网络的去中心化性质之间保持明确的区分。每个组织都可以收到新智能合约的部署通知，拉取归档文件，根据签名验证，然后部署它。
 - en: 'In summary, here are a few points on the promotion process:'
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: 总结一下，以下是推广过程中的几个要点：
 - en: Every code change is tied to a change request
+  id: totrans-62
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 每次代码更改都与变更请求相关联
 - en: Developers sign their modification using GPG
+  id: totrans-63
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 开发人员使用GPG签署其修改
 - en: Master branch integrity is preserved by the pull request process
+  id: totrans-64
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 主分支完整性由拉取请求流程保留
 - en: The pipeline builds and tests the code for pull requests
+  id: totrans-65
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 流水线为拉取请求构建和测试代码
 - en: The pipeline publishes the smart contract to the artifact repository when changes
     are tagged
+  id: totrans-66
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 当更改被标记时，流水线将智能合约发布到存储库
 - en: Each organization receives a notification when a new version is available
+  id: totrans-67
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 每个组织在新版本可用时收到通知
 - en: In the next section, we will start configuring the continuous integration pipeline
     we have just defined.
+  id: totrans-68
   prefs: []
   type: TYPE_NORMAL
+  zh: 在接下来的部分，我们将开始配置我们刚刚定义的持续集成流水线。
 - en: Configuring a continuous integration pipeline
+  id: totrans-69
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 配置持续集成流水线
 - en: Not all languages are created equal, and while we could debate the benefits
     of strongly typed languages such as Java and Go versus untyped ones such as JavaScript,
     the fact is that we need to rely on unit tests to ensure that the code is working
     as intended. This is not a bad thing in itself—every code artifact should be supported
     by a set of tests with adequate coverage.
+  id: totrans-70
   prefs: []
   type: TYPE_NORMAL
+  zh: 并非所有语言都一样，并且虽然我们可以讨论强类型语言（如Java和Go）与非类型语言（如JavaScript）之间的好处，但事实上，我们需要依赖单元测试来确保代码按预期工作。这本身并不是坏事—每个代码构件都应该由一组具有充分覆盖率的测试支持。
 - en: 'What does that have to do with a continuous delivery pipeline, you may be wondering?
     Well, it''s all about the tests and, in the case of JavaScript code, this is very
     important. While pipeline will need to ensure the following:'
+  id: totrans-71
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可能会想：这与持续交付流水线有什么关系？嗯，这一切都要看测试，对于JavaScript代码来说，这非常重要。而流水线需要确保以下内容：
 - en: The code is meeting all quality rules
+  id: totrans-72
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 代码符合所有质量规则
 - en: All unit tests are successful
+  id: totrans-73
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 所有单元测试都成功
 - en: All integration tests are successful
+  id: totrans-74
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 所有集成测试都成功
 - en: Once these steps are successful, then the process will be able to package and
     publish the result.
+  id: totrans-75
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦这些步骤成功，流程将能够打包并发布结果。
 - en: 'So, in the next sections, we will experiment with the deployment and configuration
     of our pipeline using one of the popular cloud-based continuous integration services:
     Travis CI. We will cover the following elements:'
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，在接下来的部分，我们将尝试使用流行的云端持续集成服务之一——Travis CI来部署和配置我们的流水线。我们将涵盖以下内容：
 - en: Customizing the pipeline process
+  id: totrans-77
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 定制流水线过程
 - en: Publishing our smart contract against a repository
+  id: totrans-78
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 将我们的智能合约发布到存储库
 - en: Once this is all done, we will move on to configure our Git repository to control
     how changes are validated and integrated. So without further ado, let's get started.
+  id: totrans-79
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦所有这些都完成，我们将继续配置我们的Git仓库，以控制验证和集成变更的方式。所以，话不多说，让我们开始吧。
 - en: Customizing the pipeline process
+  id: totrans-80
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 定制流水线过程
 - en: 'You may recall that in our promotion process, we identified two events within
     the life cycle that were meant to trigger the pipeline:'
+  id: totrans-81
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可能还记得在我们的推广过程中，我们确定了生命周期中应该触发流水线的两个事件：
 - en: Pull requests
+  id: totrans-82
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 拉取请求
 - en: Tag release
+  id: totrans-83
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 标记发布
 - en: Some may wonder why only these events were specifically chosen. If you recall
     the process, the developers are expected to manually run tests on their local
     environment, so there is not an absolute need to trigger the pipeline every time
@@ -426,121 +600,178 @@
     branch. The same goes with tagging a release—this is an indication that a new
     version has been cut, and so it makes sense to rerun the pipeline one last time
     to publish the deployment unit (the smart contract package, in our case).
+  id: totrans-84
   prefs: []
   type: TYPE_NORMAL
+  zh: 有些人可能会想为什么只选择了这些特定事件。如果您回想一下流程，开发者预期在其本地环境上手动运行测试，因此不需要每次有人向自己的分支提交代码时触发管道。但是，当开始将代码交付到主分支时，重要的是在接受对主分支的更改之前验证代码是否可以构建、部署和测试。发布版本时也是如此——这表示已经裁剪了新版本，因此最后一次运行管道以发布部署单元（在我们的案例中是智能合约包）是有意义的。
 - en: In any case, this is the guideline we have set for our pipeline, but other teams
     may choose different approaches. The reader should consider this a guideline and
     not a definitive approach to continuous delivery.
+  id: totrans-85
   prefs: []
   type: TYPE_NORMAL
+  zh: 无论如何，这是我们为管道设定的指南，但其他团队可能会选择不同的方法。读者应该将其视为指南，而不是连续交付的明确方法。
 - en: Local build
+  id: totrans-86
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 本地构建
 - en: Before we dive into the configuration of the pipeline, let us quickly look at
     how the build process is organized.  First thing to note is that our solution
     is now technology rich:  Fabric, Composer, `go`, `node.js`. These technologies
     have quite a few dependencies that needs to be in place for the build to work;
     Think about the pre-requisites for Fabric and Composer, `go` and its libraries,
     `NVM`, `NPM`, `Node` and all the packages deployed.
+  id: totrans-87
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们深入了解管道配置之前，让我们快速看一下构建过程是如何组织的。首先要注意的是，我们的解决方案现在技术含量丰富：Fabric、Composer、`go`、`node.js`。这些技术有很多依赖关系需要满足才能进行构建；想想
+    Fabric 和 Composer 的先决条件，以及 `go` 和其库、`NVM`、`NPM`、`Node` 和所有部署的软件包。
 - en: To get a consistent build output between the local and remote environment we
     need to have a way to reduce and contain the dependencies.
+  id: totrans-88
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了在本地和远程环境之间获得一致的构建输出，我们需要一种方法来减少和容纳依赖关系。
 - en: 'This is where the approach of using `Docker` and `make` comes in:'
+  id: totrans-89
   prefs: []
   type: TYPE_NORMAL
+  zh: 这就是使用 `Docker` 和 `make` 的方法：
 - en: Docker provides us an environment that help contains the dependencies and `make`
     the execution consistent between environments.
+  id: totrans-90
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: Docker 为我们提供了一个环境，帮助我们容纳依赖关系，并使执行在不同环境之间保持一致。
 - en: '`make` helps us manage the dependencies and because it is built-in to most
     OS (except Windows unfortunately) it reduces the needs for extra tool deployment
     and configuration.'
+  id: totrans-91
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`make` 帮助我们管理依赖关系，因为它内置于大多数操作系统中（遗憾的是，Windows 除外），所以减少了额外的工具部署和配置的需求。'
 - en: This combo allows developer to run the build on their system with minimum effort.
     No need to deploy additional packages, if the system has Docker and `make` then
     it is good to go.
+  id: totrans-92
   prefs: []
   type: TYPE_NORMAL
+  zh: 这种组合使开发者可以在其系统上以最少的努力运行构建。如果系统已经安装了 Docker 和 `make`，那就可以开始了，不需要部署额外的软件包。
 - en: 'Windows users: While Windows does come with `make`, we would recommend that
     you look at GNU `Make`.'
+  id: totrans-93
   prefs: []
   type: TYPE_NORMAL
+  zh: Windows 用户：虽然 Windows 自带 `make`，但我们建议您查看 GNU `Make`。
 - en: 'You can follow the installation instructions from this site: [http://gnuwin32.sourceforge.net/packages/make.htm](http://gnuwin32.sourceforge.net/packages/make.htm)'
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: 您可以按照此网站上的安装说明进行安装：[http://gnuwin32.sourceforge.net/packages/make.htm](http://gnuwin32.sourceforge.net/packages/make.htm)
 - en: 'As we mentioned, Docker provides a pre-built environment which exists within
     the container, thus avoiding the need to deploy the plethora of tools on the local
     workstation.  Here is the composer task:'
+  id: totrans-95
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们提到的，Docker 提供了一个预构建的环境，存在于容器内，因此避免了在本地工作站上部署大量工具的需要。以下是 Composer 任务：
 - en: '[PRE0]'
+  id: totrans-96
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: 'Breaking the docker run command:'
+  id: totrans-97
   prefs: []
   type: TYPE_NORMAL
+  zh: 分解 docker 运行命令：
 - en: '`--rm`: Remove the container at the end of the build'
+  id: totrans-98
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`--rm`：在构建结束时删除容器'
 - en: '`-v`: Mount the src and dist directory from the git clone folders'
+  id: totrans-99
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`-v`：挂载来自 git 克隆文件夹的 src 和 dist 目录'
 - en: '`-w`: Make the container `/src` directory the working directory'
+  id: totrans-100
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`-w`：将容器的 `/src` 目录设置为工作目录'
 - en: '`node:8:11`: Container image with node 8.11 deployed and configured'
+  id: totrans-101
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`node:8:11`：已部署和配置了 Node 8.11 的容器镜像'
 - en: '`sh -c "$(COMPOSER_BUILD_CMD)"`: The build command to run'
+  id: totrans-102
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`sh -c "$(COMPOSER_BUILD_CMD)"`：要运行的构建命令'
 - en: As you can see, with minimal configuration the build is now taking place within
     the container but using the local git clone files and folders.  The nice thing
     about it is that the container will behave the same whether running locally or
     in our build pipeline.
+  id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如你所看到的，通过最小的配置，构建现在正在容器内进行，但是使用本地 git 克隆的文件和文件夹。很好的一点是，无论是在本地运行还是在我们的构建流水线中运行，容器的行为都是一样的。
 - en: Why the `.PHONY` you ask?  `Makefile` is a great but ancient tool.  As such,
     it originally primarily focused on file dependencies.
+  id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: 你问为什么要使用`.PHONY`？`Makefile` 是一个很棒但古老的工具。因此，它最初主要关注文件依赖关系。
 - en: If someone ever defined a file called `build` or `test`, `make` would consider
     that the task was up-to-date and do nothing.
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果有人曾经定义过一个名为 `build` 或 `test` 的文件，`make` 将认为任务是最新的并且什么都不做。
 - en: '`.PHONY` tells `make` to not consider those tags as file.'
+  id: totrans-106
   prefs: []
   type: TYPE_NORMAL
+  zh: '`.PHONY` 告诉 `make` 不将这些标签视为文件。'
 - en: Feel free to explore the remainder of the tasks of the `Makefile`. Chaincode
     will be built using a different image (golang:1.9.6) but leverages the same approach.
+  id: totrans-107
   prefs: []
   type: TYPE_NORMAL
+  zh: 欢迎探索 `Makefile` 的其余任务。Chaincode 将使用不同的镜像（golang:1.9.6）构建，但采用相同的方法。
 - en: 'From a `Makefile` tasks perspective the following dependencies are defined:'
+  id: totrans-108
   prefs: []
   type: TYPE_NORMAL
+  zh: 从 `Makefile` 任务的角度来看，定义了以下依赖项：
 - en: '![](img/c10b567d-ee1e-44dc-a22d-409410beaac0.png)'
+  id: totrans-109
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/c10b567d-ee1e-44dc-a22d-409410beaac0.png)'
 - en: In the next section, we will make use of the `make build` and `make test` command
     to execute our pipeline.
+  id: totrans-110
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下一节中，我们将使用 `make build` 和 `make test` 命令来执行我们的流水线。
 - en: Configuring Travis CI
+  id: totrans-111
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 配置 Travis CI
 - en: 'Getting started with Travis CI is pretty straightforward. You basically need
     to point your browser to the [www.travis-CI.org](https://travis-ci.org/) website,
     authenticate using your GitHub identity, and authorize Travis to access your GitHub
@@ -548,1071 +779,1558 @@
     account. Once this is done, you will be presented with a list of Git projects.
     You only need to flick the switch next to our project and Travis CI will start
     tracking the events in your GitHub repository:'
+  id: totrans-112
   prefs: []
   type: TYPE_NORMAL
+  zh: 使用 Travis CI 很简单。你只需要将浏览器指向 [www.travis-CI.org](https://travis-ci.org/) 网站，使用你的
+    GitHub 身份进行身份验证，并授权 Travis 访问你的 GitHub 帐户，Travis CI 将为你创建一个个人资料并将其与你的 Git 帐户同步。完成这些操作后，你将看到一个
+    Git 项目列表。你只需要在我们的项目旁边切换开关，Travis CI 将开始跟踪你的 GitHub 存储库中的事件：
 - en: '![](img/47f76105-0c31-47d8-ade8-0ae32e70fd04.png)'
+  id: totrans-113
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/47f76105-0c31-47d8-ade8-0ae32e70fd04.png)'
 - en: Customizing the pipeline using .travis.yml
+  id: totrans-114
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用 `.travis.yml` 自定义流水线
 - en: While Travis CI is now tracking our Git repository, it is not yet smart enough
     to know what to do with it when an event occurs. To tell Travis CI what to do,
     we need to create a special file within the root of the repository. Whenever a
     Git event happens (for example, a Git pull request), the `.travis.yml` file will
     be processed and used to orchestrate the pipeline execution.
+  id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 虽然 Travis CI 现在正在跟踪我们的 Git 存储库，但它还不够智能，不知道在发生事件时该做什么。要告诉 Travis CI 怎么做，我们需要在存储库的根目录下创建一个特殊文件。每当发生
+    Git 事件（例如 Git 拉取请求）时，`.travis.yml` 文件将被处理并用于编排流水线执行。
 - en: 'In the case of our smart contract, we have the following `.travis.yml` in the
     root of our Git repository:'
+  id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 在我们的智能合约的情况下，我们的 Git 存储库的根目录中有以下 `.travis.yml`：
 - en: '[PRE1]'
+  id: totrans-117
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: 'Since our `Makefile` is making use of Docker container to `make` the build
     independent of the environment in which it is run, we need to let Travis know
     about this.  Hence, the first three lines of the file provide an indication that
     the build process will `make` use of Docker.  The `dist: trusty` is fixing the
     Linux distribution to ensure consistency of the system behaviour.'
+  id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: '由于我们的 `Makefile` 使用 Docker 容器进行构建，使得构建独立于其运行环境，我们需要让 Travis 知道这一点。因此，文件的前三行提供了一个指示，表明构建过程将使用
+    Docker。`dist: trusty` 修复了 Linux 分发，以确保系统行为的一致性。'
 - en: 'The important lines represent the two major steps of the process:'
+  id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 重要的行代表了过程的两个主要步骤：
 - en: '**Cache**: This is an optimization of of the build and ensures that the node_modules
     is not always re-loaded every time the build runs.'
+  id: totrans-120
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**缓存**：这是构建的优化，确保 node_modules 在每次构建运行时不会被重新加载。'
 - en: '**Script**: This is where the build commands are provided. In this case, the
     step includes the following:'
+  id: totrans-121
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**脚本**：这里提供了构建命令。在这种情况下，步骤包括以下内容：'
 - en: '`make build`: Builds the chaincode and the composer BNA'
+  id: totrans-122
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`make build`：构建 chaincode 和 composer BNA'
 - en: '`make test`: Unit test execution'
+  id: totrans-123
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`make test`：执行单元测试'
 - en: 'The details of the tasks for chaincode was covered in a previous chapter so
     we won''t cover those details again.  However we will focus on the Composer build
     and explore the stanza of the `package.json` file:'
+  id: totrans-124
   prefs: []
   type: TYPE_NORMAL
+  zh: 有关链码任务的详细任务已在之前的章节中讨论过，因此我们不会再次涵盖那些细节。但是我们将专注于Composer构建并探索`package.json`文件的stanza：
 - en: '[PRE2]'
+  id: totrans-125
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: You will find the `package.json` under the trade-finance-logistics repository
     in the composer folder.
+  id: totrans-126
   prefs: []
   type: TYPE_NORMAL
+  zh: 在composer文件夹的trade-finance-logistics存储库下可以找到`package.json`。
 - en: 'Lets quickly review each of the default commands generated when the composer
     project was generated:'
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们快速审查生成composer项目时生成的每个默认命令：
 - en: '`prepare`: This command will package our project into a BNA file. This script
     runs before the `install` and will use the Hyperledger composer command-line interface
     to create the archive.  The only modification we have done to this task was to
     add the sub-directory  `..` to the creation of the dist directoring and output
     of the BNA file.'
+  id: totrans-128
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`prepare`: 此命令将我们的项目打包成BNA文件。此脚本运行在`install`之前，并将使用Hyperledger composer命令行界面来创建归档。我们对此任务唯一的修改是将子目录`..`添加到dist目录的创建和BNA文件的输出中。'
 - en: '`lint`: Runs the `eslint` tool, which is a tool we use to analyse the code
     while searching patterns. The rules applied by this tool can be adjusted through
     the `.eslintrc.yml` file.'
+  id: totrans-129
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`lint`: 运行`eslint`工具，这是我们用来分析代码并搜索模式的工具。此工具应用的规则可以通过`.eslintrc.yml`文件进行调整。'
 - en: '`test`: The mocha unit test framework will run the tests that are located in
     the project test directory and will be invoked by the `nyc` tool. The `nyc` tool
     is used to measure the coverage of the mocha tests.'
+  id: totrans-130
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`test`: mocha单元测试框架将运行位于项目测试目录中的测试，并将由`nyc`工具调用。`nyc`工具用于测量mocha测试的覆盖率。'
 - en: 'You will then need to add these two tasks to the package.json:'
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: 然后，您需要将这两个任务添加到package.json中：
 - en: '`posttest`: This task is a trigger that gets activated once the test have run. 
     In this case it will call the coverage task.'
+  id: totrans-132
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`posttest`: 这个任务是在测试运行后触发的触发器。在这种情况下，它将调用覆盖率任务。'
 - en: '`coverage`: Runs the `nyc` tool in reporting mode. This task will assess whether
     there are sufficient unit tests to cover the code. This task fails the build if
     the minimums defined in the `nyc` stanza of the `package.json` are not met. The
     following is a sample of this `config`:'
+  id: totrans-133
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`coverage`: 以报告模式运行`nyc`工具。此任务将评估是否有足够的单元测试来覆盖代码。如果未满足`package.json`的`nyc`段中定义的最小值，此任务将使构建失败。以下是此`config`的样本：'
 - en: '[PRE3]'
+  id: totrans-134
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: By modifying the `package.json` we now have "gates" that run the verification
     of the test coverage and the code quality and fails if the minimum is not met.
+  id: totrans-135
   prefs: []
   type: TYPE_NORMAL
+  zh: 通过修改`package.json`，我们现在有了运行测试覆盖率和代码质量验证的“门”，如果未达到最低要求，则失败。
 - en: Publishing our smart contract package
+  id: totrans-136
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 发布我们的智能合约包
 - en: At this point, in traditional deployments, we could consider automating the
     deployment of our application to push it to production automatically. However,
     in the case of a blockchain network, allowing a single process to push production
     code to multiple organizations and locations could be the Achilles heel of the
     network.
+  id: totrans-137
   prefs: []
   type: TYPE_NORMAL
+  zh: 此时，在传统部署中，我们可以考虑自动化部署我们的应用程序以将其自动推送到生产环境。然而，在区块链网络的情况下，允许单个流程将生产代码推送到多个组织和位置可能会成为网络的软肋。
 - en: Instead of trying to push production code to multiple organizations, we will
     publish the BNA file to a trusted store (in this case, the GitHub release) and
     let every organization pull the archive.
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将BNA文件发布到受信任的存储库（在这种情况下，GitHub release），并让每个组织都拉取归档，而不是尝试将生产代码推送到多个组织。
 - en: Fortunately for us, Travis CI has a function used within the `deploy` step that
     allows us to automatically attach the smart contract package to a tagged release.
     The function requires an `OAUTH_TOKEN` to be configured on our GitHub account,
     and it needs to be added to the Travis configuration to allow Travis to attach
     the smart contract to the release.
+  id: totrans-139
   prefs: []
   type: TYPE_NORMAL
+  zh: 幸运的是，Travis CI在`deploy`步骤中使用了一个函数，允许我们自动将智能合约包附加到已标记的发布版本。该函数需要在我们的GitHub账户上配置一个`OAUTH_TOKEN`，并且需要将其添加到Travis配置以允许Travis将智能合约连接到发布版。
 - en: While that configuration could be done manually, there is a simple command-line
     interface for Travis that will automatically push the token to Git Hub and add
     the `deploy` section to the `.travis.yml`.
+  id: totrans-140
   prefs: []
   type: TYPE_NORMAL
+  zh: 虽然可以手动进行该配置，但Travis有一个简单的命令行界面，可自动将令牌推送到GitHub并将`deploy`部分添加到`.travis.yml`中。
 - en: 'We can install `travis` CLI using the following command:'
+  id: totrans-141
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们可以使用以下命令安装`travis` CLI：
 - en: '[PRE4]'
+  id: totrans-142
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: 'Once the CLI is installed, we run the following command:'
+  id: totrans-143
   prefs: []
   type: TYPE_NORMAL
+  zh: 安装了CLI后，我们运行以下命令：
 - en: '[PRE5]'
+  id: totrans-144
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'The tool will ask for a few pieces of information: our GitHub user ID, password,
     location of the file we want to upload (our BNA), whether we want to only `deploy`
     from our repository, and if we want to encrypt our API key. On this last question,
     it is important to say no. We will soon explain why.'
+  id: totrans-145
   prefs: []
   type: TYPE_NORMAL
+  zh: 工具将询问我们一些信息：我们的 GitHub 用户 ID，密码，我们要上传的文件的位置（我们的 BNA），是否只想从我们的仓库`deploy`，以及我们是否要加密我们的
+    API 密钥。对于最后一个问题，重要的是要说不。我们很快会解释为什么。
 - en: 'The tool will add a section like the following at the end of the `.travis.yml`
     file:'
+  id: totrans-146
   prefs: []
   type: TYPE_NORMAL
+  zh: 工具将在`.travis.yml`文件末尾添加类似以下的部分：
 - en: '[PRE6]'
+  id: totrans-147
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: The first thing we will do is copy the API key to our workstation clipboard
     and go back to the Travis CI site. On the main dashboard, you should see your
     repository, and on the right-hand side, you will see a button called **More Options**.
     By clicking it and selecting **Settings**, you will be presented with a panel,
     split into a few sections.
+  id: totrans-148
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们要做的第一件事是将 API 密钥复制到我们的工作站剪贴板上，然后回到 Travis CI 网站。在主仪表板上，您应该看到您的仓库，在右侧，您会看到一个名为**更多选项**的按钮。点击它，然后选择**设置**，您将看到一个面板，分成几个部分。
 - en: 'Scroll down a bit and you will find the Environment Variables section. Go through
     the following steps:'
+  id: totrans-149
   prefs: []
   type: TYPE_NORMAL
+  zh: 向下滚动一点，您会找到环境变量部分。按照以下步骤进行：
 - en: In the `name` field, type OAUTH_TOKEN
+  id: totrans-150
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在`name`字段中，输入 OAUTH_TOKEN
 - en: In the `value` field, paste the API key you copied in the `.travis.yml` file
+  id: totrans-151
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在`value`字段中，粘贴您在`.travis.yml`文件中复制的 API 密钥
 - en: Click Save
+  id: totrans-152
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 点击保存
 - en: 'The results should be as follows:'
+  id: totrans-153
   prefs: []
   type: TYPE_NORMAL
+  zh: 结果应该如下：
 - en: '![](img/ef031f8b-bfa2-48dc-a6ff-32b415d678f1.png)'
+  id: totrans-154
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/ef031f8b-bfa2-48dc-a6ff-32b415d678f1.png)'
 - en: You see, while we could have kept the OAUTH_TOKEN encrypted in our `.travis.yml`
     file, it would have been stored in our GitHub repository to be viewed by everyone.
     By moving the key to the environment, we avoid this.
+  id: totrans-155
   prefs: []
   type: TYPE_NORMAL
+  zh: 你看，虽然我们本可以将 OAUTH_TOKEN 加密在我们的 `.travis.yml` 文件中，但那样的话它就会被存储在我们的 GitHub 仓库中供所有人查看。通过将密钥移至环境中，我们避免了这种情况。
 - en: 'We can now modify the configuration file to refer to the environment variable
     we just defined:'
+  id: totrans-156
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们可以修改配置文件以引用我们刚刚定义的环境变量：
 - en: '[PRE7]'
+  id: totrans-157
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: The `on:` section provides the ability to restrict the publication process to
     the `tag` event on your repository.
+  id: totrans-158
   prefs: []
   type: TYPE_NORMAL
+  zh: '`on:`部分提供了将发布过程限制为仓库上的`tag`事件的能力。'
 - en: With the `package.json` and the `.travis.yml` modified, we just need to update
     our repository by committing and pushing our changes to the master branch. Our
     pipeline is now fully configured! In a few sections, we will see how network participants
     can be notified of the new release and retrieve the archive, but for now, let's
     look at what we need to configure in Git.
+  id: totrans-159
   prefs: []
   type: TYPE_NORMAL
+  zh: 随着`package.json`和`.travis.yml`的修改，我们只需要通过提交和推送我们的更改到主分支来更新我们的仓库。我们的流水线现在已经完全配置好了！在接下来的几节中，我们将看到网络参与者如何被通知新版本并检索归档，但现在让我们看看我们需要在
+    Git 中配置的内容。
 - en: Configuring your Git repository
+  id: totrans-160
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 配置您的 Git 仓库
 - en: 'In this section, we will see how to properly protect our Git repository by
     doing the following:'
+  id: totrans-161
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这一部分，我们将看到如何通过以下方式正确保护我们的 Git 仓库：
 - en: Setting the code owners of our smart contract
+  id: totrans-162
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 设置我们的智能合约的代码所有者
 - en: Protecting the master branch
+  id: totrans-163
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 保护主分支
 - en: Configuring Git for commit signing and validation
+  id: totrans-164
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 配置 Git 进行提交签名和验证
 - en: Testing the process by submitting a pull request
+  id: totrans-165
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 通过提交拉取请求来测试该过程
 - en: Setting the code owners of our smart contract
+  id: totrans-166
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 设置我们的智能合约的代码所有者
 - en: We will start by defining the code owners for our smart contract.
+  id: totrans-167
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将首先为我们的智能合约定义代码所有者。
 - en: Ideally, in a large consortium, the code owners should not be the same group
     as the one that modifies the code. Remember, these steps are meant to reinforce
     the trust in the network.
+  id: totrans-168
   prefs: []
   type: TYPE_NORMAL
+  zh: 理想情况下，在一个大型的联盟中，代码所有者不应该是修改代码的同一组。记住，这些步骤旨在加强对网络的信任。
 - en: 'Code owners are defined in a file called `CODEOWNERS`, which can reside either
     in the root directory or the `.Github` directory. GitHub allows us to define different
     code owners depending on file patterns, so while we could get very creative, we
     will focus on a few artifacts from our Hyperledger composer project:'
+  id: totrans-169
   prefs: []
   type: TYPE_NORMAL
+  zh: 代码所有者在名为 `CODEOWNERS` 的文件中定义，该文件可以位于根目录或`.Github`目录中。GitHub 允许我们根据文件模式定义不同的代码所有者，因此虽然我们可以非常有创意，但我们将专注于我们
+    Hyperledger composer 项目的一些构件：
 - en: '`package.json`: As it controls the build and packaging process, this represents
     a key file to control.'
+  id: totrans-170
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`package.json`：由于它控制了构建和打包过程，这代表了一个重要的控制文件。'
 - en: '`header.txt`: This contains the license. As such, you may want a specific set
     of people who have oversight on this one (think lawyers).'
+  id: totrans-171
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`header.txt`：这包含许可证。因此，您可能希望有一组特定的人来监督这个（考虑律师）。'
 - en: '`JavaScript files`: This contains the core logic of the smart contracts. Depending
     on the complexity, this could be further broken down depending on the files, but
     we will keep it at a high level.'
+  id: totrans-172
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`JavaScript 文件`：这包含了智能合约的核心逻辑。根据复杂性，这可以根据文件进一步细分，但我们将保持在一个较高的水平上。'
 - en: '`*.cto files`: This should be aligned to the owners of the JavaScript.'
+  id: totrans-173
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`*.cto 文件`：这应与 JavaScript 的所有者对齐。'
 - en: '`*.acl files`: This should be aligned to the owners of the JavaScript.'
+  id: totrans-174
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`*.acl 文件`：这应与 JavaScript 的所有者对齐。'
 - en: '`*.qry files`: This should be aligned to the owners of the JavaScript.'
+  id: totrans-175
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`*.qry 文件`：这应与 JavaScript 的所有者对齐。'
 - en: '`*.md files`: This represents the documentation of your smart contract. Depending
     on the scope, this could be aligned to the same owners as the JavaScript or a
     different set of people.'
+  id: totrans-176
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '`*.md 文件`：这代表了智能合约的文档。根据范围，这可以与 JavaScript 的相同所有者对齐，也可以是不同的一组人。'
 - en: Sample content of the CODEOWNERS
+  id: totrans-177
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: CODEOWNERS 的示例内容
 - en: 'The following represents a basic set of rules concerning the `CODEOWNERS` based
     on the authors of this book. Feel free to adjust it to your own team. The important
     point to note here is that the last pattern to match will be the one used to identify
     the owners who need to perform the review. As such, we must be careful as to the
     order of the rules:'
+  id: totrans-178
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下是基于本书作者的一组关于 `CODEOWNERS` 的基本规则。随意根据你的团队进行调整。这里需要注意的重要一点是，最后匹配的模式将用于识别需要执行审查的所有者。因此，我们必须注意规则的顺序：
 - en: '[PRE8]'
+  id: totrans-179
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: Instead of listing each individual member of the team in the rules, we could
     have used the concept of GitHub teams to assign the code ownership.
+  id: totrans-180
   prefs: []
   type: TYPE_NORMAL
+  zh: 与列出团队中的每个成员的规则相反，我们可以使用 GitHub 团队的概念来分配代码所有权。
 - en: 'With the `CODEOWNERS` defined, we can now focus on submitting it to the master
     branch. Using a command-line prompt, go through the following steps:'
+  id: totrans-181
   prefs: []
   type: TYPE_NORMAL
+  zh: 定义了 `CODEOWNERS` 后，我们现在可以专注于将其提交到主分支。使用命令行提示，按照以下步骤进行：
 - en: Navigate to the location of the clone of your repository
+  id: totrans-182
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 导航到你的存储库克隆的位置。
 - en: Create a new directory called `.Github`
+  id: totrans-183
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 创建一个名为`.Github`的新目录。
 - en: Change directory to the newly created directory
+  id: totrans-184
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 切换到新创建的目录
 - en: Create the `CODEOWNERS` file according to the content defined in the previous
     section
+  id: totrans-185
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 根据上一节中定义的内容创建 `CODEOWNERS` 文件。
 - en: 'Commit the new file and directory:'
+  id: totrans-186
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 提交新文件和目录：
 - en: '[PRE9]'
+  id: totrans-187
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: 'Push the commits to the master branch:'
+  id: totrans-188
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 将提交推送到主分支：
 - en: '[PRE10]'
+  id: totrans-189
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: Protecting the master branch
+  id: totrans-190
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 保护主分支。
 - en: As we previously discussed, since the master branch represents the stable version
     of our smart contract, we need to properly control how code changes are introduced.
+  id: totrans-191
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们先前讨论的那样，由于主分支代表着智能合约的稳定版本，我们需要正确控制代码变更的引入方式。
 - en: We will now configure our repository to ensure that only pull requests can alter
     the content of the master branch. To achieve this, the first step is to open a
     browser and point it to your Git repository.
+  id: totrans-192
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们将配置我们的存储库，以确保只有拉取请求可以更改主分支的内容。为了实现这一点，第一步是打开浏览器并将其指向你的 Git 存储库。
 - en: 'Once the web page has loaded, go through the following steps:'
+  id: totrans-193
   prefs: []
   type: TYPE_NORMAL
+  zh: 一旦网页加载完成，请按照以下步骤进行：
 - en: Looking at the top tabs of the Git pages, you should be able to locate the Setting
     tab
+  id: totrans-194
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 查看 Git 页面的顶部标签，你应该能够找到设置选项卡。
 - en: Once you click on it, a side menu should appear on the left-hand side of the
     page
+  id: totrans-195
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 一旦你点击它，一个侧边菜单应该出现在页面的左侧。
 - en: Select the Branches menu item and you should be able to see the Protected branches
     section
+  id: totrans-196
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 选择“分支”菜单项，你应该能够看到“受保护的分支”部分。
 - en: Select the master branch from the dropdown
+  id: totrans-197
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 从下拉菜单中选择主分支。
 - en: This will open the page that contains all the options we need to set to properly
     protect the master branch.
+  id: totrans-198
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将打开包含我们需要设置以正确保护主分支的所有选项的页面。
 - en: 'The content should be set to the following:'
+  id: totrans-199
   prefs: []
   type: TYPE_NORMAL
+  zh: 内容应设置为以下内容：
 - en: '![](img/8fa3738d-a147-4b12-92f4-42b91ddc18ef.png)'
+  id: totrans-200
   prefs: []
   type: TYPE_IMG
+  zh: '![图片](img/8fa3738d-a147-4b12-92f4-42b91ddc18ef.png)'
 - en: This first set of options, circled in red, ensures that every change to the
     master branch is done through pull requests and that the approval process can
     only be done on up-to-date code, and by the code owners only.
+  id: totrans-201
   prefs: []
   type: TYPE_NORMAL
+  zh: 第一组选项，用红圈标出，确保每个对主分支的更改都通过拉取请求进行，并且只有代码所有者可以对最新的代码进行批准。
 - en: We have highlighted this section in red because, while these are very important
     when working in teams, it should be disabled for our exercise. Essentially, GitHub
     will not let you review your own pull requests and will prevent you from completing
     the steps later on.
+  id: totrans-202
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们已经将此部分突出显示为红色，因为虽然这在团队工作中非常重要，但应该在我们的练习中禁用。基本上，GitHub 不会让您审核您自己的拉取请求，并会阻止您完成后续步骤。
 - en: The second set of options provides the ability to define `checks` to be performed
     before allowing the code to be merged. We will shortly be adding one of these
     checks in the next section.
+  id: totrans-203
   prefs: []
   type: TYPE_NORMAL
+  zh: 第二组选项提供了在允许代码合并之前执行的`checks`的能力。我们将在下一节中很快添加其中一个检查。
 - en: The final option also ensures that even administrators of the repository need
     to follow the process of pull requests when modifying the code.
+  id: totrans-204
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后一个选项还确保即使存储库的管理员在修改代码时也需要遵循拉取请求的过程。
 - en: Configuring Git for commit signing and validation
+  id: totrans-205
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 配置 Git 进行提交签名和验证
 - en: At this point, we have a protected our Git branch and identified who should
     be reviewing code changes. We also know that signing commits is a good way for
     a developer to prove that they were the author of a code change. However, unless
     everyone signs their commits, how can you be certain that unsigned commits are
     valid?
+  id: totrans-206
   prefs: []
   type: TYPE_NORMAL
+  zh: 此时，我们已经保护了我们的 Git 分支，并确定了谁应该审查代码更改。我们还知道签署提交是开发人员证明他们是代码更改的作者的好方法。然而，除非每个人都签署他们的提交，否则您如何确定未签署的提交是有效的呢？
 - en: Fortunately, there are some GitHub applications that are emerging to solve that
     problem. We will use one such application called `probot-gpg`, available at [https://probot.Github.io/apps/gpg/](https://probot.github.io/apps/gpg/).
+  id: totrans-207
   prefs: []
   type: TYPE_NORMAL
+  zh: 幸运的是，有一些正在出现的 GitHub 应用程序来解决这个问题。我们将使用一个名为`probot-gpg`的应用程序，可在[https://probot.Github.io/apps/gpg/](https://probot.github.io/apps/gpg/)找到。
 - en: By navigating to this page using your browser, you will be able to click the
     Install button. You will be brought to a page that will allow you to select which
     repository you want to allow the application to select. In our case, we will select
     the `yourID/trading-smart-contract/` repository. Click Install and the application
     will be granted access to your repository.
+  id: totrans-208
   prefs: []
   type: TYPE_NORMAL
+  zh: 通过浏览器导航到该页面，您将能够点击安装按钮。您将被带到一个页面，允许您选择要允许应用程序选择的存储库。在我们的情况下，我们将选择`yourID/trading-smart-contract/`存储库。点击安装，应用程序将被授予对您存储库的访问权限。
 - en: Configuring GPG on your local workstation
+  id: totrans-209
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在您的本地工作站上配置 GPG
 - en: 'To make sure everything is working nicely, we will now set up GPG on our local
     workstation and test our repository by submitting a pull request. In this section,
     we will do the following:'
+  id: totrans-210
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了确保一切都运行良好，我们现在将在我们的本地工作站上设置 GPG，并通过提交拉取请求来测试我们的存储库。在这一部分，我们将执行以下操作：
 - en: Install GPG and generate our set of `gpg` public and private keys
+  id: totrans-211
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 安装 GPG 并生成我们的一组`gpg`公钥和私钥
 - en: Import our `gpg` public key in our GitHub profile
+  id: totrans-212
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 在我们的 GitHub 配置文件中导入我们的`gpg`公钥
 - en: Submit a pull request to the master branch with a signed commit
+  id: totrans-213
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 提交一个带有签名的拉取请求到主分支
 - en: The client application for `gpg` can be found on the [www.gnupg.org](https://gnupg.org/)
     website. From the website, you may download either the source code or the precompiled
     binaries. Depending on your operating system and the option chosen (Source code
     or Binaries), follow the instructions provided on the website and install the
     client.
+  id: totrans-214
   prefs: []
   type: TYPE_NORMAL
+  zh: '`gpg`的客户端应用程序可以在[www.gnupg.org](https://gnupg.org/)网站上找到。从网站上，您可以下载源代码或预编译的二进制文件。根据您的操作系统和选择的选项（源代码或二进制文件），按照网站上提供的说明进行操作并安装客户端。'
 - en: 'In order to configure the system to use  `gpg` keys to sign our Git commits,
     we will need to do the following:'
+  id: totrans-215
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了配置系统使用`gpg`密钥签署我们的 Git 提交，我们需要执行以下操作：
 - en: Generate a `gpg` key
+  id: totrans-216
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 生成一个`gpg`密钥
 - en: Export the public key
+  id: totrans-217
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 导出公钥
 - en: Import the public key in our Git
+  id: totrans-218
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 在我们的 Git 中导入公钥
 - en: Configure our Git client to make use of our `gpg` key
+  id: totrans-219
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 配置我们的 Git 客户端以使用我们的`gpg`密钥
 - en: 'To get started, open a terminal and type the following command:'
+  id: totrans-220
   prefs: []
   type: TYPE_NORMAL
+  zh: 要开始，请打开终端并键入以下命令：
 - en: '[PRE11]'
+  id: totrans-221
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: 'The `gpg` tool will now ask a few questions on the characteristics of the key:'
+  id: totrans-222
   prefs: []
   type: TYPE_NORMAL
+  zh: '`gpg`工具现在将询问有关密钥特性的几个问题：'
 - en: '**Kind of key**: Select the default (RSA and RSA)'
+  id: totrans-223
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**密钥类型**：选择默认（RSA 和 RSA）'
 - en: '**Key size**: Select the maximum size (4,096)'
+  id: totrans-224
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**密钥大小**：选择最大尺寸（4,096）'
 - en: '**Key validity period**: Make sure that the key does not expire'
+  id: totrans-225
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**密钥有效期**：确保密钥不会过期'
 - en: 'With the characteristics of the key provided, the `gpg` tool will ask about
     the identity associated with the key:'
+  id: totrans-226
   prefs: []
   type: TYPE_NORMAL
+  zh: 提供了与密钥相关联的身份信息后，`gpg`工具将询问与密钥相关联的身份信息：
 - en: '**Real name**'
+  id: totrans-227
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**真实姓名**'
 - en: '**Email**'
+  id: totrans-228
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**电子邮件**'
 - en: '**Comment**: You may want to use the comment box to indicate the purpose of
     this identity (signing GitHub commits)'
+  id: totrans-229
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
 - en: 'Make sure that the email matches the entries of your GitHub profile, or else
     the system will not be able to reconcile the identity to the commit. Remember
     that case matters for GitHub: `yourID@email.com` is not the same email as `yourID@email.com`.'
+  id: totrans-230
   prefs: []
   type: TYPE_NORMAL
 - en: 'Finally, the tool will ask for a passphrase to protect the private key and
     ask you to generate entropy by moving the mouse around. After a few seconds, you
     should see an output such as the following:'
+  id: totrans-231
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE12]'
+  id: totrans-232
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: 'With the `gpg` created, we now need to export the key in a format that GitHub
     will be able to understand. To achieve this, we run the following command:'
+  id: totrans-233
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE13]'
+  id: totrans-234
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE13]'
 - en: 'The tool will output the public key directly in the console and should look
     as follows:'
+  id: totrans-235
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE14]'
+  id: totrans-236
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE14]'
 - en: Copy the whole key to the clipboard, including the header and, using your browser,
     go to your GitHub profile and select the **SSH and GPG keys** tab from the left-hand
     side menu.
+  id: totrans-237
   prefs: []
   type: TYPE_NORMAL
 - en: 'You should see two sections—SSH and GPG. Click the New GPG Key button and paste
     the contents of your clipboard in the entry field that shows up. Finally, click
     the Add GPG Key button, and, if everything goes well, GitHub should show you a
     similar entry:'
+  id: totrans-238
   prefs: []
   type: TYPE_NORMAL
 - en: '![](img/3198fcc7-4ca2-47cd-9cfa-cd5254f2668c.png)'
+  id: totrans-239
   prefs: []
   type: TYPE_IMG
 - en: Take note and copy the Key ID to your clipboard. We will reuse that key to configure
     our Git client.
+  id: totrans-240
   prefs: []
   type: TYPE_NORMAL
 - en: 'Back in the console, type the following command:'
+  id: totrans-241
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE15]'
+  id: totrans-242
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE15]'
 - en: At this point, you should have a fully configured pipeline and protected Git
     repository. We're now ready to start testing our configuration.
+  id: totrans-243
   prefs: []
   type: TYPE_NORMAL
 - en: To facilitate the testing steps in the next section, we have not activated the
     `gpg` signing configuration in our Git client. We will activate it in the next
     section.
+  id: totrans-244
   prefs: []
   type: TYPE_NORMAL
 - en: Testing the end-to-end process
+  id: totrans-245
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: With all of the configuration done, we will run through a simple scenario that
     will allow us to test our configuration and ensure that everything is working
     smoothly.
+  id: totrans-246
   prefs: []
   type: TYPE_NORMAL
 - en: 'The scenario will consist of addressing the need to add a new transaction.
     In order to deliver this new feature, we will perform the following steps/tests:'
+  id: totrans-247
   prefs: []
   type: TYPE_NORMAL
 - en: 'Create a new transaction for our business network. Once we are done coding,
     we will then try to do the following:'
+  id: totrans-248
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Push a commit to the master branch directly
+  id: totrans-249
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
 - en: Submit a pull request with an unsigned commit
+  id: totrans-250
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
 - en: 'Add test cases to cover our new transaction:'
+  id: totrans-251
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Amend our commit to be signed
+  id: totrans-252
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
 - en: Add our test case and submit an additional signed commit
+  id: totrans-253
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
 - en: Release the new version of the business network
+  id: totrans-254
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
 - en: Merge the pull request on the master branch
+  id: totrans-255
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
 - en: Create a new release and check that the BNA is published
+  id: totrans-256
   prefs:
   - PREF_IND
   - PREF_OL
   type: TYPE_NORMAL
 - en: Creating a new transaction
+  id: totrans-257
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
 - en: 'For the purpose of our tests, we will keep the new transaction relatively simple:
     our transaction will merge two assets into one, adding their value in the process.'
+  id: totrans-258
   prefs: []
   type: TYPE_NORMAL
 - en: 'To declare the new transaction, we will edit the model file and add this new
     declaration:'
+  id: totrans-259
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE16]'
+  id: totrans-260
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE16]'
 - en: 'With the definition created, let''s add the logic in the `/lib/logic.js` file:'
+  id: totrans-261
   prefs: []
   type: TYPE_NORMAL
 - en: '[PRE17]'
+  id: totrans-262
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE17]'
 - en: That's all there is to it! Of course, some may remark that we are not following
     a good methodology—where are our unit tests for this code? Let's proceed. Don't
     worry, it's all part of the plan!
+  id: totrans-263
   prefs: []
   type: TYPE_NORMAL
+  zh: 就是这样！当然，有些人可能会说我们没有遵循良好的方法论——这段代码的单元测试在哪里？让我们继续。别担心，这都是计划的一部分！
 - en: Pushing a commit to the master branch directly
+  id: totrans-264
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 直接将提交推送到主分支
 - en: 'With the code modification done, lets try to add the source code to our Git
     repository. To do so, we will go through the following steps:'
+  id: totrans-265
   prefs: []
   type: TYPE_NORMAL
+  zh: 完成代码修改后，让我们尝试将源代码添加到Git存储库中。为此，我们将执行以下步骤：
 - en: Navigate to the location of the clone of your repository
+  id: totrans-266
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 导航到存储库克隆的位置
 - en: 'Commit the new file and directory:'
+  id: totrans-267
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 提交新文件和目录：
 - en: '[PRE18]'
+  id: totrans-268
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE18]'
 - en: 'Push the commits to the master branch:'
+  id: totrans-269
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 将提交推送到主分支：
 - en: '[PRE19]'
+  id: totrans-270
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE19]'
 - en: 'The `push` command should fail with an error message, such as the following:'
+  id: totrans-271
   prefs: []
   type: TYPE_NORMAL
+  zh: '`push`命令应该失败，并显示错误消息，例如以下内容：'
 - en: '[PRE20]'
+  id: totrans-272
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE20]'
 - en: If you get a similar message, you know you're on the right path. If the `push`
     command succeeds, you should probably go back to the *Protecting the master branch* section.
+  id: totrans-273
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你收到类似的消息，说明你走在正确的道路上。如果`push`命令成功，你应该回到*保护主分支*部分。
 - en: Submitting a pull request with an unsigned commit
+  id: totrans-274
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用未签名的提交提交拉取请求
 - en: 'Continuing from our previous attempt, we know that we need a separate branch
     to store our work before we can submit a pull request to the master branch. Now
     that we''ve committed a change, we need to be careful not to lose our work. The
     first thing we will do will be to *undo* our commit by running the following command:'
+  id: totrans-275
   prefs: []
   type: TYPE_NORMAL
+  zh: 继续我们之前的尝试，我们知道我们需要一个单独的分支来存储我们的工作，然后我们才能向主分支提交拉取请求。现在我们已经提交了一个更改，我们需要小心不要丢失我们的工作。我们要做的第一件事就是通过运行以下命令*撤销*我们的提交：
 - en: '[PRE21]'
+  id: totrans-276
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE21]'
 - en: 'To save our work, we will use a nice function from Git that will temporarily store
     our work:'
+  id: totrans-277
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了保存我们的工作，我们将使用Git中一个很好的功能，它会暂时存储我们的工作：
 - en: '[PRE22]'
+  id: totrans-278
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE22]'
 - en: 'With our modification saved, we can then create the new branch locally by running
     the `Git checkout` command. For those who are less familiar with Git, the `-b`
     option specifies the name of the new branch and the last parameter indicates that
     the new branch is based on the master branch:'
+  id: totrans-279
   prefs: []
   type: TYPE_NORMAL
+  zh: 保存我们的修改后，我们可以通过运行`Git checkout`命令在本地创建新分支。对于那些对Git不太熟悉的人，`-b`选项指定了新分支的名称，最后一个参数表示新分支是基于主分支的：
 - en: '[PRE23]'
+  id: totrans-280
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE23]'
 - en: 'With the new branch created locally, we can restore our modification using
     the following:'
+  id: totrans-281
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本地创建了新分支后，我们可以使用以下命令恢复我们的修改：
 - en: '[PRE24]'
+  id: totrans-282
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE24]'
 - en: 'Finally, we can commit our code and push it to the `Feat-1` branch:'
+  id: totrans-283
   prefs: []
   type: TYPE_NORMAL
+  zh: 最后，我们可以提交我们的代码并将其推送到`Feat-1`分支：
 - en: '[PRE25]'
+  id: totrans-284
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE25]'
 - en: 'With these commands executed, our `Feat-1` branch should now contain the additional
     transaction code. Let''s switch to our browser and create the pull request on
     GitHub:'
+  id: totrans-285
   prefs: []
   type: TYPE_NORMAL
+  zh: 执行这些命令后，我们的`Feat-1`分支现在应该包含额外的交易代码。让我们切换到我们的浏览器上，在GitHub上创建拉取请求：
 - en: Select the `Feat-1` branch and click the New pull request button
+  id: totrans-286
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 选择`Feat-1`分支，然后点击“New pull request”按钮
 - en: Make sure the branches can merge and click the **Create pull request** button
+  id: totrans-287
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 确保分支可以合并，然后点击**创建拉取请求**按钮
 - en: 'The result on the next screen will show that the pull request is failing the
     `gpg` check and the Travis build. The details for the build should show that the
     test coverage is not sufficient to meet the threshold we established previously:'
+  id: totrans-288
   prefs: []
   type: TYPE_NORMAL
+  zh: 下一个屏幕上的结果将显示拉取请求未通过`gpg`检查和Travis构建。构建的详细信息应该显示测试覆盖率不足以达到我们之前设定的阈值：
 - en: '![](img/bd44b724-b8b4-4177-a466-ed01fa662d63.png)'
+  id: totrans-289
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/bd44b724-b8b4-4177-a466-ed01fa662d63.png)'
 - en: If you get the same results, then you are doing well! If your pull request has
     no such check failing, make sure that you look at the *Configuring Git for commit
     signing and validation* section.
+  id: totrans-290
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果你得到相同的结果，那么你做得很好！如果你的拉取请求没有出现这样的检查失败，请确保查看*为提交签名和验证配置Git*部分。
 - en: We'll now correct our build and add the necessary tests!
+  id: totrans-291
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们将修正我们的构建并添加必要的测试！
 - en: Adding test cases
+  id: totrans-292
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 添加测试用例
 - en: Before adding our test case, we will first enable `gpg` signing and amend our
     previous commit with a signature. This should get us on the right path to a healthy
     pull request.
+  id: totrans-293
   prefs: []
   type: TYPE_NORMAL
+  zh: 在添加我们的测试用例之前，我们将首先启用`gpg`签名，并用签名修改我们之前的提交。这应该让我们走上健康拉取请求的正确道路。
 - en: Submitting a pull request with a signed commit
+  id: totrans-294
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 使用签名提交提交拉取请求
 - en: 'We can now finalize and activate our `gpg` signing. In the console, type in
     the following command:'
+  id: totrans-295
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们可以完成并激活我们的`gpg`签名了。在控制台中，输入以下命令：
 - en: '[PRE26]'
+  id: totrans-296
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE26]'
 - en: 'Now, instead of having to create a separate branch and go through the same
     steps all over again, we will simply `amend` our `commit` and add our signature
     to it:'
+  id: totrans-297
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，不必再创建一个单独的分支并再次执行相同步骤，我们将简单地`amend`我们的`commit`并为其添加我们的签名：
 - en: '[PRE27]'
+  id: totrans-298
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE27]'
 - en: 'You may get the following error when trying to amend your commit:'
+  id: totrans-299
   prefs: []
   type: TYPE_NORMAL
+  zh: 当尝试修改您的提交时，您可能会遇到以下错误：
 - en: '`error: gpg failed to sign the data`'
+  id: totrans-300
   prefs: []
   type: TYPE_NORMAL
+  zh: '`error: gpg failed to sign the data`'
 - en: '`fatal: failed to write commit object`'
+  id: totrans-301
   prefs: []
   type: TYPE_NORMAL
+  zh: '`fatal: failed to write commit object`'
 - en: 'If you do, you may need to set the following environment variable:'
+  id: totrans-302
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果需要，您可能需要设置以下环境变量：
 - en: '`export GPG_TTY=$(tty)`'
+  id: totrans-303
   prefs: []
   type: TYPE_NORMAL
+  zh: '`export GPG_TTY=$(tty)`'
 - en: 'The command will delegate the signing to GPG, and you should be asked for your
     `gpg` passphrase. Once this is completed, we can push our changes to our test
     branch using the following command:'
+  id: totrans-304
   prefs: []
   type: TYPE_NORMAL
+  zh: 该命令将委托给GPG进行签名，然后您应该被要求输入您的`gpg`密码。完成后，我们可以使用以下命令将更改推送到我们的测试分支：
 - en: '[PRE28]'
+  id: totrans-305
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE28]'
 - en: We need to `--force` our change as we are only amending our commit.
+  id: totrans-306
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们需要`--force`我们的更改，因为我们只是修改我们的提交。
 - en: 'If you go back to the browser and look at the pull request, you should now
     have something like the following:'
+  id: totrans-307
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果您返回浏览器并查看拉取请求，您现在应该看到类似以下的内容：
 - en: '![](img/d4ca6d25-a94d-42a5-8ce6-18b632b08fa7.png)'
+  id: totrans-308
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/d4ca6d25-a94d-42a5-8ce6-18b632b08fa7.png)'
 - en: We should have solved one problem—the signing of commits. If you have the same
     results, you now know everything is configured properly. You can go ahead and
     focus on correcting the test coverage by adding a test for our new transaction.
+  id: totrans-309
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们应该已经解决了一个问题——提交的签名。如果您得到了相同的结果，现在您知道一切都配置正确了。您可以继续专注于通过为新交易添加一个测试来修正测试覆盖率。
 - en: Adding the mergeAssets unit test
+  id: totrans-310
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 添加合并资产单元测试
 - en: 'Let''s add the content of this additional test case to the `test/logic.js` file:'
+  id: totrans-311
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们将这个额外测试用例的内容添加到`test/logic.js`文件中：
 - en: '[PRE29]'
+  id: totrans-312
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE29]'
 - en: 'We won''t cover the details of this test case, as it has been covered in previous
     chapters. However, if you want to see whether the test has completed successfully,
     run the following command:'
+  id: totrans-313
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们不会详细介绍此测试用例，因为在前几章中已经涵盖过。但是，如果想查看测试是否成功完成，请运行以下命令：
 - en: '[PRE30]'
+  id: totrans-314
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE30]'
 - en: 'Let''s commit this new test to Git:'
+  id: totrans-315
   prefs: []
   type: TYPE_NORMAL
+  zh: 让我们提交这个新测试到Git：
 - en: '[PRE31]'
+  id: totrans-316
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE31]'
 - en: 'This should automatically trigger our build pipeline, which should complete
     successfully and leave our pull request in the following state:'
+  id: totrans-317
   prefs: []
   type: TYPE_NORMAL
+  zh: 这应该会自动触发我们的构建流程，该流程应该成功完成，并将我们的拉取请求留在以下状态：
 - en: '![](img/60748b04-962f-4500-b9cc-e074ca0da6d2.png)'
+  id: totrans-318
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/60748b04-962f-4500-b9cc-e074ca0da6d2.png)'
 - en: This should allow you to merge the pull request. Click the Merge request button,
     confirm the merge, and get ready to create your first release!
+  id: totrans-319
   prefs: []
   type: TYPE_NORMAL
+  zh: 这将使您能够合并拉取请求。点击合并请求按钮，确认合并，并准备创建您的第一个发布版本！
 - en: If your pull request is not green and asks for a code review, you may have forgotten
     to uncheck the Require pull request reviews before merging option, as mentioned
     in the *Protecting the master branch* section.
+  id: totrans-320
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果您的拉取请求不是绿色的并要求代码审查，您可能忘记了取消选中"在合并前需要拉取请求审查"选项，正如"保护主分支"章节所述。
 - en: Releasing the new version
+  id: totrans-321
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 发布新版本
 - en: 'We are now ready to release our new business network archive. Go to your web
     browser and navigate to the Code tab of your Git repository. You should see an x
     releases option in the top navigation bar, as shown in the following screenshot:'
+  id: totrans-322
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们已经准备好发布我们的新业务网络归档。转到您的网页浏览器，导航到Git存储库的Code标签。您应该会在顶部导航栏中看到"x releases"选项，如下截图所示：
 - en: '![](img/b3a5283f-71ee-42b5-8ab3-7232e3758797.png)'
+  id: totrans-323
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/b3a5283f-71ee-42b5-8ab3-7232e3758797.png)'
 - en: 'Click on the releases and then click on the Draft a new release button. Fill
     in the form in a similar way to the following example:'
+  id: totrans-324
   prefs: []
   type: TYPE_NORMAL
+  zh: 点击发布然后点击"起草新发布"按钮。填写表单，类似于以下示例：
 - en: '![](img/b0e139f5-54e4-4cff-af5e-bb174bc0f935.png)'
+  id: totrans-325
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/b0e139f5-54e4-4cff-af5e-bb174bc0f935.png)'
 - en: 'Click on the Publish release button at the bottom of the form. This should
     trigger your build pipeline one final time and, after a few minutes, you should
     have the BNA file attached to the list of assets associated with your release:'
+  id: totrans-326
   prefs: []
   type: TYPE_NORMAL
+  zh: 在表单底部点击"发布版本"按钮。这应该会再次触发您的构建流程，几分钟后，您应该会看到与您的发布相关联的资产列表中附有BNA文件：
 - en: '![](img/02b20a6f-8a93-4e9a-a139-da813e78554c.png)'
+  id: totrans-327
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/02b20a6f-8a93-4e9a-a139-da813e78554c.png)'
 - en: Well done! We've configured a complete pipeline using Travis CI and GitHub,
     and we've explored how to properly sign and protect our smart contracts.
+  id: totrans-328
   prefs: []
   type: TYPE_NORMAL
+  zh: 干得好！我们已经使用Travis CI和GitHub配置了完整的流水线，并探讨了如何正确签署和保护我们的智能合约。
 - en: Our last step will now be to see how the various network participants can automate
     the retrieval of the **business network archive** (**BNA**) and `deploy` smart
     contract updates.
+  id: totrans-329
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的最后一步现在将是看看各种网络参与者如何自动检索**业务网络归档**（**BNA**）并`deploy`智能合约更新。
 - en: Updating the network
+  id: totrans-330
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 更新网络
 - en: 'With the BNA file published and tagged to a release, we will now look at the
     process to install/update the business network in our consortium. More specifically,
     we will look at the following steps:'
+  id: totrans-331
   prefs: []
   type: TYPE_NORMAL
+  zh: 随着BNA文件发布并标记为发布，我们现在将查看安装/更新财团中业务网络的过程。更具体地说，我们将查看以下步骤：
 - en: Release notification
+  id: totrans-332
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 发布通知
 - en: Business Network update
+  id: totrans-333
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 业务网络更新
 - en: Notifying the consortium
+  id: totrans-334
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 通知财团
 - en: There are a few ways and techniques that can be applied to ensure that every
     organization is notified that a business network is ready to be updated.
+  id: totrans-335
   prefs: []
   type: TYPE_NORMAL
+  zh: 有一些方法和技术可以应用以确保每个组织都收到业务网络准备更新的通知。
 - en: The one thing that is for certain is that manual notification is not an option;
     as the number of smart contracts and participants grows, you need a reliable notification
     process.
+  id: totrans-336
   prefs: []
   type: TYPE_NORMAL
+  zh: 唯一确定的是手动通知不是一个选项；随着智能合约和参与者数量的增长，您需要一个可靠的通知过程。
 - en: 'The following diagram depicts a potential process for deploying a business
     network following the delivery of a new release:'
+  id: totrans-337
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下图示了在交付新版本后部署业务网络的潜在过程：
 - en: '![](img/c2a51d93-412e-4a99-babf-40c2e80cccf6.png)'
+  id: totrans-338
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/c2a51d93-412e-4a99-babf-40c2e80cccf6.png)'
 - en: As we've previously discussed, we do not distribute the BNA as this would create
     the opportunity for someone to tamper with the archive. Instead, the notification
     only informs every organization of the existence of a new release and lets the
     consortium retrieve and `deploy` the archive.
+  id: totrans-339
   prefs: []
   type: TYPE_NORMAL
+  zh: 正如我们之前讨论过的那样，我们不分发BNA，因为这会为某人篡改归档提供机会。相反，通知只是通知每个组织存在新版本，并让财团检索和`deploy`归档。
 - en: 'This is effectively what the concept of the release listener is doing: listening
     for notification and then issuing a request to GitHub to retrieve the archive
     of the new release.'
+  id: totrans-340
   prefs: []
   type: TYPE_NORMAL
+  zh: 这实际上是发布监听器概念正在做的事情：监听通知，然后向GitHub发出请求，以检索新发布的归档。
 - en: The release listener is a concept that would need to be implemented by a consortium
     should they decide to adhere to this approach.
+  id: totrans-341
   prefs: []
   type: TYPE_NORMAL
+  zh: 发布监听器是一个概念，如果财团决定遵循这种方法，就需要由财团实施。
 - en: Do not look for the source code—it does not exist (yet).
+  id: totrans-342
   prefs: []
   type: TYPE_NORMAL
+  zh: 不要寻找源代码—它不存在（尚未存在）。
 - en: 'The release listener could be implemented to listen for events coming from
     one of two sources:'
+  id: totrans-343
   prefs: []
   type: TYPE_NORMAL
+  zh: 发布监听器可以实现监听来自两个来源的事件：
 - en: '**GitHub webhooks**: By providing the URL of the release listener, GitHub webhooks
     can be configured to send a JSON message on specific events. In our case, it would
     be the `Release` event.'
+  id: totrans-344
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**GitHub Webhooks**：通过提供发布监听器的URL，可以配置GitHub Webhooks以在特定事件上发送JSON消息。在我们的情况下，将是`Release`事件。'
 - en: '**Travis CI notification**: There is also a concept similar to the webhook
     in Travis CI. There are also other mechanism, such as Atom feed and Slack integration,
     that may be more suitable to your team.'
+  id: totrans-345
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**Travis CI通知**：Travis CI中也有类似Webhook的概念。还有其他机制，例如Atom feed和Slack集成，可能更适合您的团队。'
 - en: 'The choice of the mechanism really depends on your business requirements but,
     generally, the use of GitHub webhooks would be preferable as they are triggered
     by the actual event we are interested in: the release of a new version of the
     smart contract.'
+  id: totrans-346
   prefs: []
   type: TYPE_NORMAL
+  zh: 机制的选择实际上取决于您的业务要求，但通常，使用GitHub Webhooks将是首选，因为它们由我们感兴趣的实际事件触发：智能合约的新版本发布。
 - en: Even if someone was to send a false notification to the release listener, because
     it only retrieves released binaries from GitHub, it would not be possible for
     a third party to inject a **bad** archive.
+  id: totrans-347
   prefs: []
   type: TYPE_NORMAL
+  zh: 即使有人向发布监听器发送错误通知，因为它只从GitHub检索发布的二进制文件，第三方也无法注入**有害**归档。
 - en: Upgrading the business network
+  id: totrans-348
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 升级业务网络
 - en: At this point in time, we will assume that we have received a notification and
     that we are in charge of deploying the new version. Keep in mind that the business
     network could be deployed into multiple channels. So, while the BNA deployment
     is not required on every peer, it is required for every channel that expects to
     run those transactions.
+  id: totrans-349
   prefs: []
   type: TYPE_NORMAL
+  zh: 此时，我们假设我们已收到通知，并且我们负责部署新版本。请记住，业务网络可以部署到多个频道中。因此，虽然不需要在每个对等体上部署BNA，但对于期望运行这些交易的每个频道都需要部署。
 - en: 'Our deployment will consist of two simple steps:'
+  id: totrans-350
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们的部署将包括两个简单步骤：
 - en: Downloading the new version
+  id: totrans-351
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 下载新版本
 - en: Updating the business network
+  id: totrans-352
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 更新业务网络
 - en: Downloading a new version
+  id: totrans-353
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 下载新版本
 - en: 'Given that we have just released the new version and that the pipeline has
     added the binary to the release, we can simply download the archive using the
     `curl` command, as follows:'
+  id: totrans-354
   prefs: []
   type: TYPE_NORMAL
+  zh: 鉴于我们刚刚发布了新版本，并且管道已将二进制文件添加到发布中，我们可以使用以下 `curl` 命令简单地下载归档文件：
 - en: '[PRE32]'
+  id: totrans-355
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE32]'
 - en: The `-L` option is used to tell `curl` to follow any redirect command. Following
     the execution of this command, the BNA file should be on your local filesystem.
+  id: totrans-356
   prefs: []
   type: TYPE_NORMAL
+  zh: '`-L` 选项用于告诉 `curl` 去跟随任何重定向命令。执行此命令后，BNA 文件应该位于您的本地文件系统上。'
 - en: Updating the business network
+  id: totrans-357
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 更新业务网络
 - en: Since the BNA content is actually stored in the world state, submitting a business
     network update can be done from any client that has access to the administrative
     certificates.
+  id: totrans-358
   prefs: []
   type: TYPE_NORMAL
+  zh: 由于 BNA 内容实际上存储在世界状态中，因此可以从具有对管理证书访问权限的任何客户端提交业务网络更新。
 - en: 'Thus, to update the network, you submit the following command:'
+  id: totrans-359
   prefs: []
   type: TYPE_NORMAL
+  zh: 因此，要更新网络，请提交以下命令：
 - en: '[PRE33]'
+  id: totrans-360
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE33]'
 - en: 'In order to test the deployment of an updated BNA, please refer to: [https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/composer](https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/composer).'
+  id: totrans-361
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了测试更新 BNA 的部署，请参考：[https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/composer](https://github.com/HyperledgerHandsOn/trade-finance-logistics/tree/master/composer)。
 - en: Note that the other dependent components, such as the REST gateway and the application,
     would also need to be considered in a production deployment.
+  id: totrans-362
   prefs: []
   type: TYPE_NORMAL
+  zh: 请注意，其他依赖组件，如 REST 网关和应用程序，在生产部署中也需要考虑。
 - en: Summary
+  id: totrans-363
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 概要
 - en: Hopefully, this chapter will have given you a good overview of the challenges
     and considerations required to align a consortium around the promotion process.
+  id: totrans-364
   prefs: []
   type: TYPE_NORMAL
+  zh: 希望本章对您理解如何使联盟围绕推广流程达成一致所需的挑战和考虑有所帮助。
 - en: Continuous delivery pipelines are an essential part of providing the velocity
     to a consortium, removing manual processes, and ensuring that every organization
     can review and approve code changes before they go live. We've looked at some
     of the key events such as the pull request and the tag release.
+  id: totrans-365
   prefs: []
   type: TYPE_NORMAL
+  zh: 持续交付流水线是提供给联盟速度的基本部分，消除手动流程，并确保每个组织可以在代码上线之前审查和批准代码更改。我们已经看到了一些关键事件，比如拉取请求和标记发布。
 - en: Over the course of this chapter, you have completed the configuration of a complete
     continuous integration pipeline, including testing and publication of the business
     network archive. Furthermore, we have seen how we can protect the production-ready
@@ -1620,12 +2338,17 @@
     to a code review by key participants from organizations. We have also looked at
     how we can ensure we maintain the provenance of each Git commit using `gpg` signature.
     Finally we have reviewed a process to deploy updates in a trusted manner.
+  id: totrans-366
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章过程中，您已经完成了完整的持续集成流水线配置，包括测试和发布业务网络存档。此外，我们已经看到了如何通过保护主分支和确保每个更改都受到组织关键参与者代码审查来保护生产就绪代码。我们还研究了如何使用
+    `gpg` 签名保留每个 Git 提交的来源。最后，我们审查了一种以可信方式部署更新的过程。
 - en: 'One thing is sure: automation is the key to agility—by eliminating repetitive
     manual tasks and providing a structure to how we modify the code, we enable organizations
     to be more agile and respond quickly, whether to defects or new requirements.
     This chapter was, of course, only a small introduction to this approach and its
     associated concepts; some of these topics could warrant their own books.'
+  id: totrans-367
   prefs: []
   type: TYPE_NORMAL
+  zh: 有一件事是肯定的：自动化是敏捷的关键—通过消除重复的手动任务并为我们修改代码提供结构，我们使组织能够更具敏捷性并快速响应，无论是对缺陷还是新需求。当然，本章仅是这种方法及其相关概念的一个小介绍；其中一些主题可能值得拥有自己的书籍。
