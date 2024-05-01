@@ -1,0 +1,879 @@
+- en: Getting Started with web3.js
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the previous chapter, we learned how to write and deploy smart contracts
+    using Solidity. In this chapter, we will learn about **web3.js** and how to import
+    it, connect to geth, and use it in Node.js or client-side JavaScript. We will
+    also learn how to build a web client using web3.js for the smart contract that
+    we created in the previous chapter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we''ll cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Importing web3.js in Node.js and client-side JavaScript
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Connecting to geth
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Exploring web3.js
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Discovering the most-used APIs of web3.js
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building a Node.js application for an ownership contract
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: This chapter is same as chapter present in author's previous book *Blockchain
+    for Projects*. This is not a second edition book,it is used to explain fundamental
+    concepts to the readers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Introduction to web3.js
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: web3.js provides us with JavaScript APIs to communicate with geth. It uses JSON-RPC
+    internally to communicate with geth. web3.js can also communicate with any other
+    kind of Ethereum node that supports JSON-RPC. It exposes all JSON-RPC APIs as
+    JavaScript APIs. It doesn't just support all the Ethereum-related APIs, but also
+    supports APIs related to **Whisper** and **Swarm**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As we build various projects, you will keep learning more about web3.js. For
+    now, though, let's go through some of the most used APIs for web3.js. Later, we
+    will build a frontend for our ownership smart contract using web3.js.
+  prefs: []
+  type: TYPE_NORMAL
+- en: At the time of writing, the latest version of web3.js is 1.0.0-beta.18\. We
+    will learn everything using this version.
+  prefs: []
+  type: TYPE_NORMAL
+- en: web3.js is hosted at [https://github.com/ethereum/web3.js](https://github.com/ethereum/web3.js)
+    and the complete documentation is hosted at [https://github.com/ethereum/wiki/wiki/JavaScript-API](https://github.com/ethereum/wiki/wiki/JavaScript-API).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Importing web3.js
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Simply run `npm install web3` inside your project directory to use web3.js in
+    Node.js. In the source code, you can import it using `require("web3");`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To use web3.js in client-side JavaScript, you can enqueue the `web3.js` file,
+    which can be found inside the `dist` directory of the project source code. Now,
+    the `web3` object will be available globally.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Connecting to nodes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: web3.js can communicate with nodes using HTTP or IPC, and allows us to connect
+    with multiple nodes. We will use HTTP for our node communication. An instance
+    of `web3` represents a connection with a node. The instance exposes the APIs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When an app is running inside mist, it automatically makes an instance of `web3`
+    available that is connected to the mist node. The variable name of the instance
+    is `web3`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the basic code to connect to a node:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: First, we verify whether the code is running inside mist by checking whether
+    `web3` is `undefined` or not. If `web3` is defined, then we use the already available
+    instance; otherwise, we create an instance by connecting to our custom node. You
+    can remove the `if` condition from the preceding code if you want to connect to
+    the custom node, regardless of whether or not the app is running inside mist.
+    Here, we assume that our custom node is running locally on port number `8545`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `Web3.providers` object exposes constructors (called `providers` in this
+    context) to establish a connection and transfer messages using various protocols.
+    `Web3.providers.HttpProvider` lets us establish an HTTP connection, whereas `Web3.providers.IpcProvider`
+    lets us establish an IPC connection.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `web3.currentProvider` property is automatically assigned to the current
+    provider instance. After creating a `web3` instance, you can change its provider
+    using the `web3.setProvider()` method. It takes one argument, that is, the instance
+    of the new provider.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Remember that geth has HTTP-RPC disabled by default. So enable it by passing
+    the `--rpc` option while running geth. HTTP-RPC runs on port `8545` by default.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`web3` exposes an `isConnected()` method that can be used to check whether
+    or not it''s connected to the node. It returns a `true` or `false` value depending
+    on the connection status.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The API structure
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '`web3` contains an `eth` object (`web3.eth`) specifically for Ethereum blockchain
+    interactions and an `shh` object (`web3.shh`) for Whisper interaction. Most web3.js APIs
+    are inside these two objects.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: All the APIs are synchronous by default. For an asynchronous request, you can
+    pass an optional callback as the last parameter for most functions. All callbacks
+    use an error-first callback style.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Some APIs have an alias for asynchronous requests. For example, `web3.eth.coinbase()`
+    is synchronous, whereas `web3.eth.getCoinbase()` is asynchronous.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`getBlock` is used to get information on a block using its number or hash.
+    Or, it can take a string such as `"earliest"` (the genesis block), `"latest"`
+    (the top block of the blockchain), or `"pending"` (the block that''s being mined).
+    If you don''t pass an argument, then the default is `web3.eth.defaultBlock`, which
+    is assigned to `"latest"` by default.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: All of the APIs that need a block identification as an input can take a number,
+    hash, or one of the readable strings. These APIs use `web3.eth.defaultBlock` by
+    default if the value is not passed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: BigNumber.js
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: JavaScript is natively poor at handling big numbers. Therefore, for applications
+    that require you to deal with big numbers and need perfect calculations, use the
+    **BigNumber.js** library.
+  prefs: []
+  type: TYPE_NORMAL
+- en: web3.js also depends on BigNumber.js and adds it automatically. web3.js always
+    returns the `BigNumber` object for number values. It can take JavaScript numbers,
+    number strings, and `BigNumber` instances as input.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s demonstrate this, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we use the `web3.eth.getBalance()` method to get the balance of an address.
+    This method returns a `BigNumber` object. We need to call `toString()` on a `BigNumber`
+    object to convert it into a number string.
+  prefs: []
+  type: TYPE_NORMAL
+- en: BigNumber.js fails to correctly handle numbers with more than 20 floating point
+    digits. Therefore, it is recommended that you store the balance in a wei unit,
+    and while it is displayed, convert it to other units. web3.js itself always returns
+    and takes the balance in wei. For example, the `getBalance()` method returns the
+    balance of the address in the wei unit.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Unit conversion
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: web3.js provides APIs to convert the wei balance into any other unit and vice
+    versa.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The `web3.fromWei()` method converts a wei number into another unit, whereas
+    the `web3.toWei()` method converts a number in any other unit into wei. Here is
+    an example to demonstrate this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In the first line, we convert wei into `ether`; in the second line, we convert
+    `ether` into wei. The second argument in both methods can be one of these strings:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`kwei` or `ada`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`mwei` or `babbage`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`gwei` or `shannon`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`szabo`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`finney`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`ether`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`kether` / `grand` / `einstein`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`mether`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`gether`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`tether`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Retrieving gas price, balance, and transaction details
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s take a look at the APIs to retrieve the gas price, the balance of an
+    address, and information on a mined transaction:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The output will be in this format:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following is how the preceding method works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`web3.eth.gasPrice()`: Determines the gas price by the *x* latest blocks''
+    median gas price.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`web3.eth.getBalance()`: Returns the balance of any given address. All the
+    hashes should be provided as hexadecimal strings (not hexadecimal literals) to
+    the web3.js APIs. The input for the Solidity address type should also be in hexadecimal
+    strings.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`web3.eth.getTransactionReceipt()`: This is used to get details about a transaction
+    using its hash. It returns a transaction receipt object if the transaction was
+    found in the blockchain; otherwise, it returns `null`. The transaction receipt
+    object contains the following properties:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`blockHash`: The hash of the block where this transaction was located.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`blockNumber`: The block number where this transaction was located.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`transactionHash`: The hash of the transaction.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`transactionIndex`: The integer of the transactions'' index position in the
+    block.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`from`: The address of the sender.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`to`: The address of the receiver; this is left as `null` when it''s a contract
+    creation transaction.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`cumulativeGasUsed`: The total amount of gas used when this transaction was
+    executed in the block.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`gasUsed`: The amount of gas used by this specific transaction alone.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`contractAddress`: The contract address created if the transaction was a contract
+    creation. Otherwise, this is left as `null`.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`logs`: The array of log objects that this transaction generated.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Sending ether
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s look at how to send `ether` to any address. To send `ether`, you need
+    to use the `web3.eth.sendTransaction()` method. This method can be used to send
+    any kind of transaction but is mostly used to send `ether`. This is because deploying
+    a contract or calling a method of contract using this method is cumbersome as
+    it requires you to manually generate the data of the transaction rather than automatically
+    generating it. It takes a transaction object that has the following properties:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`from`: The address for the sending account. This uses the `web3.eth.defaultAccount`
+    property if not specified.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`to`: This is optional. It''s the destination address of the message and is
+    left undefined for a contract-creation transaction.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`value`: This is optional. The value of the transaction is transferred in wei
+    as well as the endowment if it''s a contract-creation transaction.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`gas`: This is optional. It''s the amount of gas to use for the transaction
+    (unused gas is refunded). If this is not provided, then it''s automatically determined.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`gasPrice`: This is optional. It''s the price of gas for this transaction in
+    wei, and it defaults to the mean network gas price.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`data`: This is optional. It''s either a byte string containing the associated
+    data of the message or, in the case of a contract-creation transaction, the initialization
+    code.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`nonce`: This is optional. It''s an integer. Every transaction has `nonce`
+    associated with it. `nonce` is a counter that indicates the number of transactions
+    made by the sender. If it is not provided, it will be automatically determined.
+    It helps prevent replay attacks. This `nonce` is not the `nonce` associated with
+    a block. If we are using a `nonce` greater than the `nonce` that the transaction
+    should have, then the transaction is put in a queue until the other transactions
+    arrive. For example, if  `nonce` of the next transaction should be four and we
+    set the `nonce` to ten, then geth will wait for the remaining six transactions
+    before broadcasting this transaction. The transaction with `nonce` ten is called
+    a **queued transaction**, and is not a pending transaction.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Here''s an example of how to send `ether` to an address:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we send one `ether` from account number `0` to account number `1`. We
+    need to make sure that both the accounts are unlocked using the `unlock` option
+    while running geth. The geth interactive console prompts for passwords, but the
+    web3.js API outside of the interactive console will throw an error if the account
+    is locked. This method returns the transaction hash of the transaction. You can
+    then check whether the transaction is mined or not using the `getTransactionReceipt()`
+    method.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can also use `web3.personal.listAccounts()`, `web3.personal.unlockAccount(addr,
+    pwd)`, and `web3.personal.newAccount(pwd)` APIs to manage accounts at runtime.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Working with contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's learn how to deploy a new contract, get a reference to a deployed contract
+    using its address, send `ether` to a contract, send a transaction to invoke a
+    `contract` method, and estimate the gas of a method call.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To deploy a new contract or to get a reference to an already deployed contract,
+    you need to first create a `contract` object using the `web3.eth.contract()` method.
+    It takes the contract ABI as an argument and returns the `contract` object.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the code to create a `contract` object:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: Once you have the contract, you can deploy it using the `new` method of the
+    `contract` object or get a reference to an already deployed contract that matches
+    the ABI using the `at` method.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s take a look at an example of how to deploy a new contract, as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, the `new` method is called asynchronously, so the callback is fired twice
+    if the transaction was created and broadcasted successfully. On the first occasion,
+    it's called after the transaction is broadcasted, and on the second occasion,
+    it's called after the transaction is mined. If you don't provide a callback, then
+    the `proof` variable will have the `address` property set to `undefined`. Once `contract`
+    is mined, the `address` property will be set.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the `proof` contract, there is no constructor, but if there is one, then
+    the arguments for the constructor should be placed at the beginning of the `new`
+    method. The object we passed contains the `from` address, the bytecode of the
+    contract, and the maximum `gas` to use. These three properties must be present
+    for the transaction to be created. This object can have the properties that are
+    present in the object passed to the `sendTransaction()` method, but here, `data`
+    is the contract bytecode and the `to` property is ignored.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can use the `at` method to get a reference to an already deployed contract.
+    Here is the code to demonstrate this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now let''s take a look at sending a transaction to invoke a method of a contract.
+    Here is an example to demonstrate this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we call the `sendTransaction` method of the object for the namesake method.
+    The object passed to this `sendTransaction` method has the same properties as
+    `web3.eth.sendTransaction()`, except that the `data` and `to` properties are ignored.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If you want to invoke a method on the node itself, rather than creating a transaction
+    and broadcasting it, then you can use `call` instead of `sendTransaction`. Here''s
+    how:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Sometimes, it is necessary to find out the amount of gas that would be required
+    to invoke a method so that you can decide whether to invoke it. You can use `web3.eth.estimateGas` for
+    this purpose. However, using `web3.eth.estimateGas()` requires you to directly
+    generate the data of the transaction; therefore, we can use the `estimateGas()`
+    method of the contract object. Here is an example to demonstrate this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: To send some `ether` to a contract without invoking any method, you can simply
+    use the `web3.eth.sendTransaction` method.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Retrieving and listening to contract events
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Watching for events is very important because the results of method invocations
+    by transactions are usually returned by triggering events.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Before we get into how to retrieve and watch for events, we need to learn about
+    indexed parameters of events. A maximum of three parameters for an event can have
+    the `indexed` attribute. This attribute is used to signal the node to index it
+    so that the app client can search for events with matching return values. If you
+    don''t use the `indexed` attribute, then it will have to retrieve all the events
+    from the node and filter the ones needed. For example, you can write the `logFileAddedStatus`
+    event this way:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is an example to demonstrate how to listen to contract events:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'And the following is how the aforementioned code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'First, we get the `event` object by calling the method of the event namesake
+    on a contract instance. This method takes two objects as arguments, which are
+    used to filter events:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The first object is used to filter events by indexed return values, for example,
+    `{''valueA'': 1, ''valueB'': [myFirstAddress, mySecondAddress]}`. All filter values
+    are set to `null` by default.  This means that they will match any event of a
+    given type sent from this contract.'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The next object can contain three properties: `fromBlock` (the `"earliest"`
+    block; by default, it is `"latest"`); `toBlock` (the `"latest"` block; by default,
+    it is `"latest"`); and `address` (a list of addresses to only get logs from; by
+    default, the contract address).'
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The `event` object exposes three methods: `get`, `watch`, and `stopWatching`.
+    `get` is used to get all the events in the block range. `watch` is similar to `get`,
+    but it watches for changes after getting the events. `stopWatching` can be used
+    to stop watching for changes.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then, we have the `allEvents` method of the contract instance. It is used to
+    retrieve all the events of a contract.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Every event is represented by an object that contains the following properties:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`args`: An object with the arguments from the event.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`event`: A string representing the event name.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`logIndex`: An integer representing the log index position in the block.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`transactionIndex`: An integer representing the transactions that the index
+    position log was created from.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`transactionHash`: A string representing the hash of the transactions that
+    this log was created from.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`address`: A string representing the address from which this log originated.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`blockHash`: A string representing the hash of the block where this log was
+    located. This is left as `null` when it''s pending.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`blockNumber`: The block number this log was in. This is entered as `null`
+    when it''s pending.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: web3.js provides a `web3.eth.filter` API to retrieve and watch for events. You
+    can use this API, but the way of handling events in the earlier method  is much
+    easier. You can learn more about it at [https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter](https://github.com/ethereum/wiki/wiki/JavaScript-API#web3ethfilter).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building a client for the ownership contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the previous chapter, we wrote Solidity code for the ownership contract.
+    And in both the previous chapter and this one, we learned about web3.js and how
+    to invoke the methods of the contract using web3.js. Now, it's time to build a
+    client for our smart contract so that users can use it easily.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will build a client where an enterprise's user selects a file, enters owner
+    details, and then clicks on `Submit` to broadcast a transaction to invoke the
+    contract's `set` method with the file hash and the owner's details. Once the transaction
+    is successfully broadcasted, we will display the transaction hash. The user will
+    also be able to select a file and get the owner's details from the smart contract.
+    The client will also display the recent `set` transactions mined in real time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will use sha1.js to get the hash of the file on the frontend, jQuery for
+    DOM manipulation, and Bootstrap 4 to create a responsive layout. We will use Express.js
+    and web3.js on the backend. We will use `socket.io` so that the backend pushes
+    recently mined transactions to the frontend without the frontend periodically
+    requesting data.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The project structure
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In the exercise files for this chapter, you will find two directories: `Final`
+    and `Initial`. `Final` contains the final source code of the project, whereas
+    `Initial` contains the empty source code files and libraries to allow you to get
+    started on building the application quickly.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: To test the `Final` directory, you will need to run `npm install` inside it
+    and replace the hardcoded contract address in `app.js` with the contract address
+    that you got after deploying the contract. Then, run the app using the `node app.js`
+    command inside the `Final` directory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the `Initial` directory, you will find a `public` directory and two files
+    named `app.js` and `package.json`. `package.json` contains the backend dependencies
+    of our app, and `app.js` is where you will place the backend source code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `public` directory contains files related to the frontend. Inside `public/css`,
+    you will find `bootstrap.min.css`, which is the Bootstrap library; inside `public/html`,
+    you will find `index.html`, where you will place the HTML code of our app; and
+    in the `public/js` directory, you will find JS files for jQuery, sha1, and socket.io.
+    Inside `public/js`, you will also find a `main.js` file, where you will place
+    the frontend JS code of our app.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building the backend
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: First, run `npm install` inside the `Initial` directory to install the required
+    dependencies for our backend. Before we get into coding the backend, make sure
+    geth is running with `rpc` enabled. Finally, make sure that account `0` exists
+    and is unlocked.
+  prefs: []
+  type: TYPE_NORMAL
+- en: One final thing you need to do before getting started with coding is to deploy
+    the ownership contract using the code we saw in the previous chapter, and copy
+    the contract address.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now let''s create a single server, which will serve the HTML to the browser
+    and also accept `socket.io` connections:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we are integrating both the `express` and `socket.io` servers into one
+    server running on port `8080`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now let''s create the routes to serve the static files and also the home page
+    of the app. Here is the code to do this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we are using the `express.static` middleware to serve static files. We
+    are asking it to find static files in the `public` directory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now let''s connect to the geth node and also get a reference to the deployed
+    contract so that we can send transactions and watch for events. Here is the code
+    to do this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: The code is self-explanatory. Simply replace the contract address with the one
+    that you got.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now let''s create routes to broadcast transactions and get information about
+    a file. Here is the code to do this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, the `/submit` route is used to create and broadcast transactions. Once
+    we get the transaction hash, we send it to the client. We are not doing anything
+    to wait for the transaction to mine. The `/getInfo` route calls the `get` method
+    of the contract on the node itself, instead of creating a transaction. It simply
+    sends back whatever response it gets.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now let''s watch for the events from the contract and broadcast them to all
+    the clients. Here is the code to do this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we check whether `status` is `true`, and only if  it is `true` do we broadcast
+    the event to all the connected `socket.io` clients.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building the frontend
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s begin with the HTML of the app. Put this code in the `index.html` file,
+    as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is how the code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, we display Bootstrap's file input field so that the user can select a
+    file.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then, we display a text field where the user can enter the owner's details.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then we have two buttons. The first one is to store the file hash and the owner's
+    details in the contract, and the second button is to get information on the file
+    from the contract. Clicking on the `Submit` button triggers the `submit()` method,
+    and clicking on the `Get Info` button triggers the `getInfo()` method.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Next, we have an alert box to display messages.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Finally, we display an ordered list to show the transactions of the contract
+    that gets mined while the user is on the page.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Now, let''s write the implementation for the `getInfo()` and `submit()` methods,
+    establish  `socket.io` connect with the server, and listen for `socket.io` messages
+    from the server. Place this code in the `main.js` file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, we define the `submit()` method. In the `submit()` method, we ensure
+    that a file is selected and the text field is not empty. Then, we read the content
+    of the file as an array buffer and pass the array buffer to the `sha1()` method
+    exposed by sha1.js in order to get the hash of the content inside the array buffer.
+    Once we have the hash, we use jQuery to make an AJAX request to the `/submit`
+    route and then we display the transaction hash in the alert box.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We define the `getInfo()` method next. It first makes sure that a file is selected.
+    Then, it generates a hash like the one it generated earlier and makes a request
+    to the `/getInfo` endpoint to get information about that file.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Finally, we establish a `socket.io` connection using the `io()` method exposed
+    by the `socket.io` library. Then, we wait for the connect event to trigger, which
+    indicates that a connection has been established. After the connection is established,
+    we listen for messages from the server and display the details of the transactions
+    to the user.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We aren't storing the file in the Ethereum blockchain. Storing files is very
+    expensive, as it requires a lot of gas. In our case, we don't need to store files
+    because nodes in the network will be able to see the file; therefore, if the users
+    want to keep the file content secret, then they won't be able to. Our application's
+    purpose is simply to prove ownership of a file, not to store and serve the file,
+    as a cloud service does.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing the client
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now run the `app.js` node to run the application server. Open your favorite
+    browser and visit `http://localhost:8080/`. You will see this output in the browser:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/c6e4f386-d737-4f54-9bff-fa79fc4a6008.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now select a file, enter the owner''s name, and click on Submit. The browser
+    window will change to this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/515c0928-c6d2-4594-ab16-acd466dae3da.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'In the following diagram, you can see that the Transaction hash is displayed.
+    Now wait until the transaction is mined. Once the transaction is mined, you will
+    be able to see the transaction in the live transactions list. Here is how the
+    browser window should look:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/1b72320c-a109-451b-bdb9-6d709150107e.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now select the same file again and click on the Get Info button. You will see
+    the following output:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/75dc8910-fba6-4301-961c-18528b442277.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: In the previous screenshot, you can see the Timestamp and the owner's details.
+    Now we have finished building the client for our first DApp.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we first learned about the fundamentals of web3.js and looked
+    at some examples. We learned about connecting to a node, basic APIs, sending various
+    kinds of transactions, and watching for events. Finally, we built a proper production
+    use client for our ownership contract. Now you should be comfortable with writing
+    smart contracts and building UI clients for them in order to ease their use.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we will learn about achieving privacy using a zero-knowledge
+    security layer.
+  prefs: []
+  type: TYPE_NORMAL

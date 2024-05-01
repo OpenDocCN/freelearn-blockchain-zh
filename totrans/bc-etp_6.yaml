@@ -1,0 +1,1210 @@
+- en: Building Quorum as a Service Platform
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: As the deployment of containerized applications using **Kubernetes **(**K8s**)
+    is growing, it's the right time to learn how we can containerize Quorum for deploying
+    to K8s. In this chapter, we will be building a **Platform as a Service** (**PaaS**)
+    to make it easy to create Quorum networks. We will start with the fundamentals
+    of cloud computing, Docker, and K8s, and end up with a **Quorum as a Service** (**QaaS**)
+    platform. What we will build in this chapter is a minimalist **Blockchain as a
+    Service** (**BaaS**), compared to the ones provided by various cloud platforms
+    such as Azure, AWS, and BlockCluster.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: What is cloud computing?
+  prefs: []
+  type: TYPE_NORMAL
+- en: Difference between public, private, and hybrid clouds
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Difference between IaaS, PaaS, and SaaS
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: What is Docker and the containerization of applications?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Introduction to microservices architecture
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding fundamentals of K8s and its advantages
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Installing minikube on your local machine
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Deploying a simple Hello World Node.js app in K8s
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Containerizing Quorum for K8s
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building a QaaS platform using Docker and K8s
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Introduction to cloud computing
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In simple terms, cloud computing is the on-demand delivery of computing services
+    (servers, storage, databases, networking, software, and more) over the internet.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Cloud computing provides an easier way to access servers, storage, databases,
+    and a broad set of application services over the internet. Cloud services platforms,
+    such as **Amazon Web Services** and **Microsoft Azure**, own and maintain the
+    network-connected hardware required for these application services, while you
+    provision and use what you need by way of a web application.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here are the advantages of cloud computing:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Cost**: Cloud computing saves a lot of cost as you don''t have to buy hardware
+    and software. It also saves you the cost of setting up and running on-site data
+    centers. Even if you set up your own data centers, you need IT experts who can
+    manage them, and 24/7 electricity and cooling, which creates additional costs.
+    Compared to this, cloud computing is very cheap. In cloud computing, you can only
+    pay when you consume resources and you only pay for how much you consume.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Speed**: Cloud computing saves time as you can get the services running whenever
+    you need; it offers on-demand provisioning of computing services.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Scaling globally**: You can easily deploy your applications in multiple regions.
+    This lets you put the applications close to your users.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: There are various other benefits, depending on which cloud computing provider
+    you are using.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Private versus public versus hybrid cloud
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A cloud solution can be private, public, or hybrid, based on the ownership and
+    location of the data centers. Cloud solutions are usually public, that is, anyone
+    with access to the internet can use the computing services provided by the cloud.
+    All the benefits we saw earlier are benefits provided by public clouds.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Although public clouds let you choose your region while provisioning a computing
+    service, the total number of regions that are available is still very limited.
+    This is a concern for entities such as banks, Armed Forces, and governments as
+    they either don't want the data to leave their country or don't want the cloud
+    provider to have visibility of the data. Therefore, these entities either choose
+    a private or hybrid cloud.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A cloud is said to be private when it is hosted on the enterprise's own data
+    centers. In this case, enterprises don't get the benefits of cost and multi-region
+    scaling as they are responsible for provisioning and maintaining the data centers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The term hybrid cloud is used when enterprises use a mix of both private and
+    public clouds, based on technical and business requirements. An enterprise may
+    choose to host the application on a public cloud while keeping some data relating
+    to the application in a private cloud due to compliance or security issues.
+  prefs: []
+  type: TYPE_NORMAL
+- en: IaaS versus PaaS and SaaS
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '**Infrastructure as a Service **(**IaaS**), **Platform as a Service** (**PaaS**),
+    and **Software as a Service** (**SaaS**) are three different categories of cloud
+    solutions based on what you manage and what the cloud provider manages for you.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In IaaS, the cloud provider provides customers with on-demand access to basic
+    computing services, that is, storage, networking, and servers. Everything else
+    is up to you to provision and manage. Amazon AWS, Google Cloud, Azure, Linode,
+    and Rackspace are examples of IaaS.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In PaaS, the cloud provider manages the operating system, runtime for programming
+    languages, databases, and web server—that is, it provides an environment for developing,
+    testing, and managing applications. In simple terms, you should only be worried
+    about writing code and the business side of scalability. The rest of the infrastructure
+    for application development and deployment is handled by the cloud provider. Heroku,
+    Redhat's OpenShift, Apache Stratos, and Google App Engine are examples of PaaS.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Database as a Service** (**DBaaS **or **BaaS**) falls under the category of
+    PaaS. So in this chapter, we will be creating a simple PaaS: QaaS. Any cloud solution
+    that manages the services (such as a database, blockchain, or messaging queue)
+    that your applications depends on is PaaS.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In SaaS, the cloud provider manages everything, including the data and the application.
+    You don't write any code to build the application. The cloud provider provide
+    an interface to customize the application based on your needs and deploys it. Use
+    of SaaS tends to reduce the cost of software ownership by removing the need for
+    technical staff to manage, write code, and upgrade software regularly. You just
+    worry about business logic. Salesforce, Google Apps, and WordPress.com are examples
+    of SaaS.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/092c799a-a278-4839-985a-4ac91ced5720.jpg)'
+  prefs: []
+  type: TYPE_IMG
+- en: The preceding image can be used to easily determine whether a cloud solution
+    is IaaS, PaaS, or SaaS.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Some cloud solutions provide features of both IaaS and PaaS. For example, AWS
+    started as an IaaS and now it also provides various on-demand services (such as
+    blockchain and elastic search).
+  prefs: []
+  type: TYPE_NORMAL
+- en: What are containers?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: If you are using a PaaS or SaaS to create your application, then you will not
+    come across containers because they take care of containerizing your application.
+    PaaS simply lets you push the source code of your app to the cloud and it builds
+    and runs the app for you.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you are using IaaS to build your application, then without containerizing
+    your application, it will become next to impossible to scale and manage your application.
+    Let's take a scenario and try to understand why we need containers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In IaaS, to deploy your app you would need to perform the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Provision a **Virtual Machines** (**VMs**)
+  prefs: []
+  type: TYPE_NORMAL
+- en: Install all the dependencies and runtime environments of the app
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Run the app
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: If the app starts receiving more traffic than the VM can handle, you will start
+    creating new VMs and distribute the traffic using a load-balancer
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: For every new VM, you need to follow the same procedure for installing the dependencies
+    and runtime environments before running new instances of the app in the new VMs
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: This process of rolling up new VMs and running an instance of the app in them
+    is error-prone and time-consuming. This is where containers come in.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In a nutshell, containers are a way of packing an application. What makes containers
+    special is that there are no unexpected errors when you move them to a new machine,
+    or between environments. All of your application's code, libraries, and dependencies
+    are packed together in the container as an immutable artifact. You can think of
+    running a container as running a VM, without the overhead of spinning up an entire
+    operating system. For this reason, bundling your application in a container versus
+    a VM will improve startup time significantly. Containers are much more lightweight
+    and use far fewer resources than VMs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So, for the preceding example, you would need to create a container for your
+    application and run the container in each of the VMs. Obviously, based on your
+    application architecture, one Docker container can run multiple processes and
+    one VM can run multiple containers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Internally, PaaS and SaaS use containers to package and deploy your applications.
+    There are many other use cases for containers. For example: a coding test app
+    actually containerizes your code before executing it so that the code executes
+    in an isolated environment.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: By containerizing the application and its dependencies, differences in OS distributions
+    and underlying infrastructure are abstracted away. Containers work on bare-metal
+    systems, cloud instances, and VMs across Linux, Windows, and macOS.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Introduction to Docker
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Docker helps you create and deploy software within containers. It's an open
+    source collection of tools that help you build, ship, and run any app, anywhere. With
+    Docker, you create a special file called a Dockerfile in your app source code
+    directory. Dockerfiles define a build process, which, when fed to the `docker
+    build` command, will produce an immutable Docker image. You can think of Docker
+    image like a VM image. When you want to start it up, just use the `docker run`
+    command to run it anywhere the Docker daemon is supported and running. A Docker
+    container is a running instance of a Docker image.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the Dockerfile, you need to mention a command that should be run, then the
+    container starts. This is how the actual application is executed inside the container.
+    If the command exists, the container also shuts down. When a container shuts down,
+    all data written in the container's volume is lost.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Docker also provides a cloud-based repository called **Docker Hub**. You can
+    think of it like a GitHub for Docker images. You can use Docker Hub to create,
+    store, and distribute the container images you build.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building a Hello World Docker container
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's create a Docker image that packages a simple Node.js app that exposes
+    an endpoint to print Hello World. Before continuing, make sure you have installed
+    Docker CE (community edition) on your local machine. You can find instructions
+    on install and startingDocker based on different operating systems at [https://docs.docker.com/install/](https://docs.docker.com/install/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now create a directory named `hello-world` and create a file named `app.js`
+    in it. Place the following in that file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now create a file named `Dockerfile` in the same directory and place this content
+    in it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: We put the instructions to build the Docker image in the Docker file. You can
+    find the list of instructions at [https://docs.docker.com/engine/reference/builder/](https://docs.docker.com/engine/reference/builder/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is how the preceding Dockerfile works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, you need to define from what image we want to build. Here, we will use
+    the latest **long-term support **(**LTS**) version carbon of node available from
+    the Docker Hub. This image comes with `Node.js` and `npm` already installed.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Next, we create a directory to hold the application code inside the image; this
+    will be the working directory for your application.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To bundle your app's source code inside the Docker image, we use the `COPY`
+    instruction. Here it means we are copying from the current host operating system's
+    working directory to Docker's working directory.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Your app binds to port `8888` so you'll use the `EXPOSE` instruction to have
+    it mapped by the Docker daemon.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Last but not least, define the command to run your app using `CMD`, which defines
+    your runtime.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Here is how to build the Docker image:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Use the `docker build -t nodejs-hello-world .` command to build the Docker image.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: To run the container, run the `docker run -p 8090:8888 -d nodejs-hello-world` command.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The `-p` option binds port `8888` of the container to TCP port `8090` on `127.0.0.1`
+    of the host machine. You can also specify the udp and sctp ports. Visit `http://localhost:8090/`
+    on your web browser and you will see the Hello World message.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: In Dockerfile, the command is defined using `ENTRYPOINT` and the arguments to
+    the command are defined using `CMD`. The default entry point is  `["/bin/sh",
+    "-c']`, which is actually running the `sh` shell. So in the preceding Dockerfile,
+    the main command is starts the `sh` shell and passes the command to run our application
+    as a subcommand. The `-c` option takes a command to run inside the `sh` shell.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding the microservices architecture
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The microservices architecture is an application architecture adopted for building
+    enterprise-level applications. To understand microservices architecture, it's
+    important to first understand monolithic architecture, which is its opposite.
+    In monolithic architecture, different functional components of the server-side
+    application, such as payment processing, account management, push notifications,
+    and other components, all blend together in a single unit.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For example, applications are usually divided into three parts. The parts are
+    HTML pages or native UI that run on the user's machine, a server-side application
+    that runs on the server, and a database that also runs on the server. The server-side
+    application is responsible for handling HTTP requests, retrieving and storing
+    data in a database, and executing algorithms. If the server-side application is
+    a single executable (that is, running is a single process) that does all these
+    tasks, then we say that the server-side application is monolithic. This is a common
+    way of building server-side applications. Almost every major CMS, web server,
+    and server-side framework is built using monolithic architecture. This architecture
+    may seem successful, but problems are likely to arise when your application is
+    large and complex.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In microservices architecture, the server-side application is divided into services.
+    A service (or microservice) is a small and independent process that constitutes
+    a particular functionality of the complete server-side application. For example,
+    you can have a service for payment processing, another service for account management,
+    and so on; the services need to communicate with each other by means of a network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The services can communicate with each other via REST APIs or a messaging queue,
+    depending on whether you need the communication to be synchronous or asynchronous,
+    respectively.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here are some of the benefits of using microservices architecture:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: As the services communicate by means of a network, they can be written in different
+    programming languages using different frameworks
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Making a change to a service only requires that particular service to be redeployed,
+    instead of all the services, which is a faster procedure
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It becomes easier to measure how many resources are consumed by each service
+    as each service runs in a different process
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It becomes easier to test and debug, as you can analyze each service separately
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Services can be reused by other applications as they interact through network
+    calls
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Small teams work in parallel and can iterate faster than large teams
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Smaller components take up fewer resources and can be scaled to meet increasing
+    demand of that component only
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You don't have to run each microservice in a different VM, that is, you can
+    run multiple services in a single VM. The ratio of server to services depends
+    on different factors. A common factor is the amount and type of resources and
+    technologies required. For example, if a service needs a lot of RAM and CPU time,
+    it would be better to run it individually on a server. If there are some services
+    that don't need many resources, you can run them all in a single server together.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Diving into K8s
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Once you have created a few Docker containers, you'll realize that something
+    is missing. If you want to run multiple containers across multiple machines –
+    which you'll need to do if you're using microservices—there is still a lot of
+    work to do.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You need to start the right containers at the right time, figure out how they
+    can talk to each other, handle storage considerations, and deal with failed containers
+    or hardware. Doing all of this manually would be a nightmare. Luckily, that's
+    where K8s comes in.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'K8sis an open source container-orchestration platform, allowing large numbers
+    of containers to work together in harmony, reducing the operational burden. It
+    helps with things such as:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Running containers across many different machines.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Scaling up or down by adding or removing containers when demand changes.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Keeping storage consistent with multiple instances of an application.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Distributing load between the containers.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Launching new containers on different machines if something fails, that is,
+    auto-healing.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Apps built to work with K8s can easily be moved by one IaaS to another without
+    any changes to the app source code. Apps are deployed on the K8s cluster and the
+    K8s cluster is deployed on IaaS.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'From a developer point of view, in a K8s cluster there are two types of machines:
+    master and nodes (also called **worker nodes**). Our application runs on the nodes,
+    whereas the master controls the nodes and exposes the K8s APIs. K8s can be installed
+    on bare metal or on VMs. There are also Kubernetes-as-a-service cloud solutions
+    available, which can create a cluster for you on demand. For example: Google Cloud''s
+    Kubernetes Engine, **Azure Kubernetes Service** (**AKS**), and **Amazon Elastic
+    Container Service for Kubernetes** (**Amazon EKS**).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Getting into resource objects
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: You can use the K8s API to read, write, and update K8s resource objects by means
+    of a K8s API endpoint. K8s resource objects are entities used to represent the
+    state of the cluster. We need to use manifests to define resource objects. In
+    the API calls, we pass the manifest file contents.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This is a high-level overview of the basic categories of resources provided
+    by the K8s API. Their primary functions are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Workload**: These resources are used to manage and run your containers on
+    the cluster. For example: deployments, pods, job, and replicaset.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Discovery and load-balancing**: These resources are used to combine your
+    workloads together into an externally accessible, load-balanced service. For example:
+    service and ingress.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Config and storage**: These resources are used to inject initialization data
+    into your applications, and to persist data that is external to your container.
+    For example: config map, secret, and volume.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Cluster**: These objects define how the cluster itself is configured; these
+    are typically used only by cluster operators.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Metadata**: These resources are used to configure the behavior of other resources
+    within the cluster. For example: network policy and namespaces.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Dockerfiles let you specify a lot of information regarding how to run the container,
+    such as ports to expose, environmental variables, and which command to run when
+    the container starts. But K8s recommends you move these to the K8s manifest files
+    instead of Dockerfile. Dockerfiles now only specify how to build and package the
+    app. Also, the K8s manifest overwrites instructions in the Dockerfile.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Deployments and pods
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'K8s encourages you to think of deployment as a representation of a microservice.
+    For example: if you have five microservices, you need to create five deployments,
+    whereas a pod is an instance of a microservice. Suppose you want to run three
+    instances of a microservice and distribute traffic among them, then in your deployment
+    you will define that you need three replicas, which will create three pods. A
+    pod runs one or more containers representing a microservice.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: When creating a deployment, you can specify the amount of computing resources
+    the microservice needs, such as memory and CPU, instead of letting it consume
+    everything that's available. You can also specify a node name to run the pod in
+    instead of K8s deciding.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When creating a deployment, you can specify which ports of a Docker container
+    to expose, environment variables, and various other things that are also specified
+    in the Dockerfile.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Services
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'By default, there is no way deployments can communicate with each other. Services
+    are created to enable communication between microservices and optionally allow
+    microservices to be reached from outside the cluster. We need to create a service
+    for every deployment. Services have a built-in load-balancing feature: if there
+    are three pods of a microservice, then the K8s service automatically distributes
+    traffic between them. Here are the various types of services:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`ClusterIP`: This is the default service type. Exposes the service on an internal
+    IP in the cluster. This type makes the service only reachable from within the
+    cluster.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`NodePort`: Makes a service accessible from outside the cluster. It''s superset
+    of `ClusterIP`. When we create a service with the `NodePort` type, K8s opens up
+    one or more ports (depending on the number of ports the Docker container exposes)
+    within the `30000-32767` range and maps to container ports in all the worker nodes.
+    So if an instance of the microservice is not running, for example, in machine
+    three still the port is exposed on machine three. K8s handles internal routing.
+    So you can use any of the worker nodes'' public IP combined with the assigned
+    port to reach the microservice. If you don''t want K8s to pick a random port between
+    `30000-32767` for exposing externally, then you can specify a port between the
+    same range.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`LoadBalancer`: It''s also used to expose a service outside of a cluster. It
+    will spin up a load-balancer in front of the service. This works only on supported
+    cloud platforms, such as AWS, GCP, and Azure.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Ingress controllers and resources
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Ingress is a K8s feature used to load-balance and expose microservices outside
+    of the cluster. Compared to NodePort and LoadBalances, it's the feature-rich and
+    recommended way of load-balancing and exposing microservices. Ingress gives you
+    a way to route requests to services based on the request host or path, thus centralizing
+    a number of services into a single entry point, which makes it easier to manage
+    a large application. Ingress also supports SSL offloading, URL rewrites, and many
+    other features so you don't have to integrate all these in each microservice you
+    create.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Ingress is split into two main pieces: ingress controller and resource. Ingress
+    controller is the actual reverse proxy that is exposed outside of the cluster
+    and ingress resources are configurations for the controller. Ingress controller
+    itself is a microservice, that is, it''s a deployment and a service is created
+    for it, of type `NodePort` or `LoadBalancer`. The ingress controller has the ability
+    to read the ingress resources and reconfigure itself.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are various different implementations of ingress controllers available
+    and you should choose the one that best fits your purpose. They vary based on
+    features and the load-balancer and reverse proxy software that they use. K8s official
+    has developed the `NGINX` ingress controller and it's the most common ingress
+    controller for K8s. This ingress controller implementation uses the NGINX reverse
+    proxy and load-balancer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can have a replica of more than one while deploying an ingress controller
+    to get high availability and load-balancing of ingress. You can also have multiple
+    ingresses deployed, which are differentiated using classes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: ConfigMaps and secrets
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Almost every application needs some sort of configurations to be passed before
+    running it. For example, when starting a Node.js app, you may need to pass the
+    MongoDB URL as you cannot hardcode it because it differs between development and
+    production environments. These configurations are usually supplied as environment
+    variables or in a configuration file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: K8s lets you specify environment variables in the manifest of a deployment.
+    But if you want to change them, you have to modify the deployment. Even worse,
+    if you want to use the variable with multiple deployments, you have to duplicate
+    the data. K8s provides ConfigMaps (for non-confidential data) and Secrets (for
+    confidential data) to solve this problem.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The big difference between secrets and configmaps is that secrets are obfuscated
+    with a Base64 encoding. Now you can pass configmaps and secrets as environmental
+    variables in a mainfest of deployment. When the configmap or secret changes, the
+    environmental variables also change without any restart or manual activity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If your application uses configuration files instead of environment variables,
+    they can also be passed using configmaps and secrets.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bind mounts and volumes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In K8s and Docker, a bind mount is a file or directory on the host machine that is
+    mounted into a container. The file or directory is referenced by its full or relative
+    path on the host machine.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In computer-data storage, a volume is a persistence storage area with a single
+    filesystem, typically (though not necessarily) resident on a single partition
+    of a hard disk. IaaS providers let us create volumes and attach to the VMs. K8s
+    provides features called **persistence volumes** and persistence volume claims,
+    which can automatically create volumes of a specific cloud provider and attach
+    to a pod. Volumes are used when your application needs to save (persist) data.
+    The volumes are made accessible inside the Docker container by bind mounts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In K8s, there is a resource object called **StatefulSets**, which is similar
+    to deployments. If your deployment needs persistence storage and you have more
+    than one replica, then you have to create StatefulSets instead of a deployment
+    because deployment cannot assign a separate persistence volume to each pod.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Labels and selectors
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Labels are key/value pairs that are attached to resource objects, such as pods,
+    services, and deployments. Labels are intended to specify identifying attributes
+    of objects that are meaningful and relevant to users. Labels can be used to organize
+    and select subsets of objects. Labels can be attached to objects at creation-time
+    and subsequently added and modified at any time. Each object can have a set of
+    key/value labels defined. For example, when creating a service, we specify the
+    list of pods that should be exposed using labels and selectors.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Getting started with minikube
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: When you are building a real application, the right way to use K8s is to create
+    a development cluster on-premise or on-cloud, depending on whether you will host
+    your app on-premises or on cloud. But to experiment and play around with K8s,
+    you can use minikube.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Minikube is a tool that makes it easy to run K8s locally. Minikube runs a single
+    worker node K8s cluster inside a VM on your laptop for users looking to try out
+    K8s or develop with it day to day. At the time of writing this book, the latest
+    version of minikube is `0.26.1`. Minikube can be installed on Windows, macOS,
+    and Ubuntu.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing minikube on macOS
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'First, install a Hypervisor supported by minikube. In macOS, it''s recommended
+    to use hyperkit. Install the `hyperkit` driver using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then install `kubectl`. `kubectl` is a command-line tool to deploy and manage
+    applications on K8s. Here is the command to install it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, install minikube using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: Installing minikube on Ubuntu
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In Ubuntu, it''s recommended to use hyperkit. Install hyperkit using the following
+    command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then install `kubectl`. Here is the command to install it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, install `minikube` using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: Installing minikube on Windows
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In Windows, it's recommended to use the VirtualBox hypervisor. Download and
+    install VirtualBox from [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Then download the `kubectl` command from [https://storage.googleapis.com/kubernetes-release/release/v1.10.0/bin/windows/amd64/kubectl.exe](https://storage.googleapis.com/kubernetes-release/release/v1.10.0/bin/windows/amd64/kubectl.exe).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finally, install minikube by downloading and running the minikube installer
+    from [https://github.com/kubernetes/minikube/releases/download/v0.26.1/minikube-installer.exe](https://github.com/kubernetes/minikube/releases/download/v0.26.1/minikube-installer.exe).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Starting minikube
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'On Linux and macOS, start minikube using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'And on Windows, start minikube using the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: Change the `--vm-driver` option's value if you are using a different hypervisor.
+    It will take a few minutes to start minikube.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Stopping and deleting minikube
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'If you want to stop the minikube cluster at any time, you can use the following
+    command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can restart the same cluster using the preceding minikube start commands.
+    If you want to delete the whole cluster, you can use the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: Minikube status
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To check the status of minikube, that is, whether the cluster is running or
+    not, you can use the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If it''s running successfully, you will see a response similar to this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: Note that here you will see a different IP address. This is the IP address of
+    the minikube VM; that is, the master and worker run inside this VM. Your will
+    access you applications from this IP.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Accessing the K8s dashboard
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The K8s dashboard is a general-purpose, web-based UI for K8s clusters. It allows
+    users to manage applications running in the cluster and troubleshoot them, and
+    the cluster itself. To access the dashboard, run this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'It will open the dashboard in a new browser window. The K8s dashboard will
+    look similar to the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/f0148566-3a37-4b05-bfbf-c56bd9564aa4.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Deploying the Hello World app on k8s
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's deploy the `Hello World` Docker image we built earlier to the K8s cluster
+    we just created. To create a deployment and service, you need to create a mainfest
+    file with all the details about the deployment and service, and then feed it to
+    K8s using the `kubctl` command. In the mainfest file, you need to provide the
+    remote URL of the Docker image for K8s to pull and run the images. K8s can pull
+    images from the public Docker registry (that is, Docker Hub) or private docker
+    registries.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Pushing images to Docker Hub
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Before we push an image, let''s understand some basic terminologies related
+    to Docker:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Registry**: A service that is storing your Docker images.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Repository**: A collection of different Docker images with the same name
+    that have different tags (versions).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Tag**: Metadata you can use to distinguish versions of your Docker images
+    so you can preserve older copies. When we created the Docker image earlier, we
+    didn''t provide a tag, so the default tag is `latest`. You can create a new tagged
+    image from another image using the `docker tag [:HOST|:USERID]IMAGE_NAME[:TAG_NAME]
+    [:HOST|:USERID]IMAGE_NAME[:TAG_NAME]` command. The host prefix is optional and
+    is used to indicate the hostname of the Docker registry if the image belongs to
+    a private Docker registry. If the image is for Docker Hub, then mention the username
+    of your Docker Hub account.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'To push an image to Docker Hub, you first need to create a Docker Hub account.
+    Visit [hub.docker.com](http://hub.docker.com) and create an account. After you
+    log in, you will see a screen similar to the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/d5f76ef1-9126-40a8-9d3a-fa44b2a6487b.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now click on Create Repository and fill in the following form:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/00e32112-5adf-40c3-9a00-c7fd851a14d7.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Visibility indicates whether the repository will be private or public. Private
+    repositories aren''t visible to everyone. You need to log in to Docker Hub to
+    be able to pull it if you have access to it. You can create only one free private
+    repository on Docker Hub. Once you have created the repository, you will see a
+    screen similar to this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/7c483d2c-5de5-409c-977c-07f258c1d7eb.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'To push the image that you have on your local machine, you need to first log
+    in to Docker Hub from the command line. To do that, run the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Then type the username and password of your Docker Hub account when prompted.
+    You should see a login succeeded message. Now tag your image using the following
+    command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now run this command to push the image:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'It may take a few minutes to push the depending on your internet bandwidth.
+    Once pushed, click on the Tags tab on the repository and you will see a screen
+    similar to this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/52668f07-4e19-4885-9f04-1328163d9923.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Creating deployments and services
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now, let's create the mainfest file that contains information about the deployment
+    and service. We can create two different or a single deployment file for our deployment
+    and service. Mainfest files can be written in the YAML or JSON format. YAML is
+    preferred, so we will also write in YAML.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create a file named `helloWorld.yaml` and place the following content in it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: Most of the things in the preceding mainfest file are self-explanatory. Here,
+    you will notice that we have a field called `imagePullPolicy`. The default image
+    pull policy is `IfNotPresent`, which causes the K8s to skip pulling an image if
+    it already exists. If you would like to always force a pull, you can use the `Always`
+    policy, the `:latest` tag, or no tag.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`command` in K8s is the same as Dockerfile''s `ENTRYPOINT`. `arguments` in
+    K8s is the same as `CMD` in Dockerfile. If you do not supply a command or `args`
+    for a Container, the defaults defined in the Docker image are used. If you supply
+    a command but no `args` for `Container`, only the supplied command is used. The
+    default `ENTRYPOINT` and the default `CMD` defined in the Docker image are ignored.
+    If you supply only args for `Container`, the default `ENTRYPOINT` defined in the
+    Docker image is run with `args` that you supplied. If you supply a command and
+    args, the default `ENTRYPOINT` and the default `CMD` defined in the Docker image
+    are ignored. Your command is run with your args.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now feed the mainfest to K8s with the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `apply` subcommand is used to feed the mainfest file to K8s. If you would
+    like to update a deployment or service configuration, change the file and re-run
+    the command. After the preceding command is executed successfully, open the K8s
+    dashboard and you will see that the deployment and services are created successfully.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now, to make an HTTP request to the container, we need the worker node IP and
+    port number exposed by the service. Use the `minikube ip` command to find the
+    IP and open the service in the K8s dashboard to find the exposed port number,
+    as shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/799a4e23-ec3e-4715-bfb0-687d7588056c.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: In my case, the port number is `31474`. You will see a different port number.
+    Use the port number and IP to make a request in the browser and you will see the *Hello
+    World* message.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To delete a deployment, use the `kubectl delete deployment deployment_name` command,
+    and to delete a service, use the `kubectl delete svc service_name` command.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building QaaS
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now let's start building a QaaS platform, this lets us deploy, create, and join
+    networks with just a click of a button. As you are aware, starting a Quorum node
+    requires a lot of manual steps, such as creating the `genesis.json` file, the
+    `static-nodes.json` file, and enode. As we are aiming to automate all these steps,
+    it would require us to write automation scripts to perform these steps. So instead
+    of writing complicated automation scripts, we will use **Quorum Network Manager**
+    (**QNM**), which allows users to create and manage Quorum networks easily without
+    any manual steps.
+  prefs: []
+  type: TYPE_NORMAL
+- en: QNM is an open source wrapper for Quorum to make it easy to set up Quorum networks.
+    When you are using QNM, you no longer have to worry about enode, wallets, the
+    genesis file, the static-nodes.json file, and so on. You can find the official
+    QNM repository at [https://github.com/ConsenSys/QuorumNetworkManager](https://github.com/ConsenSys/QuorumNetworkManager).
+    At the time of writing, the latest version of QNM is `v0.7.5-beta`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Note that QNM currently works only with Ubuntu 16.04.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In our QaaS, we will deploy Quorum nodes as deployments in K8s. Whenever you
+    want to start a network or join an existing network, a new deployment will be
+    created. QNM is not containerized, so our first step in building QaaS is to containerize
+    it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: How does QNM work?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Before containerising QNM, let''s understand how it works. The first step is
+    to install QNM. QNM can be installed in two ways: either by running the install
+    script provided (`setup.sh` file) or manually. We will install it by running the
+    script. The script takes care of installing everything that''s needed to use QNM.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can start a Quorum node with QNM using the `node setupFromConfig.js` command.
+    There are two ways to provide configurations while running a QNM node: using the `config.js`
+    file or using environmental variables. You can also start a node using the `node
+    index.js` command, which will provide an interactive way to configure the node.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In QNM, to create a network, you have to do the following steps:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Create a coordinating node
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Add nodes dynamically to the network
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The first node of the network should be the coordinating node; other dynamically-added
+    nodes are non-coordinating nodes. The other-dynamically added nodes connect to
+    the coordinating node to fetch information and configuration related to the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The only thing you need to care about is that when starting the first node,
+    you make sure it's a coordinating node. When starting other dynamic nodes, make
+    sure you provide the coordinating node IP address.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The rest of the process is taken care of by the QNM automatically.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Containerizing QNM
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Dockerfile to Dockerize QNM will involve installing QNM. Here is the content
+    of the Dockerfile:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The following is how the preceding Dockerfile works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We are using the Ubuntu `16.04` base image.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We installed several basic utilities.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We installed QNM using the command given at [https://github.com/ConsenSys/QuorumNetworkManager/releases/tag/v0.7.5-beta](https://github.com/ConsenSys/QuorumNetworkManager/releases/tag/v0.7.5-beta).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We set the working directory to `workspace/QuorumNetworkManager`, inside which
+    we have the QNM files to start the node.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We changed the entry point to use the `bash` shell instead of the `sh` shell
+    because QNM doesn't work on the `sh` shell. QNM sets paths to various binaries
+    in the `~/.bashrc` file, which is loaded by the bash shell when executed in interactive
+    mode.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Go ahead and push the image to Docker Hub. I have pushed the image to `narayanprusty/qnm`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating QNM deployment and service mainfest files
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's write the mainfest file for creating deployments and services for QNM.
+    We will create deployments for creating the Raft network only, but you can extend
+    it to support IBFT without much hassle.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the mainfest file to create a deployment and service for a Raft-based
+    coordinating node:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, the environmental various IP is used to indicate which IP the node should
+    listen on. `0.0.0.0` indicates any IP. We are then exposing the ports that are
+    opened by QNM. Everything in the preceding mainfest file is self-explanatory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now let''s create the mainfest file for a dynamic peer:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: This mainfest file looks pretty similar to the previous mainfest file, except
+    for the environmental variables. Here, we are providing the IP address of the
+    coordinating node. The IP address is a cluster IP exposed by the coordinating
+    peer service. It should be different for you. Then we have the `ROLE` environmental
+    variable to indicate that QNM is a dynamic peer and not a coordinating peer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating nodes using the K8s APIs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The K8s master exposes APIs that you can use to read and write K8s resource
+    objects. You can find the API reference at [https://kubernetes.io/docs/reference/](https://kubernetes.io/docs/reference/). For
+    QaaS, you would need to create a frontend that internally calls these APIs to
+    create deployments and services.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The easiest way access the K8s APIs is through the HTTP proxy. Kubectl lets
+    you create a proxy server between localhost and the K8s API Server. All incoming
+    data enters through one port and gets forwarded to the remote K8s API Server port,
+    except for the path matching the static content path. To create the proxy server,
+    use the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Let''s see an example of how to create a deployment for the coordinator node
+    using `Node.js`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Similarly, let''s see an example of how to create the service for the coordinating
+    node using `Node.js`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned the basics of cloud computing and containerization
+    through examples. We looked at the importance of containerization and how to containerize
+    an application using Docker. We then saw the importance of K8s and how it makes
+    it easy to build microservices-architecture-based applications. After that, we
+    learned how to install minikube and deploy containers on K8s.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finally, we used all the skills we learned to develop a QaaS as a Service using
+    QNM. In the next chapter, we will create a basic UI for the QaaS that calls the
+    K8s APIs to create and join networks.
+  prefs: []
+  type: TYPE_NORMAL

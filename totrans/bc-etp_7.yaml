@@ -1,0 +1,691 @@
+- en: Building a DApp for Digitizing Medical Records
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The whole health industry is filled with a great many paper-based medical records,
+    which is causing huge losses in terms of money, time, and lives. **Electronic
+    Medical Records** (**EMRs**) are the solutions to many of the problems caused
+    by paper records. There are many companies and researchers working on building
+    EMR data management and sharing systems using blockchain technology. We will design
+    a very different solution than the ones you will find on the internet, in the
+    sense that those are focused only on anonymity, access control, security, and
+    privacy, whereas our solution will also provide user experience and mass adoptability
+    by enabling cross-application communication. While building the system, we will
+    learn how to achieve privacy using **Proxy Re-Encryption** (**PRE**).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will learn about the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: What a healthcare data management system is and what its functionalities are?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The problems caused by paper medical records and the benefits of digitalized
+    medical records
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The limitations of healthcare data management systems?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The problems with building a centralized healthcare data management application
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: What PRE is and how it helps to achieve data privacy in a blockchain
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How to architect a decentralized healthcare data management system that enables
+    cross-application data sharing
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How to build smart contracts and tests for a healthcare data management, DApp,
+    using Python and JavaScript
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Introduction to EMRs data management and sharing systems
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: EMRs consist of critical, highly sensitive private information in healthcare,
+    and need to be frequently shared among peers. EMR data management and sharing
+    systems facilitate secure and trustable ways for different actors to read and
+    write EMRs to the system. These systems should ensure privacy, security, availability,
+    and fine-grained access control over EMR data. EMRs include prescriptions, lab
+    reports, bills, and any other paper-based record that you can find in hospitals.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In general, an EMR data management and sharing system allow doctors to issue
+    digital prescriptions, pharmacies to pull prescriptions based on a patient's identity,
+    labs to issue digital reports, patients to see all their records and share them
+    with others, and so on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Problems with paper-based medical records
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Medical records need to be distributed and shared among peers, such as healthcare
+    providers, insurance companies, pharmacies, researchers, and patients' families,
+    which is a challenge in itself. Even after sharing, these records need to be constantly
+    updated during the treatment process. It's also easier to lose or misplace paper
+    records. When someone is suffering from a serious medical condition, such as cancer
+    or HIV, they have to maintain a long history of records as this is crucial for
+    the treatment. With paper records, it's cumbersome to maintain a long history
+    of records.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In addition, forged health records are submitted to insurance companies, resulting
+    in huge financial losses to the insurance companies. Many times, doctors and labs
+    also issue fake prescriptions and records to patients with patients' consent.
+    For example, universities require students to pass several tests before being
+    admitted, and sometimes students try to get fake reports without going through
+    the tests.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Many patients don't buy their medication, and there is no way to track whether
+    a patient has consumed the necessary medicines. This results in harm being done
+    to the patient's quality of life and an increased cost to the healthcare system.
+    If a patient is visiting different doctors, then there is a huge chance of harmful
+    side effects due to different types of medicines recommended by different doctors. If
+    an individual has multiple doctors treating them, then there is no way for these
+    doctors to work together on the patient's medicine management plan, therefore
+    making it impossible to streamline the entire process for all involved parties.
+    Because of a patient's failure to present their past records, tests related to
+    allergies due to particular chemicals or substances need to be done again and
+    again when visiting different clinics, which is not needed if the patient's medical
+    history is maintained.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Bad handwriting in prescriptionscan also create a risk of medication errors.
+    Also, due to oral communication between doctors when there is remote communication,
+    there is a huge chance of medication errors. Also, due to a prescriber's insufficient knowledge
+    of the desired dosage of a drug, or undesired interactions between multiple drugs.
+    There is also no way to implement warning and alert systems in paper prescriptions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It's difficult for research companies to collect and structure medical records
+    for research purposes. There is no way to renew a prescription after finishing
+    medicines, so the patient will need a doctor again, which is a cumbersome process.
+    Paper subscriptions have failed to enable purchase medicines online, but digital
+    subscriptions can open the door for online medicine delivery as prescriptions
+    can be verified online.
+  prefs: []
+  type: TYPE_NORMAL
+- en: An EMR data management and sharing system should aim to solve a few or all of
+    the previous problems. For example, in the case of prescription renewal, the first
+    step is to digitize the prescription. Then, on the patient's request, pharmacy
+    staff can generate a renewal request that is delivered to the prescriber. The
+    prescriber can then review the request and act accordingly by approving or denying
+    the request. With limited resource utilization and just a few clicks from the
+    prescriber, they can complete a medication renewal task while enhancing continuous
+    patient documentation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The previous issues are just a few of the problems caused by paper-based records.
+    But the whole healthcare industry is filled with a huge number of problems due
+    to paper-based records. A solution should be designed in such a way that it solves
+    these problems, and could be enhanced regularly to solve additional problems.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Limitations of EMR data management and sharing systems
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Though an EMR data management and sharing system solves a lot of problems,
+    it has some limitations that effect its adaptability and the trust that people
+    place in it. The following are some of the limitations:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Financial cost and return on investment**: The costs of purchasing, implementing,
+    supporting, and maintaining such a system are unaffordable, especially for small
+    hospitals and clinics. Even if they are given the system for free, there are other
+    financial costs related to the management of the interface, customization for
+    flexibility, training, maintenance, and upgrades.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Upgrading the workforce**: Currently, the workforce is addicted to paper-based
+    records. Training patients, doctors, pharmacies, hospitals, and so on to adopt
+    the solution is a difficult and time-consuming task. Sometimes it may require
+    changing the workforce. For example, when banks started implementing computers,
+    transitioning from record-keeping books to digital records, a lot of people couldn''t
+    understand and adopt it and therefore lost jobs.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Integrity of data input**: Accidental data entry errors, such as selecting
+    the wrong patient or clicking on the wrong choice in a menu of dosages, may occur.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Security and privacy**: This is one of the most important concerns. Health
+    records need to be stored securely as eHealth databases are always a target of
+    hackers. Health records contain very sensitive information, and leakage could
+    result in catastrophe. Strong access control should be implemented and regular
+    feedback should be taken. Without the patient''s consent, their records should
+    not be shared with anyone.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**System downtime**: There are chances of regular system downtime due to network
+    or hardware related issues. The inability to use the system is of great concern.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Lost patient access**: In the event of a development beyond the control of
+    the patient, such as a software malfunction in the healthcare provider''s office,
+    the patient can no longer ask the care provider for a paper script to take to
+    a pharmacy in order to obtain needed medicines. This leaves the patient at the
+    mercy of technicians or other undiscoverable workers.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Centralized versus decentralized EMR management systems
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Regardless of whether an EMR management system is centralized or decentralized,
+    it has to be compliant with a health authority's laws. Because of the fact that
+    it's sensitive public data, there should be a regulatory body to define the standards
+    and dictate the rules of how the data is shared and stored. For example, the **Health
+    Insurance Portability and Accountability Act** (**HIPAA**) of 1996 is United States
+    legislation that provides data privacy and security provisions for safeguarding
+    medical information. Similarly, different countries have different legislation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To understand what the problem is with centralized EMR data management apps,
+    let's take an example of the Google Health centralized service. The Google Health
+    service allowed users to add their health records to the app either manually or
+    by logging in to Google's partnered health service providers. Records stored in
+    the app could include health conditions, medications, allergies, and lab results.
+    Google Health used the information to provide the users with information on medical
+    conditions and possible interactions between drugs, conditions, and allergies.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In 2011, Google announced it was retiring Google Health in January 1, 2012\.
+    Data was available for download through to January 1, 2013\. The reason Google
+    gave for abandoning the project was the lack of widespread adoption.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This shows that it's difficult for us to trust centralized apps as they can
+    discontinue the service at any time. As a patient, this is a big concern as suddenly
+    you have to look for a different option to manage your records. Even hospitals
+    and other health service providers will have to change their system. Even if you
+    wish to switch to a different app, migrating the data is not easy. Many Google
+    Health customers moved to using Microsoft HealthVault, which was a competing service.
+    Microsoft released a tool that let Google Health customers transfer their personal
+    health information to a Microsoft HealthVault account. But what if Microsoft also
+    stops their service? Therefore, centralized health applications built by private
+    companies cannot be trusted and adopted.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Because of  this, many governments have come up with their own centralized services.
+    An example of this is the e-prescriptions service of Estonia. Government services
+    can be trusted, and adoption is not a problem because of the fact that governments
+    can make it compulsory for health service providers to use the service. They are
+    the authority to mandate this. But the problem is that one app cannot solve all
+    problems, provide the best set of features, have the best user experience, and
+    so on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Both government and private centralized apps have issues for example, in the
+    event of a security breach, hackers could compromise all public records in centralized
+    services. Also, what's the guarantee that the health records will not be modified
+    or that certain records are not removed by the central server?
+  prefs: []
+  type: TYPE_NORMAL
+- en: The preceding concerns mean that we need to design a decentralized system using
+    a blockchain, where blockchain is used for EMR access control and identity management
+    only, and where the EMRs reside in a centralized and distributed storage. All
+    of the apps connected to this network can talk to each other and share data. Users
+    can switch between the apps easily and the health authority will be able to regulate
+    and monitor the network. For example, two different service provides can build
+    different apps with different sets of features and user experiences, but users
+    of the different apps can read/write to each app's EMRs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The health authority decides who joins the network and can provide healthcare
+    apps. To join the network, the health authority can set a precheck list of standards
+    and measures that the apps should meet in order to be able to join the network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Ensuring data privacy in a blockchain using PRE
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before getting any further and building our decentralized EMR data management
+    and sharing system, let's learn about what PRE is. In our solution, we will be
+    using PRE to ensure security and privacy.
+  prefs: []
+  type: TYPE_NORMAL
+- en: PRE is a set of algorithms that allows you to encrypt some text with your key
+    and then alter the ciphertext so that it can be decrypted by another party without
+    revealing your key. To alter the ciphertext, you need the other party's private
+    or public key, based on whether you are using interactive or noninteractive PRE
+    algorithms, respectively. Regardless of the algorithm, PRE involves generating
+    a re-encrypt key, which is used to re-encrypt the data. The re-encrypt key is
+    generated based on the owner's private key and the recipient's private or public
+    key, based on the type of algorithm.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In practice, PRE is used to store sensitive data on a third-party server and
+    lets you decide who gets access to the data without revealing the actual data
+    to the third-party server. PRE allows third parties (proxies) to alter a ciphertext
+    that has been encrypted for one party so that it can be decrypted by another party.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Rather than naively sharing your private key with recipients (insecure) or encrypting
+    the entire message *n *times for each recipient, PRE allows you to encrypt the
+    data once and then delegate access to it based on the recipients' public keys.
+    This removes the requirement for the data owner to be online (data can stored
+    in a different server, which you don't have to manage) and also facilitates the 
+    revocation of access (to block access, you can run PRE again to change your keys
+    and then delete the old ciphertext).
+  prefs: []
+  type: TYPE_NORMAL
+- en: The PRE algorithm that NuCypher PRE currently supports is BBS98\. BBS98 is based
+    on elliptic curve cryptography. This library, by default, uses the secp256k1 curve.
+    Note that the Ethereum accounts also use the same curve (secp256k1), so we can
+    use the Ethereum account keys with NuCypher.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Currently, the field of PRE is still under heavily researched and developed.
+    There aren't many libraries available for PRE. You will find Java or Python-based
+    libraries for interactive PRE, but for non-interactive—or symmetric key-based,
+    you won't find any. Because of this limitation, we will adhere to a microservices
+    architecture and move all proxy re-encrypted code to a Python-based microservice.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The NuCypher PRE library
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: NuCypher is a company that has built a decentralized PRE as a service product
+    called NuCypher **Key Management Service** (**KMS**). NuCypher KMS is a decentralized
+    KMS, encryption, and access control service. It enables private data sharing between
+    arbitrary numbers of participants in public networks, using PRE to delegate decryption
+    rights in a way that cannot be achieved by traditional symmetric or public key
+    encryption schemes. Native tokens are used to **incentivize network** participants
+    to perform key management and access delegation/revocation operations.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We won't be going through NuCypher KMS in depth or using it in this book. Instead,
+    we will explore how to use the PRE library built by NuCypher. NuCypher provides
+    PRE libraries for Python and Java, but we will only learn how to use the Python
+    PRE library.
+  prefs: []
+  type: TYPE_NORMAL
+- en: NuCypher is not the only Python library available for PRE. There are a few others
+    out there. For example, ZeroDB also provides a PRE library that supports the AFGH
+    algorithm, which is a non-interactive PRE algorithm. You can find out more about
+    it at:[ ](https://github.com/zerodb/zerodb-afgh-pre)[https://github.com/zerodb/zerodb-afgh-pre.](https://github.com/zerodb/zerodb-afgh-pre)
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing the library
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'This library requires `python3`, `libssl-dev`, and `libgmp-dev` as prerequisites.
+    To install these on Ubuntu, run the following commands:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Use the following commands on macOS:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now let''s install the PRE library. To install it, run the following commands:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: Using the library
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's see an example of how to use this library. This library supports only
+    interactive algorithms; it requires the sender to know about the recipient's private
+    key.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'We will create a sample Python script where **Alice** will encrypt some text,
+    **Bob** will share his private key with **Alice**, **Alice** will create a derivation
+    key with **Bob** private key, then the **Proxy** will re-encrypt using the derivation
+    key, and finally the re-encrypted data will be decrypted by **Bob** using his
+    private key:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/1bfe3548-1299-4aa1-98a6-af95499059ab.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Here is the code for these interactions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding code is self-explanatory. But the problem in the preceding scenario
+    is that, for Alice to give access to the data to Bob, Alice needs to know Bob's
+    private key. This is not an ideal situation and Bob may not be comfortable with
+    sharing his key. For example, if Bob is using the same key for making blockchain
+    transactions, then he would surely not want to share the key with Alice.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Luckily, there is a workaround: The trick involves Alice generating a new key
+    pair, giving access to that key pair, and then sharing that key pair by encrypting
+    it with Bob''s public key. We will see this in practice later in this chapter.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Architecting DApp for EMRs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's design the architect of the DApp for enabling healthcare applications
+    to share data with each other. Basically, users with different healthcare apps
+    can share EMRs with each other.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The ecosystem of this app will consist of healthcare service providers (such
+    as hospitals, labs, and insurance companies), patients, app providers (the companies
+    that will build healthcare apps integrated with this blockchain network), and
+    a network authority or administrator (the health authority and/or solution provider).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following diagram shows the high-level architecture:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/61cd3ecd-be80-4477-88f0-8f3d9a5b4681.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'This is how the preceding architecture works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The administrator of the network decides who can join the network and connect
+    to the Cloud server.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'The blockchain will hold the service providers and patients'' identities and
+    permissions, whereas the centralized and distributed server will store the encrypted
+    EMRs. Every user and service provider will have their own Ethereum keys to identify
+    themselves. There are two reasons why we are not storing the encrypted EMRs in
+    the blockchain itself:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Every piece of data will be replicated to every node in the blockchain. This
+    will harm scalability as the node size will increase drastically.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: According to compliance, you are not supposed to even share encrypted data,
+    as encryption algorithms may break in the future and all of the data will get
+    leaked. So, if it's kept in a central location, then the server can be unplugged
+    immediately.
+  prefs:
+  - PREF_IND
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Whenever someone requests data from the storage, the server will check the blockchain
+    to see whether the patient has granted access, and if so, then it will re-encrypt
+    it using the re-encryption key and give the re-encrypted data to the recipient.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: While asking to read or write data to the Cloud server, the client should sign
+    a token provided by the server to prove their identity. Based on this, the Cloud
+    server will look for permissions in the blockchain and decide whether to re-encrypt
+    or not. The client will sign using their private Ethereum key. This is the process
+    of authentication to the Cloud server.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The user will register their identity on the blockchain. If a patient wants
+    to give access to their data, then they will generate a new private key and a
+    random token. Using this private key, the patient will generate a re-encrypt key
+    and put it on the blockchain for the Cloud server to refer to while re-encrypting
+    data. The user cannot generate the re-encrypt key directly using the service provider's
+    key because, in that case, the service provider has to expose their private key,
+    as we are using the interactive PRE algorithm. The random token's hash will be
+    added to the blockchain by the patient and the service provider has to send a
+    transaction proving that they know the random token acts as a proof that the user
+    has shared access. This is a method of authorization to give data access. For
+    example, if a user wants to give access to their EMRs on a mobile phone, then
+    the user will generate a QR code, which has a private key and token. Then they
+    will send the transaction to the blockchain, stating that whoever proves they
+    have the token will be given access to their data. At the hospital, the receptionist
+    can simply scan the QR code and push a transaction proofing to acquire the random
+    string, thereby gaining access to the user's data. The QR code will also hold
+    the private key. Every time the patient wants to give someone access, they have
+    to generate a new key pair and token.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Once write access is granted, the service provider can create EMRs of a defined
+    format, put their hash on the blockchain, and send the EMR—which is encrypted
+    using the patient's public key to the Cloud server for storage.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The Cloud server is controlled by the health authority or by the solution provider.
+    It should be health-authority-compliant and should adhere to the standards. Even
+    if the Cloud server gets hacked, the hackers won't be able to read anything because
+    everything that is stored in it is encrypted and the keys are distributed across
+    various app providers.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The solution can be extended in such a way that the end users control their
+    private keys so that they don't have to trust the app provider. But this will
+    harm the user experience, as users are not used to storing private keys. If they
+    lose the key, then access to their EMRs is lost forever.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Although the Cloud server creates centralization for accessing the EMRs, you
+    can still trust it. The keys aren't stored in the Cloud server—it just acts as
+    storage. Even if the Cloud server gives access to your data to someone without
+    your permission, the recipient cannot read the data, so the Cloud server can be
+    trusted. This server can be distributed to achieve high availability.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: This solution allows you to use different healthcare apps from different app
+    providers and still have visibility of all the EMRs on each of the apps. To import
+    all EMRs on a new app, a user has to export the key from the previous app and
+    import it on the new app.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'One issue that still exists is: how would you revoke access after granting
+    access to someone? Of course, you can revoke the access on the blockchain, but
+    what if the Cloud server still gives access to your new EMRs to the service provider?
+    There is very little chance this would happen as it is unlikely any incentive
+    for the Cloud server to do this. But this can be avoided by patients if they change
+    their keys and run PRE on their data. This will invalidate all the re-encrypt
+    keys you have shared so far, therefore new EMRs cannot be read by the existing
+    service providers that you had given access to in the past.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contracts for identity and access control
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's write the smart contracts that will be responsible for registering the
+    identity of patients and service providers, and for providing access control.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the smart contract code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: Most of the code in the preceding smart contract is self-explanatory. While
+    registering patients and service providers, we are passing the public key and
+    also verifying whether the public key is correct. `address(keccak256(fromHex(publicKey))`
+    phrase calculates `address` from `publicKey.changePatientAccount` is used to change
+    the account keys of the user, in case the keys are compromised. For example, this
+    can be used if your app provider's servers get hacked and your private keys get
+    leaked; the app provider can use this functionality to deactivate previous accounts
+    and generate new ones for the users. The Cloud server will look for the `patientAccountChanged`
+    event and run re-encryption on your encrypted EMRs so that you can access them
+    with the new key. It will then delete the old encrypted EMRs. This can also be
+    used by users to revoke access to the EMRs from all service providers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Writing Python and JS scripts for testing
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's now write some test scripts to test the smart contract and the data and
+    user flow. We will write Python scripts to encrypt data, decrypt data, generate
+    a re-encryption key, and re-encrypt data. And we will use Node.js to invoke the
+    Python scripts and smart contract functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create a directory named `test`. In this, create a file named `encrypt.py` and
+    place the following code into it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: This script takes two arguments, `publicKey` and a raw message. `publicKey`
+    is passed as a `base64` encoded public key. This script converts the public key
+    to bytes so that the `npre` library can utilize it. Finally, it encrypts the message
+    and prints it as a `base64` encoded ciphertext.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Create another file called `decrypt.py` and place the following code into it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This code is responsible for decryption. Now, create another file called `generate_reEncKey.py`
+    and place the following code in it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This code is responsible for generating the re-encryption key. Now, create
+    another file called `re_encrypt.py` and place the following code into it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This code is responsible for re-encrypting the ciphertext. Now create a `package.json`
+    file, which will hold the dependencies of our Node.js app. Place the following
+    content in the file and run the `npm install` command to install the modules:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now, finally, create a file named `app.js` and place within it the following
+    test code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: Compile the smart contract and populate the `healthContract` and `health` variables
+    with the ABI and bytecode respectively.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We use the `ethereumjs` libraries for creating offline accounts and signing
+    transactions using those accounts.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We use `child_process` to execute Python scripts from Node.js. Though you can
+    use RESTful APIs and adopt a microservices architecture, for testing purposes,
+    this is fine.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We use `EthCrypto` to compress and uncompress the public key. The public key
+    generated by `ethereumjs-wallet` is uncompressed, whereas the public key that
+    is generated and used by `npre` is compressed. Private keys are always 32 bytes,
+    and public keys are always 65 bytes (or 33 bytes for a compressed public key).
+    Public key hashes are always 20 bytes. `npre` also adds `0x00` in the beginning
+    of a private key and `0x01` in the beginning of a public key.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: At first, we generate a patient's wallet and register it on the blockchain.
+    In a real application, you can also register the user profile and service provider
+    on the Cloud server. The user profile can contain details such as the name, age,
+    and other details on patients; similarly, the service provider profile can contain
+    license numbers, names, and so on. These profiles can be encrypted using the owner's
+    public key and stored on the Cloud server.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Now, insert the following code where we have a continuation comment:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we generated a temporary key pair and assumed that it's shared with the
+    service provider. Then, we generated a re-encrypt key using the patient's private
+    key and a temporary private key. Then, we made a `addToken` transaction from the
+    patient's wallet and a `requestAccess` transaction from the service provider's
+    wallet. These two transactions provide the service provider with access to the
+    patient's EMRs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now insert the following code where we have a continuation comment:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here we created a sample EMR representing blood group. And then we put the hash
+    on the blockchain and assumed putting the encrypted EMR on the Cloud server. And
+    then we simulate a scenario where the Cloud server re-encrypts the ciphertext
+    and the service provider decrypts the ciphertext. Finally, we generated another
+    key pair and moved all EMRs of the patient to this account and closed the old
+    account.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So, you saw how we simulated the whole user flow and how you can use PRE for
+    security and privacy.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned how to use PRE for enabling encrypted data sharing
+    in a blockchain. PRE can be a good alternative to private transactions and ZSL,
+    in many cases. The architecture we looked at  can be applied to many other use
+    cases where sensitive assets need to be stored and shared among peers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Apart from PRE, we learned about a lot of JS and Python libraries, such as `etherumjs-wallet`,
+    `ethereumjs-tx`, `ethereumjs-util`, and `npre`. We also learned how to send raw
+    transactions, such as the process of signing transactions using keys stored outside
+    of the geth node. In the next chapter how to implement network permissioning in
+    Quorum and  how to build a solution to transfer money using a mobile number.
+  prefs: []
+  type: TYPE_NORMAL

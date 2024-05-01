@@ -1,0 +1,413 @@
+- en: Building a Payment Solution for Banks
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Today, there are lots of apps and services developed by banks and other FinTech
+    companies that let us send and accept payments. But we don't have an app out there
+    that makes sending and receiving money as easy as sending and receiving text messages.
+    Although Bitcoin and other cryptocoins make it really easy to send and receive
+    payments around the world, they cannot be mainstream now because of  volatility
+    and regulatory issues. In this chapter, we will build a P2P payment system that
+    makes it very easy to send and receive **InterBank** payments and also makes clearance
+    and settlement between banks near real-time and simple. While building the solution,
+    we will also learn of various banking and finance concepts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we''ll learn the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: How clearance and settlement between banks is done for domestic and international
+    InterBank electronic transfers
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How the **Society for Worldwide Interbank Financial Telecommunications** (**SWIFT**)
+    system and international money transfers between banks work
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How to digitalize fiat currency on blockchains and the problems it solves
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How to implement network permissioning in Quorum
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How to build a solution to transfer money using a cell phone number
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Overview of the payment system
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we will build a payment solution to be integrated in mobile
+    banking apps. This solution will let customers send payment using a cell phone
+    number. Sending payments to anyone in the world using just a cell phone number
+    would be the most friendly way to send payments.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Our solution will use digitalized fiat currency for the settlement and clearance
+    of InterBank transfers. To understand why we choose to use digitalized fiat currency
+    as the medium of settlement, let's understand how the settlement and clearance
+    is done for InterBank transfers and its issues.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Settlement and clearance of InterBank transfers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's first understand how domestic InterBank transfers work. Every county's
+    central bank has one more different types of centralized electronic fund transfer
+    systems. For example, the **Immediate Payment Service** (**IMPS**) in India, **Automated
+    Clearing House** (**ACH**) in the US, and **Electronic Funds Transfer** (**EFT**) in
+    Canada. These systems are used by the country's banks to send messages to each
+    other to facilitate the transfer of funds to their customers. It's only messages
+    that are transferred, not real money. The final settlement happens through settlement
+    accounts. Every bank holds a settlement account with the central bank, and money
+    is either credited or debited in these accounts whenever there is a transfer message.
+    To understand this more clearly, let's look at an example.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Suppose Bank *A* has a settlement account with the central bank with $50,000
+    credited to it. Similarly, suppose Bank *B* has a settlement account with the
+    central bank containing $100,000\. Now, say that *X* is a customer of Bank *A*
+    and *Y* is a customer of Bank *B*. When X wants to send $100 to *Y*, Bank *A*
+    sends a message to Bank *B*, via the fund-transfer system, indicating that it
+    has debited $100 from *X's* account and to credit *Y's* account in Bank *B* with
+    $100\. After seeing this message, Bank *B* goes ahead and credits *Y's* account
+    with $100\. To settle this payment, the central bank debits $100 from Bank *A's*
+    settlement account, therefore the new balance $49,900 and credits the settlement
+    account of Bank *B* with $100 therefore making the new balance $100,100.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The central banks usually do the final settlements once a day at a specific
+    time. The message transfers are near real-time. This process works fine as both
+    banks involved trust the central bank.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's see how international InterBank transfers work. In this scenario, there
+    are two banks of two different countries involved, and the way international payments
+    work is different from domestic transfers. In the case of international payments,
+    banks use the SWIFT system to send messages. SWIFT is a messaging network that
+    financial institutions use to securely transmit information and instructions through
+    a standardized system of codes. SWIFT assigns each financial organization a unique
+    code that has either 8 or 11 characters. The code is interchangeably called the
+    **Bank Identifier Code** (**BIC**), SWIFT code, SWIFT ID, or ISO 9362 code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To learn more about SWIFT, visit [https://www.investopedia.com/articles/personal-finance/050515/how-swift-system-works.asp](https://www.investopedia.com/articles/personal-finance/050515/how-swift-system-works.asp).
+  prefs: []
+  type: TYPE_NORMAL
+- en: In this case, instead of having settlement accounts with a particular central
+    bank, they have settlement accounts with each other. To understand this further,
+    let's take an example. Suppose Bank *A* is a US bank and Bank *B* is an Indian
+    bank. *X* is a customer of Bank *A* and *Y* is a customer of Bank *B*. To enable
+    *X* to transfer money to *Y* and vice-versa, Bank *A* and Bank *B* hold settlement
+    accounts with each other. So Bank *A* may have an account with Bank *B* with ₹300,000
+    credited and Bank *B* will have a settlement account with Bank *A* with $100,000
+    credited. Now, when *X* sends *Y* a payment worth $100, Bank *B* will debit ₹6909.50
+    (1 USD = 69.10 INR at the time of writing this book) from Bank *A's* settlement
+    account that it handles. *X's* account will be debited for $100 and *Y's* account
+    will be credited with ₹6909.50.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'It usually takes five to seven days to reflect the credit in Y''s account.
+    It takes this is due to lot of necessary processes, checks, and issues, such as
+    the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: As foreign remittance contributes to the money-laundering industry, banks have
+    to do some sort of background check to establish that the funds you are using
+    are not obtained from an illegal source.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The sender's bank searches its system to check whether it has a direct partnership
+    (holds settlement accounts) with the bank where the receiver's account is. Often
+    it is unlikely. So, the sender's bank connects with a bank that they have a partnership
+    with and also knows that the receiver's bank is also their partner. So essentially
+    it becomes a chain. Sometimes, this chain can grow to three-four banks in the
+    middle, depending on your country's banking infrastructure and the openness of
+    its economy.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Most of the time, these SWIFT messages are only sent by a single branch of the
+    sender's bank that is designated to do foreign remittances. Also sender's branch
+    will take some more time to send the message to that main branch and from there
+    they will go ahead.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In many countries, checks related to regulations and compliance are done manually,
+    thus adding more time for the transfer to complete.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: A **Nostro** account is the term used by Bank *A* to refer to our account held
+    by Bank *B*. *A* **vostro** account is the term used by Bank B, where Bank A's
+    money is being deposited.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Digitalizing fiat currency
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We saw how InterBank transfers work. In the case of domestic transfers, the
+    central bank has to take care of managing and updating the settlement accounts,
+    whereas in the case of international transfers, the respective banks have to make
+    the effort to update the settlement accounts. In the case of international transfers,
+    there are other issues too, such as the requirement of more reconciliation effort,
+    as there is no trusted third party, and the routing of payments through multiple
+    intermediary banks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Blockchains enable banks to transfer money to any other bank in the world directly
+    by providing us the ability to digitalize fiat currency; it reduces the reconciliation
+    effort by a huge extent by providing a single source of truth.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s look at the process and flow of digitalizing fiat currency on blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Only central banks have the authority to issue their respective digitalized
+    fiat currency on the blockchain.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We can have a separate network for every fiat currency instead of using a single
+    network to distribute traffic and increase scalability.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For a bank to convert fiat currency to the digitalized form, it has to deposit
+    fiat currency on the central bank's cash custody account. The equal amount of
+    digitalized fiat currency will be issued to the respective bank by the central
+    bank on blockchain.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The bank can convert back digitalized fiat currency to paper currency at any
+    time by destroying the fiat currency on blockchain.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: To achieve anonymity, banks can use multiple addresses. Therefore, it will be
+    difficult for other banks to predict who owns how much digitalized fiat currency.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using a cell phone number as identity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Our payment app will be based upon using a cell phone number as the identity
+    of the receiver. Let''s look at the whole process of using a cell phone number
+    as the identifier of payment using a blockchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The blockchain will act as a share-and-secured storage for cell phone numbers
+    linked with the bank's code.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Every ISD code will have its own network. This is done for scalability reasons.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Every cell phone number can be linked to one or more banks. If there is more
+    than one bank, the sender can select the bank account to which to send the payment.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For a receiver to receive payments using a cell phone number, the cell phone
+    number should be registered on the blockchain using the receiver's mobile banking
+    app of the respective bank.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If the receiver's bank account is suspended, the status should be updated on
+    the  blockchain to notify others not to accept payment for this cell phone number.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building the network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before we proceed to writing smart contracts, let's create Quorum networks for
+    USD currency for the +1 ISD code. We will make sure that these networks are permissioned
+    and protected using node IDs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So far with, all the networks we have created in this book, we have assumed
+    that they are protected using whitelisted IPs. But Quorum provides a way to whitelist
+    node IDs. You can apply the same practice to other networks built in this book.
+    A cell phone number shouldn't be leaked outside of the network, and therefore
+    it's important to protect the network at all costs.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Network permissioning in Quorum
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Network permissioning is enabled at the individual node level by adding the
+    `--permissioned` flag as the command-line parameter during node startup. When
+    the flag is added, the node looks for a file named `permissioned-nodes.json` in
+    the node's data directory folder.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `permissioned-nodes.json` file contains a list of node identifiers (`enode://nodeID@ip:port`)
+    that this specific node will accept incoming connections from and make outgoing
+    connections to.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If the `--permissioned` flag is set, but the `permissioned-nodes.json` file
+    is empty, or is simply not present in the node's data directory folder, the node
+    will start, but it will neither connect to any other nodes nor accept any incoming
+    connection requests from other nodes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For example, in our case, we need the minimum of a three-node network, that
+    is, Bank *A*, Bank B, and the central bank. Suppose Bank *A's* node ID is `480cd6ab5c7910af0e413e17135d494d9a6b74c9d67692b0611e4eefea1cd082adbdaa4c22467c583fb881e30fda415f0f84cfea7ddd7df45e1e7499ad3c680c`,
+    Bank *B's* node ID is `60998b26d4a1ecbb29eff66c428c73f02e2b8a2936c4bbb46581ef59b2678b7023d300a31b899a7d82cae3cbb6f394de80d07820e0689b505c99920803d5029a`
+    and the central bank's node ID is `e03f30b25c1739d203dd85e2dcc0ad79d53fa776034074134ec2bf128e609a0521f35ed341edd12e43e436f08620ea68d39c05f63281772b4cce15b21d27941e`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'So the `permissioned-nodes.json` file on Bank A''s node will have the following
+    content:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: Similarly, Bank *B* will whitelist Bank *A* and the central bank, whereas the
+    central bank will whitelist Bank *A* and Bank *B*.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Any additions to the `permissioned-nodes.json` file will be dynamically picked
+    up by the server when subsequent incoming/outgoing requests are made. The node
+    does not need to be restarted in order for the changes to take effect, but removing
+    existing connected nodes from the `permissioned-nodes.json` file will not immediately
+    drop those existing connected nodes. However, if the connection is dropped for
+    any reason, and a subsequent connect request is made from the dropped node IDs,
+    it will be rejected as part of that new request.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building the DApp
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Let''s write the smart contracts for digitalizing fiat currency and storing
+    cell phone numbers linked to bank accounts. Here is the smart contract for digitalizing
+    fiat currency:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We are assuming that the central bank deploys the smart contract.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We have methods to issue, transfer, and destroy `USD`. These methods are self-explanatory.
+    The transfer method also has a description that can contain information such as
+    the purpose of the transaction or the receiving customer details.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We have methods to retrieve the balance of an account, and the total `USD` ever
+    issued and destroyed.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Here is the smart contract for holding the cell phone numbers and their respective
+    banks:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: We assumed that the central bank deploys the contract.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then the central bank can add or remove banks to the network. Every bank gets
+    an account on the blockchain. We cannot write a cell phone number using any account
+    because that will let banks commit fraud—even if they don't own the account associated
+    with a cell phone number, they will still add it and not get caught. A predefined
+    account will enable audibility so that banks will not accept payments of a cell
+    phone number whose account they don't hold.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then we have a method to add the cell phone number. Every cell phone number
+    is associated with a lot of banks that the person has accounts with. At the time
+    of sending payment, the sender can select one of these accounts.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then we have a method using which a bank can remove itself from a cell phone
+    number. This is useful when the bank account is suspended or closed.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Finally, we have a function to get list of bank accounts associated with a cell
+    phone number.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Now let''s see the whole flow of how a user payment and settlement would look:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Assume *X* has an account with Bank *A* and *Y* has an account with Bank *B*.
+    Both banks are registered on both networks, and both banks have sufficient amounts
+    of `USD` on the `USD` network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For *Y* to receive a payment using a cell phone number, *Y* has to register
+    its number on the `MobileNumbers` network using Bank *B's* cell phone number.
+    Bank *B* will call the `addMobileNumber` method to register *Y's* bank account
+    on the network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: For *X* to send payment to *Y*, *X* has to enter *Y's* cell phone number into
+    Bank *A's* mobile banking app. After that, Bank *A* will call the `getMobileNumberBanks`
+    method to get a list of banks that *Y* has accounts with. Bank *B* will surely
+    be listed, so *X* can select it and click the `Send Payment` button.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: As soon as the `Send Payment` button is clicked, Bank *A* will call the `transferUSD`
+    method and provide *Y's* cell phone number in the description, indicating the
+    bank account to credit the funds to. The `to` address in `transferUSD` will be
+    the address returned by the `getMobileNumberBanks` method.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned some of the basic concepts of banking and how InterBank
+    transfers are settled and cleared. We also learned about SWIFT and how it works.
+    Then we jumped into advanced network permissioning in Quorum and learned about
+    the `--permissioned` flag.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finally, we built a new type of fund-transfer system, which settles payment
+    using digitalized fiat currency and a cell phone number for customer identification.
+    We built the whole solution on a blockchain, which minimizes the reconciliation
+    effort and solves lots of issues that it was not possible to solve previously.
+  prefs: []
+  type: TYPE_NORMAL

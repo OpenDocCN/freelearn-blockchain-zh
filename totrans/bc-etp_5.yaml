@@ -1,0 +1,546 @@
+- en: Building Interoperable Blockchains
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are various permissioned and public blockchains representing different
+    assets, information, and business processes. One of the major requirements for
+    using these networks is to enable them to talk to each other, which is a major
+    challenge to overcome. It would be great if there were only one blockchain to
+    rule them all, but that's definitely not going to happen, because it's not possible
+    for only one blockchain to win in terms of security, privacy, efficiency, flexibility,
+    platform complexity, developer ease of use, and so on. The future of blockchains
+    will be several public and permissioned blockchains interoperating with each other.
+    In this chapter, we are going to explore how to achieve interoperability between
+    multiple Quorum networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we will cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding what blockchain interoperability means and the various popular
+    projects related to it
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Examining the use cases that interoperable blockchains can achieve
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Looking at the various technologies and patterns that can be used to achieve
+    blockchain interoperability
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building an interoperable blockchain network representing **FedCoins**
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding blockchain interoperability
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Interoperable blockchains are blockchains that can talk to each other. Each
+    blockchain can read the other's state. There will be many occasions when you will
+    want to enable your smart contracts to talk to centralized or other decentralized
+    apps. When we talk about interoperability between DApps we're talking about something
+    different than interoperability between blockchains.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Enabling an Ethereum smart contract to check whether a file exists in IPFS or
+    not is enabling interoperability between DApps, whereas enabling an Ethereum smart
+    contract to fetch a Bitcoin account balance is enabling interoperability between
+    blockchains.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Getting Ethereum smart contracts to make REST APIs call to centralized apps
+    is considered enabling interoperability between Ethereum and WWW. But in this
+    chapter, we will learn about interoperability between blockchains, specifically
+    interoperability between Quorum networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: There are various popular projects being developed that aim to employ decentralized
+    mechanisms to achieve interoperability between blockchains. Various popular projects,
+    such as **Cosmos**, **Polkadot**, **Interledger**, **Block Collider**, and so
+    on, are being actively developed to make blockchain interoperability decentralized
+    and easy to achieve, but in this chapter we won't cover these, as they aim to
+    bring interoperability to public blockchains. However, the strategies that we
+    will learn to create interoperable blockchains are being used by these projects.
+  prefs: []
+  type: TYPE_NORMAL
+- en: What can interoperable blockchains achieve?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Before going further and looking at how to achieve blockchain interoperability,
+    we need to know what kinds of things that interoperable blockchains can achieve.
+    There are obviously many use cases for interoperable blockchains, but we will
+    be looking at the use cases that interoperability between blockchains mostly aims
+    to achieve. It may achieve one or more of the following use cases:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Portable assets**: Moving assets back and forth from one blockchain to another.
+    These are also called **one-to-one pegs** or **two-way pegs**.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Payment-versus-payment and payment-versus-delivery**: These are technically
+    known as **atomic swaps**. When two users are exchanging assets that reside in
+    two different blockchains, a guarantee is needed, stating that either both transfers
+    happen or neither does. For example, if one blockchain holds digitalized USD and
+    the other holds digitalized EUR, then users should be able to exchange these assets
+    atomically.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '**Fetching information and reacting to events**: One blockchain is able to
+    read information that exists on another blockchain or is able to react to transactions
+    happening on another blockchain. For example, this could be a case where one blockchain
+    represents tenancy contracts and other one represents locked security deposits,
+    so when the tenancy contract expires in the first blockchain, the second one should
+    automatically release the security deposits.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Strategies for implementing blockchain interoperability
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's look at the various strategies with which you can achieve one or more
+    of the previous use cases. We will learn the strategies that we can implement
+    in Quorum, but not all the ones that are available for public or other blockchains.
+    We will also look at examples of how to implement these strategies.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Single custodian
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The easiest way to achieve interoperability is to have a centralized third-party
+    through which blockchains can talk to each other. Essentially, you need to trust
+    the third-party.
+  prefs: []
+  type: TYPE_NORMAL
+- en: However, centralized interoperability projects, such as **Oraclize**, have solved
+    the trust problem. Oraclize enables your Ethereum smart contracts to communicate
+    with the WWW; that is, it enables you to make REST API calls, fetch a Bitcoin
+    account balance, check the file status in IPFS, and so on. Oraclize also provides
+    a proof for smart contracts stating that the results have not been manipulated;
+    therefore, Oraclize has tackled the trust issue, but the single point of failure
+    still remains. Oraclize is available for both permissioned and public Ethereum.
+    Oraclize's major achievement was providing the ability for Ethereum smart contracts
+    to make REST API calls, but its purpose was never to provide interoperability
+    between blockchains, and therefore it doesn't offer this feature.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If trust is not an issue for you, then the single custodian strategy is definitely
+    something you should consider, as this supports all the three use cases we discussed
+    earlier. You can easily write a centralized application that reacts to events
+    on one blockchain and calls actions on another blockchain. In permissioned blockchains,
+    there are usually regulators or authorities that you can choose to host that centralized
+    application. The single custodian should send transactions that are signed using
+    a private key that the blockchains have been pre-programmed to trust.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Multisignature federation
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A better option to implement interoperability between blockchains is to have
+    a group of notaries (or authorities) in control of a multisignature, where the
+    majority of them have to approve an action for it to proceed. This setup is better
+    than having a single custodian, but still centralizes control. To achieve true
+    decentralization, the notaries should be carefully selected to have at least the
+    following properties:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The number of notaries should not be low—for example, at least 10.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The number of notaries should not be too high—for example, less than 30, so
+    that users can verify the authenticity and honesty of the notaries.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Notaries should be distributed across different legal jurisdictions and nations
+    to prevent state attacks, coercion, and censorship.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Notaries should be geographically distributed to prevent failure of the infrastructure
+    in case of natural disasters.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Notaries should be renown.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Notaries should not be controlled by (or dependent on) a lower number of entities.
+    For example, notaries cannot be different branches of the same bank.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Notaries should be able to achieve and maintain a specified level of security
+    through physical and logical protections, together with the required security
+    procedures.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Sidechains or relays
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A sidechain is a system inside one blockchain that can validate and read events
+    and/or states in other blockchains. Relays are a more direct method for facilitating
+    interoperability, where instead of relying on trusted intermediaries to provide
+    information about one blockchain to another, the blockchains effectively take
+    on the task of doing that themselves. Currently, sidechain systems are achieved
+    using **Merkle trees**.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The general approach is as follows. Suppose that a smart contract executing
+    on blockchain *B* wants to learn either whether a particular event took place
+    on blockchain *A*, or some particular object in the state of blockchain *A* contained
+    some value at some particular time. We can create a contract on blockchain *B*
+    that takes one of these block headers of blockchain *A* and uses the standard
+    verification procedure for the blockchain *A *consensus algorithm to verify this
+    block header—in IBFT, this would involve verifying that more than 75% of the validators'
+    signatures have signed the block header. Once the relay has verified that the
+    block header has been finalized, the relay can then verify any desired transaction
+    or account/state entry separately by verifying a single branch of the Merkle tree
+    against the block header.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The use of this so-called **light client verification** technology is ideal
+    for relays because of how fundamentally resource constrained a blockchain is.
+    In fact, it is impossible for a mechanism inside blockchain *A* to fully validate
+    blockchain *B* and for a mechanism inside blockchain *B* to fully validate blockchain
+    *A* at the same time, for the same simple mathematical reason that two boxes cannot
+    simultaneously contain each other: *A* would need to rerun the part of *B* that
+    reruns *A*, including the part of *A* that reruns *B*, and so forth. With light
+    client verification, however, a protocol where blockchain *A* contains small pieces
+    of blockchain *B* and blockchain *B* contains small pieces of blockchain *A* that
+    are pulled on-demand is entirely feasible. A smart contract on a relay on blockchain
+    *B* that wants to verify a particular transaction, event, or piece of  state information
+    on blockchain *A* would, much like a traditional light client, verify a branch
+    of the cryptographic hash tree of blockchain *A*, then verify with the block header
+    that the root of this branch is inside, and if both checks pass, it would accept
+    that the transaction, event, or state information is correct.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Note that because blockchains are fully self-contained environments and have
+    no natural access to the outside world, the relevant bits of chain *A* would need
+    to be fed into chain *B* by a user; however, because the data is, in a cryptographic
+    sense, self-verifying, the user that feeds in this information need not be trusted.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Hash locking
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Hash locking is a technique for achieving atomic exchange of assets. It doesn''t
+    require any intermediary. This is how hash locking works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Suppose that there are two assets called *A* and *B* in two different blockchains.
+    The owner of asset *A* is *X* and the owner of asset *B* is *Y*.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If they both want to exchange the assets, then first of all, *X* has to generate
+    a secret, *S*, and compute the hash of the secret, which is *H*. After that, *X*
+    shares *H* with *Y*.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Now, *X* locks asset *A*, stating that if the *S* for *H* is revealed within
+    *N* seconds by *Y,* then ownership of the asset will be transferred to *Y;* otherwise,
+    the asset will be unlocked after *N* seconds.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Next, *Y *locks asset *B*, stating that if the *S* for *H* is revealed within
+    *N/2* seconds by *X,* then ownership of the asset will be transferred to *X;* otherwise,
+    the asset will be unlocked after *N/2* seconds.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: So now, assets *A* and *B* are locked after *N* and *N/2* seconds respectively.
+    Now, within *N/2* seconds, *X* reveals *S* to the *B's* blockchain to claim ownership
+    of the asset. Now, *Y* has the equivalent time to learn *S* and reveal *S* to
+    blockchain *A* to claim ownership.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The reason why *X* gets half of the time given to *Y* to claim the funds is
+    that only *X* knows the secret, and after *Y* locks the funds, *X* can wait almost
+    until the end of *N* seconds and claim the asset, which will not give sufficient
+    time for *Y* to claim their funds. Therefore, *X* can succeed in stealing asset
+    *A* and *B*. To avoid this, we are give *Y * *N* seconds and *X * *N/2* seconds,
+    so that *Y* will have same amount of time as *X* to claim the asset.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The downside of this technique is that if *X* reveals the *S* to blockchain *B*
+    in between the *N/2* and *N* seconds, then *X* will not be able to claim ownership
+    of *B,* but *Y* will learn about *S* and have time to claim ownership of *A*.
+    However, this would be the fault of *X*,and can be avoided.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building a FedCoin
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: FedCoin is a digital currency issued by a central bank and hedged one to one
+    with their fiat currency. Digitalizing fiat currency using blockchain has several
+    benefits, such as enabling easy cross-border payments, saving reconciliation efforts,
+    and so on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Let's build some digitalized INR and USD on two different blockchain networks.
+    Then, let's create some atomic swap contracts to enable the exchange of these
+    currencies between banks atomically. This use case would require you to create
+    two different Quorum networks using IBFT consensus. In each network there is one
+    authority, which is the central bank, and *N* number of peers, which are other
+    banks. So, you can assume that in the first network, the **Federal Reserve System**
+    (**FRS**) is the authority and **Bank of America** (**BOA**) and ICICI banks are
+    the peers. Similarly, in the second network, the **Reserve Bank of India** (**RBI**) is
+    the authority and BOA and the ICICI bank are the peers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You don't have to build this network now because when building and testing smart
+    contracts, you can use only one node with four Ethereum account addresses. This
+    would be enough to simulate the whole scenario.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Smart contracts to digitalize fiat currency
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Here is a basic smart contract to create a digitalized USD on a blockchain.
+    This smart contract allows us to issue and transfer digitalized currency:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: First, we defined a mapping to store the amount of USD each bank holds. Each
+    bank can have multiple addresses to achieve privacy. These addresses don't have
+    to be banks; they can also be other smart contracts, as every smart contract also
+    has `address`.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Next, we assumed that the central bank deploys the contracts. Therefore, we
+    defined the central bank as the issuer by assigning its `address` to `owner`.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then, we defined the function `issueUSD` with which the central bank can issue
+    USD to other banks.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then, we defined another function, named `transferUSD`, with which banks can
+    transfer USD between themselves.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Next, we had a function for reading the balance of an account.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Finally, we had two important functions: `approve` and `transferUSDFrom`. The  `transferUSDFrom` function allows
+    contracts to send USD on your behalf. In other words, you are providing APIs for
+    other smart contracts on the same blockchain to manage your funds. The `approve` function
+    is used to provide approval for a smart contract to manage your funds. When calling `approve`, you
+    mention how much of your funds that contract can manage.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Here, we are using a built-in modifier called  `view`.  `view` signifies that
+    the function cannot modify storage, but will read storage (hence viewing). The `view` functions cannot
+    send or receive Ether. Similarly, there is another modifier called `pure`, which
+    signifies that the return value can only be dependent on input parameters—that
+    is, they cannot even read storage and cannot send or receive Ether. You should
+    use these modifiers as they have several benefits—for example, online the Remix
+    IDE looks for these modifiers while generating UI forms for interacting with the
+    contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now deploy a similar contract to digitalize INR in the second network. Replace
+    `USD` with `INR` in the preceding contract and deploy it. It should look like
+    this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: Atomic swap smart contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We have successfully digitalized fiat currencies. Now it's time to implement
+    the atomic swap smart contracts that will provide the hash locking mechanism.
+    We have an atomic swap smart contract deployment in each of the blockchains—that
+    is, the atomic swap smart contract on the first blockchain will lock USD for a
+    certain period of time and expects an Indian bank (here, it's the ICICI bank)
+    to claim it in the defined time period using the secret. Similarly, the atomic
+    swap contract on the second blockchain will lock INR for a certain period of time
+    and expects an American bank (here, it's BOA) to claim it in the defined time
+    period using the secret.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The following is the atomic swap smart contract for locking USD:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is how the preceding smart contract works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: At the time of deploying the smart contract, we provide the contract address
+    of the `USD` contract so that it can call its functions to transfer funds.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The `lock` method was used to lock funds using `hash`. Obviously, before calling
+    the `lock` method, BOA must approve this atomic swap contract address to be able
+    to access a certain amount of its funds. It takes `hash` and locks funds for a
+    certain period of time. `amount` is specified to indicate how much USD to lock
+    and this amount should be less than equal to the approved amount. The `to` address
+    specifies the Indian bank's address—that is, the ICICI bank. So, when the ICICI
+    bank comes to claim the funds, they go to this address. This function actually
+    transfers funds to its contract address (that is, `address(this)`) and fires an
+    event so that ICICI bank can see that funds have been locked.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The `unlock` method can be used by BOA to unlock the funds after `hash` has
+    expired, if the funds are not claimed.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The `claim` method is used by ICICI bank to claim the funds using the secret.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Finally, we used the `calculateHash` method to calculate `hash` of a secret.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Here, we are using BOA and ICICI as examples to explain it simply, but the previous
+    smart contracts will work fine with any number of currencies and banks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Change `USD` to `INR` in the preceding contract to provide an atomic swap smart
+    contract for the second blockchain. Here is how the code will look:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: Testing
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now we have the smart contracts ready for conducting atomic swaps between the
+    assets of two different blockchains. Next, let''s write some JavaScript code to
+    test the preceding contracts and conduct an atomic exchange. The following code
+    allows you to do this. For testing and simulation purposes, you can run the following
+    code in one single Quorum node with four accounts:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: First, we deployed the `USD` contract and then deployed the atomic swap contract
+    for USD by passing the `USD` contract's address as the parameter. We deployed
+    these contracts as FRS.  Then, we deployed the `INR` contract and then deployed
+    the atomic swap contract for INR by passing the `INR` contract's address as the
+    parameter. We deployed these contracts as RBI.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Place the following code where continuation is mentioned:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Here the FRS issued USD to BOA and then the RBI issued INR to the ICICI bank.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, BOA generated a secret. We use a very basic function to generate a secret.
+    Obviously, in real-world scenarios, you should use some sort of hardware-based
+    tool to generate these sorts of secure secrets.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Next, we computed the hash of the secret.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: BOA and the ICICI bank gave the USD atomic swap and INR atomic contracts access
+    to their funds respectively.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: BOA locked the USD in the USD atomic swap contract for 30 minutes and stated
+    that only the ICICI bank can claim the funds.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Likewise, the ICICI bank locked the INR in the INR atomic swap contract for
+    15 minutes and stated that only BOA can claim the funds.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Finally, BOA went ahead and claimed the INR. As soon as ICICI learned about
+    the secret, it went ahead and claimed the USD.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: To test the preceding contract, first copy your Ethereum addresses and replace
+    the ones that I have generated in the previous examples. Then make sure you unlock
+    all four of the accounts in your node. Finally, compile the contracts and populate
+    the `ABI` and `Bytecode` variables.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Here, we are using a Solidity function to calculate `hash`, but you can calculate
+    `hash` using JavaScript. If you want to calculate the `sha256` hash, then you
+    can use any JavaScript library, but if you calculate `sha3` (that is, `keccak256`)
+    as Solidity does in JavaScript, then you need to use the `web3.utils` library,
+    which provides a function called `soliditySha3`. This function will calculate
+    the `sha3` of given input parameters in the same way Solidity would. This means
+    that arguments will be `ABI` converted and tightly packed before being hashed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we looked at the various options for building interoperable
+    blockchains. To summarize, single custodian, multisignature federations, and hash
+    locking are easy to implement, whereas sidechains are complicated and require
+    a lot of engineering. Soon, we will have production-permissioned blockchain platforms
+    that have sidechains support built in.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finally, we implemented hash locking by simulating two central and commercial
+    banks. You can go ahead and try to build two different networks and attempt to
+    conduct an atomic exchange.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we will learn how to build a blockchain as a server for
+    Quorum. While building this, we will learn about the concepts of DevOps and cloud
+    computing too.
+  prefs: []
+  type: TYPE_NORMAL
