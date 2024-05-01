@@ -1,7 +1,9 @@
 - en: Blockchain-Based DNS Security Platform
+  id: totrans-0
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 基于区块链的 DNS 安全平台
 - en: The **Domain Name System** (**DNS**) is mainly designed to resolve a host name
     query to an IP address. Internet users need to have domain names, such as [www.packtpub.com](http://www.packtpub.com),
     but the internet needs an IP address to route the request to the desired destination.
@@ -10,46 +12,69 @@
     In this chapter, we will learn about the DNS infrastructure, the core components,
     challenges with the existing system, and how blockchain can transform its current
     functionality.
+  id: totrans-1
   prefs: []
   type: TYPE_NORMAL
+  zh: '**域名系统**（**DNS**）主要设计用于将主机名查询解析为 IP 地址。互联网用户需要域名，例如[www.packtpub.com](http://www.packtpub.com)，但互联网需要
+    IP 地址才能将请求路由到所需目的地。这样，DNS 就成为互联网的电话簿，并允许每个人在全球范围内使用它；然而，这也会导致其被滥用的可能性很高。在本章中，我们将了解
+    DNS 基础架构、核心组件、现有系统存在的挑战以及区块链如何改变其当前功能。'
 - en: 'In this chapter, we will cover the following topics:'
+  id: totrans-2
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们将涵盖以下主题：
 - en: DNS
+  id: totrans-3
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: DNS
 - en: DNS structure and hierarchy
+  id: totrans-4
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: DNS 结构和层次结构
 - en: DNS topology for large enterprises
+  id: totrans-5
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 大型企业的 DNS 拓扑结构
 - en: Challenges with the current DNS solution
+  id: totrans-6
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 当前 DNS 解决方案面临的挑战
 - en: Blockchain-based DNS solution
+  id: totrans-7
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 基于区块链的 DNS 解决方案
 - en: Labs
+  id: totrans-8
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 实验室
 - en: DNS
+  id: totrans-9
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: DNS
 - en: The DNS is the heart of the internet. If the DNS is unavailable, each one of
     us will have a hard time finding resources on the internet. Being a massive phonebook
     of the internet, our entire online system relies heavily on the DNS. Because of
     DNS namespaces, none of us have to remember a list of IP addresses; instead, we
     just have to remember the names of web pages.
+  id: totrans-10
   prefs: []
   type: TYPE_NORMAL
+  zh: DNS 是互联网的核心。如果 DNS 不可用，我们每个人都会在互联网上找资源时遇到困难。作为互联网的大型电话簿，我们的整个在线系统都严重依赖 DNS。由于
+    DNS 命名空间，我们中没有人需要记住一长串 IP 地址；相反，我们只需要记住网页的名称。
 - en: For IT and security professionals, it is important to understand the basic structure,
     function, and operations of it. The DNS is a hierarchical database with delegated
     authority. As per the scope of this chapter, we will be consider enterprise DNS
@@ -57,109 +82,152 @@
     DNS infrastructures—by allowing their **Internet Service Provider** (**ISP**)
     to manage it or by managing it internally. Any configuration mistakes or failure
     in the ISP network can turndown the organization's internet infrastructure.
+  id: totrans-11
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于 IT 和安全专业人员来说，了解其基本结构、功能和操作是很重要的。DNS 是一个具有委托权限的分层数据库。根据本章的范围，我们将考虑企业 DNS 部署及其功能。组织可以通过允许他们的**互联网服务提供商**（**ISP**）管理或内部管理来管理其
+    DNS 基础架构。ISP 网络中的任何配置错误或故障都可能导致组织的互联网基础设施中断。
 - en: 'With the growing number of internet users, the DNS became the backbone of organizations
     on the internet and hence it has given organizations a strong reason to control
     their own DNS. With an efficient DNS deployment, organizations can even achieve
     better email spam-filtering systems and optimized network topologies. Here are
     just a few ways in which the DNS plays a vital role in organizations:'
+  id: totrans-12
   prefs: []
   type: TYPE_NORMAL
+  zh: 随着互联网用户数量的增长，DNS 成为了互联网上组织的支柱，因此它给组织提供了控制自己 DNS 的强有力理由。通过有效的 DNS 部署，组织甚至可以实现更好的电子邮件垃圾邮件过滤系统和优化的网络拓扑结构。以下是
+    DNS 在组织中发挥关键作用的一些方式：
 - en: '**Anti-spam**: Some DNS mechanisms, including **Sender Policy Framework** (**SPF**)
     and **DomainKeys Identified Mail** (**DKIM**), ensure only a predefined list of
     domains should be allowed to send emails on behalf of a specific organization.
     These mechanisms are effective if the DNS in the organization is working properly.'
+  id: totrans-13
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**反垃圾邮件**：一些 DNS 机制，包括**发件人策略框架**（**SPF**）和**域键识别邮件**（**DKIM**），确保只有预定义的域应被允许代表特定组织发送电子邮件。如果组织中的
+    DNS 正常工作，则这些机制是有效的。'
 - en: '**Load sharing**: DNS services can optimize the server infrastructure by load
     sharing the traffic of highly utilized servers with other underutilized servers.'
+  id: totrans-14
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**负载均衡**：DNS 服务可以通过将高利用率服务器的流量与其他低利用率服务器进行负载均衡来优化服务器基础设施。'
 - en: '**Privacy**: DNS services ensure the privacy of an organization''s namespace
     information by masking addresses with different names, depending on whether they
     are accessed from inside or outside of the network, helping to achieve stronger
     network security.'
+  id: totrans-15
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**隐私**：DNS 服务通过使用不同的名称掩盖地址，具体取决于是否从网络内部或外部访问，以确保组织命名空间信息的隐私，有助于实现更强大的网络安全。'
 - en: Understanding DNS components
+  id: totrans-16
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 理解 DNS 组件
 - en: The DNS is more than just a protocol, it consists of several independent entities
     working together to deliver a scalable and reliable domain name database. In its
     simplest form, there are three core components of the DNS—the **namespace**, **server**,
     and **resolver**.
+  id: totrans-17
   prefs: []
   type: TYPE_NORMAL
+  zh: DNS不仅仅是一个协议，它由几个独立的实体共同工作，以提供可扩展和可靠的域名数据库。在最简单的形式中，DNS有三个核心组件—**命名空间**、**服务器**和**解析器**。
 - en: Namespace
+  id: totrans-18
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 命名空间
 - en: 'A namespace is a structure of the DNS database. It is represented in the form
     of an inverted tree with its root node at the top. Each node in the tree has a
     label and the root node has a null label. Take a look at the following diagram:'
+  id: totrans-19
   prefs: []
   type: TYPE_NORMAL
+  zh: 命名空间是DNS数据库的结构。它以倒置树的形式表示，其根节点位于顶部。树中的每个节点都有一个标签，根节点具有null标签。请看下面的图示：
 - en: '![](img/1796249e-eca2-40e3-b3ca-404bfc65675a.png)'
+  id: totrans-20
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/1796249e-eca2-40e3-b3ca-404bfc65675a.png)'
 - en: 'A domain name is the sequence of labels starting from a node to the root, separated
     by dots. The namespace can have a maximum depth of 127 levels and domain names
     can be of a size not more than 255 characters in length:'
+  id: totrans-21
   prefs: []
   type: TYPE_NORMAL
+  zh: 域名是从一个节点到根之间以点分隔的标签序列。命名空间最大深度为127级，域名长度不超过255个字符：
 - en: '![](img/8efac873-345c-47f6-946a-5d9ce4bf0355.png)'
+  id: totrans-22
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/8efac873-345c-47f6-946a-5d9ce4bf0355.png)'
 - en: Name servers
+  id: totrans-23
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 名称服务器
 - en: 'Name servers are responsible for storing information about the namespace in
     the form of zones. There can be multiple name servers and ones that load a complete
     zone are said to be *authoritative* for the zone. Generally, there is more than
     one name server used as authoritative for a single zone, ensuring better redundancy
     and sharing the load:'
+  id: totrans-24
   prefs: []
   type: TYPE_NORMAL
+  zh: 名称服务器负责以区域的形式存储有关命名空间的信息。可以有多个名称服务器，对于一个区域，有一个加载完整区域的服务器被称为*权威*。通常，单个区域有多个名称服务器被用作权威服务器，以确保更好的冗余性和负载共享：
 - en: 'There are two main types of name servers—**authoritative servers** and **caching
     servers**:'
+  id: totrans-25
   prefs: []
   type: TYPE_NORMAL
+  zh: 有两种主要类型的名称服务器—**权威服务器**和**缓存服务器**：
 - en: '**Authoritative name server**: It provides responses to DNS queries. It is
     responsible for delivering original and definitive answers to each DNS query.
     There can be two types of authoritative name servers:'
+  id: totrans-26
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**权威名称服务器**：它提供DNS查询的响应。它负责为每个DNS查询提供原始和最终答案。权威名称服务器分为两种类型：'
 - en: '**Master server (primary name server)**: It stores the original copies of all
     zone records. An administrator can only make changes to the master server zone
     database.'
+  id: totrans-27
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**主服务器（主名称服务器）**：它存储所有区域记录的原始副本。管理员只能对主服务器区域数据库进行更改。'
 - en: '**Slave server (secondary name server)**: A slave server keeps a copy of master
     server files. It is used to share DNS server load and to improve DNS zone availability.'
+  id: totrans-28
   prefs:
   - PREF_IND
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**从属服务器（辅助名称服务器）**：从属服务器保留主服务器文件的副本。它用于分享DNS服务器负载和提高DNS区域的可用性。'
 - en: '**Caching name server**: It brings the name service closer to the user and
     improves overall name lookup performance. It also provides a comprehensive mechanism
     for providing private namespaces to local users, by allowing users to obtain all
     name mapping from local caching.'
+  id: totrans-29
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**缓存名称服务器**：它将名称服务带给用户更近，并提升整体名称查找性能。它还通过允许用户从本地缓存中获取所有的名称映射，为本地用户提供私有命名空间的完善机制。'
 - en: Resolver
+  id: totrans-30
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 解析器
 - en: The name resolver helps the name server to find data in the namespace. The name
     resolver is required to find out the name and IP address of the name servers for
     the root zone. The root name servers store information about top-level zones and
@@ -167,146 +235,209 @@
     resolver basically breaks the name into its labels from right to left. The first
     component, the TLD, is queried using a root server to obtain the designated authoritative
     server.
+  id: totrans-31
   prefs: []
   type: TYPE_NORMAL
+  zh: 名称解析器帮助名称服务器在命名空间中查找数据。名称解析器用于查找根区域的名称和IP地址。根名称服务器存储关于顶级区域的信息，并指示要联系哪些服务器以获取所有**顶级域**（**TLD**）的数据。解析器基本上从右到左地将名称分成其标签。首个组件，TLD，使用根服务器进行查询，以获取指定的权威服务器。
 - en: DNS structure and hierarchy
+  id: totrans-32
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: DNS结构和层次结构
 - en: Similar to the internet's DNS infrastructure, organizations also deploy their
     internal DNS infrastructures. To deploy an internal DNS infrastructure, organizations
     can select any domain hierarchy; however, once connected to the internet, they
     have to follow the common DNS framework . Let's understand the name server hierarchy.
+  id: totrans-33
   prefs: []
   type: TYPE_NORMAL
+  zh: 类似于互联网的DNS基础架构，组织也部署其内部DNS基础架构。要部署内部DNS基础架构，组织可以选择任何域层次结构；然而，一旦连接到互联网，它们必须遵循通用的DNS框架。让我们了解名称服务器层次结构。
 - en: Root name server
+  id: totrans-34
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 根名称服务器
 - en: With consistent namespaces across the internet, the root name server directly
     responds to requests for records in the root zone and answers other requests by
     returning a list of the authoritative name servers for the appropriate TLD.
+  id: totrans-35
   prefs: []
   type: TYPE_NORMAL
+  zh: 在互联网上保持一致的命名空间中，根名称服务器直接响应对根区域中记录的请求，并通过返回适当 TLD 的权威名称服务器列表来回答其他请求。
 - en: In order to modify the root zone, a zone file has first to be published over
     the internet. The root zone file is published on 13 servers from *A* to *M* across
     the internet.
+  id: totrans-36
   prefs: []
   type: TYPE_NORMAL
+  zh: 为了修改根区域，必须首先在互联网上发布区域文件。根区域文件在互联网上由 *A* 到 *M* 的 13 台服务器上发布。
 - en: 'The root zone contains the following information:'
+  id: totrans-37
   prefs: []
   type: TYPE_NORMAL
+  zh: 根区域包含以下信息：
 - en: Generic top-level domains such as `.com`, `.net`, and `.org`
+  id: totrans-38
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 通用顶级域名，如`.com`、`.net` 和 `.org`
 - en: Globally recognized TLDs
+  id: totrans-39
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 全球认可的 TLDs
 - en: Country code TLDs,  two-letter codes for each country such as `.in` for India
     or `.no` for Norway
+  id: totrans-40
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 国家代码 TLDs，每个国家的两字母代码，如`.in` 代表印度，`.no` 代表挪威
 - en: Globally recognized TLDs, generally similar to country code TLD names
+  id: totrans-41
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 全球认可的 TLDs，通常类似于国家代码 TLD 名称
 - en: The root zone contains the numeric addresses of name servers that serve the
     TLD contents and the root server answers with these addresses when asked by a
     TLD.
+  id: totrans-42
   prefs: []
   type: TYPE_NORMAL
+  zh: 根区域包含服务 TLD 内容的名称服务器的数值地址，当 TLD 询问时，根服务器会用这些地址回答。
 - en: When organizations get a new domain name, the registrar probably configures
     DNS records on their behalf and provides them with a **name server** (**NS**).
     Organizations need to have a name server to tell the internet's DNS directory
     the IP addresses of their web servers and corresponding services.
+  id: totrans-43
   prefs: []
   type: TYPE_NORMAL
+  zh: 当组织获得新的域名时，注册商可能代表他们配置 DNS 记录并为他们提供一个**名称服务器**（**NS**）。组织需要一个名称服务器告诉互联网的 DNS
+    目录其网页服务器和相应服务的 IP 地址。
 - en: Current TLD structure
+  id: totrans-44
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 当前 TLD 结构
 - en: The TLD is one of the domains at the highest level of the DNS hierarchy. TLDs
     are installed in the root zone of the namespace. The domains in the last part
     of the system have to be recognized with fully qualified domain names. The **Internet
     Corporation for Assigned Names and Numbers** (**ICANN**) ensures that TLDs are
     managed by delegated organizations. The **Internet Assigned Numbers Authority**
     (**IANA**) is operated by ICANN and is responsible for managing the DNS root zone.
+  id: totrans-45
   prefs: []
   type: TYPE_NORMAL
+  zh: TLD 是 DNS 层次结构中最高级别的域之一。TLDs 安装在命名空间的根区域中。系统中最后部分的域必须用完全合格的域名识别。**互联网名称与数字分配机构**（**ICANN**）确保
+    TLDs 由委托组织管理。**互联网分配数字机构**（**IANA**）由 ICANN 运营，负责管理 DNS 根区域。
 - en: 'IANA is responsible for managing the following TLDs:'
+  id: totrans-46
   prefs: []
   type: TYPE_NORMAL
+  zh: IANA 负责管理以下顶级域名（TLDs）：
 - en: '**ccTLD**—country-code TLDs'
+  id: totrans-47
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**ccTLD**—国家代码顶级域名'
 - en: '**gTLD**—generic TLDs'
+  id: totrans-48
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**gTLD**—通用顶级域名'
 - en: '**.arpa**—infrastructure TLDs'
+  id: totrans-49
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**.arpa**—基础设施 TLDs'
 - en: 'This hierarchical diagram explains the existing TLD structure:'
+  id: totrans-50
   prefs: []
   type: TYPE_NORMAL
+  zh: 此分层图解释了现有的 TLD 结构：
 - en: <q class="calibre60 pcalibre5 pcalibre4">![](img/e61f757e-314a-434a-9717-ae775c1ae2b3.png)</q>
+  id: totrans-51
   prefs: []
   type: TYPE_NORMAL
+  zh: <q class="calibre60 pcalibre5 pcalibre4">![](img/e61f757e-314a-434a-9717-ae775c1ae2b3.png)</q>
 - en: Registries, registrars, and registrants
+  id: totrans-52
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 注册表、注册商和注册人
 - en: 'The DNS stores a massive database of domain names. In order to perform registration,
     there are three entities working together—**registry**, **registrar**, and **registrant**:'
+  id: totrans-53
   prefs: []
   type: TYPE_NORMAL
+  zh: DNS 存储着大量的域名数据库。为了进行注册，有三个实体共同合作——**注册表**、**注册商** 和 **注册人**：
 - en: '**Registry**: An organization maintaining the database of namespaces that has
     edit rights to that database. The registry runs the authoritative NS for the namespace
     and manages the TLD names. Their role is in creating domain name extensions, setting
     up rules for the domain names, and working with registrars to provide domain names
     to the public. For example, **Verisign** manages the registration of `.com` domain
     names and their DNS.'
+  id: totrans-54
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**注册表**：负责维护命名空间数据库的组织，具有对该数据库的编辑权限。注册表运行命名空间的权威 NS 并管理 TLD 名称。他们的角色是创建域名扩展名、制定域名规则，并与注册商合作向公众提供域名。例如，**Verisign**
+    管理着`.com` 域名及其 DNS 的注册。'
 - en: '**Registrar**: An organization that reserves domain names and is accredited
     to sell domain names to the public. This registrar must be accredited by a **generic
     top-level-domain** (**gTLD**) registry or a **country code top-level domain**
     (**ccTLD**) registry. A registrar works under the guidelines provided by domain
     name registries.'
+  id: totrans-55
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**注册商**：保留域名并被授权向公众出售域名的组织。此注册商必须由**通用顶级域名**（**gTLD**）注册表或**国家代码顶级域名**（**ccTLD**）注册表授权。注册商按照域名注册表提供的指南操作。'
 - en: Only a designated registrar can modify or delete information about domain names
     in the central registry database. End users buy domains directly from the registrar
     and the end user has complete rights to switch registrar, invoking a domain transfer
     process between registrars. Some of the most popular registrars are GoDaddy, HostGator,
     BigRock, and many more.
+  id: totrans-56
   prefs: []
   type: TYPE_NORMAL
+  zh: 只有指定的注册商才能修改或删除中央注册数据库中有关域名的信息。最终用户直接从注册商购买域名，最终用户完全有权切换注册商，调用注册商之间的域名转移流程。一些最受欢迎的注册商包括GoDaddy、HostGator、BigRock等。
 - en: '**Registrant: **This is simply the end user who holds the rights to a domain
     name. As a domain name registrant, every person has certain rights and responsibilities,
     including access to information from the user''s registrar regarding processes
     for registering, managing, transferring, renewing, and restoring the domain name
     registration.'
+  id: totrans-57
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**注册人：**这只是持有域名权利的最终用户。作为域名注册人，每个人都有一定的权利和责任，包括从用户的注册商那里获取有关注册、管理、转移、续订和恢复域名注册的流程的信息。'
 - en: 'Here is a diagram that shows the working of all three entities together:'
+  id: totrans-58
   prefs: []
   type: TYPE_NORMAL
+  zh: 这是一个显示所有三个实体一起工作的图示：
 - en: '![](img/da5bdbc4-51a2-48d2-9c76-f74ec1193aee.png)'
+  id: totrans-59
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/da5bdbc4-51a2-48d2-9c76-f74ec1193aee.png)'
 - en: DNS records
+  id: totrans-60
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: DNS记录
 - en: DNS records are mapping files that associate with DNS server whichever IP addresses
     each domain is associated with, and they handle requests sent to each domain.
     Various strings of letters are used as components that resemble the actions of
@@ -315,125 +446,173 @@
     (**PTR**), **name server** (**NS**), **Start of Authority** (**SOA**), **service**
     (**SRV**) **record** , **text** (**TXT**) and **Name Authority Pointer** (**NAPTR**).
     Let's explore some of these DNS records in detail.
+  id: totrans-61
   prefs: []
   type: TYPE_NORMAL
+  zh: DNS记录是与DNS服务器相关联的映射文件，处理发送到每个域的请求。各种字母字符串被用作模拟DNS服务器操作的组件，这些命令字符串称为DNS语法。这些语法包括A、AAAA、**规范名称**（**CNAME**）、**邮件交换器**（**MX**）、**指针**（**PTR**）、**名称服务器**（**NS**）、**权威起始**（**SOA**）、**服务**（**SRV**）**记录**、**文本**（**TXT**）和**名称授权指针**（**NAPTR**）。让我们详细了解其中一些DNS记录。
 - en: '** SOA**: An SOA record notes the beginning of a zone file. It consists of
     the name of the zone, a technical point of contact, its NS, a serial number, and
     a timeout value:'
+  id: totrans-62
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**SOA**：SOA记录标记了区域文件的开始。它由区域的名称、技术联系点、其NS、序列号和超时值组成：'
 - en: '![](img/84f0e23e-5924-4f22-b2f4-7a461f3d46d8.png)'
+  id: totrans-63
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/84f0e23e-5924-4f22-b2f4-7a461f3d46d8.png)'
 - en: '**NS**: The NS records identify the authorized name servers for the zone. The
     NS also delegates subdomains to other organizations on zone files. In the previous
     example, we can clearly see the list of NSes for [www.google.com](http://www.google.com).'
+  id: totrans-64
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**NS**：NS记录标识区域的授权名称服务器。NS还在区域文件上将子域委托给其他组织。在前面的例子中，我们可以清楚地看到[www.google.com](http://www.google.com)的NS列表。'
 - en: '**Records**: Address records establish the forward binding from names to addresses.
     In this example, we have an IP address mapped with the domain [www.google.com](http://www.google.com):'
+  id: totrans-65
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**记录**：地址记录建立了名称到地址的前向绑定。在这个例子中，我们将IP地址与域名[www.google.com](http://www.google.com)映射起来：'
 - en: '![](img/3cf82eee-e946-4d76-af5c-5f89c41705f2.png)'
+  id: totrans-66
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3cf82eee-e946-4d76-af5c-5f89c41705f2.png)'
 - en: '**MX records**: These records identify the servers that can exchange emails.
     A priority is always associated with each of the records, so the user can choose
     the primary and backup mail servers.'
+  id: totrans-67
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**MX记录**：这些记录标识可以交换电子邮件的服务器。每个记录都与优先级相关联，因此用户可以选择主要和备份邮件服务器。'
 - en: '**TXT records**: These records deliver a method to expand the information provided
     through DNS. This text record stores information about the SPF that can identify
     the authorized server to send email on behalf of your organization.'
+  id: totrans-68
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**TXT记录**：这些记录提供了通过DNS扩展提供的信息的方法。这个文本记录存储了有关SPF的信息，可以确定授权服务器代表您的组织发送电子邮件。'
 - en: '**CNAME**: CNAMEs are essentially domain and subdomain text aliases to bind
     traffic. They indicate that the **Secure File Transfer Protocol** (**SFTP**) server
     is on the same system as the mail server. CNAME plays an important role, particularly
     when the server is not under organizational control such as a hosted or managed
     web server.'
+  id: totrans-69
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**CNAME**：CNAME实质上是将流量绑定到域和子域的文本别名。它们表示**安全文件传输协议**（**SFTP**）服务器与邮件服务器位于同一系统上。CNAME在服务器不受组织控制时发挥重要作用，比如托管或管理的网络服务器。'
 - en: '**PTR records**: These records provide the reverse binding from addresses to
     names. PTR records should exactly match the forward maps.'
+  id: totrans-70
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**PTR 记录**：这些记录提供从地址到名称的反向绑定。PTR 记录应与前向映射完全匹配。'
 - en: DNS topology for large enterprise
+  id: totrans-71
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 大型企业的 DNS 拓扑
 - en: 'For IT professionals, understanding DNS queries and the types of name server
     takes us most of the way to organizational DNS best practices:'
+  id: totrans-72
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于 IT 专业人员来说，了解 DNS 查询和名称服务器类型是组织 DNS 最佳实践的重要内容：
 - en: '**Network topology**: Redundancy plays a critical role in domain infrastructure.
     Even if one server fails, another takes control to keep the service up and running.
     **BIND** (widely used DNS software) supports high redundancy through a master-slave
     relationship. The master NS updates the change in mapping to one or more slave
     servers through the zone transfer mechanism.'
+  id: totrans-73
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**网络拓扑**：冗余在域基础设施中起着关键作用。即使一个服务器失败，另一个也会接管，保持服务正常运行。**BIND**（广泛使用的 DNS 软件）通过主从关系支持高冗余性。主
+    NS 通过区域传输机制将映射更改更新到一个或多个从服务器。'
 - en: '**Configuration files**: BIND''s configuration is stored in a file called `named.conf`.
     This `named.conf` file helps the server to recognize the authoritative and/or
     caching server and whether it is the master or slave for any specific zone. The
     file points to zone files that contain the real mapping database. It contains
     lines or records that define name-to-address and address-to-name mapping for a
     specific domain.'
+  id: totrans-74
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**配置文件**：BIND 的配置存储在一个名为 `named.conf` 的文件中。此 `named.conf` 文件帮助服务器识别权威和/或缓存服务器以及其是否为任何特定区域的主或从服务器。该文件指向包含真实映射数据库的区域文件。它包含定义特定域的名称到地址和地址到名称映射的行或记录。'
 - en: Architecture
+  id: totrans-75
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 架构
 - en: 'With the changing technology and network transformation, DNS has had to be
     upgraded over time. There are bodies such as **DNS Operations, Analysis, and Research
     Center** (**DNS-OARC**) and **Internet Systems Consortium** (**ISC**). In the
     following diagram, we can see a standard DNS architecture built to optimize the
     DNS infrastructure:'
+  id: totrans-76
   prefs: []
   type: TYPE_NORMAL
+  zh: 随着技术和网络转型的变化，DNS 必须随着时间的推移进行升级。存在着像**DNS 运营、分析和研究中心**（**DNS-OARC**）和**互联网系统联盟**（**ISC**）等机构。在以下图表中，我们可以看到一个优化
+    DNS 基础设施的标准 DNS 架构：
 - en: '![](img/94cb3078-850f-4cbb-b18b-0193a6e6acd3.png)'
+  id: totrans-77
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/94cb3078-850f-4cbb-b18b-0193a6e6acd3.png)'
 - en: 'The preceding standard DNS architecture can be described as follows:'
+  id: totrans-78
   prefs: []
   type: TYPE_NORMAL
+  zh: 先前的标准 DNS 架构可以描述如下：
 - en: '**Master DNS zone:** The master zone contains a read/write copy of zone data.
     Only one master zone is allowed in a network. All the DNS records have to be written
     in the master zone manually or automatically. This data is then stored in a standard
     text file.'
+  id: totrans-79
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**主 DNS 区域：**主区域包含区域数据的读/写副本。网络中只允许一个主区域。所有 DNS 记录必须手动或自动写入主区域。然后，此数据存储在标准文本文件中。'
 - en: '**Slave DNS zone**: The slave zone is a read-only copy of the zone data. Usually,
     it is a copied version of master zones. If an attempt is made to change the DNS
     record on the secondary zone, it can redirect to another zone with read/write
     access. The slave DNS zone serves the purpose of backing up the DNS zone file.'
+  id: totrans-80
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**从属 DNS 区域**：从属区域是区域数据的只读副本。通常，它是主区域的复制版本。如果尝试在辅助区域上更改 DNS 记录，则可以将其重定向到具有读/写访问权限的另一个区域。从属
+    DNS 区域的作用是备份 DNS 区域文件。'
 - en: '**Aggregate Caching Forwarder (ACF)**: It basically forwards the requests instead
     of processing them. When the server sends a response, it passes it back to its
     own client. In some situations, the resolver can also be a forwarder or caching
     forwarder. It may or may not cache the data; however, it is useful for systems
     such as **small office home office** (**SOHO**) gateways that want to provide
     DNS data to DHCP clients that don''t have a predefined address for the DNS server.'
+  id: totrans-81
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**聚合缓存转发器（ACF）**：它基本上转发请求而不处理它们。当服务器发送响应时，它将其传递回自己的客户端。在某些情况下，解析器也可以是转发器或缓存转发器。它可能会或可能不会缓存数据；但是，对于希望向没有预定义
+    DNS 服务器地址的 DHCP 客户端提供 DNS 数据的系统（如**小型办公室家庭办公室**（**SOHO**）网关）非常有用。'
 - en: Challenges with current DNS
+  id: totrans-82
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 当前 DNS 的挑战
 - en: 'Today, DNS has become the backbone of the internet and organization''s networks.
     The DNS is mission-critical infrastructure that no organization can function without.
     However, despite growing investment in network and information security, attackers
@@ -441,94 +620,137 @@
     in the network infrastructure that is often used as an attack vector. Firewalls
     leave port `53` open and never look inside each query. Let''s look at one of the
     most widely used DNS-based attacks:'
+  id: totrans-83
   prefs: []
   type: TYPE_NORMAL
+  zh: 如今，DNS 已成为互联网和组织网络的支柱。DNS 是一项使组织无法正常运行的关键基础设施。然而，尽管在网络和信息安全方面投入了越来越多的投资，攻击者仍然成功入侵网络，DNS
+    仍然是网络基础设施中的一个容易受攻击的组件，经常被用作攻击向量。防火墙保持 `53` 端口开放，从不查看每个查询的内部。让我们来看一下最广泛使用的基于 DNS
+    的攻击之一：
 - en: '![](img/381e5baa-5fa8-4b20-b5d2-5f3d6cdcdcb7.png)'
+  id: totrans-84
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/381e5baa-5fa8-4b20-b5d2-5f3d6cdcdcb7.png)'
 - en: DNS spoofing
+  id: totrans-85
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: DNS 欺骗
 - en: 'When a DNS server''s records are altered to redirect the traffic to the attacker''s
     server, the DNS gets hijacked. This redirection of traffic allows the attacker
     to spread malware across the network. DNS spoofing can be carried out in one of
     following three ways:'
+  id: totrans-86
   prefs: []
   type: TYPE_NORMAL
+  zh: 当 DNS 服务器的记录被更改以将流量重定向到攻击者的服务器时，DNS 将被劫持。这种流量重定向允许攻击者在网络中传播恶意软件。DNS 欺骗可以通过以下三种方式之一进行：
 - en: '**DNS cache poisoning**: An attacker can take advantage of cached DNS records
     and can then perform spoofing by injecting a forged DNS entry into the DNS server.
     As a result, all users will now be using that forged DNS entry until the time
     the DNS cache expires.'
+  id: totrans-87
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**DNS 缓存投毒**：攻击者可以利用缓存的 DNS 记录，然后通过向 DNS 服务器注入伪造的 DNS 条目来执行欺骗。结果，所有用户现在将使用该伪造的
+    DNS 条目，直到 DNS 缓存过期。'
 - en: '**Compromising a DNS server**: A DNS server is the heart of the entire DNS
     infrastructure. An attacker can use several attack vectors to compromise a DNS
     server and can provide the IP address of a malicious web server against each legitimate
     DNS query.'
+  id: totrans-88
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**攻击 DNS 服务器**：DNS 服务器是整个 DNS 基础设施的核心。攻击者可以利用多种攻击向量来 compromis... 即可提供恶意网络服务器的
+    IP 地址。'
 - en: '**Man-in-the-middle (MITM) attack**: In this type of attack, a threat actor
     keeps listening to conversations between clients and a DNS server. After gathering
     information and sequence parameters, it starts spoofing the client by pretending
     to be the actual DNS server and provides the IP addresses of malicious websites.'
+  id: totrans-89
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**中间人（MITM）攻击**：在这种类型的攻击中，威胁行为者不断监听客户端和 DNS 服务器之间的对话。在收集信息和序列参数之后，它开始欺骗客户端，假装是实际的
+    DNS 服务器，并提供恶意网站的 IP 地址。'
 - en: Blockchain-based DNS solution
+  id: totrans-90
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 基于区块链的 DNS 解决方案
 - en: Blockchain technology has the capabilities to transform several industries and
     in this chapter, we are going to use it for managing a name server to overcome
     some of the most critical DNS challenges. **DNSChain** is one of the most active
     projects to transform the DNS framework and protect it from spoofing challenges.
+  id: totrans-91
   prefs: []
   type: TYPE_NORMAL
+  zh: 区块链技术具有改变多个行业的能力，在本章中，我们将使用它来管理名字服务器，以克服一些最关键的 DNS 挑战。**DNSChain** 是转换 DNS 框架并保护免受欺骗挑战的最活跃的项目之一。
 - en: DNSChain is a blockchain-based DNS software suite that replaces X.509 **public
     key infrastructure** (**PKI**) and delivers MITM proofs of authentication. It
     allows internet users to set a public DNSChain server for DNS queries and access
     that server with domains ending in `.bit`.
+  id: totrans-92
   prefs: []
   type: TYPE_NORMAL
+  zh: DNSChain 是一个基于区块链的 DNS 软件套件，取代了 X.509 **公钥基础设施**（**PKI**）并提供了 MITM 身份验证证明。它允许互联网用户设置公共
+    DNSChain 服务器以进行 DNS 查询，并使用以 `.bit` 结尾的域名访问该服务器。
 - en: X.509 PKI replacement
+  id: totrans-93
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: X.509 PKI 替代方案
 - en: X.509 is a standard framework that defines the format of PKI to identify users
     and entities over the internet. It helps internet users to know whether the connection
     to a specific website is secure or not. DNSChain has the capability to provide
     a scalable and decentralized replacement that doesn't depend on third parties.
+  id: totrans-94
   prefs: []
   type: TYPE_NORMAL
+  zh: X.509 是一个标准框架，定义了 PKI 的格式，用于在互联网上标识用户和实体。它帮助互联网用户知道与特定网站的连接是否安全。DNSChain 具有提供可扩展和去中心化替代方案的能力，不依赖于第三方。
 - en: MITM-proof DNS infrastructure
+  id: totrans-95
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: MITM 证明的 DNS 基础设施
 - en: 'This uses a public key pinning technique to get rid of the MITM attack problem.
     Public key pinning specifies two **pin-sha256** values; that is, it pins two public
     keys (one is the pin of any public key in the current certificate chain and the
     other is the pin of any public key not in the current certificate chain):'
+  id: totrans-96
   prefs: []
   type: TYPE_NORMAL
+  zh: 这使用了公钥固定技术来解决中间人攻击问题。 公钥固定指定了两个 **pin-sha256** 值；也就是说，它固定了两个公钥（一个是当前证书链中任何公钥的
+    pin，另一个是当前证书链中没有的任何公钥的 pin）：
 - en: It works in parallel with existing DNS servers
+  id: totrans-97
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 它与现有的 DNS 服务器并行运行
 - en: Websites and individuals store their public key in the blockchain
+  id: totrans-98
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 网站和个人将其公钥存储在区块链中
 - en: The keys are shared over the DNSChain software framework
+  id: totrans-99
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 密钥通过 DNSChain 软件框架共享
 - en: Lab on Ethereum-based secure DNS infrastructure
+  id: totrans-100
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 基于以太坊的安全 DNS 基础设施实验室
 - en: DNS infrastructure has been the most targeted asset of organizations. Traditional
     DNS is vulnerable to several sophisticated threats. The current DNS system is
     hierarchical and the system root server becomes the high-value attack vector.
@@ -537,240 +759,369 @@
     developed an Ethereum-based DNS platform to connect  client and name server without
     any involvement of third-party in between. The project is named **DNSChain** and 
     hosted over GitHub at the link [https://github.com/okTurtles/dnschain](https://github.com/okTurtles/dnschain).
+  id: totrans-101
   prefs: []
   type: TYPE_NORMAL
+  zh: DNS 基础设施一直是组织中最受攻击的资产。传统 DNS 易受多种复杂威胁的影响。当前的 DNS 系统是分层的，系统根服务器成为高价值的攻击向量。由于整个基础设施是集中化的，即使是轻微的故障也可能导致整个系统的失败。一群工程师——Greg
+    Siepak 和 Andrea Devers 已经开发了一个基于以太坊的 DNS 平台，以在客户端和名称服务器之间建立连接而不涉及任何第三方。该项目名为 **DNSChain**，托管在
+    GitHub 上，链接为[https://github.com/okTurtles/dnschain](https://github.com/okTurtles/dnschain)。
 - en: Lab preparation
+  id: totrans-102
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 实验室准备
 - en: Configure the DNSChain server in Ubuntu. . It will run the PowerDNS Recursor,
     issuing DNS queries for `.com` and `.net` domains as you would expect, but consulting
     the local Namecoin blockchain to resolve `.bit` domains.
+  id: totrans-103
   prefs: []
   type: TYPE_NORMAL
+  zh: 在 Ubuntu 中配置 DNSChain 服务器。 它将运行 PowerDNS Recursor，发出`.com`和`.net`域的 DNS 查询，正如您所期望的那样，但是要查阅本地
+    Namecoin 区块链以解析`.bit`域。
 - en: We will start with a fresh copy of Ubuntu LTS. In our lab, we will deploy this
     Ubuntu system over Amazon's AWS Cloud.
+  id: totrans-104
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将从一份新的 Ubuntu LTS 开始。在我们的实验室中，我们将在亚马逊的 AWS 云上部署这个 Ubuntu 系统。
 - en: Some of the examples here might use expired domains, so it's best to test domain
     resolution on a domain that you personally registered on Namecoin's blockchain.
     Start with a fresh copy of Ubuntu 16.04 LTS. I'm using Ubuntu 16.04 LTS on Amazon
     Cloud.
+  id: totrans-105
   prefs: []
   type: TYPE_NORMAL
+  zh: 这里的一些示例可能使用已过期的域名，因此最好在你个人注册的 Namecoin 区块链域名上测试域名解析。从一个新的 Ubuntu 16.04 LTS 开始。我在亚马逊云上使用的是
+    Ubuntu 16.04 LTS。
 - en: 'We will use the following commands to prepare the infrastructure:'
+  id: totrans-106
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将使用以下命令准备基础设施：
 - en: '[PRE0]'
+  id: totrans-107
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE0]'
 - en: Namecoin blockchain installation
+  id: totrans-108
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: Namecoin 区块链安装
 - en: In this section, we will begin with the installation of the Namecoin blockchain.
+  id: totrans-109
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本节中，我们将从安装 Namecoin 区块链开始。
 - en: '**Installation:** We need to install the `namecoin` blockchain in the local
     system:'
+  id: totrans-110
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**安装：** 我们需要在本地系统中安装`namecoin`区块链：'
 - en: '[PRE1]'
+  id: totrans-111
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE1]'
 - en: To configure `namecoin`, follow the quick start guide. Rather than creating
     multiple users, this tutorial will use the current user.
+  id: totrans-112
   prefs: []
   type: TYPE_NORMAL
+  zh: 要配置`namecoin`，请按照快速入门指南。 本教程将使用当前用户，而不是创建多个用户。
 - en: '**Configuration**: Once the installation is completed for Namecoin, we need
     to configure the blockchain with the following commands:'
+  id: totrans-113
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**配置：** 完成 Namecoin 安装后，我们需要使用以下命令配置区块链：'
 - en: '[PRE2]'
+  id: totrans-114
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE2]'
 - en: We will go ahead and run `namecoind` to get things started. Lets check progress
     in downloading the blockchain using `namecoind getinfo`.
+  id: totrans-115
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将继续运行`namecoind`来启动事务。让我们使用`namecoind getinfo`检查区块链下载的进度。
 - en: 'For Ubuntu, instead of `systemd`, we use `upstart`. We need to write this file
     into `/etc/init/namecoind.conf`, remembering to substitute your username; in my
     case it''s `ubuntu`:'
+  id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 对于 Ubuntu，我们使用`upstart`而不是`systemd`。 我们需要将此文件写入`/etc/init/namecoind.conf`，记得替换你的用户名；
+    在我的情况下，它是`ubuntu`：
 - en: '![](img/b53c2047-d4e7-44c3-8e92-67492a329160.png)'
+  id: totrans-117
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/b53c2047-d4e7-44c3-8e92-67492a329160.png)'
 - en: We now have to use `namecoind stop` to stop the process. After this, we need
     to issue the `sudo initctl reload-configuration` command, then restart using `sudo
     shutdown -r` now. Finally, `namecoin` gets restarted automatically.
+  id: totrans-118
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在我们必须使用`namecoind stop`来停止进程。之后，我们需要发出`sudo initctl reload-configuration`命令，然后使用`sudo
+    shutdown -r`立即重新启动。最后，`namecoin`会自动重新启动。
 - en: '**Verification: **As mentioned, `namecoind` is going to begin downloading the
     blockchain. We won''t be able to look up domain names from the blockchain until
     it has made some progress. Later, when we revisit Namecoin, we can try the following
     command:'
+  id: totrans-119
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**验证：** 如前所述，`namecoind`将开始下载区块链。 在它取得一些进展之前，我们将无法从区块链上查找域名。 稍后，当我们重新访问Namecoin时，我们可以尝试以下命令：'
 - en: '[PRE3]'
+  id: totrans-120
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE3]'
 - en: 'In the output, we can clearly see the details about Namecoin and details on
     the difficulty level, connections, timeoffset, blocks created, balance, and even
     any errors:'
+  id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 在输出中，我们可以清楚地看到有关Namecoin的详细信息以及有关难度级别、连接、时间偏移、创建的块、余额甚至任何错误的详细信息：
 - en: '![](img/296a76b3-e87e-4cd7-a6ad-18d2f372a57b.png)'
+  id: totrans-122
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/296a76b3-e87e-4cd7-a6ad-18d2f372a57b.png)'
 - en: 'Furthermore, we will use the following command to get details over Namecoin
     transaction ID and address:'
+  id: totrans-123
   prefs: []
   type: TYPE_NORMAL
+  zh: 此外，我们将使用以下命令获取有关Namecoin交易ID和地址的详细信息：
 - en: '[PRE4]'
+  id: totrans-124
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE4]'
 - en: 'The following screenshot shows the output of running the preceding command:'
+  id: totrans-125
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下截图显示了运行上述命令的输出：
 - en: '![](img/b2d819a1-935e-4a40-a200-b5a12f9099ac.png)'
+  id: totrans-126
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/b2d819a1-935e-4a40-a200-b5a12f9099ac.png)'
 - en: 'Additionally, we can also check the RPC interface (use the `rpcuser` and `rpcpassword`
     from `namecoin.conf`):'
+  id: totrans-127
   prefs: []
   type: TYPE_NORMAL
+  zh: 此外，我们还可以检查RPC接口（使用`namecoin.conf`中的`rpcuser`和`rpcpassword`）：
 - en: '![](img/a0a4ef2e-3aec-4884-b463-e6dc29b06be3.png)'
+  id: totrans-128
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/a0a4ef2e-3aec-4884-b463-e6dc29b06be3.png)'
 - en: 'Now, we will use the `curl` command to get web information about content hosted
     over `http://127.0.0.1:8336`:'
+  id: totrans-129
   prefs: []
   type: TYPE_NORMAL
+  zh: 现在，我们将使用`curl`命令获取托管在`http://127.0.0.1:8336`上的内容的Web信息：
 - en: '[PRE5]'
+  id: totrans-130
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE5]'
 - en: 'We can see the following output of the `curl` command against content hosted
     over the local system:'
+  id: totrans-131
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们可以看到针对本地系统托管内容的`curl`命令的以下输出：
 - en: '![](img/c5819f24-3c52-4041-a1de-fee2bb72d799.png)'
+  id: totrans-132
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/c5819f24-3c52-4041-a1de-fee2bb72d799.png)'
 - en: 'Additionally, we can use the `curl` command extract headers that an HTTP site
     sends to us. The following command stores the headers that an HTTP site send to
     us. This command write the received protocol headers to the specified file:'
+  id: totrans-133
   prefs: []
   type: TYPE_NORMAL
+  zh: 此外，我们可以使用`curl`命令提取HTTP站点发送给我们的标头。 以下命令存储HTTP站点发送给我们的标头。 此命令将接收到的协议标头写入指定的文件：
 - en: '[PRE6]'
+  id: totrans-134
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE6]'
 - en: 'The output of running the preceding command can be shown as follows:'
+  id: totrans-135
   prefs: []
   type: TYPE_NORMAL
+  zh: 运行上述命令的输出如下所示：
 - en: '![](img/e699bf09-6f57-4d72-8fc1-92282cbb605f.png)'
+  id: totrans-136
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/e699bf09-6f57-4d72-8fc1-92282cbb605f.png)'
 - en: Installing PowerDNS
+  id: totrans-137
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 安装PowerDNS
 - en: '**PowerDNS** is a premier supplier of open source DNS software, services, and
     support. PowerDNS is a DNS server, written in C++ and licensed under the GNU **General
     Public License** (**GPL**). It runs on most Unix derivatives. It features a large
     number of different backends ranging from simple BIND to relational databases.
     We  will use the following command to install PowerDNS on the system:'
+  id: totrans-138
   prefs: []
   type: TYPE_NORMAL
+  zh: '**PowerDNS**是开源DNS软件、服务和支持的首要供应商。 PowerDNS是一个用C++编写的DNS服务器，并在GNU **通用公共许可证**（**GPL**）下许可。
+    它运行在大多数Unix派生系统上。 它具有许多不同的后端，从简单的BIND到关系数据库。 我们将使用以下命令在系统上安装PowerDNS：'
 - en: '[PRE7]'
+  id: totrans-139
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE7]'
 - en: 'The output of running the preceding command can be shown as follows:'
+  id: totrans-140
   prefs: []
   type: TYPE_NORMAL
+  zh: 运行上述命令的输出如下：
 - en: '![](img/0293422a-e9d5-4a1f-93ea-0f370ea2e8bb.png)'
+  id: totrans-141
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/0293422a-e9d5-4a1f-93ea-0f370ea2e8bb.png)'
 - en: '**Configuration**: We need to configure PowerDNS in our local environment. 
     We will order PowerDNS to send requests for `.bit`, `.eth`, and `.p2p` domain
     names to port `5333`.'
+  id: totrans-142
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**配置**：我们需要在本地环境中配置PowerDNS。 我们将命令PowerDNS将对`.bit`、`.eth`和`.p2p`域名的请求发送到端口`5333`。'
 - en: 'This configuration is specified in the `/etc/powerdns/recursor.conf` file:'
+  id: totrans-143
   prefs: []
   type: TYPE_NORMAL
+  zh: 此配置在`/etc/powerdns/recursor.conf`文件中指定：
 - en: '[PRE8]'
+  id: totrans-144
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE8]'
 - en: 'In the following screenshot, we can see the extraction of queried forward zone
     files:'
+  id: totrans-145
   prefs: []
   type: TYPE_NORMAL
+  zh: 在以下截图中，我们可以看到查询的前向区域文件的提取：
 - en: '![](img/82ee5131-0262-4d6c-bccf-f0e5879f681c.png)'
+  id: totrans-146
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/82ee5131-0262-4d6c-bccf-f0e5879f681c.png)'
 - en: 'We can find the forward zone information hosted on `127.0.0.1:5333` in the
     following screenshot:'
+  id: totrans-147
   prefs: []
   type: TYPE_NORMAL
+  zh: 在以下截图中，我们可以找到托管在`127.0.0.1:5333`上的前向区域信息：
 - en: '![](img/9040f7dd-de44-4eda-a4a8-ba49244713a8.png)'
+  id: totrans-148
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/9040f7dd-de44-4eda-a4a8-ba49244713a8.png)'
 - en: 'Notice in particular our forward-zones declaration. Make sure you restart PowerDNS
     at this point using `sudo service pdns-recursor restart`. Then, confirm that PowerDNS
     can correctly resolve conventional domain names before we move on:'
+  id: totrans-149
   prefs: []
   type: TYPE_NORMAL
+  zh: 特别注意我们的前向区域声明。 在此时确保使用`sudo service pdns-recursor restart`重新启动PowerDNS。 然后，在我们继续之前，确认PowerDNS能够正确解析传统域名：
 - en: '**Verification: ** To verify the forward zone PowerDNS installation, we need
     to run the following command:'
+  id: totrans-150
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**验证：** 为了验证前向区域PowerDNS的安装，我们需要运行以下命令：'
 - en: '[PRE9]'
+  id: totrans-151
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE9]'
 - en: 'We will find the following output  with an IP address found for `packtpub.com`:'
+  id: totrans-152
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们将找到以下输出，其中包含`packtpub.com`的IP地址：
 - en: '![](img/c806aecb-fbac-4194-852c-d9d3596ff193.png)'
+  id: totrans-153
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/c806aecb-fbac-4194-852c-d9d3596ff193.png)'
 - en: Installing DNSChain
+  id: totrans-154
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 安装DNSChain
 - en: First, we will update `apt-get` and install some prerequisites. Note that while
     we install `npm` (that requires Node.js installation), `nodejs-legacy` is needed
     to be installed.
+  id: totrans-155
   prefs: []
   type: TYPE_NORMAL
+  zh: 首先，我们将更新`apt-get`并安装一些前提条件。请注意，尽管我们安装`npm`（需要Node.js安装），但需要安装`nodejs-legacy`。
 - en: '**Installation of dependencies**: In this step, we will install all the dependable
     scripts and commands:'
+  id: totrans-156
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**安装依赖项：** 在此步骤中，我们将安装所有可靠的脚本和命令：'
 - en: '[PRE10]'
+  id: totrans-157
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE10]'
 - en: '**Installation of DNSChain:** The installation of DNSChain can now be executed
     with the following command:'
+  id: totrans-158
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**安装DNSChain：** 现在可以通过以下命令执行DNSChain的安装：'
 - en: '[PRE11]'
+  id: totrans-159
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE11]'
 - en: 'In the following output, we can find the result includes the extraction of
     registry file `coffee-script-1.12.7.tgz`:'
+  id: totrans-160
   prefs: []
   type: TYPE_NORMAL
+  zh: 在下面的输出中，我们可以发现结果包括`coffee-script-1.12.7.tgz`注册表文件的提取：
 - en: '![](img/3274913a-9953-4666-b8a7-67ea4c7aadc5.png)'
+  id: totrans-161
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/3274913a-9953-4666-b8a7-67ea4c7aadc5.png)'
 - en: '**Configuration**: We need to configure DNSChain to bind it to port `5333`,
     but you can use any high port number as long as it matches the port number that
     PowerDNS is handing off requests to. This was specified earlier in `/etc/powerdns/recursor.conf`. Another
@@ -778,79 +1129,120 @@
     We''ll specify port `8000` for this, but you can use any high number port that''s
     open. DNSChain can be set up to be accessed by the web server, through port `8000`
     for example. For this example, write into `/home/ubuntu/.dnschain/dnschain.conf`:'
+  id: totrans-162
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**配置：** 我们需要配置DNSChain将其绑定到端口`5333`，但只要与PowerDNS交付请求的端口号匹配即可使用任何高端口号。这在`/etc/powerdns/recursor.conf`中早已指定。
+    DNSChain的另一个很棒的特性是我们可以通过HTTP公开查找结果。我们将为此指定端口`8000`，但您可以使用任何打开的高端口号。例如，DNSChain可以设置为通过端口`8000`通过Web服务器访问。以此为例，写入`/home/ubuntu/.dnschain/dnschain.conf`：'
 - en: '![](img/76331db6-c679-49be-a056-bb54ccd4a48e.png)'
+  id: totrans-163
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/76331db6-c679-49be-a056-bb54ccd4a48e.png)'
 - en: 'We need to make another `upstart` file for DNSChain, and write this file into `/etc/init/dnschain.conf`:'
+  id: totrans-164
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们需要为DNSChain制作另一个`upstart`文件，并将此文件写入`/etc/init/dnschain.conf`：
 - en: '![](img/063d6e31-b8a5-42d6-9c2d-776183c151c2.png)'
+  id: totrans-165
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/063d6e31-b8a5-42d6-9c2d-776183c151c2.png)'
 - en: We will now run `sudo initctl reload-configuration`, then restart the machine.
     Finally, let's test it by trying to resolve a `.bit` domain name.
+  id: totrans-166
   prefs: []
   type: TYPE_NORMAL
+  zh: 我们现在将运行`sudo initctl reload-configuration`，然后重新启动机器。最后，我们通过尝试解析`.bit`域名来进行测试。
 - en: You may have to wait until a lot of the blockchain is loaded before it works.
+  id: totrans-167
   prefs: []
   type: TYPE_NORMAL
+  zh: 你可能需要等待大量区块链加载完毕才能正常运行。
 - en: '**Verification**: Finally, we can verify the DNSChain by performing lookup
     for the `hello.bit` address. In the output result, we can find the result with
     the desired IP address of server `51.101.1.6`:'
+  id: totrans-168
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '**验证：** 最后，我们可以通过查找`hello.bit`地址来验证DNSChain。在输出结果中，我们可以找到所需服务器IP地址为`51.101.1.6`的结果：'
 - en: '[PRE12]'
+  id: totrans-169
   prefs: []
   type: TYPE_PRE
+  zh: '[PRE12]'
 - en: 'The following screenshot shows the output of running the preceding command:'
+  id: totrans-170
   prefs: []
   type: TYPE_NORMAL
+  zh: 以下屏幕截图显示了运行上述命令的输出：
 - en: '![](img/ec3d3bfd-bae4-439d-b772-c7711b5e48a2.png)'
+  id: totrans-171
   prefs: []
   type: TYPE_IMG
+  zh: '![](img/ec3d3bfd-bae4-439d-b772-c7711b5e48a2.png)'
 - en: Summary
+  id: totrans-172
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 总结
 - en: In this chapter, we learned about the DNS framework and its core components.
     We understood that any compromised DNS server can result in massive damage to
     infrastructure and how the blockchain can solve some of these critical challenges
     with its fundamental advantages.
+  id: totrans-173
   prefs: []
   type: TYPE_NORMAL
+  zh: 在本章中，我们了解了DNS框架及其核心组件。我们了解到，任何受损的DNS服务器都可能对基础架构造成巨大破坏，以及区块链如何利用其基本优势来解决其中一些关键挑战。
 - en: Questions
+  id: totrans-174
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 问题
 - en: 'The DNS is the backbone of the internet and also one of the most complex protocol
     frameworks. With every new attack vector, the DNS prepares itself to be stronger
     and more comprehensive. Readers can look up the following questions:'
+  id: totrans-175
   prefs: []
   type: TYPE_NORMAL
+  zh: DNS是互联网的支柱，也是最复杂的协议框架之一。随着每一种新的攻击向量，DNS都在准备更强大和更全面。读者可以查阅以下问题：
 - en: What is a DNS tunneling attack?
+  id: totrans-176
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 什么是DNS隧道攻击？
 - en: Can blockchain be used to deploy an entire DNS infrastructure and, if so, how?
+  id: totrans-177
   prefs:
   - PREF_OL
   type: TYPE_NORMAL
+  zh: 区块链可以用于部署整个DNS基础架构吗？如果可以，怎么使用？
 - en: Further reading
+  id: totrans-178
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 更多阅读
 - en: 'Read the following articles to find out more about DNS-OARC and ISC:'
+  id: totrans-179
   prefs: []
   type: TYPE_NORMAL
+  zh: 阅读以下文章，以了解更多关于DNS-OARC和ISC的信息：
 - en: '*Introduction to DNS-OARC* at [https://www.dns-oarc.net/](https://www.dns-oarc.net/).'
+  id: totrans-180
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '*DNS-OARC介绍*在[https://www.dns-oarc.net/](https://www.dns-oarc.net/)。'
 - en: '*ISC* at [http://www.isc.org](http://www.isc.org).'
+  id: totrans-181
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: '[ISC](http://www.isc.org)在[http://www.isc.org](http://www.isc.org)。'
