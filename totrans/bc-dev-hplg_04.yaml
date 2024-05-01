@@ -757,14 +757,17 @@
   id: totrans-110
   prefs: []
   type: TYPE_TB
+  zh: '| hf.EnrollmentID | (automatic) | 身份的注册ID |'
 - en: '| hf.Type  | id.type  | The type of the identity |'
   id: totrans-111
   prefs: []
   type: TYPE_TB
+  zh: '| hf.Type  | id.type  | 身份的类型 |'
 - en: '| hf.Affiliation  | id.affiliation  | The affiliation of the identity |'
   id: totrans-112
   prefs: []
   type: TYPE_TB
+  zh: '| hf.Affiliation  | id.affiliation  | 身份的从属关系 |'
 - en: 'If any of the previous attributes are needed in ecert, they must be first defined
     in the user registration command. For example, the following command registers
     `user1` with the attribute `hf.Affiliation=ImporterOrgMSP`, which will be copied
@@ -772,6 +775,7 @@
   id: totrans-113
   prefs: []
   type: TYPE_NORMAL
+  zh: 如果在ecert中需要任何先前的属性，则必须首先在用户注册命令中定义它们。例如，以下命令注册`user1`，其属性为`hf.Affiliation=ImporterOrgMSP`，该属性将默认复制到ecert中：
 - en: '[PRE20]'
   id: totrans-114
   prefs: []
@@ -782,6 +786,7 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 注册用户
 - en: 'Here, we will enroll the user and create the ecert. `enrollment.attrs` defines
     which attributes will be copied into the ecert from user registration. The suffix
     opt defines which attributes of those copied from registration are optional. If
@@ -791,6 +796,7 @@
   id: totrans-116
   prefs: []
   type: TYPE_NORMAL
+  zh: 在这里，我们将注册用户并创建ecert。`enrollment.attrs`定义了从用户注册中复制到ecert的属性。后缀opt定义了从注册中复制的这些属性中的哪些是可选的。如果一个或多个非可选属性在用户注册时未定义，则注册将失败。以下命令将注册一个带有属性`importer`的用户：
 - en: '[PRE21]'
   id: totrans-117
   prefs: []
@@ -801,12 +807,14 @@
   prefs:
   - PREF_H1
   type: TYPE_NORMAL
+  zh: 在链码中检索用户身份和属性
 - en: In this step, we will retrieve a user's identity during the execution of the
     chaincode. The ABAC functionality available to chaincode is provided by the **Client
     Identity Chaincode** (**CID**) library.
   id: totrans-119
   prefs: []
   type: TYPE_NORMAL
+  zh: 在此步骤中，我们将在执行链码期间检索用户的身份。链码可用的ABAC功能由**客户端身份链码**（**CID**）库提供。
 - en: Every transaction proposal submitted to the chaincode carries along with it
     the ecert of the invoker –the user submitting the transaction. The chaincode has
     access to the ecert through importing the CID library and invoking the library
@@ -815,38 +823,45 @@
   id: totrans-120
   prefs: []
   type: TYPE_NORMAL
+  zh: 提交给链码的每个交易建议都携带着发起者的ecert – 提交交易的用户。链码通过导入CID库并调用带有参数`ChaincodeStubInterface`的库函数来访问ecert，即在`Init`和`Invoke`方法中都收到的参数`stub`。
 - en: 'The chaincode can use the certificate to extract information about the invoker,
     including:'
   id: totrans-121
   prefs: []
   type: TYPE_NORMAL
+  zh: 链码可以使用证书来提取有关调用者的信息，包括：
 - en: The ID of the invoker
   id: totrans-122
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 调用者的ID
 - en: The unique ID of the **Membership Service Provider** (**MSP**) which issued
     the invoker certificate
   id: totrans-123
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 发出调用者证书的**成员服务提供商（MSP）**的唯一ID
 - en: The standard attributes of the certificate, such as its domain name, email,
     and so on
   id: totrans-124
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 证书的标准属性，如其域名、电子邮件等
 - en: The ecert attributes associated with the client identity, stored within the
     certificate
   id: totrans-125
   prefs:
   - PREF_UL
   type: TYPE_NORMAL
+  zh: 存储在证书中与客户端身份相关的ecert属性
 - en: 'The functions provided by the CID library are listed in the following snippet:'
   id: totrans-126
   prefs: []
   type: TYPE_NORMAL
+  zh: CID库提供的函数如下所示：
 - en: '[PRE22]'
   id: totrans-127
   prefs: []
@@ -863,6 +878,8 @@
   id: totrans-128
   prefs: []
   type: TYPE_NORMAL
+  zh: 在以下的代码块中，我们定义了一个名为`getTxCreatorInfo`的函数，该函数获取调用者的基本身份信息。首先，我们必须导入CID和x509库，如第3和第4行所示。第13行检索到唯一的MSPID，第19行获取了X509证书。然后在第24行，我们检索证书的`CommonName`，其中包含网络中Fabric
+    CA的唯一字符串。这两个属性由该函数返回，并在后续的访问控制验证中使用，如以下片段所示：
 - en: '[PRE23]'
   id: totrans-129
   prefs: []
