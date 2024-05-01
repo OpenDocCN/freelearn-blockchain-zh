@@ -1,0 +1,554 @@
+- en: Building a Consortium Blockchain
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Consortiums (an association, typically of several participants such as banks,
+    e-commerce sites, government entities, hospitals, and so on) can use blockchain technology
+    to solve many problems and make things faster and cheaper. Although they figure
+    out how blockchain can help them, an Ethereum implementation of blockchain doesn't
+    specifically fit them for all cases. Although there are other implementations
+    of blockchain (for example, Hyperledger) that are built specially for consortium,
+    as we learned Ethereum throughout the book, we will see how we can hack Ethereum
+    to build a consortium blockchain. Basically, we will be using parity to build
+    a consortium blockchain. Although there are other alternatives to parity, such
+    as J.P. Morgan's quorum, we will use parity as at the time of writing this book,
+    it has been in existence for some time, and many enterprises are already using
+    it, whereas other alternatives are yet to be used by any enterprises. But for
+    your requirements, parity may not be the best solution; therefore, investigate
+    all the others too before deciding which one to use.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we''ll cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Why is Ethereum unfit for consortium blockchain?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: What is parity node and what are its features?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: What is the Proof-of-Authority consensus protocol and what types of PoA are
+    supported by parity?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: How does the Aura consensus protocol work?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Downloading and installing parity
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building a consortium blockchain using parity
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: What is a consortium blockchain?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To understand what a consortium blockchain is, or, in other words, what kind
+    of blockchain implementation consortiums need, let''s check out an example. Banks
+    want to build a blockchain to make money transfers easier, faster, and cheaper.
+    In this case, here are the things they need:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Speed**: They need a blockchain network that can confirm transactions in
+    near-real time. Currently, the Ethereum blockchain network block time is 12 seconds,
+    and clients usually wait for a couple of minutes before confirming a transaction.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Permissioned**: They want the blockchain to be permissioned. Permissioning
+    itself means various different things. For example: permissioning can include
+    taking permission to join the network, it can include taking permission to to
+    be able create blocks, it can also be taking permission to be able to send specific
+    transactions and so on.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Security**: PoW isn''t secure enough for private networks as there is a limited
+    number of participants; therefore, there isn''t enough hash power produced to
+    make it secure. So, there is a need for a consensus protocol that can keep the
+    blockchain secure and immutable.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Privacy**: Although the network is private, there is still a need for privacy
+    in the network itself. There are two kinds of privacy:'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Identity privacy**: Identity privacy is the act of making the identity untraceable.
+    The solution we saw earlier to gain identity privacy was to use multiple Ethereum
+    account addresses. But if multiple Ethereum accounts are used, then smart contracts
+    will fail ownership validation as there is no way to know whether all of these
+    accounts actually belong to the same user.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Data privacy:** Sometimes, we don''t want the data to be visible to all the
+    nodes in the network, but to specific nodes only.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Overall, in this chapter, we will learn how to solve these issues in Ethereum.
+  prefs: []
+  type: TYPE_NORMAL
+- en: What is Proof-of-Authority consensus?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: PoA is a consensus mechanism for blockchain in which consensus is achieved by
+    referring to a list of validators (referred to as authorities when they are linked
+    to physical entities). Validators are a group of accounts/nodes that are allowed
+    to participate in the consensus; they validate the transactions and blocks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Unlike PoW or PoS, there is no mining mechanism involved. There are various
+    types of PoA protocols, and they vary depending on how they actually work. Hyperledger
+    and Ripple are based on PoA. Hyperledger is based on PBFT, whereas ripple uses
+    an iterative process.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Introduction to parity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Parity is an Ethereum node written from the ground up for correctness/verifiability,
+    modularization, low footprint, and high performance. It is written in Rust programming
+    language, a hybrid imperative/OO/functional language with an emphasis on efficiency.
+    It is professionally developed by Parity Technologies. At the time of writing
+    this book, the latest version of parity is 1.7.0, and we will be using this version.
+    We will learn as much as is required to build a consortium blockchain. To learn
+    parity in depth, you can refer to the official documentation.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It has a lot more features than go-ethereum, such as web3 dapp browser, much
+    more advanced account management, and so on. But what makes it special is that
+    it supports **Proof-of-Authority** (**PoA**) along with PoW. Parity currently
+    su+-pports Aura and Tendermint PoA protocols. In future, it may support some more
+    PoA protocols. Currently, parity recommends the use of Aura instead of Tendermint
+    as Tendermint is still under development.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Aura is a much better solution for permissioned blockchains than PoW as it has
+    better block time and provides much better security in private networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Understanding how Aura works
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's see at a high level how Aura works. Aura requires the same list of validators
+    to be specified in each node. This is a list of account addresses that participate
+    in the consensus. A node may or may not be a validating node. Even a validating
+    node needs to have this list so that it can itself reach a consensus.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This list can either be provided as a static list in the genesis file if the
+    list of validators is going to remain the same forever, or be provided in a smart
+    contract so that it can be dynamically updated and every node knows about it.
+    In a smart contract, you can configure various strategies regarding who can add
+    new validators.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The block time is configurable in the genesis file. It's up to you to decide
+    the block time. In private networks, a block time as low as three seconds works
+    well. In Aura, after every three seconds, one of the validators is selected and
+    this validator is responsible for creating, verifying, signing, and broadcasting
+    the block. We don't need to understand much about the actual selection algorithm
+    as it won't impact our dapp development. But this is the formula to calculate
+    the next validator, `(UNIX_TIMESTAMP / BLOCK_TIME % NUMBER_OF_TOTAL_VALIDATORS)`.
+    The selection algorithm is smart enough to give equal chances to everyone When
+    other nodes receive a block, they check whether it's from the next valid validator
+    or not; and if not, they reject it. Unlike PoW, when a validator creates a block,
+    it is not rewarded with ether. In Aura, it's up to us to decide whether to generate
+    empty blocks or not when there are no transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You must be wondering what will happen if the next validator node, due to some
+    reason, fails to create and broadcast the next block. To understand this, let''s
+    take an example: suppose A is the validator for the next block, which is the fifth
+    block, and B is the validator for the sixth block. Assume block time is five seconds.
+    If A fails to broadcast a block, then after five seconds when B''s turn arrives,
+    it will broadcast a block. So nothing serious happens actually. The block timestamp
+    will reveal these details.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You might also be wondering whether there are chances of networks ending up
+    with multiple different blockchains as it happens in PoW when two miners mine
+    at the same time. Yes, there are many ways this can happen. Let''s take an example
+    and understand one way in which this can happen and how the network resolves it
+    automatically. Suppose there are five validators: A, B, C, D, and E. Block time
+    is five seconds. Suppose A is selected first and it broadcasts a block, but the
+    block doesn''t reach D and E due to some reason; so they will think A didn''t
+    broadcast the block. Now suppose the selection algorithm selects B to generate
+    the next block; then B will generate the next block on top of A''s block and broadcast
+    to all the nodes. D and E will reject it because the previous block hash will
+    not match. Due to this, D and E will form a different chain, and A, B, and C will
+    form a different chain. A, B, and C will reject blocks from D and E, and D and
+    E will reject blocks from A, B, and C. This issue is resolved among the nodes
+    as the blockchain that is with A, B and C is more accurate than the blockchain
+    with D and E; therefore D and E will replace their version of blockchain with
+    the blockchain held with A, B, and C. Both these versions of the blockchain will
+    have different accuracy scores, and the score of the first blockchain will be
+    more than the second one. When B broadcasts its block, it will also provide the
+    score of its blockchain, and as its score is higher, D and E will have replaced
+    their blockchain with B''s blockchain. This is how conflicts are resolved. The
+    chain score of blockchain is calculated using `(U128_max * BLOCK_NUMBER_OF_LATEST_BLOCK
+    - (UNIX_TIMESTAMP_OF_LATEST_BLOCK / BLOCK_TIME))`. Chains are scored first by
+    their length (the more blocks, the better). For chains of equal length, the chain
+    whose last block is older is chosen.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can learn more about Aura in depth at [https://github.com/paritytech/parity/wiki/Aura](https://github.com/paritytech/parity/wiki/Aura).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Getting parity running
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Parity requires Rust version 1.16.0 to build. It is recommended to install Rust
+    through rustup.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing rust
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: If you don't already have rustup, you can install it like this.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Linux
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'On Linux-based operating systems, run this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: Parity also requires the `gcc`, `g++`, `libssl-dev`/`openssl`, `libudev-dev`,
+    and `pkg-config` packages to be installed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: OS X
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'On OS X, run this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: Parity also requires clang. Clang comes with Xcode command-line tools or can
+    be installed with Homebrew.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Windows
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Make sure you have Visual Studio 2015 with C++ support installed. Next, download
+    and run the rustup installer from [https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe](https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe),
+    start "VS2015 x64 Native Tools Command Prompt", and use the following command
+    to install and set up the `msvc` toolchain:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: Downloading, installing and running parity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now, once you have rust installed on your operating system, you can run this
+    simple one-line command to install parity:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'To check whether parity is installed or not, run this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: If parity is installed successfully, then you will see a list of sub-commands
+    and options.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a private network
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now it's time to set up our consortium blockchain. We will create two validating
+    nodes connected to each other using Aura for consensus. We will set up both on
+    the same computer.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating accounts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: First, open two shell windows. The first one is for the first validator and
+    the second one is for the second validator. The first node will contain two accounts
+    and the second node will contain one account. The second account of first node
+    will be assigned to some initial ether so that the network will have some ether.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the first shell, run this command twice:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: Both the times it will ask you to enter a password. For now just put the same
+    password for both accounts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the second shell, run this command once only:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: Just as before, enter the password.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Creating a specification file
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Nodes of every network share a common specification file. This file tells the
+    node about the genesis block, who the validators are, and so on. We will create
+    a smart contract, which will contain the validators list. There are two types
+    of validator contracts: non-reporting contract and reporting contract. We have
+    to provide only one.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The difference is that non-reporting contract only returns a list of validators,
+    whereas reporting contract can take action for benign (benign misbehaviour may
+    be simply not receiving a block from a designated validator) and malicious misbehavior
+    (malicious misbehaviour would be releasing two different blocks for the same step).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The non-reporting contract should have at least this interface:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: The `getValidators` function will be called on every block to determine the
+    current list. The switching rules are then determined by the contract implementing
+    that method.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'A reporting contract should have at least this interface:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: When there is benign or malicious behavior, the consensus engine calls the `reportBenign`
+    and `reportMalicious` functions respectively.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s create a reporting contract. Here is a basic example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: This code is self-explanatory. Make sure that in the validators array replaces
+    the addresses with the first address of validator 1 and validator 2 nodes as we
+    will be using those addresses for validation. Now compile the preceding contract
+    using whatever you feel comfortable with.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now let''s create the specification file. Create a file named `spec.json`,
+    and place this code in it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is how the preceding file works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `engine` property is used to set the consensus protocol and the protocol-specific
+    parameters. Here, the engine is `authorityRound`, which is aura. `gasLimitBoundDivisor`
+    determines gas limit adjustment and has the usual `ethereum` value. In the `validators`
+    property, we have a `contract` property, which is the address of the reporting
+    contract. `stepDuration` is the block time in seconds.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In the `params` property, only the network ID is what matters; others are standard
+    for all chains.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`genesis` has some standard values for the `authorityRound` consensus.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`accounts` is used to list the initial accounts and contracts that exist in
+    the network. The first four are standard Ethereum built-in contracts; these should
+    be included to use the Solidity contract writing language. The fifth one is the
+    reporting contract. Make sure you replace the byte code with your byte code in
+    the `constructor` param. The last account is the second account we generated in
+    the validator 1 shell. It is used to supply ether to the network. Replace this
+    address with yours.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Before we proceed further, create another file called as `node.pwds`. In that
+    file, place the password of the accounts you created. This file will be used by
+    the validators to unlock the accounts to sign the blocks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Launching nodes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now we have all basic requirements ready to launch our validating nodes. In
+    the first shell, run this command to launch the first validating node:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is how the preceding command works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`--chain` is used to specify the path of the specification file.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-d` is used to specify the data directory.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`--force-sealing` ensures that blocks are produced even if there are no transactions.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`--engine-signer` is used to specify the address using which the node will
+    sign blocks, that is, the address of the validator. If malicious authorities are
+    possible, then `--force-sealing` is advised; this will ensure that the correct
+    chain is the longest. Make sure you change the address to the one you generated,
+    that is, the first address generated on this shell.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`--password` is used to specify the password file.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'In the second shell, run this command to launch second validating node:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, make sure you change the address to the one you generated that is, the
+    address generated on this shell.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Connecting nodes
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now finally, we need to connect both the nodes. Open a new shell window and
+    run this command to find the URL to connect to the second node:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You will get this sort of output:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now run this command by replacing the encode URL and IP address in the `enode`
+    URL to 127.0.0.1:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You should get this output:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'The nodes should indicate 0/1/25 peers in the console, which means they are
+    connected to each other. Here is a reference image:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/image_09_001.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Permissioning and privacy
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'We saw how parity solves the issues of speed and security. Parity currently
+    doesn''t provide anything specific to permissioning and privacy. Let''s see how
+    to achieve this in parity:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '**Permissioning**: A parity network can implement permissioning to decide who
+    can join and who cannot by configuring each node''s server to allow connections
+    from only specific IP addresses. Even if IP addresses aren''t blocked, to connect
+    to a node in the network, a new node will needs an enode address, which we saw
+    earlier, and that''s not guessable. So by default, there is a basic protection.
+    But there is nothing to enforce this. Every node in the network has to take care
+    about this at its end. Similar permissioning for who can create blocks and who
+    cannot can be done through a smart contract. Finally what kind of transactions
+    a node can send is not configurable at the moment.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Identity privacy**: There is a technique to achieve identity privacy by still
+    enabling ownership checks. At the time of setting ownership, the owner needs to
+    specify a public key of an un-deterministic asymmetric cryptography. Whenever
+    it wants ownership checks to pass, it will provide an encrypted form of common
+    text, which will be decrypted by the contract and see whether the account is owner
+    or not. The contract should make sure the same encrypted data is not checked twice.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: '**Data privacy**: If you are using blockchain to just store data, you can use
+    symmetric encryption to encrypt data and store and share the key with people who
+    you want to see the data. But operations on encrypted data is not possible. And
+    if you need operations on input data and still gain privacy, then the parties
+    have to set up a different blockchain network completely.'
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Overall in this chapter, we learned how to use parity and how aura works and
+    some techniques to achieve permissioning and privacy in parity. Now you must be
+    confident enough to at least build a proof-of-concept for a consortium using blockchain.
+    Now you can go ahead and explore other solutions, such as Hyperledger 1.0 and
+    quorum for building consortium blockchains. Currently, Ethereum is officially
+    working on making more suitable for consortiums; therefore, keep a close eye on
+    various blockchain information sources to learn about anything new that comes
+    in the market.
+  prefs: []
+  type: TYPE_NORMAL

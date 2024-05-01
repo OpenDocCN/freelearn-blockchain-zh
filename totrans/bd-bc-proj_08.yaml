@@ -1,0 +1,2046 @@
+- en: Building Enterprise Level Smart Contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Until now, we were using browser Solidity to write and compile Solidity code.
+    And we were testing our contracts using web3.js. We could have also used the Solidity
+    online IDE to test them. This seemed alright as we were only compiling a single
+    small contract and it had very few imports. As you start building large and complicated
+    smart contracts, you will start facing problems with compiling and testing using
+    the current procedure. In this chapter, we will learn about truffle, which makes
+    it easy to build enterprise-level DApps, by building an altcoin. All the crypto-currencies
+    other than bitcoin are called altcoins.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we''ll cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: What the `ethereumjs-testrpc` node is and how to use it?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: What are topics of events?
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Working with contracts using the `truffle-contract` package.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Installing truffle and exploring the truffle command-line tool and configuration
+    file
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Compiling, deploying, and testing Solidity code using truffle
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Package management via NPM and EthPM
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using the truffle console and writing external scripts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Building clients for the DApp using truffle
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Exploring ethereumjs-testrpc
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: '`ethereumjs-testrpc` is a Node.js-based Ethereum node used for testing and
+    development. It simulates full-node behavior and makes the development of Ethereum
+    applications much faster. It also includes all popular RPC functions and features
+    (such as events) and can be run deterministically to make development a breeze.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: It's written in JavaScript and is distributed as an `npm` package. At the time
+    of writing this, the latest version of `ethereumjs-testrpc` is 3.0.3 and requires
+    at least Node.js version 6.9.1 to run properly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It holds everything in memory; therefore, whenever the node is restarted, it
+    loses the previous state.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installation and usage
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are three ways to simulate an Ethereum node using `ethereumjs-testrpc`.
+    Each of these ways has its own use cases. Let's explore them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The testrpc command-line application
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The `testrpc` command can be used to simulate an Ethereum node. To install
+    this command-line app, you need to install `ethereumjs-testrpc` globally:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here are the various options that can be provided:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`-a` or `--accounts`: This specifies the number of accounts to be generated
+    at startup.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-b` or `--blocktime`: This specifies the blocktime in seconds for automatic
+    mining. The default is 0, and there''s no auto-mining.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-d` or `--deterministic`: Whenever the node is run, it will generate 10 deterministic
+    addresses; that is, when you provide this flag, the same set of addresses are
+    generated every time. This option can be used to generate deterministic addresses
+    based on a predefined mnemonic as well.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-n` or `--secure`: Locks the available accounts by default. When this option
+    is used without the `--unlock` option, the HD wallet will not be created.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-m` or `--mnemonic`: Uses a specific HD wallet mnemonic to generate initial
+    addresses.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-p` or `--port`: The port number to listen on. Defaults to 8545.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-h` or `--hostname`: The hostname to listen on. Defaults to Node''s `server.listen()`
+    default.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-s` or `--seed`: The arbitrary data to generate the HD wallet mnemonic to
+    be used.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-g` or `--gasPrice`: Uses a custom gas price (defaults to 1). If the gas price
+    is not provided while sending the transaction to the node, then this gas price
+    is used.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-l` or `--gasLimit`: Uses a custom limit (defaults to 0x47E7C4). If the gas
+    limit is not provided while sending the transaction to node, then this gas limit
+    is used.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-f` or `--fork`: This is the fork from another currently running Ethereum
+    node at a given block. The input should be the HTTP location and port of the other
+    client; for example, `http://localhost:8545`. Optionally, you can specify the
+    block to fork from using an @ sign: `http://localhost:8545@1599200`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`--debug`: Outputs VM opcodes for debugging.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`--account`: This option is used to import accounts. It specifies `--account=...`
+    any number of times, passing arbitrary private keys and their associated balances
+    to generate initial addresses. An `testrpc --account="privatekey,balance" [--account="privatekey,balance"]` an
+    HD wallet will not be created for you when using `--account`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`-u` or `--unlock`: Specifies `--unlock ...` any number of times, passing either
+    an address or an account index to unlock specific accounts. When used in conjunction
+    with `--secure`, `--unlock` will override the locked state of the specified accounts:
+    `testrpc --secure --unlock "0x1234..." --unlock "0xabcd..."`. You can also specify
+    a number, unlocking accounts by their index: `testrpc --secure -u 0 -u 1`. This
+    feature can also be used to impersonate accounts and unlock addresses you wouldn''t
+    otherwise have access to. When used with the `--fork` feature, you can use the
+    `testrpc` to make transactions as any address on the blockchain, which is very
+    useful in testing and dynamic analysis.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`--networkId`: Used to specify a network ID that this node is part of.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Note that private keys are 64 characters long and must be input as a 0x-prefixed
+    hex string. The balance can either be input as an integer or a 0x-prefixed hex
+    value specifying the amount of wei in that account.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using ethereumjs-testrpc as a web3 provider or as an HTTP server
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'You can use `ethereumjs-testrpc` as a `web3` provider like this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can use `ethereumjs-testrpc` as a general HTTP server like this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Both `provider()` and `server()` take a single object that allows you to specify
+    the behavior of the `ethereumjs-testrpc`. This parameter is optional. The available
+    options are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`accounts`: Value is an array of objects. Each object should have a balance
+    key with a hexadecimal value. The secretKey key can also be specified, which represents
+    the account''s private key. If there''s no secretKey, the address is autogenerated
+    with the given balance. If specified, the key is used to determine the account''s
+    address.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`debug`: Outputs VM opcodes for debugging.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`logger`: Value is an object that implements a `log()` function.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`mnemonic`: Uses a specific HD wallet mnemonic to generate initial addresses.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`port`: The port number to listen on when running as a server.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`seed`: Arbitrary data to generate the HD wallet mnemonic to be used.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`total_accounts`: The number of accounts to generate at start up.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`fork`: The same as the preceding `--fork` option.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`network_id`: The same as the `--networkId` option. Used to specify a network
+    ID that this node is part of.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`time`: The date that the first block should start. Use this feature along
+    with the `evm_increaseTime` method to test `time-dependent` code.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`locked`: Specifies whether or not accounts are locked by default.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`unlocked_accounts`: An array of addresses or address indexes specifying which
+    accounts should be unlocked.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Available RPC methods
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Here is the list of RPC methods made available with `ethereumjs-testrpc`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`eth_accounts`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_blockNumber`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_call`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_coinbase`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_compileSolidity`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_estimateGas`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_gasPrice`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getBalance`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getBlockByNumber`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getBlockByHash`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getBlockTransactionCountByHash`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getBlockTransactionCountByNumber`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getCode (only supports block number "latest")`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getCompilers`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getFilterChanges`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getFilterLogs`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getLogs`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getStorageAt`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getTransactionByHash`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getTransactionByBlockHashAndIndex`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getTransactionByBlockNumberAndIndex`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getTransactionCount`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_getTransactionReceipt`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_hashrate`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_mining`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_newBlockFilter`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_newFilter (includes log/event filters)`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_sendTransaction`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_sendRawTransaction`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_sign`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_syncing`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`eth_uninstallFilter`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`net_listening`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`net_peerCount`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`net_version`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`miner_start`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`miner_stop`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`rpc_modules`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`web3_clientVersion`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`web3_sha3`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'There are also special nonstandard methods that aren''t included within the
+    original RPC specification:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`evm_snapshot`: Snapshots the state of the blockchain at the current block.
+    Takes no parameters. Returns the integer ID of the snapshot created.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`evm_revert`: Reverts the state of the blockchain to a previous snapshot. Takes
+    a single parameter, which is the snapshot ID to revert to. If no snapshot ID is
+    passed, it will revert to the latest snapshot. Returns true.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`evm_increaseTime`: Jumps forward in time. Takes one parameter, which is the
+    amount of time to increase in seconds. Returns the total time adjustment in seconds.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`evm_mine`: Forces a block to be mined. Takes no parameters. Mines a block
+    independent of whether or not mining is started or stopped.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: What are event topics?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Topics are values used for indexing events. You cannot search for events without
+    topics. Whenever an event is invoked, a default topic is generated, which is considered
+    the first topic of the event. There can be up to four topics for an event. Topics
+    are always generated in the same order. You can search for an event using one
+    or more of its topics.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The first topic is the signature of the event. The rest of the three topics
+    are the values of indexed parameters. If the index parameter is `string`, `bytes`,
+    or `array`, then the keccak-256 hash of it is the topic instead.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s take an example to understand topics. Suppose there is an event of this
+    form:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here, these four topics are generated. They are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`0xb62a11697c0f56e93f3957c088d492b505b9edd7fb6e7872a93b41cdb2020644`: This
+    is the first topic. It is generated using `web3.sha3("ping(string,int256,uint256,string,int256)")`.
+    Here, you can see that all types are of a canonical form.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`0x30ee7c926ebaf578d95b278d78bc0cde445887b0638870a26dcab901ba21d3f2`: This
+    is the second topic. It is generated using `web3.sha3("Random String")`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The third and fourth topics are `0x000000000000000000000000000000000000000000000000000000000000000c`
+    and `0x0000000000000000000000000000000000000000000000000000000000000017`, respectively,
+    that is, hexadecimal representation of the values . They are calculated using
+    `EthJS.Util.bufferToHex(EthJS.Util.setLengthLeft(12, 32))` and `EthJS.Util.bufferToHex(EthJS.Util.setLengthLeft(23,
+    32))`, respectively.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Internally, your Ethereum node will build indexes using topics so that you can
+    easily find events based on signatures and indexed values.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Suppose you want to get event calls of the preceding event, where the first
+    argument is `Random String` and the third argument is either `23` or `78`; then,
+    you can find them using `web3.eth.getFilter` this way:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: So here, we are asking the node to return all events from the blockchain that
+    have been fired by the `0x853cdcb4af7a6995808308b08bb78a74de1ef899` contract address,
+    whose first topic is `0xb62a11697c0f56e93f3957c088d492b505b9edd7fb6e7872a93b41cdb2020644`,
+    the second topic is `0x30ee7c926ebaf578d95b278d78bc0cde445887b0638870a26dcab901ba21d3f2`,
+    and the third topic is either `0x0000000000000000000000000000000000000000000000000000000000000017`
+    or `0x000000000000000000000000000000000000000000000000000000000000004e`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the preceding code, note the order of the `topics` array values. The order
+    is important.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Getting started with truffle-contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: It is important to learn `truffle-contract` before learning truffle because
+    `truffle-contract` is tightly integrated into truffle. Truffle tests, code to
+    interact with contracts in truffle, deployment code, and so on are written using
+    `truffle-contract`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The `truffle-contract` API is a JavaScript and Node.js library, which makes
+    it easy to work with ethereum smart contracts. Until now, we have been using web3.js
+    to deploy and call smart contracts functions, which is fine, but `truffle-contract`
+    aims to make it even easier to work with ethereum smart contracts. Here are some
+    features of `truffle-contract` that make it a better choice then web3.js in order
+    to work with smart contracts:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Synchronized transactions for better control flow (that is, transactions won't
+    finish until you're guaranteed they've been mined).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Promise-based API. No more callback hell. Works well with ES6 and async/await.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Default values for transactions, such as from `address` or `gas`.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Returning logs, transaction receipt, and transaction hash of every synchronized
+    transaction.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Before we get into `truffle-contract`, you need to know that it doesn't allow
+    us to sign transactions using accounts stored outside of the ethereum node; that
+    is, it doesn't have anything similar to `sendRawTransaction`. The `truffle-contract`
+    API assumes that every user of your DApp has their own ethereum node running and
+    they have their accounts stored in that node. Actually this is how DApps should
+    work because if every DApp's client starts letting users create and manage accounts,
+    then it will be a concern for users to manage so many accounts and painful for
+    developers to develop a wallet manager every time for every client they build.
+    Now, the question is how will clients know where the user has stored the accounts
+    and in what format? So, for portability reasons, it's recommended that you assume
+    that users have their accounts stored in their personal node, and to manage the
+    account, they use something like the ethereum Wallet app. As accounts stored in
+    the Ethereum node are signed by the ethereum node itself, there is no need for
+    `sendRawTransaction` anymore. Every user needs to have their own node and cannot
+    share a node because when an account is unlocked, it will be open for anyone to
+    use it, which will enable users to steal other's ether and make transactions from
+    others' accounts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you are using an app that requires you to host your own node and manage accounts
+    in it, then make sure you don't allow everyone to make JSON-RPC calls to that
+    node; instead, only local apps should be able to make calls. Also, make sure that
+    you don't keep the accounts unlocked for very long and lock them as soon as you
+    don't need the account.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If your applications require the functionality of creating and signing raw transactions,
+    then you can use `truffle-contract` just to develop and test smart contracts,
+    and in your application, you can interact with contracts just like we were doing
+    earlier.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing and importing truffle-contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: At the time of writing this, the latest version of the `truffle-contract` API
+    is 1.1.10\. Before importing `truffle-contract`, you need to first import web3.js
+    as you will need to create a provider to work with the `truffle-contract` APIs
+    so that `truffle-contract` will internally use the provider to make JSON-RPC calls.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To install `truffle-contract` in the Node.js app, you need to simply run this
+    in your app directory:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'And then use this code to import it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: To use `truffle-contract` in a browser, you can find the browser distribution
+    inside the dist directory in the [https://github.com/trufflesuite/truffle-contract](https://github.com/trufflesuite/truffle-contract)
+    repository.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In HTML, you can enqueue it this way:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: Now you will have a `TruffleContract` global variable available.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Setting up a testing environment
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Before we start learning about `truffle-contract` APIs, we need to set up a
+    testing environment, which will help us test our code while learning.
+  prefs: []
+  type: TYPE_NORMAL
+- en: First of all, run the `ethereumjs-testrpc` node representing network ID 10 by
+    just running the `testrpc --networkId 10` command. We have randomly chosen network
+    ID 10 for development purposes, but you are free to choose any other network ID.
+    Just make sure it's not 1 as mainnet is always used in live apps and not for development
+    and testing purposes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Then, create an HTML file and place this code in it:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: Download `web3.min.js` and `truffle-contract.min.js`. You can find the `truffle-contract`
+    browser build at [https://github.com/trufflesuite/truffle-contract/tree/master/dist](https://github.com/trufflesuite/truffle-contract/tree/master/dist).
+  prefs: []
+  type: TYPE_NORMAL
+- en: The truffle-contract API
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now let''s explore `truffle-contract` APIs. Basically, `truffle-contract` has
+    two APIs, that is, the contract abstraction API and the contract instance API.
+    A contract abstraction API represents various kinds of information about the contract
+    (or a library), such: as its ABI; unlinked byte code; if the contract is already
+    deployed, then its address in various ethereum networks; addresses of the libraries
+    it depends on for various ethereum networks if deployed; and events of the contract.
+    The abstraction API is a set of functions that exist for all contract abstractions.
+    A contract instance represents a deployed contract in a specific network. The
+    instance API is the API available to contract instances. It is created dynamically
+    based on functions available in your `Solidity` source file. A contract instance
+    for a specific contract is created from a contract abstraction that represents
+    the same contract.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The contract abstraction API
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The contract abstraction API is something that makes `truffle-contract` very
+    special compared to web3.js. Here is why it''s special:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: It will automatically fetch default values, such as library addresses, contract
+    addresses, and so on, depending on which network it's connected to; therefore,
+    you don't have to edit the source code every time you change the network.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You may choose to listen to certain events in certain networks only.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: It makes it easy to link libraries to contract's byte code at runtime. There
+    are several other benefits you will find out once you have explored how to use
+    the API.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Before we get into how to create a contract abstraction and its methods, let''s
+    write a sample contract, which the contract abstraction will represent. Here is
+    the sample contract:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: This contract converts `uint` into `bytes32` and `bytes32` into `uint` using
+    the `StringLib` library. `StringLib` is available at the `0xcca8353a18e7ab7b3d094ee1f9ddc91bdf2ca6a4`
+    address on the main network, but on other networks, we need to deploy it to test
+    the contract. Before you proceed further, compile it using browser Solidity, as
+    you will need the ABI and byte code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now let''s create a contract abstraction representing the `Sample` contract
+    and the `StringLib` library. Here is the code for this. Place it in the `HTML`
+    file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: At first, we create a provider. Using this provider, `truffle-contract` will
+    communicate with the node.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we create a contract abstraction for the `Sample` contract. To create
+    a contract abstraction, we use the `TruffleContract` function. This function takes
+    an object, which contains various kinds of information about the contract. This
+    object can be termed as an artifacts object. The `abi` and `unlinked_binary` properties
+    are compulsory. The other properties of the object are optional. The `abi` property
+    points to the ABI of the contract, whereas the `unlinked_binary` property points
+    to the unlinked binary code of the contract.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we have a property network that indicates various kinds of information
+    about the contract in various networks. Here, we are saying that in network ID
+    1, the `StringLib` dependency is deployed at the `0xcca8353a18e7ab7b3d094ee1f9ddc91bdf2ca6a4`
+    address so that at the time of deploying the `Sample` contract in network 1, it
+    will link it automatically. Under a network object, we can also put an `address`
+    property, indicating that the contract is already deployed to this network and
+    this is the contract address. We also have an `events` objects in the `networks`
+    object, which specifies the events of the contract we are interested in catching.
+    The keys of the `events` object are topics of events and the `values` are the
+    ABI of events.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we call the `setProvider` method of the `SampleContract` object by passing
+    a new provider instance. This is a way to pass the provider so that `truffle-contract`
+    can communicate with the node. The `truffle-contract` API doesn't provide a way
+    to set the provider globally; instead, you need to set a provider for every contract
+    abstraction. This is a feature that lets us connect and work on multiple networks
+    at once with ease.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we call the `detectNetwork` method of the `SampleContract` object. This
+    is the way to set the network ID that the contract abstraction is currently representing;
+    that is, during all the operations on the contract abstraction, the values mapped
+    to this network ID are used. This method will automatically detect which network
+    ID our node is connected to and will set it automatically. If you want to manually
+    set the network ID or change it at runtime, then you can use `SampleContract.setNetwork(network_id)`.
+    If you change the network ID, then make sure that the provider is also pointing
+    to the node of the same network since `truffle-contract` won't be able to map
+    the network ID with correct links, addresses, and events otherwise.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we set default values for transactions made for `SampleContract`. This
+    method gets and, optionally, sets transaction defaults. If called without any
+    parameters, it will simply return an object representing the current defaults.
+    If an object is passed, this will set new defaults.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: We did the same for the `StringLib` library in order to create a contract abstraction
+    for it.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Creating contract instances
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A contract instance represents a deployed contract in a particular network.
+    Using a contract abstraction instance, we need to create a contract instance.
+    There are three methods to create a contract instance:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`SampleContract.new([arg1, arg2, ...], [tx params])`: This function takes whatever
+    constructor parameters your contract requires and deploys a new instance of the
+    contract to the network to which the contract abstraction is set to use. There''s
+    an optional last argument, which you can use to pass transaction parameters, including
+    the transaction from address, gas limit, and gas price. This function returns
+    a promise that resolves into a new instance of the contract abstraction at the
+    newly deployed address when the transaction is mined. This method doesn''t make
+    any changes to the artifacts object the contract abstraction represents. Before
+    using this method, make sure that it can find the libraries'' addresses that the
+    byte code is dependent on for the network it''s set to use.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`SampleContract.at(address)`: This function creates a new instance of the contract
+    abstraction representing the contract at the passed-in address. It returns a "thenable"
+    object (not yet an actual promise for backward compatibility). It resolves to
+    a contract abstraction instance after ensuring that the code exists at the specified
+    address in the network it''s set to use.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`SampleContract.deployed()`: This is just like `at()`, but the address is retrieved
+    from the artifacts object. `Like at()`, `deployed()` is tenable and will resolve
+    to a contract instance representing the deployed contract after ensuring that
+    the code exists at that location and that the address exists on the network that
+    the contract abstraction is set to use.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Let''s deploy and get a contract instance of the `Sample` contract. In `network
+    ID 10`, we need to use `new()` to deploy the `StringLib` library first and then
+    add the deployed address of the `StringLib` library to the `StringLib` abstraction,
+    link the `StringLib` abstraction to the `SampleContract` abstraction, and then
+    deploy the `Sample` contract using `new()` to get an instance of the `Sample`
+    contract. But in `network ID 1`, we just need to deploy `SampleContract` and get
+    its instance, as we already have `StringLib` deployed there. Here is the code
+    to do all this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: At first, we detect the network ID. If the network ID is `10`, then we deploy
+    both the contract and library, and if the network ID is `10`, then we only deploy
+    the contract.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: In `network ID 10`, we deploy the `StringLib` contract and get the contract
+    instance of it.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we update the `StringLib` abstraction so that it knows about the address
+    of the contract in the current network it represents. The interface to update
+    the abstraction is similar to updating the artifacts object directly. If you are
+    connected to network ID 1, then it will override the `StringLib` address, which
+    is already set.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we link the deployed `StringLib` to the `SampleContract` abstraction.
+    Linking updates the links and copies the events of the library to the `SampleContract`
+    abstraction's current network it represents. Libraries can be linked multiple
+    times and will overwrite their previous linkage.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: We deploy `SampleContract` to the current network.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: We update the `SampleContract` abstraction to store the address of the contract
+    in the current network it's representing so that we can use `deployed()` to get
+    the instance later on.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: In the case of network ID 1, we just deploy `SampleContract` and that's it.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Now you can simply change the network that your node is connected to and restart
+    your app, and your app will behave accordingly. So for example, on a developer's
+    machine, the app will be connected to a development network and on a production
+    server, it will be connected to the main network. Obviously, you may not want
+    to deploy the contracts every time the preceding file is run, so you can actually
+    update the artifacts objects once the contracts are deployed and in the code you
+    can check whether the contract is deployed or not. If not deployed, only then
+    should you deploy it. Instead of updating the artifacts object manually, you can
+    store the artifacts in a DB or in a file and write code to update them automatically
+    after the contract deployment is done.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: The contract instance API
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Each contract instance is different based on the source Solidity contract,
+    and the API is created dynamically. Here are the various the APIs of a contract
+    instance:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`allEvents`: This is a function of a contract instance that takes a callback
+    that is invoked whenever an event is fired by the contract matching the event
+    signature under the current network ID in the contract artifacts object. You can
+    also use `event name-specific` functions to catch specific events instead of all
+    of them. In the preceding contract, to catch ping events, you can use `SampleContract_Instance.ping(function(e,
+    r){})`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`send`: This function is used to send ether to the contract. It takes two arguments;
+    that is, the first argument is the amount of wei to transfer and the second argument
+    is an optional object that can used to set the `from` of the transaction, which
+    indicates from which address the ether is being sent. This call returns a promise,
+    and the promise resolves to the details about the transaction when its mined.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: We can invoke any method of the contract using `SampleContract.functionName()`
+    or `SampleContract.functionName.call()`. The first one sends a transaction, whereas
+    the second one invokes the method on the EVM only, and the changes are not persistent.
+    Both of these methods return a promise. In the first case, the promise resolves
+    to the result of the transaction, that is, an object holding a transaction hash,
+    logs, and transaction receipt. And in the second case, it resolves to the return
+    value of the method `call`. Both the methods take function arguments and an optional
+    last argument, which is an object to set `from`, `gas`, `value`, and so on of
+    the transaction.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Introduction to truffle
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Truffle is a development environment (providing a command-line tool to compile,
+    deploy, test, and build), framework (providing various packages to make it easy
+    to write tests, deployment code, build clients, and so on) and asset pipeline
+    (publishing packages and using packages published by others) to build ethereum-based
+    DApps.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing truffle
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Truffle works on OS X, Linux, and Windows. Truffle requires you to have Node.js
+    version 5.0+ installed. At the time of writing this, the latest stable version
+    of truffle is 3.1.2, and we will be using this version. To install truffle, you
+    just need to run this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: Before we go ahead, make sure you are running testrpc with network ID 10\. The
+    reason is the same as the one discussed earlier.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Initializing truffle
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'First, you need to create a directory for your app. Name the directory altcoin.
+    Inside the altcoin directory, run this command to initialize your project:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Once completed, you''ll have a project structure with the following items:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'contracts: The directory where truffle expects to find `Solidity` contracts.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'migrations: The directory to place files that contain contract deployment code.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`test`: The location of test files to test your smart contracts.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`truffle.js`: The main truffle configuration file.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: By default, `truffle init` gives you a set of example contracts (`MetaCoin`
+    and `ConvertLib`), which act like a simple altcoin built on top of ethereum.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the source code of the MetaCoin smart contract just for reference:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`MetaCoin` assigns 10 k metacoins to the account address that deployed the
+    contract. 10 k is the total amount of bitcoins that exists. Now this user can
+    send these metacoins to anyone using the `sendCoin()` function. You can find the
+    balance of your account using `getBalance()`anytime. Assuming that one metacoin
+    is equal to two ethers, you can get the balance in ether using `getBalanceInEth()`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `ConvertLib` library is used to calculate the value of `metacoins` in ether.
+    For this purpose, it provides the `convert()` method.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Compiling contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Compiling contracts in truffle results in generating artifact objects with
+    the `abi` and `unlinked_binary` set. To compile, run this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: Truffle will compile only the contracts that have been changed since the last
+    compilation in order to avoid any unnecessarily compilation. If you'd like to
+    override this behavior, run the preceding command with the `--all` option.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can find the artifacts in the `build/contracts` directory. You are free
+    to edit these files according to your needs. These files get modified at the time
+    of running the `compile` and `migrate` commands.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here are a few things you need to take care of before compiling:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Truffle expects your contract files to define contracts that match their filenames
+    exactly. For instance, if you have a file called `MyContract.sol`, one of these
+    should exist within the contract file: contract `MyContract{}` or `library myContract{}`.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Filename matching is case-sensitive, which means that if your filename isn't
+    capitalized, your contract name shouldn't be capitalized either.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You can declare contract dependencies using Solidity's `import` command. Truffle
+    will compile contracts in the correct order and link libraries automatically when
+    necessary. Dependencies must be specified as relative to the current Solidity
+    file, beginning with either `./` or `../`.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Truffle version 3.1.2 uses compiler version 0.4.8\. Truffle doesn't currently
+    support changing the compiler version, so it's fixed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Configuration files
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The `truffle.js` file is a JavaScript file used to configure the project. This
+    file can execute any code necessary to create the configuration for the project.
+    It must export an object representing your project configuration. Here is the
+    default content of the file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: There are various properties this object can contain. But the most basic one
+    is `networks`. The `networks` property specifies which networks are available
+    for deployment as well as specific transaction parameters when interacting with
+    each network (such as `gasPrice`, `from`, `gas`, and so on). The default `gasPrice`
+    is 100,000,000,000, `gas` is 4712388, and `from` is the first available contract
+    in the ethereum client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can specify as many networks as you want. Go ahead and edit the configuration
+    file to this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: In the preceding code, we are defining two networks with the names `development`
+    and `live`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When using Command Prompt on Windows, the default configuration filename can
+    cause a conflict with the `truffle` executable. If this is the case, we recommend
+    that you use Windows PowerShell or Git BASH as these shells do not have this conflict.
+    Alternatively, you can rename the configuration file to `truffle-config.js` in
+    order to avoid this conflict.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Deploying contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Even the smallest project will interact with at least two blockchains: one
+    on the developer''s machine, such as the EthereumJS TestRPC, and the other representing
+    the network where the developer will eventually deploy their application (this
+    could be the main ethereum network or a private consortium network, for instance).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Because the network is auto-detected by the contract abstractions at runtime,
+    it means that you only need to deploy your application or frontend once. When
+    your application is run, the running ethereum client will determine which artifacts
+    are used, and this will make your application very flexible.
+  prefs: []
+  type: TYPE_NORMAL
+- en: JavaScript files that contain code to deploy contracts to the ethereum network
+    are called migrations. These files are responsible for staging your deployment
+    tasks, and they're written under the assumption that your deployment needs will
+    change over time. As your project evolves, you'll create new migration scripts
+    to further this evolution on the blockchain. A history of previously run migrations
+    is recorded on the blockchain through a special `Migrations` contract. If you
+    have seen the contents of the `contracts` and `build/contracts` directory, then
+    you would have noticed the `Migrations` contract's existence there. This contract
+    should always be there and shouldn't be touched unless you know what you are doing.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Migration files
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the migrations directory, you will notice that the filenames are prefixed
+    with a number; that is, you will find `1_initial_migration.js` and `2_deploy_contracts.js`
+    files. The numbered prefix is required in order to record whether the migration
+    ran successfully.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `Migrations` contract stores (in `last_completed_migration`) a number that
+    corresponds to the last applied migration script found in the `migrations` folder.
+    The `Migrations` contract is always deployed first. The numbering convention is
+    `x_script_name.js`, with x starting at 1\. Your app contracts would typically
+    come in scripts starting at 2.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So, as this `Migrations` contract stores the number of the last deployment script
+    applied, truffle will not run these scripts again. On the other hand, in future,
+    your app may need to have a modified, or new, contract deployed. For that to happen,
+    you create a new script with an increased number that describes the steps that
+    need to take place. Then, again, after they have run once, they will not run again.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Writing migrations
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: At the beginning of a migration file, we tell truffle which contracts we'd like
+    to interact with via the `artifacts.require()` method. This method is similar
+    to Node's `require`, but in our case, it specifically returns a contract abstraction
+    that we can use within the rest of our deployment script.
+  prefs: []
+  type: TYPE_NORMAL
+- en: All migrations must export a function via the `module.exports` syntax. The function
+    exported by each migration should accept a `deployer` object as its first parameter.
+    This object assists in deployment both by providing a clear API to deploy smart
+    contracts as well as performing some of the deployment's more mundane duties,
+    such as saving deployed artifacts in the artifacts files for later use, linking
+    libraries, and so on. The `deployer` object is your main interface for the staging
+    of deployment tasks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here are the methods of the deployer object. All the methods are synchronous:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`deployer.deploy(contractAbstraction, args..., options)`: Deploys a specific
+    contract specified by the contract abstraction object, with optional constructor
+    arguments. This is useful for singleton contracts, so that only one instance of
+    this contract exists for your DApp. This will set the address of the contract
+    after deployment (that is, the `address` property in the artifacts file will equal
+    the newly deployed address), and it will override any previous address stored.
+    You can optionally pass an array of contracts, or an array of arrays, to speed
+    up the deployment of multiple contracts. Additionally, the last argument is an
+    optional object that can contain a single key, `overwrite`. If `overwrite` is
+    set to `false`, the deployer won''t deploy this contract if one has already been
+    deployed. This method returns a promise.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`deployer.link(library, destinations)`: Links an already deployed library to
+    a contract or multiple contracts. The `destinations` argument can be a single
+    contract abstraction or an array of multiple contract abstractions. If any contract
+    within the destination doesn''t rely on the library being linked, the deployer
+    will ignore that contract. This method returns a promise.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`deployer.then(function(){})`: This is used to run an arbitrary deployment
+    step. Use it to call specific contract functions during your migration to add,
+    edit, and reorganize contract data. Inside the callback function, you would use
+    the contract abstraction APIs to deploy and link contracts.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'It is possible to run the deployment steps conditionally based on the network
+    being deployed to. To conditionally stage the deployment steps, write your migrations
+    so that they accept a second parameter called `network`. One example use case
+    can be that many of the popular libraries are already deployed to the main network;
+    therefore, when using these networks, we will not deploy the libraries again and
+    just link them instead. Here is a code example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In the project, you will find two migration files, that is, `1_initial_migration.js`
+    and `2_deploy_contracts.js`. The first file shouldn''t be edited unless you know
+    what you are doing. You are free to do anything with the other file. Here is the
+    code for the `2_deploy_contracts.js` file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we are creating abstractions for the `CovertLib` library and the `MetaCoin`
+    contract at first. Regardless of which network is being used, we are deploying
+    the `ConvertLib` library and then linking the library to the `MetaCoin` network
+    and finally deploying the `MetaCoin` network.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To run the migrations, that is, to deploy the contracts, run this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, we are telling truffle to run migrations on the development network. If
+    we don't provide the `--network` option, then it will use the network with the
+    name `development` by default.
+  prefs: []
+  type: TYPE_NORMAL
+- en: After you run the preceding command, you will notice that truffle will automatically
+    update the `ConvertLib` library and `MetaCoin` contract addresses in the artifacts
+    files and also update the `links`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here are some other important options you can provide to the migrate sub-command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`--reset`: Runs all migrations from the beginning instead of running from the
+    last completed migration.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '-`f number`: Runs contracts from a specific migration.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You can find the address of the contracts and libraries of your project in various
+    networks using the `truffle networks` command anytime.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Unit testing contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Unit testing is a type of testing an app. It is a process in which the smallest
+    testable parts of an application, called units, are individually and independently
+    examined for proper operation. Unit testing can be done manually but is often
+    automated.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Truffle comes with a unit testing framework by default to automate the testing
+    of your contracts. It provides a clean room environment when running your test
+    files; that is, truffle will rerun all of your migrations at the beginning of
+    every test file to ensure you have a fresh set of contracts to test against.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Truffle lets you write simple and manageable tests in two different ways:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In JavaScript, to exercise your contracts from the app client
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In Solidity, to exercise your contracts from other contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Both styles of tests have their advantages and drawbacks. We will learn both
+    ways of writing tests.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'All test files should be located in the `./test` directory. Truffle will run
+    test files only with these file extensions: `.js`, `.es`, `.es6`, and `.jsx`,
+    and `.sol`. All other files are ignored.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `ethereumjs-testrpc` is significantly faster than other clients when running
+    automated tests. Moreover, `testrpc` contains special features that truffle takes
+    advantage of to speed up the test runtime by almost 90 percent. As a general workflow,
+    we recommend that you use `testrpc` during normal development and testing and
+    then run your tests once against go-ethereum or another official ethereum client
+    when you're gearing up to deploy to live or production networks.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Writing tests in JavaScript
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Truffle's JavaScript testing framework is built on top of mocha. Mocha is a
+    JavaScript framework to write tests, whereas chai is an assertion library.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Testing frameworks are used to organize and execute tests, whereas assertion
+    libraries provide utilities to verify that things are correct. Assertion libraries
+    make it a lot easier to test your code so you don't have to perform thousands
+    of if statements. Most of the testing frameworks don't have an assertion library
+    included and let the user plug which one they want to use.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Before continuing further, you need to learn how to write tests with mocha and
+    chai. To learn mocha, visit [https://mochajs.org/](https://mochajs.org/) and to
+    learn chai, visit [http://chaijs.com/](http://chaijs.com/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Your tests should exist in the `./test` directory, and they should end with
+    a `.js` extension.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Contract abstractions are the basis for making contract interaction possible
+    from JavaScript. Because truffle has no way of detecting which contracts you'll
+    need to interact with within your tests, you'll need to ask for these contracts
+    explicitly. You do this by using the `artifacts.require()` method. So the first
+    thing that should be done in test files is to create abstractions for the contracts
+    that you want to test.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Then, the actual tests should be written. Structurally, your tests should remain
+    largely unchanged from those of mocha. The test files should contain code that
+    mocha will recognize as an automated test. What makes truffle tests different
+    from mocha is the `contract()` function: this function works exactly like `describe()`,
+    except that it signals truffle to run all migrations. The `contract()` function
+    works like this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Before each `contract()` function is run, your contracts are redeployed to the
+    running ethereum node, so the tests within it run with a clean contract state
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The `contract()` function provides a list of accounts made available by your
+    ethereum node, which you can use to write tests
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Since truffle uses mocha under the hood, you can still use `describe()` to run
+    normal mocha tests whenever truffle features are unnecessary.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the default test code generated by truffle to test the `MetaCoin` contract.
+    You will find this code in the `metacoin.js` file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: In the preceding code, you can see that all the contract's interaction code
+    is written using the `truffle-contract` library. The code is self-explanatory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Finally, truffle gives you access to mocha''s configuration so you can change
+    how mocha behaves. mocha''s configuration is placed under a `mocha` property in
+    the `truffle.js` file''s exported object. For example, take a look at this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: Writing tests in Solidity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Solidity test code is put in `.sol` files. Here are the things you need to
+    note about Solidity tests before writing tests using Solidity:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Solidity tests shouldn't extend from any contract. This makes your tests as
+    minimal as possible and gives you complete control over the contracts you write.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Truffle provides a default assertion library for you, but you can change this
+    library at any time to fit your needs.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You should be able to run your Solidity tests against any ethereum client.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'To learn how to write tests in Solidity, let''s explore the default Solidity
+    test code generated by truffle. This is the code, and it can be found in the `TestMetacoin.sol`
+    file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Assertion functions such as `Assert.equal()` are provided to you by the `truffle/Assert.sol`
+    library. This is the default assertion library; however, you can include your
+    own assertion library as long as the library loosely integrates with truffle's
+    test runner by triggering the correct assertion events. Assertion functions fire
+    events, which are caught by truffle, and information is displayed. This is the
+    architecture of Solidity assertion libraries in truffle. You can find all the
+    available assertion functions in `Assert.sol` ([https://github.com/ConsenSys/truffle/blob/beta/lib/testing/Assert.sol](https://github.com/ConsenSys/truffle/blob/beta/lib/testing/Assert.sol)).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In the import path, `truffle/Assert.sol`, `truffle` is the package name. We
+    will learn more about packages later.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The addresses of your deployed contracts (that is, contracts that were deployed
+    as part of your migrations) are available through the `truffle/DeployedAddresses.sol`
+    library. This is provided by truffle and is recompiled and relinked before each
+    test suite is run. This library provides functions for all of your deployed contracts
+    in the form of `DeployedAddresses.<contract name>()`. This will return an address
+    that you can then use to access that contract.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In order to use the deployed contract, you'll have to import the contract code
+    into your test suite. Notice `import "../contracts/MetaCoin.sol";` in the preceding
+    example. This import is relative to the test contract, which exists in the `./test`
+    directory, and it goes outside of the test directory in order to find the `MetaCoin`
+    contract. It then uses that contract to cast the address to the `MetaCoin` type.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: All test contracts must start with `Test`, using an uppercase T. This distinguishes
+    this contract from test helpers and project contracts (that is, the contracts
+    under test), letting the test runner know which contracts represent test suites.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Like test contract names, all test functions must start with `test`, in lowercase.
+    Each test function is executed as a single transaction in order of appearance
+    in the test file (such as your JavaScript tests). Assertion functions provided
+    by `truffle/Assert.sol` trigger events that the test runner evaluates to determine
+    the result of the test. Assertion functions return a Boolean that represents the
+    outcome of the assertion, which you can use to return from the test early to prevent
+    execution errors (that is, errors that `testrpc` will expose).
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'You are provided with many test hooks, shown in the following example. These
+    hooks are `beforeAll`, `beforeEach`, `afterAll`, and `afterEach`, which are the
+    same hooks provided by mocha in your JavaScript tests. You can use these hooks
+    to perform setup and teardown actions before and after each test or before and
+    after each suite is run. Like test functions, each hook is executed as a single
+    transaction. Note that some complex tests will need to perform a significant amount
+    of setup that might overflow the gas limit of a single transaction; you can get
+    around this limitation by creating many hooks with different suffixes, as shown
+    in the following example:'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: This test contract also shows that your `test` functions and `hook` functions
+    all share the same contract state. You can set up the contract data before the
+    test, use that data during the test, and reset it afterward in preparation for
+    the next one. Note that just like your JavaScript tests, your next test function
+    will continue from the state of the previous test function that ran.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Truffle doesn't provide a direct way to test whether your contract should and
+    shouldn't throw exception (that is, for contracts that use throw to signify an
+    expected error). But a hacky solution is there for this, which you can find at
+    [http://truffleframework.com/tutorials/testing-for-throws-in-Solidity-tests](http://truffleframework.com/tutorials/testing-for-throws-in-solidity-tests).
+  prefs: []
+  type: TYPE_NORMAL
+- en: How to send ether to a test contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To send ether to your Solidity test contract, it should have a public function
+    that returns `uint`, called `initialBalance` in that contract. This can be written
+    directly as a function or a public variable. When your test contract is deployed
+    to the network, truffle will send that amount of ether from your test account
+    to your test contract. Your test contract can then use that ether to script ether
+    interactions within your contract under test. Note that `initialBalance` is optional
+    and not required. For example, take a look at the following code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: Truffle sends ether to your test contract in a way that does not execute a fallback
+    function, so you can still use the fallback function within your Solidity tests
+    for advanced test cases.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Running tests
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To run your test scripts, just run this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Alternatively, you can specify a path to a specific file you want to run. For
+    example, take a look at this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: Package management
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'A truffle package is a collection of smart contracts and their artifacts. A
+    package can depend on zero or more packages, that is, you use the package''s smart
+    contracts and artifacts. When using a package within your own project, it is important
+    to note that there are two places where you will be using the package''s contracts
+    and artifacts: within your project''s contracts and within your project''s JavaScript
+    code (migrations and tests).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Projects created with truffle have a specific layout by default, which enables
+    them to be used as packages. The most important directories in a `truffle` package
+    are the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`/contracts`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`/build/contracts` (created by truffle)'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The first directory is your contracts directory, which includes your raw Solidity
+    contracts. The second directory is the `/build/contracts` directory, which holds
+    build artifacts in the form of `.json` files.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Truffle supports two kinds of package builds: `npm` and `ethpm` packages. You
+    must know what `npm` packages are, but let''s look at what `ethpm` packages are.
+    `Ethpm` is a package registry for ethereum. You can find all `ethpm` packages
+    at [https://www.ethpm.com/](https://www.ethpm.com/). It follows the ERC190 ([https://github.com/ethereum/EIPs/issues/190](https://github.com/ethereum/EIPs/issues/190))
+    spec for publishing and consuming smart contract packages.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Package management via NPM
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Truffle comes with npm integration by default and is aware of the `node_modules`
+    directory in your project, if it exists. This means that you can use and distribute
+    contracts or libraries via npm, making your code available to others and other's
+    code available to you. You can also have a `package.json` file in your project.
+    You can simply install any `npm` package in your project and import it in any
+    of the JavaScript files, but it would be called a truffle package only if it contains
+    the two directories mentioned earlier. Installing an `npm` package in a truffle
+    project is the same as installing an `npm` package in any `Node.js` app.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Package management via EthPM
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: When installing EthPM packages, an `installed_contracts` directory is created
+    if it doesn't exist. This directory can be treated in a manner similar to the
+    `node_modules` directory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Installing a package from EthPM is nearly as easy as installing a package via
+    NPM. You can simply run the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You can also install a package at a specific version:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Like NPM, EthPM versions follow semver. Your project can also define an `ethpm.json`
+    file, which is similar to `package.json` for npm packages. To install all dependencies
+    listed in the `ethpm.json` file, run the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'An example `ethpm.json` file looks like this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: Creating and publishing an `npm` package for truffle is the same process as
+    creating any other `npm` package. To learn how to create and publish an `ethpm` package,
+    visit [http://truffleframework.com/docs/getting_started/packages-ethpm#publishing-your-own-package](http://truffleframework.com/docs/getting_started/packages-ethpm#publishing-your-own-package).
+    Regardless of whether you are publishing your package as an `npm` package or `ethpm`
+    package, you need to run the `truffle networks --clean` command. When this command
+    is run, it deletes artifacts for all those networks IDs that match only the `*`
+    wildcard character in the configuration file. This is done as these addresses
+    will be invalid for the other projects consuming this package, as these networks
+    are most likely to be private as they are used for development purpose only. You
+    shouldn't omit this command unless you know what you are doing. It will fail to
+    delete any artifacts for private networks listed as a constant, so you need to
+    delete them manually.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using contracts of packages within your contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To use a package''s contracts within your contracts, it can be as simple as
+    Solidity''s `import` statement. When your `import` path isn''t explicitly relative
+    or absolute, it signifies to truffle that you''re looking for a file from a specific
+    named package. Consider this example using the `example-truffle-library` ([https://github.com/ConsenSys/example-truffle-library](https://github.com/ConsenSys/example-truffle-library)):'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE32]'
+  prefs: []
+  type: TYPE_PRE
+- en: Since the path didn't start with `./`, truffle knows to look in your project's
+    `node_modules` or `installed_contracts` directory for the `example-truffle-library`
+    folder. From there, it resolves the path to provide you with the contract you
+    requested.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using artifacts of packages within your JavaScript code
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To interact with a package''s artifacts within JavaScript code, you simply
+    need to require that package''s `.json` files and then use `truffle-contract`
+    to turn them into usable abstractions:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE33]'
+  prefs: []
+  type: TYPE_PRE
+- en: Accessing a package's contracts deployed addresses in Solidity
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Sometimes, you may want your contracts to interact with the package's previously
+    deployed contracts. Since the deployed addresses exist within the package's `.json`
+    files, Solidity code cannot directly read contents of these files. So, the flow
+    of making Solidity code access the addresses in `.json` files is by defining functions
+    in Solidity code to set dependent contract addresses, and after the contract is
+    deployed, call those functions using JavaScript to set the dependent contract
+    addresses.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'So you can define your contract code like this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE34]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This is what your migration should look like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE35]'
+  prefs: []
+  type: TYPE_PRE
+- en: Using truffle's console
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Sometimes, it's nice to work with your contracts interactively for testing and
+    debugging purposes or to execute transactions by hand. Truffle provides you with
+    an easy way to do this via an interactive console, with your contracts available
+    and ready to use.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To open the console, run this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE36]'
+  prefs: []
+  type: TYPE_PRE
+- en: The console connects to an ethereum node based on your project configuration.
+    The preceding command also takes a `--network` option to specify a specific node
+    to connect to.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here are the features of the console:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can run the command in the console. For instance, you can type `migrate
+    --reset` within the console, and it will be interpreted the same as if you ran
+    `truffle migrate --reset` from outside the console.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: All of your compiled contracts are available and ready for use.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: After each command (such as `migrate --reset`), your contracts are re-provisioned,
+    so you can start using the newly assigned addresses and binaries immediately.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: The `web3` object is made available and is set to connect to your ethereum node.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'All commands that return a promise will automatically be resolved and the result
+    printed, removing the need to use `.then()` for simple commands. For example,
+    you can write code like this: `MyContract.at("0xabcd...").getValue.call();`'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Running external scripts in truffle's context
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Often, you may want to run external scripts that interact with your contracts.
+    Truffle provides an easy way to do this, bootstrapping your contracts based on
+    your desired network and connecting to your ethereum node automatically as per
+    your project configuration.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To run an external script, run this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE37]'
+  prefs: []
+  type: TYPE_PRE
+- en: In order for external scripts to be run correctly, truffle expects them to export
+    a function that takes a single parameter as a callback. You can do anything you'd
+    like within this script as long as the callback is called when the script finishes.
+    The callback accepts an error as its first and only parameter. If an error is
+    provided, execution will halt and the process will return a nonzero exit code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'This is the structure external scripts must follow:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE38]'
+  prefs: []
+  type: TYPE_PRE
+- en: Truffle's build pipeline
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that you know how to compile, deploy, and test smart contracts using truffle,
+    it's time to build a client for our altcoin. Before we get into how to build a
+    client using truffle, you need to know that it doesn't allow us to sign transactions
+    using accounts stored outside of the ethereum node; that is, it doesn't have anything
+    similar to `sendRawTransaction` and the reasons are the same as those for `truffle-contract`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building a client using truffle means first integrating truffle's artifacts
+    in your client source code and then preparing the client's source code for deployment.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To build a client, you need to run this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE39]'
+  prefs: []
+  type: TYPE_PRE
+- en: When this command is run, truffle will check how to build the client by inspecting
+    the `build` property in the project's configuration file.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Running an external command
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A command-line tool can be used to build a client. When the `build` property
+    is a string, truffle assumes that we want to run a command to build the client,
+    so it runs the string as a command. The command is given ample environment variables
+    with which to integrate with truffle.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can make truffle run a command-line tool to build the client using similar
+    configuration code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE40]'
+  prefs: []
+  type: TYPE_PRE
+- en: Running a custom function
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A JavaScript function can be used to build a client. When the `build` property
+    is a function, truffle will run that function whenever we want to build the client.
+    The function is given a lot of information about the project with which to integrate
+    with truffle.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You can make truffle run a function to build the client using similar configuration
+    code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE41]'
+  prefs: []
+  type: TYPE_PRE
+- en: You could also create an object, which contains a `build` method like the one
+    here. This is great for those who want to publish a package to build a client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Truffle's default builder
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Truffle provides the `truffle-default-builder npm` package, which is termed
+    the default builder for truffle. This builder exports an object, which has a build
+    method, which works exactly like the previously mentioned method.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The default builder can be used to build a web client for your DApp, whose server
+    only serves static files, and all the functionality is on the frontend.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Before we get further into how to use the default builder, first install it
+    using this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE42]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now change your configuration file to this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE43]'
+  prefs: []
+  type: TYPE_PRE
+- en: The default builder gives you complete control over how you want to organize
+    the files and folders of your client.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This configuration describes `targets` (left-hand side) with files, folders,
+    and arrays of files that make up the `targets` contents (right-hand side). Each
+    target will be produced by processing the files on the right-hand side based on
+    their file extension, concatenating the results together, and then saving the
+    resultant file (the target) into the build destination. Here, a string is specified
+    on the right-hand side instead of an array, and that file will be processed, if
+    needed, and then copied over directly. If the string ends in a `"/"`, it will
+    be interpreted as a directory and the directory will be copied over without further
+    processing. All paths specified on the right-hand side are relative to the `app/`
+    directory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: You can change this configuration and directory structure at any time. You aren't
+    required to have a `javascripts` and `stylesheets` directory, for example, but
+    make sure you edit your configuration accordingly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you want the default builder to integrate truffle on the frontend of your
+    web application, make sure you have a build target called `app.js`, which the
+    default builder can append code to. It will not integrate truffle with any other
+    filename.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here are the features of the default builder:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Automatically imports your compiled contract artifacts, deployed contract information,
+    and ethereum node configuration into the client source code
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Includes recommended dependencies, including web3 and `truffle-contract`
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Compiles `ES6` and `JSX` files
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Compiles `SASS` files
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Minifies `asset` files
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You can use the `truffle watch` command, which watches for changes in the `contracts`
+    directory, the `app` directory, and the configuration file. When there's a change,
+    it recompiles the contracts and generates new artifact files and then rebuilds
+    the client. But it doesn't run migrations and tests.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building a client
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Now let''s write a client for our DApp and build it using truffle''s default
+    builder. First of all, create files and directories based on the preceding configuration
+    we set: create an `app` directory and inside it, create an `index.html` file and
+    two directories called `javascripts` and `styelsheets`. Inside the `javascripts`
+    directory, create a file called `index.js` and in the `stylesheets` directory,
+    download and place the CSS file of Bootstrap 4\. You can find it at [https://v4-alpha.getbootstrap.com/getting-started/download/#bootstrap-css-and-js](https://v4-alpha.getbootstrap.com/getting-started/download/#bootstrap-css-and-js).'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the `index.html` file, place this code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE44]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'In the preceding code, we are loading the `bootstrap.min.css` and `app.js`
+    files. We have two forms: one is to send metacoins to a different account and
+    the other one is to check the metacoins balance of an account. In the first form,
+    the user has to select an account and then enter the amount of metacoin to send
+    and the address that it wants to send to. And in the second form, the user simply
+    has to select the address whose metacoin balance it wants to check.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In the `index.js` file, place this code:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE45]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is how the code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `truffle-default-builder` makes artifacts objects available under the `__contracts__`
+    global object.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: It also makes available contract abstractions for all the contracts available
+    as global variables with the variable name the same as the contract name.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: It also provides the web3 object by already setting the provider. It also sets
+    the provider for the contract abstractions. It makes the web3 object connect to
+    the network with the name `development` and if it doesn't exist, then the default
+    value is `http://localhost:8545`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: In the preceding code, at first, we wait for the page to load, and once loaded,
+    we retrieve the list of accounts in the connected node and display them in both
+    the forms. And we call the `detectNetwork()` method of the `MetaCoin` abstraction
+    as well.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we have `submit` event handlers for both the forms. They both do what
+    they are supposed to do and display the result in a popup.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: When the first form is submitted, we get the `MetaCoin` contract's deployed
+    instance and call the `sendCoin` method with the correct arguments.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: When the second form is submitted, we retrieve the balance of the selected account
+    by calling the `getBalance` method in the EVM instead of broadcasting a transaction.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Now go ahead and run the truffle build command, and you will notice that truffle
+    will create `index.html`, `app.js`, and `bootstrap.min.css` files in the `build`
+    directory and put the client's final deployment code in them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Truffle's server
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Truffle comes with an in-built web server. This web server simply serves the
+    files in the `build` directory with a proper MIME type set. Apart from this, it's
+    not configured to do anything else.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'To run the web server, run this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE46]'
+  prefs: []
+  type: TYPE_PRE
+- en: The server runs on port number 8080 by default. But you can use the `-p` option
+    to specify a different port number.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Similar to truffle watch, this web server also watches for changes in the `contracts`
+    directory, the `app` directory, and the configuration file. When there's a change,
+    it recompiles the contracts and generates new artifacts files and then rebuilds
+    the client. But it doesn't run migrations and tests.
+  prefs: []
+  type: TYPE_NORMAL
+- en: As the truffle-default-builder places the final deployable code in the build
+    directory, you can simply run `truffle serve` to serve the files via the Web.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s test our web client. Visit `http://localhost:8080`, and you will see
+    this screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/image_08_001.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'The account addresses in the selected boxes will differ for you. Now at the
+    time of deploying the contract, the contract assigns all the metacoins to the
+    address that deploys the contract; so here, the first account will have a balance
+    of 10,000 metacoins. Now send five metacoins from the first account to the second
+    account and click on Submit. You will see a screen similar to what is shown in
+    the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/image_08_002.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now check the balance of the second account by selecting the second account
+    in the select box of the second form and then click on the Check Balance button.
+    You will see a screen similar to what is shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/image_08_003.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned in depth how to build DApps and their respective
+    clients using truffle. We look at how truffle makes it really easy to write, compile,
+    deploy, and test DApps. We also saw how easy it is to switch between networks
+    in clients using `truffle-contract` without touching the source code. Now you
+    are ready to start building enterprise-level DApps using truffle.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we will build a decentralized alarm clock app that pays
+    you to wake up on time using the truffle and ethereum alarm clock DApp.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Just replace the `i.e.` with a colon `":"`.
+  prefs: []
+  type: TYPE_NORMAL

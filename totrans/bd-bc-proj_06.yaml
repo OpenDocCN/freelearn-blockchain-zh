@@ -1,0 +1,557 @@
+- en: Building a Smart Contract Deployment Platform
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Some clients may need to compile and deploy contracts at runtime. In our proof-of-ownership
+    DApp, we deployed the smart contract manually and hardcoded the contract address
+    in the client-side code. But some clients may need to deploy smart contracts at
+    runtime. For example, if a client lets schools record students' attendance in
+    the blockchain, then it will need to deploy a smart contract every time a new
+    school is registered so that each school has complete control over their smart
+    contract. In this chapter, we will learn how to compile smart contracts using
+    web3.js and deploy it using web3.js and EthereumJS.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we''ll cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Calculating the nonce of a transaction
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Using the transaction pool JSON-RPC API
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Generating data of a transaction for contract creation and method invocation
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Estimating the gas required by a transaction
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Finding the current spendable balance of an account
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Compiling smart contracts using solcjs
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Developing a platform to write, compile, and deploy smart contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Calculating a transaction's nonce
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: For the accounts maintained by geth, we don't need to worry about the transaction
+    nonce because geth can add the correct nonce to the transactions and sign them.
+    While using accounts that aren't managed by geth, we need to calculate the nonce
+    ourselves.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To calculate the nonce ourselves, we can use the `getTransactionCount` method
+    provided by geth. The first argument should be the address whose transaction count
+    we need and the second argument is the block until we need the transaction count.
+    We can provide the `"pending"` string as the block to include transactions from
+    the block that's currently being mined. As we discussed in an earlier chapter,
+    geth maintains a transaction pool in which it keeps pending and queued transactions.
+    To mine a block, geth takes the pending transactions from the transaction pool
+    and starts mining the new block. Until the block is not mined, the pending transactions
+    remain in the transaction pool and once mined, the mined transactions are removed
+    from the transaction pool. The new incoming transactions received while a block
+    is being mined are put in the transaction pool and are mined in the next block.
+    So when we provide `"pending"` as the second argument while calling `getTransactionCount`,
+    it doesn't look inside the transaction pool; instead, it just considers the transactions
+    in the pending block.
+  prefs: []
+  type: TYPE_NORMAL
+- en: So if you are trying to send transactions from accounts not managed by geth,
+    then count the total number of transactions of the account in the blockchain and
+    add it with the transactions pending in the transaction pool. If you try to use
+    pending transactions from the pending block, then you will fail to get the correct
+    nonce if transactions are sent to geth within a few seconds of the interval because
+    it takes 12 seconds on average to include a transaction in the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the previous chapter, we relied on the hooked-web3-provider to add nonce
+    to the transaction. Unfortunately, the hooked-web3-provider doesn't try to get
+    the nonce the correct way. It maintains a counter for every account and increments
+    it every time you send a transaction from that account. And if the transaction
+    is invalid (for example, if the transaction is trying to send more ether than
+    it has), then it doesn't decrement the counter. Therefore, the rest of the transactions
+    from that account will be queued and never be mined until the hooked-web3-provider
+    is reset, that is, the client is restarted. And if you create multiple instances
+    of the hooked-web3-provider, then these instances cannot sync the nonce of an
+    account with each other, so you may end up with the incorrect nonce. But before
+    you add the nonce to the transaction, the hooked-web3-provider always gets the
+    transaction count until the pending block and compares it with its counter and
+    uses whichever is greater. So if the transaction from an account managed by the
+    hooked-web3-provider is sent from another node in the network and is included
+    in the pending block, then the hooked-web3-provider can see it. But the overall
+    hooked-web3-provider cannot be relied on to calculate the nonce. It's great for
+    quick prototyping of client-side apps and is fit to use in apps where the user
+    can see and resend transactions if they aren't broadcasted to the network and
+    the hooked-web3-provider is reset frequently. For example, in our wallet service,
+    the user will frequently load the page, so a new hooked-web3-provider instance
+    is created frequently. And if the transaction is not broadcasted, not valid, or
+    not mined, then the user can refresh the page and resend transactions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Introducing solcjs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: solcjs is a Node.js library and command-line tool that is used to compile solidity
+    files. It doesn't use the solc command-line compiler; instead, it compiles purely
+    using JavaScript, so it's much easier to install than solc.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Solc is the actual Solidity compiler. Solc is written in C++. The C++ code is
+    compiled to JavaScript using emscripten. Every version of solc is compiled to
+    JavaScript. At [https://github.com/ethereum/solc-bin/tree/gh-pages/bin](https://github.com/ethereum/solc-bin/tree/gh-pages/bin),
+    you can find the JavaScript-based compilers of each solidity version. solcjs just
+    uses one of these JavaScript-based compilers to compile the solidity source code.
+    These JavaScript-based compilers can run in both browser and Node.js environments.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The browser Solidity uses these JavaScript-based compilers to compile the Solidity
+    source code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Installing solcjs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'solcjs is available as an npm package with the name `solc`. You can install
+    the `solcjs` npm package locally or globally just like any other npm package.
+    If this package is installed globally, then `solcjs`, a command-line tool, will
+    be available. So, in order to install the command-line tool, run this command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now go ahead and run this command to see how to compile solidity files using
+    the command-line compiler:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: We won't be exploring the solcjs command-line tool; instead, we will learn about
+    the solcjs APIs to compile solidity files.
+  prefs: []
+  type: TYPE_NORMAL
+- en: By default, solcjs uses compiler version matching as its version. For example,
+    if you install solcjs version 0.4.8, then it will use the 0.4.8 compiler version
+    to compile by default. solcjs can be configured to use some other compiler versions
+    too. At the time of writing this, the latest version of solcjs is 0.4.8.
+  prefs: []
+  type: TYPE_NORMAL
+- en: solcjs APIs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: solcjs provides a `compiler` method, which is used to compile solidity code.
+    This method can be used in two different ways depending on whether the source
+    code has any imports or not. If the source code doesn't have any imports, then
+    it takes two arguments; that is, the first argument is solidity source code as
+    a string and a Boolean indicating whether to optimize the byte code or not. If
+    the source string contains multiple contracts, then it will compile all of them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example to demonstrate this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If your source code contains imports, then the first argument will be an object
+    whose keys are filenames and values are the contents of the files. So whenever
+    the compiler sees an import statement, it doesn''t look for the file in the filesystem;
+    instead, it looks for the file contents in the object by matching the filename
+    with the keys. Here is an example to demonstrate this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'If you want to read the imported file contents from the filesystem during compilation
+    or resolve the file contents during compilation, then the compiler method supports
+    a third argument, which is a method that takes the filename and should return
+    the file content. Here is an example to demonstrate this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: Using a different compiler version
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In order to compile contracts using a different version of solidity, you need
+    to use the `useVersion` method to get a reference of a different compiler. `useVersion`
+    takes a string that indicates the JavaScript filename that holds the compiler,
+    and it looks for the file in the `/node_modules/solc/bin` directory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: solcjs also provides another method called `loadRemoteVersion`, which takes
+    the compiler filename that matches the filename in the `solc-bin/bin` directory
+    of the `solc-bin` repository ([https://github.com/ethereum/solc-bin](https://github.com/ethereum/solc-bin))
+    and downloads and uses it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Finally, solcjs also provides another method called `setupMethods`, which is
+    similar to `useVersion` but can load the compiler from any directory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example to demonstrate all three methods:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: To run the preceding code, you need to first download the `v0.4.7.commit.822622cf.js`
+    file from the `solc-bin` repository and place it in the `node_modules/solc/bin`
+    directory. And then you need to download the compiler file of solidity version
+    0.4.8 and place it somewhere in the filesystem and point the path in the `setupMethods`
+    call to that directory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Linking libraries
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: If your solidity source code references libraries, then the generated byte code
+    will contain placeholders for the real addresses of the referenced libraries.
+    These have to be updated via a process called linking before deploying the contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: solcjs provides the `linkByteCode` method to link library addresses to the generated
+    byte code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example to demonstrate this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: Updating the ABI
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The ABI of a contract provides various kinds of information about the contract
+    other than implementation. The ABI generated by two different versions of compilers
+    may not match as higher versions support more solidity features than lower versions;
+    therefore, they will include extra things in the ABI. For example, the fallback
+    function was introduced in the 0.4.0 version of Solidity so the ABI generated
+    using compilers whose version is less than 0.4.0 will have no information about
+    fallback functions, and these smart contracts behave like they have a fallback
+    function with an empty body and a payable modifier. So, the API should be updated
+    so that applications that depend on the ABI of newer solidity versions can have
+    better information about the contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'solcjs provides an API to update the ABI. Here is an example code to demonstrate
+    this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, 0.3.6 indicates that the ABI was generated using the 0.3.6 version of
+    the compiler. As we are using solcjs version 0.4.8, the ABI will be updated to
+    match the ABI generated by the 0.4.8 compiler version, not above it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'The output of the preceding code will be as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: Building a contract deployment platform
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now that we have learned how to use solcjs to compile solidity source code,
+    it's time to build a platform that lets us write, compile, and deploy contracts.
+    Our platform will let users provide their account address and private key, using
+    which our platform will deploy contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Before you start building the application, make sure that you are running the
+    geth development instance, which is mining, has `rpc` enabled, and exposes `eth`,
+    `web3`, and `txpool` APIs over the HTTP-RPC server. You can do all these by running
+    this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: The project structure
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the exercise files of this chapter, you will find two directories, that is,
+    `Final` and `Initial`. `Final` contains the final source code of the project,
+    whereas `Initial` contains the empty source code files and libraries to get started
+    with building the application quickly.
+  prefs: []
+  type: TYPE_NORMAL
+- en: To test the `Final` directory, you will need to run `npm install` inside it
+    and then run the app using the `node app.js` command inside the `Final` directory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the `Initial` directory, you will find a `public` directory and two files
+    named `app.js` and `package.json`. The `package.json` file contains the backend
+    dependencies on our app. `app.js` is where you will place the backend source code.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The `public` directory contains files related to the frontend. Inside `public/css`,
+    you will find `bootstrap.min.css`, which is the bootstrap library, and you will
+    also find the `codemirror.css` file, which is CSS of the codemirror library. Inside
+    `public/html`, you will find `index.html`, where you will place the HTML code
+    of our app and in the `public/js` directory, you will find `.js` files for codemirror
+    and web3.js. Inside `public/js`, you will also find a `main.js` file, where you
+    will place the frontend JS code of our app.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Building the backend
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's first build the backend of the app. First of all, run `npm install` inside
+    the `Initial` directory to install the required dependencies for our backend.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the backend code to run an express service and serve the `index.html`
+    file and static files:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: The preceding code is self-explanatory. Now let's proceed further. Our app will
+    have two buttons, that is, Compile and Deploy. When the user clicks on the compile
+    button, the contract will be compiled and when the deploy button is clicked on,
+    the contract will be deployed.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will be compiling and deploying contracts in the backend. Although this can
+    be done in the frontend, we will do it in the backend because solcjs is available
+    only for Node.js (although the JavaScript-based compilers it uses work on the
+    frontend).
+  prefs: []
+  type: TYPE_NORMAL
+- en: To learn how to compile on the frontend, go through the source code of solcjs,
+    which will give you an idea about the APIs exposed by the JavaScript-based compiler.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'When the user clicks on the compile button, the frontend will make a `GET`
+    request to the `/compile` path by passing the contract source code. Here is the
+    code for the route:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: At first, we import the solcjs library here. Then, we define the `/compile`
+    route and inside the route callback, we simply compile the source code sent by
+    the client with the optimizer enabled. And then we just send the `solc.compile`
+    method's return value to the frontend and let the client check whether the compilation
+    was successful or not.
+  prefs: []
+  type: TYPE_NORMAL
+- en: When the user clicks on the deploy button, the frontend will make a `GET` request
+    to the `/deploy` path by passing the contract source code and constructor arguments
+    from the address and private key. When the user clicks on this button, the contract
+    will be deployed and the transaction hash will be returned to the user.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the code for this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: At first, the Web imports the `web3.js`, `BigNumber.js`, `ethereumjs-util`,
+    and `ethereumjs-tx` libraries. Then, we create an instance of `Web3`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we define a function named `etherInSpentPendingTransactions`, which calculates
+    the total ether that's being spent in the pending transactions of an address.
+    As `web3.js` doesn't provide JavaScript APIs related to the transaction pool,
+    we make a raw JSON-RPC call using `web3.currentProvider.sendAsync`. `sendAsync`
+    is used to make raw JSON-RPC calls asynchronously. If you want to make this call
+    synchronously, then use the `send` method instead of `sendAsync`. While calculating
+    the total ether in the pending transactions of an address, we look for pending
+    transactions in the transaction pool instead of the pending block due to the issue
+    we discussed earlier. While calculating the total ether, we add the value and
+    gas of each transaction as gas also deducted the ether balance.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Next, we define a function called `getNonce`, which retrieves the nonce of an
+    address using the technique we discussed earlier. It simply adds the total number
+    of mined transactions to the total number of pending transactions.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Finally, we declare the `/deploy` endpoint. At first, we compile the contract.
+    Then, we deploy only the first contract. Our platform is designed to deploy the
+    first contract if multiple contracts are found in the provided source code. You
+    can later enhance the app to deploy all the compiled contracts instead of just
+    the first one. Then, we create a contract object using `web3.eth.contract`.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: As we aren't using the hooked-web3-provider or any hack to intercept `sendTransactions`
+    and convert them into the `sendRawTransaction` call, in order to deploy the contract,
+    we now need to generate the data part of the transaction, which will have the
+    contract byte code and constructor arguments combined and encoded as a hexadecimal
+    string. The contract object actually lets us generate the data of the transaction.
+    This can be done by calling the `getData` method with function arguments. If you
+    want to get data to deploy the contract, then call `contract.new.getData`, and
+    if you want to call a function of the contract, then call `contract.functionName.getData`.
+    In both the cases, provide the arguments to the `getData` method. So, in order
+    to generate the data of a transaction, you just need the contract's ABI. To learn
+    how the function name and arguments are combined and encoded to generate data,
+    you can check out [https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI#examples](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI#examples),
+    but this won't be required if you have the ABI of the contract or know how to
+    create the ABI manually.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then, we use `web3.eth.estimateGas` to calculate the amount of gas that would
+    be required to deploy the contract.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Later, we check whether the address has enough ether to pay for the gas required
+    to deploy the contract. We find this out by retrieving the balance of the address
+    and subtracting it with the balance spent in the pending transactions and then
+    checking whether the remaining balance is greater than or equal to the amount
+    of ether required for the gas.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: And finally, we get the nonce, signing and broadcasting the transactions. We
+    simply return the transaction hash to the frontend.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Building the frontend
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now let's build the frontend of our application. Our frontend will contain an
+    editor, using which the user writes code. And when the user clicks on the compile
+    button, we will dynamically display input boxes where each input box will represent
+    a constructor argument. When the deploy button is clicked on, the constructor
+    argument values are taken from these input boxes. The user will need to enter
+    the JSON string in these input boxes.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will be using the codemirror library to integrate the editor in our frontend.
+    To learn more about how to use codemirror, refer to [http://codemirror.net/](http://codemirror.net/).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the frontend HTML code of our app. Place this code in the `index.html`
+    file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, you can see that we have a `textarea`. The `textarea` tag will hold whatever
+    the user will enter in the codemirror editor. Everything else in the preceding
+    code is self-explanatory.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the complete frontend JavaScript code. Place this code in the `main.js`
+    file:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: At first, we add the code editor to the web page. The code editor will be displayed
+    in place of `textarea` and `textarea` will be hidden.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Then we have the compile button's click event handler. Inside it, we save the
+    editor, which copies the content of the editor to `textarea`. When the compile
+    button is clicked on, we make a request to the `/compile` path, and once we get
+    the result, we parse it and display the input boxes so that the user can enter
+    the constructor arguments. Here, we only read the constructor arguments for the
+    first contract. But you can enhance the UI to display input boxes for constructors
+    of all the contracts if there are more than one.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: And finally, we have the deploy button's click event handler. Here, we read
+    the constructor arguments' value, parsing and putting them in an array. And then
+    we add a request to the `/deploy` endpoint by passing the address, key, code,
+    and argument value. If there is an error, then we display that in a popup; otherwise,
+    we display the transaction hash in the popup.
+  prefs:
+  - PREF_OL
+  type: TYPE_NORMAL
+- en: Testing
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'To test the app, run the `app.js` node inside the `Initial` directory and visit
+    `localhost:8080`. You will see what is shown in the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/image_06_001.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now enter some solidity contract code and press the compile button. Then, you
+    will be able to see new input boxes appearing on the right-hand side. For example,
+    take a look at the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/image_06_002.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: 'Now enter a valid address and its associated private key. And then enter values
+    for the constructor arguments and click on deploy. If everything goes right, then
+    you will see an alert box with the transaction hash. For example, take a look
+    at the following screenshot:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '![](img/image_06_003.png)'
+  prefs: []
+  type: TYPE_IMG
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned how to use the transaction pool API, how to calculate
+    a proper nonce, calculate a spendable balance, generate the data of a transaction,
+    compile contracts, and so on. We then built a complete contract compilation and
+    deployment platform. Now you can go ahead and enhance the application we have
+    built to deploy all the contracts found in the editor, handle imports, add libraries,
+    and so on.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we will learn about Oraclize by building a decentralized
+    betting app.
+  prefs: []
+  type: TYPE_NORMAL

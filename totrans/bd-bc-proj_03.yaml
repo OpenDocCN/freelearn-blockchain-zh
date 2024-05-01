@@ -1,0 +1,1002 @@
+- en: Writing Smart Contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In the previous chapter, we learned how the Ethereum blockchain works and how
+    the PoW consensus protocol keeps it safe. Now it's time to start writing smart
+    contracts as we have have a good grasp of how Ethereum works. There are various
+    languages to write Ethereum smart contracts in, but Solidity is the most popular
+    one. In this chapter, we will learn the Solidity programming language. We will
+    finally build a DApp for proof of existence, integrity, and ownership at given
+    a time, that is, a DApp that can prove that a file was with a particular owner
+    at a specific time.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'In this chapter, we''ll cover the following topics:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The layout of Solidity source files
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Understanding Solidity data types
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Special variables and functions of contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Control structures
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Structure and features of contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Compiling and deploying contracts
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Solidity source files
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A Solidity source file is indicated using the `.sol` extension. Just like any
+    other programming language, there are various versions of Solidity. The latest
+    version at the time of writing this book is 0.4.2.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the source file, you can mention the compiler version for which the code
+    is written for using the `pragma Solidity` directive.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'For example, take a look at the following:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE0]'
+  prefs: []
+  type: TYPE_PRE
+- en: Now the source file will not compile with a compiler earlier than version 0.4.2,
+    and it will also not work on a compiler starting from version 0.5.0 (this second
+    condition is added using `^`). Compiler versions between 0.4.2 to 0.5.0 are most
+    likely to include bug fixes instead of breaking anything.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It is possible to specify much more complex rules for the compiler version;
+    the expression follows those used by npm.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The structure of a smart contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A contract is like a class. A contract contains state variables, functions,
+    function modifiers, events, structures, and enums. Contracts also support inheritance.
+    Inheritance is implemented by copying code at the time of compiling. Smart contracts
+    also support polymorphism.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s look at an example of a smart contract to get an idea about what it
+    looks like:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE1]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here is how the preceding code works:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: At first, we declared a contract using the `contract` keyword.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then, we declared two state variables; `data` holds some data and owner holds
+    the Ethereum wallet address of the owner, that is, the address in which the contract
+    was deployed.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then, we defined an event. Events are used to notify the client about something.
+    We will trigger this event whenever `data` changes. All events are kept in the
+    blockchain.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then, we defined a function modifier. Modifiers are used to automatically check
+    a condition prior to executing a function. Here, the modifier checks whether the
+    owner of the contract is invoking the function or not. If not, then it throws
+    an exception.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then, we have the contract constructor. While deploying the contract, the constructor
+    is invoked. The constructor is used to initialize the state variables.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Then, we defined two methods. The first method was to get the value of the `data`
+    state variable and the second was a method to change the `data` value.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Before getting any further deeper into the features of smart contracts, let's
+    learn some other important things related to Solidity. And then we will come back
+    to contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Data location
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: All programming languages you would have learned so far store their variables
+    in memory. But in Solidity, variables are stored in the memory and the filesystem
+    depending on the context.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Depending on the context, there is always a default location. But for complex
+    data types, such as strings, arrays, and structs, it can be overridden by appending
+    either `storage` or `memory` to the type. The default for function parameters
+    (including return parameters) is memory, the default for local variables is storage.
+    and the location is forced to storage, for state variables (obviously).
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Data locations are important because they change how assignments behave:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Assignments between storage variables and memory variables always create an
+    independent copy. But assignments from one memory-stored complex type to another
+    memory-stored complex type do not create a copy.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Assignment to a state variable (even from other state variables) always creates
+    an independent copy.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: You cannot assign complex types stored in memory to local storage variables.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: In case of assigning state variables to local storage variables, the local storage
+    variables point to the state variables; that is, local storage variables become
+    pointers.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: What are the different data types?
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Solidity is a statically typed language; the type of data a variable holds needs
+    to be predefined. By default, all bits of the variables are assigned to 0\. In
+    Solidity, variables are function scoped; that is, a variable declared anywhere
+    within a function will be in scope for the entire function regardless of where
+    it is declared.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now let''s look at the various data types provided by Solidity:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The most simple data type is `bool`. It can hold either `true` or `false`.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`uint8`, `uint16`, `uint24` ... `uint256` are used to hold unsigned integers
+    of 8 bits, 16 bits, 24 bits ... 256 bits, respectively. Similarly, `int8`, `int16`
+    ... `int256` are used to hold signed integers of 8 bits, 16 bits ... 256 bits,
+    respectively. `uint` and `int` are aliases for `uint256` and `int256`. Similar
+    to `uint` and `int`, `ufixed` and `fixed` represent fractional numbers. `ufixed0x8`,
+    `ufixed0x16` ... `ufixed0x256` are used to hold unsigned fractional numbers of
+    8 bits, 16 bits ... 256 bits, respectively. Similarly, `fixed0x8`, `fixed0x16`
+    ... `fixed0x256` are used to hold signed fractional numbers of 8 bits, 16 bits
+    ... 256 bits, respectively. If it''s a number requiring more than 256 bits, then
+    256 bits data type is used, in which case the approximation of the number is stored.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`address` is used to store up to a 20 byte value by assigning a hexadecimal
+    literal. It is used to store Ethereum addresses. The `address` type exposes two
+    properties: `balance` and `send`. `balance` is used to check the balance of the
+    address and `send` is used to transfer Ether to the address. The send method takes
+    the amount of wei that needs to be transferred and returns true or false depending
+    on whether the transfer was successful or not. The wei is deducted from the contract
+    that invokes the `send` method. You can use the `0x` prefix in Solidity to assign
+    a hexadecimal-encoded representation of values to variables.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Arrays
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Solidity supports both generic and byte arrays. It supports both fixed size
+    and dynamic arrays. It also supports multidimensional arrays.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`bytes1`, `bytes2`, `bytes3`, ..., `bytes32` are types for byte arrays. `byte`
+    is an alias for `bytes1`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example that shows generic array syntaxes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE2]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Here are some important things you need to know about arrays:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Arrays also have a `length` property that is used to find the length of an array.
+    You can also assign a value to the length property to change the size of the array.
+    However, you cannot resize an array in memory or resize a nondynamic array.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If you try to access an unset index of a dynamic array, an exception is thrown.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Remember that arrays, structs, and maps cannot be parameters of functions and
+    also cannot be returned by functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Strings
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'In Solidity, there are two ways to create strings: using `bytes` and `string`.
+    `bytes` is used to create a raw string, whereas `string` is used to create a UTF-8
+    string. The length of string is always dynamic.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example that shows string syntaxes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE3]'
+  prefs: []
+  type: TYPE_PRE
+- en: Structs
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Solidity also supports structs. Here is an example that shows struct syntaxes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE4]'
+  prefs: []
+  type: TYPE_PRE
+- en: Note that a function parameter cannot be a struct and a function cannot return
+    a struct.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Enums
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Solidity also supports enums. Here is an example that shows enum syntaxes:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE5]'
+  prefs: []
+  type: TYPE_PRE
+- en: Mappings
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A mapping data type is a hash table. Mappings can only live in storage, not
+    in memory. Therefore, they are declared only as state variables. A mapping can
+    be thought of as consisting of key/value pairs. The key is not actually stored;
+    instead, the keccak256 hash of the key is used to look up for the value. Mappings
+    don't have a length. Mappings cannot be assigned to another mapping.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example of how to create and use a mapping:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE6]'
+  prefs: []
+  type: TYPE_PRE
+- en: Remember that if you try to access an unset key, it gives us all 0 bits.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The delete operator
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The `delete` operator can be applied to any variable to reset it to its default
+    value. The default value is all bits assigned to 0.
+  prefs: []
+  type: TYPE_NORMAL
+- en: It we apply `delete` to a dynamic array, then it deletes all of its elements
+    and the length becomes 0\. And if we apply it to a static array, then all of its
+    indices are reset. You can also apply `delete` to specific indices, in which case
+    the indices are reset.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Nothing happens if you apply `delete` to a map type. But if you apply `delete`
+    to a key of a map, then the value associated with the key is deleted.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example to demonstrate the `delete` operator:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE7]'
+  prefs: []
+  type: TYPE_PRE
+- en: Conversion between elementary types
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Other than arrays, strings, structs, enums, and maps, everything else is called
+    elementary types.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'If an operator is applied to different types, the compiler tries to implicitly
+    convert one of the operands into the type of the other. In general, an implicit
+    conversion between value-types is possible if it makes sense semantically and
+    no information is lost: `uint8` is convertible to `uint16` and `int128` to `int256`,
+    but `int8` is not convertible to `uint256` (because `uint256` cannot hold, for
+    example, -1). Furthermore, unsigned integers can be converted into bytes of the
+    same or larger size, but not vice versa. Any type that can be converted into `uint160`
+    can also be converted into `address`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: Solidity also supports explicit conversion. So if the compiler doesn't allow
+    implicit conversion between two data types, then you can go for explicit conversion.
+    It is always recommended that you avoid explicit conversion because it may give
+    you unexpected results.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s look at an example of explicit conversion:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE8]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here we are converting `uint32` type to `uint16` explicitly, that is, converting
+    a large type to a smaller type; therefore, higher-order bits are cut-off.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using var
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Solidity provides the `var` keyword to declare variables. The type of the variable
+    in this case is decided dynamically depending on the first value assigned to it.
+    Once a value is assigned, the type is fixed, so if you assign another type to
+    it, it will cause type conversion.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example to demonstrate `var`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE9]'
+  prefs: []
+  type: TYPE_PRE
+- en: Remember that `var` cannot be used when defining arrays and maps. And it cannot
+    be used to define function parameters and state variables.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Control structures
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Solidity supports `if`, `else`, `while`, `for`, `break`, `continue`, `return`,
+    `? :` control structures.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example to demonstrate the control structures:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE10]'
+  prefs: []
+  type: TYPE_PRE
+- en: Creating contracts using the new operator
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A contract can create a new contract using the `new` keyword. The complete code
+    of the contract being created has to be known.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example to demonstrate this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE11]'
+  prefs: []
+  type: TYPE_PRE
+- en: Exceptions
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'There are some cases where exceptions are thrown automatically. You can use
+    `throw` to throw an exception manually. The effect of an exception is that the
+    currently executing call is stopped and reverted (that is, all changes to the
+    state and balances are undone). Catching exceptions is not possible:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE12]'
+  prefs: []
+  type: TYPE_PRE
+- en: External function calls
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'There are two kinds of function calls in Solidity: internal and external function
+    calls. An internal function call is when a function calls another function in
+    the same contract.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'An external function call is when a function calls a function of another contract.
+    Let''s look at an example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE13]'
+  prefs: []
+  type: TYPE_PRE
+- en: Calls made using the `this` keyword are called as external calls. The `this`
+    keyword inside functions represents the current contract instance.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Features of contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Now it's time to get deeper into contracts. We will look at some new features
+    and also get deeper into the features we have already seen.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Visibility
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The visibility of a state variable or a function defines who can see it. There
+    are four kinds of visibilities for function and state variables: `external`, `public`,
+    `internal`, and `private`.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'By default, the visibility of functions is `public` and the visibility of state
+    variables is `internal`. Let''s look at what each of these visibility functions
+    mean:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`external`: External functions can be called only from other contracts or via
+    transactions. An external function `f` cannot be called internally; that is, `f()`
+    will not work, but `this.f()` works. You cannot apply the `external` visibility
+    to state variables.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`public`: Public functions and state variables can be accessed in all ways
+    possible. The compiler generated accessor functions are all public state variables.
+    You cannot create your own accessors. Actually, it generates only getters, not
+    setters.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`internal`: Internal functions and state variables can only be accessed internally,
+    that is, from within the current contract and the contracts inheriting it. You
+    cannot use `this` to access it.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`private`: Private functions and state variables are like internal ones, but
+    they cannot be accessed by the inheriting contracts.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: 'Here is a code example to demonstrate visibility and accessors:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE14]'
+  prefs: []
+  type: TYPE_PRE
+- en: Function modifiers
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: We saw earlier what a function modifier is, and we wrote a basic function modifier.
+    Now let's look at modifiers in depth.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Modifiers are inherited by child contracts, and child contracts can override
+    them. Multiple modifiers can be applied to a function by specifying them in a
+    whitespace-separated list and will be evaluated in order. You can also pass arguments
+    to modifiers.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Inside the modifier, the next modifier body or function body, whichever comes
+    next, is inserted where `_;` appears.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s take a look at a complex code example of function modifiers:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE15]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'This is how `myFunction()` is executed:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE16]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, when you call the `myFunction` method, it will return `0`. But after that,
+    when you try to access the state variable `a`, you will get `8`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`return` in a modifier or function body immediately leaves the whole function
+    and the return value is assigned to whatever variable it needs to be.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the case of functions, the code after `return` is executed after the caller's
+    code execution is finished. And in the case of modifiers, the code after `_;`
+    in the previous modifier is executed after the caller's code execution is finished.
+    In the earlier example, line numbers 5, 6, and 7 are never executed. After line
+    number 4, the execution starts from line numbers 8 to 10.
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`return` inside modifiers cannot have a value associated with it. It always
+    returns 0 bits.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The fallback function
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A contract can have exactly one unnamed function called the `fallback` function.
+    This function cannot have arguments and cannot return anything. It is executed
+    on a call to the contract if none of the other functions match the given function
+    identifier.
+  prefs: []
+  type: TYPE_NORMAL
+- en: This function is also executed whenever the contract receives Ether without
+    any function call; that is, the transaction sends Ether to the contracts and doesn't
+    invoke any method. In such a context, there is usually very little gas available
+    to the function call (to be precise, 2,300 gas), so it is important to make fallback
+    functions as cheap as possible.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Contracts that receive Ether but do not define a fallback function throw an
+    exception, sending back the Ether. So if you want your contract to receive Ether,
+    you have to implement a fallback function.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example of a fallback function:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE17]'
+  prefs: []
+  type: TYPE_PRE
+- en: Inheritance
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Solidity supports multiple inheritance by copying code including polymorphism.
+    Even if a contract inherits from multiple other contracts, only a single contract
+    is created on the blockchain; the code from the parent contracts is always copied
+    into the final contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example to demonstrate inheritance:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE18]'
+  prefs: []
+  type: TYPE_PRE
+- en: The super keyword
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The `super` keyword is used to refer to the next contract in the final inheritance
+    chain. Let''s take a look at an example to understand this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE19]'
+  prefs: []
+  type: TYPE_PRE
+- en: The final inheritance chain with respect to the `sample6` contract is `sample6`,
+    `sample5`, `sample4`, `sample2`, `sample3`, `sample1`. The inheritance chain starts
+    with the most derived contracts and ends with the least derived contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Abstract contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Contracts that only contain the prototype of functions instead of implementation
+    are called abstract contracts. Such contracts cannot be compiled (even if they
+    contain implemented functions alongside nonimplemented functions). If a contract
+    inherits from an abstract contract and does not implement all nonimplemented functions
+    by overriding, it will itself be abstract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: These abstract contracts are only provided to make the interface known to the
+    compiler. This is useful when you are referring to a deployed contract and calling
+    its functions.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example to demonstrate this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE20]'
+  prefs: []
+  type: TYPE_PRE
+- en: Libraries
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Libraries are similar to contracts, but their purpose is that they are deployed
+    only once at a specific address and their code is reused by various contracts.
+    This means that if library functions are called, their code is executed in the
+    context of the calling contract; that is, `this` points to the calling contract,
+    and especially, the storage from the calling contract can be accessed. As a library
+    is an isolated piece of source code, it can only access state variables of the
+    calling contract if they are explicitly supplied (it would have no way to name
+    them otherwise).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Libraries cannot have state variables; they don't support inheritance and they
+    cannot receive Ether. Libraries can contain structs and enums.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Once a Solidity library is deployed to the blockchain, it can be used by anyone,
+    assuming you know its address and have the source code (with only prototypes or
+    complete implementation). The source code is required by the Solidity compiler
+    so that it can make sure that the methods you are trying to access actually exist
+    in the library.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Let''s take a look at an example:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE21]'
+  prefs: []
+  type: TYPE_PRE
+- en: We cannot add the address of the library in the contract source code; instead,
+    we need to provide the library address during compilation to the compiler.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Libraries have many use cases. The two major use cases of libraries are as
+    follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: If you have many contracts that have some common code, then you can deploy that
+    common code as a library. This will save gas as gas depends on the size of the
+    contract too. Therefore, we can think of a library as a base contract of the contract
+    that uses it. Using a base contract instead of a library to split the common code
+    won't save gas because in Solidity, inheritance works by copying code. Due to
+    the reason that libraries are thought of as base contracts, functions with the
+    internal visibility in a library are copied to the contract that uses it; otherwise,
+    functions with the internal visibility of a library cannot be called by the contract
+    that uses the library, as an external call would be required and functions with
+    the internal visibility cannot be invoked using the external call. Also, structs
+    and enums in a library are copied to the contract that uses the library.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Libraries can be used to add member functions to data types.
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: If a library contains only internal functions and/or structs/enums, then the
+    library doesn't need to be deployed, as everything that's there in the library
+    is copied to the contract that uses it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Using for
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: The `using A for B;` directive can be used to attach library functions (from
+    the library `A` to any type `B`). These functions will receive the object they
+    are called on as their first parameter.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The effect of `using A for *;` is that the functions from the library `A` are
+    attached to all types.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is an example to demonstrate `for`:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE22]'
+  prefs: []
+  type: TYPE_PRE
+- en: Returning multiple values
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Solidity allows functions to return multiple values. Here is an example to
+    demonstrate this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE23]'
+  prefs: []
+  type: TYPE_PRE
+- en: Importing other Solidity source files
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'Solidity allows a source file to import other source files. Here is an example
+    to demonstrate this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE24]'
+  prefs: []
+  type: TYPE_PRE
+- en: Globally available variables
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: There are special variables and functions that always exist globally. They are
+    discussed in the upcoming sections.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Block and transaction properties
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The block and transaction properties are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`block.blockhash(uint blockNumber) returns (bytes32)`: The hash of the given
+    block only works for the 256 most recent blocks.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`block.coinbase (address)`: The current block miner''s address.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`block.difficulty (uint)`: The current block difficulty.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`block.gaslimit (uint)`: The current block gas limit. It defines the maximum
+    amount of gas that all transactions in the whole block combined are allowed to
+    consume. Its purpose is to keep the block propagation and processing time low,
+    thereby allowing a sufficiently decentralized network. Miners have the right to
+    set the gas limit for the current block to be within ~0.0975% (1/1,024) of the
+    gas limit of the last block, so the resulting gas limit should be the median of
+    miners'' preferences.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`block.number (uint)`: The current block number.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`block.timestamp (uint)`: The current block timestamp.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`msg.data (bytes)`: The complete call data holds the function and its arguments
+    that the transaction invokes.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`msg.gas (uint)`: The remaining gas.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`msg.sender (address)`: The sender of the message (the current call).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`msg.sig (bytes4)`: The first four bytes of the call data (the function identifier).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`msg.value (uint)`: The number of wei sent with the message.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`now (uint)`: The current block timestamp (alias for `block.timestamp`).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`tx.gasprice (uint)`: The gas price of the transaction.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`tx.origin (address)`: The sender of the transaction (full call chain).'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Address type related
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The address type related variables are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`<address>.balance (uint256)`: The balance of the address in wei'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`<address>.send(uint256 amount) returns (bool)`: Sends the given amount of
+    wei to `address`; returns `false` on failure'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Contract related
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: 'The contract related variables are as follows:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '`this`: The current contract, explicitly convertible to the `address` type.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: '`selfdestruct(address recipient)`: Destroys the current contract, sending its
+    funds to the given address.'
+  prefs:
+  - PREF_UL
+  type: TYPE_NORMAL
+- en: Ether units
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: A literal number can take a suffix of `wei`, `finney`, `szabo`, or `Ether` to
+    convert between the subdenominations of Ether, where Ether currency numbers without
+    a postfix are assumed to be wei; for example, `2 Ether == 2000 finney` evaluates
+    to `true`.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Proof of existence, integrity, and ownership contract
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Let's write a Solidity contract that can prove file ownership without revealing
+    the actual file. It can prove that the file existed at a particular time and finally
+    check for document integrity.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will achieve proof of ownership by storing the hash of the file and the owner's
+    name as pairs. We will achieve proof of existence by storing the hash of the file
+    and the block timestamp as pairs. Finally, storing the hash itself proves the
+    file integrity; that is, if the file was modified, then its hash will change and
+    the contract won't be able to find any such file, therefore proving that the file
+    was modified.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Here is the code for the smart contract to achieve all this:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE25]'
+  prefs: []
+  type: TYPE_PRE
+- en: Compiling and deploying contracts
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: Ethereum provides the solc compiler, which provides a command-line interface
+    to compile `.sol` files. Visit [http://solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages](http://solidity.readthedocs.io/en/develop/installing-solidity.html#binary-packages)  to
+    find instructions to install it and visit [https://Solidity.readthedocs.io/en/develop/using-the-compiler.html](https://Solidity.readthedocs.io/en/develop/using-the-compiler.html) 
+    to find instructions on how to use it. We won't be using the solc compiler directly;
+    instead, we will be using solcjs and Solidity browser. Solcjs allows us to compile
+    Solidity programmatically in Node.js, whereas browser Solidity is an IDE, which
+    is suitable for small contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: For now, let's just compile the preceding contract using a browser Solidity
+    provided by Ethereum. Learn more about it at [https://Ethereum.github.io/browser-Solidity/](https://ethereum.github.io/browser-solidity/).
+    You can also download this browser Solidity source code and use it offline. Visit
+    [https://github.com/Ethereum/browser-Solidity/tree/gh-pages](https://github.com/Ethereum/browser-Solidity/tree/gh-pages) 
+    to download it.
+  prefs: []
+  type: TYPE_NORMAL
+- en: A major advantage of using this browser Solidity is that it provides an editor
+    and also generates code to deploy the contract.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the editor, copy and paste the preceding contract code. You will see that
+    it compiles and gives you the web3.js code to deploy it using the geth interactive
+    console.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'You will get this output:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE26]'
+  prefs: []
+  type: TYPE_PRE
+- en: '`data` represents the compiled version of the contract (bytecode) that the
+    EVM understands. The source code is first converted into opcode, and then opcode
+    are converted into bytecode. Each opcode has gas associated with it.'
+  prefs: []
+  type: TYPE_NORMAL
+- en: The first argument to the `web3.eth.contract` is the ABI definition. The ABI
+    definition is used when creating transactions, as it contains the prototype of
+    all the methods.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now run geth in the developer mode with the mining enabled. To do this, run
+    the following command:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE27]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'Now open another command-line window and in that, enter this command to open
+    geth''s interactive JavaScript console:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE28]'
+  prefs: []
+  type: TYPE_PRE
+- en: This should connect the JS console to the geth instance running in the other
+    window.
+  prefs: []
+  type: TYPE_NORMAL
+- en: On the right-hand side panel of the browser Solidity, copy everything that's
+    there in the web3 deploy textarea and paste it in the interactive console. Now
+    press *Enter*. You will first get the transaction hash, and after waiting for
+    some time, you will get the contract address after the transaction is mined. The
+    transaction hash is the hash of the transaction, which is unique for every transaction.
+    Every deployed contract has a unique contract address to identity the contract
+    in the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: The contract address is deterministically computed from the address of its creator
+    (the from address) and the number of transactions the creator has sent (the transaction
+    nonce). These two are RLP-encoded and then hashed using the keccak-256 hashing
+    algorithm. We will learn more about the transaction nonce later. You can learn
+    more about RLP at [https://github.com/Ethereum/wiki/wiki/RLP](https://github.com/Ethereum/wiki/wiki/RLP).
+  prefs: []
+  type: TYPE_NORMAL
+- en: Now let's store the file details and retrieve them.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Place this code to broadcast a transaction to store a file''s details:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE29]'
+  prefs: []
+  type: TYPE_PRE
+- en: Here, replace the contract address with the contract address you got. The first
+    argument of the `proofContract.at` method is the contract address. Here, we didn't
+    provide the gas, in which case, it's automatically calculated.
+  prefs: []
+  type: TYPE_NORMAL
+- en: 'Now let''s find the file''s details. Run this code in order to find the file''s
+    details:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE30]'
+  prefs: []
+  type: TYPE_PRE
+- en: 'You will get this output:'
+  prefs: []
+  type: TYPE_NORMAL
+- en: '[PRE31]'
+  prefs: []
+  type: TYPE_PRE
+- en: The call method is used to call a contract's method on EVM with the current
+    state. It doesn't broadcast a transaction. To read data, we don't need to broadcast
+    because we will have our own copy of the blockchain.
+  prefs: []
+  type: TYPE_NORMAL
+- en: We will learn more about web3.js in the coming chapters.
+  prefs: []
+  type: TYPE_NORMAL
+- en: Summary
+  prefs:
+  - PREF_H1
+  type: TYPE_NORMAL
+- en: In this chapter, we learned the Solidity programming language. We learned about
+    data location, data types, and advanced features of contracts. We also learned
+    the quickest and easiest way to compile and deploy a smart contract. Now you should be
+    comfortable with writing smart contracts.
+  prefs: []
+  type: TYPE_NORMAL
+- en: In the next chapter, we will build a frontend for the smart contract, which
+    will make it easy to deploy the smart contract and run transactions.
+  prefs: []
+  type: TYPE_NORMAL
