@@ -1,3 +1,4 @@
++   [Hyperkedge 区块链开发教程](README.md)
 +   [前言](bc-dev-hplg_00.md)
 +   [第一章：区块链 - 企业和行业视角](bc-dev-hplg_01.md)
 +   [第二章：探索 Hyperledger Fabric](bc-dev-hplg_02.md)

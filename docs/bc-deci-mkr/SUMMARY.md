@@ -1,3 +1,4 @@
++   [面向决策者的区块链教程](README.md)
 +   [前言](bc-deci-mkr_00.md)
 +   [第一部分：踏入区块链世界的第一步](bc-deci-mkr_01.md)
 +   [第一章：区块链基础知识及 Village Beta 的演示](bc-deci-mkr_02.md)

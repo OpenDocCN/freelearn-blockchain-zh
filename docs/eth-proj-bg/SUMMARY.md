@@ -1,3 +1,4 @@
++   [面向初学者的 ETH 项目](README.md)
 +   [前言](eth-proj-bg_0.md)
 +   [第一章：工作流程设置和区块链思考](eth-proj-bg_1.md)
 +   [第二章：使用以太坊开发您的第一个去中心化应用程序](eth-proj-bg_2.md)

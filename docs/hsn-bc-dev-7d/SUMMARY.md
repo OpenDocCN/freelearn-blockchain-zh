@@ -1,3 +1,4 @@
++   [区块链开发七天实用指南](README.md)
 +   [前言](hsn-bc-dev-7d_0.md)
 +   [第一章：第一天 - 应用程序介绍、安装和设置](hsn-bc-dev-7d_1.md)
 +   [第二章：第二天 - Solidity 变量和数据类型](hsn-bc-dev-7d_2.md)

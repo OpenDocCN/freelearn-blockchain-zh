@@ -1,3 +1,4 @@
++   [Oracle 区块链快速启动指南](README.md)
 +   [前言](oracle-bc-qkstgd_0.md)
 +   [第一章：探索区块链和 BaaS](oracle-bc-qkstgd_1.md)
 +   [第二章：理解分布式账本技术和区块链](oracle-bc-qkstgd_2.md)

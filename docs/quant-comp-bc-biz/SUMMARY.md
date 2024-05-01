@@ -1,3 +1,4 @@
++   [商业中的量子计算和区块链指南](README.md)
 +   [序言](quant-comp-bc-biz_00.md)
 +   [第一章：引言：量子计算与区块链](quant-comp-bc-biz_01.md)
 +   [第二章：量子计算 - 主要讨论点](quant-comp-bc-biz_02.md)
