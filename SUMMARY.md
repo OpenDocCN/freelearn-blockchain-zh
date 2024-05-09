@@ -9,6 +9,7 @@
 +   [区块链基础知识](docs/fund-bc/README.md)
 +   [面向区块链的人工智能实用指南](docs/hsn-ai-bc/README.md)
 +   [区块链开发七天实用指南](docs/hsn-bc-dev-7d/README.md)
++   [Python 区块链开发实用指南](docs/hsn-bc-py-dev/README.md)
 +   [Python 比特币编程实用指南](docs/hsn-btc-prog-py/README.md)
 +   [面向区块链的网络安全实用指南](docs/hsn-cbr-sec-bc/README.md)
 +   [区块链和物联网解决方案实用指南](docs/hsn-iot-solu-bc/README.md)
