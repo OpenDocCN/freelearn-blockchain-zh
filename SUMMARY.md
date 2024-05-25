@@ -13,6 +13,7 @@
 +   [Python 比特币编程实用指南](docs/hsn-btc-prog-py/README.md)
 +   [面向区块链的网络安全实用指南](docs/hsn-cbr-sec-bc/README.md)
 +   [区块链和物联网解决方案实用指南](docs/hsn-iot-solu-bc/README.md)
++   [JavaScript 区块链编程学习手册](docs/lrn-bc-prog-js/README.md)
 +   [比特币和区块链学习手册](docs/lrn-btc-bc/README.md)
 +   [精通区块链](docs/ms-bc/README.md)
 +   [精通以太坊](docs/ms-eth/README.md)
